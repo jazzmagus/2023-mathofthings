@@ -7,5 +7,5 @@ google_fonts = "family=Lato:wght@400;700&family=Merriweather&family=Roboto+Mono"
 # Font families
 heading_font = "Lato"
 body_font = "Merriweather"
-nav_font = "Lato"
+nav_font = "Roboto Mono"
 mono_font = "Roboto Mono"
