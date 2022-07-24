@@ -86,15 +86,24 @@ Questo indice è di frequente utilizzato in maniera grossolana, in quanto non in
 
 Operativamente l'indice di massa corporea si calcola come il rapporto tra la massa-peso, espressa in chilogrammi, e il quadrato dell'altezza, espressa in metri.
 
-Esempio 1: Altezza 1,70 m; massa $62 \mathrm{~kg}$:
+>**Esempio 1**: Altezza 1,70 m; massa $62 \mathrm{~kg}$:
+
 $$
 \text { IMC }=\frac{\text { Massa }}{(\text { Altezza })^{2}}=\frac{62}{(1,7)^{2}}=\frac{62}{2,89}=21,5 \text { (peso regolare) }
 $$
 
 <br>
 
+>**Esempio 2** - il mio IMC: Altezza 1,90 m; massa $71 \mathrm{~kg}$:
+
+$$
+\text { IMC }=\frac{\text { Massa }}{(\text { Altezza })^{2}}=\frac{71}{(1,90)^{2}}=\dfrac{71}{3,61}=19,67 \text { (peso regolare) }
+$$
+
+<br>
+
 - L'indice di massa corporea consigliato dipende da età e sesso, nonché da fattori genetici, alimentazione, condizioni di vita, condizioni sanitarie e altre.
-L'Organizzazione Mondiale della Sanità (WHO) e la medicina nutrizionale usano delle tabelle come la seguente per definire termini come "magrezza" fino a "obesità". Si ritiene che questa indicazione sia un importante indicatore per la mortalità (fattore rischio).
+- L'Organizzazione Mondiale della Sanità (WHO) e la medicina nutrizionale usano delle tabelle come la seguente per definire termini come "magrezza" fino a "obesità". Si ritiene che questa indicazione sia un importante indicatore per la mortalità (fattore rischio).
 
 <center>
 

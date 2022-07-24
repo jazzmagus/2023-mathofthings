@@ -5,12 +5,9 @@ authors: [diego fantinelli]
 tags: [calcolo_letterale]
 categories: [2022, lesson]
 date: "2022-03-05T00:00:00Z"
-# Choose a theme from https://github.com/hakimel/reveal.js#theming
 slides:
   theme: serif
   transition: convex
-# Choose a code highlighting style (if highlighting enabled in `params.toml`)
-#   Light style: github. Dark style: dracula (default).
   highlight_style: dracula
   enableChalkboard: false
 ---
