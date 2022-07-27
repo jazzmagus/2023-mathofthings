@@ -21,7 +21,8 @@ draft: false
 # Focal point options: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight
 image:
   caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/We02LAPNpa8'
-  focal_point: ""
+  focal_point: "center"
+  placement: 2
   preview_only: false
 
 # slides: 

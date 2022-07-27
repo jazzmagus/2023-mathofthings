@@ -3,7 +3,7 @@
 # Hugo Documentation: https://gohugo.io/getting-started/configuration/#all-configuration-settings
 # This file is formatted using YAML syntax - learn more at https://learnxinyminutes.com/docs/yaml/
 
-title: The # Website name
+title: The Math of Things # Website name
 baseURL: '2023-mathofthings.netlify.app/' # Website URL
 
 ############################

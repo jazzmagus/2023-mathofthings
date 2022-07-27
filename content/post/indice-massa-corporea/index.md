@@ -63,7 +63,7 @@ gallery_item:
 
 <!-- {{< toc hide_on="xl" >}} -->
 
-><i class="fa-solid fa-quote-left"></i> _Faith in oneself is the best and safest course._ <i class="fa-solid fa-quote-right"></i>
+><i class="fa-solid fa-quote-left"></i> Faith in oneself is the best and safest course. <i class="fa-solid fa-quote-right"></i>
 ><br>&mdash; <cite>Michelangelo</cite>
 
 # Indice di massa corporea

@@ -63,8 +63,8 @@ projects: []
 
 <!-- {{< toc hide_on="xl" >}} -->
 
-><i class="fa-solid fa-quote-left"></i> _Faith in oneself is the best and safest course._ <i class="fa-solid fa-quote-right"></i>
-><br>&mdash; <cite>Michelangelo</cite>
+><i class="fa-solid fa-quote-left"></i> The function of wisdom is to discriminate between good and evil <i class="fa-solid fa-quote-right"></i>
+><br>&mdash; <cite>Cicerone</cite>
 
 ## Introduzione alla probabilità
 
