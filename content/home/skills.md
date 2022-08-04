@@ -10,24 +10,28 @@ headless: true
 weight: 30
 
 title: Skills
-subtitle:
+subtitle: what I do for living
 
 # Showcase personal skills or business features.
 # - Add/remove as many `feature` blocks below as you like.
 # - For available icons, see: https://wowchemy.com/docs/page-builder/#icons
 feature:
-  - description: 90%
-    icon: r-project
-    icon_pack: fab
-    name: R
-  - description: 100%
-    icon: chart-line
+  - description: 50%
+    icon: calculator
     icon_pack: fas
-    name: Statistics
+    name: Maths teaching
+  - description: 40%
+    icon: headphones-simple
+    icon_pack: fas
+    name: Jazz composing
   - description: 10%
-    icon: camera-retro
+    icon: coffee
     icon_pack: fas
-    name: Photography
+    name: Coffee drinking
+  # - description: 10%
+  #   icon: coffee
+  #   icon_pack: fas
+  #   name: coffee
 # Uncomment to use emoji icons.
 #- icon: ":smile:"
 #  icon_pack: "emoji"
