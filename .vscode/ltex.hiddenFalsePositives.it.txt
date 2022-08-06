@@ -1,0 +1,1 @@
+{"rule":"UNPAIRED_BRACKETS","sentence":"^\\Q«Le scienze non cercano di spiegare, a malapena tentano di interpretare, ma fanno soprattutto dei modelli.\\E$"}

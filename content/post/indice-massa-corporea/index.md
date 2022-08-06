@@ -79,10 +79,13 @@ gallery_item:
 
 
 ## Storia
-Adolphe Quetelet, matematico e statistico belga, nei suoi studi sui dati antropometrici della crescita umana concluse che "il peso cresce con il quadrato dell'altezza", descrivendo nel 1832 il rapporto tra le due misure: l'indice _Quetelet_. Oltre un secolo dopo l'indice Quetelet è stato utilizzato negli studi sull'obesità. Il nome Body Mass Index è stato introdotto dal fisiologo Ancel Keys nel 1972.
+Adolphe Quetelet, matematico e statistico belga, nei suoi studi sui dati antropometrici della crescita umana concluse che "il peso cresce con il quadrato dell'altezza", descrivendo nel 1832 il rapporto tra le due misure: l'indice _Quetelet_. 
+- Oltre un secolo dopo l'indice Quetelet è stato utilizzato negli studi sull'obesità. Il nome Body Mass Index è stato introdotto dal fisiologo Ancel Keys nel 1972.
 
 ## Descrizione
-Questo indice è di frequente utilizzato in maniera grossolana, in quanto non integrato da un fattore basilare come il sesso e da caratteristiche morfologiche di base quali larghezza delle spalle, larghezza ossea del bacino, circonferenza cranica, rapporto tra lunghezza delle gambe e lunghezza del tronco, corporatura di tipo tendenzialmente muscoloso o flaccido e altri fattori. ${ }^{[3]}$ È inoltre fondamentale considerare la percentuale di massa grassa e massa magra del soggetto. Ad esempio, un paziente di $90 \mathrm{~kg}$ e $175 \mathrm{~cm}$ di altezza può essere normopeso, se ha una percentuale di massa magra (muscolare) maggiore della percentuale di massa grassa.
+Questo indice è di frequente utilizzato in maniera grossolana, in quanto non integrato da un fattore basilare come il sesso e da caratteristiche morfologiche di base quali larghezza delle spalle, larghezza ossea del bacino, circonferenza cranica, rapporto tra lunghezza delle gambe e lunghezza del tronco, corporatura di tipo tendenzialmente muscoloso o flaccido e altri fattori. 
+È inoltre fondamentale considerare la percentuale di massa grassa e massa magra del soggetto. 
+- Ad esempio, un paziente di $90 \mathrm{~kg}$ e $175 \mathrm{~cm}$ di altezza può essere normopeso, se ha una percentuale di massa magra (muscolare) maggiore della percentuale di massa grassa.
 
 Operativamente l'indice di massa corporea si calcola come il rapporto tra la massa-peso, espressa in chilogrammi, e il quadrato dell'altezza, espressa in metri.
 
@@ -126,7 +129,9 @@ $$
 
 - Alcune organizzazioni diverse dalla WHO hanno introdotto altre suddivisioni, come quella del Super obeso (BMI >50) o Super super obeso (BMI >60).
 
-- Molto più importante della percentuale di massa grassa è la distribuzione dell'adipe nel corpo. Una serie di studi ha mostrato che il grasso viscerale, misurato dalla circonferenza addominale, determina il maggiore rischio di eventi cardiovascolari acuti. Avere un BMI normale e alta obesità addominale è risultato essere più pericoloso che avere un BMI totale da obesi. Il BMI è quindi un indice parziale che dovrebbe essere integrato o che può essere sostituito dal parametro della circonferenza addominale.
+- Molto più importante della percentuale di massa grassa è la distribuzione dell'adipe nel corpo. Una serie di studi ha mostrato che il grasso viscerale, misurato dalla circonferenza addominale, determina il maggiore rischio di eventi cardiovascolari acuti. 
+  - Avere un BMI normale e alta obesità addominale è risultato essere più pericoloso che avere un BMI totale da obesi. Il BMI è quindi un indice parziale che dovrebbe essere integrato o che può essere sostituito dal parametro della circonferenza addominale.
 
-- Secondo uno studio presentato il 27 agosto 2012 al congresso della Società Europea di Cardiologia condotto su 12.785 pazienti per un periodo di 14 anni, gli individui di peso normale con obesità addominale hanno una probabilità di morte maggiore del 50% rispetto a quelli con un normale indice di massa corporea e un normale rapporto girovita/fianchi. Simili risultati tramite lo studio IDEA, condotto da 6.407 medici di 63 nazioni su 177.345 pazienti di età compresa tra i 18 e gli 80 anni; lo studio INTERHEART, su 30.000 pazienti in unità di terapia intensiva in 52 Paesi; lo studio Kuopio Ischemic Heart Desease (KHID) Risk Factory Study, in Finlandia.
+- Secondo uno studio presentato il 27 agosto 2012 al congresso della Società Europea di Cardiologia condotto su 12.785 pazienti per un periodo di 14 anni, gli individui di peso normale con obesità addominale hanno una probabilità di morte maggiore del 50% rispetto a quelli con un normale indice di massa corporea e un normale rapporto girovita/fianchi. 
+  - Simili risultati tramite lo studio IDEA, condotto da 6.407 medici di 63 nazioni su 177.345 pazienti di età compresa tra i 18 e gli 80 anni; lo studio INTERHEART, su 30.000 pazienti in unità di terapia intensiva in 52 Paesi; lo studio Kuopio Ischemic Heart Desease (KHID) Risk Factory Study, in Finlandia.
 
