@@ -33,32 +33,6 @@ image:
 #   Otherwise, set `projects = []`.
 projects: []
 
-# Set captions for image gallery.
-gallery_item:
-- album: gallery
-  caption: Default
-  image: theme-default.png
-- album: gallery
-  caption: Ocean
-  image: theme-ocean.png
-- album: gallery
-  caption: Forest
-  image: theme-forest.png
-- album: gallery
-  caption: Dark
-  image: theme-dark.png
-- album: gallery
-  caption: Apogee
-  image: theme-apogee.png
-- album: gallery
-  caption: 1950s
-  image: theme-1950s.png
-- album: gallery
-  caption: Coffee theme with Playfair font
-  image: theme-coffee-playfair.png
-- album: gallery
-  caption: Strawberry
-  image: theme-strawberry.png
 ---
 
 <!-- {{< toc hide_on="xl" >}} -->
@@ -66,6 +40,7 @@ gallery_item:
 # Il concetto di modello matematico
 
 >Nei casi concreti, l'analisi e la modellizzazione di un fenomeno casuale avviene solitamente secondo le fasi sintetizzate nel seguente schema.
+<center>
 
 ```mermaid
 graph TD
@@ -84,6 +59,7 @@ G --> D
 
 D --> H[validazione o <br> correzione del modello]
 ```
+</center>>
 
 - La costruzione del modello del fenomeno casuale consiste nel definire alcune `variabili aleatorie` che descrivono il fenomeno in esame e assegnare a tali variabili aleatorie una distribuzione di probabilità. 
   - Questa fase è la più delicata perché comporta un certo grado di <mark class="hltr-yellow">arbitrarietà</mark> nella scelta della distribuzione più adeguata.
