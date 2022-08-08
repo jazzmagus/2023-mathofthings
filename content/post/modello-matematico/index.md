@@ -39,7 +39,23 @@ projects: []
 
 # Il concetto di modello matematico
 
+>### Probabilità e particelle
+>
+> Nel 1820 Pierre Simon de Laplace, nel suo Théorie analytique des probabilités, scriveva:
+>	"Noi dobbiamo dunque considerare lo stato presente dell'universo come effetto del suo stato anteriore e come causa del suo stato futuro. Un'intelligenza che, per un dato istante, conoscesse tutte le forze di cui è animata la natura $[\ldots]$ abbraccerebbe nella stessa formula i movimenti dei più grandi corpi dell'universo e dell'atomo più leggero: nulla sarebbe incerto presente ai suoi occhi" 
+> 
+>Laplace riteneva che il calcolo delle probabilità fosse utile in tutte quelle situazioni in cui è difficile ottenere informazioni molto precise sulle grandezze in gioco, ma che sarebbe possibile conoscere con esattezza posizione e velocità di ogni singola particella dell'universo.
+> 
+>Nel 1927 Werner Heisenberg enunciava il principio di indeterminazione, affermando che il prodotto delle incertezze di due grandezze coniugate (per esempio, posizione e quantità di moto) non può essere minore del rapporto fra la costante di Planck e $2 \pi$.
+> 
+>- Nel mondo macroscopico gli effetti di questo principio sono irrilevanti, perché la costante di Planck è molto piccola. 
+>- Nel mondo atomico e subatomico, invece, le conseguenze sono significative e sorprendenti. 
+>	- Per esempio, affermare che non è possibile conoscere con la precisione voluta sia la quantità di moto sia la posizione di una particella, implica che perde significato il concetto di traiettoria.
+> 
+>Non ha quindi senso parlare di traiettoria di un elettrone, ma solo di probabilità di trovare l'elettrone in una determinata posizione. A differenza di ciò che affermava Laplace, l'approccio probabilistico non è allora un utile stratagemma per ovviare alla nostra ignoranza, ma una necessità per comprendere la natura del mondo.
+
 >Nei casi concreti, l'analisi e la modellizzazione di un fenomeno casuale avviene solitamente secondo le fasi sintetizzate nel seguente schema.
+
 <center>
 
 ```mermaid
@@ -47,7 +63,7 @@ graph TD
 
 A[Esperimento Casuale] --> B(osservazione)
 
-B --> |statistica descrittiva| C(analisi dati)
+B --> |statistica descrittiva| C[analisi dati]
 
 C --> D{confronto}
 
@@ -59,7 +75,7 @@ G --> D
 
 D --> H[validazione o <br> correzione del modello]
 ```
-</center>>
+</center>
 
 - La costruzione del modello del fenomeno casuale consiste nel definire alcune `variabili aleatorie` che descrivono il fenomeno in esame e assegnare a tali variabili aleatorie una distribuzione di probabilità. 
   - Questa fase è la più delicata perché comporta un certo grado di <mark class="hltr-yellow">arbitrarietà</mark> nella scelta della distribuzione più adeguata.
