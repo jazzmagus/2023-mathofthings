@@ -6,22 +6,23 @@ tags: [stem]
 categories: [concorso]
 date: "2022-02-05T00:00:00Z"
   # Choose a theme from https://github.com/hakimel/reveal.js#theming
-theme: serif
+# theme: serif
+slides:
+  theme: serif
 # transition: convex
   # Choose a code highlighting style (if highlighting enabled in `params.toml`)
   #   Light style: github. Dark style: dracula (default).
-enableChalckboard: false
+  enableChalckboard: false
 ---
 
-<section data-background-image="https://source.unsplash.com/1920x1080/?white" data-background-opacity="0.5" data-transition="zoom">
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.5" data-transition="zoom">
   <h2 class="r-fit-text" style="color:#3B2F2F">CONCORSO</h2>
-  <h2 style="color:#3B2F2F">straordinario Bis</h2>
+  <h2 style="color:#3B2F2F">Straordinario Bis 2022</h2>
   <img src="miur.png" style="opacity:0.6;filter:alpha(opacity=60);" width="550">
   <!-- <h3 style="color:#8A4117" class="r-fit-text">Relazioni e funzioni</h3> -->
   <br>
   <h4 style="color##342A2A"><b>candidato: </b>Diego Fantinelli - STEM A026</h4>
-  <br>
-  <h5><a href="https://2023-mathofthings.netlify.app/">The Math of Things</a> | <a href="./202122_Recuperi_settembre_fermi.pdf">Documentation</a></h5>
+  <p style="font-size:73%"><em><a href="https://2023-mathofthings.netlify.app/">The Math of Things</a> | <a href="./202122_Recuperi_settembre_fermi.pdf">Documentation</a></em></p>
 </section>
 
 ---
@@ -51,7 +52,7 @@ enableChalckboard: false
 
 <section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
 <h1 style="color:#8A4117" class="r-fit-text">COMPETENZE DI CITTADINANZA</h1>
-<h2 style="color:#3B2F2F" class="r-fit-text">RIASSUNTIVA - RECAP </h2>
+<!-- <h2 style="color:#3B2F2F" class="r-fit-text">RIASSUNTIVA - RECAP </h2> -->
 
 <table class="fragment" style="font-size:73%" width="100%">
   <tr>
@@ -250,7 +251,7 @@ enableChalckboard: false
 
 <section data-background-video="teaching.mp4" data-background-opacity="0.4">
 <h1 style="color:#8A4117">FASE 6</h1>
-<h2 style="color:#3B2F2F"> HOMEWORKS</h2>
+<h2 style="color:#3B2F2F" class="r-fit-text"> ASSEGNAZIONI HOMEWORKS</h2>
 <ul class="fragment">
   <li><h3>Lavoro individuale</h3></li>
     <ul>
@@ -261,8 +262,6 @@ enableChalckboard: false
   <li><h3>COLLABORAZIONI</h3></li>
     <ul>
       <li>Rielaborazione appunti</li>
-      <li>esercizi assegnati (corretti in classe)</li>
-      <li>strumenti</li>
     </ul>
 </section>
 
