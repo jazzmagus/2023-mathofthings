@@ -5,17 +5,16 @@ authors: [diego fantinelli]
 tags: [math]
 categories: [fattorizzazione]
 date: "2022-05-09T00:00:00Z"
-slides:
-  # Choose a theme from https://github.com/hakimel/reveal.js#theming
-   theme: serif
-  # Choose a code highlighting style (if highlighting enabled in `params.toml`)
-  #   Light style: github. Dark style: dracula (default).
-   highlight_style: dracula
+theme: serif
+highlight_style: dracula
+# slides:
+#    theme: serif
+#    highlight_style: dracula
 ---
 
-{{< slide background-image="pingpong_bkg.jpg" background-opacity="0.6" >}}
+<!-- {{< slide background-image="pingpong_bkg.jpg" background-opacity="0.6" >}} -->
 
-<section data-transition="convex">
+<section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.6" data-transition="convex">
   <h2 style="color:#3B2F2F">Fattorizzazione polinomiale</h2>
   <h3 style="color:#3B2F2F"><em>esercizi e ripasso</em></h3>
   <h5 style="color:#8A4117"><em>prof. diego fantinelli</em></h5>
@@ -24,9 +23,9 @@ slides:
 
 ---
 
-{{< slide background-image="lightbulb.jpg" background-opacity="0.6" >}}
+<!-- {{< slide background-image="lightbulb.jpg" background-opacity="0.6" >}} -->
 
-<section data-transition="convex">
+<section data-background-image="lightbulb.jpg" data-background-opacity="0.6" data-transition="convex">
   <h3 class="fragment" style="color:#FFFFFF; font-size: 60px;">una riflessione per iniziare...</h3>
   <h3 class="fragment" style="color:#FFFFFF; font-size: 40px;"><em>“Our virtues and our failings are inseparable, like force and matter. When they separate, man is no more.”
   <br>&mdash; Nikola Tesla</em></h3>
@@ -34,9 +33,9 @@ slides:
 
 ---
 
-{{< slide background-image="pingpong_bkg.jpg" background-opacity="0.6" >}}
+<!-- {{< slide background-image="pingpong_bkg.jpg" background-opacity="0.6" >}} -->
 
-<section style="font-size:90%" data-transition="convex">
+<section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.6"style="font-size:90%" data-transition="convex">
   <h2 style="color:#3B2F2F">Prerequisiti</h2>
 
   <ul class="fragment">
@@ -58,9 +57,9 @@ slides:
 
 ---
 
-{{< slide background-image="calm_bkg.jpg" background-opacity="0.6" >}}
+<!-- {{< slide background-image="calm_bkg.jpg" background-opacity="0.6" >}} -->
 
-<section data-transition="zoom">
+<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6" data-transition="zoom">
 <h2 class="fragment" style="color:#3B2F2F; font-size: 40pt;"><em>“Gli esercizi presenti in questa selezione hanno tutti lo stesso obiettivo: la <b>fattorizzazione</b> di un polinomio in un prodotto di fattori <b>irriducibili</b>"</em>
 </h2></section>
 

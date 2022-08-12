@@ -5,17 +5,17 @@ authors: [diego fantinelli]
 tags: [math]
 categories: [fattorizzazione]
 date: "2022-05-09T00:00:00Z"
-slides:
+# slides:
   # Choose a theme from https://github.com/hakimel/reveal.js#theming
-   theme: serif
+theme: serif
   # Choose a code highlighting style (if highlighting enabled in `params.toml`)
   #   Light style: github. Dark style: dracula (default).
-   highlight_style: dracula
+highlight_style: dracula
 ---
 
-{{< slide background-image="pingpong_bkg.jpg" background-opacity="0.6" >}}
+<!-- {{< slide background-image="pingpong_bkg.jpg" background-opacity="0.6" >}} -->
 
-<section data-transition="convex">
+<section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.6"data-transition="convex">
   <h2 style="color:#3B2F2F">Fattorizzazione polinomiale</h2>
   <h3 style="color:#3B2F2F"><em>esercizi e ripasso</em></h3>
   <h5 style="color:#8A4117"><em>prof. diego fantinelli</em></h5>
