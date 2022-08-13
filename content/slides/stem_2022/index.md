@@ -45,7 +45,7 @@ slides:
     </tr>
     <tr>
       <td><b>disabilità</b></td>
-      <td style="font-size:80%"><i>DSA, BES, DOP, ADHD, NAI, H.<br>3 BES: discalculia, disgrafia<br>1 DSA: ADHD<i></td>
+      <td style="font-size:80%"><i>(DSA, BES, DOP, ADHD, NAI, H.)<br>3 BES: discalculia, disgrafia<br>1 DSA: ADHD L.104 sostegno<i></td>
     </tr>
   </table>
 </section>
@@ -54,55 +54,63 @@ slides:
 <h1 style="color:#8A4117" class="r-fit-text">COMPETENZE DI CITTADINANZA</h1>
 <!-- <h2 style="color:#3B2F2F" class="r-fit-text">RIASSUNTIVA - RECAP </h2> -->
 
-<table class="fragment" style="font-size:73%" width="100%">
+<table class="fragment" style="font-size:70%" width="100%">
   <tr>
-    <td width="40.0%"><b>competenze</b></td>
+    <td style="color:#8A4117" width="40.0%"><b>competenze</b></td>
     <td width="60.0%"><b>descrizione</b></td>
   </tr>
   <tr>
-    <td width="40.0%"><em>1. imparare ad imparare</em></td>
+    <td style="color:#8A4117" width="40.0%"><em>1. imparare ad imparare</em></td>
     <td width="60.0%">organizzare il proprio apprendimento</td>
   </tr>
   <tr>
-    <td width="40.0%"><em>2. saper progettare</em></td>
+    <td style="color:#8A4117" width="40.0%"><em>2. saper progettare</em></td>
     <td width="60.0%">elaborare e realizzare progetti</td>  
   </tr>
   <tr>
-    <td width="40.0%"><em>3. saper comunicare</em></td>
+    <td style="color:#8A4117" width="40.0%"><em>3. saper comunicare</em></td>
     <td width="60.0%">presentare in modo efficace</td>
   </tr>
   <tr>
-    <td width="40.0%"><em>4. collaborare e partecipare</em></td>
+    <td style="color:#8A4117" width="40.0%"><em>4. collaborare e partecipare</em></td>
     <td width="60.0%">a. saper interagire in un gruppo<br>b. l'importanza della sinergia</td>
   </tr>
   <tr>
-    <td width="40.0%"><em>6. problem solving</em></td>
+    <td style="color:#8A4117" width="40.0%"><em>6. problem solving</em></td>
     <td width="60.0%">a. sapersi documentare<br>b. formulare ipotesi<br>c. analizzare i dati<br>d. proporre soluzioni</td>
   </tr>
   <tr>
-    <td width="40.0%"><em>7. imparare a collegare</em></td>
+    <td style="color:#8A4117" width="40.0%"><em>7. imparare a collegare</em></td>
     <td width="60.0%">a. mappe concettuali <br>b. formulare percorsi</td>
   </tr>
   <tr>
-    <td width="40.0%"><em>8. verificare l'informazione</em></td>
+    <td style="color:#8A4117" width="40.0%"><em>8. verificare l'informazione</em></td>
     <td width="60.0%">formare e coltivare uno spirito critico</td>
   </tr>
 </table>
 </section>
 
 <section>
-  <h2 class="r-fit-text">Idee chiave </h2>
-  <h3>Linee guida per gli istituti tecnici (2010):</h3>
-
-  <ul class="r-fit-text">
-    <li>individuare collegamenti tra matematica e altre discipline e tra matematica e realtà <em>(modello matematico)</em></li> 
-    <li>individuare collegamenti all’interno della matematica</li>
-    <li>sviluppare l’algebra interpretandola graficamente</li>
-    <li>utilizzare diversi registri rappresentativi</li>
-    <li>inquadrare storicamente l’evoluzione della disciplina</li>
-    <li>utilizzare strumenti informatici di rappresentazione geometrica e di calcolo</li>
-  </ul>
+  <h2 style="color:#8A4117" class="r-fit-text">LINEE GUIDA PER GLI ISTITUTI TECNICI - INDICAZIONI</h2>
+  <h3>Competenze di base</h3><em>
+  <h4 style="color:#8A4117">primo biennio</h4>
+    <ul class="r-fit-text">
+      <li>individuare collegamenti tra matematica e altre discipline e tra matematica e realtà <em>(modello matematico)</em></li> 
+      <li>individuare collegamenti all’interno della matematica</li>
+      <li>sviluppare l’algebra interpretandola graficamente</li>
+      <li>utilizzare diversi registri rappresentativi</li>
+      <li>inquadrare storicamente l’evoluzione della disciplina</li>
+      <li>utilizzare strumenti informatici di rappresentazione geometrica e di calcolo</li>
+    </ul>
+  <h4 style="color:#8A4117">secondo biennio e quinto anno</h4>
+    <ul class="r-fit-text">
+      <li>Utilizzare il linguaggio e i metodi propri della matematica per organizzare e valutare adeguatamente informazioni qualitative e quantitative</li> 
+      <li>Utilizzare le strategie del pensiero razionale negli aspetti dialettici e algoritmici per affrontare situazioni problematiche, elaborando opportune soluzioni</li>
+      <li>Utilizzare le reti e gli strumenti informatici nelle attività di studio, ricerca e approfondimento disciplinare</li>
+      <li>Correlare la conoscenza storica generale agli sviluppi delle scienze, delle tecnologie e delle tecniche negli specifici campi professionali di riferimento</li>
+    </ul></em>
 </section>
+
 
 ---
 
@@ -274,10 +282,10 @@ slides:
 ---
 
 <section data-background-image="calm_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
-<h2 style="color:#8A4117" class="r-fit-text">La VALUTAZIONE</h2>
+<h1 style="color:#8A4117" class="r-fit-text">La VALUTAZIONE</h1>
 <h2 style="color:#3B2F2F" class="r-fit-text">Tipologie di VERIFICA</h2>
 
-<ul class="fragment" data-transition="concave">
+<ul style="font-size:80%" class="fragment" data-transition="concave">
   <li><h3><b>prerequisiti</b></h3></li>
     <ul>
       <li>TEST anonimo</li>
@@ -292,6 +300,28 @@ slides:
     <ul>
       <li>verifica classica: Test + Esercizi</li>
     </ul>
+</section>
+
+---
+
+<section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
+<h1 style="color:#8A4117" class="r-fit-text">Esempi di verifiche</h1>
+<!-- <h2 style="color:#3B2F2F" class="r-fit-text">RIASSUNTIVA - RECAP </h2> -->
+
+<table class="fragment" style="font-size:85%" width="90%">
+  <tr>
+    <td width="40.0%"><b>competenze</b></td>
+    <td width="60.0%"><b>descrizione</b></td>
+  </tr>
+    <tr>
+    <td width="40.0%">TEST a risposta multipla</td>
+    <td width="60.0%"><a href="./20220224_TEST-1I-Relazioni e funzioni.pdf" target="_blank">TEST</a></td>
+  </tr>
+  <tr>
+    <td width="40.0%"><em>Test ed esercizi</em></td>
+    <td width="60.0%"><a href="./202122_prova_recupero-Test_Ex_soluzioni.pdf" target="_blank">TEST ed esercizi</a></td>
+  </tr>
+</table>
 </section>
 
 ---
@@ -321,9 +351,9 @@ slides:
 
 ---
 
-<section data-background-video="bridge.mp4" data-background-opacity="0.5" data-transition="convex">
-<h3><em>In matematica i problemi si affrontano uno alla volta, anche quando si presentano in tanti, tutti insieme.
-E' così anche nella vita: un problema alla volta.<br>&mdash; D.F.</em>
+<section data-background-video="bridge.mp4" data-background-opacity="0.4" data-transition="convex">
+<h3 style="color:#8A4117"><em>In matematica i problemi si affrontano uno alla volta, anche quando si presentano in tanti, tutti insieme.<br><br>
+È così anche nella vita: <b>un problema alla volta.</b><br><br>&mdash; D!ego Fantinelli</em>
 </section>
 
 <section data-transition="zoom">
