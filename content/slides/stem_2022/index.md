@@ -6,17 +6,17 @@ tags: [stem]
 categories: [concorso]
 date: "2022-02-05T00:00:00Z"
 
-# theme: serif
-slides:
-  theme: serif
-# transition: convex
-  # Choose a code highlighting style (if highlighting enabled in `params.toml`)
-  #   Light style: github. Dark style: dracula (default).
-  enableChalckboard: false
+theme: serif
+# slides:
+#   theme: serif
+# # transition: convex
+#   # Choose a code highlighting style (if highlighting enabled in `params.toml`)
+#   #   Light style: github. Dark style: dracula (default).
+#   enableChalckboard: false
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.5" data-transition="zoom">
-  <h2 class="r-fit-text" style="color:#3B2F2F">CONCORSO</h2>
+  <h1 style="color:#3B2F2F">CONCORSO</h1>
   <h2 style="color:#3B2F2F">Straordinario Bis 2022</h2>
   <img src="miur.png" style="opacity:0.6;filter:alpha(opacity=60);" width="550">
   <!-- <h3 style="color:#8A4117" class="r-fit-text">Relazioni e funzioni</h3> -->
@@ -93,7 +93,7 @@ slides:
 <section>
   <h2 style="color:#8A4117" class="r-fit-text">LINEE GUIDA PER GLI ISTITUTI TECNICI - INDICAZIONI</h2>
   <h5><b>Competenze di base</b></h5><em>
-  <h4 style="color:#8A4117">primo biennio</h4>
+  <h5 style="color:#8A4117">primo biennio</h5>
     <ul style="font-size:55%">
       <li>individuare collegamenti tra matematica e altre discipline e tra matematica e realtà <em>(modello matematico)</em></li> 
       <li>individuare collegamenti all’interno della matematica</li>
@@ -102,8 +102,8 @@ slides:
       <li>inquadrare storicamente l’evoluzione della disciplina</li>
       <li>utilizzare strumenti informatici di rappresentazione geometrica e di calcolo</li>
     </ul>
-  <h4 style="color:#8A4117">secondo biennio e quinto anno</h4>
-    <ul style="font-size:60%">
+  <h5 style="color:#8A4117">secondo biennio e quinto anno</h5>
+    <ul style="font-size:55%">
       <li>Utilizzare il linguaggio e i metodi propri della matematica per organizzare e valutare adeguatamente informazioni qualitative e quantitative</li> 
       <li>Utilizzare le strategie del pensiero razionale negli aspetti dialettici e algoritmici per affrontare situazioni problematiche, elaborando opportune soluzioni</li>
       <li>Utilizzare le reti e gli strumenti informatici nelle attività di studio, ricerca e approfondimento disciplinare</li>
