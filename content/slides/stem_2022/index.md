@@ -92,9 +92,9 @@ slides:
 
 <section>
   <h2 style="color:#8A4117" class="r-fit-text">LINEE GUIDA PER GLI ISTITUTI TECNICI - INDICAZIONI</h2>
-  <h4><b>Competenze di base</b></h4><em>
+  <h5><b>Competenze di base</b></h5><em>
   <h4 style="color:#8A4117">primo biennio</h4>
-    <ul style="font-size:60%">
+    <ul style="font-size:55%">
       <li>individuare collegamenti tra matematica e altre discipline e tra matematica e realtà <em>(modello matematico)</em></li> 
       <li>individuare collegamenti all’interno della matematica</li>
       <li>sviluppare l’algebra interpretandola graficamente</li>
