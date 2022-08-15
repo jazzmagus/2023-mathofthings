@@ -138,8 +138,8 @@ slides:
 <ul style="font-size:75%" class="fragment" data-transition="concave">
   <li class="fragment"><h3><b>verifica dei prerequisiti</b></h3></li>
     <ul class="fragment">
-      <li>all'inizio dell'UdA </li>
       <li>Test anonimo e di autovalutazione <a href="./20220224_TEST-1I-Relazioni e funzioni.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
+      <li>all'inizio dell'UdA </li>
     </ul>
   <li class="fragment"><h3><b>valutazione formativa</b></h3></li>
     <ul class="fragment">
@@ -237,10 +237,11 @@ slides:
     </ul>
 </section>
 
-<section data-background-image="calm_bkg.jpg.jpg" data-background-opacity="0.4" data-transition="zoom">
-<h3 class="fragment" style="color:#8A4117; font-size: 48px;"><em>In fisica e in matematica è impressionante la sproporzione tra lo sforzo per capire una cosa nuova per la prima volta e la semplicità e naturalezza del risultato una volta che i vari passaggi sono stati compiuti.
+<section data-background-image="calm_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
+<h3 style="color:#eb762a; font-size: 44px"><em>In fisica e in matematica è impressionante la sproporzione tra lo sforzo per capire una cosa nuova per la prima volta e la semplicità e naturalezza del risultato una volta che i vari passaggi sono stati compiuti.
 <br>Nel prodotto finito, nelle scienze come in poesia, non c'è traccia della fatica del processo creativo e dei dubbi e delle esitazioni che lo accompagnano.<br>
-<br>&mdash; Giorgio Parisi</em></h3>
+<br>&mdash; Giorgio Parisi </h3>
+<p style="color:#eb762a; font-size: 38px;">"In un volo di storni" - ed. Bompiani - 2022</p></em>
 </section>
 
 ---
@@ -294,11 +295,13 @@ slides:
 
 ---
 
+<!-- 
 <section data-background-iframe="https://2023-mathofthings.netlify.app/" data-background-interactive>
 
-</section>
+</section> 
 
----
+--- 
+-->
 
 <section data-background-video="digital.mp4" data-background-opacity="0.9" data-transition="convex">
 <h2 style="color:#ffffff" class="r-fit-text">Creare connessioni</h2>
