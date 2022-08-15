@@ -5,7 +5,7 @@ authors: [Diego Fantinelli]
 tags: [stem]
 categories: [concorso]
 date: "2022-02-05T00:00:00Z"
-  # Choose a theme from https://github.com/hakimel/reveal.js#theming
+
 # theme: serif
 slides:
   theme: serif
@@ -92,9 +92,9 @@ slides:
 
 <section>
   <h2 style="color:#8A4117" class="r-fit-text">LINEE GUIDA PER GLI ISTITUTI TECNICI - INDICAZIONI</h2>
-  <h3>Competenze di base</h3><em>
+  <h4><b>Competenze di base</b></h4><em>
   <h4 style="color:#8A4117">primo biennio</h4>
-    <ul class="r-fit-text">
+    <ul style="font-size:60%">
       <li>individuare collegamenti tra matematica e altre discipline e tra matematica e realtà <em>(modello matematico)</em></li> 
       <li>individuare collegamenti all’interno della matematica</li>
       <li>sviluppare l’algebra interpretandola graficamente</li>
@@ -103,7 +103,7 @@ slides:
       <li>utilizzare strumenti informatici di rappresentazione geometrica e di calcolo</li>
     </ul>
   <h4 style="color:#8A4117">secondo biennio e quinto anno</h4>
-    <ul class="r-fit-text">
+    <ul style="font-size:60%">
       <li>Utilizzare il linguaggio e i metodi propri della matematica per organizzare e valutare adeguatamente informazioni qualitative e quantitative</li> 
       <li>Utilizzare le strategie del pensiero razionale negli aspetti dialettici e algoritmici per affrontare situazioni problematiche, elaborando opportune soluzioni</li>
       <li>Utilizzare le reti e gli strumenti informatici nelle attività di studio, ricerca e approfondimento disciplinare</li>
@@ -131,69 +131,81 @@ slides:
 
 ---
 
-<section>
-<h2>Competenze</h2>
+<section data-background-image="calm_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
+<h1 style="color:#8A4117" class="r-fit-text">La VALUTAZIONE</h1>
+<h2 style="color:#3B2F2F">Tipologie di VERIFICA</h2>
 
-<ul style="font-size:90%;">
-  <li>la gratificazione ottenuta dalla scelta su un processo $j$</li>
-  <li>la gratificazione ottenuta dalla scelta su un processo $j$</li>
-  <li>la gratificazione ottenuta dalla scelta su un processo $j$</li>
-  <li>la gratificazione ottenuta dalla scelta su un processo $j$</li>
-</ul>
+<ul style="font-size:75%" class="fragment" data-transition="concave">
+  <li class="fragment"><h3><b>verifica dei prerequisiti</b></h3></li>
+    <ul class="fragment">
+      <li>all'inizio dell'UdA </li>
+      <li>Test anonimo e di autovalutazione <a href="./20220224_TEST-1I-Relazioni e funzioni.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
+    </ul>
+  <li class="fragment"><h3><b>valutazione formativa</b></h3></li>
+    <ul class="fragment">
+      <li>Peer-Tutoring | Flipped Classroom o Jigsaw <a href="././Divisione e Ruffini-Flipped Classroom-contest_prize.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
+      <li>in itinere e - ove possibile - di tipo laboratoriale</li>
+    </ul>
+  <li class="fragment"><h3><b>sommativa</b>: verifica classica</h3></li>
+    <ul class="fragment">
+      <li>verifica classica: <em>Test + Esercizi</em> <a href="./20220224_TEST-1I-Relazioni e funzioni.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
+      <li>alla fine dell'UdA </li>
+    </ul>
 </section>
 
-<section>
+<!-- <section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
+<h1 style="color:#8A4117" class="r-fit-text">Esempi di verifiche</h1>
 
-<h2>Abilità</h2>
-
-<ul style="font-size:90%;">
-  <li>la gratificazione ottenuta dalla scelta su un processo $j$</li>
-  <li>la gratificazione ottenuta dalla scelta su un processo $j$</li>
-  <li>la gratificazione ottenuta dalla scelta su un processo $j$</li>
-  <li>la gratificazione ottenuta dalla scelta su un processo $j$</li>
-</ul>
-</section>
-
----
-
-<section data-background-image="book_bkg.jpg" data-background-opacity="0.5" data-transition="zoom">
-  <h1 class="r-fit-text" style="color:#3B2F2F">ATTIVITÀ DIDATTICA</h1>
-  <h2 style="color:#8A4117">LA LEZIONE</h2>
-
-  <h2 style="color:#3B2F2F;" class="r-fit-text; fragment">Relazioni e FUNZIONI</h2>
-  <!-- <img src="gear_00.png" style="opacity:0.6; filter:alpha(opacity=40);" width="200"> -->
-</section>
-
-<section data-background-image="white_sky.jpeg" data-background-opacity="0.4" data-transition="zoom">
-<h3 class="fragment" style="color:#8A4117; font-size: 40px;"><em>In fisica e in matematica è impressionante la sproporzione tra lo sforzo per capire una cosa nuova per la prima volta e la semplicità e naturalezza del risultato una volta che i vari passaggi sono stati compiuti.
-<br>Nel prodotto finito, nelle scienze come in poesia, non c'è traccia della fatica del processo creativo e dei dubbi e delle esitazioni che lo accompagnano.<br>
-<br>&mdash; Giorgio Parisi</em></h3>
-</section>
+<table class="fragment" style="font-size:85%" width="90%">
+  <tr>
+    <td width="45.0%"><b>tipologia</b></td>
+    <td width="50.0%"><b>documento pdf</b></td>
+  </tr>
+  <tr>
+    <td style="color:#8A4117" width="45.0%"><em>Test a risposta multipla</em></td>
+    <td width="50.0%"><a href="./20220224_TEST-1I-Relazioni e funzioni.pdf" target="_blank"><em>Test - esempio pdf</em></a></td>
+  </tr>
+  <tr>
+    <td style="color:#8A4117" width="45.0%"><em>Flipped Classroom a coppie</em></td>
+    <td width="50.0%"><a href="./Divisione e Ruffini-Flipped Classroom-contest_prize.pdf" target="_blank"><em>Contest prize - esempio pdf</em></a></td>
+  </tr>
+  <tr>
+    <td style="color:#8A4117" width="45.0%"><em>Test ed esercizi</em></td>
+    <td width="50.0%"><a href="./202122_prova_recupero-Test_Ex_soluzioni.pdf" target="_blank"><em>TEST ed esercizi - esempio pdf</em></a></td>
+  </tr>
+</table>
+</section> -->
 
 ---
 
 <section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
 <h1 style="color:#8A4117">FASE 1</h1>
-<h2 style="color:#3B2F2F" class="r-fit-text fragment">ATTIVAZIONE STIMOLO</h2>
-
+<h2 style="color:#3B2F2F" class="r-fit-text fragment">ATTIVAZIONE/STIMOLO</h2>
 <ul class="fragment">
-<br>
-  <li><h3>Simmetrica e antisimmetrica</h3></li>
+  <li><h5 style="color:#8A4117"><em>Gli stimoli possono essere di diversa natura e hanno come unica finalità quella di catturare l'attenzione:</em></h5></li><br>
     <ul>
-      <li>una relazione si dice simmetrica</li>
-      <li>una relazione si dice simmetrica</li>
+      <li>un post preparato in anticipo e caricato su <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/"><em>The Math of Things</em></a></li>
+      <li>una frase, un aforisma, una foto, un articolo, una <em>"provocazione"</em></li>
     </ul>
+</ul>
+</section>
+
+<section data-background-image="calm_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
+<h2 class="r-fit-text"> La funzione Happiness</h2>
+
+<p class="fragment" style="font-size:60%;">$\textbf{Happiness(t)}=w_{0}+w_{1} \cdot\displaystyle{\sum_{j=1}^{t}} \gamma^{t-j} C R_{j}+w_{2} \cdot\sum_{j=1}^{t} \gamma^{t-j} E V_{j}+w_{3} \cdot\sum_{j=1}^{t} \gamma^{t-j} R P E_{j}$</p>
+  <p>
+  <ul class="fragment"; style="font-size:60%;">
+    <li>$t$; $w_0$, $w_1$, $w_2$ e $w_3$ sono costanti che indicano l’influenza dei diversi tipi di eventi;</li>
+    <li>$\gamma$ è un “forgetting factor” (fattore dimenticando) che rende gli eventi degli studi più recenti più influenti rispetto a quelli precedenti;</li>
+    <li>$CRj$ è la gratificazione ottenuta dalla scelta su un processo $j$;</li>
+    <li>$EVj$ è la valutazione del rischio su di un processo $j$;</li>
+    <li>$RPEj$ rappresenta la differenza tra la ricompensa desiderata e quella effettivamente ottenuta dal processo $j$.</li>
+  </ul>
+  </p>
 </section>
 
 ---
-
-<!-- 
-<section data-background-image="real_life_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
-<h2 style="color:#8A4117">Relazioni di equivalenza</h2>
-<h4 class="fragment" style="text-align:left; color:#8A4117;">definizione:</h4>
-<q class="fragment" style="color:#C04000; font-size:90%; background-color:#F3E5AB;">Dati due insiemi non vuoti $A$ e $B$, si dice **relazione** tra $A$ e $B$ - e si indica con $\mathcal{R}$ -, una **legge** che associa elementi dell’insieme $A$ con elementi dell’insieme $B$.</q>
-</section>
--->
 
 <section data-background-image="network_bkg.png" data-background-opacity="0.3" data-transition="concave">
 <h1 style="color:#8A4117">FASE 2</h1>
@@ -225,6 +237,12 @@ slides:
     </ul>
 </section>
 
+<section data-background-image="calm_bkg.jpg.jpg" data-background-opacity="0.4" data-transition="zoom">
+<h3 class="fragment" style="color:#8A4117; font-size: 48px;"><em>In fisica e in matematica è impressionante la sproporzione tra lo sforzo per capire una cosa nuova per la prima volta e la semplicità e naturalezza del risultato una volta che i vari passaggi sono stati compiuti.
+<br>Nel prodotto finito, nelle scienze come in poesia, non c'è traccia della fatica del processo creativo e dei dubbi e delle esitazioni che lo accompagnano.<br>
+<br>&mdash; Giorgio Parisi</em></h3>
+</section>
+
 ---
 
 <section data-background-image="calm_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
@@ -232,10 +250,10 @@ slides:
 <h2 style="color:#3B2F2F" class="r-fit-text">LAB - ESERCITAZIONI</h2>
 
 <ul class="fragment">
-  <li><h3>Filo conduttore</h3></li>
+  <li><h3>Esercitazioni e laboratorio di matematica</h3></li>
     <ul>
       <li>correzione esercizi assegnati</li>
-      <li>percorso</li>
+      <li>Jigsaw</li>
       <li>strumenti</li>
     </ul>
 </section>
@@ -247,13 +265,14 @@ slides:
 <h2 style="color:#3B2F2F" class="r-fit-text">RIASSUNTIVA - RECAP </h2>
 
 <ul class="fragment">
-  <li><h3>Filo conduttore</h3></li>
+  <li><h3 style="color:#8A4117"><em>Focus sulla lezione</em></h3></li>
+  <li style="color:#8A4117; font-size: 35px"><em>in questa fase è indispensabile il coinvolgimento attivo degli studenti</em></li>
     <ul>
-      <li>prerequisiti</li>
-      <li>percorso</li>
-      <li>strumenti</li>
+      <li>qual è stato l'obiettivo della lezione?</li>
+      <li>cos'è rimasto?</li>
+      <li>consigli per lo studio individuale</li>
     </ul>
-</section>
+  </section>
 
 ---
 
@@ -281,80 +300,17 @@ slides:
 
 ---
 
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
-<h1 style="color:#8A4117" class="r-fit-text">La VALUTAZIONE</h1>
-<h2 style="color:#3B2F2F" class="r-fit-text">Tipologie di VERIFICA</h2>
-
-<ul style="font-size:80%" class="fragment" data-transition="concave">
-  <li><h3><b>prerequisiti</b></h3></li>
-    <ul>
-      <li>TEST anonimo</li>
-      <li>all'inizio dell'UdA</li>
-    </ul>
-    <li><h3><b>formativa</b></h3></li>
-    <ul>
-      <li>in itinere</li>
-      <li>Peer-Tutoring | Jigsaw</li>
-    </ul>
-    <li><h3><b>sommativa</b>: verifica classica</h3></li>
-    <ul>
-      <li>verifica classica: Test + Esercizi</li>
-    </ul>
-</section>
-
----
-
-<section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
-<h1 style="color:#8A4117" class="r-fit-text">Esempi di verifiche</h1>
-<!-- <h2 style="color:#3B2F2F" class="r-fit-text">RIASSUNTIVA - RECAP </h2> -->
-
-<table class="fragment" style="font-size:85%" width="90%">
-  <tr>
-    <td width="40.0%"><b>competenze</b></td>
-    <td width="60.0%"><b>descrizione</b></td>
-  </tr>
-    <tr>
-    <td width="40.0%">TEST a risposta multipla</td>
-    <td width="60.0%"><a href="./20220224_TEST-1I-Relazioni e funzioni.pdf" target="_blank">TEST</a></td>
-  </tr>
-  <tr>
-    <td width="40.0%"><em>Test ed esercizi</em></td>
-    <td width="60.0%"><a href="./202122_prova_recupero-Test_Ex_soluzioni.pdf" target="_blank">TEST ed esercizi</a></td>
-  </tr>
-</table>
-</section>
-
----
-
-<section data-background-video="digital.mp4" data-background-opacity="1" data-transition="convex">
+<section data-background-video="digital.mp4" data-background-opacity="0.9" data-transition="convex">
 <h2 style="color:#ffffff" class="r-fit-text">Creare connessioni</h2>
-<q class="fragment" style="color:#ffffff;">Si legge: $f$ è una funzione che associa un elemento $x$ appartenente ad $X$ ad un elemento $y$ appartenente a $Y$.</q>
-<p class="fragment" style="color:#ffffff;">oppure, nella forma più compatta: <font color="#ffffff">$y=f(x)$</font></p> 
+<h3 class="fragment" style="color:#ffffff"><em>La matematica non è imparare formule e/o dimostrazioni a memoria, bensì collegare concetti</em></h3>
 </section>
 
 ---
 
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
-<h2 class="r-fit-text"> La funzione Happiness</h2>
-
-<p class="fragment" style="font-size:60%;">$\textbf{Happiness(t)}=w_{0}+w_{1} \cdot\displaystyle{\sum_{j=1}^{t}} \gamma^{t-j} C R_{j}+w_{2} \cdot\sum_{j=1}^{t} \gamma^{t-j} E V_{j}+w_{3} \cdot\sum_{j=1}^{t} \gamma^{t-j} R P E_{j}$</p>
-  <p>
-  <ul class="fragment"; style="font-size:60%;">
-    <li>$t$; $w_0$, $w_1$, $w_2$ e $w_3$ sono costanti che indicano l’influenza dei diversi tipi di eventi;</li>
-    <li>$\gamma$ è un “forgetting factor” (fattore dimenticando) che rende gli eventi degli studi più recenti più influenti rispetto a quelli precedenti;</li>
-    <li>$CRj$ è la gratificazione ottenuta dalla scelta su un processo $j$;</li>
-    <li>$EVj$ è la valutazione del rischio su di un processo $j$;</li>
-    <li>$RPEj$ rappresenta la differenza tra la ricompensa desiderata e quella effettivamente ottenuta dal processo $j$.</li>
-  </ul>
-  </p>
-</section>
-
----
-
-<section data-background-video="bridge.mp4" data-background-opacity="0.4" data-transition="convex">
+<!-- <section data-background-video="bridge.mp4" data-background-opacity="0.4" data-transition="convex">
 <h3 style="color:#8A4117"><em>In matematica i problemi si affrontano uno alla volta, anche quando si presentano in tanti, tutti insieme.<br><br>
 È così anche nella vita: <b>un problema alla volta.</b><br><br>&mdash; D!ego Fantinelli</em>
-</section>
+</section> -->
 
 <section data-transition="zoom">
 <h2 style="color:#ffffffo" class="r-fit-text">Grazie</h2>
