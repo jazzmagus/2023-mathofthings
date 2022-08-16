@@ -5,7 +5,6 @@ authors: [Diego Fantinelli]
 tags: [stem]
 categories: [concorso]
 date: "2022-02-05T00:00:00Z"
-
 # theme: serif
 slides:
   theme: serif
@@ -133,24 +132,24 @@ slides:
 
 <section data-background-image="calm_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
 <h1 style="color:#8A4117" class="r-fit-text">La VALUTAZIONE</h1>
-<h2 style="color:#3B2F2F">Tipologie di VERIFICA</h2>
+<h3 style="color:#3B2F2F">Tipologie di VERIFICA</h3>
 
 <ul style="font-size:75%" class="fragment" data-transition="concave">
-  <li class="fragment"><h3><b>verifica dei prerequisiti</b></h3></li>
+  <li class="fragment"><h4><b>verifica dei prerequisiti</b></h4></li>
     <ul class="fragment">
       <li>Test anonimo e di autovalutazione <a href="./20220224_TEST-1I-Relazioni e funzioni.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
       <li>all'inizio dell'UdA </li>
     </ul>
-  <li class="fragment"><h3><b>valutazione formativa</b></h3></li>
+  <li class="fragment"><h4><b>valutazione formativa</b></h4></li>
     <ul class="fragment">
       <li>Peer-Tutoring | Flipped Classroom o Jigsaw <a href="././Divisione e Ruffini-Flipped Classroom-contest_prize.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
       <li>in itinere e - ove possibile - di tipo laboratoriale</li>
     </ul>
-  <li class="fragment"><h3><b>valutazione sommativa</b></h3></li>
+  <li class="fragment"><h4><b>valutazione sommativa</b></h4></li>
     <ul class="fragment">
       <li>verifica classica: <em>Test + Esercizi</em> <a href="./202122_prova_recupero-Test_Ex_soluzioni.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
       <li>alla fine dell'UdA </li>
-    </ul><br>
+    </ul>
   <li class="fragment"><h4><b>interrogazione</b> per recupero o miglioramento</h4></li>
   </ul>
 </section>
@@ -236,6 +235,9 @@ slides:
       <li>prerequisiti</li>
       <li>percorso</li>
       <li>strumenti</li>
+      <ul>
+        <li>libro di testo; <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/"><em>website</em></a>; <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/"><em>slides</em></a></li>
+      </ul>
     </ul>
 </section>
 
