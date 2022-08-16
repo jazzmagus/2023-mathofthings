@@ -226,7 +226,7 @@ slides:
 
 ---
 
-<section data-background-video="teaching.mp4" data-background-opacity="0.5" data-transition="convex">
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
 <h1 style="color:#8A4117">FASE 3</h2>
 <h2 style="color:#3B2F2F" class="r-fit-text">ATTIVA TRASMISSIVA</h2>
 
@@ -239,7 +239,7 @@ slides:
     </ul>
 </section>
 
-<section data-background-video="teaching.mp4" data-background-opacity="0.5" data-transition="convex">
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
 <h3 style="color:#3B2F2F; font-size: 44px"><em>In fisica e in matematica è impressionante la sproporzione tra lo sforzo per capire una cosa nuova per la prima volta e la semplicità e naturalezza del risultato una volta che i vari passaggi sono stati compiuti.
 <br>Nel prodotto finito, nelle scienze come in poesia, non c'è traccia della fatica del processo creativo e dei dubbi e delle esitazioni che lo accompagnano.<br>
 <br>&mdash; Giorgio Parisi </h3>
