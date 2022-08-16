@@ -116,7 +116,7 @@ slides:
 
 <section data-background-image="network_bkg.png" data-background-opacity="0.3" data-transition="concave">
 <h1 style="color:#8A4117" class="r-fit-text">Le DISABILITÀ</h1>
-<h2 style="color:#3B2F2F" class="r-fit-text">FRAMING - MINDMAPPING</h2>
+<h2 style="color:#3B2F2F" class="r-fit-text">La Classe come COMUNITÀ</h2>
 
 <ul class="fragment">
   <li><h3>un filo conduttore <em style="color:#1d91de">visual</em></h3></li>
@@ -146,11 +146,13 @@ slides:
       <li>Peer-Tutoring | Flipped Classroom o Jigsaw <a href="././Divisione e Ruffini-Flipped Classroom-contest_prize.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
       <li>in itinere e - ove possibile - di tipo laboratoriale</li>
     </ul>
-  <li class="fragment"><h3><b>sommativa</b>: verifica classica</h3></li>
+  <li class="fragment"><h3><b>valutazione sommativa</b></h3></li>
     <ul class="fragment">
-      <li>verifica classica: <em>Test + Esercizi</em> <a href="./20220224_TEST-1I-Relazioni e funzioni.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
+      <li>verifica classica: <em>Test + Esercizi</em> <a href="./202122_prova_recupero-Test_Ex_soluzioni.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
       <li>alla fine dell'UdA </li>
-    </ul>
+    </ul><br>
+  <li class="fragment"><h4><b>interrogazione</b> per recupero o miglioramento</h4></li>
+  </ul>
 </section>
 
 <!-- <section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
@@ -185,7 +187,7 @@ slides:
   <li><h5 style="color:#8A4117"><em>Gli stimoli possono essere di diversa natura e hanno come unica finalità quella di catturare l'attenzione:</em></h5></li><br>
     <ul>
       <li>un post preparato in anticipo e caricato su <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/"><em>The Math of Things</em></a></li>
-      <li>una frase, un aforisma, una foto, un articolo, una <em>"provocazione"</em></li>
+      <li>una frase, un aforisma, una foto, un articolo, una <em>"provocazione"</em>, attinente con l'argomento</li>
     </ul>
 </ul>
 </section>
@@ -224,7 +226,7 @@ slides:
 
 ---
 
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
+<section data-background-video="teaching.mp4" data-background-opacity="0.5" data-transition="convex">
 <h1 style="color:#8A4117">FASE 3</h2>
 <h2 style="color:#3B2F2F" class="r-fit-text">ATTIVA TRASMISSIVA</h2>
 
@@ -237,25 +239,29 @@ slides:
     </ul>
 </section>
 
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
-<h3 style="color:#eb762a; font-size: 44px"><em>In fisica e in matematica è impressionante la sproporzione tra lo sforzo per capire una cosa nuova per la prima volta e la semplicità e naturalezza del risultato una volta che i vari passaggi sono stati compiuti.
+<section data-background-video="teaching.mp4" data-background-opacity="0.5" data-transition="convex">
+<h3 style="color:#3B2F2F; font-size: 44px"><em>In fisica e in matematica è impressionante la sproporzione tra lo sforzo per capire una cosa nuova per la prima volta e la semplicità e naturalezza del risultato una volta che i vari passaggi sono stati compiuti.
 <br>Nel prodotto finito, nelle scienze come in poesia, non c'è traccia della fatica del processo creativo e dei dubbi e delle esitazioni che lo accompagnano.<br>
 <br>&mdash; Giorgio Parisi </h3>
-<p style="color:#eb762a; font-size: 38px;">"In un volo di storni" - ed. Bompiani - 2022</p></em>
+<p style="color:#3B2F2F; font-size: 38px;">"In un volo di storni" - ed. Bompiani - 2022</p></em>
 </section>
 
 ---
 
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
+<section data-background-video="teaching.mp4" data-background-opacity="0.4" data-transition="convex">
 <h1 style="color:#8A4117">FASE 4</h1>
 <h2 style="color:#3B2F2F" class="r-fit-text">LAB - ESERCITAZIONI</h2>
 
 <ul class="fragment">
-  <li><h3>Esercitazioni e laboratorio di matematica</h3></li>
+  <li><h3>Esercitazioni e <em>math lab</em></h3></li>
     <ul>
       <li>correzione esercizi assegnati</li>
-      <li>Jigsaw</li>
-      <li>strumenti</li>
+      <ul>
+        <li>dallo studente per acquisire sicurezza</li>
+        <li>dall'insegnante</li>
+      </ul>
+      <li>esercitazione collaborativa: peer-tutoring</li>
+      <li>strumenti e modelli dalla vita reale</li>
     </ul>
 </section>
 
@@ -266,11 +272,11 @@ slides:
 <h2 style="color:#3B2F2F" class="r-fit-text">RIASSUNTIVA - RECAP </h2>
 
 <ul class="fragment">
-  <li><h3 style="color:#8A4117"><em>Focus sulla lezione</em></h3></li>
+<h3 style="color:#8A4117"><em>Focus sulla lezione</em></h3>
   <li style="color:#8A4117; font-size: 35px"><em>in questa fase è indispensabile il coinvolgimento attivo degli studenti</em></li>
     <ul>
       <li>qual è stato l'obiettivo della lezione?</li>
-      <li>cos'è rimasto?</li>
+      <li>cos'è rimasto della lezione?</li>
       <li>consigli per lo studio individuale</li>
     </ul>
   </section>
@@ -279,7 +285,7 @@ slides:
 
 <section data-background-video="teaching.mp4" data-background-opacity="0.4">
 <h1 style="color:#8A4117">FASE 6</h1>
-<h2 style="color:#3B2F2F" class="r-fit-text"> ASSEGNAZIONI HOMEWORKS</h2>
+<h2 style="color:#3B2F2F" class="r-fit-text">ASSEGNAZIONI HOMEWORKS</h2>
 <ul class="fragment">
   <li><h3>Lavoro individuale</h3></li>
     <ul>
