@@ -236,7 +236,7 @@ slides:
       <li>percorso</li>
       <li>strumenti</li>
       <ul>
-        <li>libro di testo; <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/" target="_blank"><em>website</em></a>; <a style="color:#8A4117" href="./content/slides/capitolo5/index.md" target="_blank"><em>slides</em></a></li>
+        <li>libro di testo; <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/" target="_blank"><em>website</em></a>; <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/slides/capitolo5/" target="_blank"><em>slides</em></a></li>
       </ul>
     </ul>
 </section>
