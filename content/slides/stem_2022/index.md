@@ -6,13 +6,14 @@ tags: [stem]
 categories: [concorso]
 date: "2022-02-05T00:00:00Z"
 theme: serif
-slides:
-  theme: serif
-# transition: convex
-  # Choose a code highlighting style (if highlighting enabled in `params.toml`)
-  #   Light style: github. Dark style: dracula (default).
-  enableChalckboard: true
-  pdfSeparateFragments: false
+
+# slides:
+#   theme: serif
+# # transition: convex
+#   # Choose a code highlighting style (if highlighting enabled in `params.toml`)
+#   #   Light style: github. Dark style: dracula (default).
+#   enableChalckboard: true
+#   pdfSeparateFragments: false
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.5" data-transition="zoom">
@@ -335,4 +336,6 @@ slides:
 
 ---
 
-![zzz](https://res.cloudinary.com/teepublic/image/private/s--TQXt20Pc--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_000000,e_outline:48/co_000000,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1588675429/production/designs/9818088_0.jpg)
+<section data-transition="zoom">
+<img src="https://res.cloudinary.com/teepublic/image/private/s--TQXt20Pc--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_000000,e_outline:48/co_000000,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1588675429/production/designs/9818088_0.jpg">
+</section>
