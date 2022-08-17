@@ -6,14 +6,13 @@ tags: [stem]
 categories: [concorso]
 date: "2022-02-05T00:00:00Z"
 # theme: serif
-
 slides:
   theme: serif
 # transition: convex
   # Choose a code highlighting style (if highlighting enabled in `params.toml`)
   #   Light style: github. Dark style: dracula (default).
-  enableChalckboard: true
-  pdfSeparateFragments: false
+  # enableChalckboard: true
+  # pdfSeparateFragments: false
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.5" data-transition="zoom">
