@@ -5,19 +5,20 @@ authors: [Diego Fantinelli]
 tags: [stem]
 categories: [concorso]
 date: "2022-02-05T00:00:00Z"
-# theme: serif
+theme: serif
 slides:
   theme: serif
 # transition: convex
   # Choose a code highlighting style (if highlighting enabled in `params.toml`)
   #   Light style: github. Dark style: dracula (default).
-  enableChalckboard: false
+  enableChalckboard: true
+  pdfSeparateFragments: false
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.5" data-transition="zoom">
   <h1 style="color:#3B2F2F">CONCORSO</h1>
-  <h2 style="color:#3B2F2F">Straordinario Bis 2022</h2>
-  <img src="miur.png" style="opacity:0.6;filter:alpha(opacity=60);" width="550">
+  <h2 style="color:#8A4117">Straordinario Bis 2022</h2>
+  <img src="miur.png" style="opacity:0.8;filter:alpha(opacity=60);" width="380">
   <!-- <h3 style="color:#8A4117" class="r-fit-text">Relazioni e funzioni</h3> -->
   <br>
   <h4 style="color##342A2A"><b>candidato: </b>Diego Fantinelli - STEM A026</h4>
@@ -36,15 +37,15 @@ slides:
     </tr>
     <tr>
       <td><b>classe</b></td>
-      <td style="font-size:80%"><i>seconda</b><i></td>
+      <td style="font-size:80%"><i></b><i></td>
     </tr>
     <tr>
       <td><b>alunni</b></td>
-      <td style="font-size:80%"><i>28 studenti: 13 maschi e 15 femmine<br><i></td>     
+      <td style="font-size:80%"><i>n. studenti: n. maschi e n. femmine<br><i></td>     
     </tr>
     <tr>
       <td><b>disabilità</b></td>
-      <td style="font-size:80%"><i>(DSA, BES, DOP, ADHD, NAI, H.)<br>3 BES: discalculia, disgrafia<br>1 DSA: ADHD L.104 sostegno<i></td>
+      <td style="font-size:80%"><i>(DSA, BES)<br>3 BES: discalculia, disgrafia<br>1 DSA: ADHD L.104 sostegno<i></td>
     </tr>
   </table>
 </section>
@@ -223,6 +224,11 @@ slides:
 </ul>
 </section>
 
+<section data-transition="concave">
+<h2 style="color:#8A4117" class="r-fit-text">Esempio - MINDMAPPING</h2>
+<img class="fragment r-fit-text" src="calc-lett_mindmap.png" width="80%">
+</section>
+
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
@@ -242,7 +248,7 @@ slides:
 </section>
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
-<h3 style="color:#3B2F2F; font-size: 44px"><em>In fisica e in matematica è impressionante la sproporzione tra lo sforzo per capire una cosa nuova per la prima volta e la semplicità e naturalezza del risultato una volta che i vari passaggi sono stati compiuti.
+<h3 style="color:#8A4117; font-size: 44px"><em>In fisica e in matematica è impressionante la sproporzione tra lo sforzo per capire una cosa nuova per la prima volta e la semplicità e naturalezza del risultato una volta che i vari passaggi sono stati compiuti.
 <br>Nel prodotto finito, nelle scienze come in poesia, non c'è traccia della fatica del processo creativo e dei dubbi e delle esitazioni che lo accompagnano.<br>
 <br>&mdash; Giorgio Parisi </h3>
 <p style="color:#3B2F2F; font-size: 38px;">"In un volo di storni" - ed. Bompiani - 2022</p></em>
@@ -263,7 +269,7 @@ slides:
         <li>dall'insegnante</li>
       </ul>
       <li>esercitazione collaborativa: peer-tutoring</li>
-      <li>strumenti e modelli dalla vita reale</li>
+      <li>strumenti informatici: Geogebra, Desmos</li>
     </ul>
 </section>
 
