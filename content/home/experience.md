@@ -7,7 +7,7 @@ widget: experience
 headless: true
 
 # Order that this section appears on the page.
-weight: 60
+weight: 40
 
 title: Experience
 subtitle:
@@ -35,7 +35,7 @@ experience:
         * Analysing
         * Modelling
         * Deploying
-
+        
   - title: Professor of Semiconductor Physics
     company: University X
     company_url: ''
