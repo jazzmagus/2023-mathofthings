@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>capitolo6</title>
+
+  <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+  <meta name="author" content="Hakim El Hattab">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="libs/reveal.js/4.3.1/reset.css">
+  <link rel="stylesheet" href="libs/reveal.js/4.3.1/reveal.css">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  <!-- highlight Theme -->
+  
+  <link rel="stylesheet" href="libs/highlight.js/11.3.1/styles/monokai.min.css">
+  
+	
+		
+	<link rel="stylesheet" href="libs/reveal.js/4.3.1/plugin/chalkboard/style.css">
+	
+	
+	
+  <link rel="stylesheet" href="libs/reveal.js/4.3.1/plugin/customcontrols/style.css">
+  
+	
+
+
+
+  <!-- Revealjs Theme -->
+  
+  <link rel="stylesheet" href="libs/reveal.js/4.3.1/theme/serif.css" id="theme">
+  
+  
+
+  <link rel="stylesheet" href="libs/styles/tasklist.css">
+	<link rel="stylesheet" href="libs/styles/iota.css">
+	<link rel="stylesheet" href="libs/styles/layout.css">
+
+
+  <!-- Revealjs Theme -->
+  
+
+   <!-- css list -->
+	
+
+   
+
+</head>
+
+<body>
+
+   
+
+  <div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+
+      
+
+
+    
+        <section >
+            
+            <!-- {{< slide background-image="pingpong_bkg.jpg" background-opacity="0.6" >}} -->
+<section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.6" data-transition="convex">
+  <h2 style="color:#3B2F2F">Fattorizzazione polinomiale</h2>
+  <h3 style="color:#3B2F2F"><em>esercizi e ripasso</em></h3>
+  <h5 style="color:#8A4117"><em>prof. diego fantinelli</em></h5>
+  <h5 style="color:#8A4117">ITIS "Enrico Fermi" - Bassano del Grappa</h5>
+</section>
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <!-- {{< slide background-image="lightbulb.jpg" background-opacity="0.6" >}} -->
+<section data-background-image="lightbulb.jpg" data-background-opacity="0.6" data-transition="convex">
+  <h3 class="fragment" style="color:#FFFFFF; font-size: 60px;">una riflessione per iniziare...</h3>
+  <h3 class="fragment" style="color:#FFFFFF; font-size: 40px;"><em>“Our virtues and our failings are inseparable, like force and matter. When they separate, man is no more.”
+  <br>&mdash; Nikola Tesla</em></h3>
+</section>
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <!-- {{< slide background-image="pingpong_bkg.jpg" background-opacity="0.6" >}} -->
+<section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.6"style="font-size:90%" data-transition="convex">
+  <h2 style="color:#3B2F2F">Prerequisiti</h2>
+  <ul class="fragment">
+  <li class="fragment"><h3 style="color:#8A4117">monomi e polinomi:</h3></li>
+    <ul class="fragment">
+      <li>Operazioni e proprietà</li>
+      <li>Prodotti Notevoli</li>
+    </ul>
+  <hr class="fragment" style="height:2px;border-width:0;color:gray;background-color:gray">
+  <li class="fragment"><h3 style="color:#8A4117">metodi di fattorizzazione</h3></li>
+    <ul class="fragment">
+      <li>raccoglimento a fattor comune totale</li>
+      <li>raccoglimento a fattor comune parziale</li>
+      <li>trinomio particolare di secondo grado - (somma-prodotto)</li>
+      <li>prodotti notevoli</li>
+      <li>Teorema e Regola di Ruffini</li>
+    </ul>
+</section>
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <!-- {{< slide background-image="calm_bkg.jpg" background-opacity="0.6" >}} -->
+<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6" data-transition="zoom">
+<h2 class="fragment" style="color:#3B2F2F; font-size: 40pt;"><em>“Gli esercizi presenti in questa selezione hanno tutti lo stesso obiettivo: la <b>fattorizzazione</b> di un polinomio in un prodotto di fattori <b>irriducibili</b>"</em>
+</h2></section>
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <section style="font-size:90%" data-transition="convex">
+  <h2 style="color:#e28743">esercizio 1</h2>
+  <h4 class="fragment">$8 x^{4}+12 x^{3}+6 x^{2}+x$</h4>
+  <h3 class="fragment" style="color:#2596be; font-size: 80px;">soluzione</h3>
+  <h4 style="color:#2596be"; class="fragment">$\left[x(2 x+1)^{3}\right]$</h4>
+</section>
+<section style="font-size:90%" data-transition="convex">
+  <h2 style="color:#e28743">esercizio 2</h2>
+  <h4 class="fragment">$4 x^{2}-12 x-40$</h4>
+  <h3 class="fragment" style="color:#2596be; font-size: 80px;">soluzione</h3>
+  <h4 style="color:#2596be"; class="fragment">$[4(x-5)(x+2)]$</h4>
+</section>
+<section style="font-size:90%" data-transition="convex">
+  <h2 style="color:#e28743">esercizio 3</h2>
+  <h4 class="fragment">$x^{3}+x^{2} y-9 x-9 y$</h4>
+  <h3 class="fragment" style="color:#2596be; font-size: 80px;">soluzione</h3>
+  <h4 style="color:#2596be"; class="fragment">$[(x-3)(x+3)(x+y)]$</h4>
+</section>
+<section style="font-size:90%" data-transition="convex">
+  <h2 style="color:#e28743">esercizio 4</h2>
+  <h4 class="fragment">$x^{3}+x^{2} y-9 x-9 y$</h4>
+  <h3 class="fragment" style="color:#2596be; font-size: 80px;">soluzione</h3>
+  <h4 style="color:#2596be"; class="fragment">$[(x-3)(x+3)(x+y)]$</h4>
+</section>
+<section style="font-size:90%" data-transition="convex">
+  <h2 style="color:#e28743">esercizio 5</h2>
+  <h4 class="fragment">$x^{3}+x^{2} y-9 x-9 y$</h4>
+  <h3 class="fragment" style="color:#2596be; font-size: 80px;">soluzione</h3>
+  <h4 style="color:#2596be"; class="fragment">$[(x-3)(x+3)(x+y)]$</h4>
+</section>
+<section style="font-size:90%" data-transition="convex">
+  <h2 style="color:#e28743">esercizio 6</h2>
+  <h4 class="fragment">$4 x^{3}+5 x^{2}-23 x-6$</h4>
+  <h3 class="fragment" style="color:#2596be; font-size: 80px;">soluzione</h3>
+  <h4 style="color:#2596be"; class="fragment">$(x-2)(x+3)(4 x+1)$</h4>
+</section>
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <section data-background-color="#EDEDED">
+  <img data-src="https://res.cloudinary.com/teepublic/image/private/s--TQXt20Pc--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_000000,e_outline:48/co_000000,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1588675429/production/designs/9818088_0.jpg">
+</section>
+            </section>
+    
+
+
+    </div>
+
+
+  </div>
+
+  <div class="line top"></div>
+  <div class="line bottom"></div>
+  <div class="line left"></div>
+  <div class="line right"></div>
+
+  <script src="libs/reveal.js/4.3.1/reveal.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/notes/notes.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/markdown/markdown.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/highlight/highlight.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/math/math.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/fullscreen/plugin.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/animate/plugin.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/animate/svg.min.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/anything/plugin.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/anything/Chart.min.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/anything/d3/d3.v3.min.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/anything/d3.patch.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/anything/d3/queue.v1.min.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/anything/d3/topojson.v1.min.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/anything/function-plot.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/customcontrols/plugin.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/embed-tweet/plugin.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/chart/chart.min.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/chart/plugin.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/verticator/verticator.js"></script>
+
+<script src="libs/reveal.js/4.3.1/plugin/zoom/zoom.js"></script>
+
+<script src="libs/reveal.js/4.3.1/plugin/menu/menu.js"></script>
+
+
+<!--	<script src="libs/reveal.js/4.3.1/plugin/audio-slideshow/plugin.js"></script>  -->
+<!--	<script src="libs/reveal.js/4.3.1/plugin/audio-slideshow/recorder.js"></script>-->
+<!--	<script src="libs/reveal.js/4.3.1/plugin/audio-slideshow/RecordRTC.js"></script>-->
+
+  
+
+<script>
+  const printPlugins = [
+      RevealNotes,
+      RevealHighlight,
+      RevealMath.MathJax3,
+      RevealAnimate,
+      
+			RevealEmbedTweet,
+			RevealChart,
+		];
+
+		const plugins =  [...printPlugins,
+		RevealZoom, 
+		
+				RevealMarkdown, 
+				RevealMenu, 
+				RevealFullscreen,
+				RevealAnything,
+				//RevealAudioSlideshow,
+				//RevealAudioRecorder,
+				RevealCustomControls, 
+				// poll
+				// question
+				// seminar
+				Verticator 
+				 ]
+
+
+		// Also available as an ES module, see:
+		// https://revealjs.com/initialization/
+		Reveal.initialize({
+			controls: true,
+      controlsTutorial: true,
+      controlsLayout: 'bottom-right',
+      controlsBackArrows: 'faded',
+      progress: true,
+      slideNumber: false,
+      //#showSlideNumber "all" "print" "speaker"
+      hash: true, //# hash: false,
+      //# respondToHashChanges: true,
+      //# history: false,
+      keyboard: true,
+      //#keyboardCondition: null,
+      overview: true,
+      center: true,
+      touch: true,
+      loop: false,
+      rtl: false,
+      //#navigationMode: 'default', linear grid
+      shuffle: false,
+      fragments: true,
+      fragmentInURL: false,
+      embedded: false,
+      help: true,
+      //#pause: true
+      showNotes: false,
+      autoPlayMedia: false, // TODO fix this to a nullable value
+      //#preloadIframes: null. true false
+      //#autoAnimate: true
+      //#autoAnimateMatcher: null,
+      //#autoAnimateEasing: 'ease',
+      //autoAnimateDuration: 1.0,
+      //#autoAnimateUnmatched: true
+      //#autoAnimateStyles: []
+      autoSlide: 0, // TODO fix this to a falseable value
+      autoSlideStoppable: true,
+      autoSlideMethod: '0',
+      defaultTiming: 120,
+      mouseWheel: false,
+      //#previewLinks: false
+      //#postMessage: true, // TODO : this can cause issues with the vscode api ???
+      //#postMessageEvents: false,
+      //#focusBodyOnPageVisibilityChange: true,
+      transition: 'slide',
+      transitionSpeed: 'default',
+      backgroundTransition: 'fade',
+      //#pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY,
+      //#pdfSeparateFragments: true,
+      //#pdfPageHeightOffset: -1,
+      viewDistance: 3,
+      //#mobileViewDistance: 2,
+      display: 'block',
+      //#hideInactiveCursor: true,
+      //#hideCursorTime: 5000
+
+      // Parallax Background
+      parallaxBackgroundImage: '',
+      parallaxBackgroundSize: '',
+      parallaxBackgroundHorizontal: 0,
+      parallaxBackgroundVertical: 0,
+
+      //Presentation Size
+      width: 960,
+			height: 700,
+			margin: 0.04,
+      minScale: 0.2,
+      maxScale: 2,
+      disableLayout: false,
+
+      audio: {
+        prefix: 'audio/', // audio files are stored in the "audio" folder
+        suffix: '.ogg', // audio files have the ".ogg" ending
+        textToSpeechURL: null, // the URL to the text to speech converter
+        defaultNotes: false, // use slide notes as default for the text to speech converter
+        defaultText: false, // use slide text as default for the text to speech converter
+        advance: 0, // advance to next slide after given time in milliseconds after audio has played, use negative value to not advance
+        autoplay: false, // automatically start slideshow
+        defaultDuration: 5, // default duration in seconds if no audio is available
+        defaultAudios: true, // try to play audios with names such as audio/1.2.ogg
+        playerOpacity: 0.05, // opacity value of audio player if unfocused
+        playerStyle: 'position: fixed; bottom: 4px; left: 25%; width: 50%; height:75px; z-index: 33;', // style used for container of audio controls
+        startAtFragment: false, // when moving to a slide, start at the current fragment or at the start of the slide
+      },
+      
+			customcontrols: {
+					controls: [
+      						{
+						  id: 'toggle-overview',
+						  title: 'Toggle overview (O)',
+						  icon: '<i class="fa fa-th"></i>',
+						  action: 'Reveal.toggleOverview();'
+						}
+						
+				]
+			},
+			chart: {
+					defaults: { 
+						color: 'lightgray', // color of labels
+						scale: { 
+							beginAtZero: true, 
+							ticks: { stepSize: 1 },
+							grid: { color: "lightgray" } , // color of grid lines
+						},
+					},
+					line: { borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ], "borderDash": [ [5,10], [0,0] ] }, 
+					bar: { backgroundColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]}, 
+					pie: { backgroundColor: [ ["rgba(0,0,0,.8)" , "rgba(220,20,20,.8)", "rgba(20,220,20,.8)", "rgba(220,220,20,.8)", "rgba(20,20,220,.8)"] ]},
+					radar: { borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]}, 
+			},
+			math: {
+				mathjax: 'https://cdn.jsdelivr.net/gh/mathjax/mathjax@2.7.8/MathJax.js',
+				config: 'TeX-AMS_HTML-full',
+				// pass other options into `MathJax.Hub.Config()`
+				TeX: { Macros: { RR: "{\\bf R}" } }
+				},
+				anything: [ 
+				{
+		className: "plot",
+		defaults: {width:500, height: 500, grid:true},
+		initialize: (function(container, options){ options.target = "#"+container.id; functionPlot(options) })
+	 },
+	 {
+		className: "chart",  
+		initialize: (function(container, options){ container.chart = new Chart(container.getContext("2d"), options);  })
+	 },
+	 {
+		className: "anything",
+		initialize: (function(container, options){ if (options && options.initialize) { options.initialize(container)} })
+	 },
+					],
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: (window.location.search.match(/print-pdf/gi) ? printPlugins : plugins ) 
+		});
+			
+
+
+	    // Change chalkboard theme : 
+		function changeTheme(input) {
+			var config = {};
+			config.theme = input.value;
+			Reveal.getPlugin("RevealChalkboard").configure(config);
+			input.blur();
+		}
+
+		// // Handle the message inside the webview
+        // window.addEventListener('message', event => {
+
+        //     const message = event.data; // The JSON data our extension sent
+
+        //     switch (message.command) {
+        //         case 'refactor':
+        //             Reveal.toggleHelp();
+        //     }
+        // });
+
+		if (window.location.search.match(/print-pdf-now/gi)) {
+      		setTimeout(() => {
+				window.print();
+			  }, 2500);
+			
+    }
+</script>
+
+</body>
+
+</html>

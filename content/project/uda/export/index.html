@@ -1,0 +1,39 @@
+TypeError: /Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/views/index.ejs:15
+    13|     <div class="slides">
+    14| 
+ >> 15|       <%- include('reveal'); %>
+    16| 
+    17|     </div>
+    18| 
+
+/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/views/reveal.ejs:1
+ >> 1| <% slides.forEach(function(slide){ %>
+    2| 
+    3| 
+    4|     <% if (slide.children.length === 0){ %>
+
+slides.forEach is not a function
+    at eval ("/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/views/reveal.ejs":10:15)
+    at reveal (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:107:264)
+    at v (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:107:250)
+    at eval ("/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/views/index.ejs":18:17)
+    at index (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:107:264)
+    at SP (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:77:3055)
+    at Bs.U.renderFile [as engine] (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:82:920)
+    at Bs.render (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:41:1394)
+    at kq (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:41:44511)
+    at Function.Ce.render (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:41:44312)
+    at ServerResponse.Q.render (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:55:7523)
+    at /Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:199:49376
+    at On.handleRequest (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:41:32967)
+    at v (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:41:37514)
+    at /Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:41:37202
+    at cq (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:41:39012)
+    at m (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:41:37115)
+    at ie.<anonymous> (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:55:9369)
+    at ie.emit (node:events:390:28)
+    at ie.error (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:45:3564)
+    at ie.onStatError (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:45:5193)
+    at i (/Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:45:8396)
+    at /Users/diegofantinelli/.vscode-oss/extensions/evilz.vscode-reveal-4.3.3/dist/extension.js:45:8502
+    at FSReqCallback.oncomplete (node:fs:198:21)

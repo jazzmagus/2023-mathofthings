@@ -49,7 +49,7 @@ url_video: ''
 #   Simply enter your slide deck's filename without extension.
 #   E.g. `slides = "example-slides"` references `content/slides/example-slides.md`.
 #   Otherwise, set `slides = ""`.
-slides: stem_2022
+slides: prog_ad
 
 # Projects (optional).
 #   Associate this post with one or more of your projects.
