@@ -80,7 +80,33 @@ slides:
     </tr>
     <tr>
       <td><b>disabilità</b></td>
-      <td style="font-size:80%"><i>(DSA, BES)<br>3 BES: discalculia, disgrafia<br>1 DSA: ADHD L.104 sostegno<i></td>
+      <td style="font-size:80%"><i>(DSA, BES)<br> discalculia, disgrafia<br>DSA: ADHD L.104 sostegno<i></td>
+    </tr>
+  </table>
+</section>
+
+<section data-background-image="real_life_bkg.jpg" data-background-opacity="0.2" data-transition="concave">
+<h1 style="color:#8A4117" class="r-fit-text">Le FRAGILITÀ</h1>
+<h4 class="fragment" style="color:#b82460;">La Classe come COMUNITÀ: inclusione, personalizzazione e individualizzazione</h4>
+<!-- <ul class="fragment">
+  <li><b>documentazione</b>: <em>analisi delle certificazioni: <br>L. 170/2010, PdP, L. 104 con sostegno</em></li>
+  <li><b>collaborazione</b>: <em>percorso di supporto con studente, famiglia ed eventuale sostegno</em></li>
+  <li><b>strumenti di lavoro</b>: <em>strumenti compensativi e dispensativi</em></li><br>
+ <li><h4 style="color:#8A4117">La Classe come COMUNITÀ</h4></li> 
+</ul> -->
+
+<table class="fragment" style="color:#342A2A" width="90%">
+    <tr>
+      <td><b>documentazione</b></td>
+      <td style="font-size:80%"><i></b><em>analisi delle certificazioni: <br>L. 170/2010, PdP, L. 104 con sostegno</em><i></td>
+    </tr>
+    <tr>
+      <td><b>collaborazione</b></td>
+      <td style="font-size:80%"><i><em>percorso di supporto con studente, famiglia ed eventuale sostegno</em><br><i></td>     
+    </tr>
+    <tr>
+      <td><b>strumenti di lavoro</b></td>
+      <td style="font-size:80%"><i>strumenti compensativi e dispensativi<i></td>
     </tr>
   </table>
 </section>
@@ -146,52 +172,37 @@ slides:
     </ul></em>
 </section>
 
-<section data-background-image="network_bkg.png" data-background-opacity="0.3" data-transition="concave">
-<h1 style="color:#8A4117" class="r-fit-text">Le DISABILITÀ</h1>
-<h2 style="color:#3B2F2F" class="r-fit-text">La Classe come COMUNITÀ</h2>
-
-<ul class="fragment">
-  <li><h3>un filo conduttore <em style="color:#1d91de">visual</em></h3></li>
-  <br>
-    <ul class="fragment">
-      <li><b>prerequisiti</b>: <em>da dove veniamo</em></li>
-      <li><b>percorso</b>: <em>dove dobbiamo andare</em></li>
-      <li><b>strumenti</b>: <em>con quali mezzi affrontiamo il viaggio</em></li>
-    </ul>
-</ul>
-</section>
-
 <section data-background-image="calm_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
 <h1 style="color:#8A4117" class="r-fit-text">La VALUTAZIONE</h1>
 <h3 style="color:#3B2F2F">Tipologie di VERIFICA</h3>
 
 <ol style="font-size:72%" class="fragment" data-transition="concave">
-  <li class="fragment"><h4 style="color:#b82460"><b>verifica dei prerequisiti</b></h4></li>
-    <ul class="fragment">
+  <li><h4 style="color:#b82460"><b>verifica dei prerequisiti</b></h4></li>
+    <ul>
       <li>Test anonimo e di autovalutazione <a href="./20220224_TEST-1I-Relazioni e funzioni.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
       <li>all'inizio dell'UdA </li>
     </ul>
-  <li class="fragment"><h4 style="color:#b82460"><b>valutazione formativa</b></h4></li>
-    <ul class="fragment">
+  <li><h4 style="color:#b82460"><b>valutazione formativa</b></h4></li>
+    <ul>
       <li>Peer-Tutoring | Flipped Classroom o Jigsaw <a href="././Divisione e Ruffini-Flipped Classroom-contest_prize.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
       <li>in itinere e - ove possibile - di tipo laboratoriale</li>
     </ul>
-  <li class="fragment"><h4 style="color:#b82460"><b>valutazione sommativa</b></h4></li>
-    <ul class="fragment">
+  <li><h4 style="color:#b82460"><b>valutazione sommativa</b></h4></li>
+    <ul>
       <li>verifica classica: <em>Test + Esercizi</em> <a href="./202122_prova_recupero-Test_Ex_soluzioni.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
       <li>alla fine dell'UdA </li>
     </ul>
-  <li class="fragment"><h4 style="color:#b82460"><b>interrogazione</b></h4> per eventuale recupero o miglioramento</li>
+  <li><h4 style="color:#b82460"><b>interrogazione</b></h4> per eventuale recupero o miglioramento</li>
 </ol>
 </section>
 
 ---
 
 <section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
-<h1 style="color:#8A4117">FASE 1 &nbsp; <span style="font-size: 70%; color:#b82460">${\small{5'}}$ </span></h1>
-<h2 style="color:#3B2F2F" class="fragment">QUESTIONING</h2>
+<h1 style="color:#8A4117">FASE 1 &nbsp; <span style="font-size:70%; color:#b82460">${\small{5'}}$ </span></h1>
+<h3 style="color:#3B2F2F" class="fragment">QUESTIONING</h3>
 <ul class="fragment">
-  <li style="color:#b82460"><em>Gli stimoli possono essere di diversa natura e hanno con lo scopo di catturare l'attenzione:</em></li><br>
+  <li style="color:#b82460"><em>Gli stimoli possono essere di diversa natura e hanno con lo scopo di catturare l'attenzione:</em></li>
     <ul style="font-size: 90%">
       <li>una frase, un aforisma, un post, una foto, un video, un articolo, una <em>"provocazione"</em>, attinente con l'argomento</li>
       <li> tutto il materiale è preparato in anticipo e caricato su: <a style="color:#b82460" href="https://2023-mathofthings.netlify.app/"><em>The Math of Things</em></a></li>
@@ -225,7 +236,7 @@ slides:
 
 <section data-background-image="network_bkg.png" data-background-opacity="0.3" data-transition="concave">
 <h1 style="color:#8A4117">FASE 2 &nbsp; <span style="font-size: 70%; color:#b82460">${\small{5'}}$ </span></h1>
-<h2 style="color:#3B2F2F">FRAMING </h2>
+<h2 style="color:#3B2F2F" class="fragment">FRAMING </h2>
 
 <ul class="fragment">
   <li style="color:#b82460"><em>un filo conduttore con forte impatto visivo, efficace e sintetico, che permetta di evidenziare:</em></li>
@@ -246,17 +257,13 @@ slides:
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
 <h1 style="color:#8A4117">FASE 3 &nbsp; <span style="font-size: 70%; color:#b82460">${\small{15'}}$ </span></h2>
-<h2 style="color:#3B2F2F" class="r-fit-text">ATTIVA TRASMISSIVA</h2>
-
+<h2 style="color:#3B2F2F" class="r-fit-text" class="fragment">ATTIVA TRASMISSIVA</h2>
 <ul class="fragment" data-transition="concave">
   <li><h3>Contenuti - Lezione frontale</h3></li>
     <ul>
-      <li>prerequisiti</li>
-      <li>percorso</li>
-      <li>strumenti</li>
-      <ul>
-        <li>libro di testo; <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/" target="_blank"><em>website</em></a>; <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/slides/capitolo5/" target="_blank"><em>slides</em></a></li>
-      </ul>
+      <li>contenuti della lezione</li>
+      <li>consultazione libro di testo</li>
+      <li>materiali per la revisione in autonomia degli appunti: libro di testo, <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/" target="_blank"><em>website</em></a>, <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/slides/capitolo5/" target="_blank"><em> slides</em></a></li>
     </ul>
 </section>
 
@@ -264,7 +271,7 @@ slides:
 
 <section data-background-video="teaching.mp4" data-background-opacity="0.3" data-transition="convex">
 <h1 style="color:#8A4117">FASE 4 &nbsp; <span style="font-size: 70%; color:#b82460">${\small{15'}}$ </span></h1>
-<h2 style="color:#3B2F2F">MATHS LAB</h2>
+<h2 style="color:#3B2F2F" class="fragment">Math LAB</h2>
   <ul class="fragment">
       <li>correzione esercizi assegnati</li>
       <ul>
@@ -272,7 +279,7 @@ slides:
         <li>dall'insegnante</li>
       </ul>
       <li>esercitazione collaborativa: es. peer-tutoring</li>
-      <li>strumenti informatici: es. Geogebra, Desmos, Wolfram Alpha</li>
+      <li>strumenti informatici: <em>es. Geogebra, Desmos, Wolfram Alpha, etc.</em></li>
   </ul>
 </section>
 
@@ -280,7 +287,7 @@ slides:
 
 <section data-background-image="calm_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
 <h1 style="color:#8A4117">FASE 5 &nbsp; <span style="font-size: 70%; color:#b82460">${\small{5'}}$ </span></h2>
-<h2 style="color:#3B2F2F">RECAP: <span style="font-size: 70%; color:#8A4117"><em>Focus sulla lezione</em></span></h2>
+<h2 style="color:#3B2F2F" class="fragment">Lesson RECAP</h2>
 
 <ul class="fragment">
 <!-- <h3 style="color:#8A4117"><em>Focus sulla lezione</em></h3> -->
@@ -298,7 +305,7 @@ slides:
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
 <h1 style="color:#8A4117">FASE 6 &nbsp; <span style="font-size: 50%; color:#b82460"><em>after lesson</em></span></h1>
-<h2 style="color:#3B2F2F">HOMEWORKS</h2>
+<h2 style="color:#3B2F2F" class="fragment">Homeworks</h2>
 <ul class="fragment">
   <li><h3 style="color:#8A4117">Lavoro in autonomia</h3></li>
     <ul>
@@ -312,7 +319,7 @@ slides:
 
 <section data-background-video="digital.mp4" data-background-opacity="0.9" data-transition="convex">
 <h2 style="color:#ffffff" class="r-fit-text">Creare connessioni</h2>
-<h3 class="fragment" style="color:#ffffff"><em>La matematica non ha come finalità quella di imparare formule e/o dimostrazioni a memoria, bensì di imparare a <span style="color:#98e123"><b>collegare concetti</b></span>.</em></h3>
+<h3 class="fragment" style="color:#ffffff"><em>La matematica non ha come finalità quella di imparare formule e/o dimostrazioni a memoria, bensì di imparare a <span style="color:#98e123"><b><u>collegare concetti</u></b></span>.</em></h3>
 </section>
 
 ---
