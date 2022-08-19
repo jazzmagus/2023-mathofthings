@@ -38,23 +38,23 @@ slides:
     <td width="60.0%"><b>descrizione</b></td>
   </tr> -->
   <tr>
-    <td style="color:#8A4117" width="30.0%"><em>CONTESTO</em></td>
+    <td style="color:#8A4117" width="30.0%"><em><b>contesto</b></em></td>
     <td width="70.0%">tipologia istituto e composizione classe</td>
   </tr>
   <tr>
-    <td style="color:#8A4117" width="30.0%"><em>DISABILITÀ</em></td>
+    <td style="color:#8A4117" width="30.0%"><em><b>fragilità</b></em></td>
     <td width="70.0%">tipologia e frequenza delle disabilità</td>
   </tr>
   <tr>
-    <td style="color:#8A4117" width="30.0%"><em>PERCORSO DIDATTICO</em></td>
+    <td style="color:#8A4117" width="30.0%"><em><b>percorso didattico</b></em></td>
     <td width="70.0%">competenze di cittadinanza<br>linee guida e indicazioni nazionali</td>
   </tr>
   <tr>
-    <td style="color:#8A4117" width="30.0%"><em>EFFICACIA</em></td>
+    <td style="color:#8A4117" width="30.0%"><em><b>efficacia</b></em></td>
     <td width="70.0%">trasmissione dei contenuti: strumenti, metodologie e tecnologie didattiche</td>
   </tr>
   <tr>
-    <td style="color:#8A4117" width="30.0%"><em>VERIFICA</em></td>
+    <td style="color:#8A4117" width="30.0%"><em><b>verifica competenze</b></em></td>
     <td width="70.0%">modalità verifica delle competenze e autovalutazione</td>
   </tr>
 </table>
