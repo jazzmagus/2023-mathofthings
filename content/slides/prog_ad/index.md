@@ -17,8 +17,8 @@ slides:
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.5" data-transition="zoom">
-  <h1 style="color:#3B2F2F">ESEMPIO</h1>
-  <h3 style="color:#8A4117">PROGETTAZIONE ATTIVITÀ DIDATTICA</h3>
+  <h2 style="color:#8A4117">PROGETTAZIONE ATTIVITÀ DIDATTICA</h2>
+  <h2 style="color:#3B2F2F">ESEMPIO</h2>
   <img src="miur.png" style="opacity:0.8;filter:alpha(opacity=60);" width="320">
   <!-- <h3 style="color:#8A4117" class="r-fit-text">Relazioni e funzioni</h3> -->
   <br>
