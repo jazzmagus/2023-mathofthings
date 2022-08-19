@@ -26,7 +26,7 @@ interests:
 # Education to show in About widget
 education:
   courses:
-  - course: Diploma in Sassofono Jazz
+  - course: Diploma in Sassofono Jazz e composizione
     institution: Conservatorio "A. Bonporti" - Trento
     year: 2016
   - course: Laurea in Ingegneria Gestionale
