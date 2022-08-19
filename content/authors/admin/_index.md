@@ -18,14 +18,15 @@ bio: My research interests include distributed robotics, mobile computing and pr
 
 # Interests to show in About widget
 interests:
-- Jazz playing and composing
+- Jazz 
 - Maths Teaching
-- Bike cycling
+- Living life
+- Coffee
 
 # Education to show in About widget
 education:
   courses:
-  - course: Diploma in Sassofono Jazz e composizione
+  - course: Diploma in Sassofono Jazz
     institution: Conservatorio "A. Bonporti" - Trento
     year: 2016
   - course: Laurea in Ingegneria Gestionale
