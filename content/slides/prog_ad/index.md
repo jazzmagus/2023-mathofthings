@@ -5,15 +5,15 @@ authors: [Diego Fantinelli]
 tags: [stem]
 categories: [concorso]
 date: "2022-02-05T00:00:00Z"
-# theme: serif
-# transition: convex
-slides:
-  theme: serif
-  transition: convex
-  # Choose a code highlighting style (if highlighting enabled in `params.toml`)
-  #   Light style: github. Dark style: dracula (default).
-  # enableChalckboard: true
-  # pdfSeparateFragments: false
+theme: serif
+transition: convex
+# slides:
+#   theme: serif
+#   transition: convex
+#   # Choose a code highlighting style (if highlighting enabled in `params.toml`)
+#   #   Light style: github. Dark style: dracula (default).
+#   # enableChalckboard: true
+#   # pdfSeparateFragments: false
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.5" data-transition="zoom">
@@ -194,6 +194,47 @@ slides:
     </ul>
   <li><h4 style="color:#b82460"><b>interrogazione</b></h4> per eventuale recupero o miglioramento</li>
 </ol>
+</section>
+
+---
+
+<section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
+<h1 style="color:#8A4117">Le Fasi</h1>
+<h2 style="color:#3B2F2F" >ATTIVITÀ DIDATTICA </h2>
+
+<table class="fragment" style="font-size:80%" width="80%">
+<tr>
+    <td style="color:#8A4117" width="20.0%"><em>FASE 1</em></td>
+    <td width="50.0%">QUESTIONING</td>
+    <td width="10.0%">$5^{\prime}$</td>
+</tr>
+<tr>
+    <td style="color:#8A4117" width="20.0%"><em>FASE 2</em></td>
+    <td width="50.0%">QUESTIONING</td>
+    <td width="10.0%">$5^{\prime}$</td>
+</tr>
+<tr>
+    <td style="color:#8A4117" width="20.0%"><em>FASE 3</em></td>
+    <td width="50.0%">QUESTIONING</td>
+    <td width="10.0%">$5^{\prime}$</td>
+</tr>
+<tr>
+    <td style="color:#8A4117" width="20.0%"><em>FASE 4</em></td>
+    <td width="50.0%">QUESTIONING</td>
+    <td width="10.0%">$5^{\prime}$</td>
+</tr>
+<tr>
+    <td style="color:#8A4117" width="20.0%"><em>FASE 5</em></td>
+    <td width="50.0%">QUESTIONING</td>
+    <td width="10.0%">$5^{\prime}$</td>
+</tr>
+<tr>
+    <td style="color:#8A4117" width="20.0%"><em>FASE 6</em></td>
+    <td width="50.0%">QUESTIONING</td>
+    <td width="10.0%">$5^{\prime}$</td>
+</tr>
+
+</table>
 </section>
 
 ---
