@@ -5,11 +5,11 @@ authors: [Diego Fantinelli]
 tags: [stem]
 categories: [concorso]
 date: "2022-02-05T00:00:00Z"
-theme: serif
-transition: convex
-# slides:
-#   theme: serif
-#   transition: convex
+# theme: serif
+# transition: convex
+slides:
+  theme: serif
+  transition: convex
   # Choose a code highlighting style (if highlighting enabled in `params.toml`)
   #   Light style: github. Dark style: dracula (default).
   # enableChalckboard: true
@@ -182,7 +182,7 @@ transition: convex
       <li>Test anonimo e di autovalutazione <a href="./20220224_TEST-1I-Relazioni e funzioni.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
       <li>all'inizio dell'UdA </li>
     </ul>
-  <li><h4 style="color:#b82460"><b>valutazione formativa</b></h4></li>
+  <li><h4 style="color:#b82460"><b>valutazione formativa</b> - <em>in funzione dell'apprendimento</em></h4></li>
     <ul>
       <li>Peer-Tutoring | Flipped Classroom o Jigsaw <a href="././Divisione e Ruffini-Flipped Classroom-contest_prize.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
       <li>in itinere e - ove possibile - di tipo laboratoriale</li>
