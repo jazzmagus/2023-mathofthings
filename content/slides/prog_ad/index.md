@@ -5,15 +5,15 @@ authors: [Diego Fantinelli]
 tags: [stem]
 categories: [concorso]
 date: "2022-02-05T00:00:00Z"
-# theme: serif
-# transition: convex
-slides:
-  theme: serif
-  transition: convex
-  # Choose a code highlighting style (if highlighting enabled in `params.toml`)
-  #   Light style: github. Dark style: dracula (default).
-  # enableChalckboard: true
-  # pdfSeparateFragments: false
+theme: serif
+transition: convex
+# slides:
+#   theme: serif
+#   transition: convex
+#   # Choose a code highlighting style (if highlighting enabled in `params.toml`)
+#   #   Light style: github. Dark style: dracula (default).
+#   # enableChalckboard: true
+#   # pdfSeparateFragments: false
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.5" data-transition="zoom">
@@ -32,14 +32,14 @@ slides:
 <h1 style="color:#8A4117">Milestones</h1>
 <h3 style="color:#3B2F2F" class="fragment">ATTIVITÀ DIDATTICA</h3>
 
-<table class="fragment" style="font-size:75%" width="95%">
+<table class="fragment" style="font-size:75%" width="90%">
   <!-- <tr>
     <td style="color:#8A4117" width="40.0%"><b>competenze</b></td>
     <td width="60.0%"><b>descrizione</b></td>
   </tr> -->
   <tr>
     <td style="color:#8A4117" width="30.0%"><em><b>contesto</b></em></td>
-    <td width="70.0%">tipologia istituto e composizione classe</td>
+    <td width="70.0%">contesto curricolare di riferimento</td>
   </tr>
   <tr>
     <td style="color:#8A4117" width="30.0%"><em><b>fragilità</b></em></td>
@@ -47,15 +47,15 @@ slides:
   </tr>
   <tr>
     <td style="color:#8A4117" width="30.0%"><em><b>percorso didattico</b></em></td>
-    <td width="70.0%">competenze di cittadinanza<br>linee guida e indicazioni nazionali</td>
+    <td width="70.0%">1. competenze di cittadinanza<br>2. linee guida e indicazioni nazionali</td>
   </tr>
   <tr>
-    <td style="color:#8A4117" width="30.0%"><em><b>efficacia</b></em></td>
-    <td width="70.0%">trasmissione dei contenuti: strumenti, metodologie e tecnologie didattiche</td>
+    <td style="color:#8A4117" width="30.0%"><em><b>efficacia didattica</b></em></td>
+    <td width="70.0%">strumenti, metodologie e tecnologie didattiche (TIC)</td>
   </tr>
   <tr>
     <td style="color:#8A4117" width="30.0%"><em><b>verifica competenze</b></em></td>
-    <td width="70.0%">modalità verifica delle competenze e autovalutazione</td>
+    <td width="70.0%">modalità di valutazione delle competenze</td>
   </tr>
 </table>
 </section>
@@ -65,22 +65,22 @@ slides:
 <section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
   <h2 class="r-fit-text" style="color:#8A4117">CONTESTO DIDATTICO</h2>
   <br>
-  <table class="fragment" style="color:#342A2A" class="fragment fade-in">
+  <table class="fragment" style="color:#342A2A" width="85%">
     <tr>
       <td><b>scuola<br>indirizzo</b></td>
-      <td><b>Istituto Tecnico Industriale<br>Meccatronica</b></td>
+      <td><em>es. Istituto Tecnico Industriale<br>es. Meccatronica</em></td>
     </tr>
     <tr>
       <td><b>classe</b></td>
-      <td style="font-size:80%"><i></b><i></td>
+      <td style="font-size:80%"><i><em>seconda</em><i></td>
     </tr>
     <tr>
       <td><b>alunni</b></td>
-      <td style="font-size:80%"><i>n. studenti: n. maschi e n. femmine<br><i></td>     
+      <td style="font-size:80%"><i><em>n. studenti: n. maschi e n. femmine</em><i></td>     
     </tr>
     <tr>
-      <td><b>disabilità</b></td>
-      <td style="font-size:80%"><i>(DSA, BES)<br> discalculia, disgrafia<br>DSA: ADHD L.104 sostegno<i></td>
+      <td><b>fragilità</b></td>
+      <td style="font-size:80%"><i><em>presenza e frequenza</em><i></td>
     </tr>
   </table>
 </section>
@@ -97,8 +97,8 @@ slides:
 
 <table class="fragment" style="color:#342A2A" width="90%">
     <tr>
-      <td><b>documentazione</b></td>
-      <td style="font-size:80%"><i></b><em>analisi delle certificazioni: <br>L. 170/2010, PdP, L. 104 con sostegno</em><i></td>
+      <td><b>tipologia<br>documentazione</b></td>
+      <td style="font-size:80%"><i></b><em>analisi delle certificazioni: <br>BES, L.104/1992, sostegno, DSA L.170/2010, BES D.M. 27/12/2012 e C.M. 08/2013</em><i></td>
     </tr>
     <tr>
       <td><b>collaborazione</b></td>
@@ -106,7 +106,7 @@ slides:
     </tr>
     <tr>
       <td><b>strumenti di lavoro</b></td>
-      <td style="font-size:80%"><i>strumenti compensativi e dispensativi<i></td>
+      <td style="font-size:80%"><i>strumenti compensativi e dispensativi: PEI e PDP<i></td>
     </tr>
   </table>
 </section>
@@ -115,7 +115,7 @@ slides:
 <h1 style="color:#8A4117" class="r-fit-text">COMPETENZE DI CITTADINANZA</h1>
 <!-- <h2 style="color:#3B2F2F" class="r-fit-text">RIASSUNTIVA - RECAP </h2> -->
 
-<table class="fragment" style="font-size:70%" width="100%">
+<table class="fragment" style="font-size:70%" width="90%">
   <tr>
     <td style="color:#8A4117" width="40.0%"><b>competenze</b></td>
     <td width="60.0%"><b>descrizione</b></td>
@@ -152,8 +152,8 @@ slides:
 </section>
 
 <section>
-  <h2 style="color:#8A4117" class="r-fit-text">LINEE GUIDA PER GLI ISTITUTI TECNICI - INDICAZIONI</h2>
-  <h5><b>Competenze di base</b></h5><em>
+  <h2 style="color:#8A4117" class="r-fit-text">LINEE GUIDA e INDICAZIONI NAZIONALI 2010</h2>
+  <h5><b>Competenze di base - es. Istituti Tecnici</b></h5><em>
   <h5 style="color:#8A4117">primo biennio</h5>
     <ul style="font-size:55%">
       <li>individuare collegamenti tra matematica e altre discipline e tra matematica e realtà <em>(modello matematico)</em></li> 
@@ -204,34 +204,34 @@ slides:
 
 <table class="fragment" style="font-size:80%" width="80%">
 <tr>
-    <td style="color:#8A4117" width="20.0%"><em>FASE 1</em></td>
-    <td width="50.0%">QUESTIONING</td>
+    <td style="color:#8A4117" width="20.0%"><em>Fase 1</em></td>
+    <td width="50.0%">Questioning</td>
     <td width="10.0%">$5^{\prime}$</td>
 </tr>
 <tr>
-    <td style="color:#8A4117" width="20.0%"><em>FASE 2</em></td>
-    <td width="50.0%">QUESTIONING</td>
+    <td style="color:#8A4117" width="20.0%"><em>Fase 2</em></td>
+    <td width="50.0%">Framing - <em>mindmapping</em></td>
     <td width="10.0%">$5^{\prime}$</td>
 </tr>
 <tr>
-    <td style="color:#8A4117" width="20.0%"><em>FASE 3</em></td>
-    <td width="50.0%">QUESTIONING</td>
-    <td width="10.0%">$5^{\prime}$</td>
+    <td style="color:#8A4117" width="20.0%"><em>Fase 3</em></td>
+    <td width="50.0%">Active</td>
+    <td width="10.0%">$15^{\prime}$</td>
 </tr>
 <tr>
-    <td style="color:#8A4117" width="20.0%"><em>FASE 4</em></td>
-    <td width="50.0%">QUESTIONING</td>
-    <td width="10.0%">$5^{\prime}$</td>
+    <td style="color:#8A4117" width="20.0%"><em>Fase 4</em></td>
+    <td width="50.0%">Lab & Cooperative-learning</td>
+    <td width="10.0%">$20^{\prime}$</td>
 </tr>
 <tr>
-    <td style="color:#8A4117" width="20.0%"><em>FASE 5</em></td>
-    <td width="50.0%">QUESTIONING</td>
-    <td width="10.0%">$5^{\prime}$</td>
+    <td style="color:#8A4117" width="20.0%"><em>Fase 5</em></td>
+    <td width="50.0%">Recap</td>
+    <td width="10.0%">$10^{\prime}$</td>
 </tr>
 <tr>
-    <td style="color:#8A4117" width="20.0%"><em>FASE 6</em></td>
-    <td width="50.0%">QUESTIONING</td>
-    <td width="10.0%">$5^{\prime}$</td>
+    <td style="color:#eb432aff" width="20.0%"><em>Fase 6</em></td>
+    <td style="color:#eb432aff" width="50.0%"><em>homework/assignment</em></td>
+    <td style="color:#eb432aff" width="10.0%"><em>post</em></td>
 </tr>
 
 </table>
@@ -258,21 +258,6 @@ slides:
 </em>
 </section>
 
-<!-- <section data-background-image="calm_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
-<h2 class="r-fit-text"> La funzione Happiness</h2>
-
-<p class="fragment" style="font-size:60%;">$\textbf{Happiness(t)}=w_{0}+w_{1} \cdot\displaystyle{\sum_{j=1}^{t}} \gamma^{t-j} C R_{j}+w_{2} \cdot\sum_{j=1}^{t} \gamma^{t-j} E V_{j}+w_{3} \cdot\sum_{j=1}^{t} \gamma^{t-j} R P E_{j}$</p>
-  <p>
-  <ul class="fragment"; style="font-size:60%;">
-    <li>$t$; $w_0$, $w_1$, $w_2$ e $w_3$ sono costanti che indicano l’influenza dei diversi tipi di eventi;</li>
-    <li>$\gamma$ è un “forgetting factor” (fattore dimenticando) che rende gli eventi degli studi più recenti più influenti rispetto a quelli precedenti;</li>
-    <li>$CRj$ è la gratificazione ottenuta dalla scelta su un processo $j$;</li>
-    <li>$EVj$ è la valutazione del rischio su di un processo $j$;</li>
-    <li>$RPEj$ rappresenta la differenza tra la ricompensa desiderata e quella effettivamente ottenuta dal processo $j$.</li>
-  </ul>
-  </p>
-</section> -->
-
 ---
 
 <section data-background-image="network_bkg.png" data-background-opacity="0.3" data-transition="concave">
@@ -296,16 +281,17 @@ slides:
 
 ---
 
-<section data-background-image="book_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
+<section data-background-video="teaching.mp4" data-background-opacity="0.3" data-transition="convex">
 <h1 style="color:#8A4117">FASE 3 &nbsp; <span style="font-size: 70%; color:#b82460">${\small{15'}}$ </span></h2>
-<h2 style="color:#3B2F2F" class="r-fit-text" class="fragment">ATTIVA TRASMISSIVA</h2>
+<h2 style="color:#3B2F2F" class="fragment">ACTIVE</h2>
 <ul class="fragment" data-transition="concave">
   <li><h3>Contenuti - Lezione frontale</h3></li>
-    <ul>
-      <li>contenuti della lezione</li>
-      <li>consultazione libro di testo</li>
-      <li>materiali per la revisione in autonomia degli appunti: libro di testo, <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/" target="_blank"><em>website</em></a>, <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/slides/capitolo5/" target="_blank"><em> slides</em></a></li>
+    <ul><br>
+      <li>contenuti della lezione in formato <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/slides/capitolo5/" target="_blank"><em> slides</em></a></li>
+      <li>consultazione libro di testo in formato digitale</li>
+      <li>consigli per la revisione in autonomia degli appunti</li>
     </ul>
+  </ul>
 </section>
 
 ---
@@ -319,7 +305,7 @@ slides:
         <li>dallo studente per acquisire sicurezza</li>
         <li>dall'insegnante</li>
       </ul>
-      <li>esercitazione collaborativa: es. peer-tutoring</li>
+      <li>Cooperative learning: es. peer-tutoring</li>
       <li>strumenti informatici: <em>es. Geogebra, Desmos, Wolfram Alpha, etc.</em></li>
   </ul>
 </section>
@@ -353,14 +339,16 @@ slides:
       <li>rielaborazione <em>guidata</em> degli appunti</li>
       <li>esercizi assegnati </li>
       <li>attività collaborative - <em>cooperative learning</em></li>
-    </ul>
+    </ul><br>
+  <li style="color:#b82460"><em>tutti i materiali vengono condivisi su Google Classroom</em></li>
+</ul>
 </section>
 
 ---
 
-<section data-background-video="digital.mp4" data-background-opacity="0.9" data-transition="convex">
+<section data-background-video="digital.mp4" data-background-opacity="0.9">
 <h2 style="color:#ffffff" class="r-fit-text">Creare connessioni</h2>
-<h3 class="fragment" style="color:#ffffff"><em>La matematica non ha come finalità quella di imparare formule e/o dimostrazioni a memoria, bensì di imparare a <span style="color:#98e123"><b><u>collegare concetti</u></b></span>.</em></h3>
+<h3 class="fragment" style="color:#ffffff; font-size:55px" data-transition="convex"><em>La matematica non ha come finalità quella di imparare formule e/o dimostrazioni a memoria, bensì di imparare a <span style="color:#98e123"><b><u>collegare concetti</u></b></span>, per stimolare la formazione di uno <span style="color:#98e123"><b><u>spirito critico</u></b></span>.</em></h3>
 </section>
 
 ---
