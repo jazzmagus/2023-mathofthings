@@ -1,19 +1,19 @@
 ---
 title: Concorso Straordinario Bis 2022
 
-event: Wowchemy Conference
-event_url: https://example.org
+event: Concorso Straordinario Bis - A026
+event_url: https://www.istitutocatullo.edu.it/
 
-location: Wowchemy HQ
+location: IIS Catullo
 address:
-  street: 450 Serra Mall
-  city: Stanford
-  region: CA
-  postcode: '94305'
-  country: United States
+  street: via Garibaldi, 10
+  city: Belluno
+  region: BL, Veneto
+  postcode: '32100'
+  country: Italy
 
 summary: Concorso Straordinario Bis 2022
-abstract: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellusac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam.'
+abstract: 'Prova orale del Concorso Straordinario Bis 2022 - A026'
 
 # Talk start and end times.
 #   End time can optionally be hidden by prefixing the line with `#`.
