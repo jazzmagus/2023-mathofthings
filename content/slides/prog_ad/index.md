@@ -5,11 +5,11 @@ authors: [Diego Fantinelli]
 tags: [stem]
 categories: [concorso]
 date: "2022-02-05T00:00:00Z"
-# theme: serif
-# transition: convex
-slides:
-  theme: serif
-  transition: convex
+theme: serif
+transition: convex
+# slides:
+#   theme: serif
+#   transition: convex
   # Choose a code highlighting style (if highlighting enabled in `params.toml`)
   #   Light style: github. Dark style: dracula (default).
   # enableChalckboard: true
@@ -55,7 +55,7 @@ slides:
   </tr>
   <tr>
     <td style="color:#8A4117" width="30.0%"><em><b>verifica competenze</b></em></td>
-    <td width="70.0%">modalità di valutazione delle competenze</td>
+    <td width="70.0%">valutazione e autovalutazione delle competenze</td>
   </tr>
 </table>
 </section>
@@ -86,7 +86,7 @@ slides:
 </section>
 
 <section data-background-image="real_life_bkg.jpg" data-background-opacity="0.2" data-transition="concave">
-<h1 style="color:#8A4117" class="r-fit-text">Le FRAGILITÀ</h1>
+<h2 style="color:#8A4117">Le FRAGILITÀ</h2>
 <h4 class="fragment" style="color:#b82460;">La Classe come COMUNITÀ: inclusione, personalizzazione e individualizzazione</h4>
 <!-- <ul class="fragment">
   <li><b>documentazione</b>: <em>analisi delle certificazioni: <br>L. 170/2010, PdP, L. 104 con sostegno</em></li>
@@ -95,7 +95,7 @@ slides:
  <li><h4 style="color:#8A4117">La Classe come COMUNITÀ</h4></li> 
 </ul> -->
 
-<table class="fragment" style="color:#342A2A" width="90%">
+<table class="fragment" style="color:#342A2A; font-size:80%" width="90%">
     <tr>
       <td><b>tipologia<br>documentazione</b></td>
       <td style="font-size:80%"><i></b><em>analisi delle certificazioni: <br>BES, L.104/1992, sostegno, DSA L.170/2010, BES D.M. 27/12/2012 e C.M. 08/2013</em><i></td>
@@ -200,7 +200,7 @@ slides:
 
 <section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
 <h1 style="color:#8A4117">Le Fasi</h1>
-<h2 style="color:#3B2F2F" >ATTIVITÀ DIDATTICA </h2>
+<h2 style="color:#3B2F2F">ATTIVITÀ DIDATTICA </h2>
 
 <table class="fragment" style="font-size:80%" width="80%">
 <tr>
@@ -243,18 +243,18 @@ slides:
 <h1 style="color:#8A4117">FASE 1 &nbsp; <span style="font-size:70%; color:#b82460">${\small{5'}}$ </span></h1>
 <h3 style="color:#3B2F2F" class="fragment">QUESTIONING</h3>
 <ul class="fragment">
-  <li style="color:#b82460"><em>Gli stimoli possono essere di diversa natura e hanno con lo scopo di catturare l'attenzione:</em></li>
-    <ul style="font-size: 90%">
-      <li>una frase, un aforisma, un post, una foto, un video, un articolo, una <em>"provocazione"</em>, attinente con l'argomento</li>
+  <li style="color:#b82460"><em>stimoli di diversa natura con lo scopo di catturare l'attenzione:</em></li>
+    <ul style="font-size: 80%"><br>
+      <li>una frase, un aforisma, un post, una foto, un video, un articolo, una <em>"provocazione"</em></li>
       <li> tutto il materiale è preparato in anticipo e caricato su: <a style="color:#b82460" href="https://2023-mathofthings.netlify.app/"><em>The Math of Things</em></a></li>
     </ul>
 </ul>
 </section>
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
-<q style="color:#8A4117; font-size: 42px"><em>In fisica e in matematica è impressionante la sproporzione tra lo sforzo per capire una cosa nuova per la prima volta e la semplicità e naturalezza del risultato una volta che i vari passaggi sono stati compiuti.
+<q style="color:#b82460; font-size: 40px"><em>In fisica e in matematica è impressionante la sproporzione tra lo sforzo per capire una cosa nuova per la prima volta e la semplicità e naturalezza del risultato una volta che i vari passaggi sono stati compiuti.
 <br>Nel prodotto finito, nelle scienze come in poesia, non c'è traccia della fatica del processo creativo e dei dubbi e delle esitazioni che lo accompagnano.</q><br><br>
-<span style="font-size: 36px; color:#8A4117;">&mdash; Giorgio Parisi <br>("In un volo di storni" - ed. Rizzoli - 2021)</span>
+<span style="font-size: 36px; color:#b82460;">&mdash; Giorgio Parisi <br>("In un volo di storni" - ed. Rizzoli - 2021)</span>
 </em>
 </section>
 
@@ -263,45 +263,45 @@ slides:
 <section data-background-image="network_bkg.png" data-background-opacity="0.3" data-transition="concave">
 <h1 style="color:#8A4117">FASE 2 &nbsp; <span style="font-size: 70%; color:#b82460">${\small{5'}}$ </span></h1>
 <h2 style="color:#3B2F2F" class="fragment">FRAMING </h2>
-
 <ul class="fragment">
-  <li style="color:#b82460"><em>un filo conduttore con forte impatto visivo, efficace e sintetico, che permetta di evidenziare:</em></li>
-    <ul class="fragment">
+  <li style="color:#b82460; font-size: 80%;"><em>un filo conduttore con forte impatto visivo, efficace e sintetico, che permetta di evidenziare:</em></li><br>
+    <ul class="fragment" style="font-size: 82%;">
       <li><b><em>prerequisiti</b>: da dove veniamo</em></li>
-      <li><b><em>percorso</b>: dove dobbiamo andare</em></li>
-      <li><b><em>strumenti</b>: con quali mezzi/strumenti intendiamo affrontare il viaggio</em></li>
+      <li><b><em>obiettivi</b>: dove dobbiamo andare</em></li>
+      <li><b><em>strumenti</b>: con quali mezzi affrontiamo il viaggio</em></li>
     </ul>
 </ul>
 </section>
 
 <section data-transition="concave">
-<h2 style="color:#8A4117" class="r-fit-text">Esempio - MINDMAPPING</h2>
-<img class="fragment r-fit-text" src="calc-lett_mindmap.png" width="90%">
+<h2 style="color:#8A4117">MINDMAPPING</h2>
+<img class="fragment r-fit-text" src="calc-lett_mindmap.png" width="85%">
 </section>
 
 ---
 
 <section data-background-video="teaching.mp4" data-background-opacity="0.3" data-transition="convex">
 <h1 style="color:#8A4117">FASE 3 &nbsp; <span style="font-size: 70%; color:#b82460">${\small{15'}}$ </span></h2>
-<h2 style="color:#3B2F2F" class="fragment">ACTIVE</h2>
-<ul class="fragment" data-transition="concave">
-  <li><h3>Contenuti - Lezione frontale</h3></li>
-    <ul><br>
-      <li>contenuti della lezione in formato <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/slides/capitolo5/" target="_blank"><em> slides</em></a></li>
-      <li>consultazione libro di testo in formato digitale</li>
-      <li>consigli per la revisione in autonomia degli appunti</li>
+<h2 style="color:#3B2F2F" class="fragment">ACTIVE - trasmissiva</h2>
+<!-- <ul class="fragment" data-transition="concave">
+  <li><h4>Contenuti - Lezione frontale</h4></li><br> -->
+    <ul class="fragment" style="font-size: 80%;" >
+      <li><b>contenuti: </b>della lezione in formato <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/slides/capitolo5/" target="_blank"><em> slides</em></a></li>
+      <li><b>consultazione: </b>libro di testo in formato digitale</li>
+      <li><b>consigli: </b>per la revisione in autonomia degli appunti</li>
+      <li><b>strumenti informatici: </b><em>Obsidian, VSCode, Reveal.js, etc.</em></li>
     </ul>
-  </ul>
+<!-- </ul> -->
 </section>
 
 ---
 
 <section data-background-video="teaching.mp4" data-background-opacity="0.3" data-transition="convex">
-<h1 style="color:#8A4117">FASE 4 &nbsp; <span style="font-size: 70%; color:#b82460">${\small{15'}}$ </span></h1>
+<h1 style="color:#8A4117">FASE 4 &nbsp; <span style="font-size: 70%; color:#b82460">${\small{20'}}$ </span></h1>
 <h2 style="color:#3B2F2F" class="fragment">Math LAB</h2>
-  <ul class="fragment">
+  <ul class="fragment" style="font-size: 80%;">
       <li>correzione esercizi assegnati</li>
-      <ul>
+      <ul style="color:#8A4117">
         <li>dallo studente per acquisire sicurezza</li>
         <li>dall'insegnante</li>
       </ul>
@@ -314,26 +314,25 @@ slides:
 
 <section data-background-image="calm_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
 <h1 style="color:#8A4117">FASE 5 &nbsp; <span style="font-size: 70%; color:#b82460">${\small{5'}}$ </span></h2>
-<h2 style="color:#3B2F2F" class="fragment">Lesson RECAP</h2>
-
+<h3 style="color:#3B2F2F" class="fragment">Lesson RECAP</h3>
 <ul class="fragment">
 <!-- <h3 style="color:#8A4117"><em>Focus sulla lezione</em></h3> -->
 <ul>
-    <ul>
+    <ul style="font-size: 80%;">
       <li>qual è stato l'obiettivo della lezione?</li>
       <li>cos'è rimasto della lezione?</li>
       <li>consigli per lo studio individuale</li>
     </ul><br>
-  <li style="color:#b82460; font-size: 35px"><em>in questa fase è indispensabile il coinvolgimento attivo degli studenti</em></li>
+  <li style="color:#b82460; font-size: 32px"><em>in questa fase è indispensabile il coinvolgimento attivo degli studenti</em></li>
 </ul>
   </section>
 
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
-<h1 style="color:#8A4117">FASE 6 &nbsp; <span style="font-size: 50%; color:#b82460"><em>after lesson</em></span></h1>
+<h1 style="color:#8A4117">FASE 6 &nbsp; <span style="font-size: 50%; color:#b82460"><em>post</em></span></h1>
 <h2 style="color:#3B2F2F" class="fragment">Homeworks</h2>
-<ul class="fragment">
+<ul class="fragment" style="font-size: 80%;">
   <li><h3 style="color:#8A4117">Lavoro in autonomia</h3></li>
     <ul>
       <li>rielaborazione <em>guidata</em> degli appunti</li>
@@ -358,11 +357,11 @@ slides:
 È così anche nella vita: <b>un problema alla volta.</b><br><br>&mdash; D!ego Fantinelli</em>
 </section> -->
 
-<section data-transition="zoom">
+<!-- <section data-transition="zoom">
 <h2 style="color:#ffffffo" class="r-fit-text">Grazie</h2>
 </section>
 
----
+--- -->
 
 <section data-transition="zoom">
 <img src="https://res.cloudinary.com/teepublic/image/private/s--TQXt20Pc--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_000000,e_outline:48/co_000000,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1588675429/production/designs/9818088_0.jpg">
