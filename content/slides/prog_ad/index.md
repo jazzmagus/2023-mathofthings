@@ -98,7 +98,7 @@ slides:
 <table class="fragment" style="color:#342A2A; font-size:80%" width="90%">
     <tr>
       <td><b>tipologia<br>documentazione</b></td>
-      <td style="font-size:80%"><i></b><em>analisi delle certificazioni: <br>BES, L.104/1992, sostegno, DSA L.170/2010, BES D.M. 27/12/2012 e C.M. 08/2013</em><i></td>
+      <td style="font-size:80%"><i></b><em>analisi delle certificazioni: <br>BES, L.104/1992, sostegno, GLO, DSA L.170/2010, D.M. 27/12/2012 e C.M. 08/2013</em><i></td>
     </tr>
     <tr>
       <td><b>collaborazione</b></td>
@@ -313,7 +313,7 @@ slides:
 ---
 
 <section data-background-image="calm_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
-<h1 style="color:#8A4117">FASE 5 &nbsp; <span style="font-size: 70%; color:#b82460">${\small{5'}}$ </span></h2>
+<h1 style="color:#8A4117">FASE 5 &nbsp; <span style="font-size: 70%; color:#b82460">${\small{10'}}$ </span></h2>
 <h3 style="color:#3B2F2F" class="fragment">Lesson RECAP</h3>
 <ul class="fragment">
 <!-- <h3 style="color:#8A4117"><em>Focus sulla lezione</em></h3> -->
