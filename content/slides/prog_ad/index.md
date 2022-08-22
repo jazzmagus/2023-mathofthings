@@ -224,7 +224,7 @@ slides:
 
 <section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
 <h1 style="color:#8A4117">Le Fasi</h1>
-<h2 style="color:#3B2F2F">ATTIVITÀ DIDATTICA </h2>
+<h3 style="color:#3B2F2F">ATTIVITÀ DIDATTICA </h3>
 
 <table class="fragment" style="font-size:80%" width="80%">
 <tr>
