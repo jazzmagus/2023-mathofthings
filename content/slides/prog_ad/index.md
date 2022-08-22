@@ -43,7 +43,7 @@ slides:
   </tr>
   <tr>
     <td style="color:#8A4117" width="30.0%"><em><b>fragilità</b></em></td>
-    <td width="70.0%">tipologia e frequenza delle disabilità</td>
+    <td width="70.0%">presenza, tipologia e frequenza delle disabilità</td>
   </tr>
   <tr>
     <td style="color:#8A4117" width="30.0%"><em><b>percorso didattico</b></em></td>
