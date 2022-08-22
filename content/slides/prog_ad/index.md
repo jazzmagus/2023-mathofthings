@@ -50,12 +50,12 @@ slides:
     <td width="70.0%">1. competenze di cittadinanza<br>2. linee guida e indicazioni nazionali</td>
   </tr>
   <tr>
-    <td style="color:#8A4117" width="30.0%"><em><b>efficacia didattica</b></em></td>
-    <td width="70.0%">strumenti, metodologie e tecnologie didattiche (TIC)</td>
-  </tr>
-  <tr>
     <td style="color:#8A4117" width="30.0%"><em><b>verifica competenze</b></em></td>
     <td width="70.0%">valutazione e autovalutazione delle competenze</td>
+  </tr>
+  <tr>
+    <td style="color:#8A4117" width="30.0%"><em><b>efficacia didattica</b></em></td>
+    <td width="70.0%">strumenti, metodologie e tecnologie didattiche (TIC)</td>
   </tr>
 </table>
 </section>
