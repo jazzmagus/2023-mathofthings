@@ -359,7 +359,7 @@ slides:
 <ul class="fragment" style="font-size: 80%;">
   <li><h3 style="color:#8A4117">Lavoro in autonomia</h3></li>
     <ul>
-      <li>rielaborazione e integrazione<em>guidata</em> degli appunti</li>
+      <li>rielaborazione e integrazione<em> guidata</em> degli appunti</li>
       <li>esercizi assegnati </li>
       <li>attività collaborative - <em>cooperative learning</em></li>
     </ul><br>
