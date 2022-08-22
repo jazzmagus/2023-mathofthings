@@ -199,6 +199,32 @@ slides:
 ---
 
 <section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
+<h1 style="color:#8A4117" class="r-fit-text">STRUMENTI DIDATTICI</h1>
+<h3 style="color:#3B2F2F" class="fragment">TIC avanzate</h3>
+
+<table class="fragment" style="font-size:60%" width="90%">
+  <tr>
+    <td width="20.0%"><em><b><a style="color:#1d91de" href="https://obsidian.md/">Obsidian.md</a></b></em></td>
+    <td width="80.0%">sistema di gestione delle informazioni basato sull'efficacia di <em>tags</em> e <em>backlinks</em> per i collegamenti tra le note; utilizza la semplicità del Markdown ma, tramite infiniti plugin, supporta Html, Css, $\LaTeX$, simulando una gestione della conoscenza sul modello delle reti neuronali - <em>Second Brain</em></td>
+  </tr>
+  <tr>
+    <td width="20.0%"><em><b><a style="color:#1d91de" href="https://revealjs.com/">Reveal.js</a></b></em></td>
+    <td width="80.0%">Strumento per la preparazione di presentazioni professionali efficiente e flessibile che supporta Html, Css, Markdown e $\LaTeX$</td>
+  </tr>
+  <tr>
+    <td style="color:#8A4117" width="20.0%"><em><b>$\LaTeX$</b></em></td>
+    <td width="80.0%">per conferire un carattere accademico a tutta la documentazione didattica</td>
+  </tr>
+  <tr>
+    <td width="20.0%"><em><b><a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/">The Math of Things</a></b></em></td>
+    <td width="80.0%">un sito web statico sviluppato con <a style="color:#1d91de" href="https://obsidian.md/">Hugo.io</a> come "contenitore didattico" - un ausilio semplice ed efficace alla progettazione didattica; supporta supporta Html, Css, $\LaTeX$ e Reveal.js</td>
+  </tr>
+</table>
+</section>
+
+---
+
+<section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
 <h1 style="color:#8A4117">Le Fasi</h1>
 <h2 style="color:#3B2F2F">ATTIVITÀ DIDATTICA </h2>
 
