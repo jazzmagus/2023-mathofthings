@@ -310,7 +310,7 @@ slides:
 <!-- <ul class="fragment" data-transition="concave">
   <li><h4>Contenuti - Lezione frontale</h4></li><br> -->
     <ul class="fragment" style="font-size: 80%;" >
-      <li><b>contenuti: </b>della lezione in formato <a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/slides/capitolo5/" target="_blank"><em> slides/pdf</em></a></li>
+      <li><b>contenuti: </b>della lezione in formato <a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/slides/capitolo5/" target="_blank"><em>slides</em></a></li>
       <li><b>consultazione: </b>libro di testo in formato digitale</li>
       <li><b>consigli: </b>per la revisione in autonomia degli appunti</li>
       <li><b>strumenti informatici: </b><em>Obsidian, VSCode, Reveal.js, etc.</em></li>
