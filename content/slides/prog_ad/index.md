@@ -254,7 +254,7 @@ slides:
 </tr>
 <tr>
     <td style="color:#eb432aff" width="20.0%"><em>Fase 6</em></td>
-    <td style="color:#eb432aff" width="50.0%"><em>homework/assignment</em></td>
+    <td style="color:#eb432aff" width="50.0%"><em>homework</em></td>
     <td style="color:#eb432aff" width="10.0%"><em>post</em></td>
 </tr>
 
