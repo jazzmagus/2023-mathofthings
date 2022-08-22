@@ -65,22 +65,22 @@ slides:
 <section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
   <h2 class="r-fit-text" style="color:#8A4117">CONTESTO DIDATTICO</h2>
   <br>
-  <table class="fragment" style="color:#342A2A" width="85%">
+  <table class="fragment" style="font-size:90%; color:#342A2A" width="85%">
     <tr>
       <td><b>scuola<br>indirizzo</b></td>
       <td><em>es. Istituto Tecnico Industriale<br>es. Meccatronica</em></td>
     </tr>
     <tr>
       <td><b>classe</b></td>
-      <td style="font-size:80%"><i><em>seconda</em><i></td>
+      <td style="font-size:80%"><i><em>es. seconda - fine primo quadrimestre</em><i></td>
     </tr>
     <tr>
-      <td><b>alunni</b></td>
-      <td style="font-size:80%"><i><em>n. studenti: n. maschi e n. femmine</em><i></td>     
+      <td><b>composizione</b></td>
+      <td style="font-size:80%"><i><em>n. studenti: $\%$ maschi e $\%$ femmine</em><i></td>     
     </tr>
     <tr>
       <td><b>fragilità</b></td>
-      <td style="font-size:80%"><i><em>presenza e frequenza</em><i></td>
+      <td style="font-size:80%"><i><em>$\%$ e tipologia</em><i></td>
     </tr>
   </table>
 </section>
@@ -90,7 +90,7 @@ slides:
 <h4 class="fragment" style="color:#b82460;">La Classe come COMUNITÀ: inclusione, personalizzazione e individualizzazione</h4>
 <!-- <ul class="fragment">
   <li><b>documentazione</b>: <em>analisi delle certificazioni: <br>L. 170/2010, PdP, L. 104 con sostegno</em></li>
-  <li><b>collaborazione</b>: <em>percorso di supporto con studente, famiglia ed eventuale sostegno</em></li>
+  <li><b>collaborazione</b>: <em>percorso di supporto con studente, CdC, GLO, famiglia ed eventuale sostegno</em></li>
   <li><b>strumenti di lavoro</b>: <em>strumenti compensativi e dispensativi</em></li><br>
  <li><h4 style="color:#8A4117">La Classe come COMUNITÀ</h4></li> 
 </ul> -->
@@ -102,7 +102,7 @@ slides:
     </tr>
     <tr>
       <td><b>collaborazione</b></td>
-      <td style="font-size:80%"><i><em>percorso di supporto con studente, famiglia ed eventuale sostegno</em><br><i></td>     
+      <td style="font-size:80%"><i><em>percorso di supporto con studente, CdC, GLO, famiglia ed eventuale sostegno</em><br><i></td>     
     </tr>
     <tr>
       <td><b>strumenti di lavoro</b></td>
@@ -115,7 +115,7 @@ slides:
 <h1 style="color:#8A4117" class="r-fit-text">COMPETENZE DI CITTADINANZA</h1>
 <!-- <h2 style="color:#3B2F2F" class="r-fit-text">RIASSUNTIVA - RECAP </h2> -->
 
-<table class="fragment" style="font-size:70%" width="90%">
+<table class="fragment" style="font-size:65%" width="95%">
   <tr>
     <td style="color:#8A4117" width="40.0%"><b>competenze</b></td>
     <td width="60.0%"><b>descrizione</b></td>
@@ -176,7 +176,7 @@ slides:
 <h1 style="color:#8A4117" class="r-fit-text">La VALUTAZIONE</h1>
 <h3 style="color:#3B2F2F">Tipologie di VERIFICA</h3>
 
-<ol style="font-size:72%" class="fragment" data-transition="concave">
+<ol style="font-size:70%" class="fragment" data-transition="concave">
   <li><h4 style="color:#b82460"><b>verifica dei prerequisiti</b></h4></li>
     <ul>
       <li>Test anonimo e di autovalutazione <a href="./20220224_TEST-1I-Relazioni e funzioni.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
@@ -184,25 +184,23 @@ slides:
     </ul>
   <li><h4 style="color:#b82460"><b>valutazione formativa</b> - <em>in funzione dell'apprendimento</em></h4></li>
     <ul>
-      <li>Peer-Tutoring | Flipped Classroom o Jigsaw <a href="././Divisione e Ruffini-Flipped Classroom-contest_prize.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
+      <li>Peer-Tutoring | Flipped Classroom o Jigsaw <a href="./Divisione e Ruffini-Flipped Classroom-contest_prize.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
       <li>in itinere e - ove possibile - di tipo laboratoriale</li>
     </ul>
   <li><h4 style="color:#b82460"><b>valutazione sommativa</b></h4></li>
     <ul>
-      <li>verifica classica: <em>Test + Esercizi</em> <a href="./202122_prova_recupero-Test_Ex_soluzioni.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
+      <li>verifica classica: <em>Test + Esercizi</em> <a href="./202122-ESEMPIO_VERIFICA_classica-soluzioni.pdf" target="_blank"> <em>- esempio </em><i style="color:#eb432aff" class="fas fa-file-pdf fa-xs"></i></a></li>
       <li>alla fine dell'UdA </li>
     </ul>
   <li><h4 style="color:#b82460"><b>interrogazione</b></h4> per eventuale recupero o miglioramento</li>
 </ol>
 </section>
 
----
-
 <section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.4" data-transition="convex">
 <h1 style="color:#8A4117" class="r-fit-text">STRUMENTI DIDATTICI</h1>
 <h3 style="color:#3B2F2F" class="fragment">TIC avanzate</h3>
 
-<table class="fragment" style="font-size:60%" width="90%">
+<table class="fragment" style="font-size:60%" width="95%">
   <tr>
     <td width="20.0%"><em><b><a style="color:#1d91de" href="https://obsidian.md/">Obsidian.md</a></b></em></td>
     <td width="80.0%">sistema di gestione delle informazioni basato sull'efficacia di <em>tags</em> e <em>backlinks</em> per i collegamenti tra le note; utilizza la semplicità del Markdown ma, tramite infiniti plugin, supporta Html, Css, $\LaTeX$, simulando una gestione della conoscenza sul modello delle reti neuronali - <em>Second Brain</em></td>
@@ -312,7 +310,7 @@ slides:
 <!-- <ul class="fragment" data-transition="concave">
   <li><h4>Contenuti - Lezione frontale</h4></li><br> -->
     <ul class="fragment" style="font-size: 80%;" >
-      <li><b>contenuti: </b>della lezione in formato <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/slides/capitolo5/" target="_blank"><em> slides</em></a></li>
+      <li><b>contenuti: </b>della lezione in formato <a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/slides/capitolo5/" target="_blank"><em> slides/pdf</em></a></li>
       <li><b>consultazione: </b>libro di testo in formato digitale</li>
       <li><b>consigli: </b>per la revisione in autonomia degli appunti</li>
       <li><b>strumenti informatici: </b><em>Obsidian, VSCode, Reveal.js, etc.</em></li>
@@ -328,8 +326,8 @@ slides:
   <ul class="fragment" style="font-size: 80%;">
       <li>correzione esercizi assegnati</li>
       <ul style="color:#8A4117">
-        <li>dallo studente per acquisire sicurezza</li>
-        <li>dall'insegnante</li>
+        <li>a cura dello studente: per acquisire sicurezza</li>
+        <li>a cura dell'insegnante</li>
       </ul>
       <li>Cooperative learning: es. peer-tutoring</li>
       <li>strumenti informatici: <em>es. Geogebra, Desmos, Wolfram Alpha, etc.</em></li>
@@ -346,7 +344,7 @@ slides:
 <ul>
     <ul style="font-size: 80%;">
       <li>qual è stato l'obiettivo della lezione?</li>
-      <li>cos'è rimasto della lezione?</li>
+      <li>cos'è rimasto della trattazione?</li>
       <li>consigli per lo studio individuale</li>
     </ul><br>
   <li style="color:#b82460; font-size: 32px"><em>in questa fase è indispensabile il coinvolgimento attivo degli studenti</em></li>
@@ -377,17 +375,6 @@ slides:
 </section>
 
 ---
-
-<!-- <section data-background-video="bridge.mp4" data-background-opacity="0.4" data-transition="convex">
-<h3 style="color:#8A4117"><em>In matematica i problemi si affrontano uno alla volta, anche quando si presentano in tanti, tutti insieme.<br><br>
-È così anche nella vita: <b>un problema alla volta.</b><br><br>&mdash; D!ego Fantinelli</em>
-</section> -->
-
-<!-- <section data-transition="zoom">
-<h2 style="color:#ffffffo" class="r-fit-text">Grazie</h2>
-</section>
-
---- -->
 
 <section data-transition="zoom">
 <img src="https://res.cloudinary.com/teepublic/image/private/s--TQXt20Pc--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_000000,e_outline:48/co_000000,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1588675429/production/designs/9818088_0.jpg">
