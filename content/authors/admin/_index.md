@@ -18,10 +18,10 @@ bio: My research interests include distributed robotics, mobile computing and pr
 
 # Interests to show in About widget
 interests:
-- Jazz 
+- Jazz Composing 
 - Maths Teaching
-- Living life
-- Coffee
+- Bike Cycling
+- Coffee Drinking
 
 # Education to show in About widget
 education:
