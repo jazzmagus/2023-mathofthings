@@ -254,7 +254,7 @@ $$a:b=q \\; \text{con resto }r \\; \longleftrightarrow \quad a=b \cdot q +r \qua
 
 ### Proprietà invariantiva della divisione approssimata
 
->se si moltiplicano o si dividono `sia` il dividendo `sia` il divisore per uno stesso numero diverso da zero il quoziente non cambia, mentre il resto risulta moltiplicato o diviso per il numero dato:
+>se si moltiplicano o si dividono **sia** il **dividendo** **che** il **divisore** per uno stesso numero diverso da zero il quoziente non cambia, mentre il resto risulta moltiplicato o diviso per il numero dato:
 
 $$a:b=q \\; \text{con resto }r \\; \longrightarrow \\; (a \cdot c) : (b \cdot c)= q \\; \text{con resto }(r \cdot c)$$
 
