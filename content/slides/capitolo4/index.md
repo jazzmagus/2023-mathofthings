@@ -5,17 +5,17 @@ authors: [diego fantinelli]
 tags: []
 categories: []
 date: "2019-02-05T00:00:00Z"
-# theme: serif
-slides:
-  theme: serif
-  transition: convex
-  highlight_style: dracula
-  enableChalkboard: false
+theme: serif
+# slides:
+#   theme: serif
+#   transition: convex
+#   highlight_style: dracula
+#   enableChalkboard: false
 ---
 
 <!-- {{< slide background-image="https://source.unsplash.com/1920x1080/?white" >}} -->
 
-<section data-transition="convex">
+<section data-background-image="https://source.unsplash.com/1920x1080/?white" data-transition="convex">
   <h2 style="color:#3B2F2F" class="r-fit-text">Relazioni e Funzioni</h2>
   <h3 class="fragment" style="color:#3B2F2F"><em>- Rif.: Capitolo 4 -</em></h3>
   <img src="gear_00.png" class="fragment" style="opacity:0.8;filter:alpha(opacity=100);" width="100">
@@ -28,7 +28,7 @@ slides:
 <!-- prerequisiti-->
 <!-- {{< slide background-image="https://source.unsplash.com/1920x1080/?white" >}} -->
 
-<section style="font-size:90%" data-transition="convex">
+<section data-background-image="https://source.unsplash.com/1920x1080/?white" style="font-size:90%" data-transition="convex">
   <h2 style="color:#3B2F2F">Prerequisiti</h2>
 
   <ul class="fragment">
@@ -49,7 +49,7 @@ slides:
 
 <!-- {{< slide background-image="https://source.unsplash.com/1920x1080/?black" >}} -->
 
-<section>
+<section data-background-image="https://source.unsplash.com/1920x1080/?dark">
   <h3 class="fragment" style="color:#FFFFFF; font-size: 60px;">una riflessione per iniziare...</h3>
   <h3 class="fragment" style="color:#FFFFFF; font-size: 40px;"><em>"In fisica e in matematica è impressionante la sproporzione tra lo sforzo per capire una cosa nuova per la prima volta e la semplicità e naturalezza del risultato una volta che i vari passaggi sono stati compiuti.
   <br>Nel prodotto finito, nelle scienze come in poesia, non c'è traccia della fatica del processo creativo e dei dubbi e delle esitazioni che lo accompagnano".<br>
