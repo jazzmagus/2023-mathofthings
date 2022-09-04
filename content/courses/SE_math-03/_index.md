@@ -12,7 +12,7 @@ draft: false  # Is this a draft? true/false
 toc: true  # Show table of contents? true/false
 type: docs  # Do not modify.
 image:
-  caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/mmnKI8kMxpc)'
+  # caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/mmnKI8kMxpc)'
   focal_point: "center"
   placement: 2
   preview_only: false
@@ -74,23 +74,37 @@ Calcolare l’errore relativo di un’approssimazione conoscendo l’errore asso
 
 ---
 
-
+<!-- 
 ## Meet your instructor
 
-{{< mention "admin" >}}
+{{< mention "admin" >}} -->
 
 ## FAQs
 
-{{< spoiler text="Are there prerequisites?" >}}
-There are no prerequisites for the first course.
+## FAQs
+
+{{< spoiler text="Quali sono gli eventuali prerequisiti?" >}}
+Non sono richiesti particolari prerequisiti.
 {{< /spoiler >}}
 
-{{< spoiler text="How often do the courses run?" >}}
-Continuously, at your own pace.
+{{< spoiler text="Come saranno strutturate le verifiche?" >}}
+Ci sono 2 tipologie di verifiche:
+- TEST a risposta multipla: [esempio TEST](20220519-1I-Test-Calcolo_letterale.pdf)
+  - in cui vengono valutate prevalentemente le conoscenze teoriche
+- Esercizi e problemi: [esempio VERIFICA *mista*](202122-ESEMPIO_VERIFICA_classica-soluzioni.pdf)
+  - la classica verifica per valutare le abilità acquisite per l'argomento specifico dell'unità
+  - Le interrogazioni verranno prese in considerazione solo per recuperare/migliorare la media
 {{< /spoiler >}}
 
 ---
 
+<a href="separator_03.jpg" width="800"><img src="separator_03.jpg" width="100%" border="0"></a>
+
 # Programma del Corso
+
+>## Materiali di riferimento
+>
+>- Libro di Testo: COLORI DELLA MATEMATICA edizione BIANCA Vol.1 - Petrini, Sasso, Fragni - ed. 
+>- Eventuali integrazioni dalle *slides*: [esempio slides](https://2023-mathofthings.netlify.app/slides/capitolo4/)
 
 <!-- {{< list_children >}} -->
