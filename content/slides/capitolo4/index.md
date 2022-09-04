@@ -5,12 +5,12 @@ authors: [diego fantinelli]
 tags: []
 categories: []
 date: "2019-02-05T00:00:00Z"
-theme: serif
-# slides:
-#   theme: serif
-#   transition: convex
-#   highlight_style: dracula
-#   enableChalkboard: false
+# theme: serif
+slides:
+  theme: serif
+  transition: convex
+  highlight_style: dracula
+  enableChalkboard: false
 ---
 
 <!-- {{< slide background-image="https://source.unsplash.com/1920x1080/?white" >}} -->
