@@ -7,7 +7,7 @@ date: "2021-09-09T00:00:00+01:00"
 draft: false
 diagram: true
 menu:
-  math-01:
+  SE_math-03:
     parent: 
     weight: 10
 
@@ -24,44 +24,8 @@ weight: 10
 
 ---
 
-## Conoscenze
-
-- Proprietà degli insiemi numerici $\mathbb{N}, \mathbb{Z}, \mathbb{Q}, \mathbb{R}$ e consapevolezza della necessità degli ampliamenti da $\mathbb{N}$ a $\mathbb{Z}$, da $\mathbb{Z}$ a $\mathbb{Q}$, da $\mathbb{Q}$ a $\mathbb{R}$.
-Rappresentazione degli insiemi numericisu una retta orientata.
-- Definizioni e proprietà delle quattro operazioni e delle potenze nei quattro insiemi numerici.
-
-- `Divisibilità` in $\mathbb{N}$ e `numeri primi`;
- `mcm` e `MCD` di due o più numeri naturali.
-
-- Concetto di `numero relativo` e di `valore assoluto`; *regola dei segni*.
-
-- **Numeri razionali**: frazioni e rappresentazione decimale.
- Notazione `esponenziale` e notazione `scientifica` di un numero: ordine di grandezza.
- **Proporzioni** e **percentuali**.
-
-- **Numeri irrazionali** e loro rappresentazione decimale.
- Concetto di `approssimazione` ed `errore` di un’approssimazione.
-
----
-
-## Abilità
-
-- Eseguire i calcoli con i numeri degli insiemi numerici  $\mathbb{N}$, $\mathbb{Z}$ e $\mathbb{Q}$
-- Scomporre un numero naturale in fattoriprimi e calcolare il `mcm` e il `MCD` tra due o più numeri naturali.
-Trasformare la scrittura di un numero naturale dalla base $10$ alla base $b$ e viceversa.
-- Trasformare una frazione in numero decimale e viceversa;
-scrivere un numero decimale finito in notazione scientifica e determinarne l’`ordine di grandezza`.
-- Risolvere problemi su **proporzioni** e **percentuali**.
-Calcolare l’errore relativo di un’approssimazione conoscendo l’errore assoluto e viceversa e determinare il valore abbreviato e quello arrotondato di un numero decimale.
-
----
-
-## competenze
-
-- Utilizzare le tecniche e le procedure del calcolo aritmetico ed algebrico, rappresentandole anche sottoforma grafica.
-- Analizzare dati e interpretarli sviluppando deduzioni e ragionamenti sugli stessi anche con l’ausilio dirappresentazioni grafiche, usando consapevolmente gli strumenti di calcolo e le potenzialità offerte da applicazioni specifiche di tipo informatico.
-
 {{< youtube cCJU5By_b8U>}}
+
 ## L’insieme dei numeri naturali
 
 <!-- {{< figure src="../majong_01.png" caption="A caption" numbered="true" >}} -->

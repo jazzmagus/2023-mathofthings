@@ -11,7 +11,11 @@ lastmod: "2021-09-09T00:00:00Z"
 draft: false  # Is this a draft? true/false
 toc: true  # Show table of contents? true/false
 type: docs  # Do not modify.
-
+image:
+  caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/mmnKI8kMxpc)'
+  focal_point: "center"
+  placement: 2
+  preview_only: false
 slides: math-02
 # Add menu entry to sidebar.
 # - name: Declare this menu item as a parent with ID `name`.
@@ -88,3 +92,5 @@ menu:
 |M4| Analizzare dati ed interpretarli sviluppando deduzioni e ragionamenti sugli stessi anche con l’ausilio di rappresentazioni grafiche|
 
 ---
+
+# Programma del Corso

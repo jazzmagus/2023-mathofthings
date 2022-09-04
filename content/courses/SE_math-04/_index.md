@@ -2,23 +2,28 @@
 # Course title, summary, and position.
 linktitle: Matematica per il Serale
 summary: Lezioni di matematica per le classi serali della Scuola Secondaria di Secondo Grado.
-weight: 30
+weight: 70
 
 # Page metadata.
-title: Matematica per le classi quinte
+title: Matematica per le classi Quarte SE
 date: "2021-09-09T00:00:00Z"
 lastmod: "2021-09-09T00:00:00Z"
 draft: false  # Is this a draft? true/false
 toc: true  # Show table of contents? true/false
 type: docs  # Do not modify.
-
+image:
+  caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/mmnKI8kMxpc)'
+  focal_point: "center"
+  placement: 2
+  preview_only: false
 # Add menu entry to sidebar.
 # - name: Declare this menu item as a parent with ID `name`.
 # - weight: Position of link in menu.
+view: 2
 menu:
-  math-01:
-    name: Matematica per le Classi Quinte
-    weight: 30
+  SE_math-04:
+    name: SE - Matematica per le Classi Quarte
+    weight: 70
 ---
 
 {{< toc >}}
