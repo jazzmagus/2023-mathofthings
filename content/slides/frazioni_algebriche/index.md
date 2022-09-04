@@ -5,13 +5,15 @@ authors: [diego fantinelli]
 tags: [math, frazioni]
 categories: [post]
 date: "2019-02-05T00:00:00Z"
-slides:
-  theme: serif
-  transition: concave
+theme: serif
+# slides:
+#   theme: serif
+#   transition: concave
 ---
 
 
 <!-- .slide: data-background="calm_bkg.jpg" -->
+<section data-background-image="https://source.unsplash.com/1920x1080/?white">
 
 ## <font color="MidnightBlue">Le Frazioni algebriche</font>
 
@@ -24,8 +26,9 @@ slides:
 *ITIS "E. Fermi" - Bassano del Grappa*
 
 _data: **30 ottobre 2021**_
+</section>
 
----
+--
 
 ## prerequisiti
 

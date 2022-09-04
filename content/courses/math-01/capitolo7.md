@@ -74,9 +74,31 @@ $$\dfrac{\text{numeratore}}{\text{denominatore}} \rightarrow \dfrac{N(x)}{D(x)} 
 
 ---
 
+```markmap
+- Mindmaps
+  - Links
+    - [Wowchemy Docs](https://wowchemy.com/docs/)
+    - [Discord Community](https://discord.gg/z8wNYzb)
+    - [GitHub](https://github.com/wowchemy/wowchemy-hugo-themes)
+  - Features
+    - Markdown formatting
+    - **inline** ~~text~~ *styles*
+    - multiline
+      text
+    - `inline code`
+    -
+      ```js
+      console.log('hello');
+      console.log('code block');
+      ```
+    - Math: $x = {-b \pm \sqrt{b^2-4ac} \over 2a}$
+```
+
+---
+
 ### Il procedimento
 
-E' analogo a quello usato per ridurre più frazioni numeriche allo stesso denominatore:
+È analogo a quello usato per ridurre più frazioni numeriche allo stesso denominatore:
 
 1. si semplificano le frazioni date;
 2. le frazioni così ottenute sono quelle a cui si applicano direttamente i passaggi successivi;
