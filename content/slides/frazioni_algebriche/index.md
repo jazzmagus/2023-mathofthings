@@ -6,6 +6,7 @@ tags: [math, frazioni]
 categories: [post]
 date: "2019-02-05T00:00:00Z"
 # theme: serif
+# transition: concave
 slides:
   theme: serif
   transition: concave
@@ -13,7 +14,8 @@ slides:
 
 
 <!-- .slide: data-background="calm_bkg.jpg" -->
-<section data-background-image="https://source.unsplash.com/1920x1080/?white">
+
+<section>
 
 ## <font color="MidnightBlue">Le Frazioni algebriche</font>
 
@@ -28,7 +30,7 @@ slides:
 _data: **30 ottobre 2021**_
 </section>
 
---
+<section>
 
 ## prerequisiti
 
@@ -39,6 +41,7 @@ _data: **30 ottobre 2021**_
 - **mcm** tra polinomi
 
   - per potersi riportare alla **forma normale** di una *frazione algebrica*: $\frac{N(x)}{D(x)}$
+</section>
 
 ---
 
