@@ -7,10 +7,11 @@ categories: [post]
 date: "2019-02-05T00:00:00Z"
 slides:
   theme: serif
-  transition: zoom
-  highlight_style: dracula
+  transition: concave
 ---
 
+
+<!-- .slide: data-background="calm_bkg.jpg" -->
 
 ## <font color="MidnightBlue">Le Frazioni algebriche</font>
 
