@@ -5,17 +5,13 @@ authors: [diego fantinelli]
 tags: [math, frazioni]
 categories: [post]
 date: "2019-02-05T00:00:00Z"
-# theme: serif
-# transition: concave
-slides:
-  theme: serif
-  transition: concave
+theme: serif
+# slides:
+#   theme: serif
+#   transition: concave
 ---
 
-
-<!-- .slide: data-background="calm_bkg.jpg" -->
-
-<section>
+<section data-background-image="calm_bkg.jpg" data-background-opacity="6">
 
 ## <font color="MidnightBlue">Le Frazioni algebriche</font>
 
@@ -30,7 +26,7 @@ slides:
 _data: **30 ottobre 2021**_
 </section>
 
-<section>
+<section data-background-image="calm_bkg.jpg" data-background-opacity="6">
 
 ## prerequisiti
 

@@ -13,8 +13,6 @@ slides:
   enableChalkboard: false
 ---
 
-<!-- {{< slide background-image="https://source.unsplash.com/1920x1080/?white" >}} -->
-
 <section data-background-image="https://source.unsplash.com/1920x1080/?white" data-transition="convex">
   <h2 style="color:#3B2F2F" class="r-fit-text">Relazioni e Funzioni</h2>
   <h3 class="fragment" style="color:#3B2F2F"><em>- Rif.: Capitolo 4 -</em></h3>
@@ -26,7 +24,6 @@ slides:
 
 
 <!-- prerequisiti-->
-<!-- {{< slide background-image="https://source.unsplash.com/1920x1080/?white" >}} -->
 
 <section data-background-image="https://source.unsplash.com/1920x1080/?white" style="font-size:90%" data-transition="convex">
   <h2 style="color:#3B2F2F">Prerequisiti</h2>
@@ -47,8 +44,6 @@ slides:
 
 ---
 
-<!-- {{< slide background-image="https://source.unsplash.com/1920x1080/?black" >}} -->
-
 <section data-background-image="https://source.unsplash.com/1920x1080/?dark">
   <h3 class="fragment" style="color:#FFFFFF; font-size: 60px;">una riflessione per iniziare...</h3>
   <h3 class="fragment" style="color:#FFFFFF; font-size: 40px;"><em>"In fisica e in matematica è impressionante la sproporzione tra lo sforzo per capire una cosa nuova per la prima volta e la semplicità e naturalezza del risultato una volta che i vari passaggi sono stati compiuti.
@@ -57,8 +52,6 @@ slides:
 </section>
 
 ---
-
-<!-- {{< slide background-image="https://source.unsplash.com/1920x1080/?white" >}} -->
 
 <section data-background-video="teaching.mp4" data-background-opacity="0.7" data-transition="zoom">
   <h2 style="color:#FFFFFF;" class="r-fit-text">Relazioni e</h2>
@@ -142,8 +135,6 @@ slides:
 </section>
 
 ---
-
-<!-- {{< slide background-image="https://source.unsplash.com/1920x1080/?white" >}} -->
 
 <section data-transition="convex">
 <h2 style="color:#3B2F2F; font-size:120pt">Funzioni</h2>
