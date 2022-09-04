@@ -26,9 +26,6 @@ menu:
     weight: 70
 ---
 
-{{< toc >}}
-
-
 ## Introduzione al Corso
 
 >*"La **conoscenza** è ciò che ci rende **diversi**"*.
@@ -37,7 +34,7 @@ menu:
 >
 >-- Piergiorgio Odifreddi
 
----
+{{< toc >}}
 
 <!-- ![overview_img](startline.png) -->
 
@@ -97,8 +94,6 @@ menu:
 |M4| Analizzare dati ed interpretarli sviluppando deduzioni e ragionamenti sugli stessi anche con l’ausilio di rappresentazioni grafiche|
 
 ---
-
-## FAQs
 
 ## FAQs
 

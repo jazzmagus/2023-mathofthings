@@ -33,6 +33,8 @@ menu:
 >
 >-- Piergiorgio Odifreddi
 
+{{< toc >}}
+
 ---
 
 ## Conoscenze
@@ -72,14 +74,34 @@ Calcolare l’errore relativo di un’approssimazione conoscendo l’errore asso
 - Utilizzare le tecniche e le procedure del calcolo aritmetico ed algebrico, rappresentandole anche sottoforma grafica.
 - Analizzare dati e interpretarli sviluppando deduzioni e ragionamenti sugli stessi anche con l’ausilio dirappresentazioni grafiche, usando consapevolmente gli strumenti di calcolo e le potenzialità offerte da applicazioni specifiche di tipo informatico.
 
+
+### CRITERI DI VALUTAZIONE
+
+- Nel testo delle **prove scritte**, saranno rese esplicite sia le informazioni utili all’individuazione degli obiettivi minimi (che portano alla sufficienza) sia quelli che portano al voto massimo. Il singolo docente, nel rispetto della libertà d’insegnamento, potrà esplicitare i criteri di valutazione con la modalità più consona alla tipologia della propria verifica scritta proposta.
+
+- Nelle **prove orali** si valuterà la capacità dell’alunno di esprimersi in maniera chiara e sintetica, facendo uso di un linguaggio appropriato. Verranno valutate inoltre la conoscenza e la comprensione dei concetti fondamentali.
+
+- Nella **valutazione finale**, al fine di ottenere un quadro il più completo possibile della situazione di ogni alunno, l’insegnante avrà cura di tener conto di ogni dettaglio, che emerga durante le lezioni e le correzioni di esercizi in classe e che definisca i progressi ottenuti dagli allievi nei vari percorsi didattici proposti.
+
+>- N.B.: Le abilità riportate in grassetto nella presente programmazione, corrispondono alle **abilità minime**, utili al raggiungimento della **sufficienza**.
+
+---
+
+#### Legenda competenze
+
+|competenze|descrizione|
+|:---:|---|
+|M1| Utilizzare le tecniche e le procedure del calcolo aritmetico ed algebrico, rappresentandole anche sotto forma grafica|
+|M2| Confrontare ed analizzare figure geometriche, individuando relazioni ed invarianti|
+|M3| Individuare le strategie appropriate per la soluzione di problemi|
+|M4| Analizzare dati ed interpretarli sviluppando deduzioni e ragionamenti sugli stessi anche con l’ausilio di rappresentazioni grafiche|
+
 ---
 
 <!-- 
 ## Meet your instructor
 
 {{< mention "admin" >}} -->
-
-## FAQs
 
 ## FAQs
 

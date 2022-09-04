@@ -37,8 +37,6 @@ menu:
 >
 >-- Piergiorgio Odifreddi
 
----
-
 <!-- ![overview_img](startline.png) -->
 
 ---
