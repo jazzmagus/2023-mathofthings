@@ -5,11 +5,11 @@ authors: [diego fantinelli]
 tags: [math]
 categories: [fattorizzazione]
 date: "2022-05-09T00:00:00Z"
-theme: serif
-highlight_style: dracula
-# slides:
-#    theme: serif
-#    highlight_style: dracula
+# theme: serif
+# highlight_style: dracula
+slides:
+  theme: serif
+  highlight_style: dracula
 ---
 
 <!-- {{< slide background-image="pingpong_bkg.jpg" background-opacity="0.6" >}} -->
