@@ -119,4 +119,9 @@ Ci sono 2 tipologie di verifiche:
 
 # Programma del Corso
 
+>## Materiali di riferimento
+>
+>- Libro di Testo: COLORI DELLA MATEMATICA edizione BIANCA Vol.1 - Petrini, Sasso, Fragni - ed. 
+>- Eventuali integrazioni dalle *slides*: [esempio slides](https://2023-mathofthings.netlify.app/slides/capitolo4/)
+
 ---
