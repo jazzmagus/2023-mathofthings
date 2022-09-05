@@ -25,13 +25,17 @@ menu:
     weight: 60
 ---
 
-## Introduzione al Corso
+# Introduzione al Corso
 
 >*"La **conoscenza** è ciò che ci rende **diversi**"*.
 >
 >La conoscenza è **infinita** e ognuno di noi può contenerne solo una parte, per questo motivo siamo diversi, mentre siamo tutti ignoranti rispetto alla totalità della conoscenza, e questo ci rende **uguali**.
 >
 >-- Piergiorgio Odifreddi
+
+---
+
+> ref.: [programmazione corsi serali]({{< ref "/content/docs/math_SE/index.md" >}})
 
 {{< toc >}}
 
