@@ -12,9 +12,6 @@ comments: false  # Show comments?
 header:
   caption: ""
   image: ""
-
-math:
-  enable: true
 ---
 
 ![ex2_img](separator.jpg)
@@ -30,9 +27,9 @@ math:
 
 |   classe   | TESTO                                                       | Vol | ISDN code | DAW code |
 |:----------| ----------------------------------------------------------- |:---:| --------- | -------- |
-| **TERZE**  | L. Sasso “NUOVA MATEMATICA A COLORI” - Ed. Gialla - PETRINI |  1  |           |          |
-| **QUARTE** | L. Sasso “NUOVA MATEMATICA A COLORI” - Ed. Gialla - PETRINI |  2  |           |          |
-| **QUINTE** | L. Sasso "NUOVA MATEMATICA A COLORI” - Ed. Gialla - PETRINI |  4  |           |          |
+| **TERZE**  | COLORI DELLA MATEMATICA edizione BIANCA Vol.1 - Petrini, Sasso, Fragni - ed. |  1  |           |          |
+| **QUARTE** | COLORI DELLA MATEMATICA edizione BIANCA Vol.1 - Petrini, Sasso, Fragni - ed. |  2  |           |          |
+| **QUINTE** | COLORI DELLA MATEMATICA edizione BIANCA Vol.1 - Petrini, Sasso, Fragni - ed. |  4  |           |          |
 
 
 ### Strumenti e Materiali Didattici
@@ -69,7 +66,7 @@ math:
 
 ---
 
-## Programmazione Classi Terze - SE:
+## Programmazione Classi Terze - SE
 
 ### Tema 1 - Insiemi numerici
 > periodo: **Settembre - Ottobre**

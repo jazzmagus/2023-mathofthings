@@ -35,11 +35,9 @@ menu:
 
 ---
 
-> ref.: [programmazione corsi serali]({{< ref "/content/docs/math_SE/index.md" >}})
+> ref.: [programmazione corsi serali &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i>]({{< ref "/content/docs/math_SE/index.md" >}}) 
 
 {{< toc >}}
-
----
 
 ## Conoscenze
 

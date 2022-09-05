@@ -37,7 +37,8 @@ menu:
 >
 >-- Piergiorgio Odifreddi
 
-<!-- ![overview_img](startline.png) -->
+
+> ref.: [programmazione corsi serali &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i>]({{< ref "/content/docs/math_SE/index.md" >}}) 
 
 ---
 

@@ -12,7 +12,7 @@ draft: false  # Is this a draft? true/false
 toc: true  # Show table of contents? true/false
 type: docs  # Do not modify.
 image:
-  caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/mmnKI8kMxpc)'
+  caption: 
   focal_point: "center"
   placement: 2
   preview_only: false
@@ -33,6 +33,8 @@ menu:
 >La conoscenza è **infinita** e ognuno di noi può contenerne solo una parte, per questo motivo siamo diversi, mentre siamo tutti ignoranti rispetto alla totalità della conoscenza, e questo ci rende **uguali**.
 >
 >-- Piergiorgio Odifreddi
+
+> ref.: [programmazione corsi serali &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i>]({{< ref "/content/docs/math_SE/index.md" >}}) 
 
 {{< toc >}}
 
@@ -72,6 +74,17 @@ menu:
 
 ---
 
+#### legenda competenze
+
+|competenze|descrizione|
+|:---:|---|
+|M1| Utilizzare le tecniche e le procedure del calcolo aritmetico ed algebrico, rappresentandole anche sotto forma grafica|
+|M2| Confrontare ed analizzare figure geometriche, individuando relazioni ed invarianti|
+|M3| Individuare le strategie appropriate per la soluzione di problemi|
+|M4| Analizzare dati ed interpretarli sviluppando deduzioni e ragionamenti sugli stessi anche con l’ausilio di rappresentazioni grafiche|
+
+---
+
 ### CRITERI DI VALUTAZIONE
 
 - Nel testo delle **prove scritte**, saranno rese esplicite sia le informazioni utili all’individuazione degli obiettivi minimi (che portano alla sufficienza) sia quelli che portano al voto massimo. Il singolo docente, nel rispetto della libertà d’insegnamento, potrà esplicitare i criteri di valutazione con la modalità più consona alla tipologia della propria verifica scritta proposta.
@@ -81,17 +94,6 @@ menu:
 - Nella **valutazione finale**, al fine di ottenere un quadro il più completo possibile della situazione di ogni alunno, l’insegnante avrà cura di tener conto di ogni dettaglio, che emerga durante le lezioni e le correzioni di esercizi in classe e che definisca i progressi ottenuti dagli allievi nei vari percorsi didattici proposti.
 
 >- N.B.: Le abilità riportate in grassetto nella presente programmazione, corrispondono alle **abilità minime**, utili al raggiungimento della **sufficienza**.
-
----
-
-#### legenda competenze
-
-|competenze|descrizione|
-|:---:|---|
-|M1| Utilizzare le tecniche e le procedure del calcolo aritmetico ed algebrico, rappresentandole anche sotto forma grafica|
-|M2| Confrontare ed analizzare figure geometriche, individuando relazioni ed invarianti|
-|M3| Individuare le strategie appropriate per la soluzione di problemi|
-|M4| Analizzare dati ed interpretarli sviluppando deduzioni e ragionamenti sugli stessi anche con l’ausilio di rappresentazioni grafiche|
 
 ---
 
