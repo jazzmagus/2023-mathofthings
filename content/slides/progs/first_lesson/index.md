@@ -24,6 +24,8 @@ slides:
 
 ---
 
+<section>
+
 ## Features
 
 - Efficiently write slides in Markdown
@@ -31,7 +33,9 @@ slides:
 - Supports speaker notes
 - Mobile friendly slides
 
---
+</section>
+
+---
 
 ## Controls
 
