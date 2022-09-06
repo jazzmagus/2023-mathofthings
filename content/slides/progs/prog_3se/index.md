@@ -5,15 +5,15 @@ authors: [diego fantinelli]
 tags: [math]
 categories: [fattorizzazione]
 date: "2022-05-09T00:00:00Z"
-# slides:
-#   # Choose a theme from https://github.com/hakimel/reveal.js#theming
-#   theme: serif
-#   logoImg: "miur.png"
-#   # Choose a code highlighting style (if highlighting enabled in `params.toml`)
-#   #   Light style: github. Dark style: dracula (default).
-#   highlight_style: dracula
-#   transition: concave
-theme: serif
+slides:
+  # Choose a theme from https://github.com/hakimel/reveal.js#theming
+  theme: serif
+  logoImg: "miur.png"
+  # Choose a code highlighting style (if highlighting enabled in `params.toml`)
+  #   Light style: github. Dark style: dracula (default).
+  highlight_style: dracula
+  transition: concave
+# theme: serif
 ---
 
 
@@ -25,7 +25,7 @@ theme: serif
   <h5 style="color:#8A4117">IIS "A. Remondini" - Bassano del Grappa</h5>
 </section>
 
-<section style="font-size:60%" data-background-image="pingpong_bkg.jpg" data-background-opacity="0.6">
+<section style="font-size:60%" data-background-image="book_bkg.jpg" data-background-opacity="0.5">
 
 ## Competenze
 
