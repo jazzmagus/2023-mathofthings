@@ -12,16 +12,10 @@ slides:
   #   Light style: github-light. Dark style: dracula (default).
   highlight_style: dracula
 # theme: serif
-# background-image: "calm_bkg.jpg"
 ---
 
-<style>
-  .class
-    {
-      background-image: url("/path-to-image.png");
-    }
 
-/* {{< slide background-image="calm_bkg.jpg" background-opacity="0.6" >}} */
+{{<* slide background-image="calm_bkg.jpg" *>}} 
 
 # Create slides in Markdown with Wowchemy
 
@@ -319,4 +313,3 @@ Create `assets/css/reveal_custom.css` with:
 
 [Documentation](https://wowchemy.com/docs/content/slides/)
 
-</style>
