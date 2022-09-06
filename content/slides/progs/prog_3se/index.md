@@ -24,7 +24,7 @@ slides:
   <h5 style="color:#8A4117">IIS "A. Remondini" - Bassano del Grappa</h5>
 </section>
 
-<section style="font-size:70%" data-background-image="pingpong_bkg.jpg" data-background-opacity="0.6">
+<section class="r-fit-text" data-background-image="pingpong_bkg.jpg" data-background-opacity="0.6">
 
 ## Competenze
 
