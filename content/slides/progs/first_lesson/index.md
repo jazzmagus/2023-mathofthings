@@ -47,7 +47,7 @@ slides:
 
 ---
 
-{{< slide background-image="calm_bkg.jpg" >}} 
+<!-- {{< slide background-image="calm_bkg.jpg" >}}  -->
 
 ## Code Highlighting
 
