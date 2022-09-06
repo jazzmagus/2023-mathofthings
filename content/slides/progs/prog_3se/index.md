@@ -59,12 +59,14 @@ slides:
 ### abilità
 
 <span style="font-size:70%">
+
 - Utilizzare le procedure del calcolo aritmetico (a mente, per iscritto, a macchina) per calcolare espressioni aritmetiche e risolvere semplici problemi.
 - Utilizzare le diverse notazioni e saper convertire da una all’altra (da frazioni a decimali, da frazioni apparenti ad interi, da percentuali a frazioni…)
-- Operare in $\mathbb{N,\, Z,\, Q}.$
+- Operare in $\mathbb{N, Z, Q}.$
 - Comprendere il significato di potenza; calcolare potenze e applicarne le proprietà.
 - Risolvere espressioni nei diversi insiemi numerici; rappresentare la soluzione di un problema con un’espressione e calcolarne il valore.
 - Impostare uguaglianze di rapporti e risolvere problemi di proporzionalità e percentuale
+
 </span>
 
 ---
