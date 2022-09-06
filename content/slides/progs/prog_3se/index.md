@@ -14,6 +14,7 @@ slides:
   highlight_style: dracula
   transition: concave
 # theme: serif
+logoImg: "miur.png"
 ---
 
 
