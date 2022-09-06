@@ -22,8 +22,6 @@ slides:
 
 [Wowchemy](https://wowchemy.com/) | [Documentation](https://wowchemy.com/docs/content/slides/)
 
----
-
 <section>
 
 ## Features
@@ -35,7 +33,6 @@ slides:
 
 </section>
 
----
 
 ## Controls
 
