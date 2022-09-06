@@ -5,15 +5,15 @@ authors: [diego fantinelli]
 tags: [math]
 categories: [fattorizzazione]
 date: "2022-05-09T00:00:00Z"
-slides:
-  # Choose a theme from https://github.com/hakimel/reveal.js#theming
-  theme: serif
-  logoImg: "miur.png"
-  # Choose a code highlighting style (if highlighting enabled in `params.toml`)
-  #   Light style: github. Dark style: dracula (default).
-  highlight_style: dracula
-  transition: concave
-# theme: serif
+# slides:
+#   # Choose a theme from https://github.com/hakimel/reveal.js#theming
+#   theme: serif
+#   logoImg: "miur.png"
+#   # Choose a code highlighting style (if highlighting enabled in `params.toml`)
+#   #   Light style: github. Dark style: dracula (default).
+#   highlight_style: dracula
+#   transition: concave
+theme: serif
 ---
 
 
@@ -171,4 +171,21 @@ slides:
 
 <section data-transition="concave" data-background-color="#EDEDED">
   <img data-src="https://res.cloudinary.com/teepublic/image/private/s--TQXt20Pc--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_000000,e_outline:48/co_000000,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1588675429/production/designs/9818088_0.jpg">
+</section>
+
+
+---
+
+<section data-transition="concave" data-background-image="book_bkg.jpg" data-background-opacity="0.4">
+
+<h1 class="r-fit-text" >The End</h1>
+
+</section>
+
+---
+
+<section data-background-image="numbers.gif" data-background-opacity="0.8">
+
+  <h2 style="color:#ffffff" class="r-fit-text">DOMANDE?</h2>
+
 </section>
