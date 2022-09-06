@@ -24,7 +24,7 @@ slides:
   <h5 style="color:#8A4117">IIS "A. Remondini" - Bassano del Grappa</h5>
 </section>
 
-<section class="r-fit-text" data-background-image="pingpong_bkg.jpg" data-background-opacity="0.6">
+<section style="font-size:60%" data-background-image="pingpong_bkg.jpg" data-background-opacity="0.6">
 
 ## Competenze
 
@@ -41,7 +41,7 @@ slides:
 
 ---
 
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
+<section style="font-size:60%" data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
 
 ## TEMA 1: Insiemi Numerici
 >periodo: **Settembre - Ottobre**
