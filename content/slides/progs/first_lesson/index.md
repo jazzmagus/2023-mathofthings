@@ -20,18 +20,30 @@ slides:
   <h1 class="r-fit-text" style="color:#3B2F2F">MATEMATICA</h1>
   <h2 style="color:#3B2F2F">per le Classi Terze</h2>
   <h2 style="color:#3B2F2F">SERALE</h2>
-
+  <br> 
   <!-- <h3 style="color:#3B2F2F"><em>esercizi e ripasso</em></h3> -->
   <br>
   <h5 style="color:#8A4117"><em>prof. diego fantinelli</em></h5>
   <h5 style="color:#8A4117">IIS "A. Remondini" - Bassano del Grappa</h5>
 </section>
 
-<section data-background-image="book_bkg.jpg" data-background-opacity="0.5">
+<section data-transition="convex" data-background-image="book_bkg.jpg" data-background-opacity="0.5">
 
-## Un gran bel corso
+<section>
+    
+  ## Un gran bel corso
+  
+</section>
 
-### Proviamo il markdown
+---
+
+<section>
+  <h2 style="color:#3B2F2F">CORSO DI</h2>
+
+  <h1 class="r-fit-text" style="color:#3B2F2F">MATEMATICA</h1>
+  <h2 style="color:#3B2F2F">per le Classi Terze</h2>
+  <h2 style="color:#3B2F2F">SERALE</h2>
+</section>
 
 </section>
 
@@ -77,14 +89,16 @@ slides:
 
 ---
 
-- `Google Classroom`:
-- `codice classe`: [Google Classroom corsi](https://classroom.google.com/u/0/h)
+## Google Classroom
+
+### `codice classe`: 
+- link: [Google Classroom corsi](https://classroom.google.com/u/0/h)
   - comunicazioni
   - assegnazione compiti (eventualmente anche sul Registro El.)
   - post di varia natura:
     - per consigliare un video su YouTube
-    - suggerimenti
-    - **materiale didattico**: dispense, video, esercizi,
+    - suggerimenti per lo studio
+    - **materiale didattico**: dispense, video, esercizi, dispense, pdf, etc.
 
 ---
 
@@ -104,10 +118,13 @@ slides:
 
 ---
 
-- Appunti dalle lezioni:
-  - quaderno, suddiviso in 2 parti (o 2 quaderni, oppure uno ad anelli, etc.)
-     1. appunti dalle lezioni
-     2. esercizi
+## Appunti dalle lezioni
+### ...non ne vado pazzo
+
+- quaderno, suddiviso in 2 parti (o 2 quaderni, oppure uno ad anelli, etc.)
+
+  1. appunti dalle lezioni
+  2. esercizi
 
 </section>
 
