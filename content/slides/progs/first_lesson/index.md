@@ -7,7 +7,7 @@ categories: []
 date: '2019-02-05'
 slides:
   # Choose a theme from https://github.com/hakimel/reveal.js#theming
-  theme: black
+  theme: serif
   # Choose a code highlighting style (see Hugo docs on Chroma)
   #   Light style: github-light. Dark style: dracula (default).
   highlight_style: dracula
@@ -15,7 +15,13 @@ slides:
 # background-image: "calm_bkg.jpg"
 ---
 
-{{< slide background-image="calm_bkg.jpg" background-opacity="0.6" >}}
+<style>
+  .class
+    {
+      background-image: url("/path-to-image.png");
+    }
+
+/* {{< slide background-image="calm_bkg.jpg" background-opacity="0.6" >}} */
 
 # Create slides in Markdown with Wowchemy
 
@@ -312,3 +318,5 @@ Create `assets/css/reveal_custom.css` with:
 [Ask](https://discord.gg/z8wNYzb)
 
 [Documentation](https://wowchemy.com/docs/content/slides/)
+
+</style>
