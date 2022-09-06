@@ -19,8 +19,8 @@ header:
 
 {{< toc >}}
 
-{{% callout example %}}
-> ### Monte ore annuali disponibili: 
+{{% callout note %}}
+### Monte ore annuali disponibili: 
   - **99 ore annuali** per tutte le classi (terze quarte e quinte).
 
 ### Libri di Testo
@@ -42,7 +42,7 @@ header:
 {{% /callout %}}
 
 
-{{% callout warning %}}
+{{% callout note %}}
 ## Obiettivi Generali della Disciplina
 
 >- Sviluppare capacità logiche e deduttive.
@@ -53,7 +53,7 @@ header:
 
 ---
 
-### Competenze
+##### Competenze
   
   | codice | competenze                                                                                                                                                                                                                                               |
   |:------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
