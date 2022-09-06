@@ -15,7 +15,7 @@ slides:
 ---
 
 
-{{<* slide background-image="calm_bkg.jpg" *>}} 
+{{< slide background-image="calm_bkg.jpg" >}} 
 
 # Create slides in Markdown with Wowchemy
 
@@ -46,6 +46,8 @@ slides:
 
 ---
 
+{{< slide background-image="calm_bkg.jpg" >}} 
+
 ## Code Highlighting
 
 Inline code: `variable`
@@ -58,7 +60,7 @@ if porridge == "blueberry":
     print("Eating...")
 ```
 
----
+--
 
 ## Math
 
@@ -70,7 +72,7 @@ $$
 f\left( x \right) = \;\frac{{2\left( {x + 4} \right)\left( {x - 4} \right)}}{{\left( {x + 4} \right)\left( {x + 1} \right)}}
 $$
 
----
+--
 
 ## Fragments
 
