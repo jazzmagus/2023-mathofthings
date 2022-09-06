@@ -13,6 +13,7 @@ slides:
   #   Light style: github. Dark style: dracula (default).
   highlight_style: dracula
   transition: concave
+# theme: serif
 ---
 
 
@@ -41,7 +42,7 @@ slides:
 
 ---
 
-<section style="font-size:60%" data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
+<section style="font-size:60%" data-transition="concave" data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
 
 ## TEMA 1: Insiemi Numerici
 >periodo: **Settembre - Ottobre**
@@ -77,7 +78,7 @@ slides:
 
 </section>
 
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
+<section data-transition="concave" data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
 
 ## TEMA 2: Calcolo Letterale
 >periodo: **Novembre**
@@ -94,7 +95,7 @@ slides:
 
 </section>
 
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
+<section data-transition="concave" data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
 
 ## TEMA 3: Polinomi e prodotti notevoli
 >periodo: **Dicembre - Gennaio**
@@ -114,7 +115,7 @@ slides:
 
 </section>
 
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
+<section data-transition="concave" data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
 
 ### TEMA 4: Equazioni numeriche di primo grado intere e fattorizzazione
 >periodo: **Febbraio - Marzo - Aprile**
@@ -142,7 +143,7 @@ slides:
 
 </section>
 
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
+<section data-transition="concave" data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
 
 ## TEMA 5: Disequazioni numeriche intere di primo grado
 > periodo: **Maggio - Giugno**
@@ -160,10 +161,14 @@ slides:
 
 ---
 
+<section data-transition="concave" data-background-image="book_bkg.jpg" data-background-opacity="0.4">
+
 ![polinomi](schema_polinomi-equazioni.svg)
+
+</section>
 
 ---
 
-<section data-transition="convex" data-background-color="#EDEDED">
+<section data-transition="concave" data-background-color="#EDEDED">
   <img data-src="https://res.cloudinary.com/teepublic/image/private/s--TQXt20Pc--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_000000,e_outline:48/co_000000,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1588675429/production/designs/9818088_0.jpg">
 </section>
