@@ -103,7 +103,7 @@ Calcolare l’errore relativo di un’approssimazione conoscendo l’errore asso
 
 ### Programmazione completa
 
-[programma classi TERZE SE](https://2023-mathofthings.netlify.app/slides/progs/)
+[programma classi TERZE SE](https://2023-mathofthings.netlify.app/slides/progs/prog_3se/)
 <!-- 
 ## Meet your instructor
 
