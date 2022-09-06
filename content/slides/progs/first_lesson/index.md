@@ -5,17 +5,17 @@ authors: []
 tags: ['Tutorials']
 categories: []
 date: '2019-02-05'
-slides:
-  # Choose a theme from https://github.com/hakimel/reveal.js#theming
-  theme: serif
-  # Choose a code highlighting style (see Hugo docs on Chroma)
-  #   Light style: github-light. Dark style: dracula (default).
-  highlight_style: dracula
-# theme: serif
+# slides:
+#   # Choose a theme from https://github.com/hakimel/reveal.js#theming
+#   theme: serif
+#   # Choose a code highlighting style (see Hugo docs on Chroma)
+#   #   Light style: github-light. Dark style: dracula (default).
+#   highlight_style: dracula
+theme: solarized
 ---
 
 
-{{< slide background-image="calm_bkg.jpg" >}} 
+<!-- {{< slide background-image="calm_bkg.jpg" >}}  -->
 
 # Create slides in Markdown with Wowchemy
 
@@ -72,7 +72,7 @@ $$
 f\left( x \right) = \;\frac{{2\left( {x + 4} \right)\left( {x - 4} \right)}}{{\left( {x + 4} \right)\left( {x + 1} \right)}}
 $$
 
---
+---
 
 ## Fragments
 
