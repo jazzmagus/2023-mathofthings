@@ -11,6 +11,7 @@ slides:
   # Choose a code highlighting style (see Hugo docs on Chroma)
   #   Light style: github-light. Dark style: dracula (default).
   highlight_style: dracula
+  verticalSeparator: ^( ?| )--( ?| )$
 # theme: solarized
 ---
 
@@ -22,7 +23,7 @@ slides:
 
 [Wowchemy](https://wowchemy.com/) | [Documentation](https://wowchemy.com/docs/content/slides/)
 
-<section>
+---
 
 ## Features
 
@@ -31,7 +32,7 @@ slides:
 - Supports speaker notes
 - Mobile friendly slides
 
-</section>
+---
 
 
 ## Controls
