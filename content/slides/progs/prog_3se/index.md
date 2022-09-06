@@ -56,9 +56,9 @@ slides:
 
 ---
 
-<span style="font-size:60%">
-
 ### abilità
+
+<span style="font-size:70%">
 - Utilizzare le procedure del calcolo aritmetico (a mente, per iscritto, a macchina) per calcolare espressioni aritmetiche e risolvere semplici problemi.
 - Utilizzare le diverse notazioni e saper convertire da una all’altra (da frazioni a decimali, da frazioni apparenti ad interi, da percentuali a frazioni…)
 - Operare in $\mathbb{N,\, Z,\, Q}.$
