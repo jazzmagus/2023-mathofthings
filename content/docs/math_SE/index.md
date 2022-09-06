@@ -135,7 +135,7 @@ header:
 >**competenza**:
 >- **A1**
 
-### Tema 5: Disequazioni di primo grado
+### Tema 5 - Disequazioni di primo grado
 > periodo: **Maggio - Giugno**
 - **conoscenze**:
   - Di sequazioni numeriche intere di primo grado.
