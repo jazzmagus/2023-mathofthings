@@ -27,8 +27,8 @@ header:
 
 |   classe   | TESTO                                                       | Vol | ISDN code | DAW code |
 |:----------| ----------------------------------------------------------- |:---:| --------- | -------- |
-| **TERZE**  | COLORI DELLA MATEMATICA edizione BIANCA Vol.1 - Petrini, Sasso, Fragni - ed. |  1  |           |          |
-| **QUARTE** | COLORI DELLA MATEMATICA edizione BIANCA Vol.1 - Petrini, Sasso, Fragni - ed. |  2  |           |          |
+| **TERZE**  | COLORI DELLA MATEMATICA edizione BIANCA Vol.1 - Petrini, Sasso, Fragni - ed. Petrini|  1  |           |          |
+| **QUARTE** | COLORI DELLA MATEMATICA edizione BIANCA Vol.1 - Petrini, Sasso, Fragni - ed. Petrini |  2  |           |          |
 | **QUINTE** | COLORI DELLA MATEMATICA edizione BIANCA Vol.1 - Petrini, Sasso, Fragni - ed. |  4  |           |          |
 
 
