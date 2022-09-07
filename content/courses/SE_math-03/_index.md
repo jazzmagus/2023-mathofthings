@@ -37,7 +37,7 @@ menu:
 
 > ref.: 
 > - [programmazione corsi serali &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i>]({{< ref "/content/docs/math_SE/index.md" >}}) 
-> - [presentazione](https://2023-mathofthings.netlify.app/slides/progs/first_lesson/)
+> - [presentazione](https://2023-mathofthings.netlify.app/slides/progs/first_lesson_3/)
 
 {{< toc >}}
 
