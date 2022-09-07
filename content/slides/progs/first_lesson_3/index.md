@@ -35,8 +35,7 @@ slides:
   ## DEL CORSO
   
 
-  <a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/docs/math_se/">programmazione completa</a>
-  <i class="fa-solid fa-link"></i>
+  <a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/docs/math_se/">programmazione completa </a><i class="fa-solid fa-arrow-up-right-from-square"></i>
 
 </section>
 
