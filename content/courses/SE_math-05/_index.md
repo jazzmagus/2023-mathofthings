@@ -38,7 +38,10 @@ menu:
 >-- Piergiorgio Odifreddi
 
 
-> ref.: [programmazione corsi serali &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i>]({{< ref "/content/docs/math_SE/index.md" >}}) 
+> ##### references: 
+> - [presentazione del corso](https://2023-mathofthings.netlify.app/slides/progs/first_lesson_5/)
+> - [programmazione corsi serali &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i>]({{< ref "/content/docs/math_SE/index.md" >}}) 
+
 
 ---
 
