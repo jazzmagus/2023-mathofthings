@@ -22,7 +22,7 @@ slides:
   <h2 style="color:#3B2F2F">SERALE</h2>
   <br> 
   <!-- <h3 style="color:#3B2F2F"><em>esercizi e ripasso</em></h3> -->
-  <br>
+  
   <h5 style="color:#8A4117"><em>prof. diego fantinelli</em></h5>
   <h5 style="color:#8A4117">IIS "A. Remondini" - Bassano del Grappa</h5>
 </section>

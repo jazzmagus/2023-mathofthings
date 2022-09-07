@@ -5,13 +5,13 @@ authors: []
 tags: ['Tutorials', 'serale']
 categories: [teaching]
 date: '2022-09-05'
-# slides:
-#   # Choose a theme from https://github.com/hakimel/reveal.js#theming
-#   theme: serif
-#   # Choose a code highlighting style (see Hugo docs on Chroma)
-#   #   Light style: github-light. Dark style: dracula (default).
-#   highlight_style: dracula
-theme: serif
+slides:
+  # Choose a theme from https://github.com/hakimel/reveal.js#theming
+  theme: serif
+  # Choose a code highlighting style (see Hugo docs on Chroma)
+  #   Light style: github-light. Dark style: dracula (default).
+  highlight_style: dracula
+# theme: serif
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="convex">
@@ -22,7 +22,7 @@ theme: serif
   <h2 style="color:#3B2F2F">SERALE</h2>
   <br> 
   <!-- <h3 style="color:#3B2F2F"><em>esercizi e ripasso</em></h3> -->
-  <br>
+  
   <h5 style="color:#8A4117"><em>prof. diego fantinelli</em></h5>
   <h5 style="color:#8A4117">IIS "A. Remondini" - Bassano del Grappa</h5>
 </section>
