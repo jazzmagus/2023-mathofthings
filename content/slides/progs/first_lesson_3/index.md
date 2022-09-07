@@ -34,7 +34,7 @@ slides:
   # OBIETTIVI
   ## DEL CORSO
   
-  [programmazione completa Classi Terze]({{< relref "/courses/SE_math_03" >}})
+  [programmazione completa Classi Terze](https://2023-mathofthings.netlify.app/docs/math_se/)
 
 </section>
 
