@@ -1,10 +1,10 @@
 ---
-title: Presentazione Classi Terze SE
+title: Presentazione Classi Quinte SE
 summary: An introduction to using Wowchemy's Slides feature.
 authors: []
 tags: ['Tutorials', 'serale']
 categories: [teaching]
-date: '2022-09-05'
+date: '2022-09-07'
 # slides:
 #   # Choose a theme from https://github.com/hakimel/reveal.js#theming
 #   theme: serif
@@ -18,7 +18,7 @@ theme: serif
   <h2 style="color:#3B2F2F">CORSO DI</h2>
 
   <h1 class="r-fit-text" style="color:#3B2F2F">MATEMATICA</h1>
-  <h2 style="color:#3B2F2F">per le Classi Terze</h2>
+  <h2 style="color:#3B2F2F">per le Classi Quinte</h2>
   <h2 style="color:#3B2F2F">SERALE</h2>
   <br> 
   <!-- <h3 style="color:#3B2F2F"><em>esercizi e ripasso</em></h3> -->
@@ -53,40 +53,6 @@ theme: serif
 
 ---
 
-<!-- <section data-transition="concave" data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
-
-## Tema 1 - Insiemi Numerici
->periodo: **Settembre - Ottobre**
-
-</section>
-
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
-
-### conoscenze:
-- Insiemi numerici: naturali, interi, razionali; ordinamento e loro rappresentazione su una retta.
-- Le operazioni con i numeri interi e razionali e loro proprietà.
-- Proprietà delle potenze.
-- Rapporti, proporzioni e percentuali.
-
-</section>
-
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
-
-### abilità
-
-<span style="font-size:70%">
-
-- Utilizzare le procedure del calcolo aritmetico (a mente, per iscritto, a macchina) per calcolare espressioni aritmetiche e risolvere semplici problemi.
-- Utilizzare le diverse notazioni e saper convertire da una all’altra (da frazioni a decimali, da frazioni apparenti ad interi, da percentuali a frazioni…)
-- Operare in $\mathbb{N, Z, Q}.$
-- Comprendere il significato di potenza; calcolare potenze e applicarne le proprietà.
-- Risolvere espressioni nei diversi insiemi numerici; rappresentare la soluzione di un problema con un’espressione e calcolarne il valore.
-- Impostare uguaglianze di rapporti e risolvere problemi di proporzionalità e percentuale
-
-</span>
-
-</section> -->
-
 <section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
 
 # materiali didattici
@@ -97,8 +63,8 @@ theme: serif
 
 - link: [Google Classroom corsi](https://classroom.google.com/c/NTQ2MTA4NzUwMjcw?cjc=wnllzfj)
 
-<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QA: &nbsp;</b><code>wnllzfj</code></h2>
-<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QES: &nbsp;</b><code>c7ctvcv</code></h2>
+<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>5QA: &nbsp;</b><code>uyy24pn</code></h2>
+<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>5QES: &nbsp;</b><code>yqnawpk</code></h2>
 
   - comunicazioni **non ufficiali**, ma non per questo frivole...
   - assegnazione compiti (eventualmente anche sul Registro El.)
@@ -128,7 +94,7 @@ theme: serif
 <section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.1">
 
 ## Libro di testo: 
-#### COLORI DELLA MATEMATICA edizione BIANCA Vol.1 - Petrini, Sasso, Fragni - ed. Petrini
+#### COLORI DELLA MATEMATICA edizione BIANCA Vol.2 - Petrini, Sasso, Fragni - ed. Petrini
 
   - non strettamente indispensabile in classe... pesa $780g$
   - versione digitale su iPad? 

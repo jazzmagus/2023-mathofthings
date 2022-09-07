@@ -1,24 +1,24 @@
 ---
-title: Presentazione Classi Terze SE
+title: Presentazione Classi Quarte SE
 summary: An introduction to using Wowchemy's Slides feature.
 authors: []
 tags: ['Tutorials', 'serale']
 categories: [teaching]
-date: '2022-09-05'
-# slides:
-#   # Choose a theme from https://github.com/hakimel/reveal.js#theming
-#   theme: serif
-#   # Choose a code highlighting style (see Hugo docs on Chroma)
-#   #   Light style: github-light. Dark style: dracula (default).
-#   highlight_style: dracula
-theme: serif
+date: '2022-09-07'
+slides:
+  # Choose a theme from https://github.com/hakimel/reveal.js#theming
+  theme: serif
+  # Choose a code highlighting style (see Hugo docs on Chroma)
+  #   Light style: github-light. Dark style: dracula (default).
+  highlight_style: dracula
+# theme: serif
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="convex">
   <h2 style="color:#3B2F2F">CORSO DI</h2>
 
   <h1 class="r-fit-text" style="color:#3B2F2F">MATEMATICA</h1>
-  <h2 style="color:#3B2F2F">per le Classi Terze</h2>
+  <h2 style="color:#3B2F2F">per le Classi Quinte</h2>
   <h2 style="color:#3B2F2F">SERALE</h2>
   <br> 
   <!-- <h3 style="color:#3B2F2F"><em>esercizi e ripasso</em></h3> -->
@@ -27,19 +27,14 @@ theme: serif
   <h5 style="color:#8A4117">IIS "A. Remondini" - Bassano del Grappa</h5>
 </section>
 
-<section data-transition="convex" data-background-image="book_bkg.jpg" data-background-opacity="0.5">
-
-<section>
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="convex">
     
   # OBIETTIVI
   ## DEL CORSO
   
-
-  <a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/docs/math_se/">programmazione completa </a><i class="fa-solid fa-arrow-up-right-from-square"></i>
-
+  <br>
+  <a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/docs/math_se/"><code>programmazione completa</code> </a><i class="fa-solid fa-file-lines"></i>
 </section>
-
----
 
 <section>
   <h2 style="color:#3B2F2F">CORSO DI</h2>
@@ -49,61 +44,37 @@ theme: serif
   <h2 style="color:#3B2F2F">SERALE</h2>
 </section>
 
-</section>
+<!-- </section> -->
 
 ---
 
-<!-- <section data-transition="concave" data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
-
-## Tema 1 - Insiemi Numerici
->periodo: **Settembre - Ottobre**
-
-</section>
-
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
-
-### conoscenze:
-- Insiemi numerici: naturali, interi, razionali; ordinamento e loro rappresentazione su una retta.
-- Le operazioni con i numeri interi e razionali e loro proprietà.
-- Proprietà delle potenze.
-- Rapporti, proporzioni e percentuali.
-
-</section>
-
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
-
-### abilità
-
-<span style="font-size:70%">
-
-- Utilizzare le procedure del calcolo aritmetico (a mente, per iscritto, a macchina) per calcolare espressioni aritmetiche e risolvere semplici problemi.
-- Utilizzare le diverse notazioni e saper convertire da una all’altra (da frazioni a decimali, da frazioni apparenti ad interi, da percentuali a frazioni…)
-- Operare in $\mathbb{N, Z, Q}.$
-- Comprendere il significato di potenza; calcolare potenze e applicarne le proprietà.
-- Risolvere espressioni nei diversi insiemi numerici; rappresentare la soluzione di un problema con un’espressione e calcolarne il valore.
-- Impostare uguaglianze di rapporti e risolvere problemi di proporzionalità e percentuale
-
-</span>
-
-</section> -->
-
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.6">
 
 # materiali didattici
 
----
+</section>
+
+<section data-background-image="class3.jpeg" data-background-opacity="0.9">
+
+
+</section>
+
+
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.6">
 
 ## Google Classroom
 
 - link: [Google Classroom corsi](https://classroom.google.com/c/NTQ2MTA4NzUwMjcw?cjc=wnllzfj)
-
-<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QA: &nbsp;</b><code>wnllzfj</code></h2>
-<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QES: &nbsp;</b><code>c7ctvcv</code></h2>
+  
+<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>4QA: &nbsp;</b><code>uxzqxe7</code></h2>
+<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>4QES: &nbsp;</b><code>u7ialtx</code></h2>
 
   - comunicazioni **non ufficiali**, ma non per questo frivole...
   - assegnazione compiti (eventualmente anche sul Registro El.)
   - post di varia natura
   - **materiale didattico**: dispense, video, esercizi, dispense, pdf, etc.
+
+</section>
 
 ---
 
@@ -128,7 +99,7 @@ theme: serif
 <section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.1">
 
 ## Libro di testo: 
-#### COLORI DELLA MATEMATICA edizione BIANCA Vol.1 - Petrini, Sasso, Fragni - ed. Petrini
+#### COLORI DELLA MATEMATICA edizione BIANCA Vol. 2 - Petrini, Sasso, Fragni - ed. Petrini
 
   - non strettamente indispensabile in classe... pesa $780g$
   - versione digitale su iPad? 
