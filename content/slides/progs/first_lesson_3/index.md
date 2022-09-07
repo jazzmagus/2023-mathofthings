@@ -34,6 +34,8 @@ slides:
   # OBIETTIVI
   ## DEL CORSO
   
+  [programmazione completa Classi Terze]({{< relref "/courses/SE_math_03" >}})
+
 </section>
 
 ---
@@ -92,26 +94,37 @@ slides:
 
 ## Google Classroom
 
-<h2 style="color:#aa0008"><code>wnllzfj</code></h2>
-
 - link: [Google Classroom corsi](https://classroom.google.com/c/NTQ2MTA4NzUwMjcw?cjc=wnllzfj)
+
+<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QA: &nbsp;</b><code>wnllzfj</code></h2>
+<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QES: &nbsp;</b><code>c7ctvcv</code></h2>
+
   - comunicazioni **non ufficiali**, ma non per questo frivole...
   - assegnazione compiti (eventualmente anche sul Registro El.)
-  - post di varia natura:
-    - per consigliare un video su YouTube
-    - suggerimenti per lo studio
-    - **materiale didattico**: dispense, video, esercizi, dispense, pdf, etc.
+  - post di varia natura
+  - **materiale didattico**: dispense, video, esercizi, dispense, pdf, etc.
 
 ---
 
 ## Registro elettronico: 
 ### Classeviva Spaggiari:
 
+![polinomi](classeviva.png)
+
   - comunicazioni **ufficiali**: 
-    - verifiche e interrogazioni, 
-    - voti.
+    - verifiche e interrogazioni
+    - voti
+    - Circolari
+
+</section>
 
 ---
+
+<section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.8">
+</section>
+
+
+<section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.1">
 
 ## Libro di testo: 
 #### COLORI DELLA MATEMATICA edizione BIANCA Vol.1 - Petrini, Sasso, Fragni - ed. Petrini
@@ -120,16 +133,14 @@ slides:
   - versione digitale su iPad? 
     - *parliamone*...
 
----
+</section>
+
+<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
 
 ## Appunti dalle lezioni
 ### ...non ne vado pazzo
 
 </section>
-
----
-
-
 
 ---
 
@@ -154,5 +165,7 @@ slides:
 <section data-background-image="numbers.gif" data-background-opacity="0.8">
 
   <h2 style="color:#ffffff" class="r-fit-text">DOMANDE?</h2>
+
+</section>
 
 </section>
