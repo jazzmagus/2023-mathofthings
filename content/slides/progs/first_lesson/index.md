@@ -5,13 +5,13 @@ authors: []
 tags: ['Tutorials']
 categories: []
 date: '2019-02-05'
-slides:
-  # Choose a theme from https://github.com/hakimel/reveal.js#theming
-  theme: serif
-  # Choose a code highlighting style (see Hugo docs on Chroma)
-  #   Light style: github-light. Dark style: dracula (default).
-  highlight_style: dracula
-# theme: serif
+# slides:
+#   # Choose a theme from https://github.com/hakimel/reveal.js#theming
+#   theme: serif
+#   # Choose a code highlighting style (see Hugo docs on Chroma)
+#   #   Light style: github-light. Dark style: dracula (default).
+#   highlight_style: dracula
+theme: serif
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="convex">
@@ -31,7 +31,8 @@ slides:
 
 <section>
     
-  ## Un gran bel corso
+  # OBIETTIVI
+  ## DEL CORSO
   
 </section>
 
@@ -91,9 +92,10 @@ slides:
 
 ## Google Classroom
 
-### `codice classe`: 
-- link: [Google Classroom corsi](https://classroom.google.com/u/0/h)
-  - comunicazioni
+<h2 style="color:#aa0008"><code>wnllzfj</code></h2>
+
+- link: [Google Classroom corsi](https://classroom.google.com/c/NTQ2MTA4NzUwMjcw?cjc=wnllzfj)
+  - comunicazioni **non ufficiali**, ma non per questo frivole...
   - assegnazione compiti (eventualmente anche sul Registro El.)
   - post di varia natura:
     - per consigliare un video su YouTube
@@ -105,14 +107,16 @@ slides:
 ## Registro elettronico: 
 ### Classeviva Spaggiari:
 
-  - comunicazioni ufficiali, verifiche e interrogazioni, note, voti.
+  - comunicazioni **ufficiali**: 
+    - verifiche e interrogazioni, 
+    - voti.
 
 ---
 
 ## Libro di testo: 
 #### COLORI DELLA MATEMATICA edizione BIANCA Vol.1 - Petrini, Sasso, Fragni - ed. Petrini
-  - non strettamente indispensabile in classe... 
-    - pesa $780g$
+
+  - non strettamente indispensabile in classe... pesa $780g$
   - versione digitale su iPad? 
     - *parliamone*...
 
@@ -121,12 +125,10 @@ slides:
 ## Appunti dalle lezioni
 ### ...non ne vado pazzo
 
-- quaderno, suddiviso in 2 parti (o 2 quaderni, oppure uno ad anelli, etc.)
-
-  1. appunti dalle lezioni
-  2. esercizi
-
 </section>
+
+---
+
 
 
 ---
