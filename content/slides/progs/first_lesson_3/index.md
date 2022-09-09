@@ -5,13 +5,13 @@ authors: []
 tags: ['Tutorials', 'serale']
 categories: [teaching]
 date: '2022-09-05'
-slides:
-  # Choose a theme from https://github.com/hakimel/reveal.js#theming
-  theme: serif
-  # Choose a code highlighting style (see Hugo docs on Chroma)
-  #   Light style: github-light. Dark style: dracula (default).
-  highlight_style: dracula
-# theme: serif
+# slides:
+#   # Choose a theme from https://github.com/hakimel/reveal.js#theming
+#   theme: serif
+#   # Choose a code highlighting style (see Hugo docs on Chroma)
+#   #   Light style: github-light. Dark style: dracula (default).
+#   highlight_style: dracula
+theme: serif
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="convex">
@@ -19,7 +19,7 @@ slides:
 
   <h1 class="r-fit-text" style="color:#3B2F2F">MATEMATICA</h1>
   <h2 style="color:#3B2F2F">per le Classi Terze</h2>
-  <h2 style="color:#3B2F2F">SERALE</h2>
+  <h2 style="color:#3B2F2F">SERALE </h2>
   <br> 
   <!-- <h3 style="color:#3B2F2F"><em>esercizi e ripasso</em></h3> -->
   
@@ -28,39 +28,22 @@ slides:
 </section>
 
 <section data-transition="convex" data-background-image="book_bkg.jpg" data-background-opacity="0.5">
-
-<section>
     
   # OBIETTIVI
   ## DEL CORSO
-  
 
   <a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/docs/math_se/">programmazione completa </a><i class="fa-solid fa-arrow-up-right-from-square"></i>
 
 </section>
 
----
-
-<section>
-  <h2 style="color:#3B2F2F">CORSO DI</h2>
-
-  <h1 class="r-fit-text" style="color:#3B2F2F">MATEMATICA</h1>
-  <h2 style="color:#3B2F2F">per le Classi Terze</h2>
-  <h2 style="color:#3B2F2F">SERALE</h2>
-</section>
-
-</section>
-
----
-
-<!-- <section data-transition="concave" data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="concave">
 
 ## Tema 1 - Insiemi Numerici
 >periodo: **Settembre - Ottobre**
+>
+>**competenza**: A1
 
-</section>
-
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
+---
 
 ### conoscenze:
 - Insiemi numerici: naturali, interi, razionali; ordinamento e loro rappresentazione su una retta.
@@ -68,9 +51,7 @@ slides:
 - Proprietà delle potenze.
 - Rapporti, proporzioni e percentuali.
 
-</section>
-
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
+---
 
 ### abilità
 
@@ -85,13 +66,118 @@ slides:
 
 </span>
 
-</section> -->
+</section>
+
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="concave">
+
+## TEMA 2: Calcolo Letterale
+
+>periodo: **Novembre**
+
+>**competenza**: A1
+
+---
+
+### conoscenze:    
+- Definizione e significato di monomio; operazioni con i monomi.
+### abilità
+- Padroneggiare l’uso della lettera come mero simbolo e come variabile.
+- Eseguire le operazioni con i monomi, utilizzando opportunamente le proprietà delle potenze.
+
+</section>
+
+
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="concave">
+
+## TEMA 3: Polinomi e prodotti notevoli
+>periodo: **Dicembre - Gennaio**
+>
+>**competenza**: A1
+
+---
+
+### conoscenze:
+- Definizione e caratteristiche di un polinomio; operazioni con i polinomi.
+- Prodotti notevoli (differenza di quadrati, quadrato di binomio, quadrato di trinomio, cubo di binomio)
+
+---
+
+### abilità:
+- Eseguire le operazioni con i polinomi e i prodotti notevoli.
+
+</section>
+
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="concave">
+
+## TEMA 4: Equazioni di $1^{\circ}$ grado intere e fattorizzazione
+>periodo: **Febbraio - Marzo - Aprile**
+>
+>**competenza**: A1
+
+---
+
+![polinomi](schema_polinomi-equazioni.svg)
+
+---
+
+### conoscenze:
+- Equazioni numeriche di primo grado intere.
+- Problemi con equazioni.
+- Concetto di fattorizzazione.
+- Vari metodi di fattorizzazione (raccoglimento parziale e totale, riconoscimento dei prodotti notevoli, trinomio particolare).
+
+---
+
+### abilità
+- Risolvere equazioni di primo grado e verificare la correttezza dei procedimenti utilizzati.
+- Utilizzo dell’algebra per risolvere problemi numerici e geometrici.
+- Fattorizzare un polinomio.
+- Utilizzo dell’algebra per risolvere problemi numerici ed algebrici.
+
+</section>
+
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="concave">
+
+## TEMA 5: Disequazioni numeriche intere di primo grado
+> periodo: **Maggio - Giugno**
+> 
+> **competenza**: A1
+
+---
+
+### conoscenze:
+- Disequazioni numeriche intere di primo grado.
+### abilità
+- Risolvere disequazioni di primo grado e verificare la correttezza dei procedimenti utilizzati.
+
+</section>
+
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.6">
+
+{{% callout note %}}
+## competenze finali
+- Saper utilizzare le tecniche di calcolo per risolvere le equazioni di 1° grado fratte, quelle di 2° grado ed i sistemi di equazioni lineari.
+- Saper risolvere problemi di geometria analitica sulla retta.
+- Saper risolvere problemi di geometria analitica sulla parabola .
+- Saper risolvere disequazioni di 1° e 2° facendo uso della retta e della parabola.
+{{% /callout %}}
+
+
+</section>
+
+---
 
 <section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
 
 # materiali didattici
 
----
+</section>
+
+<section data-background-image="class3.jpeg" data-background-opacity="0.9">
+
+</section>
+
+<section>
 
 ## Google Classroom
 
@@ -166,7 +252,5 @@ slides:
 <section data-background-image="numbers.gif" data-background-opacity="0.8">
 
   <h2 style="color:#ffffff" class="r-fit-text">DOMANDE?</h2>
-
-</section>
 
 </section>
