@@ -105,8 +105,8 @@ slides:
 - Definizione di grafico di una funzione.
 - Lettura di dominio e codominio e segno della funzione da grafico. 
 - Calcolo algebrico del dominio(di f. razionali e irrazionali intere e fratte).
-- Studio algebrico del segno, simmetrie ed intersezioni con gli assi( di funzioni razionali fratte).
-- Studio delle funzioni: costante, lineare, quadratica, esponenziale e definita a tratti.
+- Studio algebrico del segno, simmetrie e intersezioni con gli assi (di funzioni razionali fratte).
+- Studio delle funzioni: costante, lineare, quadratica, esponenziale e definita **a tratti**.
 
 </span>
 </section>
@@ -120,12 +120,12 @@ slides:
 - Aver chiaro il concetto di funzione in una variabile.
 - Saper classificare le funzioni matematiche.
 - Aver chiari i concetti di dominio e di codominio di una funzione.
-- Saper determinare graficamente dominio, codominio, gli intervalli di positività e di negatività , di crescenza e decrescenza di una funzione.
+- Saper determinare graficamente dominio, codominio, gli intervalli di positività e di negatività, di crescenza e decrescenza di una funzione.
 - Saper stabilire se una funzione è pari o dispari.
 - Aver chiaro il concetto di funzione limitata.
 - Aver chiari i concetti  di massimo e minimo relativi e assoluti.
 - Saper determinare algebricamente dominio, codominio, gli intervalli di positività e di negatività, simmetrie e intersezioni assi di una funzione.
-- Saper rappresentare graficamente le funzioni: costante, lineare, quadratica, definita a tratti, esponenziale.
+- Saper rappresentare graficamente le funzioni: costante, lineare, quadratica, definita *a tratti*, esponenziale.
 
 </span>
 
@@ -143,12 +143,12 @@ slides:
 ### conoscenze:
 
 - Concetto intuitivo da grafico di:
-  - limite finito di una funzione per x che tende a un valore finito 
+  - limite finito di una funzione per $x$ che tende a un valore finito 
   - limite destro e sinistro 
-  - limite finito di una funzione per x che tende all’infinito
-  - limite infinito di una funzione per x che tende ad un valore finito
-  - limite infinito di una funzione per x che tende all’infinito. 
-- Asintoti verticali ed orizzontali.
+  - limite finito di una funzione per $x$ che tende all’infinito
+  - limite infinito di una funzione per $x$ che tende a un valore finito
+  - limite infinito di una funzione per $x$ che tende all’infinito. 
+- Asintoti verticali e orizzontali.
 
 </section>
 
