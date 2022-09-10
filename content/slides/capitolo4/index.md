@@ -385,7 +385,7 @@ slides:
 
 <!-- {{< slide background-image="numbers.gif" data-background-opacity="0.6" >}} -->
 
-<section>
+<section data-background-image="numbers.gif" data-background-opacity="0.6">
   <h2 style="color:#ffffff" class="r-fit-text">DOMANDE?</h2>
 </section>
 

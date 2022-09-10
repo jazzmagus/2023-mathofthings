@@ -5,13 +5,13 @@ authors: []
 tags: ['Tutorials', 'serale']
 categories: [teaching]
 date: '2022-09-07'
-slides:
-  # Choose a theme from https://github.com/hakimel/reveal.js#theming
-  theme: serif
-  # Choose a code highlighting style (see Hugo docs on Chroma)
-  #   Light style: github-light. Dark style: dracula (default).
-  highlight_style: dracula
-# theme: serif
+# slides:
+#   # Choose a theme from https://github.com/hakimel/reveal.js#theming
+#   theme: serif
+#   # Choose a code highlighting style (see Hugo docs on Chroma)
+#   #   Light style: github-light. Dark style: dracula (default).
+#   highlight_style: dracula
+theme: serif
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="convex">
@@ -87,6 +87,13 @@ slides:
 
 </section>
 
+<section data-background-image="book_bkg.gif" data-background-opacity="0.9">
+
+![ecg](heart_01.gif)
+
+</section>
+
+
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.6">
 
 ## Tema 2 - Funzioni reali di variabile reale
@@ -100,13 +107,13 @@ slides:
 
 ### conoscenze:
 
-- Definizione e classificazione  di funzione.
+- Definizione e classificazione di funzione.
 - Definizioni di: dominio, codominio, f. crescenti, f. decrescenti, f. pari, f. dispari, f. limitate massimo-minimo relativi e assoluti.
 - Definizione di grafico di una funzione.
 - Lettura di dominio e codominio e segno della funzione da grafico. 
-- Calcolo algebrico del dominio(di f. razionali e irrazionali intere e fratte).
+- Calcolo algebrico del dominio (di f. razionali e irrazionali intere e fratte).
 - Studio algebrico del segno, simmetrie e intersezioni con gli assi (di funzioni razionali fratte).
-- Studio delle funzioni: costante, lineare, quadratica, esponenziale e definita **a tratti**.
+- Studio delle funzioni: costante, lineare, quadratica, esponenziale e definita *a tratti*.
 
 </span>
 </section>
@@ -123,7 +130,7 @@ slides:
 - Saper determinare graficamente dominio, codominio, gli intervalli di positività e di negatività, di crescenza e decrescenza di una funzione.
 - Saper stabilire se una funzione è pari o dispari.
 - Aver chiaro il concetto di funzione limitata.
-- Aver chiari i concetti  di massimo e minimo relativi e assoluti.
+- Aver chiari i concetti di massimo e minimo relativi e assoluti.
 - Saper determinare algebricamente dominio, codominio, gli intervalli di positività e di negatività, simmetrie e intersezioni assi di una funzione.
 - Saper rappresentare graficamente le funzioni: costante, lineare, quadratica, definita *a tratti*, esponenziale.
 
@@ -175,8 +182,8 @@ slides:
 
 - Definizione di funzione continua.
 - Algebra dei limiti: 
-  - regole di calcolo(somme, prodotti, quozienti) nel caso di limiti finiti;
-  - regole di calcolo(somme, prodotti, quozienti)nel caso in cui qualcuno dei limiti sia infinito e non si presentino forme di indecisione.
+  - regole di calcolo (somme, prodotti, quozienti) nel caso di limiti finiti;
+  - regole di calcolo (somme, prodotti, quozienti)nel caso in cui qualcuno dei limiti sia infinito e non si presentino forme di indecisione.
 
 
 </section>
