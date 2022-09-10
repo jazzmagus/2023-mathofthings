@@ -5,20 +5,20 @@ authors: []
 tags: ['Tutorials', 'serale']
 categories: [teaching]
 date: '2022-09-07'
-# slides:
-#   # Choose a theme from https://github.com/hakimel/reveal.js#theming
-#   theme: serif
-#   # Choose a code highlighting style (see Hugo docs on Chroma)
-#   #   Light style: github-light. Dark style: dracula (default).
-#   highlight_style: dracula
-theme: serif
+slides:
+  # Choose a theme from https://github.com/hakimel/reveal.js#theming
+  theme: serif
+  # Choose a code highlighting style (see Hugo docs on Chroma)
+  #   Light style: github-light. Dark style: dracula (default).
+  highlight_style: dracula
+# theme: serif
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="convex">
   <h2 style="color:#3B2F2F">CORSO DI</h2>
 
   <h1 class="r-fit-text" style="color:#3B2F2F">MATEMATICA</h1>
-  <h2 style="color:#3B2F2F">per le Classi Terze</h2>
+  <h2 style="color:#3B2F2F">per le Classi Quinte</h2>
   <h2 style="color:#3B2F2F">SERALE </h2>
   <br> 
   <!-- <h3 style="color:#3B2F2F"><em>esercizi e ripasso</em></h3> -->
@@ -38,18 +38,73 @@ theme: serif
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.6">
 
-## Tema 1 - Insiemi Numerici
->periodo: **Settembre - Ottobre**
+## Tema 0 - Ripasso
+>periodo: **Settembre**
 
 </section>
 
 <section>
 
 ### conoscenze:
-- Insiemi numerici: naturali, interi, razionali; ordinamento e loro rappresentazione su una retta.
-- Le operazioni con i numeri interi e razionali e loro proprietà.
-- Proprietà delle potenze.
-- Rapporti, proporzioni e percentuali.
+
+- Disequazioni numeriche di $2^{\circ}$ grado intere e fratte (risoluzione grafica).
+- Sistemi di disequazioni di $2^{\circ}$ grado intere e fratte.
+
+</section>
+
+<section>
+
+### abilità
+
+- Acquisire le tecniche per la risoluzione grafica di disequazioni di $2^{\circ}$ grado.
+- Acquisire tecniche di risoluzione di sistemi di disequazioni di $2^{\circ}$ grado.
+
+</section>
+
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.6">
+
+## Tema 1 - Equazioni esponenziali e logaritmiche
+>periodo: **Ottobre**
+
+</section>
+
+<section>
+
+### conoscenze:
+
+- Equazioni esponenziali.
+- Definizione di logaritmo.
+- Equazioni logaritmiche
+
+</section>
+
+<section>
+
+### abilità
+
+- Acquisire le tecniche per risolvere semplici equazioni esponenziali e logaritmiche
+- Aver chiaro il concetto di logaritmo.
+
+</section>
+
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.6">
+
+## Tema 2 - Funzioni reali di variabile reale
+>periodo: **Novembre-dicembre**
+
+</section>
+
+<section>
+
+### conoscenze:
+
+- Definizione e classificazione  di funzione.
+- Definizioni di: dominio, codominio, f. crescenti, f. decrescenti, f. pari, f. dispari, f. limitate massimo-minimo relativi e assoluti.
+- Definizione di grafico di una funzione.
+- Lettura di dominio e codominio e segno della funzione da grafico. 
+- Calcolo algebrico del dominio(di f. razionali e irrazionali intere e fratte).
+- Studio algebrico del segno, simmetrie ed intersezioni con gli assi( di funzioni razionali fratte).
+- Studio delle funzioni: costante, lineare, quadratica, esponenziale e definita a tratti.
 
 </section>
 
@@ -59,12 +114,15 @@ theme: serif
 
 <span style="font-size:70%">
 
-- Utilizzare le procedure del calcolo aritmetico (a mente, per iscritto, a macchina) per calcolare espressioni aritmetiche e risolvere semplici problemi.
-- Utilizzare le diverse notazioni e saper convertire da una all’altra (da frazioni a decimali, da frazioni apparenti ad interi, da percentuali a frazioni…)
-- Operare in $\mathbb{N, Z, Q}.$
-- Comprendere il significato di potenza; calcolare potenze e applicarne le proprietà.
-- Risolvere espressioni nei diversi insiemi numerici; rappresentare la soluzione di un problema con un’espressione e calcolarne il valore.
-- Impostare uguaglianze di rapporti e risolvere problemi di proporzionalità e percentuale
+- Aver chiaro il concetto di funzione in una variabile.
+- Saper classificare le funzioni matematiche.
+- Aver chiari i concetti di dominio e di codominio di una funzione.
+- Saper determinare graficamente dominio, codominio, gli intervalli di positività e di negatività , di crescenza e decrescenza di una funzione.
+- Saper stabilire se una funzione è pari o dispari.
+- Aver chiaro il concetto di funzione limitata.
+- Aver chiari i concetti  di massimo e minimo relativi e assoluti.
+- Saper determinare algebricamente dominio, codominio, gli intervalli di positività e di negatività, simmetrie e intersezioni assi di una funzione.
+- Saper rappresentare graficamente le funzioni: costante, lineare, quadratica, definita a tratti, esponenziale.
 
 </span>
 
@@ -72,18 +130,22 @@ theme: serif
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.6">
 
-## Tema 1 - Insiemi Numerici
->periodo: **Settembre - Ottobre**
+## Tema 3 - I Limiti
+>periodo: **gennaio**
 
 </section>
 
 <section>
 
 ### conoscenze:
-- Insiemi numerici: naturali, interi, razionali; ordinamento e loro rappresentazione su una retta.
-- Le operazioni con i numeri interi e razionali e loro proprietà.
-- Proprietà delle potenze.
-- Rapporti, proporzioni e percentuali.
+
+- Concetto intuitivo da grafico di:
+  - limite finito di una funzione per x che tende a un valore finito 
+  - limite destro e sinistro 
+  - limite finito di una funzione per x che tende all’infinito
+  - limite infinito di una funzione per x che tende ad un valore finito
+  - limite infinito di una funzione per x che tende all’infinito. 
+- Asintoti verticali ed orizzontali.
 
 </section>
 
@@ -91,18 +153,101 @@ theme: serif
 
 ### abilità
 
-<span style="font-size:70%">
+- Saper leggere semplici limiti dal grafico di una funzione.
+- Saper riconoscere gli asintoti dal grafico di una funzione.
 
-- Utilizzare le procedure del calcolo aritmetico (a mente, per iscritto, a macchina) per calcolare espressioni aritmetiche e risolvere semplici problemi.
-- Utilizzare le diverse notazioni e saper convertire da una all’altra (da frazioni a decimali, da frazioni apparenti ad interi, da percentuali a frazioni…)
-- Operare in $\mathbb{N, Z, Q}.$
-- Comprendere il significato di potenza; calcolare potenze e applicarne le proprietà.
-- Risolvere espressioni nei diversi insiemi numerici; rappresentare la soluzione di un problema con un’espressione e calcolarne il valore.
-- Impostare uguaglianze di rapporti e risolvere problemi di proporzionalità e percentuale
-
-</span>
 
 </section>
+
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.6">
+
+## Tema 4 - Le funzioni continue e l'Algebra dei limiti 
+>periodo: **febbraio-marzo**
+
+</section>
+
+<section>
+
+### conoscenze:
+
+- Definizione di funzione continua.
+- Algebra dei limiti: 
+  - regole di calcolo(somme, prodotti, quozienti) nel caso di limiti finiti;
+  - regole di calcolo(somme, prodotti, quozienti)nel caso in cui qualcuno dei limiti sia infinito e non si presentino forme di indecisione.
+
+
+</section>
+
+<section>
+
+### abilità
+
+- Aver chiaro il concetto di funzione in una variabile e saperla  studiare analizzandone il grafico.
+- Acquisire le tecniche per calcolare limiti finiti e infiniti di funzioni.
+
+
+</section>
+
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.6">
+
+## Tema 5 - Il calcolo differenziale e lo studio di funzione
+>periodo: **aprile-maggio**
+
+</section>
+
+<section>
+
+### conoscenze:
+
+- Il concetto di derivata:
+  - rapporto incrementale;
+  - definizione di derivata e suo significato geometrico;
+  - le derivate fondamentali: della funzione costante, della funzione f(x)=x;
+  - i teoremi sul calcolo delle derivate:
+  - la derivata della somma di funzioni;
+  - la derivata del prodotto di funzioni;
+  - la derivata della potenza di una funzione;
+  - la derivata del quoziente di due funzioni;
+  - derivata seconda.
+
+---
+
+- Definizione di
+  - massimi e minimi relativi e assoluti.
+- Definizione di
+  - funzioni crescenti e decrescenti in un intervallo.
+     Definizione di 
+  - flesso di una funzione
+- Definizione di 
+  - funzioni concave e convesse in un intervallo.
+- Criterio di monotonia per le funzioni derivabili.
+  - Ricerca di massimi e minimi relativi di una funzione derivabile.
+  - Ricerca dei flessi di funzioni intere e semplici funzioni frazionarie.
+- Studio del grafico di una funzione.
+
+</section>
+
+<section>
+
+### abilità
+
+- Conoscere la definizione e il significato  geometrico di derivata.
+- Saper calcolare le derivate.
+- Saper effettuare il grafico di una funzione individuandone le caratteristiche (dominio, intersezioni con gli assi, simmetrie, asintoti, studio del segno, crescenza e decrescenza, massimi e minimi, concavità, flessi).
+
+</section>
+
+<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
+
+### OBIETTIVO FINALE: COMPETENZE
+
+- Saper utilizzare le tecniche per risolvere semplici equazioni esponenziali e logaritmiche. 
+- Conoscere il concetto di funzione
+- Saper studiare algebricamente e graficamente una funzione.
+- Saper leggere semplici limiti dal grafico di una funzione.
+- Saper definire e calcolare i limiti di una funzione.
+- Saper calcolare la derivata di una funzione razionale fratta
+- Utilizzare le tecniche di analisi matematica per tracciare il grafico di una funzione.
 
 </section>
 
