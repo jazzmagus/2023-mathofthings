@@ -96,6 +96,8 @@ slides:
 
 <section>
 
+<span style="font-size:70%">
+
 ### conoscenze:
 
 - Definizione e classificazione  di funzione.
@@ -106,6 +108,7 @@ slides:
 - Studio algebrico del segno, simmetrie ed intersezioni con gli assi( di funzioni razionali fratte).
 - Studio delle funzioni: costante, lineare, quadratica, esponenziale e definita a tratti.
 
+</span>
 </section>
 
 <section>
