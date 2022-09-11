@@ -109,7 +109,6 @@ slides:
 </section>
 
 
-
 <section>
 
 <span style="font-size:70%">
@@ -256,7 +255,7 @@ slides:
 
 </section>
 
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
+<section style="font-size:70%" data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
 
 ### OBIETTIVO FINALE: COMPETENZE
 
