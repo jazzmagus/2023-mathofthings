@@ -288,10 +288,12 @@ slides:
 <h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>5QA: &nbsp;</b><code>uyy24pn</code></h2>
 <h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>5QES: &nbsp;</b><code>yqnawpk</code></h2>
 
+<span style="font-size:70%">
   - comunicazioni **non ufficiali**, ma non per questo frivole...
   - assegnazione compiti (eventualmente anche sul Registro El.)
   - post di varia natura
   - **materiale didattico**: dispense, video, esercizi, dispense, pdf, etc.
+</span>
 
 </section>
 
