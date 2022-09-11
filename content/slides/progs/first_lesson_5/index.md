@@ -313,11 +313,11 @@ slides:
 
 ---
 
-<section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.8">
+<section data-transition="concave" data-background-image="book5.png" data-background-opacity="0.8">
 </section>
 
 
-<section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.1">
+<section data-transition="concave" data-background-image="book5.png" data-background-opacity="0.1">
 
 ## Libro di testo: 
 #### COLORI DELLA MATEMATICA edizione BIANCA Vol.2 - Petrini, Sasso, Fragni - ed. Petrini

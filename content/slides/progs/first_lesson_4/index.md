@@ -245,11 +245,11 @@ theme: serif
 
 ---
 
-<section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.8">
+<section data-transition="concave" data-background-image="book2.png" data-background-opacity="0.8">
 </section>
 
 
-<section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.1">
+<section data-transition="concave" data-background-image="book2.png" data-background-opacity="0.1">
 
 ## Libro di testo: 
 #### COLORI DELLA MATEMATICA edizione BIANCA Vol. 2 - Petrini, Sasso, Fragni - ed. Petrini
@@ -280,9 +280,9 @@ theme: serif
 ---
 
 <section data-transition="concave" data-background-color="#EDEDED">
-  <img data-src="https://res.cloudinary.com/teepublic/image/private/s--TQXt20Pc--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_000000,e_outline:48/co_000000,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1588675429/production/designs/9818088_0.jpg">
+  <img data-src="https://res.cloudinary.com/teepublic/image/private/s--TQXt20Pc--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_000000,e_outline:48/co_000000,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1588675429/production/designs/9818088_0.jpg" width="400">
 
-<h1 class="fragment" >The End</h1>
+<h2 class="fragment" >The End</h2>
 </section>
 
 ---
