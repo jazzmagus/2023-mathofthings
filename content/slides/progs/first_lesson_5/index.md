@@ -104,7 +104,7 @@ slides:
 ![ecg](heart_01.gif)
 
   <!-- <h3 class="fragment" style="background-color:powderblue;">matematicamente</h3> -->
-  <img class="fragment" src="heart.png" style="color:" width="400">
+  <img class="fragment" src="heart.png" style="color:" width="300">
 
 </section>
 
@@ -289,10 +289,12 @@ slides:
 <h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>5QES: &nbsp;</b><code>yqnawpk</code></h2>
 
 <span style="font-size:70%">
+
   - comunicazioni **non ufficiali**, ma non per questo frivole...
   - assegnazione compiti (eventualmente anche sul Registro El.)
   - post di varia natura
   - **materiale didattico**: dispense, video, esercizi, dispense, pdf, etc.
+
 </span>
 
 </section>
