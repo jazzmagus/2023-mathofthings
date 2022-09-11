@@ -104,7 +104,7 @@ slides:
 ![ecg](heart_01.gif)
 
   <h3 class="fragment" style="background-color:powderblue;">matematicamente</h3>
-  <img class="fragment" src="heart.png" style="color:" width="300">
+  <img class="fragment" src="heart.png" style="color:" width="200">
 
 </section>
 
