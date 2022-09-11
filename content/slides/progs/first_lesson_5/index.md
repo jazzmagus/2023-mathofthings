@@ -6,11 +6,7 @@ tags: ['Tutorials', 'serale']
 categories: [teaching]
 date: '2022-09-07'
 slides:
-  # Choose a theme from https://github.com/hakimel/reveal.js#theming
   theme: serif
-  # Choose a code highlighting style (see Hugo docs on Chroma)
-  #   Light style: github-light. Dark style: dracula (default).
-  highlight_style: dracula
 # theme: serif
 ---
 
@@ -213,7 +209,7 @@ slides:
 
 </section>
 
-<section>
+<section style="font-size:70%">
 
 ### conoscenze:
 
@@ -228,7 +224,10 @@ slides:
   - la derivata del quoziente di due funzioni;
   - derivata seconda.
 
----
+</section>
+
+<section style="font-size:70%">
+
 
 - Definizione di
   - massimi e minimi relativi e assoluti.
@@ -322,7 +321,7 @@ slides:
 <section data-transition="concave" data-background-image="book5.png" data-background-opacity="0.1">
 
 ## Libro di testo: 
-#### COLORI DELLA MATEMATICA edizione BIANCA Vol.2 - Petrini, Sasso, Fragni - ed. Petrini
+#### COLORI DELLA MATEMATICA edizione BIANCA Vol.A - Petrini, Sasso, Fragni - ed. Petrini
 
   - non strettamente indispensabile in classe... pesa $780g$
   - versione digitale su iPad? 
@@ -333,6 +332,7 @@ slides:
 <section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
 
 ## Appunti dalle lezioni
+
 ### ...non ne vado pazzo
 
 </section>
