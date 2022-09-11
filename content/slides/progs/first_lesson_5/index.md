@@ -5,13 +5,13 @@ authors: []
 tags: ['Tutorials', 'serale']
 categories: [teaching]
 date: '2022-09-07'
-# slides:
-#   # Choose a theme from https://github.com/hakimel/reveal.js#theming
-#   theme: serif
-#   # Choose a code highlighting style (see Hugo docs on Chroma)
-#   #   Light style: github-light. Dark style: dracula (default).
-#   highlight_style: dracula
-theme: serif
+slides:
+  # Choose a theme from https://github.com/hakimel/reveal.js#theming
+  theme: serif
+  # Choose a code highlighting style (see Hugo docs on Chroma)
+  #   Light style: github-light. Dark style: dracula (default).
+  highlight_style: dracula
+# theme: serif
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="convex">
@@ -87,19 +87,28 @@ theme: serif
 
 </section>
 
-<section data-background-image="book_bkg.gif" data-background-opacity="0.9">
 
-![ecg](heart_01.gif)
-
-</section>
 
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.6">
 
 ## Tema 2 - Funzioni reali di variabile reale
 >periodo: **Novembre-dicembre**
+>
+> link: <a style="color:#1d91de" href="sdf.pdf"> schema studio di funzione </a><i class="fa-solid fa-arrow-up-right-from-square"></i>
 
 </section>
+
+<section data-background-image="book_bkg.gif" data-background-opacity="0.9">
+
+![ecg](heart_01.gif)
+
+  <h2 class="fragment" style="background-color:powderblue;">matematicamente</h2>
+  <img class="fragment" src="heart.png" style="color:" width="500">
+
+</section>
+
+
 
 <section>
 
