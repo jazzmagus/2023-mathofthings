@@ -154,7 +154,7 @@ slides:
 ---
 
 ### conoscenze
-- La parabola nel piano cartesiano: parabola con asse di simmetria parallelo all’asse y, studio dell’equazione $$y=ax^2+bx+c$$ con casi particolari, formule del vertice e dell’asse di simmetria.
+- La parabola nel piano cartesiano: parabola con asse di simmetria parallelo all’asse y, studio dell’equazione $y=ax^2+bx+c$ con casi particolari, formule del vertice e dell’asse di simmetria.
 - Disegnare il grafico della parabola dopo aver determinato: 
 	- vertice, 
 	- asse di simmetria, 
