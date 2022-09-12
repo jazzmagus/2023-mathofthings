@@ -6,10 +6,7 @@ tags: ['Tutorials', 'serale']
 categories: [teaching]
 date: '2022-09-07'
 slides:
-  # Choose a theme from https://github.com/hakimel/reveal.js#theming
   theme: serif
-  # Choose a code highlighting style (see Hugo docs on Chroma)
-  #   Light style: github-light. Dark style: dracula (default).
   highlight_style: dracula
 # theme: serif
 ---
@@ -244,11 +241,11 @@ slides:
 
 ---
 
-<section data-transition="concave" data-background-image="book2.png" data-background-opacity="0.8">
+<section data-transition="concave" data-background-image="book4.png" data-background-opacity="0.8">
 </section>
 
 
-<section data-transition="concave" data-background-image="book2.png" data-background-opacity="0.1">
+<section data-transition="concave" data-background-image="book4.png" data-background-opacity="0.1">
 
 ## Libro di testo: 
 #### COLORI DELLA MATEMATICA edizione BIANCA Vol. 2 - Petrini, Sasso, Fragni - ed. Petrini
