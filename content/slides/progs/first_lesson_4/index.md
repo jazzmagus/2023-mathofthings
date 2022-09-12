@@ -224,8 +224,7 @@ slides:
 
   - comunicazioni **non ufficiali**, ma non per questo frivole...
   - assegnazione compiti (eventualmente anche sul Registro El.)
-  - post di varia natura
-  - **materiale didattico**: dispense, video, esercizi, dispense, pdf, etc.
+  - post di varia natura e **materiale didattico**: dispense, video, esercizi, dispense, pdf, etc.
 
 </section>
 
