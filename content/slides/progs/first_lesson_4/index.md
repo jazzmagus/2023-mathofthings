@@ -18,7 +18,7 @@ slides:
   <h2 style="color:#3B2F2F">CORSO DI</h2>
 
   <h1 class="r-fit-text" style="color:#3B2F2F">MATEMATICA</h1>
-  <h2 style="color:#3B2F2F">per le Classi Quinte</h2>
+  <h2 style="color:#3B2F2F">per le Classi Quarte</h2>
   <h2 style="color:#3B2F2F">SERALE</h2>
   <br> 
   <!-- <h3 style="color:#3B2F2F"><em>esercizi e ripasso</em></h3> -->
