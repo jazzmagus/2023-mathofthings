@@ -5,7 +5,7 @@ authors: [Diego Fantinelli]
 tags: ['Tutorials', 'serale']
 categories: [teaching]
 date: '2022-09-05'
-slides:-
+slides:
   theme: serif
   highlight_style: dracula
 # theme: serif
