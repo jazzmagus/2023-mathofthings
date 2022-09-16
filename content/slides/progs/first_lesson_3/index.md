@@ -1,15 +1,12 @@
 ---
 title: Presentazione Classi Terze SE
-summary: An introduction to using Wowchemy's Slides feature.
-authors: []
+summary:
+authors: [Diego Fantinelli]
 tags: ['Tutorials', 'serale']
 categories: [teaching]
 date: '2022-09-05'
-slides:
-  # Choose a theme from https://github.com/hakimel/reveal.js#theming
+slides:-
   theme: serif
-  # Choose a code highlighting style (see Hugo docs on Chroma)
-  #   Light style: github-light. Dark style: dracula (default).
   highlight_style: dracula
 # theme: serif
 ---
@@ -158,7 +155,7 @@ slides:
 ## competenze finali
 - Saper utilizzare le tecniche di calcolo per risolvere le equazioni di 1° grado fratte, quelle di 2° grado ed i sistemi di equazioni lineari.
 - Saper risolvere problemi di geometria analitica sulla retta.
-- Saper risolvere problemi di geometria analitica sulla parabola .
+- Saper risolvere problemi di geometria analitica sulla parabola.
 - Saper risolvere disequazioni di 1° e 2° facendo uso della retta e della parabola.
 {{% /callout %}}
 
@@ -196,7 +193,7 @@ slides:
 ## Registro elettronico: 
 ### Classeviva Spaggiari:
 
-![polinomi](classeviva.png)
+![CLASSEVIVA](classeviva.png)
 
   - comunicazioni **ufficiali**: 
     - verifiche e interrogazioni

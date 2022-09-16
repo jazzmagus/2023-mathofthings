@@ -5,9 +5,9 @@ authors: []
 tags: ['Tutorials', 'serale']
 categories: [teaching]
 date: '2022-09-07'
-slides:
-  theme: serif
-# theme: serif
+# slides:
+#   theme: serif
+theme: serif
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="convex">
@@ -248,7 +248,7 @@ slides:
 
 ### abilità
 
-- Conoscere la definizione e il significato  geometrico di derivata.
+- Conoscere la definizione e il significato geometrico di derivata.
 - Saper calcolare le derivate.
 - Saper effettuare il grafico di una funzione individuandone le caratteristiche (dominio, intersezioni con gli assi, simmetrie, asintoti, studio del segno, crescenza e decrescenza, massimi e minimi, concavità, flessi).
 
