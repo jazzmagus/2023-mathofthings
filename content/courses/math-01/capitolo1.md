@@ -252,15 +252,15 @@ $$a:(b+c) \neq a:b+a:c$$
 > $$a=b \cdot q$$
 > che è la definizione di divisione che risulterà pertanto `esatta`
 
-$$a:b=q \\; \text{con resto }r \\; \longleftrightarrow \quad a=b \cdot q +r \quad(r <b)$$
+$$a:b=q \\ \text{con resto }r \\ \longleftrightarrow \quad a=b \cdot q +r \quad(r <b)$$
 
 ### Proprietà invariantiva della divisione approssimata
 
 >se si moltiplicano o si dividono **sia** il **dividendo** **che** il **divisore** per uno stesso numero diverso da zero il quoziente non cambia, mentre il resto risulta moltiplicato o diviso per il numero dato:
 
-$$a:b=q \\; \text{con resto }r \\; \longrightarrow \\; (a \cdot c) : (b \cdot c)= q \\; \text{con resto }(r \cdot c)$$
+$$a:b=q \\ \text{con resto }r \\ \longrightarrow \\ (a \cdot c) : (b \cdot c)= q \\ \text{con resto }(r \cdot c)$$
 
-$$a:b=q \\; \text{con resto }r \\; \longrightarrow \\; (a : c) : (b : c)= q \\; \text{con resto }(r : c)$$
+$$a:b=q \\ \text{con resto }r \\ \longrightarrow \\ (a : c) : (b : c)= q \\ \text{con resto }(r : c)$$
 
 ---
 
@@ -271,7 +271,7 @@ $$a:b=q \\; \text{con resto }r \\; \longrightarrow \\; (a : c) : (b : c)= q \\; 
 > **DEFINIZIONE**:
 > La potenza di `base` $a$ ed `esponente` $n$ si indica con $a^n$ ed è uguale al prodotto di $n$ `fattori` uguali ad $a$:
 >
-> $$a^n = \underbrace{a \cdot a \cdot a \cdot \ldots \cdot a}_{n \\; \text{volte}}$$
+> $$a^n = \underbrace{a \cdot a \cdot a \cdot \ldots \cdot a}_{n  \text{volte}}$$
 
 Come accade spesso in matematica per le potenze si adottano delle convenzioni:
 
