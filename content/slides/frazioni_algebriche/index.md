@@ -5,10 +5,10 @@ authors: [diego fantinelli]
 tags: [math, frazioni]
 categories: [post]
 date: "2019-02-05T00:00:00Z"
-# theme: serif
-slides:
-  theme: serif
-  transition: concave
+theme: serif
+# slides:
+#   theme: serif
+#   transition: concave
 ---
 
 <section data-background-image="calm_bkg.jpg" data-background-opacity="6">
