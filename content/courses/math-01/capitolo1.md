@@ -401,16 +401,16 @@ $$
 >
 > - Il numero $1$, per convenzione, *non* si considera un numero primo.
 >
-> Ogni numero naturale, diverso da 0, che non sia primo si può esprimere, in un solo modo, come prodotto di fattori primi.
+> Ogni numero naturale, diverso da $0$, che non sia primo si può esprimere, in un solo modo, come prodotto di fattori primi.
 >
 > - Scomporre in fattori primi un numero naturale significa determinare tali fattori.
-> - Per scomporre un numero in fattori primi si cercano i suoi divisori utilizzando i criteri di divisibilità, partendo dal primo numero della successione dei numeri primi, cioè 2, e procedendo in ordine crescente.
+> - Per scomporre un numero in fattori primi si cercano i suoi divisori utilizzando i criteri di divisibilità, partendo dal primo numero della successione dei numeri primi, cioè $2$, e procedendo in ordine crescente.
 > - Si esegue la divisione del numero dato per il più piccolo numero primo che risulta suo divisore.
 > - Si divide il quoziente ottenuto per il suo divisore primo più piccolo e si continua, ripetendo il procedimento, finché il quoziente risulta uguale a 1.
 
 ---
 
-## Massimo  comune  divisore  e  minimo  comune  multiplo
+## Massimo comune divisore e minimo comune multiplo
 
 ### 14. massimo comun divisore MCD
 
@@ -458,7 +458,7 @@ Per determinare il mcm di due o più numeri naturali
 
 ---
 
-## L’insieme  dei  numeri  interi  relativi $\mathbb{Z}$
+## L’insieme dei numeri interi relativi $\mathbb{Z}$
 
 ### 18. I numeri interi relativi
 
