@@ -5,6 +5,11 @@ toc: true
 type: docs
 date: "2019-05-05T00:00:00+01:00"
 draft: false
+image:
+  caption: 'Image credit: [**Foto di Pixabay da Pexels:**]( https://www.pexels.com/it-it/foto/vista-panoramica-della-risaia-247599/)'
+  focal_point: "center"
+  placement: 2
+  preview_only: false
 menu:
   math-05:
     parent: 

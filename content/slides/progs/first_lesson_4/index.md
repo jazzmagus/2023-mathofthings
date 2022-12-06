@@ -5,6 +5,13 @@ authors: []
 tags: ['Tutorials', 'serale']
 categories: [teaching]
 date: '2022-09-07'
+
+image:
+  caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/FIKD9t5_5zQ)'
+  focal_point: "center"
+  placement: 2
+  preview_only: false
+  
 slides:
   theme: serif
   highlight_style: dracula

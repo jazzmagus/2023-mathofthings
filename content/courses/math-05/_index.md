@@ -11,7 +11,11 @@ lastmod: "2021-09-09T00:00:00Z"
 draft: false  # Is this a draft? true/false
 toc: true  # Show table of contents? true/false
 type: docs  # Do not modify.
-
+image:
+  caption: 'Image credit: [**Foto di Pixabay da Pexels:**]( https://www.pexels.com/it-it/foto/vista-panoramica-della-risaia-247599/)'
+  focal_point: "center"
+  placement: 2
+  preview_only: false
 # Add menu entry to sidebar.
 # - name: Declare this menu item as a parent with ID `name`.
 # - weight: Position of link in menu.
@@ -29,7 +33,7 @@ menu:
 >
 >-- Piergiorgio Odifreddi
 
-![overview_img](startline.png)
+![overview_img](featured.png)
 
 ## Conoscenze
 
