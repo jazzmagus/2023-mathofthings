@@ -1,5 +1,5 @@
 ---
-title: Numeri naturali e numeri interi relativi
+title: Limiti di Funzioni reali
 linktitle: Capitolo 1 numeri Naturali e Interi Relativi
 toc: false
 type: docs
@@ -30,7 +30,7 @@ weight: 10
 
 ## numeri naturali e il loro ordinamento
 
-$$ \mathbb{N} = \\{ 0; 1; 2; 3; \dots \\} $$
+$$ \mathbb{N} = \{ 0; 1; 2; 3; \dots \} $$
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.
 
