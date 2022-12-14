@@ -119,9 +119,9 @@ La relazione di **uguaglianza** tra due numeri naturali gode delle seguenti prop
   >
 - I numeri naturali possono essere facilmente **rappresentati** graficamente attraverso una **semiretta orientata**
 
-<img src="./semiretta_naturali.png" alt="semiretta naturali">
+<!-- <img src="./semiretta_naturali.png" alt="semiretta naturali"> -->
 
-![semiretta numeri naturali](./semiretta_naturali.png)
+![semiretta numeri naturali](../semiretta_naturali.png)
 
 ## Le quattro operazioni aritmetiche con i numeri naturali
 
