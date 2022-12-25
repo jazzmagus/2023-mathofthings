@@ -27,7 +27,7 @@ weight: 10
 ## Conoscenze
 
 - Proprietà degli insiemi numerici $\mathbb{N}, \mathbb{Z}, \mathbb{Q}, \mathbb{R}$ e consapevolezza della necessità degli ampliamenti da $\mathbb{N}$ a $\mathbb{Z}$, da $\mathbb{Z}$ a $\mathbb{Q}$, da $\mathbb{Q}$ a $\mathbb{R}$.
-Rappresentazione degli insiemi numericisu una retta orientata.
+Rappresentazione degli insiemi numerici su una retta orientata.
 - Definizioni e proprietà delle quattro operazioni e delle potenze nei quattro insiemi numerici.
 
 - `Divisibilità` in $\mathbb{N}$ e `numeri primi`;
@@ -46,8 +46,8 @@ Rappresentazione degli insiemi numericisu una retta orientata.
 
 ## Abilità
 
-- Eseguire i calcoli con i numeri degli insiemi numerici  $\mathbb{N}$, $\mathbb{Z}$ e $\mathbb{Q}$
-- Scomporre un numero naturale in fattoriprimi e calcolare il `mcm` e il `MCD` tra due o più numeri naturali.
+- Eseguire i calcoli con i numeri degli insiemi numerici $\mathbb{N}$, $\mathbb{Z}$ e $\mathbb{Q}$
+- Scomporre un numero naturale in fattori primi e calcolare il `mcm` e il `MCD` tra due o più numeri naturali.
 Trasformare la scrittura di un numero naturale dalla base $10$ alla base $b$ e viceversa.
 - Trasformare una frazione in numero decimale e viceversa;
 scrivere un numero decimale finito in notazione scientifica e determinarne l’`ordine di grandezza`.
@@ -58,8 +58,8 @@ Calcolare l’errore relativo di un’approssimazione conoscendo l’errore asso
 
 ## competenze
 
-- Utilizzare le tecniche e le procedure del calcolo aritmetico ed algebrico, rappresentandole anche sottoforma grafica.
-- Analizzare dati e interpretarli sviluppando deduzioni e ragionamenti sugli stessi anche con l’ausilio dirappresentazioni grafiche, usando consapevolmente gli strumenti di calcolo e le potenzialità offerte da applicazioni specifiche di tipo informatico.
+- Utilizzare le tecniche e le procedure del calcolo aritmetico e algebrico, rappresentandole anche sotto forma grafica.
+- Analizzare dati e interpretarli sviluppando deduzioni e ragionamenti sugli stessi anche con l’ausilio di rappresentazioni grafiche, usando consapevolmente gli strumenti di calcolo e le potenzialità offerte da applicazioni specifiche di tipo informatico.
 
 {{< youtube cCJU5By_b8U>}}
 ## L’insieme dei numeri naturali
@@ -127,7 +127,7 @@ La relazione di **uguaglianza** tra due numeri naturali gode delle seguenti prop
 
 ### 2. addizione e sue proprietà
 
->**definizione**: la **somma** di due numeri naturali è quel numero naturale che si ottiene contando di seguito al primo tutte le unità del secondo.
+>**Definizione**: la **somma** di due numeri naturali è quel numero naturale che si ottiene contando di seguito al primo tutte le unità del secondo.
 
 1. proprietà **commutativa**:
    - cambiando l'**ordine** degli addendi il risultato non cambia: $$a+b=b+a$$
@@ -142,7 +142,7 @@ La relazione di **uguaglianza** tra due numeri naturali gode delle seguenti prop
 
 - è un’operazione che si esegue tra due numeri, considerati nell’ordine, il primo detto `minuendo` e il secondo `sottraendo`. Il risultato della sottrazione si chiama `differenza`.
 
->**definizione**: la **differenza** tra due numeri naturali è quel numero naturale, se esiste, che addizionato al `sottraendo` dà come somma il `minuendo`.
+>**Definizione**: la **differenza** tra due numeri naturali è quel numero naturale, se esiste, che addizionato al `sottraendo` dà come somma il `minuendo`.
 >
 >- esempio: $5-2=3$ perché $5=3+2$
 
@@ -161,7 +161,7 @@ La relazione di **uguaglianza** tra due numeri naturali gode delle seguenti prop
 
 ### 4. moltiplicazione e sue proprietà
 
->**definizione**: **prodotto** di due numeri naturali
+>**Definizione**: **prodotto** di due numeri naturali
 >
 >- è la somma di tanti addendi uguali al primo fattore quante sono le unità indicate dal secondo: $$a \cdot b= \underbrace{a+a+a+ \ldots + a}_{b \\; \text{addendi}}$$
 
