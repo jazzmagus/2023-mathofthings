@@ -23,9 +23,9 @@ weight: 30
 
 {{< figure src="https://unsplash.com/photos/edJCx-EOLxY" caption="A caption" numbered="true" >}}
 
-![ggg](../math-05/cap3_featured.jpg)
+![ggg](../cap3_featured.jpg)
 
-<img src="../math-05/cap3_featured.jpg" width="120%" />
+<img src="../cap3_featured.jpg" width="120%" />
 
 ## Capitolo 1. MASSIMI, MINIMI E FLESSI
 >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat.
