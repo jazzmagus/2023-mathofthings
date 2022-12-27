@@ -21,7 +21,7 @@ weight: 30
 
 > ☆ **scadenza**: 30 ottobre 2021
 
-<img src="../../../assets/media/images/cap3_featured.jpg" width="1200" />
+<img src="../cap3_featured.jpg" width="1200" />
 
 ## Capitolo 1. MASSIMI, MINIMI E FLESSI
 >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat.
