@@ -23,10 +23,10 @@ weight: 30
 
 {{< figure src="https://unsplash.com/photos/edJCx-EOLxY" caption="A caption" numbered="true" >}}
 
-![ggg](cap3_featured.jpg)
-<img src="cap3_featured.jpg" width="120%" />
+![ggg](../math-05/cap3_featured.jpg)
 
-![aaa]( https://www.pexels.com/it-it/foto/vista-panoramica-della-risaia-247599/)
+<img src="../math-05/cap3_featured.jpg" width="120%" />
+
 ## Capitolo 1. MASSIMI, MINIMI E FLESSI
 >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat.
 
