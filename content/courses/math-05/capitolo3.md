@@ -1,6 +1,6 @@
 ---
-title: Derivate
-linktitle: Capitolo 2 Derivate
+title: Esponenziali e Logaritmi
+linktitle: Capitolo 2 Esponenziali e Logaritmi
 toc: true
 type: docs
 date: "2022-12-27T00:00:00+01:00"
@@ -11,7 +11,7 @@ menu:
     weight: 
 
 image:
-  caption: 'Image credit: [**Foto di Pixabay da Pexels:**]( https://www.pexels.com/it-it/foto/vista-panoramica-della-risaia-247599/)'
+  caption: 'Image credit: [**Foto di UNSPLASH:**](https://unsplash.com/it/foto/FUVPpOyjAvQ)'
   focal_point: "center"
   placement: 2
   preview_only: false
@@ -21,33 +21,25 @@ menu:
     weight: 
 
 # Prev/next pager order (if `docs_section_pager` enabled in `params.toml`)
-weight: 20
+weight: 30
 ---
 
 > ☆ **scadenza**: 30 ottobre 2021
 
 <!-- ![ex2_img](../ex2_img.png) -->
 
-## Capitolo 2: La Derivata
-
+## Capitolo 1. MASSIMI, MINIMI E FLESSI
 >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat.
 
 Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam.
 
-## Frazioni
+### Definizioni
 
-## L’insieme  dei  numeri  razionali
+### Massimi, minimi, flessi orizzontali e derivata prima
 
-## operazioni  con  i  numeri  razionali
+### Flessi e derivata seconda
 
-## potenze in $\mathbb{Q}$
+### Massimi, minimi, flessi e derivate successive
 
-## Frazioni  e  numeri  decimali
+### Problemi di ottimizzazione
 
-## Proporzioni
-
-## percentuali
-
-## L’insieme  dei  numeri  reali
-
-## Calcolo  approssimato

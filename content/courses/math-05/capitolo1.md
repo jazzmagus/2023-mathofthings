@@ -17,8 +17,6 @@ weight: 10
 
 > ☆ **scadenza**: 30 settembre 2021
 
-![ex1_img](../majong_01.png)
-
 ## L’insieme dei numeri naturali
 
 <!-- {{< figure src="../majong_01.png" caption="A caption" numbered="true" >}} -->
