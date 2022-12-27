@@ -1,6 +1,6 @@
 ---
-title: Derivate
-linktitle: Capitolo 1 Derivate
+title: Gli integrali indefiniti
+linktitle: Capitolo 5 Gli integrali indefiniti
 toc: false
 type: docs
 date: "2022-12-24T00:00:00+01:00"
@@ -9,28 +9,22 @@ diagram: true
 menu:
   math-05:
     parent: 
-    weight: 
+    weight: 50
 
 # Prev/next pager order (if `docs_section_pager` enabled in `params.toml`)
-weight: 10
+weight: 50
 ---
 
 > ☆ **scadenza**: 30 settembre 2021
 
 {{% toc %}}
 
-<img src="../math05_featured.jpg" width="1200" />
+<img src="../cap5_featured.jpg" width="1200" />
 
-> Numeri, continuamente numeri: il numero dei giri, il numero della macchina, il distacco, il tempo trascorso, il tempo che manca, il numero sulla maglia, il punteggio...
+>To be wronged is nothing unless you continue to remember it.
 >
-> - Servono veramente tutti questi numeri?
-> - Sono essenziali o se ne potrebbe fare a meno?
+> &mdash; <cite>Confucius</cite>
 
-## numeri naturali e il loro ordinamento
-
-$$ \mathbb{N} = \{ 0; 1; 2; 3; \dots \} $$
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.
 
 ## Le quattro operazioni aritmetiche con i numeri naturali
 

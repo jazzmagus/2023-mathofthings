@@ -1,6 +1,6 @@
 ---
-title: Massimi, minimi e flessi
-linktitle: Capitolo 27 massimi, minimi e flessi
+title: Studio delle Funzioni
+linktitle: Capitolo 28 Studio delle Funzioni
 toc: true
 type: docs
 date: "2022-12-27T00:00:00+01:00"
@@ -9,14 +9,14 @@ diagram: true
 menu:
   math-05:
     parent: 
-    weight: 30
+    weight: 40
 image:
   caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/edJCx-EOLxY)'
   focal_point: ""
   preview_only: false
 
 # Prev/next pager order (if `docs_section_pager` enabled in `params.toml`)
-weight: 30
+weight: 40
 ---
 
 {{< toc >}}
@@ -25,6 +25,7 @@ weight: 30
 > ☆ **scadenza**: 30 ottobre 2021
 
 <img src="../math05_featured.jpg" width="1200" />
+
 
 >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat.
 

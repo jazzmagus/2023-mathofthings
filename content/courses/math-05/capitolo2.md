@@ -1,15 +1,10 @@
 ---
-title: Derivate
-linktitle: Capitolo 2 Derivate
+title: Teoremi del calcolo differenziale
+linktitle: Capitolo 2 Teoremi del calcolo differenziale
 toc: true
 type: docs
 date: "2022-12-27T00:00:00+01:00"
 draft: false
-menu:
-  math-05:
-    parent: 
-    weight: 
-
 image:
   caption: 'Image credit: [**Foto di Pixabay da Pexels:**]( https://www.pexels.com/it-it/foto/vista-panoramica-della-risaia-247599/)'
   focal_point: "center"
@@ -18,36 +13,38 @@ image:
 menu:
   math-05:
     parent: 
-    weight: 
+    weight: 20
 
 # Prev/next pager order (if `docs_section_pager` enabled in `params.toml`)
 weight: 20
 ---
 
+{{< toc >}}
+
+
 > ☆ **scadenza**: 30 ottobre 2021
 
-<!-- ![ex2_img](../ex2_img.png) -->
+<img src="../cap3_featured.jpg" width="1200" />
 
-## Capitolo 2: La Derivata
 
 >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat.
 
 Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam.
 
-## Frazioni
+## Intro
 
-## L’insieme  dei  numeri  razionali
 
-## operazioni  con  i  numeri  razionali
+## Teorema di Rolle
 
-## potenze in $\mathbb{Q}$
+## Teorema di Lagrange
 
-## Frazioni  e  numeri  decimali
+## Conseguenze del teorema di Lagrange
 
-## Proporzioni
+## Teorema di Cauchy
 
-## percentuali
+## Teorema di De l'Hospital
 
-## L’insieme  dei  numeri  reali
+---
 
-## Calcolo  approssimato
+### Esercizi
+### Verifica delle competenze
