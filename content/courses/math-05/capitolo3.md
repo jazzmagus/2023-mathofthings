@@ -21,9 +21,12 @@ weight: 30
 
 > ☆ **scadenza**: 30 ottobre 2021
 
+{{< figure src="../math-05/cap3_featured.jpg" caption="A caption" numbered="true" resize_options="800x200" >}}
+
+
 <img src="../math-05/cap3_featured.jpg" width="120%" />
 
-![**Foto di Pixabay da Pexels:**]( https://www.pexels.com/it-it/foto/vista-panoramica-della-risaia-247599/)
+![aaa]( https://www.pexels.com/it-it/foto/vista-panoramica-della-risaia-247599/)
 ## Capitolo 1. MASSIMI, MINIMI E FLESSI
 >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat.
 
