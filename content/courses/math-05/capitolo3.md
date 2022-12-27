@@ -11,7 +11,7 @@ image:
   focal_point: "center"
   placement: 2
   preview_only: false
-menu:˝
+menu:
   math-05:
     parent: 
     weight: 30
