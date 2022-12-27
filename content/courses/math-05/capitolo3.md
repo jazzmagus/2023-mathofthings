@@ -6,15 +6,14 @@ type: docs
 date: "2022-12-27T00:00:00+01:00"
 draft: false
 diagram: true
-image:
-  caption: 'Image credit: [**Foto di UNSPLASH:**](https://unsplash.com/it/foto/FUVPpOyjAvQ)'
-  focal_point: "center"
-  placement: 2
-  preview_only: false
 menu:
   math-05:
     parent: 
     weight: 30
+image:
+  caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/edJCx-EOLxY)'
+  focal_point: ""
+  preview_only: false
 
 # Prev/next pager order (if `docs_section_pager` enabled in `params.toml`)
 weight: 30

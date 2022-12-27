@@ -12,7 +12,7 @@ draft: false  # Is this a draft? true/false
 toc: true  # Show table of contents? true/false
 type: docs  # Do not modify.
 image:
-  caption: 'Image credit: [**Foto di Pixabay da Pexels:**]( https://www.pexels.com/it-it/foto/vista-panoramica-della-risaia-247599/)'
+  caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/edJCx-EOLxY)'
   focal_point: "center"
   placement: 2
   preview_only: false
