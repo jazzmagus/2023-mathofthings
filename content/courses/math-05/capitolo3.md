@@ -1,24 +1,20 @@
 ---
 title: Esponenziali e Logaritmi
 linktitle: Capitolo 2 Esponenziali e Logaritmi
-toc: true
+toc: true˝
 type: docs
 date: "2022-12-27T00:00:00+01:00"
 draft: false
-menu:
-  math-05:
-    parent: 
-    weight: 
-
+diagram: true
 image:
   caption: 'Image credit: [**Foto di UNSPLASH:**](https://unsplash.com/it/foto/FUVPpOyjAvQ)'
   focal_point: "center"
   placement: 2
   preview_only: false
-menu:
+menu:˝
   math-05:
     parent: 
-    weight: 
+    weight: 30
 
 # Prev/next pager order (if `docs_section_pager` enabled in `params.toml`)
 weight: 30
@@ -26,8 +22,9 @@ weight: 30
 
 > ☆ **scadenza**: 30 ottobre 2021
 
-<!-- ![ex2_img](../ex2_img.png) -->
+<img src="../math-05/cap3_featured.jpg" width="120%" />
 
+![**Foto di Pixabay da Pexels:**]( https://www.pexels.com/it-it/foto/vista-panoramica-della-risaia-247599/)
 ## Capitolo 1. MASSIMI, MINIMI E FLESSI
 >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat.
 
