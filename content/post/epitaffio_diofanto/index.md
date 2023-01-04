@@ -10,54 +10,10 @@ date: "2021-11-19T00:21:00Z"
 featured: true
 draft: false
 
-# links:
-#  - icon_pack: fab
-#    icon: 
-#    name: SLIDES
-#    url: dunning_kruger_effect
-
-# Featured image
-# To use, add an image named `featured.jpg/png` to your page's folder.
-# Focal point options: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight
 image:
   caption: 'Image credit: [**Unsplash**](https://images.unsplash.com/photo-1516880354211-e5cc9b90d1ae?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80)'
   focal_point: ""
   preview_only: false
-
-# slides: 
-# Projects (optional).
-#   Associate this post with one or more of your projects.
-#   Simply enter your project's folder or file name without extension.
-#   E.g. `projects = ["internal-project"]` references `content/project/deep-learning/index.md`.
-#   Otherwise, set `projects = []`.
-projects: []
-
-# Set captions for image gallery.
-gallery_item:
-- album: gallery
-  caption: Default
-  image: theme-default.png
-- album: gallery
-  caption: Ocean
-  image: theme-ocean.png
-- album: gallery
-  caption: Forest
-  image: theme-forest.png
-- album: gallery
-  caption: Dark
-  image: theme-dark.png
-- album: gallery
-  caption: Apogee
-  image: theme-apogee.png
-- album: gallery
-  caption: 1950s
-  image: theme-1950s.png
-- album: gallery
-  caption: Coffee theme with Playfair font
-  image: theme-coffee-playfair.png
-- album: gallery
-  caption: Strawberry
-  image: theme-strawberry.png
 ---
 
 <!-- {{< toc hide_on="xl" >}} -->
