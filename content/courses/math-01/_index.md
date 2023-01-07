@@ -30,3 +30,5 @@ menu:
 >La conoscenza è **infinita** e ognuno di noi può contenerne solo una parte, per questo motivo siamo diversi, mentre siamo tutti ignoranti rispetto alla totalità della conoscenza, e questo ci rende **uguali**.
 >
 >-- Piergiorgio Odifreddi
+
+> - [presentazione del corso &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i>](https://2023-mathofthings.netlify.app/slides/_pasini/pres_cl_seconde/)

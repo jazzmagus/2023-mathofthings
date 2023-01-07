@@ -16,7 +16,7 @@ image:
   focal_point: "center"
   placement: 2
   preview_only: false
-slides: math-02
+# slides: "/_pasini/pres_cl_seconde"
 # Add menu entry to sidebar.
 # - name: Declare this menu item as a parent with ID `name`.
 # - weight: Position of link in menu.

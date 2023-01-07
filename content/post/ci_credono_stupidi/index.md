@@ -24,3 +24,4 @@ image:
 
 ## Christmas bufale
 
+È inevitabile che durante le Feste si passi più tempo a guardare cose alla televisione, è un classico di Natale: gonfi di panettone/pandoro e schienati sul divano ci possono propinare qualsiasi cosa.
