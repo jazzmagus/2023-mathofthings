@@ -223,11 +223,11 @@ $$\Rightarrow x = \dfrac{2}{5}$$
 
 ---
 
-# Questions?
+<section data-background-image="numbers.gif" data-background-opacity="0.8">
 
-**>>** prossima puntata:
+  <h2 style="color:#ffffff" class="r-fit-text">DOMANDE?</h2>
 
-**equazioni lineari frazionarie**
+</section>
 
 ---
 
