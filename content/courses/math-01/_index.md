@@ -33,4 +33,4 @@ menu:
 >
 >-- Piergiorgio Odifreddi
 
-> - [ITET "Pasini" presentazione del corso &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i>](https://2023-mathofthings.netlify.app/slides/_pasini/pres_cl_seconde)
+> - [ITET "Pasini" presentazione del corso &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i>](https://2023-mathofthings.netlify.app/slides/_pasini/pres_classi_prime)
