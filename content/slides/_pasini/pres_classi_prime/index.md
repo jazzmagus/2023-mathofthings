@@ -246,8 +246,10 @@ slides:
 
 ---
 
-<section data-background-image="numbers.gif" data-background-opacity="0.8">
+<section data-background-image="/static/uploads/numbers.gif" data-background-opacity="0.8">
 
   <h2 style="color:#ffffff" class="r-fit-text">DOMANDE?</h2>
 
 </section>
+
+---
