@@ -15,13 +15,13 @@ slides:
   <h2 style="color:#3B2F2F">CORSO DI</h2>
 
   <h1 class="r-fit-text" style="color:#3B2F2F">MATEMATICA</h1>
-  <h2 style="color:#3B2F2F">per le Classi Terze</h2>
-  <h2 style="color:#3B2F2F">SERALE </h2>
+  <h2 style="color:#3B2F2F">per le Classi Prime</h2>
+  <!-- <h2 style="color:#3B2F2F">SERALE </h2> -->
   <br> 
   <!-- <h3 style="color:#3B2F2F"><em>esercizi e ripasso</em></h3> -->
   
   <h5 style="color:#8A4117"><em>prof. diego fantinelli</em></h5>
-  <h5 style="color:#8A4117">IIS "A. Remondini" - Bassano del Grappa</h5>
+  <h5 style="color:#8A4117">ITET "Pasini" - </h5>
 </section>
 
 <section data-transition="convex" data-background-image="book_bkg.jpg" data-background-opacity="0.5">
