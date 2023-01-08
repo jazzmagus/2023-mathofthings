@@ -5,10 +5,10 @@ authors: [Diego Fantinelli]
 tags: ['Tutorials', 'pasini']
 categories: [teaching]
 date: '2023-01-07'
-slides:
-  theme: serif
-  highlight_style: dracula
-# theme: serif
+# slides:
+#   theme: serif
+#   highlight_style: dracula
+theme: serif
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="convex">
@@ -171,11 +171,11 @@ slides:
 
 </section>
 
-<section data-background-image="/images/mastercom_pro.jpg" data-background-opacity="0.9">
+<section data-background-image="class3.jpeg" data-background-opacity="0.9">
 
-</section>
+</section> 
 
-<section>
+<section data-background-image="class3.jpeg" data-background-opacity="0.2">
 
 ## Google Classroom
 
@@ -189,24 +189,32 @@ slides:
   - post di varia natura
   - **materiale didattico**: dispense, video, esercizi, pdf, etc.
 
----
-
-## Registro elettronico: 
-### MasterCom Pro:
-
-![CLASSEVIVA](mastercom_pro.jpg)
-
-  - comunicazioni **ufficiali**: 
-    - verifiche e interrogazioni
-    - voti
-    - Circolari
-
 </section>
 
 ---
 
+<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
 
-<section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.8">
+## Registro elettronico: 
+### MasterCom Pro:
+
+![MasterCom](mastercom_pro.jpg)
+
+</section>
+
+<section data-background-image="mastercom_pro.jpg" data-background-opacity="0.2">
+
+<h3>
+<ul>
+<li>verifiche e interrogazioni</li>
+<li>comunicazioni <b>ufficiali:</b> circolari, etc.</li>
+<li>voti</li>
+</ul>
+</h3>
+
+</section>
+
+---
 
 <section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.1">
 
