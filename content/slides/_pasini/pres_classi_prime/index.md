@@ -171,7 +171,7 @@ theme: serif
 
 </section>
 
-<section data-background-image="class3.jpeg" data-background-opacity="0.9">
+<section data-background-image="/images/mastercom_pro.jpg" data-background-opacity="0.9">
 
 </section>
 
@@ -181,13 +181,13 @@ theme: serif
 
 - link: [Google Classroom corsi](https://classroom.google.com/c/NTQ2MTA4NzUwMjcw?cjc=wnllzfj)
 
-<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QA: &nbsp;</b><code>wnllzfj</code></h2>
-<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QES: &nbsp;</b><code>c7ctvcv</code></h2>
+<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QA: &nbsp;</b><code>code</code></h2>
+<!-- <h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QES: &nbsp;</b><code>c7ctvcv</code></h2> -->
 
+  - L'assegnazione compiti avviene solo tramite Registro El.)
   - comunicazioni **non ufficiali**, ma non per questo frivole...
-  - assegnazione compiti (eventualmente anche sul Registro El.)
   - post di varia natura
-  - **materiale didattico**: dispense, video, esercizi, dispense, pdf, etc.
+  - **materiale didattico**: dispense, video, esercizi, pdf, etc.
 
 ---
 
