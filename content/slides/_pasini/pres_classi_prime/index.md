@@ -205,6 +205,9 @@ slides:
 
 ---
 
+
+<section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.8">
+
 <section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.1">
 
 ## Libro di testo: 
