@@ -193,24 +193,28 @@ theme: serif
 
 ---
 
-<section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
-
-## Registro elettronico: 
-### MasterCom Pro:
-
-![MasterCom](mastercom_pro.jpg)
+<section data-background-image="mastercom_pro.jpg" data-background-opacity="0.9">
 
 </section>
 
 <section data-background-image="mastercom_pro.jpg" data-background-opacity="0.2">
 
+## Registro elettronico: 
+### MasterCom Pro:
+
+</section>
+
+<!-- ![MasterCom](mastercom_pro.jpg) -->
+<section data-background-image="mastercom_pro.jpg" data-background-opacity="0.2">
+
 <h3>
-<ul>
-<li>verifiche e interrogazioni</li>
-<li>comunicazioni <b>ufficiali:</b> circolari, etc.</li>
-<li>voti</li>
-</ul>
+  <ul>
+    <li>verifiche e interrogazioni</li>
+    <li>comunicazioni <b>ufficiali:</b> circolari, etc.</li>
+    <li>voti</li>
+  </ul>
 </h3>
+
 
 </section>
 

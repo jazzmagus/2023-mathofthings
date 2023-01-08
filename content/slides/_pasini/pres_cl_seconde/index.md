@@ -31,7 +31,7 @@ slides:
   # OBIETTIVI
   ## DEL CORSO
 
-  <a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/docs/math_se/">programmazione completa </a><i class="fa-solid fa-arrow-up-right-from-square"></i>
+  <a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/courses/math-01/">programmazione completa </a><i class="fa-solid fa-arrow-up-right-from-square"></i>
 
 </section>
 
@@ -174,41 +174,52 @@ slides:
 
 <section data-background-image="class3.jpeg" data-background-opacity="0.9">
 
-</section>
+</section> 
 
-<section>
+<section data-background-image="class3.jpeg" data-background-opacity="0.2">
 
 ## Google Classroom
 
 - link: [Google Classroom corsi](https://classroom.google.com/c/NTQ2MTA4NzUwMjcw?cjc=wnllzfj)
 
-<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QA: &nbsp;</b><code>wnllzfj</code></h2>
-<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QES: &nbsp;</b><code>c7ctvcv</code></h2>
+<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QA: &nbsp;</b><code>code</code></h2>
+<!-- <h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QES: &nbsp;</b><code>c7ctvcv</code></h2> -->
 
+  - L'assegnazione compiti avviene solo tramite Registro El.)
   - comunicazioni **non ufficiali**, ma non per questo frivole...
-  - assegnazione compiti (eventualmente anche sul Registro El.)
   - post di varia natura
-  - **materiale didattico**: dispense, video, esercizi, dispense, pdf, etc.
+  - **materiale didattico**: dispense, video, esercizi, pdf, etc.
+
+</section>
 
 ---
+
+<section data-background-image="mastercom_pro.jpg" data-background-opacity="0.9">
+
+</section>
+
+<section data-background-image="mastercom_pro.jpg" data-background-opacity="0.2">
 
 ## Registro elettronico: 
-### Classeviva Spaggiari:
+### MasterCom Pro:
 
-![CLASSEVIVA](classeviva.png)
+</section>
 
-  - comunicazioni **ufficiali**: 
-    - verifiche e interrogazioni
-    - voti
-    - Circolari
+<!-- ![MasterCom](mastercom_pro.jpg) -->
+<section data-background-image="mastercom_pro.jpg" data-background-opacity="0.2">
+
+<h3>
+  <ul>
+    <li>verifiche e interrogazioni</li>
+    <li>comunicazioni <b>ufficiali:</b> circolari, etc.</li>
+    <li>voti</li>
+  </ul>
+</h3>
+
 
 </section>
 
 ---
-
-<section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.8">
-</section>
-
 
 <section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.1">
 
