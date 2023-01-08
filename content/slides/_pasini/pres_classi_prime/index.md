@@ -5,10 +5,10 @@ authors: [Diego Fantinelli]
 tags: ['Tutorials', 'pasini']
 categories: [teaching]
 date: '2023-01-07'
-slides:
-  theme: serif
-  highlight_style: dracula
-# theme: serif
+# slides:
+#   theme: serif
+#   highlight_style: dracula
+theme: serif
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="convex">
@@ -21,7 +21,8 @@ slides:
   <!-- <h3 style="color:#3B2F2F"><em>esercizi e ripasso</em></h3> -->
   
   <h5 style="color:#8A4117"><em>prof. diego fantinelli</em></h5>
-  <h5 style="color:#8A4117">ITET "Pasini" - Schio</h5>
+  </br>
+  <h4 style="color:#8A4117">ITET "Pasini" - Schio</h4>
 </section>
 
 <section data-transition="convex" data-background-image="book_bkg.jpg" data-background-opacity="0.5">
@@ -29,7 +30,7 @@ slides:
   # OBIETTIVI
   ## DEL CORSO
 
-  <a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/docs/math_se/">programmazione completa </a><i class="fa-solid fa-arrow-up-right-from-square"></i>
+  <a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/courses/math-01/">programmazione completa </a><i class="fa-solid fa-arrow-up-right-from-square"></i>
 
 </section>
 
