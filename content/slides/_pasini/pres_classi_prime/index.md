@@ -192,9 +192,9 @@ slides:
 ---
 
 ## Registro elettronico: 
-### Classeviva Spaggiari:
+### MasterCom Pro:
 
-![CLASSEVIVA](/images/mastercom_pro.jpg)
+![CLASSEVIVA](mastercom_pro.jpg)
 
   - comunicazioni **ufficiali**: 
     - verifiche e interrogazioni
@@ -204,10 +204,6 @@ slides:
 </section>
 
 ---
-
-<section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.8">
-</section>
-
 
 <section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.1">
 
@@ -239,7 +235,7 @@ slides:
 
 ---
 
-<section data-background-image="/static/uploads/numbers.gif" data-background-opacity="0.8">
+<section data-background-image="numbers.gif" data-background-opacity="0.8">
 
   <h2 style="color:#ffffff" class="r-fit-text">DOMANDE?</h2>
 
