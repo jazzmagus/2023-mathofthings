@@ -5,21 +5,24 @@ authors: [diego fantinelli]
 tags: [calcolo_letterale]
 categories: [2022, lesson]
 date: "2022-03-05T00:00:00Z"
-# theme: serif
-slides:
-  theme: serif
-  transition: convex
-  highlight_style: dracula
-  enableChalkboard: true
+theme: serif
+# slides:
+#   theme: serif
+#   transition: convex
+#   highlight_style: dracula
+#   enableChalkboard: true
 ---
 
 <section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.5">
+
+<br>
   <h2 style="color:#3B2F2F" class="r-fit-text">CALCOLO <br> LETTERALE</h2>
-  <h3 style="color:#3B2F2F"><em>- Rif.: Capitolo 5 -</em></h3>
+  <!-- <h3 style="color:#3B2F2F"><em> - Rif.: Capitolo 5 -</em></h3> -->
   <h5 style="color:#8A4117"><em>prof. diego fantinelli</em></h5>
   <p style="color:#8A4117"><em>matematica per il biennio &mdash; classi prime</em></p>
-  <br>
-  <h3 style="color:#8A4117; font-size:56pt">ITET "Pasini" - Schio</h3>
+
+  <h3 style="color:#8A4117; font-size:40pt">ITET "Pasini" - Schio</h3>
+
 </section>
 
 <!-- <section>
@@ -102,14 +105,14 @@ slides:
 
 <section data-background-image="https://source.unsplash.com/1920x1080/?white" data-background-opacity="0.5" data-transition="zoom">
 
-  <h3 class="fragment" style="color:#005; font-size: 60px;">esercizio n.173 a pag 249</h3>
+  <h3 class="fragment" style="color:#005; font-size: 50px;">esercizio n.173 a pag 249</h3>
   <h2 class="fragment" style="color:#8A4117; font-size: 40px;">$$x(x+1)(x+2)+(x-1)(x-2)$$<h2>
   <h3 class="fragment" style="color:#005; font-size: 34px;">si esegue una prima serie di moltiplicazioni <i>termine a termine</i> ottenendo:<h3>
   <h2 class="fragment" style="color:#8A4117; font-size: 40px;">$$(x^2+x)(x+2)+x^2-x -2x+2$$<h2>
   <h3 class="fragment" style="color:#005; font-size: 34px;">completiamo con le moltiplicazioni tra i due polinomi $(x^2+x)(x+2)$ ottenendo:<h3>
   <h2 class="fragment" style="color:#8A4117; font-size: 32px;">$$x^3+x^2 +2x^2+2x +x^2-x -2x+2$$</h2>
   <h3 class="fragment" style="color:#005; font-size: 30px;">dopo aver dovutamente semplificato i <b>monomi simili</b>...</h3>
-  <h2 class="fragment" style="color:#8A4117; font-size: 50px;">$$x^3+4 x^2-x+2$$</h2>
+  <h2 class="fragment" style="color:#8A4117; font-size: 40px;">$$x^3+4 x^2-x+2$$</h2>
 
 </section>
 
