@@ -5,12 +5,12 @@ authors: [diego fantinelli]
 tags: [calcolo_letterale]
 categories: [2022, lesson]
 date: "2022-03-05T00:00:00Z"
-theme: serif
-# slides:
-#   theme: serif
-#   transition: convex
-#   highlight_style: dracula
-#   enableChalkboard: true
+# theme: serif
+slides:
+  theme: serif
+  transition: convex
+  highlight_style: dracula
+  enableChalkboard: true
 ---
 
 <section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.5">
@@ -131,14 +131,14 @@ theme: serif
 <!-- todo: completare da qui -->
 <section data-background-image="https://source.unsplash.com/1920x1080/?white" data-background-opacity="0.5" data-transition="zoom">
 
-  <h3 class="fragment" style="color:#005; font-size: 60px;">esercizio n.182 a pag 250</h3>
+  <h3 class="fragment" style="color:#005; font-size: 50px;">esercizio n.182 a pag 250</h3>
   <h2 class="fragment" style="color:#8A4117; font-size: 32px;">$$x\left[2 y-\left(-x^2+x y-3\right) y-x^2 y+x\left(y^2-x\right)\right]+x^3$$<h2>
   <h3 class="fragment" style="color:#005; font-size: 30px;"> dobbiamo seguire le priorità dettate dalle parentesi, quindi iniziamo dalle tonde:<h3>
   <h2 class="fragment" style="color:#8A4117; font-size: 34px;">$$x\left[2 y +x^2y - xy^2 + 3y -x^2 y + xy^2-x^2\right]+x^3$$<h2>
   <h3 class="fragment" style="color:#005; font-size: 30px;">a questo punto possiamo semplificare eventuali termini simili all'interno delle parentesi quadrate:<h3>
   <h2 class="fragment" style="color:#8A4117; font-size: 32px;">$$x\left[5y - x^2\right]+x^3$$</h2>
   <h3 class="fragment" style="color:#005; font-size: 30px;">ora possiamo eseguire l'ultima moltiplicazione, ottenendo:</b></h3>
-  <h2 class="fragment" style="color:#8A4117; font-size: 48px;">$$5xy - x^3 + x^3 = 5xy$$</h2>
+  <h2 class="fragment" style="color:#8A4117; font-size: 40px;">$$5xy - x^3 + x^3 = 5xy$$</h2>
 
 </section>
 
