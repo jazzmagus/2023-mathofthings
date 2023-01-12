@@ -10,7 +10,7 @@ slides:
   theme: serif
   transition: convex
   highlight_style: dracula
-  enableChalkboard: false
+  enableChalkboard: true
 ---
 
 <section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.5">
