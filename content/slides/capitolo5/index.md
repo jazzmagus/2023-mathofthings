@@ -19,7 +19,7 @@ slides:
   <h5 style="color:#8A4117"><em>prof. diego fantinelli</em></h5>
   <p style="color:#8A4117"><em>matematica per il biennio &mdash; classi prime</em></p>
   <br>
-  <h2 style="color:#8A4117; font-size:56pt">ITET "Pasini" - Schio</h2>
+  <h3 style="color:#8A4117; font-size:56pt">ITET "Pasini" - Schio</h3>
 </section>
 
 <!-- <section>
