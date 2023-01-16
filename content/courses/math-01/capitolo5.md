@@ -304,7 +304,7 @@ _osserva che_:
 ## Prodotti Notevoli
 
 <!-- {{% staticref "uploads/.pdf" "newtab" %}}prodotti notevoli - ripasso{{% /staticref %}} -->
-
+[Download file](capitolo1.pdf)
 
 I **prodotti notevoli** sono soltanto dei prodotti tra polinomi che, essendo utilizzati di frequente è conveniente imparare a ricavare facilmente per non doverli imparare a memoria - che non serve.
 
