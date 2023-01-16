@@ -5,12 +5,12 @@ authors: [diego fantinelli]
 tags: [calcolo_letterale]
 categories: [2022, lesson]
 date: "2022-03-05T00:00:00Z"
-# theme: serif
-slides:
-  theme: serif
-  transition: convex
-  highlight_style: dracula
-  enableChalkboard: true
+theme: serif
+# slides:
+#   theme: serif
+#   transition: convex
+#   highlight_style: dracula
+#   enableChalkboard: true
 ---
 
 <section data-background-image="pingpong_bkg.jpg" data-background-opacity="0.5">

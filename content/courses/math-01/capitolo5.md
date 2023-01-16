@@ -303,6 +303,9 @@ _osserva che_:
 
 ## Prodotti Notevoli
 
+{{% staticref "uploads/2CSE-ripasso prodotti notevoli.pdf" "newtab" %}}prodotti notevoli - ripasso{{% /staticref %}}
+
+
 I **prodotti notevoli** sono soltanto dei prodotti tra polinomi che, essendo utilizzati di frequente è conveniente imparare a ricavare facilmente per non doverli imparare a memoria - che non serve.
 
 {{% staticref "uploads/ripasso_calc.pdf" "newtab" %}} <i class="fa-regular fa-share-from-square"></i> - Ripasso Prodotti Notevoli{{% /staticref %}}
