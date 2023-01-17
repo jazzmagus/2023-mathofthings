@@ -303,12 +303,10 @@ _osserva che_:
 
 ## Prodotti Notevoli
 
-<!-- {{% staticref "uploads/.pdf" "newtab" %}}prodotti notevoli - ripasso{{% /staticref %}} -->
-[Download file](capitolo1.pdf)
 
 I **prodotti notevoli** sono soltanto dei prodotti tra polinomi che, essendo utilizzati di frequente è conveniente imparare a ricavare facilmente per non doverli imparare a memoria - che non serve.
 
-{{% staticref "uploads/cap01.pdf" "newtab" %}} <i class="fa-regular fa-share-from-square"></i> - Ripasso Prodotti Notevoli{{% /staticref %}}
+{{% staticref "uploads/Prodotti_notevoli-ripasso.pdf" "newtab" %}} <i class="fa-regular fa-share-from-square"></i> - Ripasso Prodotti Notevoli{{% /staticref %}}
 
 ### perché sono così utili
 
@@ -316,9 +314,9 @@ I **prodotti notevoli** sono soltanto dei prodotti tra polinomi che, essendo uti
 2. perché sono molto utilizzati: compaiono molto spesso quindi conoscerli semplifica molto la comprensione di determinati ragionamenti
 3. sono uno strumento molto potente nella **fattorizzazione polinomiale**
 
-### ricavarli o ricordarli?
+### Ricavarli o ricordarli?
 
-> sarà sufficiente ricavarli un paio di volte per ricordarli; eventualmente si possono ricavare facilmente.
+> Sarà sufficiente ricavarli un paio di volte per ricordarli; eventualmente si possono ricavare facilmente.
 
 ## Divisione tra polinomi
 
