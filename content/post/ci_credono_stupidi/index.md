@@ -8,7 +8,7 @@ tags: [2023]
 categories: [curiosity]
 date: "2023-01-03T00:21:00Z"
 featured: true
-draft: false
+draft: true
 
 image:
   caption: ''
@@ -24,4 +24,4 @@ image:
 
 ## Christmas bufale
 
-È inevitabile che durante le Feste si passi più tempo a guardare cose alla televisione, è un classico di Natale: gonfi di panettone/pandoro e schienati sul divano ci possono propinare qualsiasi cosa.
+È inevitabile che durante le Feste si passi più tempo a guardare cose alla televisione, è un classico di Natale: gonfi di panettone/pandoro e schienati sul divano ci possono propinare qualsiasi cosa, perché siamo psico-gastronomicamente vulnerabili.
