@@ -30,7 +30,7 @@ weight: 50
 
 Iniziamo oggi un viaggio in un mondo che ci farà vedere la matematica un po' più vicina alla realtà, in quanto <mark style="background-color: #ABF7F7A6;">punti di discontinuità</mark>
 
-- In alcuni contesti utilizzare dei simboli per indicare generici elementi di un insieme aiuta ad esprimere delle caratteristiche di intere classi di elementi, non singoli oggetti.
+- In alcuni contesti utilizzare dei simboli per indicare generici elementi di un insieme aiuta a esprimere delle caratteristiche di intere classi di elementi, non singoli oggetti.
 - Questo è uno degli aspetti più caratteristici della matematica, occuparsi di fare scoperte e ricavare proprietà su intere categorie di oggetti, nel nostro caso numeri, piuttosto che sui singoli.
 - Questo bisogno di generalizzare non è sentito solo in matematica, è simile a ciò che succede in molti contesti quotidiani.
 
