@@ -9,8 +9,8 @@ draft: false
 slides: "capitolo5"
 menu:
   math-01:
-    parent: 
-    weight: 
+    parent:
+    weight:
 
 # Prev/next pager order (if `docs_section_pager` enabled in `params.toml`)
 weight: 50
@@ -20,7 +20,7 @@ weight: 50
 
 ---
 
->_On August 14, 2021, a team (DAViS) at the University of Applied Sciences of the Grisons announced completion of the computation of π to 62.8 trillion digits_
+> _On August 14, 2021, a team (DAViS) at the University of Applied Sciences of the Grisons announced completion of the computation of π to 62.8 trillion digits_
 
 ---
 
@@ -34,20 +34,20 @@ Iniziamo oggi un percorso in un mondo che ci farà vedere la matematica un po' p
 - Questo è uno degli aspetti più caratteristici della matematica, occuparsi di fare scoperte e ricavare proprietà su intere categorie di oggetti, nel nostro caso numeri, piuttosto che sui singoli.
 - Questo bisogno di generalizzare non è sentito solo in matematica, è simile a ciò che succede in molti contesti quotidiani.
 
-![ex2_img](../calc_dark.svg)
+<!-- ![ex2_img](../calc_dark.svg) -->
 
-><h4>esempio 1</h4>
+> <h4>esempio 1</h4>
 >
->se diciamo:
+> se diciamo:
 >
-><span style="color:orange">Un qualunque individuo minorenne trovato alla guida di un’auto sta commettendo reato.</em></span>
+> <span style="color:orange">Un qualunque individuo minorenne trovato alla guida di un’auto sta commettendo reato.</em></span>
 >
->- non ci interessa affatto sapere se tale individuo si chiama Andrea o Giovanni, se è biondo o castano, o se l’auto è una FIAT Panda o una Lamborghini.
->- Ciò che ci interessa è che il soggetto in questione è un **individuo** (cioè un elemento dell’insieme delle persone) minorenne (un elemento dell’insieme delle persone che non ha ancora raggiunto i 18 anni di età) e che si trova alla guida di un auto (un elemento dell’insieme di quei particolari mezzi di trasporto che sono le automobili).
+> - non ci interessa affatto sapere se tale individuo si chiama Andrea o Giovanni, se è biondo o castano, o se l’auto è una FIAT Panda o una Lamborghini.
+> - Ciò che ci interessa è che il soggetto in questione è un **individuo** (cioè un elemento dell’insieme delle persone) minorenne (un elemento dell’insieme delle persone che non ha ancora raggiunto i 18 anni di età) e che si trova alla guida di un auto (un elemento dell’insieme di quei particolari mezzi di trasporto che sono le automobili).
 >
-><h4>esempio 2</h4>
+> <h4>esempio 2</h4>
 >
->- se vogliamo rimanere in ambito matematico, pensiamo alle figure geometriche:
+> - se vogliamo rimanere in ambito matematico, pensiamo alle figure geometriche:
 >
 > - **Area del rettangolo**: <span style="color:orange">$A = a \times b$</span>, con $a$ e $b$, base e altezza;
 >   - d'ora in poi sarà molto meglio usare il simbolo "$\cdot$" al posto di "$\times$" per indicare la moltiplicazione, proprio perché utilizzeremo spesso la lettere $x$ e si rischierebbe di confonderla.
@@ -102,16 +102,16 @@ Iniziamo oggi un percorso in un mondo che ci farà vedere la matematica un po' p
 
 {{% callout note %}}
 
->**definizione**:
-><span style="color:red">Un **monomio** è una espressione algebrica nella quale:</span>
+> **definizione**:
+> <span style="color:red">Un **monomio** è una espressione algebrica nella quale:</span>
 >
->- compaiono soltanto operazioni di **moltiplicazione** ed **elevamento a potenza**;
->- Gli esponenti delle variabili sono **numeri naturali**, qundi $\in \mathbb{N}$
+> - compaiono soltanto operazioni di **moltiplicazione** ed **elevamento a potenza**;
+> - Gli esponenti delle variabili sono **numeri naturali**, qundi $\in \mathbb{N}$
 >
->- sono monomi:
->$7x^3yz^4 \qquad - \dfrac {1}{2} a^2bc^4 \qquad 3a(-2)ab^3 \qquad \sqrt{2}st^2 \qquad v = \dfrac{s}{t}$
->- non sono monomi:
->$7x^3yz^{-4} \qquad - \dfrac {1}{2} a^2bc^4 + \dfrac{5}{6}a^2c\qquad 3 \dfrac{a}{b^3} \qquad 2 \sqrt{s}$
+> - sono monomi:
+>   $7x^3yz^4 \qquad - \dfrac {1}{2} a^2bc^4 \qquad 3a(-2)ab^3 \qquad \sqrt{2}st^2 \qquad v = \dfrac{s}{t}$
+> - non sono monomi:
+>   $7x^3yz^{-4} \qquad - \dfrac {1}{2} a^2bc^4 + \dfrac{5}{6}a^2c\qquad 3 \dfrac{a}{b^3} \qquad 2 \sqrt{s}$
 
 {{% /callout %}}
 
@@ -119,8 +119,7 @@ Iniziamo oggi un percorso in un mondo che ci farà vedere la matematica un po' p
 
 {{% callout info %}}
 
->**definizione**:<br>
-><span style="color:orange">Dato un monomio non nullo, si definisce **grado** (o **grado complessivo**) del monomio la somma degli esponenti di tutte le lettere che vi compaiono.</span>
+> **definizione**:<br> ><span style="color:orange">Dato un monomio non nullo, si definisce **grado** (o **grado complessivo**) del monomio la somma degli esponenti di tutte le lettere che vi compaiono.</span>
 
 {{% /callout %}}
 
@@ -128,11 +127,10 @@ Grado di un monomio rispetto ad una variabile
 
 {{% callout info %}}
 
->**definizione**:<br>
-><span style="color:orange">Dato un monomio non nullo, si definisce **grado** del monomio **rispetto ad una lettera**, l'esponente con cui compare quella lettera all'interno del monomio, una volta ridotto in **forma normale**</span>
+> **definizione**:<br> ><span style="color:orange">Dato un monomio non nullo, si definisce **grado** del monomio **rispetto ad una lettera**, l'esponente con cui compare quella lettera all'interno del monomio, una volta ridotto in **forma normale**</span>
 >
->- il monomio: $7x^3yz^4$
->- è di grado $3$ rispetto a $x$, di grado $1$ rispetto a $y$ e di grado $4$ rispetto a $z$.
+> - il monomio: $7x^3yz^4$
+> - è di grado $3$ rispetto a $x$, di grado $1$ rispetto a $y$ e di grado $4$ rispetto a $z$.
 
 {{% /callout %}}
 
@@ -140,15 +138,15 @@ Grado di un monomio rispetto ad una variabile
 
 ## Proprietà e operazioni con i monomi
 
->**nota**:<br><em>In una espressione algebrica il punto utilizzato per indicare l'operazione di moltiplicazione viene spesso omesso, quindi l'espressione algebrica $xyz^2$ ha il significato di $x \cdot y \cdot z^2$.</em>
+> **nota**:<br><em>In una espressione algebrica il punto utilizzato per indicare l'operazione di moltiplicazione viene spesso omesso, quindi l'espressione algebrica $xyz^2$ ha il significato di $x \cdot y \cdot z^2$.</em>
 >
->Un monomio si dice **ridotto in forma normale** quando è scritto come prodotto di **un solo** fattore numerico, detto **coefficiente numerico**, e di potenze letterali con basi diverse. Il complesso delle lettere che compaiono nel monomio ridotto a forma normale ne costituisce la **parte letterale**.
+> Un monomio si dice **ridotto in forma normale** quando è scritto come prodotto di **un solo** fattore numerico, detto **coefficiente numerico**, e di potenze letterali con basi diverse. Il complesso delle lettere che compaiono nel monomio ridotto a forma normale ne costituisce la **parte letterale**.
 
 ## Operazioni con i monomi
 
 ### Somma algebrica di monomi
 
->La <mark><b>somma algebrica</b></mark> di uno o più <mark><b>monomi simili</b></mark> è un monomio, simile a quelli di partenza, che ha per coefficiente la **somma algebrica** dei coefficienti.
+> La <mark><b>somma algebrica</b></mark> di uno o più <mark><b>monomi simili</b></mark> è un monomio, simile a quelli di partenza, che ha per coefficiente la **somma algebrica** dei coefficienti.
 
 - la **somma** di due monomi **opposti** è zero, ossia il monomio nullo
 - la **differenza** di due monomi uguali è zero, ossia il monomio nullo
@@ -160,9 +158,9 @@ Grado di un monomio rispetto ad una variabile
 
 ### Riduzione dei termini simili
 
->Una somma algebrica di più monomi può essere semplificata se tra i suoi termini vi sono dei termini simili tra loro.
+> Una somma algebrica di più monomi può essere semplificata se tra i suoi termini vi sono dei termini simili tra loro.
 >
->- Se i termini della somma sono monomi tutti simili tra loro si ottiene come risultato un monomio; in caso contrario si otterrà un polinomio.
+> - Se i termini della somma sono monomi tutti simili tra loro si ottiene come risultato un monomio; in caso contrario si otterrà un polinomio.
 
 {{% callout info %}}
 
@@ -174,7 +172,7 @@ Grado di un monomio rispetto ad una variabile
 68. $-\dfrac{2}{5} a^{3}+\dfrac{15}{8} a^{2} b-\dfrac{8}{15} a^{2}-\dfrac{3}{5} a^{3}+\dfrac{8}{15} a^{2}+a^{3}-\dfrac{7}{8} a^{2} b$
 69. $\dfrac{11}{10} s^{3} t-\dfrac{11}{10} s t^{3}+\dfrac{3}{5} s t^{3}-\dfrac{31}{35} s^{3} t-\dfrac{3}{5} s-\dfrac{3}{14} s^{3} t+\dfrac{3}{5} s+\dfrac{3}{2} t^{3}$
 70. $-\dfrac{1}{10} x y^{2}-\dfrac{1}{9} x^{2} y+\dfrac{5}{6} x y^{2}+\dfrac{4}{3}+\dfrac{1}{9} x^{2} y-\dfrac{11}{15} x y^{2}-\dfrac{5}{6}$
-71. $\dfrac{1}{6} x y+\dfrac{5}{3} x-\left[\dfrac{1}{24} x y-\left(\dfrac{1}{12} x y-\dfrac{7}{8} x y+\dfrac{1}{6} x y\right)+2 x-\dfrac{1}{3} x\right]$  
+71. $\dfrac{1}{6} x y+\dfrac{5}{3} x-\left[\dfrac{1}{24} x y-\left(\dfrac{1}{12} x y-\dfrac{7}{8} x y+\dfrac{1}{6} x y\right)+2 x-\dfrac{1}{3} x\right]$
 
 ---
 
@@ -183,6 +181,7 @@ Grado di un monomio rispetto ad una variabile
   - Alla manifestazione hanno partecipato $n$ uomini;
   - le donne erano $100$ in più di metà degli uomini;
   - i bambini erano il doppio degli uomini diminuito di $31$.
+
 - Quante persone hanno partecipato alla manifestazione?
 
 {{% /callout %}}
@@ -193,14 +192,14 @@ Grado di un monomio rispetto ad una variabile
 
 ### 9. Elevamento a potenza
 
->È consigliato un ripasso delle **proprietà delle potenze**
+> È consigliato un ripasso delle **proprietà delle potenze**
 
 {{% callout info %}}
 
->**definizione**: <span style="color:#8A4117">La **potenza con esponente naturale $n$ di un monomio** è un **monomio** che ha per coefficiente la potenza di esponente $n$ del coefficiente e per parte letterale la potenza di esponente $n$ della parte letterale.</span>
+> **definizione**: <span style="color:#8A4117">La **potenza con esponente naturale $n$ di un monomio** è un **monomio** che ha per coefficiente la potenza di esponente $n$ del coefficiente e per parte letterale la potenza di esponente $n$ della parte letterale.</span>
 >
->- il monomio: $7x^3yz^4$
->- è di grado $3$ rispetto a $x$, di grado $1$ rispetto a $y$ e di grado $4$ rispetto a $z$.
+> - il monomio: $7x^3yz^4$
+> - è di grado $3$ rispetto a $x$, di grado $1$ rispetto a $y$ e di grado $4$ rispetto a $z$.
 
 {{% /callout %}}
 
@@ -239,8 +238,8 @@ Grado di un monomio rispetto ad una variabile
 
 ### Generalizzando
 
->- Se voglio comprare delle scarpe che costano $50$ euro e sono scontate del $12$%, mi interessa scoprire quanto devo pagare, non fare conti astratti.
->- Ma se sono un commerciante che ogni anno vende un certo numero di paia di scarpe, e devo calcolare quali sconti fare per avere un certo guadagno e aumentare le vendite, è piú utile che egli faccia dei conti riapplicabili in ogni occasione, anziché perdere tempo a ripetere gli stessi procedimenti ogni volta.
+> - Se voglio comprare delle scarpe che costano $50$ euro e sono scontate del $12$%, mi interessa scoprire quanto devo pagare, non fare conti astratti.
+> - Ma se sono un commerciante che ogni anno vende un certo numero di paia di scarpe, e devo calcolare quali sconti fare per avere un certo guadagno e aumentare le vendite, è piú utile che egli faccia dei conti riapplicabili in ogni occasione, anziché perdere tempo a ripetere gli stessi procedimenti ogni volta.
 
 ---
 
@@ -248,7 +247,7 @@ Grado di un monomio rispetto ad una variabile
 
 {{% callout info %}}
 
->**definizione**: Un **polinomio** è una **somma algebrica** di **monomi**, non simili.</span>
+> **definizione**: Un **polinomio** è una **somma algebrica** di **monomi**, non simili.</span>
 
 {{% /callout %}}
 
@@ -269,9 +268,9 @@ _osserva che_:
 
 > **definizione**: Il **grado complessivo** (o semplicemente grado) di un polinomio è il massimo dei gradi complessivi dei suoi termini. Si chiama, invece, grado di un polinomio rispetto ad una data lettera l’esponente maggiore con cui quella lettera compare nel polinomio, dopo che è stato ridotto a forma normale.
 >
->- Il polinomio $2ab + 3 - 4a^2b^2$ ha grado complessivo $4$ perché il monomio con grado massimo è $- 4a^2b^2$, che è un monomio di quarto grado;
+> - Il polinomio $2ab + 3 - 4a^2b^2$ ha grado complessivo $4$ perché il monomio con grado massimo è $- 4a^2b^2$, che è un monomio di quarto grado;
 >
->- il grado del polinomio $a^3 + 3b^2a - 4ba^2$ rispetto alla lettera $a$ è $3$ perché l’esponente più grande con cui tale lettera compare è $3$.
+> - il grado del polinomio $a^3 + 3b^2a - 4ba^2$ rispetto alla lettera $a$ è $3$ perché l’esponente più grande con cui tale lettera compare è $3$.
 
 - Un polinomio si dice **omogeneo** se tutti i termini che lo compongono sono dello _stesso grado_.
 
@@ -303,7 +302,6 @@ _osserva che_:
 
 ## Prodotti Notevoli
 
-
 I **prodotti notevoli** sono soltanto dei prodotti tra polinomi che, essendo utilizzati di frequente è conveniente imparare a ricavare facilmente per non doverli imparare a memoria - che non serve.
 
 {{% staticref "uploads/Prodotti_notevoli-ripasso.pdf" "newtab" %}} <i class="fa-regular fa-share-from-square"></i> - Ripasso Prodotti Notevoli{{% /staticref %}}
@@ -334,9 +332,9 @@ Divisione e Regola di Ruffini:
 
 - Eseguire la seguente Divisione tra polinomi:
 
->$(6x^3 - 2x^2 + 3x -1) : (2x^2 + 1)$
+> $(6x^3 - 2x^2 + 3x -1) : (2x^2 + 1)$
 >
->**soluzione**: $Q(x) = (3x - 1); \qquad R(x) = 0$.
+> **soluzione**: $Q(x) = (3x - 1); \qquad R(x) = 0$.
 
 - Qual è il quoziente $Q(x)$?
 - Qual è il Resto $R(x)$?
@@ -346,10 +344,10 @@ Divisione e Regola di Ruffini:
 
 ### Regola di Ruffini
 
->Eseguiamo un classico esercizio di _fattorizzazione_ utilizzando la Regola di Ruffini:
+> Eseguiamo un classico esercizio di _fattorizzazione_ utilizzando la Regola di Ruffini:
 
 - Eseguire la divisione utilizzando la Regola di Ruffini:
-$$(2x^3 - 9x + 1) : (x - 3)$$
+  $$(2x^3 - 9x + 1) : (x - 3)$$
 - **soluzione**: $$Q(x) = 2x^2 + 6x + 9; \qquad R = 28$$
 
 ### esempi
@@ -369,21 +367,21 @@ $$(2x^3 - 9x + 1) : (x - 3)$$
 ---
 
 - Dividiamo per $2 x^{2} y$ ogni termine del polinomio dividendo:
-$$
-\begin{aligned}
-&12 x^{4} y^{3}:\left(2 x^{2} y\right)=6 x^{4-2} y^{3-1}=6 x^{2} y^{2} \\
-&-3 x^{3} y^{4}:\left(2 x^{2} y\right)=-\frac{3}{2} x^{3-2} y^{4-1}=-\frac{3}{2} x y^{3} \\
-&2 x^{2} y:\left(2 x^{2} y\right)=1 .
-\end{aligned}
-$$
-Il risultato è quindi:
-$$
-\left(12 x^{4} y^{3}-3 x^{3} y^{4}+2 x^{2} y\right):\left(2 x^{2} y\right)=6 x^{2} y^{2}-\frac{3}{2} x y^{3}+1 .
-$$
-<mark class="hltr-green">Verifica</mark> :
-$$
-\underbrace{\left(6 x^{2} y^{2}-\frac{3}{2} x y^{3}+1\right)}_{\text {quoziente }} \cdot \underbrace{2 x^{2} y}_{\text {divisore }}=\underbrace{12 x^{4} y^{3}-3 x^{3} y^{4}+2 x^{2} y}_{\text {dividendo }} .
-$$
+  $$
+  \begin{aligned}
+  &12 x^{4} y^{3}:\left(2 x^{2} y\right)=6 x^{4-2} y^{3-1}=6 x^{2} y^{2} \\
+  &-3 x^{3} y^{4}:\left(2 x^{2} y\right)=-\frac{3}{2} x^{3-2} y^{4-1}=-\frac{3}{2} x y^{3} \\
+  &2 x^{2} y:\left(2 x^{2} y\right)=1 .
+  \end{aligned}
+  $$
+  Il risultato è quindi:
+  $$
+  \left(12 x^{4} y^{3}-3 x^{3} y^{4}+2 x^{2} y\right):\left(2 x^{2} y\right)=6 x^{2} y^{2}-\frac{3}{2} x y^{3}+1 .
+  $$
+  <mark class="hltr-green">Verifica</mark> :
+  $$
+  \underbrace{\left(6 x^{2} y^{2}-\frac{3}{2} x y^{3}+1\right)}_{\text {quoziente }} \cdot \underbrace{2 x^{2} y}_{\text {divisore }}=\underbrace{12 x^{4} y^{3}-3 x^{3} y^{4}+2 x^{2} y}_{\text {dividendo }} .
+  $$
 
 2. $\left(5 a b^{2}+3 a^{3} b^{3}-3 a^{4}\right):\left(2 a^{2} b^{2}\right)$.
 
