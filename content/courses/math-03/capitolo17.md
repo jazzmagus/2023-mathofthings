@@ -17,7 +17,7 @@ weight: 20
 
 > ☆ **scadenza**: 30 ottobre 2021
 
-![ex2_img](../math-03/images/night.jpeg)
+![ex2_img](../night.jpeg)
 
 ## Capitolo 2
 
