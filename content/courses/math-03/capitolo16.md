@@ -18,7 +18,7 @@ weight: 10
 
 > ☆ **scadenza**: 30 settembre
 
-![ex1_img](../static/uploads/night.jpeg)
+![ex1_img](../math-03/night.jpeg)
 
 ## Equazioni e Disequazioni
 
