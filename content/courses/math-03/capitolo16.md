@@ -19,7 +19,7 @@ weight: 10
 
 ![ex1_img](../math-03/images/night.jpeg)
 
-## L’insieme dei numeri naturali
+## Equazioni e Disequazioni
 
 <!-- {{< figure src="../majong_01.png" caption="A caption" numbered="true" >}} -->
 
@@ -51,20 +51,3 @@ Nullam congue quam et volutpat malesuada. Sed risus tortor, pulvinar et dictum n
 #### osservazione
 
 > questa è un'interessante osservazione
-
----
-
-## Potenze in $\mathbb{N}$ e loro proprieta`
-
-### definizione di potenza
-
-> **DEFINIZIONE**:
-> La potenza di base $a$ ed esponente $n$ si indica con $a^n$ ed è uguale al prodotto di $n$ `fattori` uguali ad $a$:
->
-> $$a^n = \underbrace{a \cdot a \cdot a \cdot \ldots \cdot a}_{n \\; \text{volte}}$$
-
-## Espressioni con in numeri naturali
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum.
-
-## Divisibilità e "numeri primi"
