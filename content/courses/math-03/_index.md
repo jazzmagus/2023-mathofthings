@@ -8,9 +8,9 @@ weight: 30
 title: Matematica per le classi terze
 date: "2021-09-09T00:00:00Z"
 lastmod: "2021-09-09T00:00:00Z"
-draft: false  # Is this a draft? true/false
-toc: true  # Show table of contents? true/false
-type: docs  # Do not modify.
+draft: false # Is this a draft? true/false
+toc: true # Show table of contents? true/false
+type: docs # Do not modify.
 
 # Add menu entry to sidebar.
 # - name: Declare this menu item as a parent with ID `name`.
@@ -23,41 +23,41 @@ menu:
 
 ## Introduzione al Corso
 
->*"La **conoscenza** è ciò che ci rende **diversi**"*.
+> _"La **conoscenza** è ciò che ci rende **diversi**"_.
 >
->La conoscenza è **infinita** e ognuno di noi può contenerne solo una parte, per questo motivo siamo diversi, mentre siamo tutti ignoranti rispetto alla totalità della conoscenza, e questo ci rende **uguali**.
+> La conoscenza è **infinita** e ognuno di noi può contenerne solo una parte, per questo motivo siamo diversi, mentre siamo tutti ignoranti rispetto alla totalità della conoscenza, e questo ci rende **uguali**.
 >
->-- Piergiorgio Odifreddi
+> -- Piergiorgio Odifreddi
 
-![overview_img](startline.png)
+![overview_img](../night.jpeg)
 
 ## Conoscenze
 
 - Proprietà degli insiemi numerici $\mathbb{N}, \mathbb{Z}, \mathbb{Q}, \mathbb{R}$ e consapevolezza della necessità degli ampliamenti da $\mathbb{N}$ a $\mathbb{Z}$, da $\mathbb{Z}$ a $\mathbb{Q}$, da $\mathbb{Q}$ a $\mathbb{R}$.
-Rappresentazione degli insiemi numericisu una retta orientata.
+  Rappresentazione degli insiemi numericisu una retta orientata.
 - Definizioni e proprietà delle quattro operazioni e delle potenze nei quattro insiemi numerici.
 
 - `Divisibilità` in $\mathbb{N}$ e `numeri primi`;
- `mcm` e `MCD` di due o più numeri naturali.
+  `mcm` e `MCD` di due o più numeri naturali.
 
-- Concetto di `numero relativo` e di `valore assoluto`; *regola dei segni*.
+- Concetto di `numero relativo` e di `valore assoluto`; _regola dei segni_.
 
 - **Numeri razionali**: frazioni e rappresentazione decimale.
- Notazione `esponenziale` e notazione `scientifica` di un numero: ordine di grandezza.
- **Proporzioni** e **percentuali**.
+  Notazione `esponenziale` e notazione `scientifica` di un numero: ordine di grandezza.
+  **Proporzioni** e **percentuali**.
 
 - **Numeri irrazionali** e loro rappresentazione decimale.
- Concetto di `approssimazione` ed `errore` di un’approssimazione.
+  Concetto di `approssimazione` ed `errore` di un’approssimazione.
 
 ## Abilità
 
-- Eseguire i calcoli con i numeri degli insiemi numerici  $\mathbb{N}$, $\mathbb{Z}$ e $\mathbb{Q}$
+- Eseguire i calcoli con i numeri degli insiemi numerici $\mathbb{N}$, $\mathbb{Z}$ e $\mathbb{Q}$
 - Scomporre un numero naturale in fattoriprimi e calcolare il `mcm` e il `MCD` tra due o più numeri naturali.
-Trasformare la scrittura di un numero naturale dalla base $10$ alla base $b$ e viceversa.
+  Trasformare la scrittura di un numero naturale dalla base $10$ alla base $b$ e viceversa.
 - Trasformare una frazione in numero decimale e viceversa;
-scrivere un numero decimale finito in notazione scientifica e determinarne l’`ordine di grandezza`.
+  scrivere un numero decimale finito in notazione scientifica e determinarne l’`ordine di grandezza`.
 - Risolvere problemi su **proporzioni** e **percentuali**.
-Calcolare l’errore relativo di un’approssimazione conoscendo l’errore assoluto e viceversa e determinare il valore abbreviato e quello arrotondato di un numero decimale.
+  Calcolare l’errore relativo di un’approssimazione conoscendo l’errore assoluto e viceversa e determinare il valore abbreviato e quello arrotondato di un numero decimale.
 
 ## competenze
 
