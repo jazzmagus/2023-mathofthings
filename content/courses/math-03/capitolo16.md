@@ -72,8 +72,16 @@ Una disequazione è una **disuguaglianza** contenente almeno una **incognita**, 
 
 ```markmap {height="200px"}
 - Hugo Modules
-  - wowchemy
-  - wowchemy-plugins-netlify
-  - wowchemy-plugins-netlify-cms
-  - wowchemy-plugins-reveal
+ - wowchemy
+ - wowchemy-plugins-netlify
+ - wowchemy-plugins-netlify-cms
+ - wowchemy-plugins-reveal
+```
+
+```mermaid
+graph TD;
+  A-->B;
+  A-->C;
+  B-->D;
+  C-->D;
 ```
