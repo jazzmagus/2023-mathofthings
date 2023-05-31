@@ -2,9 +2,10 @@
 title: 16. Equazioni e Disequazioni
 linktitle: Capitolo 16 - Equazioni e Disequazioni
 toc: true
-type: docs
-date: "2023-05-31T10:00:00+01:00"
+type: book
+date: "2023-05-31T10:300:00+01:00"
 draft: false
+slides: "capitolo_3-16"
 diagram: true
 menu:
   math-03:
