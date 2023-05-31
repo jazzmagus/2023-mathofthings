@@ -64,9 +64,6 @@ Sia $a$ un numero reale.
 
 $$ \mathbb{N} = \\{ 0; 1; 2; 3; \dots \\} $$
 
-> [!definizione] DISEQUAZIONE
-> Una disequazione è una **disuguaglianza** contenente almeno una **incognita**, cioè almeno una variabile di cui si cercano i valori per cui la disuguaglianza è **vera**.
-
 {{% callout note %}}
 **DISEQUAZIONE**
 
