@@ -17,7 +17,7 @@ weight: 10
 
 > ☆ **scadenza**: 30 settembre
 
-![ex1_img](../images/../math-03/images/night.jpeg)
+![ex1_img](../math-03/images/night.jpeg)
 
 ## L’insieme dei numeri naturali
 
