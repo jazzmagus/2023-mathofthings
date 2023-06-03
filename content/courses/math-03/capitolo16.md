@@ -69,39 +69,3 @@ $$ \mathbb{N} = \\{ 0; 1; 2; 3; \dots \\} $$
 
 Una disequazione è una **disuguaglianza** contenente almeno una **incognita**, cioè almeno una variabile di cui si cercano i valori per cui la disuguaglianza è **vera**.
 {{% /callout %}}
-
-```markmap {height="200px"}
-- Hugo Modules
- - wowchemy
- - wowchemy-plugins-netlify
- - wowchemy-plugins-netlify-cms
- - wowchemy-plugins-reveal
-```
-
-```mermaid
-graph TD;
-  A-->B;
-  A-->C;
-  B-->D;
-  C-->D;
-```
-
-````markmap
-- Mindmaps
-  - Links
-    - [Wowchemy Docs](https://wowchemy.com/docs/)
-    - [Discord Community](https://discord.gg/z8wNYzb)
-    - [GitHub](https://github.com/wowchemy/wowchemy-hugo-themes)
-  - Features
-    - Markdown formatting
-    - **inline** ~~text~~ *styles*
-    - multiline
-      text
-    - `inline code`
-    -
-      ```js
-      console.log('hello');
-      console.log('code block');
-      ```
-    - Math: $x = {-b \pm \sqrt{b^2-4ac} \over 2a}$
-````
