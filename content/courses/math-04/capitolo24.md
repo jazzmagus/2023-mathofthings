@@ -1,6 +1,6 @@
 ---
-title: Numeri razionali e numeri reali
-linktitle: Capitolo 24 numeri Razionali e numeri Reali
+title: Disequazioni goniometriche
+linktitle: Capitolo 24 Disequazioni goniometriche
 toc: true
 type: docs
 date: "2019-05-05T00:00:00+01:00"

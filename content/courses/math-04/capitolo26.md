@@ -1,9 +1,9 @@
 ---
-title: Numeri razionali e numeri reali
-linktitle: Capitolo 26 numeri Razionali e numeri Reali
+title: Applicazioni della trigonometria
+linktitle: Capitolo 26 Applicazioni della trigonometria
 toc: true
 type: docs
-date: "2019-05-05T00:00:00+01:00"
+date: "2019-08-05T00:00:00+01:00"
 draft: false
 menu:
   math-04:
@@ -18,7 +18,7 @@ weight: 20
 
 ![ex2_img](../ex2_img.png)
 
-## Capitolo 2: Numeri razionali e numeri reali
+# Applicazioni della trigonometria
 
 > Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat.
 

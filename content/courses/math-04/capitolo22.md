@@ -18,7 +18,7 @@ weight: 20
 
 ![ex2_img](../ex2_img.png)
 
-## Capitolo 2: Numeri razionali e numeri reali
+# Formule e identità goniometriche
 
 > Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat.
 

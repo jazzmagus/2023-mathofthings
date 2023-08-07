@@ -1,6 +1,6 @@
 ---
-title: Numeri razionali e numeri reali
-linktitle: Capitolo 25 numeri Razionali e numeri Reali
+title: Trigonometria
+linktitle: Capitolo 25 Trigonometria
 toc: true
 type: docs
 date: "2019-05-05T00:00:00+01:00"
@@ -18,7 +18,7 @@ weight: 20
 
 ![ex2_img](../ex2_img.png)
 
-## Capitolo 2: Numeri razionali e numeri reali
+## Trigonometria
 
 > Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat.
 

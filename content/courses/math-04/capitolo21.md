@@ -19,6 +19,8 @@ weight: 10
 
 ![ex1_img](../majong_01.png)
 
+# Gli angoli e le funzioni goniometriche
+
 ## 1. Angoli e loro misure
 
 In questa prima Unità del volume introdurremo e studieremo una classe di funzioni fondamentale per costruire modelli di fenomeni periodici, le funzioni goniometriche.
