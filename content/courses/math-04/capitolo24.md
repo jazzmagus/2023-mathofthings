@@ -1,14 +1,14 @@
 ---
 title: Numeri razionali e numeri reali
-linktitle: Capitolo 2 numeri Razionali e numeri Reali
+linktitle: Capitolo 24 numeri Razionali e numeri Reali
 toc: true
 type: docs
 date: "2019-05-05T00:00:00+01:00"
 draft: false
 menu:
   math-04:
-    parent: 
-    weight: 
+    parent:
+    weight: 40
 
 # Prev/next pager order (if `docs_section_pager` enabled in `params.toml`)
 weight: 20
@@ -20,24 +20,24 @@ weight: 20
 
 ## Capitolo 2: Numeri razionali e numeri reali
 
->Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat.
+> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat.
 
 Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam.
 
 ## Frazioni
 
-## L’insieme  dei  numeri  razionali
+## L’insieme dei numeri razionali
 
-## operazioni  con  i  numeri  razionali
+## operazioni con i numeri razionali
 
 ## potenze in $\mathbb{Q}$
 
-## Frazioni  e  numeri  decimali
+## Frazioni e numeri decimali
 
 ## Proporzioni
 
 ## percentuali
 
-## L’insieme  dei  numeri  reali
+## L’insieme dei numeri reali
 
-## Calcolo  approssimato
+## Calcolo approssimato
