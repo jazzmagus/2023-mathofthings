@@ -4,7 +4,7 @@
 # This file is formatted using YAML syntax - learn more at https://learnxinyminutes.com/docs/yaml/
 
 title: The Math of Things # Website name
-baseURL: '2023-mathofthings.netlify.app/' # Website URL
+baseURL: "2023-mathofthings.netlify.app/" # Website URL
 
 ############################
 ## LANGUAGE
@@ -36,13 +36,13 @@ enableRobotsTXT: true
 footnotereturnlinkcontents: <sup>^</sup>
 ignoreFiles: [\.ipynb$, .ipynb_checkpoints$, \.Rmd$, \.Rmarkdown$, _cache$]
 permalinks:
-  event: '/talk/:slug/'
-  tags: '/tag/:slug/'
-  categories: '/category/:slug/'
-  publication_types: '/publication-type/:slug/'
+  event: "/talk/:slug/"
+  tags: "/tag/:slug/"
+  categories: "/category/:slug/"
+  publication_types: "/publication-type/:slug/"
 disableAliases: true
 outputs:
-  home: [HTML, RSS, JSON, WebAppManifest, headers, redirects]
+  home: [HTML, RSS, JSON, WebAppManifest]
   section: [HTML, RSS]
 imaging:
   resampleFilter: lanczos

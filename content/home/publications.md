@@ -10,17 +10,17 @@ headless: true
 weight: 90
 
 title: Recent Publications
-subtitle: ''
+subtitle: ""
 
 content:
   # Filter on criteria
   filters:
     folders:
       - publication
-    tag: ''
-    category: ''
-    publication_type: ''
-    author: ''
+    tag: ""
+    category: ""
+    publication_type: ""
+    author: ""
     exclude_featured: false
     exclude_future: false
     exclude_past: false
@@ -33,9 +33,5 @@ content:
 design:
   # Choose a view for the listings:
   view: citation
-  columns: '2'
+  columns: "2"
 ---
-
-{{% callout note %}}
-Quickly discover relevant content by [filtering publications](./publication/).
-{{% /callout %}}
