@@ -17,15 +17,15 @@ slides:
   <h1 class="r-fit-text" style="color:#3B2F2F">MATEMATICA</h1>
   <h2 style="color:#3B2F2F">per le Classi Terze</h2>
   <h2 style="color:#3B2F2F">SERALE </h2>
-  <br> 
+  <br>
   <!-- <h3 style="color:#3B2F2F"><em>esercizi e ripasso</em></h3> -->
-  
+
   <h5 style="color:#8A4117"><em>prof. diego fantinelli</em></h5>
   <h5 style="color:#8A4117">IIS "A. Remondini" - Bassano del Grappa</h5>
 </section>
 
 <section data-transition="convex" data-background-image="book_bkg.jpg" data-background-opacity="0.5">
-    
+
   # OBIETTIVI
   ## DEL CORSO
 
@@ -75,7 +75,7 @@ slides:
 
 ---
 
-### conoscenze:    
+### conoscenze:
 - Definizione e significato di monomio; operazioni con i monomi.
 ### abilità
 - Padroneggiare l’uso della lettera come mero simbolo e come variabile.
@@ -137,7 +137,7 @@ slides:
 
 ## TEMA 5: Disequazioni numeriche intere di primo grado
 > periodo: **Maggio - Giugno**
-> 
+>
 > **competenza**: A1
 
 ---
@@ -180,7 +180,7 @@ slides:
 
 - link: [Google Classroom corsi](https://classroom.google.com/c/NTQ2MTA4NzUwMjcw?cjc=wnllzfj)
 
-<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QA: &nbsp;</b><code>wnllzfj</code></h2>
+<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QA: &nbsp;</b><code>5d5h272g</code></h2>
 <h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>3QES: &nbsp;</b><code>c7ctvcv</code></h2>
 
   - comunicazioni **non ufficiali**, ma non per questo frivole...
@@ -190,12 +190,12 @@ slides:
 
 ---
 
-## Registro elettronico: 
+## Registro elettronico:
 ### Classeviva Spaggiari:
 
 ![CLASSEVIVA](classeviva.png)
 
-  - comunicazioni **ufficiali**: 
+  - comunicazioni **ufficiali**:
     - verifiche e interrogazioni
     - voti
     - Circolari
@@ -210,11 +210,11 @@ slides:
 
 <section data-transition="concave" data-background-image="book1.png" data-background-opacity="0.1">
 
-## Libro di testo: 
+## Libro di testo:
 #### COLORI DELLA MATEMATICA edizione BIANCA Vol.1 - Petrini, Sasso, Fragni - ed. Petrini
 
   - non strettamente indispensabile in classe... pesa $780g$
-  - versione digitale su iPad? 
+  - versione digitale su iPad?
     - *parliamone*...
 
 </section>
