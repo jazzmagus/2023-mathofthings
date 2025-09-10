@@ -11,7 +11,7 @@ image:
   focal_point: "center"
   placement: 2
   preview_only: false
-  
+
 slides:
   theme: serif
   highlight_style: dracula
@@ -24,15 +24,15 @@ slides:
   <h1 class="r-fit-text" style="color:#3B2F2F">MATEMATICA</h1>
   <h2 style="color:#3B2F2F">per le Classi Quarte</h2>
   <h2 style="color:#3B2F2F">SERALE</h2>
-  <br> 
+  <br>
   <!-- <h3 style="color:#3B2F2F"><em>esercizi e ripasso</em></h3> -->
-  
+
   <h5 style="color:#8A4117"><em>prof. diego fantinelli</em></h5>
   <h5 style="color:#8A4117">IIS "A. Remondini" - Bassano del Grappa</h5>
 </section>
 
 <section data-transition="convex" data-background-image="book_bkg.jpg" data-background-opacity="0.5">
-    
+
   # OBIETTIVI
   ## DEL CORSO
 
@@ -48,10 +48,10 @@ slides:
 ---
 
 ### conoscenze
-- Disequazioni numeriche intere di primo grado. 
+- Disequazioni numeriche intere di primo grado.
 
 ### abilità
-- Risolvere disequazioni di primo grado e verificare la correttezza dei procedimenti utilizzati. 
+- Risolvere disequazioni di primo grado e verificare la correttezza dei procedimenti utilizzati.
 
 </section>
 
@@ -68,14 +68,14 @@ slides:
 ### conoscenze
 - Frazioni algebriche: semplificazioni e operazioni con le frazioni algebriche (moltiplicazione e divisione)
 - Equazioni numeriche di primo grado fratte.
-- Tecniche risolutive di un problema, anche utilizzando equazioni di primo grado. 
+- Tecniche risolutive di un problema, anche utilizzando equazioni di primo grado.
 
 ---
 
 ### abilità
 - Risolvere espressioni con le frazioni algebriche.
 - Risolvere equazioni di primo grado e verificare la correttezza dei procedimenti utilizzati.
-- Utilizzo dell’algebra per risolvere problemi numerici. 
+- Utilizzo dell’algebra per risolvere problemi numerici.
 
 </section>
 
@@ -94,7 +94,7 @@ slides:
 - Operazioni con i radicali
 - Regole risolutive delle equazioni di secondo grado, complete e incomplete.
 - Significato e discussione del  discriminante di un’equazione di 2° grado.
-- Equazioni di secondo grado intere e  fratte. 
+- Equazioni di secondo grado intere e  fratte.
 
 ---
 
@@ -116,7 +116,7 @@ slides:
 
 ### conoscenze
 - Il **piano cartesiano**: distanza tra due punti, punto medio di un segmento.
-- La retta nel piano cartesiano: retta passante per l’origine, retta in posizione generica, significato geometrico del coefficiente angolare e di ordinata all’origine, rette parallele e perpendicolari, intersezione tra rette, equazione di retta passante per due punti. 
+- La retta nel piano cartesiano: retta passante per l’origine, retta in posizione generica, significato geometrico del coefficiente angolare e di ordinata all’origine, rette parallele e perpendicolari, intersezione tra rette, equazione di retta passante per due punti.
 
 ---
 
@@ -144,7 +144,7 @@ slides:
 
 ### abilità
 - Saper risolvere un sistema di primo grado con diversi metodi: sostituzione, addizione e sottrazione, metodo grafico.
-- Risolvere problemi che implicano l’uso di funzioni, di equazioni e di sistemi di equazioni anche per via grafica, collegati con altre discipline e situazioni di vita ordinaria, come primo passo verso la modellizzazione matematica. 
+- Risolvere problemi che implicano l’uso di funzioni, di equazioni e di sistemi di equazioni anche per via grafica, collegati con altre discipline e situazioni di vita ordinaria, come primo passo verso la modellizzazione matematica.
 
 </section>
 
@@ -152,16 +152,16 @@ slides:
 
 ## Tema 5 - GEOMETRIA ANALITICA: LA PARABOLA
 > **periodo**: febbraio-marzo
-> 
+>
 > **competenze**: B1, B2
 
 ---
 
 ### conoscenze
 - La parabola nel piano cartesiano: parabola con asse di simmetria parallelo all’asse y, studio dell’equazione $y=ax^2+bx+c$ con casi particolari, formule del vertice e dell’asse di simmetria.
-- Disegnare il grafico della parabola dopo aver determinato: 
-	- vertice, 
-	- asse di simmetria, 
+- Disegnare il grafico della parabola dopo aver determinato:
+	- vertice,
+	- asse di simmetria,
 	- intersezioni con gli assi.
 
 ---
@@ -222,8 +222,8 @@ slides:
 ## Google Classroom
 
 - link: [Google Classroom corsi](https://classroom.google.com/c/NTQ2MTA4NzUwMjcw?cjc=wnllzfj)
-  
-<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>4QA: &nbsp;</b><code>uxzqxe7</code></h2>
+
+<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>4QA: &nbsp;</b><code>4466o2mv</code></h2>
 <h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>4QES: &nbsp;</b><code>u7ialtx</code></h2>
 
   - comunicazioni **non ufficiali**, ma non per questo frivole...
@@ -234,12 +234,12 @@ slides:
 
 ---
 
-## Registro elettronico: 
+## Registro elettronico:
 ### Classeviva Spaggiari:
 
 ![polinomi](classeviva.png)
 
-  - comunicazioni **ufficiali**: 
+  - comunicazioni **ufficiali**:
     - verifiche e interrogazioni
     - voti
     - Circolari
@@ -254,11 +254,11 @@ slides:
 
 <section data-transition="concave" data-background-image="book4.png" data-background-opacity="0.1">
 
-## Libro di testo: 
+## Libro di testo:
 #### COLORI DELLA MATEMATICA edizione BIANCA Vol. 2 - Petrini, Sasso, Fragni - ed. Petrini
 
   - non strettamente indispensabile in classe... pesa $780g$
-  - versione digitale su iPad? 
+  - versione digitale su iPad?
     - *parliamone*...
 
 </section>
