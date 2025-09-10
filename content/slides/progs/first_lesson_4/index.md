@@ -241,8 +241,8 @@ slides:
 
   - comunicazioni **ufficiali**:
     - verifiche e interrogazioni
-    - voti
-    - Circolari
+    - valutazioni
+    - circolari e segnalazioni
 
 </section>
 
@@ -266,8 +266,12 @@ slides:
 <section data-background-image="calm_bkg.jpg" data-background-opacity="0.6">
 
 ## Appunti dalle lezioni
-### ...non ne vado pazzo
 
+### ...sì ma con moderazione
+
+1. Non è un dettato, non dovete trascrivere tutto quello che dico.
+2. Le mie lezioni sono tratte dal testo --> gli approfondimenti li trovate sul testo.
+3. Vi fornirò tutto il materiale ad integrazione delle lezioni
 </section>
 
 ---
