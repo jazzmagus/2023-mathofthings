@@ -284,7 +284,7 @@ slides:
 
 - link: [Google Classroom corsi](https://classroom.google.com/c/NTQ2MTA4NzUwMjcw?cjc=wnllzfj)
 
-<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>5QA: &nbsp;</b><code>uyy24pn</code></h2>
+<h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>5QA: &nbsp;</b><code>4466o2mv</code></h2>
 <h2 class="fragment fade-in-then-out" style="color:#aa0008"><b>5QES: &nbsp;</b><code>yqnawpk</code></h2>
 
 <span style="font-size:70%">
@@ -307,8 +307,9 @@ slides:
 
   - comunicazioni **ufficiali**:
     - verifiche e interrogazioni
-    - voti
-    - Circolari
+    - valutazioni
+    - circolari
+    - segnalazioni
 
 </section>
 
@@ -324,7 +325,7 @@ slides:
 #### COLORI DELLA MATEMATICA edizione BIANCA Vol.A - Petrini, Sasso, Fragni - ed. Petrini
 
   - non strettamente indispensabile in classe... pesa $780g$
-  - versione digitale su iPad?
+- versione digitale su iPad?
     - *parliamone*...
 
 </section>
@@ -333,7 +334,11 @@ slides:
 
 ## Appunti dalle lezioni
 
-### ...non ne vado pazzo
+### ...sì ma con moderazione
+
+1. Non è un dettato, non dovete trascrivere tutto quello che dico.
+2. Le mie lezioni sono tratte dal testo --> gli approfondimenti li trovate sul testo.
+3. Vi fornirò tutto il materiale ad integrazione delle lezioni
 
 </section>
 
