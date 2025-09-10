@@ -5,9 +5,9 @@ authors: []
 tags: ['Tutorials', 'serale']
 categories: [teaching]
 date: '2022-09-07'
-# slides:
-#   theme: serif
-theme: serif
+slides:
+  theme: serif
+# theme: serif
 ---
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.6" data-transition="convex">
@@ -16,15 +16,15 @@ theme: serif
   <h1 class="r-fit-text" style="color:#3B2F2F">MATEMATICA</h1>
   <h2 style="color:#3B2F2F">per le Classi Quinte</h2>
   <h2 style="color:#3B2F2F">SERALE </h2>
-  <br> 
+  <br>
   <!-- <h3 style="color:#3B2F2F"><em>esercizi e ripasso</em></h3> -->
-  
+
   <h5 style="color:#8A4117"><em>prof. diego fantinelli</em></h5>
   <h5 style="color:#8A4117">IIS "A. Remondini" - Bassano del Grappa</h5>
 </section>
 
 <section data-transition="convex" data-background-image="book_bkg.jpg" data-background-opacity="0.5">
-    
+
   # OBIETTIVI
   ## DEL CORSO
 
@@ -114,7 +114,7 @@ theme: serif
 - Definizione e classificazione di funzione.
 - Definizioni di: dominio, codominio, f. crescenti, f. decrescenti, f. pari, f. dispari, f. limitate massimo-minimo relativi e assoluti.
 - Definizione di grafico di una funzione.
-- Lettura di dominio e codominio e segno della funzione da grafico. 
+- Lettura di dominio e codominio e segno della funzione da grafico.
 - Calcolo algebrico del dominio (di f. razionali e irrazionali intere e fratte).
 - Studio algebrico del segno, simmetrie e intersezioni con gli assi (di funzioni razionali fratte).
 - Studio delle funzioni: costante, lineare, quadratica, esponenziale e definita *a tratti*.
@@ -154,11 +154,11 @@ theme: serif
 ### conoscenze:
 
 - Concetto intuitivo da grafico di:
-  - limite finito di una funzione per $x$ che tende a un valore finito 
-  - limite destro e sinistro 
+  - limite finito di una funzione per $x$ che tende a un valore finito
+  - limite destro e sinistro
   - limite finito di una funzione per $x$ che tende all’infinito
   - limite infinito di una funzione per $x$ che tende a un valore finito
-  - limite infinito di una funzione per $x$ che tende all’infinito. 
+  - limite infinito di una funzione per $x$ che tende all’infinito.
 - Asintoti verticali e orizzontali.
 
 </section>
@@ -175,7 +175,7 @@ theme: serif
 
 <section data-background-image="book_bkg.jpg" data-background-opacity="0.6">
 
-## Tema 4 - Le funzioni continue e l'Algebra dei limiti 
+## Tema 4 - Le funzioni continue e l'Algebra dei limiti
 >periodo: **febbraio-marzo**
 
 </section>
@@ -185,7 +185,7 @@ theme: serif
 ### conoscenze:
 
 - Definizione di funzione continua.
-- Algebra dei limiti: 
+- Algebra dei limiti:
   - regole di calcolo (somme, prodotti, quozienti) nel caso di limiti finiti;
   - regole di calcolo (somme, prodotti, quozienti)nel caso in cui qualcuno dei limiti sia infinito e non si presentino forme di indecisione.
 
@@ -233,9 +233,9 @@ theme: serif
   - massimi e minimi relativi e assoluti.
 - Definizione di
   - funzioni crescenti e decrescenti in un intervallo.
-     Definizione di 
+     Definizione di
   - flesso di una funzione
-- Definizione di 
+- Definizione di
   - funzioni concave e convesse in un intervallo.
 - Criterio di monotonia per le funzioni derivabili.
   - Ricerca di massimi e minimi relativi di una funzione derivabile.
@@ -258,7 +258,7 @@ theme: serif
 
 ### OBIETTIVO FINALE: COMPETENZE
 
-- Saper utilizzare le tecniche per risolvere semplici equazioni esponenziali e logaritmiche. 
+- Saper utilizzare le tecniche per risolvere semplici equazioni esponenziali e logaritmiche.
 - Conoscere il concetto di funzione
 - Saper studiare algebricamente e graficamente una funzione.
 - Saper leggere semplici limiti dal grafico di una funzione.
@@ -300,12 +300,12 @@ theme: serif
 
 <section>
 
-## Registro elettronico: 
+## Registro elettronico:
 ### Classeviva Spaggiari:
 
 ![polinomi](classeviva.png)
 
-  - comunicazioni **ufficiali**: 
+  - comunicazioni **ufficiali**:
     - verifiche e interrogazioni
     - voti
     - Circolari
@@ -320,11 +320,11 @@ theme: serif
 
 <section data-transition="concave" data-background-image="book5.png" data-background-opacity="0.1">
 
-## Libro di testo: 
+## Libro di testo:
 #### COLORI DELLA MATEMATICA edizione BIANCA Vol.A - Petrini, Sasso, Fragni - ed. Petrini
 
   - non strettamente indispensabile in classe... pesa $780g$
-  - versione digitale su iPad? 
+  - versione digitale su iPad?
     - *parliamone*...
 
 </section>
