@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione — Equazioni di 2° grado e Parabola</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {
+    fontCache: 'global',
+    scale: 1.05
+  },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => {
+        document.body.style.opacity = '1';
+      });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --surface-alt: #f0ebe1;
+  --border: #e2dcd2;
+  --border-light: #ece7dd;
+  --text: #2c2520;
+  --text-mid: #5a524a;
+  --text-dim: #8a827a;
+  --accent: #c2185b;
+  --accent-light: #fce4ec;
+  --blue: #3a6b8c;
+  --blue-light: #e8f0f5;
+  --green: #4a7c59;
+  --green-light: #eaf5ed;
+  --purple: #6a1b9a;
+  --purple-light: #f3e5f5;
+  --gold: #b8860b;
+  --gold-light: #fdf8ed;
+  --teal: #4f6d7a;
+  --teal-light: #e8eff2;
+  --danger: #b33a3a;
+  --radius: 10px;
+  --shadow: 0 2px 12px rgba(44,37,32,.08);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Source Sans 3','Georgia',serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.75;
+  font-size:17px;
+  opacity:0;
+  transition: opacity .3s;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  height:60px; display:flex; align-items:center;
+  padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand {
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem; font-weight:700;
+  color:var(--accent); white-space:nowrap;
+}
+.topbar-nav {
+  display:flex; gap:3px; overflow-x:auto;
+  scrollbar-width:none; flex:1;
+}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill {
+  background:none; border:none;
+  font-family:'Source Sans 3',sans-serif;
+  font-size:.82rem; color:var(--text-dim);
+  padding:6px 14px; border-radius:20px;
+  cursor:pointer; white-space:nowrap; transition:all .2s;
+}
+.nav-pill:hover{background:var(--surface-alt);color:var(--text)}
+.nav-pill.active{background:var(--accent);color:#fff;font-weight:600}
+
+/* ── CONTAINER ── */
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 80px}
+
+/* ── SECTIONS ── */
+.section{display:none;animation:appear .4s ease}
+.section.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HERO ── */
+.hero{margin-bottom:40px;padding-bottom:32px;border-bottom:2px solid var(--border)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7}
+
+/* ── CONCEPT BOXES ── */
+.cb{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:26px 30px;margin:24px 0;box-shadow:var(--shadow);position:relative}
+.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:var(--radius) 0 0 var(--radius)}
+.cb.tip::before{background:var(--blue)} .cb.warn::before{background:var(--gold)}
+.cb.danger::before{background:var(--danger)} .cb.success::before{background:var(--green)}
+.cb.method::before{background:var(--accent)} .cb.purple::before{background:var(--purple)}
+.cb.teal::before{background:var(--teal)}
+.cb-label{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;font-weight:600}
+.cb.tip .cb-label{color:var(--blue)} .cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)} .cb.success .cb-label{color:var(--green)}
+.cb.method .cb-label{color:var(--accent)} .cb.purple .cb-label{color:var(--purple)}
+.cb.teal .cb-label{color:var(--teal)}
+
+/* ── MATH DISPLAY BLOCKS ── */
+.math-block {
+  background: #fdfaf6;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 18px 24px;
+  margin: 14px 0;
+  overflow-x: auto;
+}
+.math-block.dark {
+  background: var(--surface-alt);
+}
+.math-block.hero-formula {
+  background: #fff;
+  border: 2px solid var(--accent);
+  padding: 24px 28px;
+  text-align: center;
+}
+.math-block.result {
+  border-left: 4px solid var(--green);
+  background: var(--green-light);
+}
+.math-block.warning {
+  border-left: 4px solid var(--danger);
+  background: #fdf0f0;
+}
+
+/* ── STEP-BY-STEP ── */
+.step-math {
+  margin: 6px 0;
+  padding: 4px 0;
+}
+.step-math .label {
+  font-family: 'Fira Code', monospace;
+  font-size: .72rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+.step-math .label.green { color: var(--green); }
+
+/* ── ACCORDION ── */
+.accordion{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:24px 0;box-shadow:var(--shadow)}
+.acc-item{border-bottom:1px solid var(--border-light)}
+.acc-item:last-child{border-bottom:none}
+.acc-header{display:flex;align-items:center;gap:14px;padding:16px 22px;background:var(--surface);cursor:pointer;transition:background .2s;user-select:none}
+.acc-header:hover{background:var(--surface-alt)}
+.acc-num{width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0;font-family:'Fira Code',monospace}
+.acc-title{font-weight:600;font-size:.98rem;flex:1}
+.acc-arrow{width:18px;height:18px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .45s ease;background:var(--surface)}
+.acc-item.open .acc-body{max-height:8000px}
+.acc-inner{padding:4px 22px 22px;border-top:1px solid var(--border-light)}
+
+/* ── TABLES ── */
+.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9rem}
+.ct th{text-align:left;padding:11px 14px;font-weight:600;color:var(--accent);border-bottom:2px solid var(--border);font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct td{padding:10px 14px;border-bottom:1px solid var(--border-light);vertical-align:top}
+.ct tr:last-child td{border-bottom:none}
+
+/* ── SVG ── */
+.graph-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:18px 0;box-shadow:var(--shadow);overflow-x:auto;text-align:center}
+.graph-box svg text{font-family:'Source Sans 3',sans-serif}
+
+/* ── TYPE CARDS ── */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.type-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:transform .2s}
+.type-card:hover{transform:translateY(-2px)}
+.type-card h4{font-family:'Playfair Display',serif;font-size:1.05rem;margin-bottom:6px}
+.type-card .tc-eq{margin:8px 0;padding:10px 12px;background:#fdfaf6;border:1px solid var(--border-light);border-radius:6px;text-align:center}
+.type-card p{font-size:.9rem;color:var(--text-mid)}
+
+/* ── DELTA CARDS ── */
+.delta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+.delta-card{text-align:center;padding:20px 14px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow)}
+.delta-card h4{font-family:'Fira Code',monospace;font-size:.95rem;margin-bottom:10px}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:52px;padding-top:26px;border-top:2px solid var(--border)}
+.bb{font-family:'Source Sans 3',sans-serif;font-size:.9rem;padding:10px 26px;border-radius:8px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:all .2s;box-shadow:var(--shadow)}
+.bb:hover{border-color:var(--accent);color:var(--accent)}
+.bb:disabled{opacity:.35;cursor:not-allowed}
+.bb:disabled:hover{border-color:var(--border);color:var(--text)}
+.bb.primary{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+.bb.primary:hover{background:#a8144e}
+.page-info{font-family:'Fira Code',monospace;font-size:.78rem;color:var(--text-dim)}
+
+p{margin:8px 0} .dim{color:var(--text-dim)} strong{font-weight:600}
+
+/* ── CHECKLIST ── */
+.checklist{list-style:none;margin:12px 0}
+.checklist li{position:relative;padding:6px 0 6px 32px;font-size:.95rem}
+.checklist li::before{content:'□';position:absolute;left:6px;top:6px;font-size:1.1rem;color:var(--accent)}
+
+/* ── MathJax overrides ── */
+mjx-container[jax="SVG"] { direction: ltr; }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+
+@media(max-width:640px){
+  body{font-size:16px}
+  .hero h1{font-size:1.7rem}
+  .acc-header{padding:13px 14px}
+  .acc-inner{padding:4px 14px 18px}
+  .cb{padding:18px}
+  .delta-row{grid-template-columns:1fr}
+  .type-grid{grid-template-columns:1fr}
+  .math-block{padding:14px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Eq. 2° grado</div>
+  <div class="topbar-nav" id="topNav"></div>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+// ══════════════════════════
+// Accordion builder
+// ══════════════════════════
+function acc(items) {
+  return '<div class="accordion">'+items.map((it,i)=>`
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-num">${i+1}</div>
+        <div class="acc-title">${it.t}</div>
+        <svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="acc-body"><div class="acc-inner">${it.h}</div></div>
+    </div>`).join('')+'</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  item.classList.toggle('open');
+  if (!wasOpen && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+// ══════════════════════════
+// SVG helpers
+// ══════════════════════════
+function svgDelta(type) {
+  const w=130, h=100;
+  let curve='', dots='', labels='';
+  const ac='#e2dcd2';
+  const axis = `<line x1="10" y1="65" x2="${w-10}" y2="65" stroke="${ac}" stroke-width="1"/>
+                <line x1="35" y1="10" x2="35" y2="92" stroke="${ac}" stroke-width="1"/>`;
+  if(type==='pos') {
+    const c='#c2185b';
+    let pts=[];
+    for(let i=0;i<=40;i++){const x=-1.2+i*2.4/40;const y=2*x*x-1;pts.push(`${35+x*35},${65-y*25}`);}
+    curve=`<polyline points="${pts.join(' ')}" fill="none" stroke="${c}" stroke-width="2"/>`;
+    dots=`<circle cx="${35-0.707*35}" cy="65" r="3" fill="${c}"/><circle cx="${35+0.707*35}" cy="65" r="3" fill="${c}"/>`;
+    labels=`<text x="${35-0.707*35}" y="80" fill="${c}" font-size="9" text-anchor="middle">x₁</text>
+            <text x="${35+0.707*35}" y="80" fill="${c}" font-size="9" text-anchor="middle">x₂</text>`;
+  } else if(type==='zero') {
+    const c='#6a1b9a';
+    let pts=[];
+    for(let i=0;i<=40;i++){const x=-1.2+i*2.4/40;const y=2*x*x;pts.push(`${35+x*35},${65-y*25}`);}
+    curve=`<polyline points="${pts.join(' ')}" fill="none" stroke="${c}" stroke-width="2"/>`;
+    dots=`<circle cx="35" cy="65" r="3" fill="${c}"/>`;
+    labels=`<text x="48" y="80" fill="${c}" font-size="9">x_V</text>`;
+  } else {
+    const c='#4f6d7a';
+    let pts=[];
+    for(let i=0;i<=40;i++){const x=-1+i*2/40;const y=2*x*x+0.5;pts.push(`${35+x*35},${65-y*25}`);}
+    curve=`<polyline points="${pts.join(' ')}" fill="none" stroke="${c}" stroke-width="2"/>`;
+    dots=`<circle cx="35" cy="${65-0.5*25}" r="3" fill="${c}"/>`;
+    labels=`<text x="50" y="${65-0.5*25+4}" fill="${c}" font-size="9">V</text>`;
+  }
+  return `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">${axis}${curve}${dots}${labels}</svg>`;
+}
+
+function svgParabolaEsempio() {
+  const w=340, ht=220, ox=60, oy=170, sx=50, sy=40;
+  let pts=[];
+  for(let i=0;i<=60;i++){const x=0.5+i*4.5/60;const y=x*x-6*x+8;if(y<=5)pts.push(`${ox+x*sx},${oy-y*sy}`);}
+  const c='#c2185b', v='#6a1b9a';
+  return `<div class="graph-box"><svg viewBox="0 0 ${w} ${ht}" width="${w}" height="${ht}">
+    <line x1="${ox}" y1="10" x2="${ox}" y2="${oy+20}" stroke="#e2dcd2" stroke-width="1"/>
+    <line x1="${ox-10}" y1="${oy}" x2="${w-20}" y2="${oy}" stroke="#e2dcd2" stroke-width="1"/>
+    <text x="${w-15}" y="${oy-5}" fill="#8a827a" font-size="11">x</text>
+    <text x="${ox+5}" y="18" fill="#8a827a" font-size="11">y</text>
+    ${[1,2,3,4,5].map(x=>`<line x1="${ox+x*sx}" y1="${oy-3}" x2="${ox+x*sx}" y2="${oy+3}" stroke="#e2dcd2"/>
+      <text x="${ox+x*sx}" y="${oy+16}" fill="#8a827a" font-size="10" text-anchor="middle">${x}</text>`).join('')}
+    ${[1,2,3,4].map(y=>`<line x1="${ox-3}" y1="${oy-y*sy}" x2="${ox+3}" y2="${oy-y*sy}" stroke="#e2dcd2"/>
+      <text x="${ox-12}" y="${oy-y*sy+4}" fill="#8a827a" font-size="10" text-anchor="end">${y}</text>`).join('')}
+    <line x1="${ox-3}" y1="${oy+sy}" x2="${ox+3}" y2="${oy+sy}" stroke="#e2dcd2"/>
+    <text x="${ox-16}" y="${oy+sy+4}" fill="#8a827a" font-size="10" text-anchor="end">−1</text>
+    <polyline points="${pts.join(' ')}" fill="none" stroke="${c}" stroke-width="2.5"/>
+    <circle cx="${ox+2*sx}" cy="${oy}" r="4" fill="${c}"/>
+    <circle cx="${ox+4*sx}" cy="${oy}" r="4" fill="${c}"/>
+    <circle cx="${ox+3*sx}" cy="${oy+sy}" r="4" fill="${v}"/>
+    <circle cx="${ox}" cy="${oy-8*sy/10*4}" r="3.5" fill="#3a6b8c"/>
+    <text x="${ox+2*sx-10}" y="${oy-10}" fill="${c}" font-size="10" font-weight="600">x₁=2</text>
+    <text x="${ox+4*sx+5}" y="${oy-10}" fill="${c}" font-size="10" font-weight="600">x₂=4</text>
+    <text x="${ox+3*sx+8}" y="${oy+sy+4}" fill="${v}" font-size="10" font-weight="600">V(3,−1)</text>
+    <line x1="${ox+3*sx}" y1="20" x2="${ox+3*sx}" y2="${oy+sy+15}" stroke="${v}" stroke-width="1" stroke-dasharray="4,4" opacity=".4"/>
+  </svg></div>`;
+}
+
+// ══════════════════════════
+// SECTIONS DATA
+// ══════════════════════════
+const S = [
+
+// ═══ 0: FORMA GENERALE ═══
+{
+  tag:"TEORIA",
+  title:"La forma generale e la <em>classificazione</em>",
+  sub:"Tutto parte da una forma canonica. Ma non tutte le equazioni di secondo grado sono uguali.",
+  nav:"Forma generale",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Forma canonica</div>
+      <p>Un'equazione di secondo grado in \\(x\\) ha <strong>sempre</strong> la forma:</p>
+      <div class="math-block hero-formula">
+        \\[ ax^2 + bx + c = 0 \\qquad (a \\neq 0) \\]
+      </div>
+      <p>dove \\(a\\) è il coefficiente di \\(x^2\\), \\(b\\) il coefficiente di \\(x\\), e \\(c\\) il termine noto.</p>
+      <p class="dim">Se \\(a = 0\\), l'equazione non è di secondo grado — è di primo grado!</p>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Prima di risolvere: porta tutto al primo membro</div>
+      <p>Se l'equazione è scritta come \\(3x^2 = 5x - 2\\), riscrivila come \\(3x^2 - 5x + 2 = 0\\). Solo così puoi leggere \\(a\\), \\(b\\), \\(c\\).</p>
+    </div>
+
+    <p style="margin-top:24px"><strong>Le quattro famiglie</strong> — a seconda di quali coefficienti sono zero:</p>
+
+    <div class="type-grid">
+      <div class="type-card">
+        <h4 style="color:var(--accent)">Completa</h4>
+        <div class="tc-eq">\\( ax^2 + bx + c = 0 \\)</div>
+        <p>\\(a \\neq 0,\\; b \\neq 0,\\; c \\neq 0\\)</p>
+      </div>
+      <div class="type-card">
+        <h4 style="color:var(--purple)">Pura</h4>
+        <div class="tc-eq" style="background:var(--purple-light)">\\( ax^2 + c = 0 \\)</div>
+        <p>\\(b = 0\\) — manca il termine di 1° grado.</p>
+      </div>
+      <div class="type-card">
+        <h4 style="color:var(--blue)">Spuria</h4>
+        <div class="tc-eq" style="background:var(--blue-light)">\\( ax^2 + bx = 0 \\)</div>
+        <p>\\(c = 0\\) — manca il termine noto.</p>
+      </div>
+      <div class="type-card">
+        <h4 style="color:var(--teal)">Monomia</h4>
+        <div class="tc-eq" style="background:var(--teal-light)">\\( ax^2 = 0 \\)</div>
+        <p>\\(b = 0,\\; c = 0\\) — unica soluzione: \\(x = 0\\).</p>
+      </div>
+    </div>
+
+    <div class="cb warn">
+      <div class="cb-label">Perché conviene classificare?</div>
+      <p>Perché le equazioni pure, spurie e monomie si risolvono <em>senza</em> la formula del discriminante — sono molto più veloci. Riconoscerle al volo ti risparmia lavoro.</p>
+    </div>
+  `
+},
+
+// ═══ 1: MONOMIA E PURA ═══
+{
+  tag:"CASI PARTICOLARI",
+  title:"Equazione <em>monomia</em> e <em>pura</em>",
+  sub:"Quando manca b (e magari anche c), la vita è più semplice.",
+  nav:"Monomia / Pura",
+  body:`
+    <div class="cb teal">
+      <div class="cb-label">Equazione monomia</div>
+      <p>Se \\(b = 0\\) e \\(c = 0\\), resta solo \\(ax^2 = 0\\). Siccome \\(a \\neq 0\\):</p>
+      <div class="math-block result">
+        \\[ x = 0 \\qquad \\text{(soluzione doppia)} \\]
+      </div>
+    </div>
+
+    <div class="cb purple">
+      <div class="cb-label">Equazione pura</div>
+      <p>Manca il termine in \\(x\\) (cioè \\(b = 0\\)). Si isola \\(x^2\\):</p>
+      <div class="math-block">
+        \\[ ax^2 + c = 0 \\qquad \\Longrightarrow \\qquad x^2 = -\\frac{c}{a} \\]
+      </div>
+      <p>Ora tutto dipende dal segno di \\(-c/a\\):</p>
+    </div>
+
+    <table class="ct">
+      <tr><th>Condizione</th><th>Soluzioni</th><th>Esempio</th></tr>
+      <tr>
+        <td>\\(-c/a > 0\\)</td>
+        <td style="color:var(--green)">\\(x = \\pm\\sqrt{-c/a}\\)</td>
+        <td>\\(x^2 = 9 \\;\\Rightarrow\\; x = \\pm 3\\)</td>
+      </tr>
+      <tr>
+        <td>\\(-c/a = 0\\)</td>
+        <td>\\(x = 0\\) (doppia)</td>
+        <td>\\(x^2 = 0 \\;\\Rightarrow\\; x = 0\\)</td>
+      </tr>
+      <tr>
+        <td>\\(-c/a < 0\\)</td>
+        <td style="color:var(--danger)">nessuna soluzione reale</td>
+        <td>\\(x^2 = -4 \\;\\Rightarrow\\;\\) impossibile</td>
+      </tr>
+    </table>
+
+    ${acc([
+      {
+        t:"Esempio — \\(2x^2 - 18 = 0\\)",
+        h:`
+          <div class="step-math"><div class="label">Classificazione</div>
+            <p>\\(a = 2,\\; b = 0,\\; c = -18\\) → <strong>pura</strong></p>
+          </div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              2x^2 &= 18 \\\\
+              x^2 &= 9 \\\\
+              x &= \\pm\\sqrt{9}
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">
+            \\[ x_1 = 3, \\qquad x_2 = -3 \\]
+          </div>
+        `
+      },
+      {
+        t:"Esempio — \\(3x^2 + 12 = 0\\)",
+        h:`
+          <div class="step-math"><div class="label">Classificazione</div>
+            <p>\\(a = 3,\\; b = 0,\\; c = 12\\) → <strong>pura</strong></p>
+          </div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              3x^2 &= -12 \\\\
+              x^2 &= -4
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block warning">
+            <p><strong>Impossibile!</strong> Un quadrato non è mai negativo → nessuna soluzione reale.</p>
+          </div>
+        `
+      }
+    ])}
+
+    <div class="cb warn">
+      <div class="cb-label">Trucco per riconoscerla</div>
+      <p>Se nell'equazione <em>non vedi \\(x\\) da solo</em> (senza quadrato), è un'equazione pura. Cerca solo \\(x^2\\) e numeri.</p>
+    </div>
+  `
+},
+
+// ═══ 2: SPURIA ═══
+{
+  tag:"CASI PARTICOLARI",
+  title:"Equazione <em>spuria</em>",
+  sub:"Quando manca c: si raccoglie x e si applica la legge dell'annullamento del prodotto.",
+  nav:"Spuria",
+  body:`
+    <div class="cb blue">
+      <div class="cb-label">Il metodo — raccoglimento</div>
+      <p>Se \\(c = 0\\), l'equazione è \\(ax^2 + bx = 0\\). <strong>Raccogli \\(x\\)</strong>:</p>
+      <div class="math-block hero-formula">
+        \\[ x(ax + b) = 0 \\]
+      </div>
+      <p>Un prodotto è zero se e solo se almeno uno dei fattori è zero:</p>
+      <div class="math-block result">
+        \\[ x_1 = 0, \\qquad x_2 = -\\frac{b}{a} \\]
+      </div>
+    </div>
+
+    <div class="cb danger">
+      <div class="cb-label">Errore classico</div>
+      <p><strong>Mai dividere per \\(x\\)!</strong> Se scrivi \\(ax^2 + bx = 0\\) e dividi entrambi i membri per \\(x\\), perdi la soluzione \\(x = 0\\). Il raccoglimento è l'unico metodo corretto.</p>
+    </div>
+
+    ${acc([
+      {
+        t:"Esempio — \\(5x^2 - 15x = 0\\)",
+        h:`
+          <div class="step-math"><div class="label">Classificazione</div>
+            <p>\\(a = 5,\\; b = -15,\\; c = 0\\) → <strong>spuria</strong></p>
+          </div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              5x(x - 3) &= 0 \\\\[6pt]
+              5x = 0 \\;&\\Rightarrow\\; x_1 = 0 \\\\
+              x - 3 = 0 \\;&\\Rightarrow\\; x_2 = 3
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">
+            \\[ x_1 = 0, \\qquad x_2 = 3 \\]
+          </div>
+        `
+      },
+      {
+        t:"Esempio — \\(-2x^2 + 7x = 0\\)",
+        h:`
+          <div class="math-block">
+            \\[\\begin{aligned}
+              x(-2x + 7) &= 0 \\\\[6pt]
+              x = 0 \\;&\\Rightarrow\\; x_1 = 0 \\\\
+              -2x + 7 = 0 \\;&\\Rightarrow\\; x_2 = \\frac{7}{2} = 3{,}5
+            \\end{aligned}\\]
+          </div>
+        `
+      }
+    ])}
+
+    <div class="cb success">
+      <div class="cb-label">Da ricordare</div>
+      <p>L'equazione spuria ha <strong>sempre</strong> due soluzioni reali, e una di esse è <strong>sempre</strong> \\(x = 0\\).</p>
+    </div>
+  `
+},
+
+// ═══ 3: COMPLETA E Δ ═══
+{
+  tag:"TEORIA",
+  title:"L'equazione <em>completa</em> e il discriminante",
+  sub:"La formula risolutiva, il ruolo di Δ, e le relazioni di Viète.",
+  nav:"Completa / Δ",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">La formula risolutiva</div>
+      <p>Per l'equazione completa \\(ax^2 + bx + c = 0\\):</p>
+      <div class="math-block hero-formula">
+        \\[ x_{1,2} = \\frac{-b \\pm \\sqrt{\\Delta}}{2a} \\]
+      </div>
+      <p>dove il <strong>discriminante</strong> è:</p>
+      <div class="math-block hero-formula">
+        \\[ \\Delta = b^2 - 4ac \\]
+      </div>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Il segno di Δ decide tutto</div>
+    </div>
+
+    <div class="delta-row">
+      <div class="delta-card" style="border-color:var(--accent)">
+        <h4 style="color:var(--accent)">\\(\\Delta > 0\\)</h4>
+        ${svgDelta('pos')}
+        <p style="margin-top:8px;font-size:.88rem"><strong>2 soluzioni</strong> distinte</p>
+      </div>
+      <div class="delta-card" style="border-color:var(--purple)">
+        <h4 style="color:var(--purple)">\\(\\Delta = 0\\)</h4>
+        ${svgDelta('zero')}
+        <p style="margin-top:8px;font-size:.88rem"><strong>1 soluzione</strong> doppia</p>
+        <p style="font-size:.82rem">\\(x = -\\frac{b}{2a}\\)</p>
+      </div>
+      <div class="delta-card" style="border-color:var(--teal)">
+        <h4 style="color:var(--teal)">\\(\\Delta < 0\\)</h4>
+        ${svgDelta('neg')}
+        <p style="margin-top:8px;font-size:.88rem"><strong>Nessuna</strong> sol. reale</p>
+      </div>
+    </div>
+
+    <div class="cb purple">
+      <div class="cb-label">Relazioni di Viète</div>
+      <p>Se \\(x_1\\) e \\(x_2\\) sono le radici di \\(ax^2 + bx + c = 0\\):</p>
+      <div class="math-block">
+        \\[ x_1 + x_2 = -\\frac{b}{a} \\qquad\\qquad x_1 \\cdot x_2 = \\frac{c}{a} \\]
+      </div>
+      <p>Utilissime per la <strong>verifica</strong>. Inoltre permettono la forma fattorizzata:</p>
+      <div class="math-block">
+        \\[ ax^2 + bx + c = a(x - x_1)(x - x_2) \\]
+      </div>
+    </div>
+
+    ${acc([
+      {
+        t:"Esempio — \\(2x^2 - 5x + 2 = 0\\)",
+        h:`
+          <div class="step-math"><div class="label">Coefficienti</div>
+            <p>\\(a = 2,\\; b = -5,\\; c = 2\\)</p>
+          </div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              \\Delta &= (-5)^2 - 4 \\cdot 2 \\cdot 2 = 25 - 16 = 9 > 0 \\\\[8pt]
+              x_{1,2} &= \\frac{5 \\pm 3}{4}
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">
+            \\[ x_1 = \\frac{8}{4} = 2, \\qquad x_2 = \\frac{2}{4} = \\frac{1}{2} \\]
+          </div>
+          <div class="step-math"><div class="label green">Verifica Viète</div></div>
+          <div class="math-block">
+            \\[ x_1 + x_2 = 2 + \\tfrac{1}{2} = \\tfrac{5}{2} = -\\frac{-5}{2} \\;\\checkmark \\qquad x_1 \\cdot x_2 = 2 \\cdot \\tfrac{1}{2} = 1 = \\frac{2}{2} \\;\\checkmark \\]
+          </div>
+        `
+      },
+      {
+        t:"Esempio — \\(3x^2 - 7x + 2 = 0\\)",
+        h:`
+          <div class="math-block">
+            \\[\\begin{aligned}
+              \\Delta &= 49 - 24 = 25 \\\\[6pt]
+              x_{1,2} &= \\frac{7 \\pm 5}{6}
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">
+            \\[ x_1 = \\frac{12}{6} = 2, \\qquad x_2 = \\frac{2}{6} = \\frac{1}{3} \\]
+          </div>
+          <p>Verifica: \\(x_1 + x_2 = \\frac{7}{3} = -\\frac{-7}{3}\\) ✓ &nbsp;|&nbsp; \\(x_1 \\cdot x_2 = \\frac{2}{3} = \\frac{c}{a}\\) ✓</p>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 4: PARABOLA ═══
+{
+  tag:"TEORIA",
+  title:"La <em>parabola</em>",
+  sub:"\\(y = ax^2 + bx + c\\) — la stessa equazione, ma ora è un grafico.",
+  nav:"Parabola",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Il ponte algebra ↔ geometria</div>
+      <p>L'equazione di secondo grado e la parabola sono la <strong>stessa cosa</strong> vista da due angolazioni:</p>
+      <p>• <strong>Algebra:</strong> \\(ax^2 + bx + c = 0\\) → cerco le \\(x\\) che annullano l'espressione</p>
+      <p>• <strong>Geometria:</strong> \\(y = ax^2 + bx + c\\) → traccio la curva e guardo dove tocca l'asse \\(x\\)</p>
+      <p class="dim">Le soluzioni dell'equazione = le intersezioni della parabola con l'asse \\(x\\).</p>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Elementi caratteristici</div>
+      <p><strong>Concavità:</strong></p>
+      <div class="math-block">
+        \\[ a > 0 \\;\\Rightarrow\\; \\cup \\text{ (verso l'alto)} \\qquad a < 0 \\;\\Rightarrow\\; \\cap \\text{ (verso il basso)} \\]
+      </div>
+      <p><strong>Asse di simmetria:</strong> \\(\\displaystyle x = -\\frac{b}{2a}\\)</p>
+      <p><strong>Vertice:</strong> \\(\\displaystyle V = \\left(-\\frac{b}{2a},\\; -\\frac{\\Delta}{4a}\\right)\\)</p>
+      <p><strong>Intersezione asse \\(y\\):</strong> il punto \\((0,\\, c)\\)</p>
+      <p><strong>Intersezioni asse \\(x\\):</strong> esistono se \\(\\Delta \\geq 0\\)</p>
+    </div>
+
+    <div class="cb warn">
+      <div class="cb-label">|a| controlla la "larghezza"</div>
+      <p>\\(|a|\\) grande → parabola <strong>stretta</strong> &nbsp;|&nbsp; \\(|a|\\) piccolo → parabola <strong>larga</strong></p>
+    </div>
+
+    <div class="cb purple">
+      <div class="cb-label">Fuoco e direttrice (cenni)</div>
+      <p>La parabola è il luogo dei punti equidistanti dal <strong>fuoco</strong> \\(F\\) e dalla <strong>direttrice</strong> \\(d\\). Posto \\(\\displaystyle p = \\frac{1}{4a}\\):</p>
+      <div class="math-block">
+        \\[ F = \\left(x_V,\\; y_V + p\\right) \\qquad\\qquad d:\\; y = y_V - p \\]
+      </div>
+    </div>
+  `
+},
+
+// ═══ 5: COME TRACCIARE ═══
+{
+  tag:"METODO",
+  title:"Come tracciare una <em>parabola</em>",
+  sub:"L'esercizio guidato tipo: «studia y = x² − 6x + 8».",
+  nav:"Tracciare",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">I 5 passi</div>
+      <p><strong>1.</strong> Leggi \\(a\\), \\(b\\), \\(c\\) → determina la concavità (segno di \\(a\\))</p>
+      <p><strong>2.</strong> Calcola \\(\\Delta\\) e trova le radici (intersezioni con asse \\(x\\))</p>
+      <p><strong>3.</strong> Calcola il vertice: \\(\\displaystyle x_V = -\\frac{b}{2a}\\), \\(\\displaystyle y_V = -\\frac{\\Delta}{4a}\\)</p>
+      <p><strong>4.</strong> Trova l'intersezione con l'asse \\(y\\): punto \\((0,\\, c)\\)</p>
+      <p><strong>5.</strong> Traccia la curva sfruttando la simmetria rispetto a \\(x_V\\)</p>
+    </div>
+
+    ${acc([
+      {
+        t:"Esempio completo — \\(y = x^2 - 6x + 8\\)",
+        h:`
+          <div class="step-math"><div class="label">1. Coefficienti</div>
+            <p>\\(a = 1 > 0\\) → aperta verso l'alto \\(\\cup\\)</p>
+          </div>
+          <div class="step-math"><div class="label">2. Discriminante e radici</div></div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              \\Delta &= 36 - 32 = 4 > 0 \\\\[6pt]
+              x_{1,2} &= \\frac{6 \\pm 2}{2} \\quad\\Rightarrow\\quad x_1 = 2,\\; x_2 = 4
+            \\end{aligned}\\]
+          </div>
+          <div class="step-math"><div class="label">3. Vertice</div></div>
+          <div class="math-block">
+            \\[ x_V = \\frac{6}{2} = 3 \\qquad y_V = 9 - 18 + 8 = -1 \\qquad \\Rightarrow\\; V(3,\\,-1) \\]
+          </div>
+          <div class="step-math"><div class="label">4. Asse y</div>
+            <p>\\((0,\\, 8)\\)</p>
+          </div>
+          <div class="step-math"><div class="label">5. Fuoco e direttrice</div></div>
+          <div class="math-block">
+            \\[ p = \\frac{1}{4} \\qquad F\\!\\left(3,\\, -\\frac{3}{4}\\right) \\qquad d:\\; y = -\\frac{5}{4} \\]
+          </div>
+          ${svgParabolaEsempio()}
+        `
+      },
+      {
+        t:"Esempio — \\(y = -2x^2 + 4x - 2\\)",
+        h:`
+          <div class="math-block">
+            \\[\\begin{aligned}
+              a &= -2 < 0 \\;\\Rightarrow\\; \\text{aperta verso il basso } \\cap \\\\[6pt]
+              \\Delta &= 16 - 16 = 0 \\;\\Rightarrow\\; \\text{radice doppia} \\\\[6pt]
+              x_V &= -\\frac{4}{2(-2)} = 1 \\qquad y_V = -2 + 4 - 2 = 0
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">
+            \\[ V(1,\\, 0) \\;\\text{— vertice sull'asse } x \\]
+          </div>
+          <p>La parabola tocca l'asse \\(x\\) in un solo punto e sta tutta sotto (o sull'asse).</p>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 6: Δ E GRAFICO ═══
+{
+  tag:"CONCETTI CHIAVE",
+  title:"Il legame <em>\\(\\Delta\\) — Grafico</em>",
+  sub:"Il discriminante è il ponte tra algebra e geometria.",
+  nav:"Δ ↔ Grafico",
+  body:`
+    <div class="delta-row">
+      <div class="delta-card" style="border-color:var(--accent)">
+        <h4 style="color:var(--accent)">\\(\\Delta > 0\\)</h4>
+        ${svgDelta('pos')}
+        <p style="margin-top:8px;font-size:.88rem"><strong>Taglia</strong> l'asse \\(x\\) in 2 punti</p>
+      </div>
+      <div class="delta-card" style="border-color:var(--purple)">
+        <h4 style="color:var(--purple)">\\(\\Delta = 0\\)</h4>
+        ${svgDelta('zero')}
+        <p style="margin-top:8px;font-size:.88rem"><strong>Tangente</strong> all'asse \\(x\\)</p>
+      </div>
+      <div class="delta-card" style="border-color:var(--teal)">
+        <h4 style="color:var(--teal)">\\(\\Delta < 0\\)</h4>
+        ${svgDelta('neg')}
+        <p style="margin-top:8px;font-size:.88rem"><strong>Non interseca</strong> l'asse \\(x\\)</p>
+      </div>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Tavola sinottica</div>
+      <table class="ct">
+        <tr><th>\\(\\Delta\\)</th><th>Equazione</th><th>Parabola</th></tr>
+        <tr><td style="color:var(--accent)">\\(> 0\\)</td><td>2 radici reali distinte</td><td>2 intersezioni con asse \\(x\\)</td></tr>
+        <tr><td style="color:var(--purple)">\\(= 0\\)</td><td>1 radice doppia \\(x_V\\)</td><td>\\(V\\) sull'asse \\(x\\)</td></tr>
+        <tr><td style="color:var(--teal)">\\(< 0\\)</td><td>Nessuna radice reale</td><td>Tutta sopra (\\(a>0\\)) o sotto (\\(a<0\\))</td></tr>
+      </table>
+    </div>
+
+    <div class="cb success">
+      <div class="cb-label">Costruire la parabola dalle radici</div>
+      <p>Se conosco le radici \\(x_1\\) e \\(x_2\\):</p>
+      <div class="math-block">
+        \\[ y = a(x - x_1)(x - x_2) \\]
+      </div>
+      <p>Il parametro \\(a\\) va determinato con una condizione aggiuntiva (un punto noto). L'asse di simmetria passa per il punto medio delle radici: \\(\\displaystyle x_V = \\frac{x_1 + x_2}{2}\\).</p>
+    </div>
+  `
+},
+
+// ═══ 7: DISEQUAZIONI ═══
+{
+  tag:"TEORIA",
+  title:"Disequazioni di <em>2° grado</em>",
+  sub:"Il metodo grafico: traccia mentalmente la parabola e leggi dove sta sopra o sotto l'asse x.",
+  nav:"Disequazioni",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Metodo grafico — 3 passi</div>
+      <p><strong>1.</strong> Risolvi \\(ax^2 + bx + c = 0\\) → trova le radici</p>
+      <p><strong>2.</strong> Traccia mentalmente la parabola (segno di \\(a\\) → concavità)</p>
+      <p><strong>3.</strong> Leggi dal grafico dove la parabola è <strong>sopra</strong> (\\(> 0\\)) o <strong>sotto</strong> (\\(< 0\\)) l'asse \\(x\\)</p>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Schema risolutivo — caso \\(a > 0\\) (parabola \\(\\cup\\))</div>
+      <table class="ct">
+        <tr><th>\\(\\Delta\\)</th><th>\\(ax^2+bx+c > 0\\)</th><th>\\(ax^2+bx+c < 0\\)</th></tr>
+        <tr><td>\\(> 0\\)</td><td>\\(x < x_1\\) oppure \\(x > x_2\\)</td><td>\\(x_1 < x < x_2\\)</td></tr>
+        <tr><td>\\(= 0\\)</td><td>\\(\\forall x \\neq x_V\\)</td><td>impossibile</td></tr>
+        <tr><td>\\(< 0\\)</td><td>\\(\\forall x \\in \\mathbb{R}\\)</td><td>impossibile</td></tr>
+      </table>
+      <p class="dim">Per \\(a < 0\\): le soluzioni si invertono.</p>
+    </div>
+
+    ${acc([
+      {
+        t:"Esempio 1 — \\(x^2 - 5x + 6 > 0\\)",
+        h:`
+          <div class="math-block">
+            \\[ \\Delta = 25 - 24 = 1 > 0 \\qquad x_1 = 2,\\; x_2 = 3 \\]
+          </div>
+          <p>\\(a = 1 > 0\\) → parabola \\(\\cup\\). Sopra l'asse \\(x\\) nelle zone esterne:</p>
+          <div class="math-block result">
+            \\[ x < 2 \\quad \\text{oppure} \\quad x > 3 \\]
+          </div>
+        `
+      },
+      {
+        t:"Esempio 2 — \\(-x^2 + 4x - 4 \\geq 0\\)",
+        h:`
+          <div class="math-block">
+            \\[ \\Delta = 16 - 16 = 0 \\qquad x_V = 2 \\]
+          </div>
+          <p>\\(a = -1 < 0\\) → parabola \\(\\cap\\), tangente all'asse \\(x\\).</p>
+          <div class="math-block result">
+            \\[ x = 2 \\qquad \\text{(unico punto)} \\]
+          </div>
+        `
+      },
+      {
+        t:"Esempio 3 — \\(x^2 + x + 1 > 0\\)",
+        h:`
+          <div class="math-block">
+            \\[ \\Delta = 1 - 4 = -3 < 0 \\]
+          </div>
+          <p>\\(a = 1 > 0\\), nessuna radice → parabola tutta sopra l'asse \\(x\\).</p>
+          <div class="math-block result">
+            \\[ \\forall\\, x \\in \\mathbb{R} \\qquad \\text{(sempre vera)} \\]
+          </div>
+        `
+      },
+      {
+        t:"Esempio 4 — \\(x^2 - 2x - 3 > 0\\)",
+        h:`
+          <div class="math-block">
+            \\[ \\Delta = 4 + 12 = 16 \\qquad x_1 = -1,\\; x_2 = 3 \\]
+          </div>
+          <p>\\(a = 1 > 0\\) → zone esterne:</p>
+          <div class="math-block result">
+            \\[ x < -1 \\quad \\text{oppure} \\quad x > 3 \\]
+          </div>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 8: ESERCIZI GUIDATI ═══
+{
+  tag:"ESERCIZI GUIDATI",
+  title:"Mettere tutto insieme",
+  sub:"Esercizi che combinano equazione, parabola e disequazione.",
+  nav:"Esercizi",
+  body:`
+    ${acc([
+      {
+        t:"Es. 1 — Parabola con vertice e punto noto",
+        h:`
+          <p><strong>Testo:</strong> Scrivi l'equazione della parabola con vertice \\(V(2,\\,-3)\\) passante per \\((0,\\,5)\\).</p>
+          <div class="step-math"><div class="label">Forma con vertice</div></div>
+          <div class="math-block">
+            \\[ y = a(x - 2)^2 - 3 \\]
+          </div>
+          <div class="step-math"><div class="label">Sostituisco \\((0,\\,5)\\)</div></div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              5 &= a(0 - 2)^2 - 3 = 4a - 3 \\\\
+              4a &= 8 \\quad\\Rightarrow\\quad a = 2
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">
+            \\[ y = 2(x-2)^2 - 3 = 2x^2 - 8x + 5 \\]
+          </div>
+        `
+      },
+      {
+        t:"Es. 2 — Parabola per tre punti",
+        h:`
+          <p><strong>Testo:</strong> Trova la parabola passante per \\(A(0,\\,1)\\), \\(B(1,\\,0)\\), \\(C(2,\\,3)\\).</p>
+          <div class="step-math"><div class="label">Sistema</div></div>
+          <div class="math-block">
+            \\[\\begin{cases}
+              c = 1 \\\\
+              a + b + 1 = 0 \\\\
+              4a + 2b + 1 = 3
+            \\end{cases}\\]
+          </div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              &\\text{Da (2): } b = -a - 1 \\\\
+              &\\text{Da (3): } 4a + 2(-a-1) + 1 = 3 \\;\\Rightarrow\\; 2a = 4 \\;\\Rightarrow\\; a = 2 \\\\
+              &b = -3
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">
+            \\[ y = 2x^2 - 3x + 1 \\]
+          </div>
+        `
+      },
+      {
+        t:"Es. 3 — Parametro \\(k\\) e vertice sull'asse \\(x\\)",
+        h:`
+          <p><strong>Testo:</strong> Per quali valori di \\(k\\) la parabola \\(y = x^2 - 2kx + k^2 - k\\) ha il vertice sull'asse \\(x\\)?</p>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              V \\text{ sull'asse } x \\;&\\Leftrightarrow\\; y_V = 0 \\;\\Leftrightarrow\\; \\Delta = 0 \\\\[8pt]
+              \\Delta &= 4k^2 - 4(k^2 - k) = 4k^2 - 4k^2 + 4k = 4k \\\\[6pt]
+              4k &= 0
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">
+            \\[ k = 0 \\]
+          </div>
+        `
+      },
+      {
+        t:"Es. 4 — Parabola dalle radici",
+        h:`
+          <p><strong>Testo:</strong> Parabola con radici \\(x_1 = -1\\), \\(x_2 = 3\\) passante per \\((0,\\,-6)\\).</p>
+          <div class="step-math"><div class="label">Forma fattorizzata</div></div>
+          <div class="math-block">
+            \\[ y = a(x + 1)(x - 3) \\]
+          </div>
+          <div class="step-math"><div class="label">Sostituisco \\((0,\\,-6)\\)</div></div>
+          <div class="math-block">
+            \\[ -6 = a(1)(-3) = -3a \\quad\\Rightarrow\\quad a = 2 \\]
+          </div>
+          <div class="math-block result">
+            \\[ y = 2(x+1)(x-3) = 2x^2 - 4x - 6 \\]
+          </div>
+          <div class="step-math"><div class="label">Vertice</div></div>
+          <div class="math-block">
+            \\[ x_V = \\frac{-1+3}{2} = 1 \\qquad y_V = 2(1+1)(1-3) = 2 \\cdot 2 \\cdot (-2) = -8 \\qquad V(1,\\,-8) \\]
+          </div>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 9: CHECKLIST ═══
+{
+  tag:"RIEPILOGO",
+  title:"Checklist di risoluzione",
+  sub:"Da usare come promemoria ogni volta che affronti un esercizio.",
+  nav:"Checklist",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Risolvere un'equazione di 2° grado</div>
+      <ul class="checklist">
+        <li>Porta tutto al primo membro e identifica \\(a\\), \\(b\\), \\(c\\)</li>
+        <li>Controlla che \\(a \\neq 0\\)</li>
+        <li><strong>Classifica:</strong> monomia? Pura? Spuria? Completa?</li>
+        <li>Se pura → isola \\(x^2\\). Se spuria → raccogli \\(x\\). Se monomia → \\(x = 0\\).</li>
+        <li>Se completa: calcola \\(\\Delta = b^2 - 4ac\\)</li>
+        <li>Se \\(\\Delta < 0\\): nessuna soluzione. Se \\(\\Delta = 0\\): \\(x = -b/(2a)\\). Se \\(\\Delta > 0\\): formula.</li>
+        <li><strong>Verifica con Viète:</strong> \\(x_1 + x_2 = -b/a\\), \\(x_1 \\cdot x_2 = c/a\\)</li>
+      </ul>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Studiare una parabola \\(y = ax^2 + bx + c\\)</div>
+      <ul class="checklist">
+        <li><strong>Concavità:</strong> segno di \\(a\\) → \\(\\cup\\) o \\(\\cap\\)?</li>
+        <li>Calcola \\(\\Delta\\) e le radici (intersezioni asse \\(x\\))</li>
+        <li>Calcola il <strong>vertice:</strong> \\(x_V = -b/(2a)\\), \\(y_V = -\\Delta/(4a)\\)</li>
+        <li><strong>Asse \\(y\\):</strong> punto \\((0,\\,c)\\)</li>
+        <li><strong>Traccia</strong> sfruttando la simmetria rispetto a \\(x_V\\)</li>
+      </ul>
+    </div>
+
+    <div class="cb purple">
+      <div class="cb-label">Risolvere una disequazione di 2° grado</div>
+      <ul class="checklist">
+        <li>Risolvi l'equazione associata (trova le radici)</li>
+        <li>Determina la concavità (segno di \\(a\\))</li>
+        <li>Traccia mentalmente la parabola</li>
+        <li>Leggi dal grafico dove è sopra (\\(> 0\\)) o sotto (\\(< 0\\))</li>
+        <li>Attenzione ai segni \\(\\geq\\) e \\(\\leq\\) (includono le radici)</li>
+      </ul>
+    </div>
+
+    <div class="cb warn">
+      <div class="cb-label">Errori da evitare</div>
+      <ul class="checklist">
+        <li><strong>Mai</strong> dividere per \\(x\\) in un'equazione spuria</li>
+        <li><strong>Mai</strong> dimenticare \\(a \\neq 0\\)</li>
+        <li><strong>Mai</strong> scambiare i segni nella formula (è \\(-b\\), non \\(b\\)!)</li>
+        <li>Controlla <strong>sempre</strong> con Viète</li>
+      </ul>
+    </div>
+  `
+}
+
+];
+
+// ══════════════════════════
+// APP LOGIC
+// ══════════════════════════
+let cur = 0;
+const tot = S.length;
+
+function render() {
+  document.getElementById('topNav').innerHTML = S.map((s,i) =>
+    `<button class="nav-pill ${i===cur?'active':''}" onclick="goTo(${i})">${s.nav}</button>`
+  ).join('');
+
+  document.getElementById('app').innerHTML = S.map((s,i) => `
+    <div class="section ${i===cur?'active':''}">
+      <div class="hero">
+        <div class="hero-tag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p class="hero-sub">${s.sub}</p>
+      </div>
+      ${s.body}
+      <div class="bottom-nav">
+        <button class="bb" onclick="goTo(${i-1})" ${i===0?'disabled':''}>← Precedente</button>
+        <span class="page-info">${i+1} / ${tot}</span>
+        <button class="bb primary" onclick="goTo(${i+1})" ${i===tot-1?'disabled':''}>Successivo →</button>
+      </div>
+    </div>
+  `).join('');
+
+  // Re-typeset MathJax for the visible section
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    const active = document.querySelector('.section.active');
+    if (active) MathJax.typesetPromise([active]);
+  }
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= tot) return;
+  cur = idx;
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(cur + 1);
+  if (e.key === 'ArrowLeft') goTo(cur - 1);
+});
+
+// Initial render after MathJax is ready
+if (typeof MathJax !== 'undefined' && MathJax.startup) {
+  MathJax.startup.promise.then(() => render());
+} else {
+  render();
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>

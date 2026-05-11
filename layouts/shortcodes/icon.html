@@ -1,0 +1,3 @@
+{{- $name := .Get "name" | default (.Get 0) -}}
+{{- $pack := .Get "pack" | default "fas" -}}
+<i class="{{ $pack }} fa-{{ $name }}" aria-hidden="true"></i>

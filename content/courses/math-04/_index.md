@@ -63,3 +63,5 @@ Calcolare l’errore relativo di un’approssimazione conoscendo l’errore asso
 
 - Utilizzare le tecniche e le procedure del calcolo aritmetico ed algebrico, rappresentandole anche sottoforma grafica.
 - Analizzare dati e interpretarli sviluppando deduzioni e ragionamenti sugli stessi anche con l’ausilio dirappresentazioni grafiche, usando consapevolmente gli strumenti di calcolo e le potenzialità offerte da applicazioni specifiche di tipo informatico.
+
+- [equazioni di secondo grado e parabola](../../../static/uploads/Lezione_Eq_2_Grado_Parabola.html)
