@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione — Limiti di funzione</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {
+    fontCache: 'global',
+    scale: 1.05
+  },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => {
+        document.body.style.opacity = '1';
+      });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --surface-alt: #f0ebe1;
+  --border: #e2dcd2;
+  --border-light: #ece7dd;
+  --text: #2c2520;
+  --text-mid: #5a524a;
+  --text-dim: #8a827a;
+  --accent: #2e6da4;
+  --accent-light: #e3edf7;
+  --blue: #3a6b8c;
+  --blue-light: #e8f0f5;
+  --green: #4a7c59;
+  --green-light: #eaf5ed;
+  --purple: #6a1b9a;
+  --purple-light: #f3e5f5;
+  --gold: #b8860b;
+  --gold-light: #fdf8ed;
+  --teal: #4f6d7a;
+  --teal-light: #e8eff2;
+  --danger: #b33a3a;
+  --radius: 10px;
+  --shadow: 0 2px 12px rgba(44,37,32,.08);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Source Sans 3','Georgia',serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.75;
+  font-size:17px;
+  opacity:0;
+  transition: opacity .3s;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  height:60px; display:flex; align-items:center;
+  padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand {
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem; font-weight:700;
+  color:var(--accent); white-space:nowrap;
+}
+.topbar-nav {
+  display:flex; gap:3px; overflow-x:auto;
+  scrollbar-width:none; flex:1;
+}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill {
+  background:none; border:none;
+  font-family:'Source Sans 3',sans-serif;
+  font-size:.82rem; color:var(--text-dim);
+  padding:6px 14px; border-radius:20px;
+  cursor:pointer; white-space:nowrap; transition:all .2s;
+}
+.nav-pill:hover{background:var(--surface-alt);color:var(--text)}
+.nav-pill.active{background:var(--accent);color:#fff;font-weight:600}
+
+/* ── CONTAINER ── */
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 80px}
+
+/* ── SECTIONS ── */
+.section{display:none;animation:appear .4s ease}
+.section.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HERO ── */
+.hero{margin-bottom:40px;padding-bottom:32px;border-bottom:2px solid var(--border)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7}
+
+/* ── CONCEPT BOXES ── */
+.cb{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:26px 30px;margin:24px 0;box-shadow:var(--shadow);position:relative}
+.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:var(--radius) 0 0 var(--radius)}
+.cb.tip::before{background:var(--blue)} .cb.warn::before{background:var(--gold)}
+.cb.danger::before{background:var(--danger)} .cb.success::before{background:var(--green)}
+.cb.method::before{background:var(--accent)} .cb.purple::before{background:var(--purple)}
+.cb.teal::before{background:var(--teal)}
+.cb-label{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;font-weight:600}
+.cb.tip .cb-label{color:var(--blue)} .cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)} .cb.success .cb-label{color:var(--green)}
+.cb.method .cb-label{color:var(--accent)} .cb.purple .cb-label{color:var(--purple)}
+.cb.teal .cb-label{color:var(--teal)}
+
+/* ── MATH DISPLAY BLOCKS ── */
+.math-block {
+  background: #fdfaf6;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 18px 24px;
+  margin: 14px 0;
+  overflow-x: auto;
+}
+.math-block.dark { background: var(--surface-alt); }
+.math-block.hero-formula {
+  background: #fff;
+  border: 2px solid var(--accent);
+  padding: 24px 28px;
+  text-align: center;
+}
+.math-block.result {
+  border-left: 4px solid var(--green);
+  background: var(--green-light);
+}
+.math-block.warning {
+  border-left: 4px solid var(--danger);
+  background: #fdf0f0;
+}
+
+/* ── STEP-BY-STEP ── */
+.step-math { margin: 6px 0; padding: 4px 0; }
+.step-math .label {
+  font-family: 'Fira Code', monospace;
+  font-size: .72rem; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px;
+}
+.step-math .label.green { color: var(--green); }
+
+/* ── ACCORDION ── */
+.accordion{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:24px 0;box-shadow:var(--shadow)}
+.acc-item{border-bottom:1px solid var(--border-light)}
+.acc-item:last-child{border-bottom:none}
+.acc-header{display:flex;align-items:center;gap:14px;padding:16px 22px;background:var(--surface);cursor:pointer;transition:background .2s;user-select:none}
+.acc-header:hover{background:var(--surface-alt)}
+.acc-num{width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0;font-family:'Fira Code',monospace}
+.acc-title{font-weight:600;font-size:.98rem;flex:1}
+.acc-arrow{width:18px;height:18px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .45s ease;background:var(--surface)}
+.acc-item.open .acc-body{max-height:8000px}
+.acc-inner{padding:4px 22px 22px;border-top:1px solid var(--border-light)}
+
+/* ── TABLES ── */
+.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9rem}
+.ct th{text-align:left;padding:11px 14px;font-weight:600;color:var(--accent);border-bottom:2px solid var(--border);font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct td{padding:10px 14px;border-bottom:1px solid var(--border-light);vertical-align:top}
+.ct tr:last-child td{border-bottom:none}
+
+/* ── SVG ── */
+.graph-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:18px 0;box-shadow:var(--shadow);overflow-x:auto;text-align:center}
+.graph-box svg text{font-family:'Source Sans 3',sans-serif}
+
+/* ── FORM INDET GRID ── */
+.fi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:18px 0}
+.fi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);text-align:center}
+.fi-card .fi-form{font-family:'Fira Code',monospace;font-size:1.1rem;font-weight:700;color:var(--danger);margin-bottom:8px}
+.fi-card p{font-size:.88rem;color:var(--text-mid)}
+
+/* ── DISC CARDS ── */
+.disc-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+.disc-card{text-align:center;padding:20px 14px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow)}
+.disc-card h4{font-family:'Fira Code',monospace;font-size:.9rem;margin-bottom:10px}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:52px;padding-top:26px;border-top:2px solid var(--border)}
+.bb{font-family:'Source Sans 3',sans-serif;font-size:.9rem;padding:10px 26px;border-radius:8px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:all .2s;box-shadow:var(--shadow)}
+.bb:hover{border-color:var(--accent);color:var(--accent)}
+.bb:disabled{opacity:.35;cursor:not-allowed}
+.bb:disabled:hover{border-color:var(--border);color:var(--text)}
+.bb.primary{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+.bb.primary:hover{background:#24598a}
+.page-info{font-family:'Fira Code',monospace;font-size:.78rem;color:var(--text-dim)}
+
+p{margin:8px 0} .dim{color:var(--text-dim)} strong{font-weight:600}
+
+/* ── CHECKLIST ── */
+.checklist{list-style:none;margin:12px 0}
+.checklist li{position:relative;padding:6px 0 6px 32px;font-size:.95rem}
+.checklist li::before{content:'□';position:absolute;left:6px;top:6px;font-size:1.1rem;color:var(--accent)}
+
+/* ── MathJax overrides ── */
+mjx-container[jax="SVG"] { direction: ltr; }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+
+@media(max-width:640px){
+  body{font-size:16px}
+  .hero h1{font-size:1.7rem}
+  .acc-header{padding:13px 14px}
+  .acc-inner{padding:4px 14px 18px}
+  .cb{padding:18px}
+  .disc-row{grid-template-columns:1fr}
+  .fi-grid{grid-template-columns:repeat(2,1fr)}
+  .math-block{padding:14px 16px}
+  .svg-pair{grid-template-columns:1fr !important}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Limiti</div>
+  <div class="topbar-nav" id="topNav"></div>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+// ══════════════════════════
+// Accordion builder
+// ══════════════════════════
+function acc(items) {
+  return '<div class="accordion">'+items.map((it,i)=>`
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-num">${i+1}</div>
+        <div class="acc-title">${it.t}</div>
+        <svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="acc-body"><div class="acc-inner">${it.h}</div></div>
+    </div>`).join('')+'</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  item.classList.toggle('open');
+  if (!wasOpen && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+// ══════════════════════════
+// SVG helpers
+// ══════════════════════════
+
+// Function with a hole at x=a, approaching L
+function svgLimite() {
+  const w=320, h=180, ox=40, oy=130, sx=50, sy=40;
+  const a=3, L=2;
+  const c='#2e6da4';
+  let ptsL=[], ptsR=[];
+  for(let i=0;i<=25;i++){
+    const x=0.5+i*2.3/25;
+    const y=(x*x-1)/(x+0.5)*0.7+0.3;
+    ptsL.push(`${ox+x*sx},${oy-y*sy}`);
+  }
+  for(let i=1;i<=25;i++){
+    const x=3.1+i*2.4/25;
+    const y=(x*x-1)/(x+0.5)*0.7+0.3;
+    ptsR.push(`${ox+x*sx},${oy-y*sy}`);
+  }
+  const hx=ox+a*sx, hy=oy-L*sy;
+  return `<div class="graph-box"><svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
+    <line x1="${ox}" y1="10" x2="${ox}" y2="${oy+15}" stroke="#e2dcd2" stroke-width="1"/>
+    <line x1="${ox-10}" y1="${oy}" x2="${w-10}" y2="${oy}" stroke="#e2dcd2" stroke-width="1"/>
+    <text x="${w-8}" y="${oy-4}" fill="#8a827a" font-size="11">x</text>
+    <text x="${ox+5}" y="16" fill="#8a827a" font-size="11">y</text>
+    <line x1="${hx}" y1="${oy-3}" x2="${hx}" y2="${oy+3}" stroke="#8a827a" stroke-width="1"/>
+    <text x="${hx}" y="${oy+16}" fill="#8a827a" font-size="10" text-anchor="middle">a</text>
+    <line x1="${ox-4}" y1="${hy}" x2="${ox+4}" y2="${hy}" stroke="#8a827a" stroke-width="1"/>
+    <text x="${ox-12}" y="${hy+4}" fill="#8a827a" font-size="10" text-anchor="end">L</text>
+    <line x1="${hx}" y1="${hy}" x2="${ox}" y2="${hy}" stroke="${c}" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+    <line x1="${hx}" y1="${hy}" x2="${hx}" y2="${oy}" stroke="${c}" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+    <polyline points="${ptsL.join(' ')}" fill="none" stroke="${c}" stroke-width="2.5"/>
+    <polyline points="${ptsR.join(' ')}" fill="none" stroke="${c}" stroke-width="2.5"/>
+    <circle cx="${hx}" cy="${hy}" r="5" fill="white" stroke="${c}" stroke-width="2"/>
+    <text x="${hx+8}" y="${hy-8}" fill="${c}" font-size="10" font-weight="600">buco</text>
+    <text x="${ox+20}" y="24" fill="${c}" font-size="11" font-weight="600">f(x)→L mentre x→a</text>
+  </svg></div>`;
+}
+
+// Jump discontinuity
+function svgSalto() {
+  const w=260, h=160, ox=40, oy=120, sx=55, sy=35;
+  const a=2.5;
+  const c1='#4a7c59', c2='#2e6da4';
+  let ptsL=[], ptsR=[];
+  for(let i=0;i<=20;i++){
+    const x=0.3+i*2.0/20;
+    const y=0.8*x+0.5;
+    ptsL.push(`${ox+x*sx},${oy-y*sy}`);
+  }
+  for(let i=0;i<=20;i++){
+    const x=2.6+i*1.8/20;
+    const y=0.6*x+1.8;
+    ptsR.push(`${ox+x*sx},${oy-y*sy}`);
+  }
+  const ax=ox+a*sx;
+  const yL=0.8*a+0.5, yR=0.6*a+1.8;
+  return `<div class="graph-box"><svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
+    <line x1="${ox}" y1="10" x2="${ox}" y2="${oy+12}" stroke="#e2dcd2" stroke-width="1"/>
+    <line x1="${ox-10}" y1="${oy}" x2="${w-10}" y2="${oy}" stroke="#e2dcd2" stroke-width="1"/>
+    <line x1="${ax}" y1="${oy-5}" x2="${ax}" y2="${oy+5}" stroke="#8a827a" stroke-width="1"/>
+    <text x="${ax}" y="${oy+17}" fill="#8a827a" font-size="10" text-anchor="middle">a</text>
+    <polyline points="${ptsL.join(' ')}" fill="none" stroke="${c1}" stroke-width="2.5"/>
+    <polyline points="${ptsR.join(' ')}" fill="none" stroke="${c2}" stroke-width="2.5"/>
+    <circle cx="${ax}" cy="${oy-yL*sy}" r="4.5" fill="white" stroke="${c1}" stroke-width="2"/>
+    <circle cx="${ax}" cy="${oy-yR*sy}" r="4.5" fill="white" stroke="${c2}" stroke-width="2"/>
+    <text x="${ax+8}" y="${oy-yL*sy+4}" fill="${c1}" font-size="10">lim⁻</text>
+    <text x="${ax+8}" y="${oy-yR*sy+4}" fill="${c2}" font-size="10">lim⁺</text>
+    <text x="${ox+8}" y="22" fill="#b33a3a" font-size="10" font-weight="600">salto: lim⁻ ≠ lim⁺</text>
+  </svg></div>`;
+}
+
+// Vertical asymptote
+function svgAsintotoV() {
+  const w=260, h=160, ox=100, oy=80, sx=55, sy=20;
+  const c='#6a1b9a';
+  let ptsL=[], ptsR=[];
+  for(let i=1;i<=25;i++){
+    const x=-1.5+i*1.3/25;
+    const y=1/(x);
+    if(Math.abs(y)<6) ptsL.push(`${ox+x*sx},${oy-y*sy}`);
+  }
+  for(let i=0;i<=25;i++){
+    const x=0.1+i*1.8/25;
+    const y=1/(x);
+    if(Math.abs(y)<6) ptsR.push(`${ox+x*sx},${oy-y*sy}`);
+  }
+  return `<div class="graph-box"><svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
+    <line x1="${ox}" y1="5" x2="${ox}" y2="${h-5}" stroke="#e2dcd2" stroke-width="1"/>
+    <line x1="10" y1="${oy}" x2="${w-10}" y2="${oy}" stroke="#e2dcd2" stroke-width="1"/>
+    <line x1="${ox}" y1="5" x2="${ox}" y2="${h-5}" stroke="${c}" stroke-width="1.5" stroke-dasharray="5,4" opacity=".6"/>
+    <text x="${ox+4}" y="16" fill="${c}" font-size="10" font-weight="600">x=a</text>
+    <polyline points="${ptsL.join(' ')}" fill="none" stroke="${c}" stroke-width="2.5"/>
+    <polyline points="${ptsR.join(' ')}" fill="none" stroke="${c}" stroke-width="2.5"/>
+    <text x="14" y="${h-8}" fill="${c}" font-size="10" font-weight="600">asintoto verticale</text>
+  </svg></div>`;
+}
+
+// Horizontal asymptote
+function svgAsintotoO() {
+  const w=280, h=150, ox=20, oy=75, sx=30, sy=30;
+  const c='#4f6d7a', L=1;
+  let pts=[];
+  for(let i=0;i<=50;i++){
+    const x=0.3+i*8/50;
+    const y=L+2/x;
+    if(y<5) pts.push(`${ox+x*sx},${oy-y*sy}`);
+  }
+  const ly=oy-L*sy;
+  return `<div class="graph-box"><svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
+    <line x1="${ox}" y1="8" x2="${ox}" y2="${oy+20}" stroke="#e2dcd2" stroke-width="1"/>
+    <line x1="${ox-8}" y1="${oy}" x2="${w-8}" y2="${oy}" stroke="#e2dcd2" stroke-width="1"/>
+    <line x1="${ox}" y1="${ly}" x2="${w-8}" y2="${ly}" stroke="${c}" stroke-width="1.5" stroke-dasharray="5,4" opacity=".7"/>
+    <text x="${w-50}" y="${ly-5}" fill="${c}" font-size="10" font-weight="600">y=k</text>
+    <polyline points="${pts.join(' ')}" fill="none" stroke="${c}" stroke-width="2.5"/>
+    <text x="${ox+10}" y="22" fill="${c}" font-size="10" font-weight="600">f(x)→k per x→+∞</text>
+  </svg></div>`;
+}
+
+// ══════════════════════════
+// SECTIONS DATA
+// ══════════════════════════
+const S = [
+
+// ═══ 0: INTUIZIONE ═══
+{
+  tag:"TEORIA",
+  title:"L'intuizione del <em>limite</em>",
+  sub:"Che cosa succede a f(x) quando x si avvicina a un certo valore?",
+  nav:"Intuizione",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">La domanda fondamentale</div>
+      <p>Il limite risponde a una domanda semplice ma profonda:</p>
+      <div class="math-block hero-formula">
+        \\[ \\lim_{x \\to a} f(x) = L \\]
+      </div>
+      <p>Non chiediamo <em>dove si trova</em> la funzione nel punto \\(a\\), ma <strong>come si comporta</strong> quando \\(x\\) ci si avvicina sempre di più.</p>
+      <p class="dim">Il limite guarda il comportamento locale, non il valore puntuale.</p>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Immagine del cursore</div>
+      <p>Immagina \\(x\\) come un cursore che scorre sull'asse orizzontale verso \\(a\\). Osserviamo cosa fanno i valori di \\(f(x)\\).</p>
+      <p>Se i valori si avvicinano sempre di più a uno stesso numero \\(L\\), allora il <strong>limite vale \\(L\\)</strong>.</p>
+    </div>
+
+    ${svgLimite()}
+
+    <div class="cb warn">
+      <div class="cb-label">Punto chiave</div>
+      <p>Il limite <strong>non dipende</strong> dal valore di \\(f(a)\\). La funzione potrebbe non essere definita in \\(a\\) (buco) — il limite esiste lo stesso.</p>
+      <p>Tre situazioni possibili:</p>
+      <ul style="margin-left:1.4em;margin-top:6px">
+        <li>\\(f(a)\\) esiste e coincide con \\(L\\) → funzione <strong>continua</strong> in \\(a\\)</li>
+        <li>\\(f(a)\\) esiste ma \\(f(a) \\neq L\\) → discontinuità <strong>eliminabile</strong></li>
+        <li>\\(f(a)\\) non esiste → "buco" nel grafico, limite ancora possibile</li>
+      </ul>
+    </div>
+
+    <div class="cb success">
+      <div class="cb-label">Perché servono i limiti</div>
+      <p>Con i limiti capisci:</p>
+      <ul style="margin-left:1.4em;margin-top:4px">
+        <li>il comportamento vicino a punti critici (buchi, asintoti verticali)</li>
+        <li>il comportamento globale per \\(x \\to \\pm\\infty\\) (asintoti orizzontali/obliqui)</li>
+        <li>la continuità di una funzione</li>
+      </ul>
+    </div>
+  `
+},
+
+// ═══ 1: NOTAZIONE ═══
+{
+  tag:"TEORIA",
+  title:"Notazione e <em>tipi di limite</em>",
+  sub:"Limite finito in un punto, limite infinito, limite all'infinito.",
+  nav:"Notazione",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Le forme fondamentali</div>
+
+      <p><strong>Limite finito in un punto</strong></p>
+      <div class="math-block hero-formula">
+        \\[ \\lim_{x \\to a} f(x) = L \\qquad L \\in \\mathbb{R} \\]
+      </div>
+
+      <p style="margin-top:16px"><strong>Limite infinito in un punto</strong> (asintoto verticale)</p>
+      <div class="math-block">
+        \\[ \\lim_{x \\to a} f(x) = +\\infty \\quad \\text{oppure} \\quad -\\infty \\]
+      </div>
+
+      <p style="margin-top:16px"><strong>Limite all'infinito</strong></p>
+      <div class="math-block">
+        \\[ \\lim_{x \\to +\\infty} f(x) = L \\qquad \\lim_{x \\to -\\infty} f(x) = L \\]
+      </div>
+      <p class="dim">(anche \\(L = \\pm\\infty\\))</p>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Intorno bucato</div>
+      <p>Per parlare di \\(\\lim_{x \\to a}\\), <strong>non serve</strong> che \\(f(a)\\) esista: basta che \\(f\\) sia definita in un <em>intorno bucato</em> di \\(a\\), cioè per \\(x\\) vicini ad \\(a\\) ma \\(x \\neq a\\).</p>
+    </div>
+
+    <table class="ct">
+      <tr><th>Tipo</th><th>Notazione</th><th>Cosa descrive</th></tr>
+      <tr>
+        <td>Finito in un punto</td>
+        <td>\\(\\lim_{x\\to a} f(x) = L\\)</td>
+        <td>\\(f(x)\\) si avvicina a \\(L\\) reale</td>
+      </tr>
+      <tr>
+        <td>Infinito in un punto</td>
+        <td>\\(\\lim_{x\\to a} f(x) = \\pm\\infty\\)</td>
+        <td>\\(f(x)\\) cresce/decresce senza limite → asintoto verticale</td>
+      </tr>
+      <tr>
+        <td>Finito all'infinito</td>
+        <td>\\(\\lim_{x\\to \\pm\\infty} f(x) = k\\)</td>
+        <td>\\(f(x)\\) si stabilizza → asintoto orizzontale \\(y=k\\)</td>
+      </tr>
+      <tr>
+        <td>Infinito all'infinito</td>
+        <td>\\(\\lim_{x\\to \\pm\\infty} f(x) = \\pm\\infty\\)</td>
+        <td>\\(f(x)\\) cresce/decresce senza limite</td>
+      </tr>
+    </table>
+
+    <div class="cb purple">
+      <div class="cb-label">Lettura grafica</div>
+      <p>Per capire un limite, segui mentalmente il grafico:</p>
+      <ul style="margin-left:1.4em;margin-top:4px">
+        <li>muoviti lungo l'asse \\(x\\) verso il punto \\(a\\) (o verso \\(\\pm\\infty\\))</li>
+        <li>osserva dove si avvicinano i punti del grafico</li>
+        <li>ignora il valore di \\(f(a)\\)</li>
+      </ul>
+      <p style="margin-top:8px">Se il grafico tende verso la stessa quota \\(y = L\\) sia da sinistra sia da destra, allora \\(\\lim_{x\\to a} f(x) = L\\).</p>
+    </div>
+  `
+},
+
+// ═══ 2: LIMITI LATERALI ═══
+{
+  tag:"TEORIA",
+  title:"Limiti <em>destro e sinistro</em>",
+  sub:"Quando avvicinarsi da destra e da sinistra dà risultati diversi.",
+  nav:"Limiti laterali",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Definizioni</div>
+      <div class="math-block">
+        \\[ \\lim_{x \\to a^-} f(x) \\quad \\text{avvicinandosi ad } a \\text{ da sinistra} \\]
+        \\[ \\lim_{x \\to a^+} f(x) \\quad \\text{avvicinandosi ad } a \\text{ da destra} \\]
+      </div>
+    </div>
+
+    <div class="cb danger">
+      <div class="cb-label">Criterio di esistenza del limite</div>
+      <p>Il limite \\(\\displaystyle\\lim_{x \\to a} f(x)\\) esiste <strong>se e solo se</strong> i due limiti laterali esistono e sono <strong>uguali</strong>:</p>
+      <div class="math-block hero-formula">
+        \\[ \\lim_{x \\to a^-} f(x) = \\lim_{x \\to a^+} f(x) = L \\]
+      </div>
+      <p>Se i due limiti laterali sono diversi, il limite <strong>non esiste</strong>.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0" class="svg-pair">
+      <div>
+        <p style="font-size:.88rem;font-weight:600;margin-bottom:4px;color:var(--green)">Limite esiste: lim⁻ = lim⁺</p>
+        ${svgLimite()}
+      </div>
+      <div>
+        <p style="font-size:.88rem;font-weight:600;margin-bottom:4px;color:var(--danger)">Salto: lim⁻ ≠ lim⁺</p>
+        ${svgSalto()}
+      </div>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Promemoria grafico</div>
+      <ul style="margin-left:1.4em;margin-top:4px">
+        <li>I "due rami" arrivano alla <strong>stessa quota</strong> → limite esiste</li>
+        <li>Arrivano a quote diverse → <em>salto</em> (limite non esiste)</li>
+        <li>Uno (o entrambi) esplode a \\(\\pm\\infty\\) → asintoto <em>verticale</em></li>
+      </ul>
+    </div>
+
+    ${acc([
+      {
+        t:"Esempio — limite laterale con valore assoluto: \\(\\lim_{x\\to 0} \\dfrac{|x|}{x}\\)",
+        h:`
+          <div class="step-math"><div class="label">Limite sinistro (x→0⁻, cioè x < 0)</div></div>
+          <div class="math-block">
+            \\[ \\lim_{x \\to 0^-} \\frac{|x|}{x} = \\lim_{x \\to 0^-} \\frac{-x}{x} = -1 \\]
+          </div>
+          <div class="step-math"><div class="label">Limite destro (x→0⁺, cioè x > 0)</div></div>
+          <div class="math-block">
+            \\[ \\lim_{x \\to 0^+} \\frac{|x|}{x} = \\lim_{x \\to 0^+} \\frac{x}{x} = +1 \\]
+          </div>
+          <div class="math-block warning">
+            <p>I due limiti laterali sono diversi \\((-1 \\neq 1)\\) → il limite <strong>non esiste</strong>.</p>
+          </div>
+        `
+      },
+      {
+        t:"Esempio — funzione a tratti",
+        h:`
+          <p>Sia \\(\\displaystyle f(x) = \\begin{cases} x^2 & x < 1 \\\\ 2x - 1 & x \\geq 1 \\end{cases}\\)</p>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              \\lim_{x \\to 1^-} f(x) &= \\lim_{x \\to 1^-} x^2 = 1 \\\\[6pt]
+              \\lim_{x \\to 1^+} f(x) &= \\lim_{x \\to 1^+} (2x-1) = 1
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">
+            <p>I due limiti coincidono → \\(\\displaystyle\\lim_{x \\to 1} f(x) = 1\\). Poiché \\(f(1) = 1\\), la funzione è <strong>continua</strong> in \\(x=1\\).</p>
+          </div>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 3: DEFINIZIONE EPSILON-DELTA ═══
+{
+  tag:"TEORIA",
+  title:"Definizione formale <em>ε–δ</em>",
+  sub:"La definizione rigorosa che formalizza l'intuizione di avvicinamento.",
+  nav:"Def. ε–δ",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Definizione (epsilon–delta)</div>
+      <p>\\(\\displaystyle\\lim_{x \\to a} f(x) = L\\) significa:</p>
+      <div class="math-block hero-formula">
+        \\[ \\forall\\, \\varepsilon > 0 \\quad \\exists\\, \\delta > 0 \\quad \\text{tale che} \\quad 0 < |x - a| < \\delta \\Rightarrow |f(x) - L| < \\varepsilon \\]
+      </div>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Lettura in parole</div>
+      <p>Puoi rendere \\(f(x)\\) <strong>vicina quanto vuoi</strong> a \\(L\\) (entro \\(\\varepsilon\\)), purché prenda \\(x\\) <strong>abbastanza vicino</strong> ad \\(a\\) (entro \\(\\delta\\)), senza starci sopra (\\(x \\neq a\\)).</p>
+    </div>
+
+    <div class="cb warn">
+      <div class="cb-label">Come leggerla in pratica</div>
+      <table class="ct" style="margin-top:8px">
+        <tr><th>Simbolo</th><th>Rappresenta</th><th>Ruolo</th></tr>
+        <tr><td>\\(\\varepsilon\\)</td><td>tolleranza su \\(f(x)\\)</td><td>lo sceglie chi sfida (deve funzionare per ogni ε)</td></tr>
+        <tr><td>\\(\\delta\\)</td><td>tolleranza su \\(x\\)</td><td>lo troviamo noi in funzione di ε</td></tr>
+        <tr><td>\\(0 < |x-a|\\)</td><td>\\(x \\neq a\\)</td><td>garantisce che ignoriamo il punto stesso</td></tr>
+        <tr><td>\\(|f(x) - L| < \\varepsilon\\)</td><td>\\(f(x)\\) vicino a \\(L\\)</td><td>la tesi da garantire</td></tr>
+      </table>
+    </div>
+
+    <div class="cb purple">
+      <div class="cb-label">Perché serve</div>
+      <p>La definizione ε–δ è la versione rigorosa dell'intuizione. Nella pratica del liceo si usa raramente esplicitamente, ma è il fondamento su cui si basano:</p>
+      <ul style="margin-left:1.4em;margin-top:4px">
+        <li>le proprietà dei limiti (somma, prodotto, quoziente)</li>
+        <li>il concetto di continuità</li>
+        <li>i teoremi fondamentali del calcolo</li>
+      </ul>
+    </div>
+  `
+},
+
+// ═══ 4: CALCOLO — CONTINUITÀ ═══
+{
+  tag:"CALCOLO",
+  title:"Calcolare i limiti: <em>continuità</em>",
+  sub:"Quando si può semplicemente sostituire. Quando non si può.",
+  nav:"Continuità",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Regola d'oro — sostituzione diretta</div>
+      <p>Se \\(f\\) è <strong>continua</strong> in \\(a\\), allora:</p>
+      <div class="math-block hero-formula">
+        \\[ \\lim_{x \\to a} f(x) = f(a) \\]
+      </div>
+      <p>Sostituisci \\(x = a\\) direttamente nell'espressione.</p>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Funzioni continue nel loro dominio</div>
+      <ul style="margin-left:1.4em;margin-top:4px">
+        <li><strong>Polinomi</strong> — continui ovunque in \\(\\mathbb{R}\\)</li>
+        <li><strong>Razionali fratte</strong> \\(P(x)/Q(x)\\) — continui dove \\(Q(a) \\neq 0\\)</li>
+        <li><strong>Radicali</strong> \\(\\sqrt{g(x)}\\) — continui dove \\(g(x) \\geq 0\\)</li>
+        <li><strong>Logaritmi</strong> — continui dove l'argomento è \\(> 0\\)</li>
+        <li><strong>Funzioni trigonometriche</strong> — continue nel loro dominio</li>
+      </ul>
+    </div>
+
+    ${acc([
+      {
+        t:"Esempio — \\(\\lim_{x \\to 2} (3x^2 - x + 1)\\)",
+        h:`
+          <p>Il polinomio è continuo ovunque:</p>
+          <div class="math-block result">
+            \\[ \\lim_{x \\to 2} (3x^2 - x + 1) = 3(4) - 2 + 1 = 11 \\]
+          </div>
+        `
+      },
+      {
+        t:"Esempio — \\(\\lim_{x \\to 3} \\dfrac{x^2 - 1}{x - 2}\\)",
+        h:`
+          <p>Denominatore in \\(x=3\\): \\(3-2=1 \\neq 0\\) → si sostituisce direttamente.</p>
+          <div class="math-block result">
+            \\[ \\lim_{x \\to 3} \\frac{x^2 - 1}{x - 2} = \\frac{9-1}{3-2} = \\frac{8}{1} = 8 \\]
+          </div>
+        `
+      },
+      {
+        t:"Esempio — \\(\\lim_{x \\to 1} \\dfrac{x^2 - 1}{x - 1}\\) — attenzione!",
+        h:`
+          <p>Sostituendo \\(x=1\\): numeratore \\(= 0\\), denominatore \\(= 0\\) → forma \\(\\mathbf{0/0}\\). Non si può sostituire.</p>
+          <div class="math-block">
+            \\[ \\lim_{x \\to 1} \\frac{x^2 - 1}{x - 1} = \\lim_{x \\to 1} \\frac{(x-1)(x+1)}{x-1} = \\lim_{x \\to 1} (x+1) = 2 \\]
+          </div>
+          <div class="math-block result">
+            \\[ \\lim_{x \\to 1} \\frac{x^2-1}{x-1} = 2 \\]
+          </div>
+          <p class="dim">La funzione ha un buco in \\(x=1\\), ma il limite esiste ed è 2.</p>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 5: FORME INDETERMINATE ═══
+{
+  tag:"CALCOLO",
+  title:"Forme <em>indeterminate</em> e strategie",
+  sub:"Quando la sostituzione diretta non basta: le mosse standard.",
+  nav:"Forme indet.",
+  body:`
+    <div class="cb danger">
+      <div class="cb-label">Le forme indeterminate principali</div>
+      <p>"Indeterminata" non vuol dire "non esiste": vuol dire che serve <strong>trasformare</strong> l'espressione prima di concludere.</p>
+    </div>
+
+    <div class="fi-grid">
+      <div class="fi-card">
+        <div class="fi-form">0/0</div>
+        <p>Scomponi e semplifica, oppure razionalizza</p>
+      </div>
+      <div class="fi-card">
+        <div class="fi-form">∞/∞</div>
+        <p>Confronta i gradi (razionali fratte) o porta fuori la potenza dominante</p>
+      </div>
+      <div class="fi-card">
+        <div class="fi-form">∞−∞</div>
+        <p>Metti a comune denominatore o razionalizza con il coniugato</p>
+      </div>
+      <div class="fi-card">
+        <div class="fi-form">0·∞</div>
+        <p>Riscrivi come quoziente: \\(\\frac{0}{1/\\infty}\\) oppure \\(\\frac{\\infty}{1/0}\\)</p>
+      </div>
+    </div>
+
+    ${acc([
+      {
+        t:"Strategia 1 — Scomposizione (forma 0/0)",
+        h:`
+          <p>Fattorizza numeratore e/o denominatore per eliminare il fattore comune che si annulla.</p>
+          <div class="math-block">
+            \\[ \\lim_{x \\to 1} \\frac{x^2 - 1}{x - 1} = \\lim_{x \\to 1} \\frac{(x-1)(x+1)}{x-1} = \\lim_{x \\to 1}(x+1) = 2 \\]
+          </div>
+          <div class="math-block">
+            \\[ \\lim_{x \\to 3} \\frac{x^2 - 5x + 6}{x - 3} = \\lim_{x \\to 3} \\frac{(x-2)(x-3)}{x-3} = \\lim_{x \\to 3}(x-2) = 1 \\]
+          </div>
+        `
+      },
+      {
+        t:"Strategia 2 — Razionalizzazione (forma 0/0 con radici)",
+        h:`
+          <p>Moltiplica numeratore e denominatore per il <strong>coniugato</strong> della radice.</p>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              \\lim_{x \\to 0} \\frac{\\sqrt{1+x}-1}{x}
+              &= \\lim_{x \\to 0} \\frac{(\\sqrt{1+x}-1)(\\sqrt{1+x}+1)}{x(\\sqrt{1+x}+1)} \\\\[8pt]
+              &= \\lim_{x \\to 0} \\frac{(1+x)-1}{x(\\sqrt{1+x}+1)}
+              = \\lim_{x \\to 0} \\frac{x}{x(\\sqrt{1+x}+1)} \\\\[8pt]
+              &= \\lim_{x \\to 0} \\frac{1}{\\sqrt{1+x}+1} = \\frac{1}{2}
+            \\end{aligned}\\]
+          </div>
+        `
+      },
+      {
+        t:"Strategia 3 — Potenza dominante (forma ∞/∞)",
+        h:`
+          <p>Per razionali fratte: dividi sopra e sotto per la <strong>potenza massima di \\(x\\)</strong> che compare.</p>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              \\lim_{x \\to +\\infty} \\frac{3x^2 - x + 2}{2x^2 + 5}
+              &= \\lim_{x \\to +\\infty} \\frac{x^2(3 - 1/x + 2/x^2)}{x^2(2 + 5/x^2)} \\\\[8pt]
+              &= \\lim_{x \\to +\\infty} \\frac{3 - 1/x + 2/x^2}{2 + 5/x^2} = \\frac{3}{2}
+            \\end{aligned}\\]
+          </div>
+        `
+      },
+      {
+        t:"Strategia 4 — Comune denominatore (forma ∞−∞)",
+        h:`
+          <p>Trasforma la differenza in un'unica frazione e poi studia il limite.</p>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              \\lim_{x \\to 0} \\left(\\frac{1}{x} - \\frac{1}{x^2}\\right)
+              &= \\lim_{x \\to 0} \\frac{x - 1}{x^2}
+            \\end{aligned}\\]
+          </div>
+          <p>Ora numeratore \\(\\to -1\\), denominatore \\(\\to 0^+\\):</p>
+          <div class="math-block result">
+            \\[ \\lim_{x \\to 0^+} \\frac{x-1}{x^2} = -\\infty \\]
+          </div>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 6: DISCONTINUITÀ ═══
+{
+  tag:"TEORIA",
+  title:"Limiti e <em>discontinuità</em>",
+  sub:"Tre tipi di interruzione: eliminabile, di salto, infinita.",
+  nav:"Discontinuità",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Schema classificazione</div>
+    </div>
+
+    <div class="disc-row">
+      <div class="disc-card" style="border-color:var(--green)">
+        <h4 style="color:var(--green)">Eliminabile</h4>
+        <div style="margin:10px 0;font-size:.85rem">
+          \\[ \\lim_{x\\to a} f = L \\]
+          ma \\(f(a) \\neq L\\) o non esiste
+        </div>
+        <p style="font-size:.82rem">"Buco" — si potrebbe tappare ponendo \\(f(a)=L\\)</p>
+      </div>
+      <div class="disc-card" style="border-color:var(--gold)">
+        <h4 style="color:var(--gold)">Salto</h4>
+        <div style="margin:10px 0;font-size:.85rem">
+          \\[ \\lim_{x\\to a^-} f \\neq \\lim_{x\\to a^+} f \\]
+          entrambi finiti
+        </div>
+        <p style="font-size:.82rem">Il grafico "salta" da una quota all'altra</p>
+      </div>
+      <div class="disc-card" style="border-color:var(--danger)">
+        <h4 style="color:var(--danger)">Infinita</h4>
+        <div style="margin:10px 0;font-size:.85rem">
+          \\[ \\lim_{x\\to a^\\pm} f = \\pm\\infty \\]
+        </div>
+        <p style="font-size:.82rem">Almeno un limite laterale è \\(\\pm\\infty\\) → asintoto verticale</p>
+      </div>
+    </div>
+
+    ${svgSalto()}
+
+    ${acc([
+      {
+        t:"Discontinuità eliminabile — \\(f(x) = \\dfrac{x^2-1}{x-1}\\)",
+        h:`
+          <p>Dominio: \\(x \\neq 1\\).</p>
+          <div class="math-block">
+            \\[ \\lim_{x \\to 1} \\frac{x^2-1}{x-1} = \\lim_{x \\to 1}(x+1) = 2 \\]
+          </div>
+          <p>Il limite esiste ed è finito, ma \\(f(1)\\) non è definita. Graficamente compare un <em>buco</em> nel punto \\((1,\\,2)\\). La discontinuità è <strong>eliminabile</strong>: basterebbe definire \\(f(1) = 2\\).</p>
+        `
+      },
+      {
+        t:"Discontinuità di salto — funzione segno",
+        h:`
+          <p>\\(\\displaystyle f(x) = \\text{sgn}(x) = \\begin{cases} -1 & x < 0 \\\\ 0 & x=0 \\\\ 1 & x > 0 \\end{cases}\\)</p>
+          <div class="math-block">
+            \\[ \\lim_{x\\to 0^-} f(x) = -1 \\qquad \\lim_{x\\to 0^+} f(x) = +1 \\]
+          </div>
+          <div class="math-block warning">
+            <p>I limiti laterali sono finiti ma diversi → limite non esiste → <strong>discontinuità di salto</strong>.</p>
+          </div>
+        `
+      },
+      {
+        t:"Discontinuità infinita — \\(f(x) = 1/x\\) in \\(x = 0\\)",
+        h:`
+          <div class="math-block">
+            \\[ \\lim_{x \\to 0^-} \\frac{1}{x} = -\\infty \\qquad \\lim_{x \\to 0^+} \\frac{1}{x} = +\\infty \\]
+          </div>
+          <p>Almeno un limite laterale è infinito → <strong>discontinuità infinita</strong> → asintoto verticale \\(x = 0\\).</p>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 7: ASINTOTI ═══
+{
+  tag:"TEORIA",
+  title:"Gli <em>asintoti</em> come conseguenza dei limiti",
+  sub:"Verticale, orizzontale, obliquo: tre modi in cui f(x) «scappa».",
+  nav:"Asintoti",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Asintoto verticale</div>
+      <p>Se almeno uno dei limiti laterali è infinito:</p>
+      <div class="math-block hero-formula">
+        \\[ \\lim_{x \\to a^\\pm} f(x) = \\pm\\infty \\quad \\Rightarrow \\quad x = a \\text{ è asintoto verticale} \\]
+      </div>
+    </div>
+
+    ${svgAsintotoV()}
+
+    <div class="cb tip">
+      <div class="cb-label">Asintoto orizzontale</div>
+      <p>Se il limite all'infinito è finito:</p>
+      <div class="math-block hero-formula">
+        \\[ \\lim_{x \\to \\pm\\infty} f(x) = k \\quad \\Rightarrow \\quad y = k \\text{ è asintoto orizzontale} \\]
+      </div>
+      <p class="dim">Una funzione può avere asintoti orizzontali diversi a \\(+\\infty\\) e a \\(-\\infty\\).</p>
+    </div>
+
+    ${svgAsintotoO()}
+
+    <div class="cb purple">
+      <div class="cb-label">Asintoto obliquo</div>
+      <p>Si cerca nella forma \\(y = mx + q\\) con \\(m \\neq 0\\). Si calcola:</p>
+      <div class="math-block">
+        \\[ m = \\lim_{x \\to \\pm\\infty} \\frac{f(x)}{x} \\]
+      </div>
+      <div class="math-block">
+        \\[ q = \\lim_{x \\to \\pm\\infty} \\bigl(f(x) - mx\\bigr) \\]
+      </div>
+      <p>Se entrambi i limiti esistono finiti (con \\(m \\neq 0\\)), allora \\(y = mx + q\\) è asintoto obliquo.</p>
+    </div>
+
+    ${acc([
+      {
+        t:"Esempio asintoto obliquo — \\(f(x) = \\dfrac{x^2+1}{x}\\)",
+        h:`
+          <div class="math-block">
+            \\[ m = \\lim_{x\\to+\\infty} \\frac{x^2+1}{x^2} = 1 \\]
+          </div>
+          <div class="math-block">
+            \\[ q = \\lim_{x\\to+\\infty} \\left(\\frac{x^2+1}{x} - x\\right) = \\lim_{x\\to+\\infty} \\frac{x^2+1-x^2}{x} = \\lim_{x\\to+\\infty} \\frac{1}{x} = 0 \\]
+          </div>
+          <div class="math-block result">
+            \\[ y = x \\text{ è asintoto obliquo per } x\\to\\pm\\infty \\]
+          </div>
+          <p class="dim">Verifica: \\(\\frac{x^2+1}{x} = x + \\frac{1}{x}\\). La differenza \\(1/x \\to 0\\). Corretto.</p>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 8: RAZIONALI FRATTE ═══
+{
+  tag:"CONCETTI CHIAVE",
+  title:"Razionali fratte: limiti <em>all'infinito</em>",
+  sub:"Il confronto dei gradi decide tutto.",
+  nav:"Razionali fratte",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Regola dei gradi</div>
+      <p>Data \\(f(x) = \\dfrac{P(x)}{Q(x)}\\) con \\(n = \\deg P\\), \\(m = \\deg Q\\):</p>
+    </div>
+
+    <table class="ct">
+      <tr><th>Condizione</th><th>\\(\\lim_{x\\to\\pm\\infty} f(x)\\)</th><th>Asintoto</th></tr>
+      <tr>
+        <td>\\(n < m\\)</td>
+        <td style="color:var(--green)">\\(= 0\\)</td>
+        <td>orizzontale \\(y = 0\\)</td>
+      </tr>
+      <tr>
+        <td>\\(n = m\\)</td>
+        <td style="color:var(--blue)">\\(= \\dfrac{a_n}{b_m}\\) (rapporto dei coefficienti direttori)</td>
+        <td>orizzontale \\(y = a_n/b_m\\)</td>
+      </tr>
+      <tr>
+        <td>\\(n = m + 1\\)</td>
+        <td style="color:var(--purple)">\\(\\pm\\infty\\) con legge lineare</td>
+        <td>obliquo (fare la divisione)</td>
+      </tr>
+      <tr>
+        <td>\\(n > m + 1\\)</td>
+        <td style="color:var(--danger)">\\(\\pm\\infty\\) come potenza</td>
+        <td>nessun asintoto oriz./obliquo</td>
+      </tr>
+    </table>
+
+    ${acc([
+      {
+        t:"Caso n < m — \\(\\lim_{x\\to\\infty} \\dfrac{3x+1}{x^2-2}\\)",
+        h:`
+          <p>\\(n = 1 < m = 2\\) → il denominatore "vince":</p>
+          <div class="math-block result">
+            \\[ \\lim_{x\\to+\\infty} \\frac{3x+1}{x^2-2} = 0 \\qquad \\text{asintoto orizzontale } y = 0 \\]
+          </div>
+        `
+      },
+      {
+        t:"Caso n = m — \\(\\lim_{x\\to\\infty} \\dfrac{5x^2-3}{2x^2+x+1}\\)",
+        h:`
+          <div class="math-block">
+            \\[ \\lim_{x\\to+\\infty} \\frac{5x^2-3}{2x^2+x+1} = \\lim_{x\\to+\\infty} \\frac{x^2(5-3/x^2)}{x^2(2+1/x+1/x^2)} = \\frac{5}{2} \\]
+          </div>
+          <div class="math-block result">
+            \\[ \\text{asintoto orizzontale } y = \\frac{5}{2} \\]
+          </div>
+        `
+      },
+      {
+        t:"Caso n = m+1 — \\(\\lim_{x\\to\\infty} \\dfrac{x^2-1}{x+2}\\) (obliquo)",
+        h:`
+          <p>Divisione polinomiale: \\(x^2 - 1 = (x+2)(x-2) + 3\\), quindi \\(f(x) = x - 2 + \\dfrac{3}{x+2}\\).</p>
+          <div class="math-block">
+            \\[ m = \\lim_{x\\to\\infty} \\frac{f(x)}{x} = 1, \\quad q = \\lim_{x\\to\\infty}(f(x)-x) = -2 \\]
+          </div>
+          <div class="math-block result">
+            \\[ \\text{asintoto obliquo: } y = x - 2 \\]
+          </div>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 9: CHECKLIST ═══
+{
+  tag:"RIEPILOGO",
+  title:"Checklist: procedura di calcolo",
+  sub:"Da usare come promemoria ogni volta che calcoli un limite.",
+  nav:"Checklist",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Procedura rapida</div>
+      <ul class="checklist">
+        <li><strong>Sostituisci</strong> direttamente (se \\(f\\) è continua in \\(a\\) → fatto)</li>
+        <li>Se ottieni una forma indeterminata, <strong>riconoscila</strong>: \\(0/0\\), \\(\\infty/\\infty\\), \\(\\infty-\\infty\\), \\(0\\cdot\\infty\\)</li>
+        <li><strong>Trasforma</strong>: scomponi, razionalizza, metti a comune denominatore, porta fuori la potenza dominante</li>
+        <li>Se c'è un punto critico \\(a\\): calcola \\(\\lim_{x\\to a^-}\\) e \\(\\lim_{x\\to a^+}\\) separatamente</li>
+        <li>Verifica il <strong>criterio</strong>: limite esiste ↔ i due laterali sono uguali</li>
+        <li>Se \\(x\\to\\pm\\infty\\): confronta i gradi (razionali) e verifica la presenza di asintoti</li>
+      </ul>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Trovare gli asintoti</div>
+      <ul class="checklist">
+        <li><strong>Verticale</strong> \\(x = a\\): dove il denominatore si annulla → calcola i limiti laterali</li>
+        <li><strong>Orizzontale</strong> \\(y = k\\): calcola \\(\\lim_{x\\to\\pm\\infty} f(x)\\)</li>
+        <li><strong>Obliquo</strong> \\(y = mx+q\\): calcola \\(m = \\lim f(x)/x\\), poi \\(q = \\lim (f(x)-mx)\\)</li>
+      </ul>
+    </div>
+
+    <div class="cb warn">
+      <div class="cb-label">Limite vs. valore della funzione — non confondere</div>
+      <table class="ct" style="margin-top:8px">
+        <tr><th>Situazione</th><th>Limite</th><th>\\(f(a)\\)</th><th>Tipo</th></tr>
+        <tr>
+          <td>Funzione continua in \\(a\\)</td>
+          <td>\\(= L\\)</td>
+          <td>\\(= L\\)</td>
+          <td style="color:var(--green)">Continua</td>
+        </tr>
+        <tr>
+          <td>Buco nel grafico</td>
+          <td>\\(= L\\) esiste</td>
+          <td>non definita</td>
+          <td style="color:var(--gold)">Disc. eliminabile</td>
+        </tr>
+        <tr>
+          <td>Buco con valore sbagliato</td>
+          <td>\\(= L\\) esiste</td>
+          <td>\\(\\neq L\\)</td>
+          <td style="color:var(--gold)">Disc. eliminabile</td>
+        </tr>
+        <tr>
+          <td>Salto</td>
+          <td>non esiste</td>
+          <td>qualsiasi</td>
+          <td style="color:var(--danger)">Disc. di salto</td>
+        </tr>
+        <tr>
+          <td>Asintoto verticale</td>
+          <td>\\(\\pm\\infty\\)</td>
+          <td>non definita</td>
+          <td style="color:var(--danger)">Disc. infinita</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="cb danger">
+      <div class="cb-label">Errori da evitare</div>
+      <ul class="checklist">
+        <li><strong>Non scrivere</strong> \\(0/0 = 0\\) o \\(0/0 = 1\\) — è una forma indeterminata, non un numero</li>
+        <li><strong>Non confondere</strong> il limite con il valore della funzione nel punto</li>
+        <li><strong>Non dimenticare</strong> di verificare i limiti laterali quando la funzione è definita a tratti o ha punti critici</li>
+        <li>\\(\\infty - \\infty\\) <strong>non è zero</strong> — è un'altra forma indeterminata</li>
+      </ul>
+    </div>
+  `
+}
+
+];
+
+// ══════════════════════════
+// APP LOGIC
+// ══════════════════════════
+let cur = 0;
+const tot = S.length;
+
+function render() {
+  document.getElementById('topNav').innerHTML = S.map((s,i) =>
+    `<button class="nav-pill ${i===cur?'active':''}" onclick="goTo(${i})">${s.nav}</button>`
+  ).join('');
+
+  document.getElementById('app').innerHTML = S.map((s,i) => `
+    <div class="section ${i===cur?'active':''}">
+      <div class="hero">
+        <div class="hero-tag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p class="hero-sub">${s.sub}</p>
+      </div>
+      ${s.body}
+      <div class="bottom-nav">
+        <button class="bb" onclick="goTo(${i-1})" ${i===0?'disabled':''}>← Precedente</button>
+        <span class="page-info">${i+1} / ${tot}</span>
+        <button class="bb primary" onclick="goTo(${i+1})" ${i===tot-1?'disabled':''}>Successivo →</button>
+      </div>
+    </div>
+  `).join('');
+
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    const active = document.querySelector('.section.active');
+    if (active) MathJax.typesetPromise([active]);
+  }
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= tot) return;
+  cur = idx;
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(cur + 1);
+  if (e.key === 'ArrowLeft') goTo(cur - 1);
+});
+
+if (typeof MathJax !== 'undefined' && MathJax.startup) {
+  MathJax.startup.promise.then(() => render());
+} else {
+  render();
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>
