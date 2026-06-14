@@ -23,7 +23,7 @@ slides:
   <!-- <h3 style="color:#8A4117" class="r-fit-text">Relazioni e funzioni</h3> -->
   <br>
   <h4 style="color##342A2A">Diego Fantinelli - matematica A026</h4>
-  <p style="font-size:70%"><em><a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/">The Math of Things</a> | <a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/slides/capitolo5/">esempio attività didattica</a></em></p>
+  <p style="font-size:70%"><em><a style="color:#1d91de" href="https://mathofthings.netlify.app/">The Math of Things</a> | <a style="color:#1d91de" href="https://mathofthings.netlify.app/slides/capitolo5/">esempio attività didattica</a></em></p>
 </section>
 
 ---
@@ -214,7 +214,7 @@ slides:
     <td width="80.0%">per conferire un carattere accademico a tutta la documentazione didattica</td>
   </tr>
   <tr>
-    <td width="20.0%"><em><b><a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/">The Math of Things</a></b></em></td>
+    <td width="20.0%"><em><b><a style="color:#1d91de" href="https://mathofthings.netlify.app/">The Math of Things</a></b></em></td>
     <td width="80.0%">un sito web statico sviluppato con <a style="color:#1d91de" href="https://obsidian.md/">Hugo.io</a> come "contenitore didattico" - un ausilio semplice ed efficace alla progettazione didattica; supporta supporta Html, Css, $\LaTeX$ e Reveal.js</td>
   </tr>
 </table>
@@ -270,7 +270,7 @@ slides:
   <li style="color:#b82460"><em>stimoli di diversa natura con lo scopo di catturare l'attenzione:</em></li>
     <ul style="font-size: 80%"><br>
       <li>una frase, un aforisma, un post, una foto, un video, un articolo, una <em>"provocazione"</em></li>
-      <li> tutto il materiale è preparato in anticipo e caricato su: <a style="color:#b82460" href="https://2023-mathofthings.netlify.app/"><em>The Math of Things</em></a></li>
+      <li> tutto il materiale è preparato in anticipo e caricato su: <a style="color:#b82460" href="https://mathofthings.netlify.app/"><em>The Math of Things</em></a></li>
     </ul>
 </ul>
 </section>
@@ -310,7 +310,7 @@ slides:
 <!-- <ul class="fragment" data-transition="concave">
   <li><h4>Contenuti - Lezione frontale</h4></li><br> -->
     <ul class="fragment" style="font-size: 80%;" >
-      <li><b>contenuti: </b>della lezione in formato <a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/slides/capitolo5/" target="_blank"><em>slides</em></a></li>
+      <li><b>contenuti: </b>della lezione in formato <a style="color:#1d91de" href="https://mathofthings.netlify.app/slides/capitolo5/" target="_blank"><em>slides</em></a></li>
       <li><b>consultazione: </b>libro di testo in formato digitale</li>
       <li><b>consigli: </b>per la revisione in autonomia degli appunti</li>
       <li><b>strumenti informatici: </b><em>Obsidian, VSCode, Reveal.js, etc.</em></li>

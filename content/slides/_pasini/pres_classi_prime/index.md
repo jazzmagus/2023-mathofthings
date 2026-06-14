@@ -30,7 +30,7 @@ slides:
   # OBIETTIVI
   ## DEL CORSO
 
-  <a style="color:#1d91de" href="https://2023-mathofthings.netlify.app/courses/math-01/">programmazione completa </a><i class="fa-solid fa-arrow-up-right-from-square"></i>
+  <a style="color:#1d91de" href="https://mathofthings.netlify.app/courses/math-01/">programmazione completa </a><i class="fa-solid fa-arrow-up-right-from-square"></i>
 
 </section>
 

@@ -22,7 +22,7 @@ theme: serif
   <!-- <h3 style="color:#8A4117" class="r-fit-text">Relazioni e funzioni</h3> -->
   <br>
   <h4 style="color##342A2A"><b>candidato: </b>Diego Fantinelli - STEM A026</h4>
-  <p style="font-size:73%"><em><a href="https://2023-mathofthings.netlify.app/">The Math of Things</a> | <a href="./202122_Recuperi_settembre_fermi.pdf">Documentation</a></em></p>
+  <p style="font-size:73%"><em><a href="https://mathofthings.netlify.app/">The Math of Things</a> | <a href="./202122_Recuperi_settembre_fermi.pdf">Documentation</a></em></p>
 </section>
 
 ---
@@ -186,7 +186,7 @@ theme: serif
 <ul class="fragment">
   <li><h5 style="color:#8A4117"><em>Gli stimoli possono essere di diversa natura e hanno come unica finalità quella di catturare l'attenzione:</em></h5></li><br>
     <ul>
-      <li>un post preparato in anticipo e caricato su <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/"><em>The Math of Things</em></a></li>
+      <li>un post preparato in anticipo e caricato su <a style="color:#8A4117" href="https://mathofthings.netlify.app/"><em>The Math of Things</em></a></li>
       <li>una frase, un aforisma, una foto, un articolo, una <em>"provocazione"</em>, attinente con l'argomento</li>
     </ul>
 </ul>
@@ -242,7 +242,7 @@ theme: serif
       <li>percorso</li>
       <li>strumenti</li>
       <ul>
-        <li>libro di testo; <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/" target="_blank"><em>website</em></a>; <a style="color:#8A4117" href="https://2023-mathofthings.netlify.app/slides/capitolo5/" target="_blank"><em>slides</em></a></li>
+        <li>libro di testo; <a style="color:#8A4117" href="https://mathofthings.netlify.app/" target="_blank"><em>website</em></a>; <a style="color:#8A4117" href="https://mathofthings.netlify.app/slides/capitolo5/" target="_blank"><em>slides</em></a></li>
       </ul>
     </ul>
 </section>
@@ -310,7 +310,7 @@ theme: serif
 ---
 
 <!-- 
-<section data-background-iframe="https://2023-mathofthings.netlify.app/" data-background-interactive>
+<section data-background-iframe="https://mathofthings.netlify.app/" data-background-interactive>
 
 </section> 
 

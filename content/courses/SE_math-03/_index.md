@@ -37,7 +37,7 @@ menu:
 
 > #### references:
 >
-> - [presentazione del corso &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i>](https://2023-mathofthings.netlify.app/slides/progs/first_lesson_3/)
+> - [presentazione del corso &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i>](https://mathofthings.netlify.app/slides/progs/first_lesson_3/)
 > - [programmazione corsi serali &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i>]({{< ref "/content/docs/math_SE/index.md" >}})
 
 ## Conoscenze
@@ -102,7 +102,7 @@ menu:
 
 ### Programmazione completa
 
-[programma classi TERZE SE](https://2023-mathofthings.netlify.app/slides/progs/prog_3se/)
+[programma classi TERZE SE](https://mathofthings.netlify.app/slides/progs/prog_3se/)
 
 <!--
 ## Meet your instructor
@@ -130,4 +130,4 @@ Ci sono 2 tipologie di verifiche:
 > ## Materiali di riferimento
 >
 > - Libro di Testo: COLORI DELLA MATEMATICA edizione BIANCA Vol.1 - Petrini, Sasso, Fragni - ed.
-> - Eventuali integrazioni dalle _slides_: [esempio slides](https://2023-mathofthings.netlify.app/slides/capitolo4/)
+> - Eventuali integrazioni dalle _slides_: [esempio slides](https://mathofthings.netlify.app/slides/capitolo4/)
