@@ -52,8 +52,19 @@ h1, h2, h3, h4, h5, h6 {
 .navbar-brand {
   font-family: $sta-font-heading, serif;
   font-weight: 700;
-  font-style: italic;
-  color: $primary;
+  letter-spacing: -0.02em;
+
+  .math-word {
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: 1.05em;
+    letter-spacing: 0.02em;
+    font-weight: 700;
+  }
+
+  em {
+    font-style: italic;
+    color: $primary;
+  }
 }
 
 // Slimmer navbar
@@ -314,7 +325,7 @@ h2.display {
 
   .hero-tagline {
     font-family: 'Georgia', serif;
-    font-size: 1.2rem;
+    font-size: 1.35rem;
     color: #1a1a1a;
     margin-bottom: 2.5rem;
     font-weight: 400;

@@ -1,0 +1,13 @@
+{{/* Restyle the navbar brand to match the homepage hero title font treatment. */}}
+<script>
+  (function () {
+    document.querySelectorAll('.navbar-brand').forEach(function (el) {
+      if (el.querySelector('img')) return; // skip if a logo image is set
+      var text = el.textContent.trim();
+      var html = text
+        .replace(/Math/, '<span class="math-word">Math</span>')
+        .replace(/Things/, '<em>Things</em>');
+      el.innerHTML = html;
+    });
+  })();
+</script>
