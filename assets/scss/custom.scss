@@ -889,7 +889,9 @@ body {
 
     .about-image-footer {
       display: flex;
+      align-items: center;
       justify-content: center;
+      gap: 0.5rem;
 
       .about-photo-footer {
         width: 80px;
@@ -897,6 +899,25 @@ body {
         border-radius: 50%;
         object-fit: cover;
         border: 1.5px solid rgba($primary, 0.2);
+      }
+
+      .cv-button-footer {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: $primary;
+        color: #fff;
+        text-decoration: none;
+        flex-shrink: 0;
+        transition: all 0.2s ease-out;
+
+        &:hover {
+          opacity: 0.82;
+          transform: scale(1.08);
+        }
       }
     }
 

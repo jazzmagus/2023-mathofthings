@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diego Fantinelli — CV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+    /* ── Reset ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Tokens — light (default, palette del sito) ─────────── */
+    :root {
+      --bg:        #f7f1e6;
+      --surface:   rgba(255, 255, 255, 0.55);
+      --surface-h: rgba(255, 255, 255, 0.85);
+      --border:    rgba(21, 20, 15, 0.12);
+      --text:      #15140f;
+      --muted:     #6b6457;
+      --accent:    #ed6f5c;
+      --warm:      #b8633f;
+      --shadow:    0 2px 12px rgba(21, 20, 15, 0.08);
+      --serif:     'Georgia', 'Times New Roman', serif;
+      --display:   'Playfair Display', Georgia, serif;
+      --mono:      'JetBrains Mono', monospace;
+    }
+
+    /* ── Tokens — dark ──────────────────────────────────────── */
+    html.dark {
+      --bg:        #1a1a1a;
+      --surface:   rgba(255, 255, 255, 0.04);
+      --surface-h: rgba(255, 255, 255, 0.08);
+      --border:    rgba(255, 255, 255, 0.09);
+      --text:      #d0d0d0;
+      --muted:     #9a9a9a;
+      --accent:    #f08e7c;
+      --warm:      #f0b48e;
+      --shadow:    0 2px 16px rgba(0,0,0,0.35);
+    }
+
+    /* ── Base ───────────────────────────────────────────────── */
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--serif);
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text);
+      background-color: var(--bg);
+      min-height: 100vh;
+      transition: background-color .35s ease, color .35s ease;
+    }
+
+    h1, h2, h3 { font-family: var(--display); }
+
+    /* transizioni globali su cambio tema */
+    .card, .btn, .tag, .dot, .photo, .entry, .section-label {
+      transition: background .3s ease, border-color .3s ease,
+                  color .3s ease, box-shadow .3s ease;
+    }
+
+    /* ── Toggle dark/light ──────────────────────────────────── */
+    .theme-toggle {
+      position: fixed;
+      top: 18px;
+      right: 20px;
+      z-index: 200;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 8px;
+      padding: 5px 11px;
+      font-size: 0.75rem;
+      font-family: var(--mono);
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: background .2s, border-color .2s, color .2s;
+    }
+    .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── Back-to-site link ─────────────────────────────────── */
+    .back-link {
+      position: fixed;
+      top: 18px;
+      left: 20px;
+      z-index: 200;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 8px;
+      padding: 5px 11px;
+      font-size: 0.75rem;
+      font-family: var(--mono);
+      text-decoration: none;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: background .2s, border-color .2s, color .2s;
+    }
+    .back-link:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── Hero ───────────────────────────────────────────────── */
+    .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 72px 24px 48px;
+    gap: 10px;
+    }
+
+    .photo-wrap {
+      width: 116px;
+      height: 116px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--border);
+      outline: 4px solid var(--accent);
+      outline-offset: 2px;
+      margin-bottom: 4px;
+      box-shadow: var(--shadow);
+      flex-shrink: 0;
+    }
+    .photo-wrap .photo {
+      width: 130%;
+      height: 130%;
+      margin-left: -20%;
+      margin-top: -25%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.07em;
+    }
+
+    h1 {
+    font-size: clamp(1.9rem, 5vw, 2.6rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    }
+
+    .hero-role  { font-size: 0.97rem; color: var(--accent); }
+    .hero-place {
+    font-family: var(--mono);
+    font-size: 0.70rem;
+    color: var(--muted);
+    }
+
+    .cta {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    }
+
+    .btn {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: opacity .18s, background .18s, border-color .18s;
+    }
+    .btn-solid { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn-solid:hover { opacity: .82; }
+    .btn-ghost { background: var(--surface); color: var(--text); border-color: var(--border); }
+    .btn-ghost:hover { background: var(--surface-h); }
+
+    /* ── Layout principale ──────────────────────────────────── */
+    .cv-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 72px;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 28px;
+    align-items: start;
+    }
+
+    @media (max-width: 680px) {
+    .cv-wrap { grid-template-columns: 1fr; }
+    }
+
+    /* ── Glass card ─────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 20px;
+      box-shadow: var(--shadow);
+    }
+
+    /* ── Sezione label ──────────────────────────────────────── */
+    .section-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Sidebar ────────────────────────────────────────────── */
+    .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    }
+
+    /* Bio */
+    .bio { font-size: 0.87rem; font-weight: 400; line-height: 1.75; }
+    .bio strong { color: var(--warm); font-weight: 600; }
+
+    /* Contatti */
+    .contact-list { list-style: none; }
+    .contact-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 0.80rem;
+    color: var(--muted);
+    margin-bottom: 8px;
+    }
+    .contact-list li::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    position: relative;
+    top: -1px;
+    }
+    .contact-list a { color: var(--muted); text-decoration: none; }
+    .contact-list a:hover { color: var(--accent); }
+
+    /* Info personali */
+    .info-row {
+    font-size: 0.80rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+    }
+    .info-row span { color: var(--text); }
+
+    /* Dot indicator (lingue, competenze) */
+    .skill-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    }
+    .skill-name { font-size: 0.82rem; }
+    .dots { display: flex; gap: 5px; }
+    .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--border);
+    }
+    .dot.on      { background: var(--accent); }
+    .dot.warm.on { background: var(--warm); }
+
+    /* ── Main content ────────────────────────────────────────── */
+    .main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    }
+
+    /* Timeline entries */
+    .entries { display: flex; flex-direction: column; gap: 20px; }
+
+    .entry {
+    border-left: 2px solid var(--border);
+    padding-left: 18px;
+    position: relative;
+    transition: border-color .2s;
+    }
+    .entry:hover { border-color: var(--accent); }
+
+    /* pallino sulla linea */
+    .entry::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    transition: border-color .2s;
+    }
+    .entry:hover::before { border-color: var(--accent); }
+
+    .entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+    }
+    .entry-title { font-size: 0.92rem; font-weight: 600; font-family: var(--display); }
+    .entry-date  {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--accent);
+    white-space: nowrap;
+    }
+    .entry-sub {
+    font-size: 0.80rem;
+    color: var(--muted);
+    margin-top: 2px;
+    }
+    .entry-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-weight: 400;
+    margin-top: 5px;
+    line-height: 1.6;
+    }
+
+    /* ── Tag interessi ───────────────────────────────────────── */
+    .tags-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 16px;
+    }
+    .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    justify-content: center;
+    }
+    .tag {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    cursor: default;
+    transition: border-color .18s, color .18s;
+    }
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Scuole espandibili ─────────────────────────────────── */
+    .schools-detail {
+      margin-top: 10px;
+    }
+
+    .schools-detail > summary {
+      font-family: var(--mono);
+      font-size: 0.70rem;
+      color: var(--accent);
+      cursor: pointer;
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      user-select: none;
+      opacity: 0.8;
+      transition: opacity .15s;
+    }
+    .schools-detail > summary::-webkit-details-marker { display: none; }
+    .schools-detail > summary::before {
+      content: '▸';
+      display: inline-block;
+      transition: transform .2s ease;
+    }
+    .schools-detail[open] > summary::before { transform: rotate(90deg); }
+    .schools-detail > summary:hover { opacity: 1; }
+
+    .schools-list {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .school-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .school-row:last-child { border-bottom: none; }
+
+    .school-name { flex: 1; }
+
+    .school-year {
+      font-family: var(--mono);
+      font-size: 0.64rem;
+      color: var(--accent);
+      white-space: nowrap;
+      opacity: 0.85;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    footer {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    padding: 24px 24px 40px;
+    opacity: 0.5;
+    }
+    </style>
+  </head>
+
+  <body>
+
+    <a class="back-link" href="/">← mathofthings</a>
+    <button class="theme-toggle" id="toggle" title="Cambia tema">◐ tema</button>
+
+    <!-- ── Hero ──────────────────────────────────────────────── -->
+    <header class="hero">
+      <div class="photo-wrap">
+        <img class="photo" src="photo.png" alt="Diego Fantinelli">
+      </div>
+      <p class="hero-label">// matematica &middot; fisica &middot; jazz &middot; caff&egrave;</p>
+      <h1>Diego Fantinelli</h1>
+      <p class="hero-role">Docente di Matematica e Fisica</p>
+      <p class="hero-place">Liceo &ldquo;J. Da Ponte&rdquo; &middot; Bassano del Grappa (VI)</p>
+      <div class="cta">
+        <a href="CV_diego-fantinelli.pdf" class="btn btn-solid">Scarica il CV</a>
+        <a href="mailto:diego.fantinelli@gmail.com" class="btn btn-ghost">Scrivimi</a>
+      </div>
+    </header>
+
+    <!-- ── CV body ────────────────────────────────────────────── -->
+    <div class="cv-wrap">
+
+      <!-- ── SIDEBAR ── -->
+      <aside class="sidebar">
+
+        <!-- Bio -->
+        <div class="card">
+          <p class="section-label">Chi sono</p>
+          <p class="bio">
+            Insegno <strong>matematica e fisica</strong> al liceo con la stessa
+            energia con cui suono il sassofono. Laurea in ingegneria gestionale,
+            diploma in sassofono jazz, dipendenza cronica dal caff&egrave;.<br>
+            Credo che la bellezza di un&rsquo;equazione e quella di un chorus
+            stiano nella stessa idea:
+            <strong>trovare l&rsquo;ordine nascosto nel caos</strong>.
+          </p>
+        </div>
+
+        <!-- Contatti -->
+        <div class="card">
+          <p class="section-label">Contatti</p>
+          <ul class="contact-list">
+            <li><a href="mailto:diego.fantinelli@gmail.com">diego.fantinelli@gmail.com</a></li>
+            <li>+39 335 5410558</li>
+          </ul>
+        </div>
+
+        <!-- Dati personali -->
+        <div class="card">
+          <p class="section-label">Dati Personali</p>
+          <p class="info-row">Nato il <span>03/08/1971</span></p>
+          <p class="info-row">PEC <span style="font-size:0.75rem">diego.fantinelli@pecprivato.it</span></p>
+        </div>
+
+        <!-- Lingue -->
+        <div class="card">
+          <p class="section-label">Lingue</p>
+          <div class="skill-row">
+            <span class="skill-name">Italiano</span>
+            <div class="dots">
+              <div class="dot on"></div><div class="dot on"></div>
+              <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div>
+            </div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Inglese</span>
+            <div class="dots">
+              <div class="dot on"></div><div class="dot on"></div>
+              <div class="dot on"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Francese</span>
+            <div class="dots">
+              <div class="dot on"></div><div class="dot on"></div>
+              <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Competenze -->
+        <div class="card">
+          <p class="section-label">Competenze</p>
+          <div class="skill-row">
+            <span class="skill-name">LaTeX &middot; HTML &middot; CSS</span>
+            <div class="dots">
+              <div class="dot warm on"></div><div class="dot warm on"></div>
+              <div class="dot warm on"></div><div class="dot warm on"></div><div class="dot warm"></div>
+            </div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Python</span>
+            <div class="dots">
+              <div class="dot warm on"></div><div class="dot warm on"></div>
+              <div class="dot warm on"></div><div class="dot warm"></div><div class="dot warm"></div>
+            </div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">LLM &amp; AI didattica</span>
+            <div class="dots">
+              <div class="dot warm on"></div><div class="dot warm on"></div>
+              <div class="dot warm on"></div><div class="dot warm on"></div><div class="dot warm"></div>
+            </div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">PKM &amp; studio</span>
+            <div class="dots">
+              <div class="dot warm on"></div><div class="dot warm on"></div>
+              <div class="dot warm on"></div><div class="dot warm on"></div><div class="dot warm"></div>
+            </div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">SAP &middot; Networking</span>
+            <div class="dots">
+              <div class="dot warm on"></div><div class="dot warm on"></div>
+              <div class="dot warm on"></div><div class="dot warm"></div><div class="dot warm"></div>
+            </div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Suite Mac &amp; PC</span>
+            <div class="dots">
+              <div class="dot warm on"></div><div class="dot warm on"></div>
+              <div class="dot warm on"></div><div class="dot warm on"></div><div class="dot warm"></div>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- ── MAIN ── -->
+      <main class="main">
+
+        <!-- Esperienze -->
+        <div class="card">
+          <p class="section-label">Esperienze Lavorative</p>
+          <div class="entries">
+
+            <div class="entry">
+              <div class="entry-header">
+                <span class="entry-title">Docente di Matematica e Fisica</span>
+                <span class="entry-date">2011 &ndash; Presente</span>
+              </div>
+              <p class="entry-sub">Liceo &ldquo;J. Da Ponte&rdquo; &middot; Cassola (VI)</p>
+              <p class="entry-desc">Insegnamento di matematica e fisica presso liceo scientifico.</p>
+
+              <details class="schools-detail">
+                <summary>Tutte le scuole</summary>
+                <div class="schools-list">
+                  <div class="school-row">
+                    <span class="school-name">Liceo &ldquo;J. Da Ponte&rdquo; &middot; Cassola (VI)</span>
+                    <span class="school-year">2011 – Presente</span>
+                  </div>
+                  <div class="school-row">
+                    <span class="school-name">IIS &ldquo;Mario Rigoni Stern&rdquo; &middot; Asiago (VI)</span>
+                    <span class="school-year">a.s. 2019/2020</span>
+                  </div>
+                  <div class="school-row">
+                    <span class="school-name">I.I.S. &ldquo;Remondini&rdquo; &middot; Bassano del Grappa (VI)</span>
+                    <span class="school-year">a.s. 2020/2021 · 2021/2022</span>
+                  </div>
+                  <div class="school-row">
+                    <span class="school-name">ITI &ldquo;E. Fermi&rdquo; &middot; Bassano del Grappa (VI)</span>
+                    <span class="school-year">a.s. 2017/2018 · 2018/2019 · 2021/2022</span>
+                  </div>
+                  <div class="school-row">
+                    <span class="school-name">I.S.I.S. &ldquo;Alberto Parolini&rdquo; &middot; Bassano del Grappa (VI)</span>
+                    <span class="school-year">a.s. 2017/2018 · 2018/2019</span>
+                  </div>
+                  <div class="school-row">
+                    <span class="school-name">IS &ldquo;F. Besta&rdquo; &middot; Treviso</span>
+                    <span class="school-year">a.s. 2022/2023</span>
+                  </div>
+                  <div class="school-row">
+                    <span class="school-name">ITCG &ldquo;L. e V. Pasini&rdquo; &middot; Schio (VI)</span>
+                    <span class="school-year">a.s. 2022/2023</span>
+                  </div>
+                </div>
+              </details>
+            </div>
+
+            <div class="entry">
+              <div class="entry-header">
+                <span class="entry-title">After Sales Service Manager</span>
+                <span class="entry-date">2005 &ndash; 2011</span>
+              </div>
+              <p class="entry-sub">MAN Turbo &middot; Schio (VI)</p>
+              <p class="entry-desc">Gestione del servizio post-vendita per turbomacchine industriali su scala internazionale.
+              Coordinamento tecnico tra clienti, rete di assistenza e reparti interni per interventi di manutenzione e fornitura ricambi.
+              Sviluppo di contratti di service pluriennali con clienti nei settori oil &amp; gas ed energia.</p>
+            </div>
+
+            <div class="entry">
+              <div class="entry-header">
+                <span class="entry-title">Marketing and Brand Manager</span>
+                <span class="entry-date">2002 &ndash; 2005</span>
+              </div>
+              <p class="entry-sub">Cleto Munari Design &middot; Vicenza (VI)</p>
+              <p class="entry-desc">Gestione della comunicazione e dell'identità di marca per un'eccellenza italiana del design di lusso.
+              Coordinamento di campagne promozionali, cataloghi e presenza in fiere internazionali del settore orafo e del design.
+              Sviluppo delle relazioni con distributori e media specializzati in Europa e negli Stati Uniti.</p>
+            </div>
+
+            <div class="entry">
+              <div class="entry-header">
+                <span class="entry-title">CoFounder &amp; Key Account Manager</span>
+                <span class="entry-date">2001 &ndash; 2002</span>
+              </div>
+              <p class="entry-sub">Global Solutions Consulting &middot; Bassano del Grappa (VI)</p>
+              <p class="entry-desc">Cofondatore di una società di consulenza IT e organizzativa per PMI del Nord-Est.
+              Gestione diretta dei clienti principali, dalla definizione dei requisiti alla consegna dei progetti.
+              Sviluppo commerciale e costruzione del portafoglio clienti nella fase di avvio dell'attività.</p>
+            </div>
+
+            <div class="entry">
+              <div class="entry-header">
+                <span class="entry-title">HelpDesk Manager</span>
+                <span class="entry-date">2000 &ndash; 2001</span>
+              </div>
+              <p class="entry-sub">NOVA ST &middot; Arcugnano (VI)</p>
+              <p class="entry-desc">Responsabile del supporto tecnico agli utenti interni ed esterni su sistemi informativi aziendali.
+              Gestione delle priorità di intervento, ticketing e coordinamento con i fornitori di infrastruttura.
+              Prima esperienza professionale strutturata in ambito IT, a stretto contatto con reti e sistemi enterprise.</p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Formazione -->
+        <div class="card">
+          <p class="section-label">Istruzione e Formazione</p>
+          <div class="entries">
+
+            <div class="entry">
+              <div class="entry-header">
+                <span class="entry-title">Diploma Accademico I Livello &mdash; Sassofono Jazz</span>
+                <span class="entry-date">2012 &ndash; 2017</span>
+              </div>
+              <p class="entry-sub">Conservatorio &ldquo;G.A. Bonporti&rdquo; &middot; Trento</p>
+            </div>
+
+            <div class="entry">
+              <div class="entry-header">
+                <span class="entry-title">Laurea in Ingegneria Gestionale</span>
+                <span class="entry-date">1992 &ndash; 1999</span>
+              </div>
+              <p class="entry-sub">Universit&agrave; degli Studi di Padova</p>
+            </div>
+
+            <div class="entry">
+              <div class="entry-header">
+                <span class="entry-title">Diploma di Perito Industriale Capotecnico</span>
+                <span class="entry-date">1985 &ndash; 1990</span>
+              </div>
+              <p class="entry-sub">I.T.I.S. &ldquo;E. Fermi&rdquo; &middot; Bassano del Grappa (VI)</p>
+            </div>
+
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+    <!-- ── Tag interessi ──────────────────────────────────────── -->
+    <div class="tags-wrap">
+      <div class="tags">
+        <span class="tag">matematica</span>
+        <span class="tag">fisica</span>
+        <span class="tag">jazz</span>
+        <span class="tag">sassofono</span>
+        <span class="tag">caff&egrave;</span>
+        <span class="tag">python</span>
+        <span class="tag">latex</span>
+        <span class="tag">PKM</span>
+        <span class="tag">AI &amp; didattica</span>
+      </div>
+    </div>
+
+    <footer>f(t) &nbsp;=&nbsp; curiosit&agrave; &middot; e<sup>passione &middot; t</sup></footer>
+
+    <script>
+      const btn = document.getElementById('toggle');
+      btn.addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark');
+        btn.textContent = document.documentElement.classList.contains('dark')
+          ? '◑ tema' : '◐ tema';
+      });
+    </script>
+
+  </body>
+</html>
