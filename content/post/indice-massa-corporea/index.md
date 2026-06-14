@@ -47,7 +47,7 @@ projects: []
 
 <center>
 
-![indice massa corporea](https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/BMI_grid_it.svg/800px-BMI_grid_it.svg.png)
+![indice massa corporea](https://upload.wikimedia.org/wikipedia/commons/b/b5/BMI_grid_it.svg)
 
 </center>
 
@@ -97,7 +97,7 @@ $$
 
 
 
-![indice](https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Mortalit%C3%A0BMI.png/700px-Mortalit%C3%A0BMI.png)
+![indice](https://upload.wikimedia.org/wikipedia/commons/5/53/Mortalit%C3%A0BMI.png)
 
 </center>
 
