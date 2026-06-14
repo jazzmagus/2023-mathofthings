@@ -1,0 +1,35 @@
+{{- define "main" -}}
+
+<div class="content-page talks-page">
+
+  {{ partial "particles-bg.html" (dict "id" "particles-talks" "count" 80 "twinkle" true) }}
+
+  <div class="page-header-section">
+    <h1 class="page-title">Seminari e <em>talks</em></h1>
+    <p class="page-subtitle">Seminari, interventi e presentazioni.</p>
+  </div>
+
+  <div class="articles-card-list">
+    {{ range .Pages.ByDate.Reverse }}
+      {{ $link := .Params.external_link | default .RelPermalink }}
+      <a href="{{ $link }}" class="article-item-link" {{ if .Params.external_link }}target="_blank" rel="noopener"{{ end }}>
+        <div class="article-content">
+          <h3 class="article-title">{{ .Title }}</h3>
+          <p class="article-meta">
+            <span class="article-summary">{{ .Params.summary | default .Summary }}</span>
+            <span class="article-date">
+              {{ .Date.Format "2 Jan 2006" }}
+              {{ with .Params.location }} · {{ . }}{{ end }}
+            </span>
+          </p>
+        </div>
+        <div class="article-visual">
+          <span class="article-icon" aria-hidden="true">→</span>
+        </div>
+      </a>
+    {{ end }}
+  </div>
+
+</div>
+
+{{- end -}}

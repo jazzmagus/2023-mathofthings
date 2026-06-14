@@ -1,0 +1,69 @@
+{{- define "main" -}}
+
+<div class="landing-new">
+
+  <!-- HERO: Title only -->
+  <section class="hero-landing">
+    {{ partial "particles-bg.html" (dict "id" "particles-home" "count" 150) }}
+
+    <div class="hero-icon">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5"/>
+        <text x="20" y="26" text-anchor="middle" font-size="20" font-family="serif" font-style="italic" fill="currentColor">π</text>
+      </svg>
+    </div>
+
+    <h1 class="hero-title">
+      The <span class="math-word">Math</span> of <em>Things</em>
+    </h1>
+
+    <p class="hero-tagline">
+      <span class="mono">Math is</span> <em class="coral">Hard</em>,
+      <span class="mono">so is</span> <em class="serif">Life</em>.
+      <span class="mono">Get</span> <em class="coral">Over</em> it!
+    </p>
+
+    <div class="hero-intro">
+      <p>
+        Un sito dedicato all'<em>insegnamento</em> della matematica e della fisica con un approccio
+        <em>rigoroso</em> ma accessibile. Qui troverai lezioni organizzate per classe,
+        <em>articoli di approfondimento</em>, e interventi su temi specifici. Tutto pensato per studenti
+        della scuola secondaria di secondo grado che vogliano <em>approfondire</em>
+        la bellezza del pensiero scientifico.
+      </p>
+      <blockquote class="quote">
+        "La matematica è l'arte di dare lo stesso nome a cose diverse."
+        <span class="quote-attr">— Henri Poincaré</span>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- THREE MAIN SECTIONS AS CARDS -->
+  <section class="sections-grid">
+    {{ $courses := (site.GetPage "courses").Sections.ByWeight }}
+    {{ $posts := (site.GetPage "post").RegularPages.ByDate.Reverse }}
+    {{ $talks := (site.GetPage "event").RegularPages.ByDate.Reverse }}
+
+    <a href="/courses/" class="section-card">
+      <span class="card-num">01</span>
+      <h2 class="card-title">Corsi</h2>
+      <p class="card-desc">Materiale didattico organizzato per classe e indirizzo. {{ len $courses }} corsi disponibili.</p>
+    </a>
+
+    <a href="/post/" class="section-card">
+      <span class="card-num">02</span>
+      <h2 class="card-title">Post</h2>
+      <p class="card-desc">Approfondimenti e riflessioni dal blog. {{ len $posts }} articoli pubblicati.</p>
+    </a>
+
+    <a href="/event/" class="section-card">
+      <span class="card-num">03</span>
+      <h2 class="card-title">Talks</h2>
+      <p class="card-desc">Seminari, interventi e presentazioni. {{ len $talks }} talk disponibili.</p>
+    </a>
+  </section>
+
+
+</div>
+
+{{- end -}}

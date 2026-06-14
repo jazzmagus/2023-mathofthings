@@ -1,0 +1,99 @@
+{{- define "main" -}}
+
+<div class="content-page courses-page">
+
+  {{ partial "particles-bg.html" (dict "id" "particles-courses" "count" 80 "circular" true "colorLight" "#3a3a3a" "colorDark" "#888888") }}
+
+  <div class="page-header-section">
+    <h1 class="page-title">Corsi e <em>materiali</em></h1>
+    <p class="page-subtitle">Tre livelli di apprendimento, dalla scuola professionale al liceo scientifico.</p>
+  </div>
+
+  <div class="courses-grid-3x2">
+
+    <!-- Row 1, Col 1: Corso Base -->
+    <div class="course-card course-course">
+      <span class="card-badge">01</span>
+      <h3>Corso Base</h3>
+      <p class="card-subtitle">Per istituti professionali</p>
+      <p class="card-description">
+        Matematica pratica e applicata. Concetti fondamentali, esercizi concreti
+        e applicazioni nel mondo reale per studenti degli istituti professionali.
+      </p>
+      <a href="{{ (site.GetPage `courses/math-01`).RelPermalink }}" class="card-link">
+        Accedi al corso →
+      </a>
+    </div>
+
+    <!-- Row 1, Col 2: Materiali Base -->
+    <div class="course-card course-materials">
+      <h3>Materiali Base</h3>
+      <p class="card-subtitle">Risorse didattiche</p>
+      <p class="card-description">
+        Esercizi, schede di lavoro, soluzioni commentate e risorse aggiuntive
+        per il corso base. Tutto il materiale necessario per approfondire.
+      </p>
+      <a href="#" class="card-link">
+        Accedi alle risorse →
+      </a>
+    </div>
+
+    <!-- Row 2, Col 1: Corso Avanzato -->
+    <div class="course-card course-course">
+      <span class="card-badge">02</span>
+      <h3>Corso Avanzato</h3>
+      <p class="card-subtitle">Per istituti tecnici</p>
+      <p class="card-description">
+        Matematica approfondita con focus su applicazioni tecniche. Algebra,
+        geometria e calcolo per studenti degli istituti tecnici.
+      </p>
+      <a href="{{ (site.GetPage `courses/math-02`).RelPermalink }}" class="card-link">
+        Accedi al corso →
+      </a>
+    </div>
+
+    <!-- Row 2, Col 2: Materiali Avanzato -->
+    <div class="course-card course-materials">
+      <h3>Materiali Avanzato</h3>
+      <p class="card-subtitle">Risorse didattiche</p>
+      <p class="card-description">
+        Appunti dettagliati, esercizi progressivi, problemi di applicazione
+        e soluzioni per il corso avanzato.
+      </p>
+      <a href="#" class="card-link">
+        Accedi alle risorse →
+      </a>
+    </div>
+
+    <!-- Row 3, Col 1: Corso Pro -->
+    <div class="course-card course-course">
+      <span class="card-badge">03</span>
+      <h3>Corso Pro</h3>
+      <p class="card-subtitle">Per licei scientifici</p>
+      <p class="card-description">
+        Matematica rigorosa e approfondita. Calcolo infinitesimale, analisi
+        matematica e argomenti universitari per licei scientifici.
+      </p>
+      <a href="{{ (site.GetPage `courses/math-03`).RelPermalink }}" class="card-link">
+        Accedi al corso →
+      </a>
+    </div>
+
+    <!-- Row 3, Col 2: Materiali Pro -->
+    <div class="course-card course-materials">
+      <h3>Materiali Pro</h3>
+      <p class="card-subtitle">Risorse didattiche</p>
+      <p class="card-description">
+        Testi di riferimento, problemi avanzati, dimostrazioni complete
+        e approfondimenti teorici per il corso pro.
+      </p>
+      <a href="#" class="card-link">
+        Accedi alle risorse →
+      </a>
+    </div>
+
+  </div>
+
+</div>
+
+{{- end -}}

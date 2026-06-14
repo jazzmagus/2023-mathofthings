@@ -1,0 +1,947 @@
+// Override this file to add your own SCSS styling.
+
+// --- Global body font (Georgia) + reduced line-height --------
+
+body {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  line-height: 1.55;
+  color: #1a1a1a !important;
+
+  &.dark {
+    color: #d0d0d0 !important;
+  }
+}
+
+// --- Minimal warm restyle ---------------------------------------------
+
+// Slightly tighter, more editorial heading style
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+// Home section spacing: more breathing room between widgets
+.article-style {
+  line-height: 1.65;
+}
+
+// Recent posts list: card-like presentation with subtle borders
+#posts {
+  .article-style {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    transition: box-shadow 0.15s ease-out, border-color 0.15s ease-out;
+
+    &:hover {
+      border-color: rgba(194, 24, 91, 0.35);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+  }
+}
+
+// Contact section: align with the lighter, editorial feel
+#contact {
+  .section-heading {
+    font-family: var(--font-heading, "Playfair Display", serif);
+  }
+}
+
+// --- Navbar brand styling -------------------------------------------
+
+.navbar-brand {
+  font-family: $sta-font-heading, serif;
+  font-weight: 700;
+  font-style: italic;
+  color: $primary;
+}
+
+// Slimmer navbar
+.navbar {
+  height: 2.75rem !important;
+  min-height: 0 !important;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+}
+
+// --- Landing page (custom homepage) -----------------------------------
+
+.landing {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+
+  .hero {
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    margin-bottom: 3rem;
+  }
+
+  .landing-section {
+    padding: 3.5rem 0;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+  }
+}
+
+// Section rule: small roman-numeral marker + label
+.sec-rule {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: $sta-font-body, sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+
+  .num {
+    font-family: $sta-font-heading, serif;
+    font-style: italic;
+    color: $primary;
+  }
+}
+
+.label {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+}
+
+// Display headings with italic accent
+.display {
+  font-family: $sta-font-heading, serif;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+
+  em {
+    font-style: italic;
+    color: $primary;
+  }
+}
+
+h1.display {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+}
+
+h2.display {
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+}
+
+.lead {
+  font-size: 1.1rem;
+  color: #1a1a1a;
+  max-width: 38rem;
+  margin-bottom: 1.5rem;
+}
+
+// Hero CTA cards
+.hero-cta-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.cta-card {
+  position: relative;
+  display: block;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 1.5rem 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.15s ease-out, border-color 0.15s ease-out;
+
+  h3 {
+    font-family: $sta-font-heading, serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: #1a1a1a;
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    border-color: rgba(194, 24, 91, 0.35);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+}
+
+// Card grid for courses/articles
+.labs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.lab {
+  position: relative;
+  display: block;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.15s ease-out, border-color 0.15s ease-out;
+
+  .lab-num {
+    display: block;
+    font-family: $sta-font-heading, serif;
+    font-style: italic;
+    color: $primary;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h4 {
+    font-family: $sta-font-heading, serif;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+
+  p {
+    font-size: 0.92rem;
+    color: #1a1a1a;
+    margin-bottom: 0;
+  }
+
+  .lab-date {
+    display: block;
+    font-size: 0.8rem;
+    color: #1a1a1a;
+    margin-top: 0.5rem;
+  }
+
+  .arrow-mark {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.5rem;
+    opacity: 0;
+    transform: translate(-4px, 4px);
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+    color: $primary;
+  }
+
+  &:hover {
+    border-color: rgba(194, 24, 91, 0.35);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+    .arrow-mark {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+}
+
+// "All articles" text link
+.text-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-weight: 600;
+  color: $primary;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// --- NEW LANDING PAGE (Atelier Zero inspired) --------------------------
+
+.landing-new {
+  background: $sta-background;
+  color: $body-color;
+  overflow-x: hidden;
+
+  .dark & {
+    background: $sta-dark-background;
+  }
+}
+
+// Hero landing
+.hero-landing {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3.25rem 1.5rem 3rem;
+  text-align: center;
+
+  > *:not(.bg-particles) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-icon {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 2rem;
+    color: $primary;
+    opacity: 0.8;
+  }
+
+  .hero-title {
+    font-family: $sta-font-heading, serif;
+    font-size: clamp(2.5rem, 8vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.02em;
+
+    .math-word {
+      font-family: 'Anton', 'Arial Black', sans-serif;
+      font-size: 1.05em;
+      letter-spacing: 0.02em;
+      font-weight: 700;
+    }
+
+    em {
+      font-style: italic;
+      color: $primary;
+    }
+  }
+
+  .hero-tagline {
+    font-family: 'Georgia', serif;
+    font-size: 1.2rem;
+    color: #1a1a1a;
+    margin-bottom: 2.5rem;
+    font-weight: 400;
+    line-height: 1.6;
+
+    .dark & {
+      color: #d0d0d0;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-style: normal;
+    }
+
+    .serif {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+    }
+
+    em {
+      font-style: italic;
+      font-family: 'Georgia', serif;
+
+      &.coral {
+        color: $primary;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .hero-intro {
+    max-width: 700px;
+    margin: 0 auto;
+
+    p {
+      font-family: $sta-font-heading, serif;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: #1a1a1a;
+      margin-bottom: 2rem;
+
+      .dark & {
+        color: #d0d0d0;
+      }
+
+      em {
+        font-style: italic;
+        color: $primary;
+      }
+    }
+  }
+
+  .quote {
+    font-family: $sta-font-heading, serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: $body-color;
+    padding: 1.5rem;
+    border-left: 3px solid $primary;
+    margin: 2rem 0 0;
+
+    .dark & {
+      color: #d0d0d0;
+    }
+
+    .quote-attr {
+      display: block;
+      font-size: 0.85rem;
+      font-style: normal;
+      color: #1a1a1a;
+      margin-top: 0.75rem;
+
+      .dark & {
+        color: #d0d0d0;
+      }
+    }
+  }
+}
+
+// Three section cards
+.sections-grid {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+
+  .section-card {
+    position: relative;
+    display: block;
+    padding: 0.9rem 0.85rem;
+    border: 1px solid rgba(21, 20, 15, 0.1);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    background: $sta-background;
+    transition: box-shadow 0.2s ease-out, border-color 0.2s ease-out, transform 0.2s ease-out;
+
+    .dark & {
+      background: $sta-dark-background;
+    }
+
+    .card-num {
+      display: block;
+      font-family: $sta-font-heading, serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: rgba($primary, 0.4);
+      margin-bottom: 0.4rem;
+      transition: color 0.2s ease-out;
+    }
+
+    .card-title {
+      font-family: $sta-font-heading, serif;
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
+    .card-desc {
+      font-family: 'Georgia', serif;
+      font-size: 0.9rem;
+      color: #1a1a1a;
+      margin: 0;
+      line-height: 1.55;
+
+      .dark & {
+        color: #d0d0d0;
+      }
+    }
+
+    &:hover {
+      border-color: rgba($primary, 0.3);
+      box-shadow: 0 4px 20px rgba(21, 20, 15, 0.08);
+      transform: translateY(-4px);
+
+      .card-num {
+        color: $primary;
+      }
+    }
+  }
+}
+
+// About section (footer-like, minimal)
+.about-section {
+  max-width: 900px;
+  margin: 2.5rem auto 0;
+  padding: 2rem 1.5rem;
+  border-top: 1px solid rgba(21, 20, 15, 0.08);
+
+  .about-container {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 2rem;
+    align-items: flex-start;
+
+    @media (max-width: 640px) {
+      grid-template-columns: 100px 1fr;
+      gap: 1.25rem;
+    }
+  }
+
+  .about-image {
+    display: flex;
+    justify-content: center;
+
+    .about-photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid rgba($primary, 0.2);
+    }
+  }
+
+  .about-text {
+    p {
+      font-family: 'Georgia', serif;
+      font-size: 0.85rem;
+      color: #1a1a1a;
+      line-height: 1.6;
+      margin: 0 0 1.25rem;
+    }
+  }
+
+  .about-social {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    .social-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      color: $body-color;
+      text-decoration: none;
+      opacity: 0.7;
+      transition: all 0.2s ease-out;
+
+      &:hover {
+        color: $primary;
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+  }
+}
+
+// --- Content pages (Courses, Posts, Talks) ---------------------------
+
+// Decorative particles background (shared by hero + content pages)
+.bg-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.content-page {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 3rem;
+  background: $sta-background;
+  overflow: hidden;
+
+  > *:not(.bg-particles) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .dark & {
+    background: $sta-dark-background;
+  }
+}
+
+// Reduce trailing space above the footer / About Me section on this page
+.courses-page {
+  padding-bottom: 1.5rem;
+}
+
+// Ensure page background is uniform across content pages
+html,
+body,
+body.page-type-courses,
+body.page-type-post,
+body.page-type-event,
+.page-body {
+  background-color: $sta-background !important;
+}
+
+body {
+  min-height: 100vh;
+}
+
+body.dark,
+body.dark.page-type-courses,
+body.dark.page-type-post,
+body.dark.page-type-event,
+.dark .page-body {
+  background-color: $sta-dark-background !important;
+}
+
+// html has no .dark class of its own (the toggle sets it on body),
+// so use :has() to keep the <html> canvas dark too and avoid a light
+// band showing above/around the body in dark mode.
+html:has(body.dark) {
+  background-color: $sta-dark-background !important;
+}
+
+.page-header-section {
+  margin-bottom: 1.5rem;
+  text-align: center;
+
+  .page-title {
+    font-family: $sta-font-heading, serif;
+    font-size: clamp(2.25rem, 5.5vw, 3.25rem);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+
+    em {
+      font-style: italic;
+      color: $primary;
+    }
+  }
+
+  .page-subtitle {
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    color: #1a1a1a;
+    margin: 0;
+
+    .dark & {
+      color: #d0d0d0;
+    }
+  }
+}
+
+// Courses page - 2 columns x 3 rows grid
+.courses-grid-3x2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  margin-top: 2rem;
+}
+
+.course-card {
+  padding: 0.8rem 0.7rem;
+  border: 1px solid rgba(21, 20, 15, 0.1);
+  border-radius: 10px;
+  background: $sta-background;
+  transition: all 0.2s ease-out;
+  display: flex;
+
+  .dark & {
+    background: $sta-dark-background;
+  }
+  flex-direction: column;
+
+  .card-badge {
+    display: block;
+    font-family: $sta-font-heading, serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1;
+    color: rgba($primary, 0.4);
+    margin-bottom: 0.1rem;
+  }
+
+  h3 {
+    font-family: $sta-font-heading, serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+    line-height: 1.2;
+  }
+
+  .card-subtitle {
+    font-family: 'Georgia', serif;
+    font-size: 0.9rem;
+    color: $primary;
+    font-style: italic;
+    margin-bottom: 0.35rem;
+  }
+
+  .card-description {
+    font-family: 'Georgia', serif;
+    font-size: 0.9rem;
+    color: #1a1a1a !important;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+    flex-grow: 1;
+
+    .dark & {
+      color: #d0d0d0 !important;
+    }
+  }
+
+  .card-link {
+    display: inline-block;
+    font-family: $sta-font-body, monospace;
+    font-size: 0.9rem;
+    color: $primary;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease-out;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &:hover {
+    border-color: rgba($primary, 0.3);
+    box-shadow: 0 4px 12px rgba(21, 20, 15, 0.08);
+    transform: translateY(-2px);
+
+    .card-badge {
+      color: $primary;
+    }
+  }
+
+  &.course-materials {
+    background: rgba($primary, 0.04);
+
+    .card-badge {
+      display: none;
+    }
+  }
+}
+
+// Articles & talks list styling: thin horizontal cards
+.articles-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 2rem;
+
+  .article-item-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: inherit;
+    padding: 0.8rem 1rem 0.75rem 1rem;
+    border: 1px solid rgba(21, 20, 15, 0.12);
+    border-radius: 6px;
+    transition: border-color 0.2s ease-out, color 0.2s ease-out;
+
+    .dark & {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .article-content {
+      flex: 1;
+    }
+
+    .article-title {
+      font-family: $sta-font-heading, serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 0.3rem;
+    }
+
+    .article-meta {
+      font-family: 'Georgia', serif;
+      font-size: 0.85rem;
+      color: #1a1a1a;
+      line-height: 1.4;
+      margin: 0;
+
+      .dark & {
+        color: #d0d0d0;
+      }
+
+      .article-summary {
+        display: block;
+        margin-bottom: 0.15rem;
+      }
+
+      .article-date {
+        display: block;
+        color: #1a1a1a;
+
+        .dark & {
+          color: #d0d0d0;
+        }
+      }
+    }
+
+    .article-visual {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+
+      .article-thumbnail {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 6px;
+        opacity: 0;
+        transform: scale(0.9);
+        transition: all 0.2s ease-out;
+      }
+
+      .article-icon {
+        color: $primary;
+        font-size: 1.2rem;
+        opacity: 0;
+        transform: translateX(-4px);
+        transition: all 0.2s ease-out;
+      }
+    }
+
+    &:hover {
+      color: $primary;
+      border-color: $primary;
+
+      .article-title {
+        color: $primary;
+      }
+
+      .article-thumbnail {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .article-icon {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  }
+}
+
+
+// Compact footer
+body {
+  .page-footer {
+    padding: 2rem 1.5rem !important;
+
+    .footer-container {
+      max-width: 900px;
+    }
+
+    .footer-text,
+    .footer-copyright {
+      font-size: 0.8rem;
+      color: #1a1a1a;
+
+      .dark & {
+        color: #d0d0d0;
+      }
+    }
+
+    // Hide "Published with" and other redundant footer elements
+    .footer-license,
+    .powered-by {
+      display: none;
+    }
+
+    // Make copyright one line
+    .footer-legal {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// Custom footer with About me section
+.site-footer {
+  background-color: $sta-background;
+  padding: 0;
+  margin-top: 0.5rem;
+
+  .dark & {
+    background-color: $sta-dark-background;
+  }
+
+  .footer-about-section {
+    padding: 0 1.5rem 0.75rem 1.5rem;
+    max-width: 100%;
+
+    .footer-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .about-container-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.6rem;
+    }
+
+    .about-image-footer {
+      display: flex;
+      justify-content: center;
+
+      .about-photo-footer {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1.5px solid rgba($primary, 0.2);
+      }
+    }
+
+    .about-text-footer {
+      font-family: 'Georgia', serif;
+      font-size: 0.8rem;
+      color: #1a1a1a;
+      line-height: 1.5;
+      margin: 0;
+
+      .dark & {
+        color: #d0d0d0;
+      }
+    }
+
+    .about-social-footer {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      .social-icon-footer {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        color: #1a1a1a;
+        text-decoration: none;
+        opacity: 0.8;
+        transition: all 0.2s ease-out;
+
+        &:hover {
+          color: $primary;
+          opacity: 1;
+          transform: scale(1.15);
+        }
+      }
+    }
+  }
+
+  .footer-copyright {
+    padding: 0.75rem 1.5rem;
+    text-align: center;
+    border-top: 1px solid rgba(21, 20, 15, 0.1);
+    font-size: 0.75rem;
+    color: #1a1a1a;
+    margin: 0;
+
+    .dark & {
+      color: #d0d0d0;
+    }
+  }
+}

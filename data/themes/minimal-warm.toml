@@ -1,0 +1,40 @@
+# Theme metadata
+name = "Minimal Warm"
+
+[light]
+  # Primary (Atelier Zero coral)
+  primary = "#ed6f5c"
+
+  # Links
+  link = "#ed6f5c"
+  link_hover = "#f08e7c"
+  link_decoration = "none"
+
+  # Menu (slightly darker cream than page background)
+  menu_primary = "#ece1cc"
+  menu_text = "#15140f"
+  menu_text_active = "#ed6f5c"
+  menu_title = "#15140f"
+
+  # Backgrounds (single tenuous cream across the whole page)
+  background = "#f7f1e6"
+  home_section_odd = "#f7f1e6"
+  home_section_even = "#f7f1e6"
+
+[dark]
+  # Primary
+  primary = "#f08e7c"
+
+  link = "#f08e7c"
+  link_hover = "#fca79a"
+
+  # Menu (dark mode)
+  menu_primary = "#2a2a2a"
+  menu_text = "#d0d0d0"
+  menu_text_active = "#f08e7c"
+  menu_title = "#d0d0d0"
+
+  # Backgrounds (dark mode, unchanged single dark background)
+  background = "#1a1a1a"
+  home_section_odd = "#1a1a1a"
+  home_section_even = "#1a1a1a"
