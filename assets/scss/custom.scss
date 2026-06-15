@@ -375,6 +375,10 @@ h2.display {
       em {
         font-style: italic;
         color: $primary;
+
+        &.plain {
+          color: inherit;
+        }
       }
 
       .mono {
@@ -384,6 +388,10 @@ h2.display {
 
         &.plain {
           color: inherit;
+        }
+
+        &.bold {
+          font-weight: 700;
         }
       }
     }
