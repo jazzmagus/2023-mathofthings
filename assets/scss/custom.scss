@@ -487,6 +487,40 @@ h2.display {
         color: $primary;
       }
     }
+
+    &.section-card-wide {
+      grid-column: 1 / -1;
+      padding: 0.6rem 1.1rem;
+      position: relative;
+
+      .card-title {
+        font-size: clamp(1.3rem, 3vw, 2rem);
+        margin-bottom: 0;
+
+        em {
+          font-style: italic;
+          color: $primary;
+        }
+      }
+
+      &::after {
+        content: '→';
+        position: absolute;
+        top: 50%;
+        right: 1.5rem;
+        transform: translate(-6px, -50%);
+        color: $primary;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.5rem;
+        opacity: 0;
+        transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+      }
+
+      &:hover::after {
+        opacity: 1;
+        transform: translate(0, -50%);
+      }
+    }
   }
 }
 
