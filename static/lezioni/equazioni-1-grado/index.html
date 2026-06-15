@@ -43,7 +43,7 @@ body{font-family:'Georgia','Source Sans 3',serif;background:var(--bg);color:var(
 .topbar-brand{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:600;color:var(--accent);white-space:nowrap;text-decoration:none}
 .topbar-nav{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;flex:1}
 .topbar-nav::-webkit-scrollbar{display:none}
-.pdf-btn{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--accent);background:none;border:1px solid rgba(44,37,32,.1);border-radius:20px;padding:6px 14px;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.pdf-btn{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--accent);text-decoration:none;background:none;border:1px solid rgba(44,37,32,.1);border-radius:20px;padding:6px 14px;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
 .pdf-btn:hover{background:var(--accent-light)}
 .nav-pill{background:none;border:none;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--text-dim);padding:6px 12px;border-radius:6px;cursor:pointer;white-space:nowrap;transition:all .2s}
 .nav-pill:hover{color:var(--accent)}
@@ -134,13 +134,67 @@ p{margin:8px 0} .dim{color:var(--text-dim)} strong{font-weight:600}
 mjx-container[jax="SVG"]{direction:ltr}
 mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%}
 
+.section-num{display:none;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--accent);letter-spacing:3px;margin-bottom:10px}
+
+#printCover{display:none}
+.cover-label{font-family:'JetBrains Mono',monospace;font-size:10pt;letter-spacing:5px;text-transform:uppercase;color:var(--accent)}
+.cover-title{font-family:'Playfair Display',serif;font-weight:800;font-size:52pt;line-height:1.12;margin:40px 0 22px}
+.cover-title em{font-style:italic;color:var(--accent)}
+.cover-sub{font-family:'Georgia','Source Sans 3',serif;font-size:13pt;color:var(--text-mid);max-width:430px;line-height:1.65}
+.cover-rule{height:2px;background:var(--accent);margin-bottom:14px}
+.cover-meta{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9pt;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase}
+
 @media print{
-  .topbar, .bottom-nav{display:none !important}
-  .container{padding:24px 0}
-  body.print-all .section{display:block !important;page-break-after:always}
-  body.print-all .section:last-child{page-break-after:auto}
+  @page{size:A4;margin:12mm 13mm}
+  html{font-size:12px}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .topbar, .bottom-nav, .nav-pill{display:none !important}
+  body{opacity:1 !important;font-size:9pt;line-height:1.45}
+  .container{max-width:none;padding:0}
+
+  body.print-all .section{display:block !important;page-break-after:always;break-after:page;margin-bottom:0}
+  body.print-all .section:last-child{page-break-after:auto;break-after:auto}
+
   .acc-body{max-height:none !important;overflow:visible !important}
   .acc-arrow{display:none}
+  .acc-header{cursor:default;page-break-after:avoid;break-after:avoid;padding:8px 12px}
+  .acc-inner{padding:2px 12px 10px}
+
+  .cb, .math-block, .step-grid, .compare-row, .ct, table{
+    page-break-inside:avoid;break-inside:avoid
+  }
+
+  .cb{padding:10px 14px;margin:10px 0}
+  .cb-label{font-size:.62rem;margin-bottom:5px}
+  .math-block{padding:10px 14px;margin:8px 0}
+  .accordion{margin:10px 0}
+  .step-grid{gap:5px 10px;margin:8px 0}
+  .step-circle{width:22px;height:22px;font-size:.7rem}
+  .compare-row{margin:8px 0}
+  .compare-card{padding:10px 12px}
+  .ct{margin:8px 0;font-size:.82rem}
+  .ct th, .ct td{padding:6px 10px}
+  .checklist li{padding:3px 0 3px 28px}
+  p{margin:5px 0}
+
+  .hero{border-bottom:2px solid var(--accent);margin-bottom:14px;padding-bottom:10px;page-break-after:avoid;break-after:avoid}
+  .hero-tag{font-size:8pt;margin-bottom:6px}
+  .hero h1{font-size:18pt;margin-bottom:8px}
+  .hero-sub{font-size:9.5pt;padding-left:0;text-align:left;max-width:none;line-height:1.5}
+
+  .section-num{font-size:.7rem;margin-bottom:6px}
+  .section-num{display:block !important}
+
+  img{max-width:60% !important;height:auto !important}
+
+  #printCover{
+    display:flex !important;
+    flex-direction:column;
+    justify-content:space-between;
+    height:273mm;
+    page-break-after:always;
+    break-after:page;
+  }
 }
 
 @media(max-width:640px){
@@ -159,7 +213,21 @@ mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%}
 <div class="topbar">
   <a class="topbar-brand" href="/">← Home</a>
   <div class="topbar-nav" id="topNav"></div>
-  <button class="pdf-btn" onclick="downloadPDF()">PDF ↓</button>
+  <a class="pdf-btn" href="/lezioni/equazioni-1-grado/equazioni-1-grado.pdf" download>PDF ↓</a>
+</div>
+<div id="printCover">
+  <div class="cover-label">Lezione interattiva · Matematica</div>
+  <div>
+    <h1 class="cover-title">Equazioni<br>di primo <em>grado</em></h1>
+    <p class="cover-sub">Che cos'è un'equazione, i principi di equivalenza, il metodo di risoluzione passo per passo, i casi con parentesi e frazioni, gli errori più frequenti ed esercizi guidati con verifica.</p>
+  </div>
+  <div>
+    <div class="cover-rule"></div>
+    <div class="cover-meta">
+      <span>themathofthings.com</span>
+      <span>10 sezioni</span>
+    </div>
+  </div>
 </div>
 <div class="container" id="app"></div>
 
@@ -957,6 +1025,7 @@ function render() {
   document.getElementById('app').innerHTML = S.map((s,i) => `
     <div class="section ${i===cur?'active':''}">
       <div class="hero">
+        <div class="section-num">${String(i+1).padStart(2,'0')} / ${String(tot).padStart(2,'0')}</div>
         <div class="hero-tag">${s.tag}</div>
         <h1>${s.title}</h1>
         <p class="hero-sub">${s.sub}</p>
@@ -983,22 +1052,6 @@ function goTo(idx) {
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
-function downloadPDF() {
-  document.body.classList.add('print-all');
-  document.querySelectorAll('.section').forEach(s => s.classList.add('active'));
-  document.querySelectorAll('.acc-item').forEach(a => a.classList.add('open'));
-  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-    MathJax.typesetPromise([document.getElementById('app')]).then(() => window.print());
-  } else {
-    window.print();
-  }
-}
-
-window.addEventListener('afterprint', () => {
-  document.body.classList.remove('print-all');
-  render();
-});
-
 document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') goTo(cur + 1);
   if (e.key === 'ArrowLeft')  goTo(cur - 1);
@@ -1009,6 +1062,22 @@ if (typeof MathJax !== 'undefined' && MathJax.startup) {
 } else {
   render();
   document.body.style.opacity = '1';
+}
+
+if (new URLSearchParams(location.search).get('print') === '1') {
+  const preparePrint = () => {
+    document.body.classList.add('print-all');
+    document.querySelectorAll('.section').forEach(s => s.classList.add('active'));
+    document.querySelectorAll('.acc-item').forEach(a => a.classList.add('open'));
+  };
+  if (typeof MathJax !== 'undefined' && MathJax.startup) {
+    MathJax.startup.promise.then(() => {
+      preparePrint();
+      MathJax.typesetPromise([document.getElementById('app')]);
+    });
+  } else {
+    preparePrint();
+  }
 }
 </script>
 </body>
