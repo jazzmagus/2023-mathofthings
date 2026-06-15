@@ -6,7 +6,11 @@
 
   <div class="page-header-section">
     <h1 class="page-title">Corsi e <em>materiali</em></h1>
-    <p class="page-subtitle">Tre livelli di apprendimento, dalla scuola professionale al liceo scientifico.</p>
+    <p class="page-subtitle"><em>Tre livelli</em> di apprendimento, dalla scuola professionale al <em>liceo scientifico</em>.</p>
+    <blockquote class="quote">
+      "Prima dell'illuminazione: spacca la legna, porta l'acqua. Dopo l'illuminazione: spacca la legna, porta l'acqua."
+      <span class="quote-attr">— proverbio zen</span>
+    </blockquote>
   </div>
 
   <div class="courses-grid-3x2">
@@ -20,7 +24,7 @@
         Matematica pratica e applicata. Concetti fondamentali, esercizi concreti
         e applicazioni nel mondo reale per studenti degli istituti professionali.
       </p>
-      <a href="{{ (site.GetPage `courses/math-01`).RelPermalink }}" class="card-link">
+      <a href="{{ (site.GetPage `courses/materiali-corso-base`).RelPermalink }}" class="card-link">
         Accedi al corso →
       </a>
     </div>
@@ -33,7 +37,7 @@
         Esercizi, schede di lavoro, soluzioni commentate e risorse aggiuntive
         per il corso base. Tutto il materiale necessario per approfondire.
       </p>
-      <a href="#" class="card-link">
+      <a href="{{ (site.GetPage `courses/materiali-corso-base`).RelPermalink }}" class="card-link">
         Accedi alle risorse →
       </a>
     </div>
@@ -47,7 +51,7 @@
         Matematica approfondita con focus su applicazioni tecniche. Algebra,
         geometria e calcolo per studenti degli istituti tecnici.
       </p>
-      <a href="{{ (site.GetPage `courses/math-02`).RelPermalink }}" class="card-link">
+      <a href="{{ (site.GetPage `courses/materiali-corso-avanzato`).RelPermalink }}" class="card-link">
         Accedi al corso →
       </a>
     </div>
@@ -60,7 +64,7 @@
         Appunti dettagliati, esercizi progressivi, problemi di applicazione
         e soluzioni per il corso avanzato.
       </p>
-      <a href="#" class="card-link">
+      <a href="{{ (site.GetPage `courses/materiali-corso-avanzato`).RelPermalink }}" class="card-link">
         Accedi alle risorse →
       </a>
     </div>
@@ -74,7 +78,7 @@
         Matematica rigorosa e approfondita. Calcolo infinitesimale, analisi
         matematica e argomenti universitari per licei scientifici.
       </p>
-      <a href="{{ (site.GetPage `courses/math-03`).RelPermalink }}" class="card-link">
+      <a href="{{ (site.GetPage `courses/materiali-corso-pro`).RelPermalink }}" class="card-link">
         Accedi al corso →
       </a>
     </div>
@@ -87,7 +91,7 @@
         Testi di riferimento, problemi avanzati, dimostrazioni complete
         e approfondimenti teorici per il corso pro.
       </p>
-      <a href="#" class="card-link">
+      <a href="{{ (site.GetPage `courses/materiali-corso-pro`).RelPermalink }}" class="card-link">
         Accedi alle risorse →
       </a>
     </div>

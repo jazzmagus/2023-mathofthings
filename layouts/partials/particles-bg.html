@@ -5,6 +5,7 @@
 {{ $colorLight := .colorLight | default "#ed6f5c" }}
 {{ $colorDark := .colorDark | default "#f08e7c" }}
 {{ $twinkle := .twinkle | default false }}
+{{ $links := .links | default false }}
 
 <div id="{{ $id }}" class="bg-particles" aria-hidden="true"></div>
 
@@ -19,6 +20,7 @@
     var axisAligned = {{ $axis }};
     var circular = {{ $circular }};
     var twinkle = {{ $twinkle }};
+    var links = {{ $links }};
     var count = {{ $count }};
     var darkDotColor = isDark ? '#888888' : '#2a2a2a';
     var twinkleColor = isDark ? '#f08e7c' : '#ed6f5c';
@@ -56,6 +58,29 @@
           opacity: 1,
           color: { value: twinkleColor }
         }
+      };
+    }
+
+    if (links) {
+      // Classic particles.js demo: dots connected by lines, that "grab"
+      // toward the cursor on hover and spawn new dots on click.
+      config.particles.number.value = Math.min(count, 80);
+      config.particles.opacity = { value: 0.5 };
+      config.particles.size = { value: { min: 1, max: 3 } };
+      config.particles.links = {
+        enable: true,
+        distance: 150,
+        color: color,
+        opacity: 0.3,
+        width: 1
+      };
+      config.particles.move.speed = { min: 0.5, max: 1.5 };
+      config.interactivity.events.onHover = { enable: true, mode: 'grab' };
+      config.interactivity.events.onClick = { enable: true, mode: 'push' };
+      config.interactivity.events.resize = true;
+      config.interactivity.modes = {
+        grab: { distance: 180, links: { opacity: 0.6 } },
+        push: { quantity: 3 }
       };
     }
 

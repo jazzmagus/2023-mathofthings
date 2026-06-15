@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione — Equazioni di 1° grado</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f0ebe1;
+  --border:#e2dcd2; --border-light:#ece7dd;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#8a827a;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --purple:#6a1b9a; --purple-light:#f3e5f5;
+  --gold:#b8860b; --gold-light:#fdf8ed;
+  --teal:#4f6d7a; --teal-light:#e8eff2;
+  --danger:#b33a3a;
+  --radius:10px; --shadow:0 2px 12px rgba(44,37,32,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent);white-space:nowrap}
+.topbar-nav{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;flex:1}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill{background:none;border:none;font-family:'Source Sans 3',sans-serif;font-size:.82rem;color:var(--text-dim);padding:6px 14px;border-radius:20px;cursor:pointer;white-space:nowrap;transition:all .2s}
+.nav-pill:hover{background:var(--surface-alt);color:var(--text)}
+.nav-pill.active{background:var(--accent);color:#fff;font-weight:600}
+
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 80px}
+.section{display:none;animation:appear .4s ease}
+.section.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.hero{margin-bottom:40px;padding-bottom:32px;border-bottom:2px solid var(--border)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7}
+
+.cb{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:26px 30px;margin:24px 0;box-shadow:var(--shadow);position:relative}
+.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:var(--radius) 0 0 var(--radius)}
+.cb.tip::before{background:var(--blue)}
+.cb.warn::before{background:var(--gold)}
+.cb.danger::before{background:var(--danger)}
+.cb.success::before{background:var(--green)}
+.cb.method::before{background:var(--accent)}
+.cb.purple::before{background:var(--purple)}
+.cb.teal::before{background:var(--teal)}
+.cb-label{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;font-weight:600}
+.cb.tip .cb-label{color:var(--blue)}
+.cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)}
+.cb.success .cb-label{color:var(--green)}
+.cb.method .cb-label{color:var(--accent)}
+.cb.purple .cb-label{color:var(--purple)}
+.cb.teal .cb-label{color:var(--teal)}
+
+.math-block{background:#fdfaf6;border:1px solid var(--border-light);border-radius:8px;padding:18px 24px;margin:14px 0;overflow-x:auto}
+.math-block.hero-formula{background:#fff;border:2px solid var(--accent);padding:24px 28px;text-align:center}
+.math-block.result{border-left:4px solid var(--green);background:var(--green-light)}
+.math-block.warning{border-left:4px solid var(--danger);background:#fdf0f0}
+.math-block.dark{background:var(--surface-alt)}
+
+.step-math{margin:6px 0;padding:4px 0}
+.step-math .label{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+.step-math .label.green{color:var(--green)}
+
+.accordion{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:24px 0;box-shadow:var(--shadow)}
+.acc-item{border-bottom:1px solid var(--border-light)}
+.acc-item:last-child{border-bottom:none}
+.acc-header{display:flex;align-items:center;gap:14px;padding:16px 22px;background:var(--surface);cursor:pointer;transition:background .2s;user-select:none}
+.acc-header:hover{background:var(--surface-alt)}
+.acc-num{width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0;font-family:'Fira Code',monospace}
+.acc-title{font-weight:600;font-size:.98rem;flex:1}
+.acc-arrow{width:18px;height:18px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .45s ease;background:var(--surface)}
+.acc-item.open .acc-body{max-height:8000px}
+.acc-inner{padding:4px 22px 22px;border-top:1px solid var(--border-light)}
+
+.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9rem}
+.ct th{text-align:left;padding:11px 14px;font-weight:600;color:var(--accent);border-bottom:2px solid var(--border);font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct td{padding:10px 14px;border-bottom:1px solid var(--border-light);vertical-align:top}
+.ct tr:last-child td{border-bottom:none}
+
+.step-grid{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;align-items:start;margin:14px 0}
+.step-circle{width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-weight:700;font-size:.8rem;flex-shrink:0;margin-top:2px}
+.step-text{font-size:.95rem;padding-top:4px;line-height:1.6}
+
+.compare-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.compare-card{border-radius:8px;padding:14px 16px;font-size:.88rem;line-height:1.6}
+.compare-card.wrong{background:#fdf0f0;border:1px solid var(--danger)}
+.compare-card.right{background:var(--green-light);border:1px solid var(--green)}
+.compare-label{font-family:'Fira Code',monospace;font-size:.62rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.compare-card.wrong .compare-label{color:var(--danger)}
+.compare-card.right .compare-label{color:var(--green)}
+
+.checklist{list-style:none;margin:12px 0}
+.checklist li{position:relative;padding:6px 0 6px 32px;font-size:.95rem}
+.checklist li::before{content:'□';position:absolute;left:6px;top:6px;font-size:1.1rem;color:var(--accent)}
+
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:52px;padding-top:26px;border-top:2px solid var(--border)}
+.bb{font-family:'Source Sans 3',sans-serif;font-size:.9rem;padding:10px 26px;border-radius:8px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:all .2s;box-shadow:var(--shadow)}
+.bb:hover{border-color:var(--accent);color:var(--accent)}
+.bb:disabled{opacity:.35;cursor:not-allowed}
+.bb:disabled:hover{border-color:var(--border);color:var(--text)}
+.bb.primary{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+.bb.primary:hover{background:#a8144e}
+.page-info{font-family:'Fira Code',monospace;font-size:.78rem;color:var(--text-dim)}
+
+p{margin:8px 0} .dim{color:var(--text-dim)} strong{font-weight:600}
+mjx-container[jax="SVG"]{direction:ltr}
+mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%}
+
+@media(max-width:640px){
+  body{font-size:16px}
+  .hero h1{font-size:1.7rem}
+  .acc-header{padding:13px 14px}
+  .acc-inner{padding:4px 14px 18px}
+  .cb{padding:18px}
+  .compare-row{grid-template-columns:1fr}
+  .math-block{padding:14px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Eq. 1° grado</div>
+  <div class="topbar-nav" id="topNav"></div>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">'+items.map((it,i)=>`
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-num">${i+1}</div>
+        <div class="acc-title">${it.t}</div>
+        <svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="acc-body"><div class="acc-inner">${it.h}</div></div>
+    </div>`).join('')+'</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+function svgBilancia() {
+  return `<div style="display:flex;flex-direction:column;align-items:center;margin:16px 0;gap:6px">
+  <svg viewBox="0 0 260 88" width="240" height="82">
+    <!-- fulcro -->
+    <polygon points="130,72 118,84 142,84" fill="#e2dcd2" stroke="#8a827a" stroke-width="1"/>
+    <!-- colonna -->
+    <line x1="130" y1="46" x2="130" y2="72" stroke="#5a524a" stroke-width="2" stroke-linecap="round"/>
+    <!-- asta orizzontale -->
+    <line x1="38" y1="46" x2="222" y2="46" stroke="#5a524a" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="130" cy="46" r="3.5" fill="#5a524a"/>
+    <!-- fili -->
+    <line x1="58" y1="46" x2="58" y2="58" stroke="#8a827a" stroke-width="1.5"/>
+    <line x1="202" y1="46" x2="202" y2="58" stroke="#8a827a" stroke-width="1.5"/>
+    <!-- piatto sinistro — rettangolo -->
+    <rect x="22" y="58" width="72" height="22" rx="5" fill="#fce4ec" stroke="#c2185b" stroke-width="1.5"/>
+    <!-- piatto destro — rettangolo -->
+    <rect x="166" y="58" width="72" height="22" rx="5" fill="#e8f0f5" stroke="#3a6b8c" stroke-width="1.5"/>
+    <!-- testi -->
+    <text x="58" y="73" text-anchor="middle" font-size="11" font-family="Source Sans 3,sans-serif" fill="#c2185b" font-weight="600">3x + 5</text>
+    <text x="202" y="73" text-anchor="middle" font-size="11" font-family="Source Sans 3,sans-serif" fill="#3a6b8c" font-weight="600">14</text>
+  </svg>
+  <span style="font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)">bilancia in equilibrio = uguaglianza vera</span>
+  </div>`;
+}
+
+const S = [
+
+// ═══ 0: COS'È UN'EQUAZIONE ═══
+{
+  tag:"TEORIA",
+  title:"Che cos'è un'<em>equazione</em>",
+  sub:"La bilancia, l'incognita, e l'idea di equilibrio.",
+  nav:"Definizione",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Definizione</div>
+      <p>Un'<strong>equazione</strong> è un'uguaglianza che contiene una lettera (l'<strong>incognita</strong>, di solito \\(x\\)) di cui non conosciamo il valore.</p>
+      <div class="math-block hero-formula">
+        \\[ ax + b = 0 \\qquad (a \\neq 0) \\]
+      </div>
+      <p><strong>Risolvere</strong> l'equazione significa trovare il valore di \\(x\\) che la rende vera.</p>
+    </div>
+
+    ${svgBilancia()}
+
+    <div class="cb tip">
+      <div class="cb-label">La metafora della bilancia</div>
+      <p>Immagina una bilancia in perfetto equilibrio. I due piatti sono i due <strong>membri</strong> dell'equazione.</p>
+      <p>Qualunque cosa aggiungi o togli da un piatto, devi fare <strong>la stessa cosa sull'altro</strong> per mantenere l'equilibrio. Questa è la regola fondamentale.</p>
+    </div>
+
+    <p style="margin-top:20px"><strong>I termini che devi conoscere:</strong></p>
+    <table class="ct">
+      <tr><th>Termine</th><th>Che cosa è</th><th>Esempio in \\(3x + 5 = 14\\)</th></tr>
+      <tr><td>1° membro</td><td>tutto ciò che sta a sinistra dell'=</td><td>\\(3x + 5\\)</td></tr>
+      <tr><td>2° membro</td><td>tutto ciò che sta a destra dell'=</td><td>\\(14\\)</td></tr>
+      <tr><td>Incognita</td><td>la lettera da trovare</td><td>\\(x\\)</td></tr>
+      <tr><td>Coefficiente</td><td>il numero davanti all'incognita</td><td>\\(3\\)</td></tr>
+      <tr><td>Termine noto</td><td>il numero senza lettera</td><td>\\(5\\) e \\(14\\)</td></tr>
+      <tr><td>Soluzione</td><td>il valore di \\(x\\) che rende vera l'uguaglianza</td><td>\\(x = 3\\) ✓</td></tr>
+    </table>
+
+    <div class="cb warn">
+      <div class="cb-label">Come si verifica una soluzione</div>
+      <p>Sostituisci il valore trovato al posto di \\(x\\) e controlla che i due membri diano lo stesso risultato.</p>
+      <div class="math-block">
+        \\[ 3x + 5 = 14 \\quad \\xrightarrow{x=3} \\quad 3 \\cdot 3 + 5 = 9 + 5 = 14 \\; ✓ \\]
+      </div>
+    </div>
+  `
+},
+
+// ═══ 1: PRINCIPI DI EQUIVALENZA ═══
+{
+  tag:"TEORIA",
+  title:"I <em>principi di equivalenza</em>",
+  sub:"Le due regole fondamentali per trasformare un'equazione senza cambiarne la soluzione.",
+  nav:"Principi",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Idea chiave</div>
+      <p>Due equazioni sono <strong>equivalenti</strong> se hanno le stesse soluzioni. I principi di equivalenza ci dicono quali operazioni possiamo fare senza cambiare le soluzioni.</p>
+    </div>
+
+    <div class="cb blue">
+      <div class="cb-label">I° Principio — addizione e sottrazione</div>
+      <p><strong>Aggiungere o sottrarre la stessa quantità a entrambi i membri</strong> non cambia la soluzione.</p>
+      <div class="math-block">
+        \\[ 3x + 5 = 14 \\quad \\Longrightarrow \\quad 3x + 5 \\underbrace{- 5}_{} = 14 \\underbrace{- 5}_{} \\quad \\Longrightarrow \\quad 3x = 9 \\]
+      </div>
+      <p class="dim" style="margin-top:8px"><strong>Regola pratica:</strong> un termine che "passa" da un membro all'altro cambia segno.</p>
+    </div>
+
+    <div class="cb blue">
+      <div class="cb-label">II° Principio — moltiplicazione e divisione</div>
+      <p><strong>Moltiplicare o dividere entrambi i membri per lo stesso numero (≠ 0)</strong> non cambia la soluzione.</p>
+      <div class="math-block">
+        \\[ 3x = 9 \\quad \\Longrightarrow \\quad \\frac{3x}{3} = \\frac{9}{3} \\quad \\Longrightarrow \\quad x = 3 \\]
+      </div>
+    </div>
+
+    <div class="cb danger">
+      <div class="cb-label">Non si può mai dividere per zero!</div>
+      <p>La divisione per zero non è definita in matematica. Se il coefficiente di \\(x\\) si azzera, si tratta di un caso speciale — non cercare di dividere.</p>
+    </div>
+
+    <div class="cb success">
+      <div class="cb-label">I due principi insieme — esempio completo</div>
+      <div class="math-block">
+        \\[\\begin{aligned}
+          3x + 5 &= 14 \\\\
+          3x &= 14 - 5 \\quad &\\text{(I° principio: sposto +5)} \\\\
+          3x &= 9 \\\\
+          x &= 3 \\quad &\\text{(II° principio: divido per 3)}
+        \\end{aligned}\\]
+      </div>
+    </div>
+  `
+},
+
+// ═══ 2: METODO DI RISOLUZIONE ═══
+{
+  tag:"METODO",
+  title:"Come si <em>risolve</em>",
+  sub:"Sei passi da seguire nell'ordine. Poi si verifica sempre.",
+  nav:"Metodo",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">I 6 passi</div>
+      <div class="step-grid">
+        <div class="step-circle">1</div><div class="step-text">Sviluppa le <strong>parentesi</strong> (proprietà distributiva)</div>
+        <div class="step-circle">2</div><div class="step-text">Elimina i <strong>denominatori</strong> (moltiplica tutto per il MCM)</div>
+        <div class="step-circle">3</div><div class="step-text">Porta tutti i termini con \\(x\\) a <strong>sinistra</strong></div>
+        <div class="step-circle">4</div><div class="step-text">Porta tutti i numeri a <strong>destra</strong></div>
+        <div class="step-circle">5</div><div class="step-text">Raccogli i termini simili</div>
+        <div class="step-circle">6</div><div class="step-text">Dividi per il coefficiente di \\(x\\) → <strong>soluzione</strong></div>
+      </div>
+      <p class="dim" style="margin-top:8px">Ogni termine che cambia membro <strong>cambia segno</strong>. Poi verifica sempre!</p>
+    </div>
+
+    ${acc([
+      {
+        t:"Esempio 1 — base: \\(4x - 9 = 7\\)",
+        h:`
+          <div class="step-math"><div class="label">Sposto il -9 a destra (cambia segno)</div></div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              4x &= 7 + 9 \\\\
+              4x &= 16 \\\\
+              x &= 4
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">\\[ x = 4 \\]</div>
+          <div class="step-math"><div class="label green">Verifica</div>
+            <p>\\(4 \\cdot 4 - 9 = 16 - 9 = 7\\) ✓</p>
+          </div>
+        `
+      },
+      {
+        t:"Esempio 2 — \\(x\\) in entrambi i membri: \\(5x + 3 = 2x - 9\\)",
+        h:`
+          <div class="step-math"><div class="label">Porto le x a sinistra, i numeri a destra</div></div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              5x - 2x &= -9 - 3 \\\\
+              3x &= -12 \\\\
+              x &= -4
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">\\[ x = -4 \\]</div>
+          <div class="step-math"><div class="label green">Verifica</div>
+            <p>\\(5(-4)+3 = -17\\) e \\(2(-4)-9 = -17\\) ✓</p>
+          </div>
+        `
+      },
+      {
+        t:"Esempio 3 — raccoglimento: \\(4x + 7 - x = 2x - 5 + 3x\\)",
+        h:`
+          <div class="step-math"><div class="label">Raccolgo subito i termini simili da entrambi i lati</div></div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              (4-1)x + 7 &= (2+3)x - 5 \\\\
+              3x + 7 &= 5x - 5 \\\\
+              3x - 5x &= -5 - 7 \\\\
+              -2x &= -12 \\\\
+              x &= 6
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">\\[ x = 6 \\]</div>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 3: PARENTESI ═══
+{
+  tag:"CASO FREQUENTE",
+  title:"Equazioni con <em>parentesi</em>",
+  sub:"Prima si sviluppano le parentesi, poi si risolve normalmente.",
+  nav:"Parentesi",
+  body:`
+    <div class="cb blue">
+      <div class="cb-label">Proprietà distributiva</div>
+      <p>Il numero fuori dalla parentesi moltiplica <strong>ogni termine</strong> dentro la parentesi.</p>
+      <div class="math-block hero-formula">
+        \\[ a(b + c) = ab + ac \\]
+      </div>
+    </div>
+
+    <div class="cb danger">
+      <div class="cb-label">Attenzione al segno − davanti alla parentesi</div>
+      <p>Se c'è un \\(-\\) (o un numero negativo) davanti alla parentesi, <strong>tutti i segni interni si invertono</strong>.</p>
+      <div class="compare-row">
+        <div class="compare-card wrong">
+          <div class="compare-label">Sbagliato</div>
+          \\(-(x + 3) = -x + 3\\)
+        </div>
+        <div class="compare-card right">
+          <div class="compare-label">Corretto</div>
+          \\(-(x + 3) = -x - 3\\)
+        </div>
+      </div>
+    </div>
+
+    ${acc([
+      {
+        t:"Esempio 1 — \\(5(x-2) = 3x + 4\\)",
+        h:`
+          <div class="step-math"><div class="label">1. Sviluppo la parentesi</div></div>
+          <div class="math-block">
+            \\[ 5x - 10 = 3x + 4 \\]
+          </div>
+          <div class="step-math"><div class="label">2. Porto le x a sinistra, i numeri a destra</div></div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              5x - 3x &= 4 + 10 \\\\
+              2x &= 14 \\\\
+              x &= 7
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">\\[ x = 7 \\]</div>
+          <div class="step-math"><div class="label green">Verifica</div>
+            <p>\\(5(7-2) = 25\\) e \\(3 \\cdot 7 + 4 = 25\\) ✓</p>
+          </div>
+        `
+      },
+      {
+        t:"Esempio 2 — doppia parentesi: \\(3(x+1) - 2(x-4) = 11\\)",
+        h:`
+          <div class="step-math"><div class="label">Sviluppo entrambe le parentesi — attenzione al −2</div></div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              3x + 3 - 2x + 8 &= 11 \\\\
+              x + 11 &= 11 \\\\
+              x &= 0
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">\\[ x = 0 \\]</div>
+          <p class="dim">Nota: \\(x = 0\\) è una soluzione valida! Zero è un numero come gli altri.</p>
+        `
+      },
+      {
+        t:"Esempio 3 — \\(2(3x-1) = 4(x+3) - 2\\)",
+        h:`
+          <div class="math-block">
+            \\[\\begin{aligned}
+              6x - 2 &= 4x + 12 - 2 \\\\
+              6x - 2 &= 4x + 10 \\\\
+              6x - 4x &= 10 + 2 \\\\
+              2x &= 12 \\\\
+              x &= 6
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">\\[ x = 6 \\]</div>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 4: FRAZIONI ═══
+{
+  tag:"CASO FREQUENTE",
+  title:"Equazioni con <em>frazioni</em>",
+  sub:"Il trucco: trovare il MCM e moltiplicare tutto per farlo sparire.",
+  nav:"Frazioni",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Il metodo — 3 passi</div>
+      <div class="step-grid">
+        <div class="step-circle">1</div>
+        <div class="step-text">Trova il <strong>MCM</strong> (minimo comune multiplo) di tutti i denominatori</div>
+        <div class="step-circle">2</div>
+        <div class="step-text">Moltiplica <strong>ogni termine</strong> dell'equazione per il MCM — le frazioni spariscono</div>
+        <div class="step-circle">3</div>
+        <div class="step-text">Risolvi l'equazione ottenuta normalmente</div>
+      </div>
+    </div>
+
+    <div class="cb danger">
+      <div class="cb-label">Errore classico</div>
+      <p>Il MCM va moltiplicato per <strong>ogni termine</strong>, anche quelli interi (senza denominatore).</p>
+      <div class="compare-row">
+        <div class="compare-card wrong">
+          <div class="compare-label">Sbagliato</div>
+          \\(\\dfrac{x}{2} + 1 = 3\\) <br>
+          ×2 → \\(x + 1 = 3\\) ← il +1 non è stato moltiplicato
+        </div>
+        <div class="compare-card right">
+          <div class="compare-label">Corretto</div>
+          \\(\\dfrac{x}{2} + 1 = 3\\) <br>
+          ×2 → \\(x + 2 = 6\\)
+        </div>
+      </div>
+    </div>
+
+    ${acc([
+      {
+        t:"Esempio 1 — \\(\\dfrac{x}{2} + \\dfrac{1}{3} = \\dfrac{x}{6} + 2\\)",
+        h:`
+          <div class="step-math"><div class="label">Denominatori: 2, 3, 6 → MCM = 6</div></div>
+          <div class="step-math"><div class="label">Moltiplico ogni termine per 6</div></div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              \\frac{x}{2} \\cdot 6 + \\frac{1}{3} \\cdot 6 &= \\frac{x}{6} \\cdot 6 + 2 \\cdot 6 \\\\[6pt]
+              3x + 2 &= x + 12 \\\\
+              3x - x &= 12 - 2 \\\\
+              2x &= 10
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">\\[ x = 5 \\]</div>
+          <div class="step-math"><div class="label green">Verifica</div>
+            <p>\\(5/2 + 1/3 = 15/6 + 2/6 = 17/6\\) e \\(5/6 + 2 = 5/6 + 12/6 = 17/6\\) ✓</p>
+          </div>
+        `
+      },
+      {
+        t:"Esempio 2 — \\(\\dfrac{x-1}{3} = \\dfrac{2x+1}{5}\\)",
+        h:`
+          <div class="step-math"><div class="label">Denominatori: 3, 5 → MCM = 15</div></div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              \\frac{x-1}{3} \\cdot 15 &= \\frac{2x+1}{5} \\cdot 15 \\\\[6pt]
+              5(x-1) &= 3(2x+1) \\\\
+              5x - 5 &= 6x + 3 \\\\
+              5x - 6x &= 3 + 5 \\\\
+              -x &= 8
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">\\[ x = -8 \\]</div>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 5: CASI PARTICOLARI ═══
+{
+  tag:"ATTENZIONE",
+  title:"I casi <em>particolari</em>",
+  sub:"Quando il coefficiente di x si azzera: impossibile o indeterminata.",
+  nav:"Casi particolari",
+  body:`
+    <div class="cb tip">
+      <div class="cb-label">Quando capita</div>
+      <p>Dopo aver svolto tutti i passaggi, se tutti i termini con \\(x\\) si eliminano, non ottieni una soluzione normale. Guarda cosa rimane:</p>
+    </div>
+
+    <table class="ct" style="margin-top:16px">
+      <tr><th>Risultato finale</th><th>Tipo di equazione</th><th>Soluzioni</th></tr>
+      <tr>
+        <td>\\(ax = b\\) con \\(a \\neq 0\\)</td>
+        <td style="color:var(--green)"><strong>Determinata</strong></td>
+        <td><strong>Una sola soluzione</strong>: \\(x = b/a\\)</td>
+      </tr>
+      <tr>
+        <td>\\(0 = 0\\)</td>
+        <td style="color:var(--blue)"><strong>Indeterminata</strong></td>
+        <td><strong>Infinite soluzioni</strong> — ogni valore di \\(x\\) va bene</td>
+      </tr>
+      <tr>
+        <td>\\(0 = k\\) con \\(k \\neq 0\\)</td>
+        <td style="color:var(--danger)"><strong>Impossibile</strong></td>
+        <td><strong>Nessuna soluzione</strong> — nessun valore di \\(x\\) funziona</td>
+      </tr>
+    </table>
+
+    ${acc([
+      {
+        t:"Esempio — impossibile: \\(2x + 3 = 2x - 1\\)",
+        h:`
+          <div class="math-block">
+            \\[\\begin{aligned}
+              2x + 3 &= 2x - 1 \\\\
+              2x - 2x &= -1 - 3 \\\\
+              0 &= -4
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block warning">
+            <strong>Impossibile!</strong> \\(0 \\neq -4\\) per nessun valore di \\(x\\). L'equazione non ha soluzioni.
+          </div>
+        `
+      },
+      {
+        t:"Esempio — indeterminata: \\(3x - 6 = 3(x-2)\\)",
+        h:`
+          <div class="math-block">
+            \\[\\begin{aligned}
+              3x - 6 &= 3x - 6 \\\\
+              3x - 3x &= -6 + 6 \\\\
+              0 &= 0
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">
+            <strong>Indeterminata:</strong> \\(0 = 0\\) è sempre vero. Ogni valore di \\(x\\) è una soluzione.
+          </div>
+          <p class="dim">In pratica i due membri erano la stessa espressione scritta in modo diverso.</p>
+        `
+      }
+    ])}
+
+    <div class="cb warn">
+      <div class="cb-label">Come riconoscerli</div>
+      <p>Se durante la risoluzione vedi che le \\(x\\) si "cancellano" tutte, <strong>non è un errore</strong> — è un caso particolare. Guarda cosa rimane e concludi di conseguenza.</p>
+    </div>
+  `
+},
+
+// ═══ 6: LAP ═══
+{
+  tag:"TEORIA",
+  title:"La legge di annullamento<br>del <em>prodotto</em>",
+  sub:"Se il prodotto di due fattori è zero, almeno uno dei due è zero. Una regola che apre un nuovo mondo.",
+  nav:"LAP",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">La regola — LAP</div>
+      <p>Se il <strong>prodotto</strong> di due espressioni è uguale a zero:</p>
+      <div class="math-block hero-formula">
+        \\[ A \\cdot B = 0 \\quad \\Longleftrightarrow \\quad A = 0 \\quad \\text{oppure} \\quad B = 0 \\]
+      </div>
+      <p>Questo vale perché l'unico modo di ottenere zero da una moltiplicazione è che <strong>almeno uno dei fattori sia zero</strong>.</p>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Come si usa</div>
+      <div class="step-grid">
+        <div class="step-circle">1</div>
+        <div class="step-text">Porta tutto al primo membro: ottieni \\(\\text{espressione} = 0\\)</div>
+        <div class="step-circle">2</div>
+        <div class="step-text"><strong>Fattorizza</strong> il primo membro (raccogli il fattore comune)</div>
+        <div class="step-circle">3</div>
+        <div class="step-text">Applica la LAP: poni <strong>ciascun fattore uguale a zero</strong></div>
+        <div class="step-circle">4</div>
+        <div class="step-text">Risolvi ciascuna equazione di 1° grado ottenuta</div>
+      </div>
+    </div>
+
+    ${acc([
+      {
+        t:"Esempio base — \\(x(x - 3) = 0\\)",
+        h:`
+          <p>L'equazione è già in forma fattorizzata. Applico subito la LAP:</p>
+          <div class="math-block">
+            \\[ x = 0 \\quad \\text{oppure} \\quad x - 3 = 0 \\]
+          </div>
+          <div class="math-block result">\\[ x_1 = 0 \\qquad x_2 = 3 \\]</div>
+        `
+      },
+      {
+        t:"Esempio — \\(x^2 - 5x = 0\\) — la trappola della divisione",
+        h:`
+          <div class="cb danger" style="margin-bottom:14px">
+            <div class="cb-label">Non dividere per x!</div>
+            <p>Se dividi entrambi i membri per \\(x\\) ottieni \\(x - 5 = 0\\) e perdi la soluzione \\(x = 0\\). Il raccoglimento è l'unico metodo corretto.</p>
+          </div>
+          <div class="step-math"><div class="label">Raccolgo x a fattore comune</div></div>
+          <div class="math-block">
+            \\[ x^2 - 5x = 0 \\quad \\Longrightarrow \\quad x(x - 5) = 0 \\]
+          </div>
+          <div class="step-math"><div class="label">Applico la LAP</div></div>
+          <div class="math-block result">\\[ x_1 = 0 \\qquad x_2 = 5 \\]</div>
+        `
+      },
+      {
+        t:"Esempio — \\(x^2 = 3x\\) — stessa trappola, forma diversa",
+        h:`
+          <div class="step-math"><div class="label">Porto tutto al primo membro</div></div>
+          <div class="math-block">
+            \\[ x^2 - 3x = 0 \\quad \\Longrightarrow \\quad x(x - 3) = 0 \\]
+          </div>
+          <div class="math-block result">\\[ x_1 = 0 \\qquad x_2 = 3 \\]</div>
+          <p class="dim">Nota: \\(x = 0\\) è una soluzione reale e valida — non va mai ignorata.</p>
+        `
+      },
+      {
+        t:"Esempio — \\((2x - 1)(x + 5) = 0\\)",
+        h:`
+          <p>Due fattori già pronti. Applico direttamente la LAP:</p>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              2x - 1 = 0 \\quad &\\Rightarrow \\quad x_1 = \\tfrac{1}{2} \\\\[6pt]
+              x + 5 = 0 \\quad &\\Rightarrow \\quad x_2 = -5
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">\\[ x_1 = \\frac{1}{2} \\qquad x_2 = -5 \\]</div>
+        `
+      },
+      {
+        t:"Esempio avanzato — raccoglimento parziale: \\(3x(x-2) = x - 2\\)",
+        h:`
+          <div class="step-math"><div class="label">Porto tutto al primo membro</div></div>
+          <div class="math-block">
+            \\[ 3x(x-2) - (x-2) = 0 \\]
+          </div>
+          <div class="step-math"><div class="label">Raccolgo (x−2) come fattore comune</div></div>
+          <div class="math-block">
+            \\[ (x-2)(3x - 1) = 0 \\]
+          </div>
+          <div class="step-math"><div class="label">LAP</div></div>
+          <div class="math-block result">\\[ x_1 = 2 \\qquad x_2 = \\frac{1}{3} \\]</div>
+        `
+      },
+      {
+        t:"Equazione di 2° grado che si riduce al 1° grado: \\((x+2)(x-3) = (x-1)(x+4)\\)",
+        h:`
+          <div class="step-math"><div class="label">Sviluppo entrambi i prodotti</div></div>
+          <div class="math-block">
+            \\[ x^2 - x - 6 = x^2 + 3x - 4 \\]
+          </div>
+          <div class="step-math"><div class="label">I termini x² si cancellano!</div></div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              -x - 6 &= 3x - 4 \\\\
+              -x - 3x &= -4 + 6 \\\\
+              -4x &= 2
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">\\[ x = -\\frac{1}{2} \\]</div>
+          <p class="dim">Anche un'equazione che sembra di 2° grado può ridursi al 1° grado se i termini in \\(x^2\\) si cancellano.</p>
+        `
+      }
+    ])}
+
+    <div class="cb success">
+      <div class="cb-label">Quando usare la LAP</div>
+      <p>La LAP si usa ogni volta che riesci a scrivere l'equazione come <strong>prodotto = 0</strong>. Il passaggio chiave è sempre la <strong>fattorizzazione</strong>: raccogli il fattore comune, poi applica la regola.</p>
+    </div>
+  `
+},
+
+// ═══ 7: ERRORI ═══
+{
+  tag:"ATTENZIONE",
+  title:"Gli errori più <em>comuni</em>",
+  sub:"Impararli a memoria ti salva da mezzo punto perso per distrazione.",
+  nav:"Errori",
+  body:`
+    <div class="cb danger">
+      <div class="cb-label">Errore 1 — Cambio di membro senza cambiare segno</div>
+      <p>Quando un termine passa dall'altro lato dell'uguale, <strong>deve cambiare segno</strong>.</p>
+      <div class="compare-row">
+        <div class="compare-card wrong">
+          <div class="compare-label">Sbagliato</div>
+          \\(3x - 5 = 10\\)<br>
+          \\(3x = 10 - 5\\)<br>
+          \\(3x = 5\\) ← il segno era già negativo, non cambia niente<br>
+          <span style="font-size:.8rem;color:var(--danger)">Errore: il -5 era già negativo, portato a destra diventa +5</span>
+        </div>
+        <div class="compare-card right">
+          <div class="compare-label">Corretto</div>
+          \\(3x - 5 = 10\\)<br>
+          \\(3x = 10 + 5\\)<br>
+          \\(3x = 15\\)<br>
+          \\(x = 5\\)
+        </div>
+      </div>
+    </div>
+
+    <div class="cb danger">
+      <div class="cb-label">Errore 2 — Distributiva incompleta</div>
+      <p>Il fattore fuori dalla parentesi moltiplica <strong>tutti</strong> i termini dentro.</p>
+      <div class="compare-row">
+        <div class="compare-card wrong">
+          <div class="compare-label">Sbagliato</div>
+          \\(2(x + 4) = 2x + 4\\)
+        </div>
+        <div class="compare-card right">
+          <div class="compare-label">Corretto</div>
+          \\(2(x + 4) = 2x + 8\\)
+        </div>
+      </div>
+    </div>
+
+    <div class="cb danger">
+      <div class="cb-label">Errore 3 — MCM applicato solo alle frazioni</div>
+      <p>Il MCM va moltiplicato per <strong>ogni termine</strong> dell'equazione, anche quelli senza denominatore.</p>
+      <div class="compare-row">
+        <div class="compare-card wrong">
+          <div class="compare-label">Sbagliato</div>
+          \\(\\dfrac{x}{3} + 2 = 1\\)<br>
+          ×3 → \\(x + 2 = 3\\) ← il +2 non è stato moltiplicato!
+        </div>
+        <div class="compare-card right">
+          <div class="compare-label">Corretto</div>
+          \\(\\dfrac{x}{3} + 2 = 1\\)<br>
+          ×3 → \\(x + 6 = 3\\)
+        </div>
+      </div>
+    </div>
+
+    <div class="cb warn">
+      <div class="cb-label">Il rimedio universale — la verifica</div>
+      <p>Sostituisci il valore trovato nell'equazione <strong>originale</strong> (non in quella trasformata). Se i due membri danno lo stesso numero, la soluzione è giusta. Se no, c'è un errore da cercare.</p>
+    </div>
+  `
+},
+
+// ═══ 7: ESERCIZI ═══
+{
+  tag:"ESERCIZI GUIDATI",
+  title:"Mettere tutto <em>insieme</em>",
+  sub:"Sei esercizi di livello crescente: dai classici di 1° grado alle equazioni riducibili con la LAP.",
+  nav:"Esercizi",
+  body:`
+    ${acc([
+      {
+        t:"Es. 1 — \\(\\dfrac{2x+1}{4} - \\dfrac{x-3}{6} = 2\\)",
+        h:`
+          <div class="step-math"><div class="label">MCM(4, 6) = 12</div></div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              3(2x+1) - 2(x-3) &= 24 \\\\
+              6x + 3 - 2x + 6 &= 24 \\\\
+              4x + 9 &= 24 \\\\
+              4x &= 15
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">\\[ x = \\frac{15}{4} = 3{,}75 \\]</div>
+        `
+      },
+      {
+        t:"Es. 2 — \\(4(x+2) - 3(2x-1) = x - 7\\)",
+        h:`
+          <div class="math-block">
+            \\[\\begin{aligned}
+              4x + 8 - 6x + 3 &= x - 7 \\\\
+              -2x + 11 &= x - 7 \\\\
+              -2x - x &= -7 - 11 \\\\
+              -3x &= -18 \\\\
+              x &= 6
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">\\[ x = 6 \\]</div>
+          <div class="step-math"><div class="label green">Verifica</div>
+            <p>\\(4(8) - 3(11) = 32 - 33 = -1\\) e \\(6 - 7 = -1\\) ✓</p>
+          </div>
+        `
+      },
+      {
+        t:"Es. 3 — Caso particolare: \\(5(x-1) = 5x + 3\\)",
+        h:`
+          <div class="math-block">
+            \\[\\begin{aligned}
+              5x - 5 &= 5x + 3 \\\\
+              5x - 5x &= 3 + 5 \\\\
+              0 &= 8
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block warning">
+            <strong>Impossibile.</strong> Non esiste nessun valore di \\(x\\) che soddisfa questa equazione.
+          </div>
+        `
+      },
+      {
+        t:"Es. 5 — LAP: \\(2x^2 - 8x = 0\\)",
+        h:`
+          <div class="step-math"><div class="label">Raccolgo il fattore comune 2x</div></div>
+          <div class="math-block">
+            \\[ 2x(x - 4) = 0 \\]
+          </div>
+          <div class="step-math"><div class="label">LAP</div></div>
+          <div class="math-block result">\\[ x_1 = 0 \\qquad x_2 = 4 \\]</div>
+          <div class="step-math"><div class="label green">Verifica</div>
+            <p>\\(x_1 = 0\\): \\(0 - 0 = 0\\) ✓ &nbsp;|&nbsp; \\(x_2 = 4\\): \\(2(16) - 8(4) = 32 - 32 = 0\\) ✓</p>
+          </div>
+        `
+      },
+      {
+        t:"Es. 6 — Equazione di grado superiore riducibile: \\((x+1)(x+3) = (x-2)(x+5)\\)",
+        h:`
+          <div class="step-math"><div class="label">Sviluppo entrambi i membri</div></div>
+          <div class="math-block">
+            \\[ x^2 + 4x + 3 = x^2 + 3x - 10 \\]
+          </div>
+          <div class="step-math"><div class="label">I termini x² si cancellano — rimane un'equazione di 1° grado</div></div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              4x + 3 &= 3x - 10 \\\\
+              4x - 3x &= -10 - 3 \\\\
+              x &= -13
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">\\[ x = -13 \\]</div>
+          <div class="step-math"><div class="label green">Verifica</div>
+            <p>\\((-12)(-10) = 120\\) e \\((-15)(-8) = 120\\) ✓</p>
+          </div>
+        `
+      },
+      {
+        t:"Es. 4 — Problema: l'età di Lodovico",
+        h:`
+          <p><strong>Testo:</strong> Lodovico ha il doppio degli anni di sua sorella. Tra 5 anni la somma delle loro età sarà 34. Quanti anni ha Lodovico oggi?</p>
+          <div class="step-math"><div class="label">Imposto le variabili</div>
+            <p>Sia \\(x\\) l'età della sorella oggi. Allora Lodovico ha \\(2x\\) anni.</p>
+          </div>
+          <div class="step-math"><div class="label">Tra 5 anni</div>
+            <p>Sorella: \\(x + 5\\); Lodovico: \\(2x + 5\\)</p>
+          </div>
+          <div class="step-math"><div class="label">Equazione</div></div>
+          <div class="math-block">
+            \\[\\begin{aligned}
+              (x+5) + (2x+5) &= 34 \\\\
+              3x + 10 &= 34 \\\\
+              3x &= 24 \\\\
+              x &= 8
+            \\end{aligned}\\]
+          </div>
+          <div class="math-block result">
+            La sorella ha 8 anni, <strong>Lodovico ha \\(2 \\cdot 8 = 16\\) anni</strong>.
+          </div>
+          <div class="step-math"><div class="label green">Verifica</div>
+            <p>Tra 5 anni: \\(13 + 21 = 34\\) ✓</p>
+          </div>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 8: CHECKLIST ═══
+{
+  tag:"RIEPILOGO",
+  title:"Checklist di <em>risoluzione</em>",
+  sub:"Usala come promemoria ogni volta che affronti un esercizio.",
+  nav:"Checklist",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Risolvere un'equazione di 1° grado</div>
+      <ul class="checklist">
+        <li>Sviluppa le parentesi (distributiva: il fattore moltiplica tutti i termini)</li>
+        <li>Elimina i denominatori: calcola il MCM e moltiplica <strong>ogni termine</strong></li>
+        <li>Porta le \\(x\\) a sinistra e i numeri a destra (cambiano segno!)</li>
+        <li>Raccogli i termini simili</li>
+        <li>Dividi per il coefficiente di \\(x\\)</li>
+        <li><strong>Verifica</strong> sostituendo nell'equazione originale</li>
+        <li>Se le \\(x\\) spariscono: guarda se rimane \\(0=0\\) (indeterminata) o \\(0=k\\) (impossibile)</li>
+      </ul>
+    </div>
+
+    <div class="cb danger">
+      <div class="cb-label">I tre errori da non fare mai</div>
+      <ul class="checklist">
+        <li><strong>Mai</strong> cambiare membro senza cambiare segno</li>
+        <li><strong>Mai</strong> applicare la distributiva solo al primo termine della parentesi</li>
+        <li><strong>Mai</strong> moltiplicare per il MCM solo le frazioni, dimenticando i termini interi</li>
+      </ul>
+    </div>
+
+    <div class="cb success">
+      <div class="cb-label">La verifica salva sempre</div>
+      <p>Anche se non sei sicuro di aver fatto tutto bene, la verifica ti dice immediatamente se la soluzione è corretta. Costa 30 secondi e vale un punto.</p>
+    </div>
+  `
+}
+
+];
+
+// ── APP LOGIC ──
+let cur = 0;
+const tot = S.length;
+
+function render() {
+  document.getElementById('topNav').innerHTML = S.map((s,i) =>
+    `<button class="nav-pill ${i===cur?'active':''}" onclick="goTo(${i})">${s.nav}</button>`
+  ).join('');
+
+  document.getElementById('app').innerHTML = S.map((s,i) => `
+    <div class="section ${i===cur?'active':''}">
+      <div class="hero">
+        <div class="hero-tag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p class="hero-sub">${s.sub}</p>
+      </div>
+      ${s.body}
+      <div class="bottom-nav">
+        <button class="bb" onclick="goTo(${i-1})" ${i===0?'disabled':''}>← Precedente</button>
+        <span class="page-info">${i+1} / ${tot}</span>
+        <button class="bb primary" onclick="goTo(${i+1})" ${i===tot-1?'disabled':''}>Successivo →</button>
+      </div>
+    </div>
+  `).join('');
+
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    const active = document.querySelector('.section.active');
+    if (active) MathJax.typesetPromise([active]);
+  }
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= tot) return;
+  cur = idx;
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(cur + 1);
+  if (e.key === 'ArrowLeft')  goTo(cur - 1);
+});
+
+if (typeof MathJax !== 'undefined' && MathJax.startup) {
+  MathJax.startup.promise.then(() => render());
+} else {
+  render();
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>

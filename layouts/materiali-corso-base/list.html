@@ -1,0 +1,44 @@
+{{- define "main" -}}
+
+<div class="content-page talks-page">
+
+  {{ partial "particles-bg.html" (dict "id" "particles-materiali-base" "count" 80 "circular" true "colorLight" "#3a3a3a" "colorDark" "#888888") }}
+
+  <div class="page-header-section">
+    <h1 class="page-title">Materiali Corso <em>Base</em></h1>
+    <p class="page-subtitle">Schede, lezioni interattive e quiz organizzati per modulo.</p>
+    <blockquote class="quote">
+      "I numeri governano il mondo."
+      <span class="quote-attr">— Pitagora</span>
+    </blockquote>
+  </div>
+
+  <h2 class="materials-module-title">Mod 01 — <em>Insiemi Numerici</em></h2>
+  <p class="materials-module-intro">
+    I numeri sono un po' come le scatole cinesi: dentro ai numeri naturali (1, 2, 3...) ci
+    sono già gli interi, dentro agli interi i razionali (le frazioni), e dentro ai razionali
+    i numeri reali, che riempiono ogni "buco" rimasto sulla retta. Ogni insieme nasce per
+    risolvere un problema che il precedente non sapeva gestire: prova a togliere 5 da 3
+    usando solo i numeri naturali, e capirai subito perché serviva qualcosa di più.
+  </p>
+  <div class="materials-grid">
+    <div class="materials-card lesson-card">
+      <span class="materials-card-badge">LB01</span>
+      <h3>Insiemi Numerici</h3>
+      <p class="materials-card-desc">
+        Lezione in preparazione.
+      </p>
+      <span class="materials-card-link">In preparazione</span>
+    </div>
+
+    <div class="materials-card">
+      <h3>Quiz e materiali</h3>
+      <p class="materials-card-desc">
+        Quiz e schede di riferimento in preparazione.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+{{- end -}}

@@ -625,6 +625,39 @@ html:has(body.dark) {
     .dark & {
       color: #d0d0d0;
     }
+
+    em {
+      font-style: italic;
+      color: $primary;
+    }
+  }
+
+  .quote {
+    max-width: 600px;
+    margin: 1.5rem auto 0;
+    text-align: left;
+    font-family: $sta-font-heading, serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: $body-color;
+    padding: 1rem 1.5rem;
+    border-left: 3px solid $primary;
+
+    .dark & {
+      color: #d0d0d0;
+    }
+
+    .quote-attr {
+      display: block;
+      font-size: 0.8rem;
+      font-style: normal;
+      color: #1a1a1a;
+      margin-top: 0.5rem;
+
+      .dark & {
+        color: #d0d0d0;
+      }
+    }
   }
 }
 
@@ -718,6 +751,164 @@ html:has(body.dark) {
     .card-badge {
       display: none;
     }
+  }
+}
+
+// Module section heading on materials pages
+.materials-module-title {
+  font-family: $sta-font-heading, serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 2rem 0 0.6rem;
+
+  em {
+    font-style: italic;
+    color: $primary;
+  }
+
+  &:first-of-type {
+    margin-top: 1rem;
+  }
+}
+
+.materials-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+
+.materials-card {
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(21, 20, 15, 0.1);
+  border-radius: 10px;
+  background: $sta-background;
+  transition: all 0.2s ease-out;
+
+  .dark & {
+    background: $sta-dark-background;
+  }
+
+  h3 {
+    font-family: $sta-font-heading, serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  &.lesson-card {
+    background: rgba($primary, 0.05);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+
+    .dark & {
+      background: rgba($primary, 0.08);
+    }
+
+    .materials-card-badge {
+      display: block;
+      font-family: $sta-font-heading, serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1;
+      color: rgba($primary, 0.4);
+      margin-bottom: 0.2rem;
+      transition: color 0.2s ease-out;
+    }
+
+    &:hover {
+      border-color: rgba($primary, 0.3);
+      box-shadow: 0 4px 12px rgba(21, 20, 15, 0.08);
+      transform: translateY(-2px);
+
+      .materials-card-badge {
+        color: $primary;
+      }
+    }
+  }
+
+  .materials-card-desc {
+    font-family: 'Georgia', serif;
+    font-size: 0.9rem;
+    color: #1a1a1a !important;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+    flex-grow: 1;
+
+    .dark & {
+      color: #d0d0d0 !important;
+    }
+  }
+
+  .materials-card-link {
+    font-family: $sta-font-body, monospace;
+    font-size: 0.9rem;
+    color: $primary;
+    font-weight: 600;
+  }
+
+  .materials-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      margin-bottom: 0.85rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    a {
+      font-family: $sta-font-body, monospace;
+      font-size: 0.9rem;
+      color: $primary;
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .materials-link-desc {
+      display: block;
+      font-family: 'Georgia', serif;
+      font-size: 0.9rem;
+      color: #1a1a1a;
+      margin-top: 0.15rem;
+
+      .dark & {
+        color: #d0d0d0;
+      }
+
+      a {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+.materials-module-intro {
+  font-family: 'Georgia', serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #1a1a1a;
+  margin: 0 0 1rem;
+  max-width: 700px;
+  padding-left: 1cm;
+  text-align: justify;
+
+  .dark & {
+    color: #d0d0d0;
+  }
+
+  em {
+    font-style: italic;
+    color: $primary;
   }
 }
 

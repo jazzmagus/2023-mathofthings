@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Equazioni di 1° grado — Scheda di riferimento</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.0 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f0ebe1;
+  --border:#e2dcd2; --border-light:#ece7dd;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#8a827a;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --purple:#6a1b9a; --purple-light:#f3e5f5;
+  --gold:#b8860b; --gold-light:#fdf8ed;
+  --teal:#4f6d7a; --teal-light:#e8eff2;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Source Sans 3','Georgia',serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  font-size:14px;
+  opacity:0;
+  transition:opacity .3s;
+}
+
+/* ── TOPBAR (solo schermo) ── */
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.93);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  height:52px; display:flex; align-items:center;
+  padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:.95rem; font-weight:700; color:var(--accent); }
+.topbar-tag { font-family:'Fira Code',monospace; font-size:.65rem; color:var(--text-dim); letter-spacing:1px; }
+.btn-print {
+  margin-left:auto;
+  font-family:'Fira Code',monospace; font-size:.68rem; letter-spacing:1px;
+  padding:6px 16px; border:1px solid var(--border); border-radius:20px;
+  background:var(--surface); color:var(--text-mid); cursor:pointer; transition:all .2s;
+}
+.btn-print:hover { border-color:var(--accent); color:var(--accent); }
+
+/* ── PAGINA ── */
+.page {
+  max-width:960px;
+  margin:0 auto;
+  padding:68px 24px 48px;
+}
+
+/* ── INTESTAZIONE ── */
+.poster-header {
+  display:flex; justify-content:space-between; align-items:flex-end;
+  margin-bottom:16px; padding-bottom:12px;
+  border-bottom:2.5px solid var(--accent);
+}
+.poster-title { font-family:'Playfair Display',serif; font-size:1.7rem; font-weight:800; line-height:1.1; }
+.poster-title em { color:var(--accent); font-style:italic; }
+.poster-meta { font-family:'Fira Code',monospace; font-size:.65rem; color:var(--text-dim); letter-spacing:1px; text-align:right; line-height:1.8; }
+
+/* ── GRIGLIA 3 COLONNE ── */
+.grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  align-items:start;
+}
+.col-span-2 { grid-column:span 2; }
+.col-span-3 { grid-column:span 3; }
+
+/* ── BOX ── */
+.box {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:12px 14px;
+  position:relative;
+  overflow:hidden;
+}
+.box::before {
+  content:''; position:absolute;
+  left:0; top:0; bottom:0; width:3px;
+}
+.box.accent::before  { background:var(--accent); }
+.box.blue::before    { background:var(--blue); }
+.box.green::before   { background:var(--green); }
+.box.purple::before  { background:var(--purple); }
+.box.gold::before    { background:var(--gold); }
+.box.teal::before    { background:var(--teal); }
+.box.danger::before  { background:var(--danger); }
+
+.box-label {
+  font-family:'Fira Code',monospace;
+  font-size:.6rem; letter-spacing:1.5px; text-transform:uppercase; font-weight:600;
+  margin-bottom:7px;
+}
+.box.accent .box-label  { color:var(--accent); }
+.box.blue   .box-label  { color:var(--blue); }
+.box.green  .box-label  { color:var(--green); }
+.box.purple .box-label  { color:var(--purple); }
+.box.gold   .box-label  { color:var(--gold); }
+.box.teal   .box-label  { color:var(--teal); }
+.box.danger .box-label  { color:var(--danger); }
+
+.box h3 {
+  font-family:'Playfair Display',serif;
+  font-size:.95rem; font-weight:700; margin-bottom:6px;
+}
+.box p { margin:4px 0; font-size:.88rem; line-height:1.55; }
+.box strong { font-weight:600; }
+.box em { font-style:italic; }
+
+/* ── FORMULA BOX ── */
+.formula {
+  background:var(--surface-alt);
+  border:1px solid var(--border-light);
+  border-radius:6px;
+  padding:8px 12px;
+  margin:8px 0;
+  text-align:center;
+  font-size:.95rem;
+}
+.formula.big { font-size:1.1rem; padding:10px 14px; }
+.formula.accent-border { border-color:var(--accent); border-width:1.5px; }
+
+/* ── STEP LIST ── */
+.steps { list-style:none; margin:6px 0; }
+.steps li {
+  display:flex; align-items:flex-start; gap:8px;
+  padding:3px 0; font-size:.86rem; line-height:1.5;
+  border-bottom:1px solid var(--border-light);
+}
+.steps li:last-child { border-bottom:none; }
+.step-n {
+  font-family:'Fira Code',monospace; font-size:.7rem; font-weight:700;
+  color:#fff; background:var(--accent); border-radius:50%;
+  width:17px; height:17px; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; margin-top:1px;
+}
+
+/* ── EXAMPLE BLOCK ── */
+.ex {
+  background:var(--surface-alt);
+  border-radius:6px;
+  padding:8px 10px;
+  margin:7px 0;
+  font-size:.85rem;
+}
+.ex-label {
+  font-family:'Fira Code',monospace; font-size:.58rem; letter-spacing:1px;
+  text-transform:uppercase; color:var(--text-dim); margin-bottom:4px;
+}
+.ex-line { margin:2px 0; line-height:1.5; }
+.ex-line.result { color:var(--green); font-weight:600; }
+.ex-line.comment { color:var(--text-dim); font-size:.8rem; font-style:italic; }
+
+/* ── BILANCIA SVG ── */
+.bilancia-wrap { display:flex; justify-content:center; margin:8px 0 4px; }
+
+/* ── CASI TABLE ── */
+.casi-table { width:100%; border-collapse:collapse; font-size:.82rem; margin:6px 0; }
+.casi-table th {
+  font-family:'Fira Code',monospace; font-size:.6rem; text-transform:uppercase; letter-spacing:.8px;
+  color:var(--accent); border-bottom:1.5px solid var(--border); padding:5px 8px; text-align:left;
+}
+.casi-table td { padding:5px 8px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.casi-table tr:last-child td { border-bottom:none; }
+
+/* ── CHECKLIST ── */
+.check-list { list-style:none; margin:4px 0; }
+.check-list li {
+  padding:3px 0 3px 24px; position:relative;
+  font-size:.86rem; line-height:1.45;
+  border-bottom:1px solid var(--border-light);
+}
+.check-list li:last-child { border-bottom:none; }
+.check-list li::before {
+  content:'□'; position:absolute; left:4px; top:3px;
+  font-size:1rem; color:var(--accent); line-height:1;
+}
+
+/* ── ERRORE TAG ── */
+.warn-tag {
+  display:inline-block; font-family:'Fira Code',monospace;
+  font-size:.6rem; letter-spacing:1px; text-transform:uppercase;
+  background:var(--danger-light); color:var(--danger);
+  border:1px solid var(--danger); border-radius:4px;
+  padding:1px 6px; margin-right:4px; vertical-align:middle;
+}
+.ok-tag {
+  display:inline-block; font-family:'Fira Code',monospace;
+  font-size:.6rem; letter-spacing:1px; text-transform:uppercase;
+  background:var(--green-light); color:var(--green);
+  border:1px solid var(--green); border-radius:4px;
+  padding:1px 6px; margin-right:4px; vertical-align:middle;
+}
+
+/* ── FOOTER ── */
+.poster-footer {
+  margin-top:14px; padding-top:10px; border-top:1px solid var(--border);
+  display:flex; justify-content:space-between;
+  font-family:'Fira Code',monospace; font-size:.62rem; color:var(--text-dim);
+}
+
+/* ── PRINT ── */
+@media print {
+  @page { size:A4; margin:12mm 10mm; }
+  .topbar { display:none; }
+  .btn-print { display:none; }
+  .page { padding:0; max-width:100%; }
+  body { font-size:9pt; background:#fff; opacity:1 !important; }
+  .box { break-inside:avoid; }
+  .grid { gap:6pt; }
+  .formula { background:#f5f5f5; }
+  .ex { background:#f5f5f5; }
+}
+
+@media(max-width:700px){
+  .grid { grid-template-columns:1fr; }
+  .col-span-2, .col-span-3 { grid-column:span 1; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Equazioni di 1° grado</div>
+  <div class="topbar-tag">Scheda di riferimento · IIS G.A. Remondini</div>
+  <button class="btn-print" onclick="window.print()">Stampa / PDF</button>
+</div>
+
+<div class="page">
+
+  <!-- INTESTAZIONE -->
+  <div class="poster-header">
+    <div class="poster-title">Equazioni di <em>1° grado</em> — Sintesi</div>
+    <div class="poster-meta">
+      prof. Diego Fantinelli<br>
+      IIS G.A. Remondini<br>
+      <span id="anno-scolastico"></span>
+    </div>
+  </div>
+
+  <!-- GRIGLIA CONTENUTI -->
+  <div class="grid">
+
+    <!-- 1. COS'È UN'EQUAZIONE -->
+    <div class="box accent">
+      <div class="box-label">Definizione</div>
+      <h3>Che cos'è un'equazione</h3>
+      <p>Un'equazione è un'<strong>uguaglianza</strong> in cui compare una lettera incognita (di solito \(x\)) il cui valore non conosciamo.</p>
+      <p style="margin-top:6px">Risolvere un'equazione significa trovare il(i) valore(i) di \(x\) che rendono l'uguaglianza <strong>vera</strong>.</p>
+
+      <!-- bilancia SVG -->
+      <div class="bilancia-wrap">
+        <svg viewBox="0 0 200 90" width="180" height="80">
+          <!-- fulcro -->
+          <polygon points="100,70 88,85 112,85" fill="#e2dcd2" stroke="#8a827a" stroke-width="1"/>
+          <!-- asta -->
+          <line x1="40" y1="55" x2="160" y2="55" stroke="#5a524a" stroke-width="2" stroke-linecap="round"/>
+          <line x1="100" y1="55" x2="100" y2="70" stroke="#5a524a" stroke-width="2"/>
+          <!-- piatto sinistro -->
+          <line x1="45" y1="55" x2="45" y2="65" stroke="#8a827a" stroke-width="1.2"/>
+          <ellipse cx="45" cy="68" rx="18" ry="5" fill="#fce4ec" stroke="#c2185b" stroke-width="1.2"/>
+          <!-- piatto destro -->
+          <line x1="155" y1="55" x2="155" y2="65" stroke="#8a827a" stroke-width="1.2"/>
+          <ellipse cx="155" cy="68" rx="18" ry="5" fill="#e8f0f5" stroke="#3a6b8c" stroke-width="1.2"/>
+          <!-- testi -->
+          <text x="45" y="52" text-anchor="middle" font-size="9" font-family="Source Sans 3,sans-serif" fill="#c2185b" font-weight="600">3x + 5</text>
+          <text x="155" y="52" text-anchor="middle" font-size="9" font-family="Source Sans 3,sans-serif" fill="#3a6b8c" font-weight="600">14</text>
+          <text x="100" y="88" text-anchor="middle" font-size="7.5" font-family="Fira Code,monospace" fill="#8a827a">equilibrio = uguaglianza</text>
+        </svg>
+      </div>
+
+      <p style="font-size:.82rem;color:var(--text-dim)">I due piatti devono stare in equilibrio: qualunque cosa facciamo a uno, dobbiamo farlo anche all'altro.</p>
+    </div>
+
+    <!-- 2. PRINCIPI DI EQUIVALENZA -->
+    <div class="box blue">
+      <div class="box-label">Regole fondamentali</div>
+      <h3>Principi di equivalenza</h3>
+      <p>Due equazioni sono <strong>equivalenti</strong> se hanno le stesse soluzioni.</p>
+
+      <div class="formula" style="background:var(--blue-light);border-color:var(--blue);margin-top:8px">
+        <strong>1° principio</strong><br>
+        <span style="font-size:.82rem">Sommare o sottrarre lo stesso numero ai due membri non cambia la soluzione.</span>
+      </div>
+      <div style="font-size:.8rem;text-align:center;color:var(--text-dim);margin:2px 0">\(3x + 5 = 14 \;\Longrightarrow\; 3x = 14 - 5\)</div>
+
+      <div class="formula" style="background:var(--blue-light);border-color:var(--blue);margin-top:6px">
+        <strong>2° principio</strong><br>
+        <span style="font-size:.82rem">Moltiplicare o dividere entrambi i membri per uno stesso numero \(\neq 0\) non cambia la soluzione.</span>
+      </div>
+      <div style="font-size:.8rem;text-align:center;color:var(--text-dim);margin:2px 0">\(3x = 9 \;\Longrightarrow\; x = 3\)</div>
+    </div>
+
+    <!-- 3. PROCEDURA -->
+    <div class="box green">
+      <div class="box-label">Metodo</div>
+      <h3>Come si risolve</h3>
+      <ul class="steps">
+        <li><span class="step-n">1</span>Sviluppa le <strong>parentesi</strong> (se presenti)</li>
+        <li><span class="step-n">2</span>Elimina i <strong>denominatori</strong> (moltiplicando per il MCM)</li>
+        <li><span class="step-n">3</span>Sposta tutte le \(x\) a <strong>sinistra</strong></li>
+        <li><span class="step-n">4</span>Sposta tutti i numeri a <strong>destra</strong></li>
+        <li><span class="step-n">5</span><strong>Dividi</strong> entrambi i membri per il coefficiente di \(x\)</li>
+        <li><span class="step-n">6</span><strong>Verifica</strong> sostituendo il risultato nell'equazione originale</li>
+      </ul>
+      <p style="margin-top:6px;font-size:.8rem;color:var(--text-dim)">Regola pratica: quando un termine <em>cambia membro</em>, <strong>cambia segno</strong>.</p>
+    </div>
+
+    <!-- 4. FORMA GENERALE + ESEMPIO BASE -->
+    <div class="box purple col-span-2">
+      <div class="box-label">Forma generale ed esempi</div>
+      <h3>La forma \(ax + b = 0\)</h3>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px">
+        <div>
+          <p>La forma generale dell'equazione di 1° grado è:</p>
+          <div class="formula big accent-border">\[ ax + b = 0 \quad (a \neq 0) \]</div>
+          <p>La soluzione è:</p>
+          <div class="formula accent-border">\[ x = -\dfrac{b}{a} \]</div>
+        </div>
+        <div>
+          <div class="ex">
+            <div class="ex-label">Esempio 1 — base</div>
+            <div class="ex-line">\(3x + 5 = 14\)</div>
+            <div class="ex-line">\(3x = 14 - 5\)</div>
+            <div class="ex-line">\(3x = 9\)</div>
+            <div class="ex-line result">\(x = 3\)</div>
+            <div class="ex-line comment">Verifica: \(3 \cdot 3 + 5 = 14\) ✓</div>
+          </div>
+          <div class="ex">
+            <div class="ex-label">Esempio 2 — x in entrambi i membri</div>
+            <div class="ex-line">\(2x - 7 = 5 - x\)</div>
+            <div class="ex-line">\(2x + x = 5 + 7\)</div>
+            <div class="ex-line">\(3x = 12\)</div>
+            <div class="ex-line result">\(x = 4\)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. CASI PARTICOLARI -->
+    <div class="box gold">
+      <div class="box-label">Attenzione</div>
+      <h3>Casi particolari</h3>
+      <table class="casi-table">
+        <tr>
+          <th>Risultato</th>
+          <th>Tipo</th>
+          <th>Soluzioni</th>
+        </tr>
+        <tr>
+          <td>\(0 \cdot x = 0\)</td>
+          <td style="color:var(--blue)"><strong>Indeterminata</strong></td>
+          <td>infinite soluzioni<br><span style="font-size:.78rem;color:var(--text-dim)">ogni x è soluzione</span></td>
+        </tr>
+        <tr>
+          <td>\(0 \cdot x = k\)<br><span style="font-size:.78rem">\((k \neq 0)\)</span></td>
+          <td style="color:var(--danger)"><strong>Impossibile</strong></td>
+          <td>nessuna soluzione<br><span style="font-size:.78rem;color:var(--text-dim)">\(0 \neq k\) per nessun x</span></td>
+        </tr>
+      </table>
+      <div class="ex" style="margin-top:8px">
+        <div class="ex-label">Esempio — impossibile</div>
+        <div class="ex-line">\(2x + 3 = 2x - 1\)</div>
+        <div class="ex-line">\(2x - 2x = -1 - 3\)</div>
+        <div class="ex-line" style="color:var(--danger);">\(0 = -4\) — Impossibile!</div>
+      </div>
+    </div>
+
+    <!-- 6. EQUAZIONI CON PARENTESI -->
+    <div class="box teal">
+      <div class="box-label">Caso frequente</div>
+      <h3>Equazioni con parentesi</h3>
+      <p>Prima di tutto: <strong>sviluppa le parentesi</strong> applicando la proprietà distributiva.</p>
+      <div class="ex" style="margin-top:8px">
+        <div class="ex-label">Esempio</div>
+        <div class="ex-line">\(5(x - 2) = 3x + 4\)</div>
+        <div class="ex-line">\(5x - 10 = 3x + 4\)</div>
+        <div class="ex-line">\(5x - 3x = 4 + 10\)</div>
+        <div class="ex-line">\(2x = 14\)</div>
+        <div class="ex-line result">\(x = 7\)</div>
+        <div class="ex-line comment">Verifica: \(5(7-2) = 25\) e \(3 \cdot 7 + 4 = 25\) ✓</div>
+      </div>
+    </div>
+
+    <!-- 7. EQUAZIONI CON FRAZIONI -->
+    <div class="box accent">
+      <div class="box-label">Caso frequente</div>
+      <h3>Equazioni con frazioni</h3>
+      <p>Moltiplica <strong>tutto</strong> (ogni termine) per il <strong>MCM</strong> dei denominatori. Le frazioni spariscono.</p>
+      <div class="ex" style="margin-top:8px">
+        <div class="ex-label">Esempio — MCM = 6</div>
+        <div class="ex-line">\(\dfrac{x}{2} + \dfrac{1}{3} = \dfrac{x}{6} + 2\)</div>
+        <div class="ex-line" style="color:var(--text-dim);font-size:.8rem">× 6:</div>
+        <div class="ex-line">\(3x + 2 = x + 12\)</div>
+        <div class="ex-line">\(3x - x = 12 - 2\)</div>
+        <div class="ex-line">\(2x = 10\)</div>
+        <div class="ex-line result">\(x = 5\)</div>
+      </div>
+    </div>
+
+    <!-- 8. ERRORI COMUNI -->
+    <div class="box danger">
+      <div class="box-label">Errori da evitare</div>
+      <h3>Attenzione a questi errori</h3>
+      <p style="margin-bottom:6px;font-size:.85rem">Questi sono gli errori più frequenti:</p>
+
+      <p><span class="warn-tag">Sbagliato</span> <span style="font-size:.83rem">\(3x - 5 = 10 \Rightarrow 3x = 10 - 5\)</span></p>
+      <p style="font-size:.8rem;color:var(--text-dim);margin-bottom:6px;padding-left:4px">Il \(-5\) va a destra con segno <em>opposto</em>: \(+5\)</p>
+      <p><span class="ok-tag">Corretto</span> <span style="font-size:.83rem">\(3x = 10 + 5 = 15\)</span></p>
+
+      <div style="border-top:1px solid var(--border-light);margin:8px 0;padding-top:8px">
+        <p><span class="warn-tag">Sbagliato</span> <span style="font-size:.83rem">\(2(x+3) = 2x + 3\)</span></p>
+        <p style="font-size:.8rem;color:var(--text-dim);margin-bottom:6px;padding-left:4px">Il 2 moltiplica <em>tutti</em> i termini nella parentesi</p>
+        <p><span class="ok-tag">Corretto</span> <span style="font-size:.83rem">\(2(x+3) = 2x + 6\)</span></p>
+      </div>
+
+      <div style="border-top:1px solid var(--border-light);margin:8px 0;padding-top:8px">
+        <p><span class="warn-tag">Sbagliato</span> <span style="font-size:.83rem">dividere per 0</span></p>
+        <p style="font-size:.8rem;color:var(--text-dim);padding-left:4px">Se il coefficiente di \(x\) è 0, l'equazione è un caso particolare (impossibile o indeterminata)</p>
+      </div>
+    </div>
+
+    <!-- 9. CHECKLIST -->
+    <div class="box green col-span-2">
+      <div class="box-label">Promemoria</div>
+      <h3>Checklist — segui questi passi nell'ordine</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 16px">
+        <ul class="check-list">
+          <li>Sviluppo le parentesi (proprietà distributiva)</li>
+          <li>Elimino i denominatori (moltiplico per il MCM)</li>
+          <li>Sposto tutti i termini con \(x\) a sinistra</li>
+          <li>Sposto tutti i numeri a destra</li>
+        </ul>
+        <ul class="check-list">
+          <li>Raccolgo i termini simili (\(ax + bx = (a+b)x\))</li>
+          <li>Divido entrambi i membri per il coefficiente di \(x\)</li>
+          <li><strong>Verifico</strong> sostituendo il risultato</li>
+          <li>Controllo se l'equazione è impossibile o indeterminata</li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <!-- FOOTER -->
+  <div class="poster-footer">
+    <span>prof. Diego Fantinelli — IIS G.A. Remondini</span>
+    <span>Equazioni di 1° grado</span>
+    <span id="footer-year"></span>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+const y = new Date().getFullYear();
+const m = new Date().getMonth() + 1;
+const as = m >= 9 ? `${y}–${y+1}` : `${y-1}–${y}`;
+document.getElementById('anno-scolastico').textContent = 'a.s. ' + as;
+document.getElementById('footer-year').textContent = 'a.s. ' + as;
+</script>
+</body>
+</html>
