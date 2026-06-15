@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lezione — Equazioni di 1° grado</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script>
 MathJax = {
   tex: {
@@ -26,26 +26,28 @@ MathJax = {
   --bg:#faf7f2; --surface:#fff; --surface-alt:#f0ebe1;
   --border:#e2dcd2; --border-light:#ece7dd;
   --text:#2c2520; --text-mid:#5a524a; --text-dim:#8a827a;
-  --accent:#c2185b; --accent-light:#fce4ec;
+  --accent:#ed6f5c; --accent-light:#fbe6e2;
   --blue:#3a6b8c; --blue-light:#e8f0f5;
   --green:#4a7c59; --green-light:#eaf5ed;
   --purple:#6a1b9a; --purple-light:#f3e5f5;
   --gold:#b8860b; --gold-light:#fdf8ed;
   --teal:#4f6d7a; --teal-light:#e8eff2;
   --danger:#b33a3a;
-  --radius:10px; --shadow:0 2px 12px rgba(44,37,32,.08);
+  --radius:10px; --shadow:none;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+body{font-family:'Georgia','Source Sans 3',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
 
 .topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
-.topbar-brand{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent);white-space:nowrap}
+.topbar-brand{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:600;color:var(--accent);white-space:nowrap;text-decoration:none}
 .topbar-nav{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;flex:1}
 .topbar-nav::-webkit-scrollbar{display:none}
-.nav-pill{background:none;border:none;font-family:'Source Sans 3',sans-serif;font-size:.82rem;color:var(--text-dim);padding:6px 14px;border-radius:20px;cursor:pointer;white-space:nowrap;transition:all .2s}
-.nav-pill:hover{background:var(--surface-alt);color:var(--text)}
-.nav-pill.active{background:var(--accent);color:#fff;font-weight:600}
+.pdf-btn{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--accent);background:none;border:1px solid rgba(44,37,32,.1);border-radius:20px;padding:6px 14px;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.pdf-btn:hover{background:var(--accent-light)}
+.nav-pill{background:none;border:none;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--text-dim);padding:6px 12px;border-radius:6px;cursor:pointer;white-space:nowrap;transition:all .2s}
+.nav-pill:hover{color:var(--accent)}
+.nav-pill.active{color:var(--accent);font-weight:600}
 
 .container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 80px}
 .section{display:none;animation:appear .4s ease}
@@ -53,13 +55,13 @@ body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(
 @keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
 .hero{margin-bottom:40px;padding-bottom:32px;border-bottom:2px solid var(--border)}
-.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:12px}
 .hero h1 em{font-style:italic;color:var(--accent)}
-.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7;padding-left:0.8cm;text-align:justify}
 
-.cb{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:26px 30px;margin:24px 0;box-shadow:var(--shadow);position:relative}
-.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:var(--radius) 0 0 var(--radius)}
+.cb{background:var(--surface);border:1px solid rgba(44,37,32,.06);border-radius:var(--radius);padding:20px 24px;margin:20px 0;position:relative}
+.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;border-radius:var(--radius) 0 0 var(--radius)}
 .cb.tip::before{background:var(--blue)}
 .cb.warn::before{background:var(--gold)}
 .cb.danger::before{background:var(--danger)}
@@ -67,7 +69,7 @@ body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(
 .cb.method::before{background:var(--accent)}
 .cb.purple::before{background:var(--purple)}
 .cb.teal::before{background:var(--teal)}
-.cb-label{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;font-weight:600}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;font-weight:600}
 .cb.tip .cb-label{color:var(--blue)}
 .cb.warn .cb-label{color:var(--gold)}
 .cb.danger .cb-label{color:var(--danger)}
@@ -77,21 +79,21 @@ body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(
 .cb.teal .cb-label{color:var(--teal)}
 
 .math-block{background:#fdfaf6;border:1px solid var(--border-light);border-radius:8px;padding:18px 24px;margin:14px 0;overflow-x:auto}
-.math-block.hero-formula{background:#fff;border:2px solid var(--accent);padding:24px 28px;text-align:center}
+.math-block.hero-formula{background:#fff;border:2px solid var(--accent);padding:12px 28px;text-align:center}
 .math-block.result{border-left:4px solid var(--green);background:var(--green-light)}
 .math-block.warning{border-left:4px solid var(--danger);background:#fdf0f0}
 .math-block.dark{background:var(--surface-alt)}
 
 .step-math{margin:6px 0;padding:4px 0}
-.step-math .label{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+.step-math .label{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
 .step-math .label.green{color:var(--green)}
 
-.accordion{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:24px 0;box-shadow:var(--shadow)}
+.accordion{border:1px solid rgba(44,37,32,.06);border-radius:var(--radius);overflow:hidden;margin:20px 0}
 .acc-item{border-bottom:1px solid var(--border-light)}
 .acc-item:last-child{border-bottom:none}
 .acc-header{display:flex;align-items:center;gap:14px;padding:16px 22px;background:var(--surface);cursor:pointer;transition:background .2s;user-select:none}
 .acc-header:hover{background:var(--surface-alt)}
-.acc-num{width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0;font-family:'Fira Code',monospace}
+.acc-num{width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0;font-family:'JetBrains Mono',monospace}
 .acc-title{font-weight:600;font-size:.98rem;flex:1}
 .acc-arrow{width:18px;height:18px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
 .acc-item.open .acc-arrow{transform:rotate(180deg)}
@@ -100,19 +102,19 @@ body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(
 .acc-inner{padding:4px 22px 22px;border-top:1px solid var(--border-light)}
 
 .ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9rem}
-.ct th{text-align:left;padding:11px 14px;font-weight:600;color:var(--accent);border-bottom:2px solid var(--border);font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct th{text-align:left;padding:11px 14px;font-weight:600;color:var(--accent);border-bottom:2px solid var(--border);font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
 .ct td{padding:10px 14px;border-bottom:1px solid var(--border-light);vertical-align:top}
 .ct tr:last-child td{border-bottom:none}
 
 .step-grid{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;align-items:start;margin:14px 0}
-.step-circle{width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-weight:700;font-size:.8rem;flex-shrink:0;margin-top:2px}
+.step-circle{width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.8rem;flex-shrink:0;margin-top:2px}
 .step-text{font-size:.95rem;padding-top:4px;line-height:1.6}
 
 .compare-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
 .compare-card{border-radius:8px;padding:14px 16px;font-size:.88rem;line-height:1.6}
 .compare-card.wrong{background:#fdf0f0;border:1px solid var(--danger)}
 .compare-card.right{background:var(--green-light);border:1px solid var(--green)}
-.compare-label{font-family:'Fira Code',monospace;font-size:.62rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.compare-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:6px}
 .compare-card.wrong .compare-label{color:var(--danger)}
 .compare-card.right .compare-label{color:var(--green)}
 
@@ -121,17 +123,25 @@ body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(
 .checklist li::before{content:'□';position:absolute;left:6px;top:6px;font-size:1.1rem;color:var(--accent)}
 
 .bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:52px;padding-top:26px;border-top:2px solid var(--border)}
-.bb{font-family:'Source Sans 3',sans-serif;font-size:.9rem;padding:10px 26px;border-radius:8px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:all .2s;box-shadow:var(--shadow)}
+.bb{font-family:'JetBrains Mono',monospace;font-size:.8rem;padding:9px 22px;border-radius:8px;cursor:pointer;border:1px solid rgba(44,37,32,.1);background:none;color:var(--text-dim);transition:all .2s}
 .bb:hover{border-color:var(--accent);color:var(--accent)}
 .bb:disabled{opacity:.35;cursor:not-allowed}
-.bb:disabled:hover{border-color:var(--border);color:var(--text)}
-.bb.primary{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
-.bb.primary:hover{background:#a8144e}
-.page-info{font-family:'Fira Code',monospace;font-size:.78rem;color:var(--text-dim)}
+.bb:disabled:hover{border-color:rgba(44,37,32,.1);color:var(--text-dim)}
+.bb.primary{font-weight:600}
+.page-info{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--text-dim)}
 
 p{margin:8px 0} .dim{color:var(--text-dim)} strong{font-weight:600}
 mjx-container[jax="SVG"]{direction:ltr}
 mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%}
+
+@media print{
+  .topbar, .bottom-nav{display:none !important}
+  .container{padding:24px 0}
+  body.print-all .section{display:block !important;page-break-after:always}
+  body.print-all .section:last-child{page-break-after:auto}
+  .acc-body{max-height:none !important;overflow:visible !important}
+  .acc-arrow{display:none}
+}
 
 @media(max-width:640px){
   body{font-size:16px}
@@ -147,8 +157,9 @@ mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%}
 <body>
 
 <div class="topbar">
-  <div class="topbar-brand">Eq. 1° grado</div>
+  <a class="topbar-brand" href="/">← Home</a>
   <div class="topbar-nav" id="topNav"></div>
+  <button class="pdf-btn" onclick="downloadPDF()">PDF ↓</button>
 </div>
 <div class="container" id="app"></div>
 
@@ -174,27 +185,9 @@ function toggleAcc(el) {
 }
 
 function svgBilancia() {
-  return `<div style="display:flex;flex-direction:column;align-items:center;margin:16px 0;gap:6px">
-  <svg viewBox="0 0 260 88" width="240" height="82">
-    <!-- fulcro -->
-    <polygon points="130,72 118,84 142,84" fill="#e2dcd2" stroke="#8a827a" stroke-width="1"/>
-    <!-- colonna -->
-    <line x1="130" y1="46" x2="130" y2="72" stroke="#5a524a" stroke-width="2" stroke-linecap="round"/>
-    <!-- asta orizzontale -->
-    <line x1="38" y1="46" x2="222" y2="46" stroke="#5a524a" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="130" cy="46" r="3.5" fill="#5a524a"/>
-    <!-- fili -->
-    <line x1="58" y1="46" x2="58" y2="58" stroke="#8a827a" stroke-width="1.5"/>
-    <line x1="202" y1="46" x2="202" y2="58" stroke="#8a827a" stroke-width="1.5"/>
-    <!-- piatto sinistro — rettangolo -->
-    <rect x="22" y="58" width="72" height="22" rx="5" fill="#fce4ec" stroke="#c2185b" stroke-width="1.5"/>
-    <!-- piatto destro — rettangolo -->
-    <rect x="166" y="58" width="72" height="22" rx="5" fill="#e8f0f5" stroke="#3a6b8c" stroke-width="1.5"/>
-    <!-- testi -->
-    <text x="58" y="73" text-anchor="middle" font-size="11" font-family="Source Sans 3,sans-serif" fill="#c2185b" font-weight="600">3x + 5</text>
-    <text x="202" y="73" text-anchor="middle" font-size="11" font-family="Source Sans 3,sans-serif" fill="#3a6b8c" font-weight="600">14</text>
-  </svg>
-  <span style="font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)">bilancia in equilibrio = uguaglianza vera</span>
+  return `<div style="display:flex;flex-direction:column;align-items:center;margin:20px 0;gap:10px">
+  <img src="/lezioni/equazioni-1-grado/bilancia.png" width="420" height="202" alt="Bilancia in equilibrio">
+  <span style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--text-dim)">bilancia in equilibrio = uguaglianza vera</span>
   </div>`;
 }
 
@@ -203,8 +196,8 @@ const S = [
 // ═══ 0: COS'È UN'EQUAZIONE ═══
 {
   tag:"TEORIA",
-  title:"Che cos'è un'<em>equazione</em>",
-  sub:"La bilancia, l'incognita, e l'idea di equilibrio.",
+  title:"Equazioni di primo grado — Che cos'è un'<em>equazione</em>",
+  sub:"Un'equazione è una domanda travestita da uguaglianza: c'è un numero misterioso, lo chiamiamo x, e il nostro compito è scoprire chi è. La bilancia è l'immagine perfetta per ragionarci: i due piatti devono restare in equilibrio, e ogni mossa che facciamo su un piatto va fatta anche sull'altro. L'obiettivo finale è sempre lo stesso: isolare la x da una parte, lasciando tutto il resto dall'altra — cioè trovare il valore che rende l'uguaglianza vera.",
   nav:"Definizione",
   body:`
     <div class="cb method">
@@ -989,6 +982,22 @@ function goTo(idx) {
   render();
   window.scrollTo({top:0, behavior:'smooth'});
 }
+
+function downloadPDF() {
+  document.body.classList.add('print-all');
+  document.querySelectorAll('.section').forEach(s => s.classList.add('active'));
+  document.querySelectorAll('.acc-item').forEach(a => a.classList.add('open'));
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    MathJax.typesetPromise([document.getElementById('app')]).then(() => window.print());
+  } else {
+    window.print();
+  }
+}
+
+window.addEventListener('afterprint', () => {
+  document.body.classList.remove('print-all');
+  render();
+});
 
 document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') goTo(cur + 1);
