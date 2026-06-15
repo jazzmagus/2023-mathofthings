@@ -57,3 +57,13 @@
     <p>&copy; {{ now.Year }} Diego Fantinelli. All rights reserved.</p>
   </div>
 </footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var avatar = document.querySelector('.about-photo-footer');
+    if (!avatar) return;
+    avatar.addEventListener('click', function () {
+      avatar.classList.toggle('avatar-zoomed');
+    });
+  });
+</script>
