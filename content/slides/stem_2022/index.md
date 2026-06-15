@@ -5,9 +5,9 @@ authors: [Diego Fantinelli]
 tags: [stem]
 categories: [concorso]
 date: "2022-02-05T00:00:00Z"
-theme: serif
-# slides:
-#   theme: serif
+# theme: serif
+slides:
+  theme: serif
 # # transition: convex
 #   # Choose a code highlighting style (if highlighting enabled in `params.toml`)
 #   #   Light style: github. Dark style: dracula (default).
@@ -41,7 +41,7 @@ theme: serif
     </tr>
     <tr>
       <td><b>alunni</b></td>
-      <td style="font-size:80%"><i>n. studenti: n. maschi e n. femmine<br><i></td>     
+      <td style="font-size:80%"><i>n. studenti: n. maschi e n. femmine<br><i></td>
     </tr>
     <tr>
       <td><b>disabilità</b></td>
@@ -65,7 +65,7 @@ theme: serif
   </tr>
   <tr>
     <td style="color:#8A4117" width="40.0%"><em>2. saper progettare</em></td>
-    <td width="60.0%">elaborare e realizzare progetti</td>  
+    <td width="60.0%">elaborare e realizzare progetti</td>
   </tr>
   <tr>
     <td style="color:#8A4117" width="40.0%"><em>3. saper comunicare</em></td>
@@ -95,7 +95,7 @@ theme: serif
   <h5><b>Competenze di base</b></h5><em>
   <h5 style="color:#8A4117">primo biennio</h5>
     <ul style="font-size:55%">
-      <li>individuare collegamenti tra matematica e altre discipline e tra matematica e realtà <em>(modello matematico)</em></li> 
+      <li>individuare collegamenti tra matematica e altre discipline e tra matematica e realtà <em>(modello matematico)</em></li>
       <li>individuare collegamenti all’interno della matematica</li>
       <li>sviluppare l’algebra interpretandola graficamente</li>
       <li>utilizzare diversi registri rappresentativi</li>
@@ -104,7 +104,7 @@ theme: serif
     </ul>
   <h5 style="color:#8A4117">secondo biennio e quinto anno</h5>
     <ul style="font-size:55%">
-      <li>Utilizzare il linguaggio e i metodi propri della matematica per organizzare e valutare adeguatamente informazioni qualitative e quantitative</li> 
+      <li>Utilizzare il linguaggio e i metodi propri della matematica per organizzare e valutare adeguatamente informazioni qualitative e quantitative</li>
       <li>Utilizzare le strategie del pensiero razionale negli aspetti dialettici e algoritmici per affrontare situazioni problematiche, elaborando opportune soluzioni</li>
       <li>Utilizzare le reti e gli strumenti informatici nelle attività di studio, ricerca e approfondimento disciplinare</li>
       <li>Correlare la conoscenza storica generale agli sviluppi delle scienze, delle tecnologie e delle tecniche negli specifici campi professionali di riferimento</li>
@@ -300,7 +300,7 @@ theme: serif
       <li>Rielaborazione appunti</li>
       <li>esercizi assegnati (corretti in classe)</li>
       <li>strumenti</li>
-    </ul>  
+    </ul>
   <li><h3>COLLABORAZIONI</h3></li>
     <ul>
       <li>Rielaborazione appunti</li>
@@ -309,12 +309,12 @@ theme: serif
 
 ---
 
-<!-- 
+<!--
 <section data-background-iframe="https://mathofthings.netlify.app/" data-background-interactive>
 
-</section> 
+</section>
 
---- 
+---
 -->
 
 <section data-background-video="digital.mp4" data-background-opacity="0.9" data-transition="convex">
