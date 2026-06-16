@@ -55,17 +55,9 @@ gallery_item:
   image: theme-strawberry.png
 ---
 
-<!-- ![metodo Cornell](./mindmup_ex.png) -->
-
-> - references:
->   - [The Cornell Note Taking System](https://lsc.cornell.edu/how-to-study/taking-notes/cornell-note-taking-system/)
-<!--   - [versione pdf](./metodo-Cornell.pdf) -->
-
----
-
 ## Il Metodo Cornell
 
->Ideato quasi 80 anni fa dal prof. Walter Pauk della Cornell University di New York, **il metodo Cornell** è un sistema efficace per prendere appunti.
+>Ideato quasi 80 anni fa dal prof. Walter Pauk della Cornell University di New York, è un sistema efficace per prendere appunti.
 
 - Nonostante la sua semplicità – alla fine si tratta di un foglio diviso in 3 parti – il metodo Cornell ti permette di seguire una lezione, una conferenza, una riunione di lavoro:
 
@@ -182,4 +174,8 @@ L’efficacia del metodo Cornell si basa su due fatti principali:
 
 {{< figure src="./cornell-page.png" caption="Pagina di riferimento del Metodo Cornell" numbered="true" >}}
 
-<!-- ![metodo Cornell](./cornell-page.png) -->
+---
+
+## Riferimenti
+
+- [The Cornell Note Taking System](https://lsc.cornell.edu/how-to-study/taking-notes/cornell-note-taking-system/) — Cornell University Learning Strategies Center
