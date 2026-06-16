@@ -41,8 +41,6 @@ projects: []
 ><i class="fa-solid fa-quote-left"></i> Faith in oneself is the best and safest course. <i class="fa-solid fa-quote-right"></i>
 ><br>&mdash; <cite>Michelangelo</cite>
 
-# Indice di massa corporea
-
 >L'indice di massa corporea (abbreviato IMC o BMI, dall'inglese body mass index) è un dato biometrico, espresso come rapporto tra peso e quadrato dell'altezza di un individuo ed è utilizzato come un indicatore dello stato di peso forma.
 
 
