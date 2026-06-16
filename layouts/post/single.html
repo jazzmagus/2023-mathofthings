@@ -14,7 +14,16 @@
 
 <article class="article">
   <div class="article-container">
-    <h1 class="article-title">{{ .Title | markdownify }}</h1>
+    <h1 class="article-title" style="font-size: 2.8rem; line-height: 1.2;">{{ .Title | markdownify }}</h1>
+    <style>
+      .article-title code {
+        font-family: 'JetBrains Mono', monospace;
+        background: none;
+        color: inherit;
+        padding: 0;
+        font-size: 1em;
+      }
+    </style>
 
     {{ with .Params.subtitle }}
       <p class="article-subtitle">{{ . | markdownify }}</p>
