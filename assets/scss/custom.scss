@@ -795,12 +795,14 @@ html:has(body.dark) {
 }
 
 .course-card {
-  padding: 0.8rem 0.7rem;
+  padding: 0.65rem 0.7rem;
   border: 1px solid rgba(21, 20, 15, 0.1);
   border-radius: 10px;
   background: rgba(#c9a876, 0.05);
   transition: all 0.2s ease-out;
   display: flex;
+  text-decoration: none;
+  color: inherit;
 
   .dark & {
     background: rgba(#c9a876, 0.08);
@@ -875,6 +877,27 @@ html:has(body.dark) {
 
     .card-badge {
       display: none;
+    }
+  }
+
+  &.course-extra {
+    background: rgba($primary, 0.05);
+    border-color: rgba($primary, 0.2);
+
+    .dark & {
+      background: rgba($primary, 0.08);
+    }
+
+    h3 {
+      em {
+        font-style: italic;
+        color: $primary;
+      }
+    }
+
+    &:hover {
+      border-color: rgba($primary, 0.4);
+      box-shadow: 0 4px 12px rgba(21, 20, 15, 0.08);
     }
   }
 }
