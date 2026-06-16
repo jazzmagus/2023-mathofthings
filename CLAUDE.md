@@ -225,6 +225,23 @@ La lezione aggiunge `?print=1` per attivare il CSS di stampa (`body.print-all` i
 
 ---
 
+## Convenzioni frontmatter — post (`content/post/`)
+
+Ogni post deve avere nel blocco `image:`:
+
+```yaml
+image:
+  filename: featured.jpg   # o featured.png
+  caption: ''
+  focal_point: Center      # Smart | Center | Top | Bottom | Left | Right
+  placement: 2             # piena larghezza sopra il titolo (come Modello Matematico)
+  preview_only: false
+```
+
+`placement: 2` è il default per tutti i nuovi post — non ometterlo.
+
+---
+
 ## Convenzioni di stile
 
 - Nessun commento HTML inutile nel codice generato.
