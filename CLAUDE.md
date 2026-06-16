@@ -267,3 +267,48 @@ image:
 - Le pagine statiche extra (es. `lezioni-fisica`, `verso-universita`) hanno il layout in `layouts/<slug>/list.html` e il contenuto in `content/<slug>/_index.md`.
 - Math inline: `$...$` — display: `$$...$$`.
 - **Formule: no `\boxed{}`** — usa `\tag{}` per numerare le formule importanti, ma mai racchiuderle in box. Es: `$$f(x) = \lim_{h \to 0} \frac{f(x+h)-f(x)}{h} \tag{D}$$`
+
+---
+
+## Standard — Pagine Corsi (Lezioni con Programmazione)
+
+### Struttura card lezione (`.materials-card.lesson-card`)
+
+Ogni lezione della programmazione didattica segue questo pattern:
+
+```
+[Lezione LA0X]
+Titolo lezione
+Descrizione breve (font piccolo, corsivo, Georgia)
+├ Argomento 1: XXh
+├ Argomento 2: XXh
+├ ...
+└─ Totale: XXh
+```
+
+### Font e colori
+
+- **Titolo lezione**: Playfair Display, 1.1rem
+- **Descrizione breve** (`.lesson-description`): Georgia, 0.85rem, corsivo, #1a1a1a / #d0d0d0
+- **Argomenti** (`.content-title`): **JetBrains Mono**, 0.8rem, colore scuro (#1a1a1a / #d0d0d0), NON corallo
+- **Ore** (`.content-hours`): JetBrains Mono, 0.85rem, colore corallo `$primary`, peso 600
+- **Totale ore**: JetBrains Mono, 0.85rem, colore corallo, allineato a destra
+
+### Link materiali (`.materials-links a`)
+
+- Font: **JetBrains Mono**, 0.85rem, peso 600, colore corallo
+- No underline, underline su hover
+- Descrizione sotto: Georgia, 0.9rem, colore scuro
+
+### Pulsanti verifica (`.verification-buttons`)
+
+Per verifica e soluzioni: due pulsanti light affiancati, senza descrizione.
+
+```html
+<div class="verification-buttons">
+  <a href="/path/verifica.pdf" class="btn-verification btn-simulation">Simulazione</a>
+  <a href="/path/soluzioni.pdf" class="btn-verification btn-solutions">Soluzioni</a>
+</div>
+```
+
+Stile: border 1px `rgba($primary, 0.3)`, background `rgba($primary, 0.06)`, padding 0.5rem 1rem, hover: border `rgba($primary, 0.5)`, transform translateY(-1px).
