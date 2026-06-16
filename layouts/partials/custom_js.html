@@ -13,52 +13,51 @@
 </script>
 
 {{/* Theme toggle: convert dropdown to simple light/dark toggle */}}
+<style>
+  /* Hide theme dropdown menu */
+  .dropdown-menu[aria-labelledby="theme-selector"],
+  .navbar .nav-item .dropdown-menu {
+    display: none !important;
+  }
+</style>
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const themeToggle = document.querySelector('.theme-toggle');
-    const dropdownMenu = document.querySelector('.theme-toggle .dropdown-menu');
+    // Find theme toggle button by looking for moon/sun icon or aria-label
+    const themeBtn = document.querySelector('[aria-label*="theme"], [aria-label*="dark"], [aria-label*="light"], .navbar-nav .nav-item:last-child .nav-link');
 
-    if (themeToggle && dropdownMenu) {
-      // Hide dropdown menu
-      dropdownMenu.style.display = 'none';
+    if (themeBtn) {
+      themeBtn.addEventListener('click', function(e) {
+        // Prevent dropdown from opening
+        e.preventDefault();
+        e.stopPropagation();
 
-      // Get the theme button (the icon)
-      const themeBtn = themeToggle.querySelector('.dropdown-toggle');
+        // Get current theme from html element or localStorage
+        const htmlElement = document.documentElement;
+        const currentTheme = htmlElement.getAttribute('data-wc-theme') || localStorage.getItem('wcTheme') || 'light';
 
-      if (themeBtn) {
-        themeBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
+        // Toggle between light and dark
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 
-          // Get current theme
-          const htmlElement = document.documentElement;
-          const currentTheme = localStorage.getItem('wcTheme') || 'light';
+        // Set new theme in HTML attribute
+        htmlElement.setAttribute('data-wc-theme', newTheme);
 
-          // Toggle between light and dark
-          const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        // Save to localStorage
+        localStorage.setItem('wcTheme', newTheme);
 
-          // Set new theme
-          localStorage.setItem('wcTheme', newTheme);
-          htmlElement.setAttribute('data-wc-theme', newTheme);
+        // Trigger theme change event if exists
+        if (window.getColorScheme) {
+          window.getColorScheme(newTheme);
+        }
 
-          // Update icon: moon for light mode, sun for dark mode
-          const icon = themeBtn.querySelector('i');
-          if (icon) {
-            icon.className = newTheme === 'light'
-              ? 'fas fa-moon'
-              : 'fas fa-sun';
-          }
-        });
-
-        // Set initial icon based on current theme
-        const currentTheme = localStorage.getItem('wcTheme') || 'light';
+        // Update icon
         const icon = themeBtn.querySelector('i');
         if (icon) {
-          icon.className = currentTheme === 'light'
+          icon.className = newTheme === 'light'
             ? 'fas fa-moon'
             : 'fas fa-sun';
         }
-      }
+      });
     }
   });
 </script>
