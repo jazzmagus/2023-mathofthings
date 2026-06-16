@@ -10,15 +10,17 @@ publishDate: "2025-06-01T00:00:00Z"
 featured: false
 draft: false
 image:
-  caption: ''
-  focal_point: Smart
+  filename: featured.jpg
+  caption: 'Gestionale Zucchetti — case study AI'
+  focal_point: Center
+  preview_only: false
 ---
 
 ## Il problema
 
 Gestionale 1 Zucchetti è un software di contabilità e amministrazione diffuso nelle scuole italiane. Robusto, ricco di funzioni — e, nella versione in uso nel nostro istituto, privo di un manuale d'uso aggiornato e accessibile.
 
-La situazione concreta: dover formare personale nuovo su procedure operative complesse (registrazione presenze, gestione supplenze, rendicontazione) senza avere documentazione di riferimento. Il manuale ufficiale Zucchetti esiste, ma è voluminoso, generico, non calibrato sulle procedure specifiche dell'istituto.
+> La situazione concreta: dover formare personale nuovo su procedure operative complesse — registrazione presenze, gestione supplenze, rendicontazione — senza avere documentazione di riferimento. Il manuale ufficiale Zucchetti esiste, ma è voluminoso, generico, non calibrato sulle procedure specifiche dell'istituto.
 
 ## L'approccio
 
@@ -39,13 +41,13 @@ Il flusso di lavoro:
 
 ## I limiti
 
-- **Accuratezza tecnica**: l'AI non conosce il software. Ogni dato specifico (percorso di menu, nome esatto di un campo, comportamento di un pulsante) deve venire dall'osservazione diretta — non può essere delegato.
-- **Aggiornamento**: quando il software cambia, il manuale va aggiornato a mano. L'AI accelera la riscrittura, ma non la sostituisce.
+- **Accuratezza tecnica**: l'AI non conosce il software. Ogni dato specifico — percorso di menu, nome esatto di un campo, comportamento di un pulsante — deve venire dall'osservazione diretta e non può essere delegato.
+- **Aggiornamento**: quando il software cambia, il manuale va aggiornato. L'AI accelera la riscrittura, ma non la sostituisce.
 - **Verifica obbligatoria**: tutto ciò che l'AI produce va validato da chi conosce le procedure reali. Il documento finale è mio — l'AI è uno strumento, non un autore autonomo.
 
 ## Conclusione
 
-Questo case study è un esempio concreto di quello che definisco **uso efficiente dell'AI**: non delegare il ragionamento, ma usare il modello per le parti del lavoro in cui è oggettivamente più veloce e preciso di un essere umano (struttura, coerenza, linguaggio) — restando responsabili delle parti che richiedono conoscenza situata (procedure reali, contesto istituzionale, verifica).
+Questo case study è un esempio concreto di quello che definisco **uso efficiente dell'AI**: non delegare il ragionamento, ma usare il modello per le parti del lavoro in cui è oggettivamente più veloce e preciso di un essere umano — struttura, coerenza, linguaggio — restando responsabili delle parti che richiedono conoscenza situata: procedure reali, contesto istituzionale, verifica.
 
 Il manuale prodotto è accessibile al link qui sotto, protetto da password per uso interno.
 

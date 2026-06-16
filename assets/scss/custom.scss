@@ -23,6 +23,62 @@ h1, h2, h3, h4, h5, h6 {
 // Home section spacing: more breathing room between widgets
 .article-style {
   line-height: 1.65;
+
+  // Titoli sezione con accento coral
+  h2 {
+    font-family: $sta-font-heading, serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-top: 2.25rem;
+    margin-bottom: 0.6rem;
+    padding-left: 0.75rem;
+    border-left: 3px solid $primary;
+    color: #1a1a1a;
+
+    .dark & { color: #d0d0d0; }
+  }
+
+  h3 {
+    font-family: $sta-font-heading, serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $primary;
+    margin-top: 1.5rem;
+    margin-bottom: 0.4rem;
+  }
+
+  // Blockquote: rientro editoriale con bordo coral
+  blockquote {
+    margin: 1.5rem 0 1.5rem 0;
+    padding: 0.9rem 1.25rem;
+    border-left: 3px solid $primary;
+    background: rgba($primary, 0.04);
+    border-radius: 0 6px 6px 0;
+    font-family: $sta-font-heading, serif;
+    font-style: italic;
+    font-size: 0.97rem;
+    line-height: 1.65;
+    color: #1a1a1a;
+
+    .dark & {
+      background: rgba($primary, 0.08);
+      color: #d0d0d0;
+    }
+
+    p { margin: 0; }
+  }
+
+  // Link inline con colore coral
+  a:not(.btn) {
+    color: $primary;
+    text-decoration: underline;
+    text-decoration-color: rgba($primary, 0.4);
+    text-underline-offset: 2px;
+
+    &:hover {
+      text-decoration-color: $primary;
+    }
+  }
 }
 
 // Recent posts list: card-like presentation with subtle borders
