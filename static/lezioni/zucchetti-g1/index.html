@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestionale 1 Zucchetti — Manuale d'uso</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,700;9..144,800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fafaf9;--bg-card:#ffffff;--bg-sidebar:#f5f3f0;--bg-code:#f0ede8;
+  --text:#1c1917;--text-secondary:#57534e;--text-muted:#a8a29e;
+  --accent:#9f580a;--accent-light:#fef3c7;--accent-hover:#78350f;
+  --border:#e7e5e4;--border-strong:#d6d3d1;
+  --tip-bg:#ecfdf5;--tip-border:#059669;--tip-text:#064e3b;
+  --warn-bg:#fffbeb;--warn-border:#d97706;--warn-text:#78350f;
+  --table-header:#44403c;--table-stripe:#fafaf9;
+  --shadow:0 1px 3px rgba(28,25,23,.08);
+  --shadow-lg:0 4px 24px rgba(28,25,23,.1);
+  --radius:6px;
+  --sidebar-w:280px;
+  --font-body:'IBM Plex Sans',system-ui,sans-serif;
+  --font-display:'Fraunces',Georgia,serif;
+  --font-mono:'IBM Plex Mono','Menlo',monospace;
+}
+[data-theme="dark"]{
+  --bg:#1c1917;--bg-card:#292524;--bg-sidebar:#1c1917;--bg-code:#292524;
+  --text:#fafaf9;--text-secondary:#d6d3d1;--text-muted:#78716c;
+  --accent:#fbbf24;--accent-light:#422006;--accent-hover:#fcd34d;
+  --border:#44403c;--border-strong:#57534e;
+  --tip-bg:#052e16;--tip-border:#22c55e;--tip-text:#bbf7d0;
+  --warn-bg:#422006;--warn-border:#f59e0b;--warn-text:#fef3c7;
+  --table-header:#57534e;--table-stripe:#1c1917;
+  --shadow:0 1px 3px rgba(0,0,0,.3);
+  --shadow-lg:0 4px 24px rgba(0,0,0,.4);
+}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{
+  font-family:var(--font-body);font-size:16px;line-height:1.7;
+  color:var(--text);background:var(--bg);
+  display:flex;min-height:100vh;
+  transition:background .3s,color .3s;
+}
+/* ── Sidebar ── */
+.sidebar{
+  position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);
+  background:var(--bg-sidebar);border-right:1px solid var(--border);
+  overflow-y:auto;z-index:100;padding:0 0 2rem;
+  transition:transform .3s ease,background .3s;
+}
+.sidebar-header{
+  padding:1.5rem 1.25rem 1rem;border-bottom:1px solid var(--border);
+  position:sticky;top:0;background:var(--bg-sidebar);z-index:2;
+}
+.sidebar-brand{
+  font-family:var(--font-display);font-size:1.15rem;font-weight:800;
+  color:var(--accent);letter-spacing:-.02em;line-height:1.2;
+}
+.sidebar-brand small{
+  display:block;font-family:var(--font-body);font-size:.72rem;
+  font-weight:500;color:var(--text-muted);letter-spacing:.04em;
+  text-transform:uppercase;margin-top:4px;
+}
+.sidebar-search{
+  padding:.75rem 1.25rem;border-bottom:1px solid var(--border);
+  position:sticky;top:72px;background:var(--bg-sidebar);z-index:2;
+}
+.sidebar-search input{
+  width:100%;padding:.5rem .75rem;border:1px solid var(--border);
+  border-radius:var(--radius);background:var(--bg-card);color:var(--text);
+  font-family:var(--font-body);font-size:.85rem;outline:none;
+  transition:border-color .2s;
+}
+.sidebar-search input:focus{border-color:var(--accent)}
+.sidebar-search input::placeholder{color:var(--text-muted)}
+.sidebar-nav{padding:.5rem 0}
+.sidebar-nav a{
+  display:block;padding:.4rem 1.25rem;
+  font-size:.85rem;color:var(--text-secondary);text-decoration:none;
+  border-left:3px solid transparent;transition:all .15s;line-height:1.4;
+}
+.sidebar-nav a:hover{color:var(--text);background:rgba(0,0,0,.04)}
+.sidebar-nav a.active{
+  color:var(--accent);border-left-color:var(--accent);
+  font-weight:600;background:var(--accent-light);
+}
+.sidebar-nav .nav-section{
+  font-size:.7rem;font-weight:600;text-transform:uppercase;
+  letter-spacing:.06em;color:var(--text-muted);
+  padding:.8rem 1.25rem .3rem;margin-top:.5rem;
+  pointer-events:none;
+}
+.sidebar-nav a.sub{padding-left:2rem;font-size:.82rem}
+.sidebar-nav a.hidden{display:none}
+
+/* ── Top bar (mobile + controls) ── */
+.topbar{
+  display:none;position:fixed;top:0;left:0;right:0;height:56px;
+  background:var(--bg-card);border-bottom:1px solid var(--border);
+  z-index:200;align-items:center;padding:0 1rem;
+  box-shadow:var(--shadow);
+}
+.topbar-brand{font-family:var(--font-display);font-weight:700;font-size:1rem;color:var(--accent)}
+.hamburger{
+  background:none;border:none;cursor:pointer;padding:6px;
+  color:var(--text);display:flex;align-items:center;
+}
+.hamburger svg{width:24px;height:24px}
+
+/* ── Theme toggle ── */
+.theme-toggle{
+  position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--border);
+  background:var(--bg-card);box-shadow:var(--shadow-lg);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  color:var(--text-secondary);transition:all .2s;
+}
+.theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
+.theme-toggle svg{width:20px;height:20px}
+
+/* ── Main content ── */
+.main{
+  margin-left:var(--sidebar-w);flex:1;min-width:0;
+  padding:2.5rem 3rem 4rem;max-width:900px;
+}
+.main>section{margin-bottom:3rem}
+/* Back to top */
+.back-to-top{
+  position:fixed;bottom:1.5rem;right:5rem;z-index:300;
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--border);
+  background:var(--bg-card);box-shadow:var(--shadow-lg);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  color:var(--text-secondary);transition:all .2s;opacity:0;pointer-events:none;
+}
+.back-to-top.visible{opacity:1;pointer-events:auto}
+.back-to-top:hover{border-color:var(--accent);color:var(--accent)}
+.back-to-top svg{width:18px;height:18px}
+
+/* ── Typography ── */
+h1{
+  font-family:var(--font-display);font-size:2.2rem;font-weight:800;
+  color:var(--accent);line-height:1.15;margin-bottom:.5rem;
+  letter-spacing:-.03em;
+}
+h1+.subtitle{
+  font-size:.95rem;color:var(--text-secondary);margin-bottom:2rem;
+  padding-bottom:1.5rem;border-bottom:2px solid var(--border);
+}
+h2{
+  font-family:var(--font-display);font-size:1.6rem;font-weight:700;
+  color:var(--text);line-height:1.2;margin:2.5rem 0 .75rem;
+  padding-bottom:.5rem;border-bottom:2px solid var(--accent);
+  letter-spacing:-.02em;
+}
+h3{
+  font-size:1.1rem;font-weight:600;color:var(--text);
+  margin:1.8rem 0 .5rem;line-height:1.3;
+}
+h4{font-size:1rem;font-weight:600;margin:1.2rem 0 .4rem}
+p{margin-bottom:.8rem}
+strong{font-weight:600}
+em{font-style:italic}
+code{
+  font-family:var(--font-mono);font-size:.88em;
+  background:var(--bg-code);padding:.15em .4em;border-radius:3px;
+  color:var(--accent);
+}
+a{color:var(--accent);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{color:var(--accent-hover)}
+hr{border:none;border-top:1px solid var(--border);margin:2rem 0}
+
+/* ── Lists ── */
+ul,ol{margin:0 0 1rem 1.4rem}
+li{margin-bottom:.35rem}
+li strong{color:var(--text)}
+
+/* ── Tables ── */
+.table-wrap{overflow-x:auto;margin:1rem 0 1.5rem;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+thead{background:var(--table-header)}
+th{
+  padding:.65rem .85rem;text-align:left;font-weight:600;
+  color:#fff;font-size:.82rem;letter-spacing:.02em;
+  text-transform:uppercase;border-bottom:2px solid var(--accent);
+}
+td{padding:.6rem .85rem;border-bottom:1px solid var(--border);vertical-align:top}
+tbody tr:nth-child(even){background:var(--table-stripe)}
+tbody tr:hover{background:var(--accent-light)}
+
+/* ── Callout boxes ── */
+.callout{
+  padding:1rem 1.25rem;margin:1rem 0 1.5rem;border-radius:var(--radius);
+  border-left:4px solid;font-size:.92rem;line-height:1.6;
+}
+.callout-tip{background:var(--tip-bg);border-color:var(--tip-border);color:var(--tip-text)}
+.callout-warn{background:var(--warn-bg);border-color:var(--warn-border);color:var(--warn-text)}
+.callout strong{display:inline}
+.callout p{margin-bottom:.4rem}
+.callout p:last-child{margin-bottom:0}
+
+/* ── Flow diagram (CSS only) ── */
+.flow{
+  display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;
+  margin:1rem 0 1.5rem;font-size:.88rem;font-weight:500;
+}
+.flow-step{
+  background:var(--accent-light);border:1px solid var(--accent);
+  color:var(--accent);padding:.35rem .75rem;border-radius:var(--radius);
+  white-space:nowrap;
+}
+.flow-arrow{color:var(--text-muted);font-size:1.1rem}
+
+/* ── Section number badges ── */
+h2 .num{
+  display:inline-block;background:var(--accent);color:#fff;
+  font-family:var(--font-mono);font-size:.8rem;font-weight:700;
+  padding:.2rem .55rem;border-radius:var(--radius);margin-right:.5rem;
+  vertical-align:middle;position:relative;top:-2px;
+}
+h3 .num{
+  color:var(--accent);font-family:var(--font-mono);font-size:.85rem;
+  font-weight:600;margin-right:.3rem;
+}
+
+/* ── Exercise cards ── */
+.exercise{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);margin:1.5rem 0;
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.exercise-header{
+  padding:1rem 1.25rem .75rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap;
+}
+.exercise-badge{
+  display:inline-block;font-family:var(--font-mono);font-size:.7rem;
+  font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+  padding:.2rem .6rem;border-radius:99px;white-space:nowrap;
+}
+.badge-case{background:#dbeafe;color:#1e40af}
+.badge-esercizio{background:#fce7f3;color:#9d174d}
+[data-theme="dark"] .badge-case{background:#1e3a5f;color:#93c5fd}
+[data-theme="dark"] .badge-esercizio{background:#4a1942;color:#f9a8d4}
+.exercise-title{font-size:1.05rem;font-weight:600;color:var(--text)}
+.exercise-body{padding:1rem 1.25rem}
+.exercise-body p{margin-bottom:.6rem}
+.exercise-body ol,.exercise-body ul{margin-bottom:.8rem}
+
+/* Spoiler toggle */
+.spoiler{margin-top:.75rem;border-top:1px dashed var(--border);padding-top:.5rem}
+.spoiler-toggle{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:none;border:1px solid var(--accent);color:var(--accent);
+  font-family:var(--font-body);font-size:.85rem;font-weight:600;
+  padding:.4rem .9rem;border-radius:var(--radius);cursor:pointer;
+  transition:all .2s;
+}
+.spoiler-toggle:hover{background:var(--accent);color:#fff}
+.spoiler-toggle svg{width:16px;height:16px;transition:transform .2s}
+.spoiler-toggle.open svg{transform:rotate(90deg)}
+.spoiler-content{
+  display:none;margin-top:.75rem;padding:1rem 1.25rem;
+  background:var(--bg-code);border-radius:var(--radius);
+  border-left:3px solid var(--accent);
+}
+.spoiler-content.open{display:block}
+.spoiler-content h4{margin-top:0;margin-bottom:.5rem;color:var(--accent);font-size:.95rem}
+
+/* ── Print styles ── */
+@media print{
+  .sidebar,.topbar,.theme-toggle,.back-to-top,.sidebar-overlay{display:none!important}
+  .main{margin-left:0;padding:1rem;max-width:100%}
+  body{font-size:11pt}
+  h2{break-before:page}
+}
+
+/* ── Responsive ── */
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay{
+    display:none;position:fixed;inset:0;z-index:99;
+    background:rgba(0,0,0,.4);backdrop-filter:blur(2px);
+  }
+  .sidebar-overlay.open{display:block}
+  .topbar{display:flex;justify-content:space-between}
+  .main{margin-left:0;padding:1rem 1.25rem 3rem;padding-top:72px}
+  h1{font-size:1.7rem}
+  h2{font-size:1.3rem}
+  .flow{font-size:.8rem}
+}
+</style>
+
+<style id="pw-gate-css">
+#pw-gate{
+  position:fixed;inset:0;z-index:99999;
+  display:flex;align-items:center;justify-content:center;
+  background:#f7f1e6;
+  font-family:'Georgia',serif;
+}
+#pw-gate.hidden{display:none}
+.pw-box{
+  background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:12px;
+  padding:2.5rem 2rem;max-width:360px;width:90%;text-align:center;
+  box-shadow:0 4px 24px rgba(0,0,0,.08);
+}
+.pw-lock{font-size:2.5rem;margin-bottom:1rem;line-height:1}
+.pw-title{font-family:'Georgia',serif;font-size:1.3rem;font-weight:700;
+  color:#1a1a1a;margin-bottom:.35rem}
+.pw-subtitle{font-size:.85rem;color:#6b6b6b;margin-bottom:1.5rem;line-height:1.4}
+#pw-input{
+  width:100%;padding:.65rem .9rem;border:1.5px solid #d0d0d0;border-radius:6px;
+  font-size:1rem;font-family:'Georgia',serif;color:#1a1a1a;
+  outline:none;transition:border-color .2s;text-align:center;
+  letter-spacing:.1em;
+}
+#pw-input:focus{border-color:#ed6f5c}
+#pw-btn{
+  display:block;width:100%;margin-top:.85rem;padding:.65rem;
+  background:#ed6f5c;color:#fff;border:none;border-radius:6px;
+  font-size:.95rem;font-family:'Georgia',serif;font-weight:700;
+  cursor:pointer;transition:background .2s;
+}
+#pw-btn:hover{background:#d4503c}
+#pw-error{
+  font-size:.8rem;color:#c0392b;margin-top:.6rem;min-height:1.2em;
+}
+</style>
+
+</head>
+<body>
+<div id="pw-gate">
+  <div class="pw-box">
+    <div class="pw-lock">&#x1F512;</div>
+    <p class="pw-title">Contenuto riservato</p>
+    <p class="pw-subtitle">Inserisci la password per accedere<br>al manuale Gestionale&nbsp;1&nbsp;Zucchetti.</p>
+    <input id="pw-input" type="password" placeholder="••••••••••••" autocomplete="off" />
+    <button id="pw-btn" onclick="checkPw()">Sblocca</button>
+    <p id="pw-error"></p>
+  </div>
+</div>
+
+
+<!-- Sidebar overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-brand">
+      Gestionale 1<br>Zucchetti
+      <small>Manuale d'uso &middot; A.S. 2025/26</small>
+    </div>
+  </div>
+  <div class="sidebar-search">
+    <input type="text" id="navSearch" placeholder="Cerca nel manuale..." autocomplete="off">
+  </div>
+  <nav class="sidebar-nav" id="sidebarNav">
+    <div class="nav-section">Introduzione</div>
+    <a href="#s1">1. Che cos'è Gestionale 1</a>
+    <a href="#s2" class="sub">Perché studiarlo</a>
+
+    <div class="nav-section">Struttura del software</div>
+    <a href="#s3">2. Panoramica dei moduli</a>
+    <a href="#s3-1" class="sub">2.1 Base</a>
+    <a href="#s3-2" class="sub">2.2 Contabilità</a>
+    <a href="#s3-3" class="sub">2.3 Vendite</a>
+    <a href="#s3-4" class="sub">2.4 Acquisti</a>
+    <a href="#s3-5" class="sub">2.5 Magazzino</a>
+    <a href="#s3-6" class="sub">2.6 Ordini</a>
+    <a href="#s3-7" class="sub">2.7 Strumenti</a>
+
+    <div class="nav-section">Operatività</div>
+    <a href="#s4">3. Primo avvio</a>
+    <a href="#s5">4. Anagrafiche</a>
+    <a href="#s6">5. Ciclo attivo</a>
+    <a href="#s6-1" class="sub">5.1 Fattura immediata</a>
+    <a href="#s6-2" class="sub">5.2 D.d.T. + fattura differita</a>
+    <a href="#s6-3" class="sub">5.3 Fattura elettronica</a>
+    <a href="#s7">6. Ciclo passivo</a>
+    <a href="#s7-1" class="sub">6.1 Fattura di acquisto</a>
+    <a href="#s7-2" class="sub">6.2 Ritenuta d'acconto</a>
+    <a href="#s8">7. Magazzino</a>
+    <a href="#s9">8. Liquidazione IVA</a>
+    <a href="#s10">9. Fine esercizio</a>
+    <a href="#s11">10. G1 Navigator</a>
+
+    <div class="nav-section">Approfondimenti</div>
+    <a href="#s12">11. Integrazioni</a>
+    <a href="#s13">12. Casistiche per l'esame</a>
+    <a href="#s-ex">13. Esercitazioni e Business Case</a>
+    <a href="#s-ex-bc1" class="sub">Business Case 1</a>
+    <a href="#s-ex-bc2" class="sub">Business Case 2</a>
+    <a href="#s-ex-e1" class="sub">Esercizio 1 — Fattura</a>
+    <a href="#s-ex-e2" class="sub">Esercizio 2 — Nota di credito</a>
+    <a href="#s-ex-e3" class="sub">Esercizio 3 — Ritenuta</a>
+    <a href="#s-ex-e4" class="sub">Esercizio 4 — Liquidazione IVA</a>
+    <a href="#s-ex-e5" class="sub">Esercizio 5 — Chiusura conti</a>
+    <a href="#s14">14. Glossario</a>
+    <a href="#s15">15. Risorse utili</a>
+  </nav>
+</aside>
+
+<!-- Top bar (mobile) -->
+<header class="topbar" id="topbar">
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+  <span class="topbar-brand">Gestionale 1</span>
+  <span style="width:36px"></span>
+</header>
+
+<!-- Main content -->
+<main class="main">
+
+<!-- Title -->
+<section>
+  <h1>Gestionale 1 Zucchetti</h1>
+  <p class="subtitle">
+    <strong>Destinatari:</strong> Studenti del 5° anno — Istituto Professionale Serale, indirizzo Servizi Commerciali<br>
+    <strong>Versione:</strong> A.S. 2025/2026
+  </p>
+</section>
+
+<!-- 1. Che cos'è -->
+<section id="s1">
+  <h2><span class="num">1</span> Che cos'è Gestionale 1</h2>
+  <p>Gestionale 1 (spesso abbreviato in "G1") è un software gestionale prodotto da <strong>Zucchetti S.p.A.</strong>, la più grande software house italiana. È pensato per micro e piccole imprese — attività con pochi dipendenti che hanno bisogno di uno strumento unico per gestire contabilità, fatture, magazzino e ordini senza dover acquistare sistemi complessi e costosi.</p>
+  <p>Il programma si installa su PC Windows e può funzionare sia in postazione singola sia in rete locale. Non richiede competenze informatiche avanzate: l'interfaccia è a finestre, con menu e maschere di inserimento dati che ricordano i classici applicativi da ufficio.</p>
+
+  <h3 id="s2">Perché studiarlo</h3>
+  <p>In un istituto professionale a indirizzo aziendale, la conoscenza di un gestionale reale è fondamentale perché collega la teoria (contabilità generale, IVA, ciclo attivo e passivo, magazzino) alla pratica quotidiana di un'azienda. Gestionale 1 è largamente diffuso tra le piccole imprese italiane e viene adottato anche da molti studi professionali per la tenuta della contabilità dei propri clienti.</p>
+</section>
+
+<!-- 2. Panoramica moduli -->
+<section id="s3">
+  <h2><span class="num">2</span> Panoramica dei moduli principali</h2>
+  <p>G1 è organizzato in modo modulare. Ogni modulo copre un'area funzionale dell'azienda e può essere attivato o disattivato a seconda delle esigenze. I moduli che vi interessano di più nel percorso scolastico sono i seguenti.</p>
+
+  <h3 id="s3-1"><span class="num">2.1</span> Base</h3>
+  <p>È il cuore del programma. Qui si configurano tutti gli archivi di partenza.</p>
+  <ul>
+    <li><strong>Anagrafica Clienti</strong> — i dati di ogni cliente (ragione sociale, partita IVA, indirizzo, condizioni di pagamento).</li>
+    <li><strong>Anagrafica Fornitori</strong> — stessi dati, lato acquisti.</li>
+    <li><strong>Anagrafica Articoli</strong> — i prodotti o servizi che l'azienda vende o acquista, con codice, descrizione, prezzo, aliquota IVA.</li>
+    <li><strong>Piano dei Conti</strong> — la struttura di tutti i conti utilizzati in contabilità (conti patrimoniali, conti economici, conti d'ordine).</li>
+    <li><strong>Parametri Contabilità</strong> — le impostazioni generali per la tenuta dei libri contabili (esercizio, causali contabili, conti predefiniti per chiusura e apertura).</li>
+    <li><strong>Parametri Vendite</strong> — le impostazioni per il ciclo attivo (numerazione fatture, aliquote IVA di default, causali automatiche).</li>
+    <li><strong>Anagrafica Aziende</strong> — i dati dell'azienda gestita (ragione sociale, sede legale, codice fiscale, partita IVA, regime IVA, esercizi contabili).</li>
+  </ul>
+
+  <h3 id="s3-2"><span class="num">2.2</span> Contabilità</h3>
+  <ul>
+    <li><strong>Gestione Movimenti</strong> — l'inserimento delle registrazioni contabili in partita doppia (prima nota, fatture di acquisto, fatture di vendita, incassi, pagamenti).</li>
+    <li><strong>Liquidazione IVA</strong> — il calcolo periodico dell'IVA a debito o a credito.</li>
+    <li><strong>Stampa Bilancio</strong> — la generazione del bilancio d'esercizio.</li>
+    <li><strong>Partitario Clienti/Fornitori</strong> — la situazione delle partite aperte e chiuse.</li>
+    <li><strong>Chiusura e Apertura Conti</strong> — le scritture automatiche di fine e inizio esercizio.</li>
+    <li><strong>Ritenute d'Acconto</strong> — gestione delle ritenute effettuate (come sostituti d'imposta) e subite.</li>
+  </ul>
+
+  <h3 id="s3-3"><span class="num">2.3</span> Vendite</h3>
+  <ul>
+    <li><strong>Gestione Documenti</strong> — creazione dei documenti del ciclo attivo: D.d.T. (documento di trasporto), fattura immediata, fattura differita, ricevuta fiscale, nota di credito.</li>
+    <li><strong>Genera Fatture (Wizard)</strong> — trasformazione automatica di uno o più D.d.T. in fattura differita.</li>
+    <li><strong>Consolida Documenti</strong> — unificazione di più documenti in uno solo.</li>
+    <li><strong>Gestione Effetti</strong> — generazione di Ri.Ba. (ricevute bancarie) e altri effetti attivi, con creazione del file telematico per la banca.</li>
+    <li><strong>Gestione Agenti e Provvigioni</strong> — calcolo automatico delle provvigioni sulle vendite.</li>
+  </ul>
+
+  <h3 id="s3-4"><span class="num">2.4</span> Acquisti</h3>
+  <ul>
+    <li><strong>Gestione Documenti Acquisto</strong> — registrazione di D.d.T. di acquisto, fatture di acquisto, note di credito da fornitore.</li>
+    <li><strong>Consolida Documenti di Acquisto</strong> — unificazione dei documenti passivi.</li>
+    <li><strong>Ultimi Prezzi di Acquisto</strong> — consultazione rapida dello storico prezzi per articolo e fornitore.</li>
+  </ul>
+
+  <h3 id="s3-5"><span class="num">2.5</span> Magazzino</h3>
+  <ul>
+    <li><strong>Gestione Movimenti</strong> — carichi, scarichi e trasferimenti merce tra magazzini.</li>
+    <li><strong>Interroga Quantità e Valori</strong> — visualizzazione in tempo reale di giacenze, disponibilità e valorizzazione delle scorte (LIFO, costo medio, costo ultimo, costo standard).</li>
+    <li><strong>Stampa Inventario</strong> — generazione dell'inventario di magazzino.</li>
+    <li><strong>Rilevazioni Inventariali</strong> — supporto alla conta fisica con possibilità di usare lettori di codice a barre.</li>
+  </ul>
+
+  <h3 id="s3-6"><span class="num">2.6</span> Ordini</h3>
+  <ul>
+    <li><strong>Gestione Ordini Clienti</strong> — inserimento e gestione degli ordini ricevuti dai clienti, con stampa dell'ordine e monitoraggio dell'evasione.</li>
+    <li><strong>Gestione Ordini Fornitori</strong> — emissione degli ordini ai fornitori.</li>
+    <li><strong>Lista di Prelievo</strong> — generazione della lista di articoli da prelevare dal magazzino per evadere gli ordini.</li>
+    <li><strong>Portafoglio Ordini</strong> — visione d'insieme degli ordini aperti.</li>
+  </ul>
+
+  <h3 id="s3-7"><span class="num">2.7</span> Strumenti e utilità</h3>
+  <ul>
+    <li><strong>G1 Navigator</strong> — la navigazione documentale che consente, partendo da un qualsiasi documento, di risalire a tutti i documenti collegati nel flusso (ordine → D.d.T. → fattura → registrazione contabile).</li>
+    <li><strong>Salvataggi e Ripristini</strong> — backup e restore degli archivi aziendali.</li>
+    <li><strong>Fincati</strong> — l'editor per personalizzare i modelli di stampa dei documenti.</li>
+    <li><strong>G1 Live Update</strong> — aggiornamento automatico del software.</li>
+  </ul>
+</section>
+
+<!-- 3. Primo avvio -->
+<section id="s4">
+  <h2><span class="num">3</span> Primo avvio e configurazione iniziale</h2>
+  <p>Quando si apre Gestionale 1 per la prima volta, la procedura guidata chiede di definire l'azienda di lavoro. In laboratorio, ogni studente (o gruppo di studenti) lavora su un codice azienda diverso per non interferire con i dati altrui.</p>
+
+  <h3>Passaggi operativi</h3>
+  <ol>
+    <li><strong>Seleziona azienda</strong> — dal menu <em>Base → Menù Utilità → Seleziona Azienda</em>, richiamare il codice assegnato (ad esempio <code>100</code>) e verificare i dati anagrafici: ragione sociale, sede, codice fiscale, partita IVA.</li>
+    <li><strong>Definisci gli esercizi contabili e IVA</strong> — dalla scheda <em>Esercizi</em> dell'anagrafica azienda, verificare che siano presenti le date dell'esercizio corrente (es. 01/01/2026 – 31/12/2026). Se manca un esercizio, premere <em>Cambia esercizio</em> e compilare le date.</li>
+    <li><strong>Configura i Parametri Contabilità</strong> — dal menu <em>Base → Archivi Contabilità → Parametri Contabilità</em>, compilare la scheda <em>Fine esercizio</em> con i conti per la chiusura (Conto Economico, Stato Patrimoniale, Utile/Perdita d'esercizio).</li>
+    <li><strong>Configura i Parametri Vendite</strong> — dal menu <em>Base → Archivi Vendite → Parametri Vendite</em>, impostare la numerazione automatica delle fatture e il codice IVA ordinario (22%).</li>
+    <li><strong>Verifica il Piano dei Conti</strong> — dal menu <em>Base → Piano dei Conti</em>, controllare che siano presenti i mastri e i conti necessari. G1 viene fornito con un piano dei conti standard già configurato.</li>
+  </ol>
+
+  <div class="callout callout-tip">
+    <p><strong>Suggerimento pratico:</strong> prima di qualsiasi attività sui dati, è buona norma eseguire un salvataggio degli archivi tramite <em>Strumenti → Salvataggi e Ripristini</em>. In laboratorio, il salvataggio può essere anche una semplice copia della cartella dati (es. <code>C:\AZW32\DB</code>) su un'unità di rete o una chiavetta USB.</p>
+  </div>
+</section>
+
+<!-- 4. Anagrafiche -->
+<section id="s5">
+  <h2><span class="num">4</span> Gestione delle anagrafiche</h2>
+
+  <h3>4.1 Inserire un nuovo cliente</h3>
+  <p>Menu: <em>Base → Anagrafica Clienti → Nuovo</em></p>
+  <p>Compilare almeno i campi obbligatori:</p>
+  <ul>
+    <li><strong>Codice</strong> — numerico, progressivo (es. <code>001</code>).</li>
+    <li><strong>Ragione sociale</strong> — nome completo del cliente.</li>
+    <li><strong>Partita IVA</strong> e <strong>Codice Fiscale</strong> — fondamentali per la fatturazione elettronica.</li>
+    <li><strong>Indirizzo, CAP, Città, Provincia</strong> — per la stampa dei documenti.</li>
+    <li><strong>Condizioni di pagamento</strong> — selezionare dalla tabella (es. "Bonifico bancario 30 giorni", "Ri.Ba. 60 giorni").</li>
+    <li><strong>Codice IVA</strong> — aliquota di default per le vendite al cliente (di solito 22%).</li>
+  </ul>
+  <p>Nella scheda <em>Contabili</em>: verificare il <strong>conto contabile</strong> assegnato al cliente (di norma, G1 propone automaticamente il conto "Crediti v/clienti" dal Piano dei Conti).</p>
+
+  <div class="callout callout-tip">
+    <p><strong>Casistica — cliente sostituto d'imposta:</strong> se il cliente applica una ritenuta d'acconto sulle fatture che gli emettete (ad esempio, un professionista che fattura a un'azienda), nella scheda <em>Contabili</em> si deve spuntare l'opzione <em>Sostituto d'Imposta</em>.</p>
+  </div>
+
+  <h3>4.2 Inserire un nuovo fornitore</h3>
+  <p>Menu: <em>Base → Anagrafica Fornitori → Nuovo</em></p>
+  <p>La procedura è analoga. Campo aggiuntivo rilevante: nella scheda <em>Contabili</em>, se il fornitore è un professionista soggetto a ritenuta d'acconto, spuntare <strong>Soggetto a ritenuta d'acconto</strong> e indicare la causale versamento.</p>
+
+  <h3>4.3 Inserire un nuovo articolo di magazzino</h3>
+  <p>Menu: <em>Base → Anagrafica Articoli → Nuovo</em></p>
+  <ul>
+    <li><strong>Codice articolo</strong> — alfanumerico (es. <code>ART001</code>).</li>
+    <li><strong>Descrizione</strong> — nome del prodotto o servizio.</li>
+    <li><strong>Unità di misura</strong> — es. "PZ" (pezzi), "KG", "LT".</li>
+    <li><strong>Codice IVA</strong> — aliquota IVA applicabile all'articolo.</li>
+    <li><strong>Prezzo di vendita</strong> — il prezzo unitario di listino.</li>
+    <li><strong>Conto di ricavo</strong> — il conto economico su cui imputare i ricavi delle vendite (es. "Merci c/vendite").</li>
+    <li><strong>Conto di costo</strong> — il conto per gli acquisti (es. "Merci c/acquisti").</li>
+  </ul>
+</section>
+
+<!-- 5. Ciclo attivo -->
+<section id="s6">
+  <h2><span class="num">5</span> Il ciclo attivo — dalla vendita alla registrazione contabile</h2>
+  <p>Il ciclo attivo è il flusso documentale che parte dalla vendita e arriva alla registrazione in contabilità. In G1, il flusso tipico è:</p>
+  <div class="flow">
+    <span class="flow-step">Ordine cliente</span><span class="flow-arrow">→</span>
+    <span class="flow-step">D.d.T.</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Fattura</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Registrazione contabile</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Incasso</span>
+  </div>
+
+  <h3 id="s6-1"><span class="num">5.1</span> Caso pratico: vendita con fattura immediata</h3>
+  <p><strong>Scenario.</strong> La ditta "Rossi Ferramenta Snc" vende 50 bulloni M8 (codice ART010, prezzo unitario 0,80 €, IVA 22%) al cliente "Bianchi Costruzioni Srl". Il pagamento avverrà con bonifico a 30 giorni.</p>
+  <p><strong>Passaggi in G1:</strong></p>
+  <ol>
+    <li>Andare su <em>Vendite → Gestione Documenti → Nuovo</em>.</li>
+    <li>Selezionare il tipo documento <strong>Fattura immediata</strong>.</li>
+    <li>Nella testata: scegliere il cliente <code>Bianchi Costruzioni Srl</code> dall'elenco a tendina. G1 compilerà automaticamente indirizzo, condizioni di pagamento e partita IVA.</li>
+    <li>Nel corpo del documento: inserire una riga con codice articolo <code>ART010</code>, quantità <code>50</code>, prezzo unitario <code>0,80</code>. G1 calcolerà automaticamente l'importo riga (40,00 €) e l'IVA (8,80 €).</li>
+    <li>Verificare il <strong>castelletto IVA</strong> in fondo alla maschera: Imponibile 40,00 — Imposta 8,80 — Totale documento 48,80 €.</li>
+    <li>Confermare con <em>Salva</em>. G1 assegna automaticamente il numero progressivo alla fattura.</li>
+  </ol>
+  <p>Se i Parametri Vendite sono configurati per la contabilizzazione automatica, G1 genera anche il movimento contabile:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+      <tbody>
+        <tr><td>Crediti v/clienti</td><td>48,80</td><td></td></tr>
+        <tr><td>Merci c/vendite</td><td></td><td>40,00</td></tr>
+        <tr><td>IVA a debito</td><td></td><td>8,80</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="s6-2"><span class="num">5.2</span> Caso pratico: vendita con D.d.T. e fattura differita</h3>
+  <p><strong>Scenario.</strong> La stessa ditta effettua tre consegne diverse allo stesso cliente nel corso del mese di marzo. A fine mese, vuole emettere un'unica fattura differita.</p>
+  <p><strong>Passaggi in G1:</strong></p>
+  <ol>
+    <li>Per ogni consegna, creare un <strong>D.d.T.</strong> da <em>Vendite → Gestione Documenti → Nuovo → D.d.T.</em>. Compilare cliente, articoli, quantità.</li>
+    <li>A fine mese, andare su <em>Vendite → Genera Fatture (Wizard)</em>.</li>
+    <li>Il wizard chiede il periodo (es. dal 01/03 al 31/03) e il cliente. G1 elencherà i D.d.T. non ancora fatturati.</li>
+    <li>Selezionare i D.d.T. da raggruppare e confermare: G1 genera automaticamente una fattura differita riepilogativa.</li>
+  </ol>
+  <div class="callout callout-warn">
+    <p><strong>Attenzione:</strong> la fattura differita deve essere emessa entro il giorno 15 del mese successivo a quello di effettuazione delle operazioni (art. 21, comma 4, DPR 633/72).</p>
+  </div>
+
+  <h3 id="s6-3"><span class="num">5.3</span> La fattura elettronica</h3>
+  <p>Dal 1° gennaio 2019 la fatturazione elettronica è obbligatoria tra soggetti residenti in Italia (con poche eccezioni). G1 è integrato con il servizio <strong>Digital Hub Zucchetti</strong>, che gestisce l'intero flusso:</p>
+  <ol>
+    <li>Si crea la fattura in G1 come visto sopra.</li>
+    <li>G1 genera automaticamente il <strong>file XML</strong> nel formato FatturaPA.</li>
+    <li>Si invia il file al Digital Hub, che lo trasmette al Sistema di Interscambio (SdI) dell'Agenzia delle Entrate.</li>
+    <li>Con frequenza giornaliera, dal menu <em>Vendite → Collegamento a Digital Hub — Fatturazione Attiva</em>, si aggiorna lo stato delle fatture inviate (accettate, scartate, consegnate).</li>
+  </ol>
+  <div class="callout callout-tip">
+    <p><strong>In laboratorio</strong> l'invio reale al SdI non viene effettuato, ma è possibile generare il file XML e visualizzarlo con un foglio di stile per verificarne la correttezza formale.</p>
+  </div>
+</section>
+
+<!-- 6. Ciclo passivo -->
+<section id="s7">
+  <h2><span class="num">6</span> Il ciclo passivo — dagli acquisti alla registrazione contabile</h2>
+  <p>Il ciclo passivo è il percorso inverso:</p>
+  <div class="flow">
+    <span class="flow-step">Ordine a fornitore</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Ricevimento merce</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Fattura di acquisto</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Registrazione contabile</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Pagamento</span>
+  </div>
+
+  <h3 id="s7-1"><span class="num">6.1</span> Caso pratico: registrazione di una fattura di acquisto</h3>
+  <p><strong>Scenario.</strong> La ditta "Rossi Ferramenta Snc" riceve una fattura dal fornitore "Acciai Nordest Srl" per l'acquisto di 100 barre in acciaio a 15,00 € ciascuna, IVA 22%. Pagamento a 60 giorni con bonifico.</p>
+  <p><strong>Passaggi in G1:</strong></p>
+  <ol>
+    <li>Andare su <em>Contabilità → Gestione Movimenti → Nuovo</em>.</li>
+    <li>Selezionare la causale contabile <strong>Fattura di acquisto</strong>.</li>
+    <li>Indicare il fornitore <code>Acciai Nordest Srl</code>.</li>
+    <li>Compilare la data del documento (la data della fattura ricevuta), il numero del documento del fornitore e il protocollo IVA (numero progressivo del registro acquisti).</li>
+    <li>Inserire l'importo imponibile (1.500,00 €), il codice IVA (22%), e il conto di costo (<code>Merci c/acquisti</code>).</li>
+    <li>Confermare: G1 genera automaticamente la scrittura.</li>
+  </ol>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+      <tbody>
+        <tr><td>Merci c/acquisti</td><td>1.500,00</td><td></td></tr>
+        <tr><td>IVA a credito</td><td>330,00</td><td></td></tr>
+        <tr><td>Debiti v/fornitori</td><td></td><td>1.830,00</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="s7-2"><span class="num">6.2</span> Caso pratico: fattura di acquisto con ritenuta d'acconto</h3>
+  <p><strong>Scenario.</strong> La ditta riceve una fattura da un consulente (professionista con partita IVA) per una prestazione di consulenza fiscale di 2.000,00 € + IVA 22%, soggetta a ritenuta d'acconto del 20%.</p>
+  <p><strong>Prerequisiti:</strong> il fornitore deve avere la spunta <em>Soggetto a ritenuta d'acconto</em> nella scheda Contabili; i Parametri Ritenute devono essere compilati (menu <em>Contabilità → Ritenute d'Acconto → Parametri Ritenute</em>).</p>
+  <p><strong>Passaggi:</strong></p>
+  <ol>
+    <li>Inserire la fattura come una normale fattura di acquisto.</li>
+    <li>Alla conferma, G1 apre automaticamente una finestra dove mostra il calcolo: base imponibile 2.000,00 × 20% = ritenuta 400,00 €.</li>
+    <li>Verificare che sia spuntata l'opzione <em>Registra giroconto ritenuta</em> e confermare.</li>
+  </ol>
+  <p><strong>Prima registrazione</strong> (fattura):</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+      <tbody>
+        <tr><td>Consulenze</td><td>2.000,00</td><td></td></tr>
+        <tr><td>IVA a credito</td><td>440,00</td><td></td></tr>
+        <tr><td>Debiti v/fornitori</td><td></td><td>2.440,00</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Seconda registrazione</strong> (giroconto ritenuta):</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+      <tbody>
+        <tr><td>Debiti v/fornitori</td><td>400,00</td><td></td></tr>
+        <tr><td>Erario c/ritenute</td><td></td><td>400,00</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Il debito effettivo verso il fornitore diventa 2.440,00 − 400,00 = <strong>2.040,00 €</strong>. La ritenuta di 400,00 € dovrà essere versata all'Erario entro il 16 del mese successivo al pagamento.</p>
+</section>
+
+<!-- 7. Magazzino -->
+<section id="s8">
+  <h2><span class="num">7</span> Gestione del magazzino</h2>
+
+  <h3>7.1 Carico di magazzino</h3>
+  <p>Quando si riceve merce dal fornitore, il carico può avvenire in due modi:</p>
+  <ul>
+    <li><strong>Automatico:</strong> se si inserisce un D.d.T. di acquisto dal modulo Acquisti, G1 aggiorna automaticamente le giacenze.</li>
+    <li><strong>Manuale:</strong> dal menu <em>Magazzino → Gestione Movimenti → Nuovo</em>, inserire un movimento di tipo "Carico" indicando articolo, quantità, prezzo unitario e causale di magazzino.</li>
+  </ul>
+
+  <h3>7.2 Scarico di magazzino</h3>
+  <p>Analogamente, lo scarico avviene automaticamente quando si emette un D.d.T. di vendita, oppure manualmente dal menu Magazzino.</p>
+
+  <h3>7.3 Interrogazione giacenze</h3>
+  <p>Dal menu <em>Magazzino → Interroga Quantità e Valori</em>, si può verificare in tempo reale la situazione di ogni articolo: giacenza attuale, quantità ordinata dai clienti, quantità in ordine ai fornitori, disponibilità netta.</p>
+
+  <h3>7.4 Caso pratico: inventario di fine anno</h3>
+  <p><strong>Scenario.</strong> A fine esercizio, la ditta effettua l'inventario fisico del magazzino.</p>
+  <ol>
+    <li>Stampare l'inventario da <em>Magazzino → Stampa Inventario</em> per avere l'elenco degli articoli con le giacenze contabili.</li>
+    <li>Effettuare la conta fisica (eventualmente con lettori di codice a barre).</li>
+    <li>Da <em>Magazzino → Rilevazioni Inventariali</em>, inserire le quantità effettive rilevate. G1 evidenzierà le differenze rispetto alla giacenza contabile.</li>
+    <li>Confermare le rettifiche: G1 genera automaticamente i movimenti di rettifica (carico per eccedenze, scarico per ammanchi).</li>
+  </ol>
+</section>
+
+<!-- 8. Liquidazione IVA -->
+<section id="s9">
+  <h2><span class="num">8</span> La liquidazione IVA</h2>
+  <p>Al termine di ogni mese (o trimestre, a seconda del regime), occorre calcolare l'IVA da versare.</p>
+  <p><strong>Passaggi in G1:</strong></p>
+  <ol>
+    <li>Menu <em>Contabilità → Elaborazioni Periodiche → Liquidazione IVA</em>.</li>
+    <li>Selezionare il periodo (es. mese di marzo 2026).</li>
+    <li>G1 calcola automaticamente: IVA a debito (dalle vendite) − IVA a credito (dagli acquisti) = IVA da versare (o credito da riportare).</li>
+    <li>Stampare il prospetto della liquidazione (in modalità "provvisoria" prima, per controllo, poi "definitiva").</li>
+  </ol>
+</section>
+
+<!-- 9. Fine esercizio -->
+<section id="s10">
+  <h2><span class="num">9</span> Le operazioni di fine esercizio</h2>
+  <p>Alla chiusura dell'anno contabile, la sequenza operativa consigliata è la seguente:</p>
+  <ol>
+    <li><strong>Salvataggio degli archivi</strong> — sempre, prima di qualsiasi operazione irreversibile.</li>
+    <li><strong>Verificare la data di lavoro</strong> — entrare in G1 con la data dell'ultimo giorno dell'esercizio da chiudere (es. 31/12/2026).</li>
+    <li><strong>Verificare l'esistenza del nuovo esercizio</strong> — dall'anagrafica azienda, controllare che sia stato codificato l'esercizio successivo (2027).</li>
+    <li><strong>Inserire le scritture di assestamento</strong> — ammortamenti, ratei, risconti, fondi rischi, svalutazione crediti, rimanenze finali.</li>
+    <li><strong>Ricalcolo dei progressivi</strong> — menu <em>Contabilità → Utilità Contabilità → Ricalcolo progressivi</em>, selezionando l'anno da chiudere.</li>
+    <li><strong>Stampa del bilancio di verifica</strong> — per controllare la correttezza di tutte le registrazioni.</li>
+    <li><strong>Stampa definitiva del Libro Giornale</strong> — menu <em>Contabilità → Elaborazioni Periodiche → Libro Giornale</em>, tipo stampa "Definitiva", per l'intero anno.</li>
+    <li><strong>Chiusura e apertura conti</strong> — menu <em>Contabilità → Elaborazioni Annuali → Chiusura Apertura Conti</em>. Verificare le date e i conti proposti, poi confermare. G1 genera automaticamente le scritture di chiusura e apertura.</li>
+    <li><strong>Ristampa del Libro Giornale</strong> — per includere le scritture di chiusura appena generate.</li>
+  </ol>
+  <div class="callout callout-warn">
+    <p><strong>Attenzione in laboratorio:</strong> se più studenti lavorano sulla stessa azienda in rete, durante la chiusura dei conti nessun altro deve essere collegato alla stessa azienda nel modulo Contabilità.</p>
+  </div>
+</section>
+
+<!-- 10. G1 Navigator -->
+<section id="s11">
+  <h2><span class="num">10</span> La navigazione documentale — G1 Navigator</h2>
+  <p>Una delle funzionalità più utili di G1 è la <strong>tracciabilità documentale</strong>. Partendo da un qualsiasi documento, è possibile risalire a tutti i documenti collegati nel flusso.</p>
+  <p><strong>Esempio.</strong> Partendo da un ordine cliente n. 15/2026, cliccando sull'icona del Navigator si possono visualizzare:</p>
+  <ul>
+    <li>I D.d.T. generati dall'ordine (es. D.d.T. n. 38 e n. 42)</li>
+    <li>Le fatture generate dai D.d.T. (es. Fattura n. 27)</li>
+    <li>La registrazione contabile della fattura</li>
+    <li>L'eventuale incasso registrato</li>
+  </ul>
+  <p>Questa funzione è preziosa nel lavoro reale perché consente di ricostruire l'intera storia di una transazione in pochi clic.</p>
+</section>
+
+<!-- 11. Integrazioni -->
+<section id="s12">
+  <h2><span class="num">11</span> Integrazioni e moduli avanzati</h2>
+  <p>G1 può essere potenziato con moduli aggiuntivi che non affronteremo nel dettaglio ma che è utile conoscere:</p>
+  <ul>
+    <li><strong>Fatturazione elettronica</strong> (Digital Hub Zucchetti) — gestione completa dell'invio e ricezione delle fatture elettroniche via SdI.</li>
+    <li><strong>Conservazione digitale</strong> — archiviazione a norma di legge dei documenti fiscali in formato digitale.</li>
+    <li><strong>Gestione documentale</strong> (Infinity DMS) — dematerializzazione dei flussi documentali cartacei.</li>
+    <li><strong>Business Intelligence</strong> — analisi dei dati di vendita, ordini e magazzino con cruscotti grafici.</li>
+    <li><strong>Contabilità analitica</strong> — ripartizione dei costi e ricavi su centri di costo e di ricavo.</li>
+    <li><strong>Cespiti</strong> — gestione civilistica e fiscale dei beni ammortizzabili.</li>
+    <li><strong>Elenchi Intrastat</strong> — per le aziende che effettuano operazioni intra-UE.</li>
+    <li><strong>GDPR</strong> — gestione degli adempimenti in materia di privacy e trattamento dati personali.</li>
+  </ul>
+</section>
+
+<!-- 12. Casistiche esame -->
+<section id="s13">
+  <h2><span class="num">12</span> Casistiche riepilogative per l'esame</h2>
+  <p>Di seguito, una serie di situazioni operative tipiche che potreste incontrare nella seconda prova o nel colloquio orale.</p>
+
+  <h3>Casistica A — Ciclo completo di vendita</h3>
+  <p>La ditta Alfa Srl riceve un ordine dal cliente Beta Spa per 200 unità del prodotto X a 25,00 €/cad., IVA 22%. La merce viene consegnata in due lotti (120 + 80 unità). A fine mese si emette fattura differita. Il cliente paga con Ri.Ba. a 60 giorni.</p>
+  <div class="flow">
+    <span class="flow-step">Ordine cliente</span><span class="flow-arrow">→</span>
+    <span class="flow-step">D.d.T. n.1 (120 pz)</span><span class="flow-arrow">→</span>
+    <span class="flow-step">D.d.T. n.2 (80 pz)</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Genera Fatture</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Fattura differita</span><span class="flow-arrow">→</span>
+    <span class="flow-step">File Ri.Ba.</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Incasso</span>
+  </div>
+
+  <h3>Casistica B — Nota di credito per reso merce</h3>
+  <p>Il cliente Beta Spa restituisce 30 unità difettose del prodotto X. La ditta Alfa Srl emette una nota di credito.</p>
+  <p><strong>Flusso in G1:</strong> <em>Vendite → Gestione Documenti → Nuovo → Nota di credito</em>. Indicare il cliente, l'articolo, la quantità resa (30), il prezzo unitario. G1 genera il documento con importi negativi e aggiorna il magazzino (carico da reso) e la contabilità (storno del ricavo e dell'IVA).</p>
+
+  <h3>Casistica C — Acquisto, registrazione e pagamento</h3>
+  <p>La ditta Alfa Srl acquista materie prime per 5.000,00 € + IVA 22% dal fornitore Gamma Sas. Paga con bonifico a 30 giorni.</p>
+  <p><strong>Flusso in G1:</strong> <em>Contabilità → Gestione Movimenti → Fattura di acquisto</em> → (dopo 30 giorni) Pagamento con causale "Pagamento fattura fornitore", indicando il conto bancario in dare e il conto Debiti v/fornitori in avere.</p>
+
+  <h3>Casistica D — Liquidazione IVA trimestrale</h3>
+  <p>A fine trimestre, la ditta Alfa Srl deve calcolare l'IVA da versare. Le vendite del trimestre ammontano a 50.000 € (IVA a debito: 11.000 €). Gli acquisti ammontano a 30.000 € (IVA a credito: 6.600 €).</p>
+  <p><strong>Risultato:</strong> IVA da versare = 11.000 − 6.600 = <strong>4.400,00 €</strong>, da pagare entro il 16 del secondo mese successivo al trimestre.</p>
+
+  <h3>Casistica E — Chiusura dei conti</h3>
+  <p>A fine esercizio, dopo aver inserito tutte le scritture di assestamento (ammortamenti, ratei, risconti, rimanenze), si procede alla chiusura. G1 genera automaticamente le scritture di epilogo al Conto Economico, la determinazione dell'utile o perdita, la chiusura dei conti patrimoniali allo Stato Patrimoniale e le corrispondenti aperture nell'esercizio successivo.</p>
+</section>
+
+<!-- 13. Esercitazioni e Business Case -->
+<section id="s-ex">
+  <h2><span class="num">13</span> Esercitazioni e Business Case</h2>
+  <p>Questa sezione contiene due business case completi (con operazioni collegate lungo l'intero ciclo aziendale) e cinque esercizi singoli su operazioni specifiche. Ogni esercizio ha la soluzione nascosta: clicca su <em>Mostra soluzione</em> per visualizzarla.</p>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- BUSINESS CASE 1 -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="exercise" id="s-ex-bc1">
+    <div class="exercise-header">
+      <span class="exercise-badge badge-case">Business Case</span>
+      <span class="exercise-title">La Bottega del Legno Srl — Un mese di attività</span>
+    </div>
+    <div class="exercise-body">
+      <p><strong>Contesto aziendale.</strong> "La Bottega del Legno Srl" è una micro-impresa di Bassano del Grappa che produce e vende taglieri artigianali in legno d'ulivo. Ha un unico magazzino e opera in regime IVA mensile. L'esercizio sociale coincide con l'anno solare.</p>
+      <p><strong>Dati iniziali (1° marzo 2026):</strong></p>
+      <ul>
+        <li>Giacenza di magazzino: 200 taglieri "Classico" (cod. <code>TAG01</code>, costo medio 8,00 €/cad.) e 50 taglieri "Premium" (cod. <code>TAG02</code>, costo medio 18,00 €/cad.).</li>
+        <li>Prezzo di vendita: TAG01 = 22,00 €, TAG02 = 48,00 €. IVA 22% su tutti i prodotti.</li>
+        <li>Crediti v/clienti aperti: 2.440,00 € (Fattura n. 8 del 15/02 al cliente "Emporio Casa Spa").</li>
+      </ul>
+
+      <h4>Operazioni del mese di marzo 2026</h4>
+      <ol>
+        <li><strong>03/03</strong> — Ricevuta fattura n. 41 dal fornitore "Legni Pregiati Sas" per acquisto di 100 tavole di legno d'ulivo a 12,00 €/cad. + IVA 22%. Pagamento previsto con bonifico a 30 giorni.</li>
+        <li><strong>05/03</strong> — Ricevuto ordine n. 12 dal cliente "Hotel Belvedere Srl" per 80 taglieri TAG01 e 20 taglieri TAG02.</li>
+        <li><strong>10/03</strong> — Consegnati al cliente Hotel Belvedere i primi 80 TAG01 con D.d.T. n. 15.</li>
+        <li><strong>18/03</strong> — Consegnati i restanti 20 TAG02 con D.d.T. n. 16.</li>
+        <li><strong>20/03</strong> — Incassata tramite bonifico la fattura n. 8 del 15/02 dal cliente Emporio Casa Spa (2.440,00 €).</li>
+        <li><strong>25/03</strong> — Il cliente Hotel Belvedere restituisce 5 taglieri TAG01 difettosi. Si emette nota di credito n. 3.</li>
+        <li><strong>31/03</strong> — Si generano le fatture differite per i D.d.T. del mese di marzo.</li>
+        <li><strong>31/03</strong> — Si esegue la liquidazione IVA di marzo. Supponiamo che le uniche operazioni IVA del mese siano quelle elencate sopra.</li>
+      </ol>
+
+      <p><strong>Richieste:</strong></p>
+      <ol type="a">
+        <li>Indicare i passaggi operativi in G1 per ciascuna operazione.</li>
+        <li>Redigere le scritture in partita doppia per ogni operazione.</li>
+        <li>Calcolare la liquidazione IVA di marzo.</li>
+        <li>Indicare la giacenza finale di TAG01 e TAG02 al 31/03.</li>
+      </ol>
+
+      <div class="spoiler">
+        <button class="spoiler-toggle" onclick="toggleSpoiler(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          Mostra soluzione
+        </button>
+        <div class="spoiler-content">
+
+          <h4>Op. 1 — Fattura di acquisto (03/03)</h4>
+          <p>Menu: <em>Contabilità → Gestione Movimenti → Nuovo → Fattura di acquisto</em>.</p>
+          <p>Imponibile: 100 × 12,00 = 1.200,00 €. IVA 22% = 264,00 €. Totale = 1.464,00 €.</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Materie prime c/acquisti</td><td>1.200,00</td><td></td></tr>
+              <tr><td>IVA a credito</td><td>264,00</td><td></td></tr>
+              <tr><td>Debiti v/fornitori</td><td></td><td>1.464,00</td></tr>
+            </tbody>
+          </table></div>
+
+          <h4>Op. 2 — Ordine cliente (05/03)</h4>
+          <p>Menu: <em>Ordini → Gestione Ordini Clienti → Nuovo</em>. Inserire cliente Hotel Belvedere, 80 × TAG01 e 20 × TAG02. Nessuna scrittura contabile: l'ordine è un impegno, non un fatto di gestione.</p>
+
+          <h4>Op. 3 — D.d.T. n. 15 (10/03)</h4>
+          <p>Menu: <em>Vendite → Gestione Documenti → Nuovo → D.d.T.</em>. 80 TAG01 a 22,00 €. G1 scarica automaticamente 80 pezzi dal magazzino. Nessuna scrittura contabile (il D.d.T. non è un documento fiscale).</p>
+
+          <h4>Op. 4 — D.d.T. n. 16 (18/03)</h4>
+          <p>Stesso procedimento. 20 TAG02 a 48,00 €. Scarico di 20 TAG02 dal magazzino.</p>
+
+          <h4>Op. 5 — Incasso fattura n. 8 (20/03)</h4>
+          <p>Menu: <em>Contabilità → Gestione Movimenti → Nuovo → Incasso</em>.</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Banca c/c</td><td>2.440,00</td><td></td></tr>
+              <tr><td>Crediti v/clienti</td><td></td><td>2.440,00</td></tr>
+            </tbody>
+          </table></div>
+
+          <h4>Op. 6 — Nota di credito n. 3 (25/03)</h4>
+          <p>Menu: <em>Vendite → Gestione Documenti → Nuovo → Nota di credito</em>. 5 TAG01 a 22,00 €.</p>
+          <p>Imponibile: 5 × 22,00 = 110,00 €. IVA 22% = 24,20 €. Totale = 134,20 €.</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Merci c/vendite (rettifica ricavi)</td><td>110,00</td><td></td></tr>
+              <tr><td>IVA a debito (rettifica)</td><td>24,20</td><td></td></tr>
+              <tr><td>Crediti v/clienti</td><td></td><td>134,20</td></tr>
+            </tbody>
+          </table></div>
+          <p>G1 ricarica automaticamente 5 TAG01 in magazzino.</p>
+
+          <h4>Op. 7 — Fattura differita (31/03)</h4>
+          <p>Menu: <em>Vendite → Genera Fatture (Wizard)</em>. Selezionare D.d.T. n. 15 e n. 16 → genera fattura differita.</p>
+          <p>Ricavi: (80 × 22,00) + (20 × 48,00) = 1.760,00 + 960,00 = 2.720,00 €. IVA = 598,40 €. Totale = 3.318,40 €.</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Crediti v/clienti</td><td>3.318,40</td><td></td></tr>
+              <tr><td>Merci c/vendite</td><td></td><td>2.720,00</td></tr>
+              <tr><td>IVA a debito</td><td></td><td>598,40</td></tr>
+            </tbody>
+          </table></div>
+
+          <h4>Op. 8 — Liquidazione IVA marzo</h4>
+          <p>Menu: <em>Contabilità → Elaborazioni Periodiche → Liquidazione IVA</em>.</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Voce</th><th>Importo</th></tr></thead>
+            <tbody>
+              <tr><td>IVA a debito (fattura differita)</td><td>598,40</td></tr>
+              <tr><td>IVA a debito rettificata (nota di credito)</td><td>−24,20</td></tr>
+              <tr><td><strong>Totale IVA a debito</strong></td><td><strong>574,20</strong></td></tr>
+              <tr><td>IVA a credito (fattura acquisto)</td><td>264,00</td></tr>
+              <tr><td><strong>IVA da versare</strong></td><td><strong>310,20</strong></td></tr>
+            </tbody>
+          </table></div>
+          <p>L'IVA di 310,20 € va versata entro il 16 aprile 2026.</p>
+
+          <h4>Giacenze finali al 31/03</h4>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Articolo</th><th>Inizio</th><th>Carico</th><th>Scarico</th><th>Reso</th><th>Finale</th></tr></thead>
+            <tbody>
+              <tr><td>TAG01</td><td>200</td><td>—</td><td>80</td><td>+5</td><td><strong>125</strong></td></tr>
+              <tr><td>TAG02</td><td>50</td><td>—</td><td>20</td><td>—</td><td><strong>30</strong></td></tr>
+            </tbody>
+          </table></div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- BUSINESS CASE 2 -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="exercise" id="s-ex-bc2">
+    <div class="exercise-header">
+      <span class="exercise-badge badge-case">Business Case</span>
+      <span class="exercise-title">Studio Tecnico Zanetti — Servizi professionali con ritenuta d'acconto</span>
+    </div>
+    <div class="exercise-body">
+      <p><strong>Contesto aziendale.</strong> "Studio Tecnico Zanetti" è un professionista (geometra, P.IVA individuale) che fornisce servizi di progettazione a imprese e privati. Opera in regime IVA trimestrale. I suoi clienti sono sia privati (senza ritenuta) sia aziende (con ritenuta d'acconto del 20%).</p>
+
+      <h4>Operazioni del 1° trimestre 2026</h4>
+      <ol>
+        <li><strong>15/01</strong> — Emette fattura n. 1 al cliente "Costruzioni Verdi Srl" per progettazione di un capannone: onorario 3.000,00 € + IVA 22%, con ritenuta d'acconto del 20%. Pagamento con bonifico a 30 giorni.</li>
+        <li><strong>20/01</strong> — Riceve fattura n. 5 dal fornitore "Copisteria Rapida Snc" per stampa di elaborati tecnici: 400,00 € + IVA 22%. Pagamento in contanti.</li>
+        <li><strong>28/01</strong> — Paga in contanti la fattura della Copisteria (op. 2).</li>
+        <li><strong>15/02</strong> — Incassa con bonifico la fattura n. 1 (op. 1), al netto della ritenuta: il cliente versa 3.060,00 € e trattiene 600,00 € di ritenuta.</li>
+        <li><strong>10/03</strong> — Emette fattura n. 2 al cliente privato "Sig. Bianchi Marco" per un rilievo topografico: onorario 800,00 € + IVA 22%. Nessuna ritenuta (il privato non è sostituto d'imposta). Pagamento immediato in contanti.</li>
+        <li><strong>31/03</strong> — Si esegue la liquidazione IVA del 1° trimestre.</li>
+      </ol>
+
+      <p><strong>Richieste:</strong></p>
+      <ol type="a">
+        <li>Redigere le scritture in partita doppia per ogni operazione.</li>
+        <li>Calcolare la liquidazione IVA del trimestre.</li>
+        <li>Indicare l'importo della ritenuta d'acconto che il cliente Costruzioni Verdi Srl deve versare all'Erario e la relativa scadenza.</li>
+      </ol>
+
+      <div class="spoiler">
+        <button class="spoiler-toggle" onclick="toggleSpoiler(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          Mostra soluzione
+        </button>
+        <div class="spoiler-content">
+
+          <h4>Op. 1 — Fattura n. 1 con ritenuta (15/01)</h4>
+          <p>Onorario: 3.000,00. IVA 22% = 660,00. Totale lordo = 3.660,00. Ritenuta 20% su 3.000,00 = 600,00. <strong>Netto a pagare: 3.060,00 €</strong>.</p>
+          <p>In G1: <em>Vendite → Gestione Documenti → Nuovo → Fattura immediata</em>. Attivare la gestione ritenuta nelle impostazioni del documento.</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Crediti v/clienti</td><td>3.660,00</td><td></td></tr>
+              <tr><td>Ricavi per prestazioni</td><td></td><td>3.000,00</td></tr>
+              <tr><td>IVA a debito</td><td></td><td>660,00</td></tr>
+            </tbody>
+          </table></div>
+          <p><em>Nota:</em> dal punto di vista del professionista che emette la fattura, al momento dell'emissione il credito è per l'intero importo lordo. La ritenuta verrà rilevata al momento dell'incasso.</p>
+
+          <h4>Op. 2 — Fattura di acquisto (20/01)</h4>
+          <p>Imponibile: 400,00. IVA 22% = 88,00. Totale = 488,00 €.</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Costi per servizi</td><td>400,00</td><td></td></tr>
+              <tr><td>IVA a credito</td><td>88,00</td><td></td></tr>
+              <tr><td>Debiti v/fornitori</td><td></td><td>488,00</td></tr>
+            </tbody>
+          </table></div>
+
+          <h4>Op. 3 — Pagamento fornitore in contanti (28/01)</h4>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Debiti v/fornitori</td><td>488,00</td><td></td></tr>
+              <tr><td>Cassa</td><td></td><td>488,00</td></tr>
+            </tbody>
+          </table></div>
+
+          <h4>Op. 4 — Incasso fattura n. 1 al netto della ritenuta (15/02)</h4>
+          <p>Il cliente versa 3.060,00 € (totale 3.660,00 − ritenuta 600,00).</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Banca c/c</td><td>3.060,00</td><td></td></tr>
+              <tr><td>Crediti per ritenute subite</td><td>600,00</td><td></td></tr>
+              <tr><td>Crediti v/clienti</td><td></td><td>3.660,00</td></tr>
+            </tbody>
+          </table></div>
+          <p>Il conto "Crediti per ritenute subite" è un credito tributario che il professionista scomputerà in sede di dichiarazione dei redditi.</p>
+
+          <h4>Op. 5 — Fattura n. 2 al privato + incasso (10/03)</h4>
+          <p>Onorario: 800,00. IVA 22% = 176,00. Totale = 976,00 €. Nessuna ritenuta.</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Crediti v/clienti</td><td>976,00</td><td></td></tr>
+              <tr><td>Ricavi per prestazioni</td><td></td><td>800,00</td></tr>
+              <tr><td>IVA a debito</td><td></td><td>176,00</td></tr>
+            </tbody>
+          </table></div>
+          <p>Incasso immediato in contanti:</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Cassa</td><td>976,00</td><td></td></tr>
+              <tr><td>Crediti v/clienti</td><td></td><td>976,00</td></tr>
+            </tbody>
+          </table></div>
+
+          <h4>Op. 6 — Liquidazione IVA 1° trimestre</h4>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Voce</th><th>Importo</th></tr></thead>
+            <tbody>
+              <tr><td>IVA a debito (fatt. n. 1)</td><td>660,00</td></tr>
+              <tr><td>IVA a debito (fatt. n. 2)</td><td>176,00</td></tr>
+              <tr><td><strong>Totale IVA a debito</strong></td><td><strong>836,00</strong></td></tr>
+              <tr><td>IVA a credito (fatt. acquisto)</td><td>88,00</td></tr>
+              <tr><td><strong>IVA da versare</strong></td><td><strong>748,00</strong></td></tr>
+            </tbody>
+          </table></div>
+          <p>Scadenza versamento: 16 maggio 2026 (16 del 2° mese successivo al trimestre, con maggiorazione dell'1% per i trimestrali).</p>
+
+          <h4>Ritenuta d'acconto</h4>
+          <p>Costruzioni Verdi Srl (sostituto d'imposta) deve versare la ritenuta di <strong>600,00 €</strong> all'Erario entro il <strong>16 marzo 2026</strong> (il 16 del mese successivo a quello del pagamento avvenuto il 15/02). Codice tributo: 1040.</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- ESERCIZI SINGOLI -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <!-- Esercizio 1 -->
+  <div class="exercise" id="s-ex-e1">
+    <div class="exercise-header">
+      <span class="exercise-badge badge-esercizio">Esercizio</span>
+      <span class="exercise-title">Esercizio 1 — Fattura immediata con più articoli e sconto</span>
+    </div>
+    <div class="exercise-body">
+      <p>La ditta "Tecno Ufficio Srl" vende al cliente "Scuola Media Statale Dante Alighieri" i seguenti articoli:</p>
+      <ul>
+        <li>10 risme di carta A4 (cod. <code>CART01</code>) a 4,50 €/cad.</li>
+        <li>5 toner per stampante (cod. <code>TON03</code>) a 38,00 €/cad.</li>
+        <li>2 monitor 24" (cod. <code>MON24</code>) a 189,00 €/cad.</li>
+      </ul>
+      <p>Sconto incondizionato del 10% sull'intero ordine. IVA 22%. Pagamento con bonifico a 60 giorni.</p>
+      <p><strong>Richieste:</strong></p>
+      <ol type="a">
+        <li>Calcolare imponibile, sconto, base imponibile netta, IVA e totale fattura.</li>
+        <li>Indicare i passaggi in G1 e la scrittura contabile.</li>
+      </ol>
+
+      <div class="spoiler">
+        <button class="spoiler-toggle" onclick="toggleSpoiler(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          Mostra soluzione
+        </button>
+        <div class="spoiler-content">
+          <h4>Calcoli</h4>
+          <p>Importo lordo: (10 × 4,50) + (5 × 38,00) + (2 × 189,00) = 45,00 + 190,00 + 378,00 = <strong>613,00 €</strong>.</p>
+          <p>Sconto 10%: 613,00 × 10% = 61,30 €.</p>
+          <p>Base imponibile netta: 613,00 − 61,30 = <strong>551,70 €</strong>.</p>
+          <p>IVA 22%: 551,70 × 22% = <strong>121,37 €</strong>.</p>
+          <p>Totale fattura: 551,70 + 121,37 = <strong>673,07 €</strong>.</p>
+
+          <h4>Scrittura contabile</h4>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Crediti v/clienti</td><td>673,07</td><td></td></tr>
+              <tr><td>Merci c/vendite</td><td></td><td>551,70</td></tr>
+              <tr><td>IVA a debito</td><td></td><td>121,37</td></tr>
+            </tbody>
+          </table></div>
+          <p><em>In G1:</em> lo sconto incondizionato si inserisce nella testata del documento (campo "Sconto %") e G1 lo applica automaticamente a tutte le righe prima del calcolo IVA.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Esercizio 2 -->
+  <div class="exercise" id="s-ex-e2">
+    <div class="exercise-header">
+      <span class="exercise-badge badge-esercizio">Esercizio</span>
+      <span class="exercise-title">Esercizio 2 — Nota di credito per abbuono</span>
+    </div>
+    <div class="exercise-body">
+      <p>Il cliente "Mobilificio Rossi Srl" ha ricevuto dalla ditta "Ferramenta Brenta Snc" una partita di 500 cerniere (cod. <code>CER02</code>, prezzo unitario 1,80 €) con fattura n. 45 del 10/03. Il 22/03 il cliente segnala che 40 cerniere presentano difetti di cromatura. Le parti concordano un <strong>abbuono</strong> (riduzione di prezzo) del 50% sulle 40 cerniere difettose, senza reso fisico della merce.</p>
+      <p>IVA 22%.</p>
+      <p><strong>Richieste:</strong></p>
+      <ol type="a">
+        <li>Calcolare l'importo della nota di credito.</li>
+        <li>Redigere la scrittura contabile della nota di credito.</li>
+        <li>Spiegare la differenza rispetto a una nota di credito per reso merce (impatto sul magazzino).</li>
+      </ol>
+
+      <div class="spoiler">
+        <button class="spoiler-toggle" onclick="toggleSpoiler(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          Mostra soluzione
+        </button>
+        <div class="spoiler-content">
+          <h4>Calcoli</h4>
+          <p>Abbuono: 40 cerniere × 1,80 € × 50% = <strong>36,00 €</strong>.</p>
+          <p>IVA 22% su 36,00 = 7,92 €. Totale nota di credito = <strong>43,92 €</strong>.</p>
+
+          <h4>Scrittura contabile</h4>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Merci c/vendite (rettifica ricavi)</td><td>36,00</td><td></td></tr>
+              <tr><td>IVA a debito (rettifica)</td><td>7,92</td><td></td></tr>
+              <tr><td>Crediti v/clienti</td><td></td><td>43,92</td></tr>
+            </tbody>
+          </table></div>
+
+          <h4>Differenza con il reso</h4>
+          <p>In caso di <strong>reso merce</strong>, il cliente restituisce fisicamente gli articoli → G1 genera un carico di magazzino (le giacenze aumentano). In caso di <strong>abbuono</strong>, la merce resta al cliente → nessun movimento di magazzino. In G1, nella nota di credito si seleziona una causale di magazzino diversa (o nessuna causale) per evitare il carico automatico.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Esercizio 3 -->
+  <div class="exercise" id="s-ex-e3">
+    <div class="exercise-header">
+      <span class="exercise-badge badge-esercizio">Esercizio</span>
+      <span class="exercise-title">Esercizio 3 — Fattura di acquisto con ritenuta d'acconto e cassa previdenziale</span>
+    </div>
+    <div class="exercise-body">
+      <p>La ditta "Gamma Costruzioni Spa" riceve la fattura n. 12 dall'Avv. Neri per una consulenza legale:</p>
+      <ul>
+        <li>Onorario: 5.000,00 €</li>
+        <li>Contributo Cassa Forense (4% sull'onorario): 200,00 €</li>
+        <li>IVA 22% su (onorario + cassa previdenziale)</li>
+        <li>Ritenuta d'acconto 20% calcolata sull'onorario (non sulla cassa previdenziale)</li>
+      </ul>
+      <p>Pagamento con bonifico a 30 giorni.</p>
+      <p><strong>Richieste:</strong></p>
+      <ol type="a">
+        <li>Calcolare tutti gli importi della fattura (base imponibile, IVA, ritenuta, netto a pagare).</li>
+        <li>Redigere le scritture contabili (fattura + giroconto ritenuta).</li>
+      </ol>
+
+      <div class="spoiler">
+        <button class="spoiler-toggle" onclick="toggleSpoiler(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          Mostra soluzione
+        </button>
+        <div class="spoiler-content">
+          <h4>Calcoli</h4>
+          <p>Base imponibile IVA: 5.000,00 + 200,00 = <strong>5.200,00 €</strong>.</p>
+          <p>IVA 22%: 5.200,00 × 22% = <strong>1.144,00 €</strong>.</p>
+          <p>Totale lordo: 5.200,00 + 1.144,00 = <strong>6.344,00 €</strong>.</p>
+          <p>Ritenuta 20% su onorario: 5.000,00 × 20% = <strong>1.000,00 €</strong>.</p>
+          <p>Netto a pagare: 6.344,00 − 1.000,00 = <strong>5.344,00 €</strong>.</p>
+
+          <h4>Prima scrittura — registrazione fattura</h4>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Consulenze legali</td><td>5.000,00</td><td></td></tr>
+              <tr><td>Contributi previdenziali</td><td>200,00</td><td></td></tr>
+              <tr><td>IVA a credito</td><td>1.144,00</td><td></td></tr>
+              <tr><td>Debiti v/fornitori</td><td></td><td>6.344,00</td></tr>
+            </tbody>
+          </table></div>
+
+          <h4>Seconda scrittura — giroconto ritenuta</h4>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Debiti v/fornitori</td><td>1.000,00</td><td></td></tr>
+              <tr><td>Erario c/ritenute da versare</td><td></td><td>1.000,00</td></tr>
+            </tbody>
+          </table></div>
+          <p>Debito residuo verso l'avvocato: 6.344,00 − 1.000,00 = <strong>5.344,00 €</strong>.</p>
+          <p>La ritenuta di 1.000,00 € va versata con F24 entro il 16 del mese successivo al pagamento.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Esercizio 4 -->
+  <div class="exercise" id="s-ex-e4">
+    <div class="exercise-header">
+      <span class="exercise-badge badge-esercizio">Esercizio</span>
+      <span class="exercise-title">Esercizio 4 — Liquidazione IVA mensile con credito del mese precedente</span>
+    </div>
+    <div class="exercise-body">
+      <p>La ditta "Delta Elettronica Srl" opera in regime IVA mensile. Nel mese di <strong>aprile 2026</strong> presenta la seguente situazione:</p>
+      <ul>
+        <li><strong>Credito IVA da marzo:</strong> 320,00 € (riportato dalla liquidazione precedente)</li>
+        <li><strong>Vendite di aprile:</strong> fattura n. 28 per 8.000,00 € + IVA 22%; fattura n. 29 per 3.500,00 € + IVA 22%.</li>
+        <li><strong>Acquisti di aprile:</strong> fattura fornitore per 6.000,00 € + IVA 22%; fattura fornitore per 2.200,00 € + IVA 22%.</li>
+        <li><strong>Nota di credito emessa:</strong> n. 4 per reso merce di 500,00 € + IVA 22%.</li>
+      </ul>
+      <p><strong>Richieste:</strong></p>
+      <ol type="a">
+        <li>Calcolare l'IVA a debito e l'IVA a credito del mese.</li>
+        <li>Determinare l'IVA da versare o il credito da riportare, tenendo conto del credito pregresso.</li>
+      </ol>
+
+      <div class="spoiler">
+        <button class="spoiler-toggle" onclick="toggleSpoiler(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          Mostra soluzione
+        </button>
+        <div class="spoiler-content">
+          <h4>IVA a debito</h4>
+          <p>Fatt. n. 28: 8.000,00 × 22% = 1.760,00<br>
+          Fatt. n. 29: 3.500,00 × 22% = 770,00<br>
+          Nota di credito n. 4: −500,00 × 22% = −110,00<br>
+          <strong>Totale IVA a debito: 1.760,00 + 770,00 − 110,00 = 2.420,00 €</strong></p>
+
+          <h4>IVA a credito</h4>
+          <p>Fatt. acquisto 1: 6.000,00 × 22% = 1.320,00<br>
+          Fatt. acquisto 2: 2.200,00 × 22% = 484,00<br>
+          <strong>Totale IVA a credito: 1.320,00 + 484,00 = 1.804,00 €</strong></p>
+
+          <h4>Liquidazione</h4>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Voce</th><th>Importo</th></tr></thead>
+            <tbody>
+              <tr><td>IVA a debito aprile</td><td>2.420,00</td></tr>
+              <tr><td>IVA a credito aprile</td><td>−1.804,00</td></tr>
+              <tr><td>Debito netto aprile</td><td>616,00</td></tr>
+              <tr><td>Credito da marzo (riporto)</td><td>−320,00</td></tr>
+              <tr><td><strong>IVA da versare</strong></td><td><strong>296,00</strong></td></tr>
+            </tbody>
+          </table></div>
+          <p>Versamento di 296,00 € entro il 16 maggio 2026 con modello F24, codice tributo 6004 (IVA mese di aprile).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Esercizio 5 -->
+  <div class="exercise" id="s-ex-e5">
+    <div class="exercise-header">
+      <span class="exercise-badge badge-esercizio">Esercizio</span>
+      <span class="exercise-title">Esercizio 5 — Scritture di assestamento e chiusura dei conti</span>
+    </div>
+    <div class="exercise-body">
+      <p>La ditta "Alfa Srl" al 31/12/2026 presenta il seguente bilancio di verifica (saldi prima delle scritture di assestamento):</p>
+
+      <div class="table-wrap"><table>
+        <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+        <tbody>
+          <tr><td>Fabbricati</td><td>200.000,00</td><td></td></tr>
+          <tr><td>Fondo amm.to fabbricati</td><td></td><td>60.000,00</td></tr>
+          <tr><td>Automezzi</td><td>30.000,00</td><td></td></tr>
+          <tr><td>Fondo amm.to automezzi</td><td></td><td>12.000,00</td></tr>
+          <tr><td>Merci c/acquisti</td><td>85.000,00</td><td></td></tr>
+          <tr><td>Merci c/vendite</td><td></td><td>140.000,00</td></tr>
+          <tr><td>Costi del personale</td><td>35.000,00</td><td></td></tr>
+          <tr><td>Fitti passivi</td><td>12.000,00</td><td></td></tr>
+          <tr><td>Crediti v/clienti</td><td>48.000,00</td><td></td></tr>
+          <tr><td>Debiti v/fornitori</td><td></td><td>32.000,00</td></tr>
+          <tr><td>Banca c/c</td><td>18.000,00</td><td></td></tr>
+          <tr><td>Capitale sociale</td><td></td><td>150.000,00</td></tr>
+          <tr><td>Utile esercizio precedente</td><td></td><td>14.000,00</td></tr>
+        </tbody>
+      </table></div>
+
+      <p><strong>Informazioni per le scritture di assestamento:</strong></p>
+      <ul>
+        <li>Ammortamento fabbricati: aliquota 3%.</li>
+        <li>Ammortamento automezzi: aliquota 20%.</li>
+        <li>Rimanenze finali di merci al 31/12: valorizzate a 12.000,00 €.</li>
+        <li>Il fitto passivo di 12.000,00 € si riferisce al periodo 01/09/2026 – 31/08/2027 (pagato anticipatamente per 12 mesi).</li>
+        <li>Fondo svalutazione crediti: si accantona l'1% dei crediti v/clienti.</li>
+      </ul>
+
+      <p><strong>Richieste:</strong></p>
+      <ol type="a">
+        <li>Redigere le scritture di assestamento (ammortamenti, rimanenze, risconto attivo, fondo svalutazione crediti).</li>
+        <li>Determinare l'utile o la perdita dell'esercizio.</li>
+        <li>Descrivere i passaggi in G1 per la chiusura dei conti.</li>
+      </ol>
+
+      <div class="spoiler">
+        <button class="spoiler-toggle" onclick="toggleSpoiler(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          Mostra soluzione
+        </button>
+        <div class="spoiler-content">
+
+          <h4>1. Ammortamento fabbricati</h4>
+          <p>200.000 × 3% = 6.000,00 €</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Amm.to fabbricati</td><td>6.000,00</td><td></td></tr>
+              <tr><td>Fondo amm.to fabbricati</td><td></td><td>6.000,00</td></tr>
+            </tbody>
+          </table></div>
+
+          <h4>2. Ammortamento automezzi</h4>
+          <p>30.000 × 20% = 6.000,00 €</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Amm.to automezzi</td><td>6.000,00</td><td></td></tr>
+              <tr><td>Fondo amm.to automezzi</td><td></td><td>6.000,00</td></tr>
+            </tbody>
+          </table></div>
+
+          <h4>3. Rimanenze finali</h4>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Merci (attivo patrimoniale)</td><td>12.000,00</td><td></td></tr>
+              <tr><td>Merci c/rimanenze finali (ricavo)</td><td></td><td>12.000,00</td></tr>
+            </tbody>
+          </table></div>
+
+          <h4>4. Risconto attivo su fitti passivi</h4>
+          <p>Il fitto copre 12 mesi (set 2026 – ago 2027). Quota di competenza 2026: 4 mesi su 12 = 4/12 × 12.000 = 4.000,00 €.<br>
+          Quota non di competenza (risconto attivo): 8/12 × 12.000 = <strong>8.000,00 €</strong>.</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Risconti attivi</td><td>8.000,00</td><td></td></tr>
+              <tr><td>Fitti passivi</td><td></td><td>8.000,00</td></tr>
+            </tbody>
+          </table></div>
+
+          <h4>5. Fondo svalutazione crediti</h4>
+          <p>48.000 × 1% = 480,00 €</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Conto</th><th>Dare</th><th>Avere</th></tr></thead>
+            <tbody>
+              <tr><td>Svalutazione crediti</td><td>480,00</td><td></td></tr>
+              <tr><td>Fondo sval. crediti</td><td></td><td>480,00</td></tr>
+            </tbody>
+          </table></div>
+
+          <h4>Determinazione dell'utile</h4>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Costi (Conto Economico)</th><th>Importo</th></tr></thead>
+            <tbody>
+              <tr><td>Merci c/acquisti</td><td>85.000,00</td></tr>
+              <tr><td>Costi del personale</td><td>35.000,00</td></tr>
+              <tr><td>Fitti passivi (dopo risconto: 12.000 − 8.000)</td><td>4.000,00</td></tr>
+              <tr><td>Amm.to fabbricati</td><td>6.000,00</td></tr>
+              <tr><td>Amm.to automezzi</td><td>6.000,00</td></tr>
+              <tr><td>Svalutazione crediti</td><td>480,00</td></tr>
+              <tr><td><strong>Totale costi</strong></td><td><strong>136.480,00</strong></td></tr>
+            </tbody>
+          </table></div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Ricavi (Conto Economico)</th><th>Importo</th></tr></thead>
+            <tbody>
+              <tr><td>Merci c/vendite</td><td>140.000,00</td></tr>
+              <tr><td>Merci c/rimanenze finali</td><td>12.000,00</td></tr>
+              <tr><td><strong>Totale ricavi</strong></td><td><strong>152.000,00</strong></td></tr>
+            </tbody>
+          </table></div>
+          <p><strong>Utile d'esercizio: 152.000,00 − 136.480,00 = 15.520,00 €</strong></p>
+
+          <h4>Passaggi in G1 per la chiusura</h4>
+          <ol>
+            <li>Inserire le scritture di assestamento in <em>Contabilità → Gestione Movimenti</em>.</li>
+            <li>Eseguire <em>Contabilità → Utilità → Ricalcolo progressivi</em>.</li>
+            <li>Stampare il bilancio di verifica per controllo.</li>
+            <li>Eseguire <em>Contabilità → Elaborazioni Annuali → Chiusura Apertura Conti</em> — G1 genera automaticamente l'epilogo dei conti economici al Conto Economico, la rilevazione dell'utile, la chiusura dei conti patrimoniali allo Stato Patrimoniale e le aperture nell'esercizio 2027.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- 14. Glossario -->
+<section id="s14">
+  <h2><span class="num">14</span> Glossario essenziale</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Termine</th><th>Significato</th></tr></thead>
+      <tbody>
+        <tr><td><strong>D.d.T.</strong></td><td>Documento di Trasporto — accompagna la merce durante il trasporto</td></tr>
+        <tr><td><strong>Fattura immediata</strong></td><td>Fattura emessa contestualmente alla consegna della merce</td></tr>
+        <tr><td><strong>Fattura differita</strong></td><td>Fattura emessa entro il 15 del mese successivo, riepilogativa di più D.d.T.</td></tr>
+        <tr><td><strong>Nota di credito</strong></td><td>Documento che rettifica (in diminuzione) una fattura già emessa</td></tr>
+        <tr><td><strong>Ri.Ba.</strong></td><td>Ricevuta Bancaria — effetto attivo con cui il creditore incassa tramite la banca</td></tr>
+        <tr><td><strong>SdI</strong></td><td>Sistema di Interscambio dell'Agenzia delle Entrate per la fatturazione elettronica</td></tr>
+        <tr><td><strong>FatturaPA</strong></td><td>Il formato XML standard per le fatture elettroniche in Italia</td></tr>
+        <tr><td><strong>Digital Hub</strong></td><td>Il servizio Zucchetti che gestisce l'invio/ricezione delle fatture elettroniche</td></tr>
+        <tr><td><strong>Piano dei Conti</strong></td><td>L'insieme strutturato di tutti i conti usati in contabilità</td></tr>
+        <tr><td><strong>Causale contabile</strong></td><td>Un codice che identifica il tipo di operazione (fattura, incasso, pagamento, giroconto)</td></tr>
+        <tr><td><strong>Partitario</strong></td><td>Il registro che mostra la situazione delle partite aperte e chiuse per ogni cliente/fornitore</td></tr>
+        <tr><td><strong>Castelletto IVA</strong></td><td>Il riepilogo delle basi imponibili e relative imposte in un documento</td></tr>
+        <tr><td><strong>Giacenza</strong></td><td>La quantità di un articolo fisicamente presente in magazzino</td></tr>
+        <tr><td><strong>LIFO / FIFO</strong></td><td>Metodi di valorizzazione delle scorte (Last In First Out / First In First Out)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 14. Risorse utili -->
+<section id="s15">
+  <h2><span class="num">15</span> Risorse utili</h2>
+  <ul>
+    <li><strong>Guida in linea di G1</strong> — disponibile all'interno del programma (tasto F1) e online: <a href="https://help.gestionale1.it" target="_blank">help.gestionale1.it</a></li>
+    <li><strong>Assistenza digitale</strong> — FAQ interattive e guide passo passo: <a href="https://help.gestionale1.it/ad/index.html" target="_blank">help.gestionale1.it/ad</a></li>
+    <li><strong>Video tutorial</strong> — gallery video per imparare le funzioni principali: <a href="https://help.gestionale1.it/ztube/index.html" target="_blank">help.gestionale1.it/ztube</a></li>
+    <li><strong>Brochure ufficiale</strong> — panoramica completa dei moduli: <a href="https://pdf.zucchetti.it/G1" target="_blank">pdf.zucchetti.it/G1</a></li>
+  </ul>
+</section>
+
+<footer style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border);font-size:.85rem;color:var(--text-muted);text-align:center">
+  <p><em>Documento redatto come supporto didattico. Per la documentazione ufficiale e aggiornata, fare sempre riferimento al sito Zucchetti e alla guida in linea del software.</em></p>
+</footer>
+
+</main>
+
+<!-- Theme toggle -->
+<button class="theme-toggle" id="themeToggle" title="Cambia tema" aria-label="Cambia tema chiaro/scuro">
+  <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+  <svg id="moonIcon" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+</button>
+
+<!-- Back to top -->
+<button class="back-to-top" id="backToTop" title="Torna su" aria-label="Torna su">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<script>
+// Sidebar toggle (mobile)
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('sidebarOverlay');
+const hamburger = document.getElementById('hamburgerBtn');
+
+function toggleSidebar() {
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+hamburger.addEventListener('click', toggleSidebar);
+overlay.addEventListener('click', toggleSidebar);
+
+// Close sidebar on link click (mobile)
+document.querySelectorAll('.sidebar-nav a').forEach(a => {
+  a.addEventListener('click', () => {
+    if (window.innerWidth <= 900) toggleSidebar();
+  });
+});
+
+// Active link tracking
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.sidebar-nav a[href^="#"]');
+
+function updateActive() {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', updateActive, { passive: true });
+updateActive();
+
+// Search in nav
+const navSearch = document.getElementById('navSearch');
+navSearch.addEventListener('input', () => {
+  const q = navSearch.value.toLowerCase().trim();
+  document.querySelectorAll('.sidebar-nav a:not(.nav-section)').forEach(a => {
+    if (!q) { a.classList.remove('hidden'); return; }
+    a.classList.toggle('hidden', !a.textContent.toLowerCase().includes(q));
+  });
+  // Also search in body and scroll to first match
+});
+
+// Theme toggle
+const themeBtn = document.getElementById('themeToggle');
+const sunIcon = document.getElementById('sunIcon');
+const moonIcon = document.getElementById('moonIcon');
+
+function setTheme(dark) {
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  sunIcon.style.display = dark ? 'none' : 'block';
+  moonIcon.style.display = dark ? 'block' : 'none';
+  localStorage.setItem('theme', dark ? 'dark' : 'light');
+}
+
+themeBtn.addEventListener('click', () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  setTheme(!isDark);
+});
+
+// Restore theme
+if (localStorage.getItem('theme') === 'dark' ||
+    (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme:dark)').matches)) {
+  setTheme(true);
+}
+
+// Back to top
+const btt = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  btt.classList.toggle('visible', window.scrollY > 600);
+}, { passive: true });
+btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+// Spoiler toggle
+function toggleSpoiler(btn) {
+  const content = btn.parentElement.querySelector('.spoiler-content');
+  const isOpen = content.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
+  btn.innerHTML = isOpen
+    ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg> Nascondi soluzione'
+    : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg> Mostra soluzione';
+}
+</script>
+
+
+<script>
+(function(){
+  var SESSION_KEY = 'zucchetti_unlocked';
+  if(sessionStorage.getItem(SESSION_KEY)==='1'){
+    document.getElementById('pw-gate').classList.add('hidden');
+    return;
+  }
+  document.getElementById('pw-input').addEventListener('keydown',function(e){
+    if(e.key==='Enter') checkPw();
+    document.getElementById('pw-error').textContent='';
+  });
+})();
+
+async function checkPw(){
+  var val = document.getElementById('pw-input').value;
+  var enc = new TextEncoder().encode(val);
+  var buf = await crypto.subtle.digest('SHA-256', enc);
+  var hex = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  if(hex==='7fd609ad86c700067c10bdb75df9e2343c07658b0ccecebc48dd1f93ec963b80'){
+    sessionStorage.setItem('zucchetti_unlocked','1');
+    document.getElementById('pw-gate').classList.add('hidden');
+  } else {
+    document.getElementById('pw-error').textContent='Password non corretta. Riprova.';
+    document.getElementById('pw-input').value='';
+    document.getElementById('pw-input').focus();
+  }
+}
+</script>
+
+</body>
+</html>

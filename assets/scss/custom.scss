@@ -807,6 +807,57 @@ html:has(body.dark) {
   }
 }
 
+// Anno scolastico label sopra il titolo modulo
+.module-year {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba($primary, 0.75);
+  margin-bottom: 0.2rem;
+  margin-top: 2rem;
+
+  &:first-of-type {
+    margin-top: 1rem;
+  }
+}
+
+// Nota prerequisito (avanzato / pro)
+.prereq-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: #1a1a1a;
+  padding: 0.35rem 0.85rem;
+  border-left: 3px solid rgba($primary, 0.4);
+  margin-bottom: 1.25rem;
+  background: rgba($primary, 0.04);
+  border-radius: 0 4px 4px 0;
+
+  .dark & {
+    color: #d0d0d0;
+    background: rgba($primary, 0.07);
+  }
+
+  a {
+    color: $primary;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Link con cursore lucchetto
+.locked-link {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' fill='%23ed6f5c'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4' stroke='%23ed6f5c' stroke-width='2.2' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='12' cy='16' r='1.5' fill='white'/%3E%3C/svg%3E") 11 11, not-allowed;
+}
+
 // Module section heading on materials pages
 .materials-module-title {
   font-family: $sta-font-heading, serif;
