@@ -134,12 +134,17 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-// Slimmer navbar
+// Slimmer navbar + JetBrains Mono con fallback monospace corretto
 .navbar {
   height: 2.75rem !important;
   min-height: 0 !important;
   padding-top: 0.1rem;
   padding-bottom: 0.1rem;
+  font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+
+  a, .nav-link, .dropdown-item {
+    font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+  }
 }
 
 // --- Landing page (custom homepage) -----------------------------------
@@ -1185,6 +1190,22 @@ html:has(body.dark) {
   }
 }
 
+
+// Autore negli articoli: JetBrains Mono con fallback monospace
+.author-name {
+  font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-size: 0.95em;
+  font-weight: 500;
+
+  a {
+    color: $primary;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
 
 // Compact footer
 body {
