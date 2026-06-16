@@ -1300,92 +1300,79 @@ html:has(body.dark) {
 // ─── ACCORDION SECTION FOR YEAR-BASED CONTENT ──────────────────────
 
 .accordion-section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .accordion-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.25rem;
-  background: rgba(#c9a876, 0.05);
-  border: 1px solid rgba(21, 20, 15, 0.1);
-  border-radius: 10px;
+  padding: 1.25rem 0;
   cursor: pointer;
   transition: all 0.25s ease-out;
   user-select: none;
+  border-bottom: 1px solid rgba(21, 20, 15, 0.08);
 
   .dark & {
-    background: rgba(#c9a876, 0.08);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
   }
 
   &:hover {
-    border-color: rgba($primary, 0.3);
-    box-shadow: 0 4px 12px rgba(21, 20, 15, 0.08);
-  }
-
-  &.active {
-    border-color: rgba($primary, 0.3);
-    box-shadow: 0 4px 12px rgba(21, 20, 15, 0.08);
+    .accordion-arrow {
+      opacity: 1;
+      transform: translateX(3px);
+    }
   }
 }
 
 .accordion-title-group {
   display: flex;
-  align-items: baseline;
-  gap: 1rem;
+  align-items: flex-start;
+  gap: 1.25rem;
   flex: 1;
+  flex-direction: column;
 
   .accordion-year {
-    font-family: $sta-font-heading, serif;
-    font-size: 1.3rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.2rem;
     font-weight: 700;
-    color: #1a1a1a;
+    color: $primary;
     line-height: 1.2;
-    min-width: fit-content;
-
-    .dark & {
-      color: #fafaf9;
-    }
+    letter-spacing: 0.02em;
   }
 
   .accordion-desc {
     font-family: 'Georgia', serif;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: #666;
-    line-height: 1.5;
+    line-height: 1.6;
+    max-width: 700px;
 
     .dark & {
-      color: #999;
+      color: #aaa;
     }
   }
 }
 
-.accordion-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
+.accordion-arrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.3rem;
   color: $primary;
-  font-size: 1.2rem;
-  transition: transform 0.25s ease-out;
+  opacity: 0;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
   flex-shrink: 0;
-
-  &.active {
-    transform: rotate(180deg);
-  }
+  margin-top: 0.1rem;
 }
 
 .accordion-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease-out;
-  padding: 0 1.25rem;
+  transition: max-height 0.35s ease-out;
+  padding: 0;
 
   &.active {
-    max-height: 10000px;
-    padding: 1rem 1.25rem;
+    max-height: 15000px;
+    padding: 1.5rem 0;
   }
 }
 
