@@ -11,3 +11,54 @@
     });
   })();
 </script>
+
+{{/* Theme toggle: convert dropdown to simple light/dark toggle */}}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.querySelector('.theme-toggle');
+    const dropdownMenu = document.querySelector('.theme-toggle .dropdown-menu');
+
+    if (themeToggle && dropdownMenu) {
+      // Hide dropdown menu
+      dropdownMenu.style.display = 'none';
+
+      // Get the theme button (the icon)
+      const themeBtn = themeToggle.querySelector('.dropdown-toggle');
+
+      if (themeBtn) {
+        themeBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          // Get current theme
+          const htmlElement = document.documentElement;
+          const currentTheme = localStorage.getItem('wcTheme') || 'light';
+
+          // Toggle between light and dark
+          const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+          // Set new theme
+          localStorage.setItem('wcTheme', newTheme);
+          htmlElement.setAttribute('data-wc-theme', newTheme);
+
+          // Update icon: moon for light mode, sun for dark mode
+          const icon = themeBtn.querySelector('i');
+          if (icon) {
+            icon.className = newTheme === 'light'
+              ? 'fas fa-moon'
+              : 'fas fa-sun';
+          }
+        });
+
+        // Set initial icon based on current theme
+        const currentTheme = localStorage.getItem('wcTheme') || 'light';
+        const icon = themeBtn.querySelector('i');
+        if (icon) {
+          icon.className = currentTheme === 'light'
+            ? 'fas fa-moon'
+            : 'fas fa-sun';
+        }
+      }
+    }
+  });
+</script>
