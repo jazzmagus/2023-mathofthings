@@ -23,39 +23,37 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Find theme toggle button by looking for moon/sun icon or aria-label
-    const themeBtn = document.querySelector('[aria-label*="theme"], [aria-label*="dark"], [aria-label*="light"], .navbar-nav .nav-item:last-child .nav-link');
+    // Find theme toggle button
+    const themeBtn = document.querySelector('button[aria-label*="theme"], a[aria-label*="theme"], .navbar-nav .nav-item:last-child .nav-link');
 
     if (themeBtn) {
       themeBtn.addEventListener('click', function(e) {
-        // Prevent dropdown from opening
         e.preventDefault();
         e.stopPropagation();
 
-        // Get current theme from html element or localStorage
+        // Get current theme
         const htmlElement = document.documentElement;
-        const currentTheme = htmlElement.getAttribute('data-wc-theme') || localStorage.getItem('wcTheme') || 'light';
+        const currentTheme = htmlElement.getAttribute('data-wc-theme') || 'light';
 
-        // Toggle between light and dark
+        // Toggle to opposite theme
         const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 
-        // Set new theme in HTML attribute
-        htmlElement.setAttribute('data-wc-theme', newTheme);
+        // Find and click the corresponding menu item in the dropdown
+        // The dropdown should have links with data-wc-theme attribute
+        const themeLinks = document.querySelectorAll('.dropdown-menu a[data-wc-theme]');
 
-        // Save to localStorage
-        localStorage.setItem('wcTheme', newTheme);
-
-        // Trigger theme change event if exists
-        if (window.getColorScheme) {
-          window.getColorScheme(newTheme);
+        for (let link of themeLinks) {
+          if (link.getAttribute('data-wc-theme') === newTheme) {
+            // Click the link to trigger wowchemy's theme change
+            link.click();
+            break;
+          }
         }
 
-        // Update icon
-        const icon = themeBtn.querySelector('i');
-        if (icon) {
-          icon.className = newTheme === 'light'
-            ? 'fas fa-moon'
-            : 'fas fa-sun';
+        // Fallback: if links not found, set theme directly
+        if (themeLinks.length === 0) {
+          htmlElement.setAttribute('data-wc-theme', newTheme);
+          localStorage.setItem('wcTheme', newTheme);
         }
       });
     }
