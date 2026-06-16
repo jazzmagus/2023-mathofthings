@@ -266,3 +266,4 @@ image:
 - Nuovi layout in `layouts/` seguono il pattern `.content-page` + `.page-header-section`.
 - Le pagine statiche extra (es. `lezioni-fisica`, `verso-universita`) hanno il layout in `layouts/<slug>/list.html` e il contenuto in `content/<slug>/_index.md`.
 - Math inline: `$...$` — display: `$$...$$`.
+- **Formule: no `\boxed{}`** — usa `\tag{}` per numerare le formule importanti, ma mai racchiuderle in box. Es: `$$f(x) = \lim_{h \to 0} \frac{f(x+h)-f(x)}{h} \tag{D}$$`

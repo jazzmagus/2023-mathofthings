@@ -75,7 +75,7 @@ Il termine al numeratore della frazione rappresenta il **coefficiente angolare**
 
 ### Definizione del rapporto incrementale
 
-$$\boxed{\text{Rapporto incrementale}=\dfrac{f(x_0 + h) - f(x_0)}{h}} \tag{RI}$$
+$$\text{Rapporto incrementale}=\dfrac{f(x_0 + h) - f(x_0)}{h} \tag{RI}$$
 
 È il rapporto tra gli **incrementi** in $y$ e in $x$.
 
@@ -87,7 +87,7 @@ $$\boxed{\text{Rapporto incrementale}=\dfrac{f(x_0 + h) - f(x_0)}{h}} \tag{RI}$$
 
 La **derivata** di una funzione è definita come il **limite** — ove questo esista e sia finito — del rapporto incrementale:
 
-$$\boxed{f'(x) = \dfrac{dy}{dx} = \lim_{h \to 0} \dfrac{f(x + h) - f(x)}{h}} \tag{D}$$
+$$f'(x) = \dfrac{dy}{dx} = \lim_{h \to 0} \dfrac{f(x + h) - f(x)}{h} \tag{D}$$
 
 Questa definizione cattura l'idea fondamentale: quando avviciniamo infinitamente il secondo punto al primo, la retta secante diventa la retta tangente, e il suo coefficiente angolare diventa la **pendenza della curva esattamente in quel punto**.
 
