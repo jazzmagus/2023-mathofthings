@@ -1,5 +1,5 @@
 ---
-title: Effetto Dunning Kruger
+title: "Effetto _Dunning Kruger_"
 subtitle: _Convinzione Vs Conoscenza_
 summary: brain food
 authors:
@@ -22,6 +22,7 @@ draft: false
 image:
   caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/edJCx-EOLxY)'
   focal_point: ""
+  placement: 2
   preview_only: false
 
 # slides: 

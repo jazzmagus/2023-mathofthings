@@ -1,5 +1,5 @@
 ---
-title: Piano Estate - fase 3
+title: "_Piano Estate_ - fase 3"
 subtitle: Ripasso di matematica per le classi Seconde
 summary: some maths
 authors:
@@ -16,6 +16,7 @@ draft: false
 image:
   caption: 'Image credit: [Unsplash](https://unsplash.com/photos/ZiQkhI7417A)'
   focal_point: ""
+  placement: 2
   preview_only: false
 
 # Projects (optional).

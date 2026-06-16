@@ -1,5 +1,5 @@
 ---
-title: Il dilemma di Monty Hall
+title: "Il _dilemma_ di Monty Hall"
 subtitle: introduzione al calcolo delle probabilità
 summary: brain food
 authors:

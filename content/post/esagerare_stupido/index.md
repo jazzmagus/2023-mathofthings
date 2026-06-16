@@ -8,7 +8,7 @@ tags: [itis, lesson, 2022]
 categories: [infos]
 date: "2022-03-21T00:21:00Z"
 featured: true
-draft: false
+draft: true
 
 # links:
 #  - icon_pack: fab

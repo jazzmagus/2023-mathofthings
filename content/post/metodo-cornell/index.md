@@ -1,5 +1,5 @@
 ---
-title: Il metodo di studio Cornell
+title: "Il _Metodo_ di studio Cornell"
 subtitle: Un metodo per lo studio e la revisione degli appunti
 summary: Imparare a studiare... la Matematica
 authors:
@@ -16,6 +16,7 @@ draft: false
 image:
   caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/edJCx-EOLxY)'
   focal_point: ""
+  placement: 2
   preview_only: false
 
 # Projects (optional).

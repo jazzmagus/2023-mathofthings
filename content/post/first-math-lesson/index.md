@@ -1,5 +1,5 @@
 ---
-title: La prima lezione di matematica!
+title: "La prima _lezione_ di matematica!"
 subtitle: _"La matematica non è imparare formule a memoria, ma collegare concetti..."_
 summary: Inizio a.s. 2021-22
 authors:

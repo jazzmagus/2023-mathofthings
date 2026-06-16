@@ -23,7 +23,7 @@
       {{ $title := .Title }}
       <a href="{{ .RelPermalink }}" class="article-item-link">
         <div class="article-content">
-          <h3 class="article-title">{{ $title }}</h3>
+          <h3 class="article-title">{{ .RenderString $title }}</h3>
           <p class="article-meta">
             <span class="article-summary">{{ .Params.summary | default .Summary }}</span>
             <span class="article-date">{{ .Date.Format "2 Jan 2006" }}</span>

@@ -105,7 +105,8 @@ h1, h2, h3, h4, h5, h6 {
 
 // Titoli post/talk/page: em in corsivo coral (abilitato da page_header.html override)
 .article-container h1,
-.universal-wrapper h1 {
+.universal-wrapper h1,
+.article-title {
   em {
     font-style: italic;
     color: $primary;

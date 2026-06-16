@@ -1,5 +1,5 @@
 ---
-title: Il concetto di Modello Matematico
+title: "Il concetto di _Modello Matematico_"
 subtitle: _da Newton ad Heisemberg_
 summary: Modello Matematico
 authors:

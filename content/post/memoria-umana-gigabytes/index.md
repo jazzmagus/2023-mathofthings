@@ -1,5 +1,5 @@
 ---
-title: La Memoria umana in gigabytes
+title: "La _Memoria_ umana in Gigabytes"
 subtitle: _Una capacità inimmaginabile_
 summary: brain food
 authors:
@@ -16,6 +16,7 @@ draft: false
 image:
   caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/edJCx-EOLxY)'
   focal_point: ""
+  placement: 2
   preview_only: false
 
 # Projects (optional).

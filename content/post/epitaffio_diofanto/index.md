@@ -1,5 +1,5 @@
 ---
-title: Epitaffio di Diòfanto
+title: "Epitaffio di _Diòfanto_"
 subtitle: _equazioni lineari intere di primo grado_
 summary: Diòfanto d'Alessandria
 authors:
@@ -13,6 +13,7 @@ draft: false
 image:
   caption: 'Image credit: [**Unsplash**](https://images.unsplash.com/photo-1516880354211-e5cc9b90d1ae?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80)'
   focal_point: ""
+  placement: 2
   preview_only: false
 ---
 
