@@ -1,0 +1,29 @@
+{{- define "main" -}}
+
+{{ if .Params.image.placement | default false }}
+  {{ if eq .Params.image.placement 2 }}
+    <div class="article-featured-image">
+      {{ with .Resources.GetMatch .Params.image.filename }}
+        {{ with .Resize "1200x" }}
+          <img src="{{ .RelPermalink }}" alt="{{ $.Params.image.caption }}" class="featured-image">
+        {{ end }}
+      {{ end }}
+    </div>
+  {{ end }}
+{{ end }}
+
+<article class="article">
+  <div class="article-container">
+    <h1 class="article-title">{{ .Title | markdownify }}</h1>
+
+    {{ with .Params.subtitle }}
+      <p class="article-subtitle">{{ . }}</p>
+    {{ end }}
+
+    <div class="article-style">
+      {{ .Content }}
+    </div>
+  </div>
+</article>
+
+{{- end -}}

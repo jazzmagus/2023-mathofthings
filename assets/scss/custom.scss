@@ -665,6 +665,21 @@ h2.display {
 
 // --- Content pages (Courses, Posts, Talks) ---------------------------
 
+// Featured image (placement: 2 = full width above title)
+.article-featured-image {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-bottom: 2rem;
+  margin-top: -1.5rem;
+
+  .featured-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+}
+
 // Decorative particles background (shared by hero + content pages)
 .bg-particles {
   position: absolute;
