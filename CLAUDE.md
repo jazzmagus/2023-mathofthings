@@ -225,6 +225,22 @@ La lezione aggiunge `?print=1` per attivare il CSS di stampa (`body.print-all` i
 
 ---
 
+## Titoli con corsivo coral
+
+Il partial `layouts/partials/page_header.html` è stato sovrascritto per usare `.RenderString` al posto di `.Title` grezzo. Questo permette di usare markdown inline nel campo `title:` del frontmatter.
+
+Convenzione: usare `_parola_` per mettere una o due parole in corsivo coral nel titolo. Esempio:
+
+```yaml
+title: "Il concetto di _Modello Matematico_"
+title: "Costruire un manuale con _l'AI_"
+```
+
+Il CSS `.article-container h1 em { color: $primary; font-style: italic; }` fa il resto.
+Non esagerare: una o al massimo due parole per titolo.
+
+---
+
 ## Convenzioni frontmatter — post (`content/post/`)
 
 Ogni post deve avere nel blocco `image:`:

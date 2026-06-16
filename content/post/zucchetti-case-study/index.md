@@ -1,5 +1,5 @@
 ---
-title: "Costruire un manuale d'uso con l'AI — Case Study Gestionale Zucchetti"
+title: "Costruire un manuale d'uso con _l'AI_ — Case Study Gestionale _Zucchetti_"
 subtitle: "Come trasformare un software senza documentazione in un manuale strutturato, con l'aiuto di Claude"
 summary: "Un caso reale: nessun manuale disponibile, software complesso, scadenza ravvicinata. Come l'intelligenza artificiale può colmare un vuoto documentale partendo da zero."
 authors: [diego fantinelli]
