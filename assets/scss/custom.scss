@@ -1307,17 +1307,21 @@ html:has(body.dark) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem 0;
+  padding: 1.25rem 0 1.25rem 1rem;
+  margin-left: -1rem;
   cursor: pointer;
   transition: all 0.25s ease-out;
   user-select: none;
   border-bottom: 1px solid rgba(21, 20, 15, 0.08);
+  border-left: 2px solid transparent;
 
   .dark & {
     border-bottom-color: rgba(255, 255, 255, 0.08);
   }
 
   &:hover {
+    border-left-color: $primary;
+
     .accordion-arrow {
       opacity: 1;
       transform: translateX(3px);
@@ -1334,11 +1338,12 @@ html:has(body.dark) {
 
   .accordion-year {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 1.2rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: $primary;
     line-height: 1.2;
     letter-spacing: 0.02em;
+    text-transform: uppercase;
   }
 
   .accordion-desc {
