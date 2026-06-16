@@ -13,6 +13,7 @@ image:
   filename: featured.jpg
   caption: 'Gestionale Zucchetti — case study AI'
   focal_point: Center
+  placement: 2
   preview_only: false
 ---
 
