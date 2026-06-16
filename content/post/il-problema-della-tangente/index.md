@@ -10,8 +10,8 @@ publishDate: "2026-06-16T00:00:00Z"
 featured: false
 draft: false
 image:
-  filename: featured.svg
-  caption: 'Dalla retta secante alla retta tangente: il cuore della derivata'
+  filename: featured.png
+  caption: 'Fig. 1: Interpretazione grafica della derivata — dalla secante alla tangente'
   focal_point: Center
   placement: 2
   preview_only: false
@@ -23,7 +23,7 @@ image:
 
 Per stabilire la **pendenza** di una retta — o meglio la sua inclinazione — è sufficiente fissare due punti sulla retta ed effettuare il rapporto tra l'incremento in direzione $y$ (altezza) e l'incremento in direzione $x$ (lunghezza):
 
-$$\text{inclinazione}=\dfrac{\Delta y}{\Delta x}= \dfrac{y_q - y_p}{x_q - x_p}$$
+$$\text{inclinazione}=\dfrac{\Delta y}{\Delta x}= \dfrac{y_q - y_p}{x_q - x_p} \tag{1}$$
 
 Questo viene definito anche **tasso medio di cambiamento** o **variazione media**.
 
@@ -49,7 +49,7 @@ Consideriamo due punti $P$ e $Q$ situati sul grafico di una funzione, quindi app
 
 La pendenza della retta passante per i due punti $P$ e $Q$ — chiamata **retta secante** — è:
 
-$$\dfrac{\Delta y}{\Delta x}=\dfrac{f(x+h)-f(x)}{h}$$
+$$\dfrac{\Delta y}{\Delta x}=\dfrac{f(x+h)-f(x)}{h} \tag{2}$$
 
 Dal punto di vista della curva, questo rapporto rappresenta soltanto l'inclinazione di una retta **secante** passante per due punti appartenenti alla funzione.
 
@@ -69,17 +69,13 @@ $$y-y_p=(y_q-y_p) \cdot \dfrac{x-x_p}{x_q-x_p}$$
 
 Sostituendo i nostri punti:
 
-$$f(x) - f(x_0) = \dfrac{f(x_0 + h) - f(x_0)}{h} \cdot (x - x_0)$$
+$$f(x) - f(x_0) = \dfrac{f(x_0 + h) - f(x_0)}{h} \cdot (x - x_0) \tag{3}$$
 
-Il termine al numeratore:
-
-$$\dfrac{f(x_0 + h) - f(x_0)}{h}$$
-
-rappresenta il **coefficiente angolare** della retta **secante** alla curva della funzione $f(x)$.
+Il termine al numeratore della frazione rappresenta il **coefficiente angolare** della retta **secante** alla curva della funzione $f(x)$.
 
 ### Definizione del rapporto incrementale
 
-$$\boxed{\text{Rapporto incrementale}=\dfrac{f(x_0 + h) - f(x_0)}{h}}$$
+$$\boxed{\text{Rapporto incrementale}=\dfrac{f(x_0 + h) - f(x_0)}{h}} \tag{RI}$$
 
 È il rapporto tra gli **incrementi** in $y$ e in $x$.
 
@@ -91,7 +87,7 @@ $$\boxed{\text{Rapporto incrementale}=\dfrac{f(x_0 + h) - f(x_0)}{h}}$$
 
 La **derivata** di una funzione è definita come il **limite** — ove questo esista e sia finito — del rapporto incrementale:
 
-$$\boxed{f'(x) = \dfrac{dy}{dx} = \lim_{h \to 0} \dfrac{f(x + h) - f(x)}{h}}$$
+$$\boxed{f'(x) = \dfrac{dy}{dx} = \lim_{h \to 0} \dfrac{f(x + h) - f(x)}{h}} \tag{D}$$
 
 Questa definizione cattura l'idea fondamentale: quando avviciniamo infinitamente il secondo punto al primo, la retta secante diventa la retta tangente, e il suo coefficiente angolare diventa la **pendenza della curva esattamente in quel punto**.
 
