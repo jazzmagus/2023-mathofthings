@@ -15,47 +15,62 @@
 {{/* Theme toggle: convert dropdown to simple light/dark toggle */}}
 <style>
   /* Hide theme dropdown menu */
-  .dropdown-menu[aria-labelledby="theme-selector"],
-  .navbar .nav-item .dropdown-menu {
+  .theme-dropdown .dropdown-menu {
     display: none !important;
   }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Find theme toggle button
-    const themeBtn = document.querySelector('button[aria-label*="theme"], a[aria-label*="theme"], .navbar-nav .nav-item:last-child .nav-link');
+    const themeLink = document.querySelector('.theme-dropdown .nav-link');
+    const themeIcon = document.querySelector('.theme-dropdown i');
 
-    if (themeBtn) {
-      themeBtn.addEventListener('click', function(e) {
+    function updateIcon() {
+      if (!themeIcon) return;
+      // Check which menu item is active
+      const activeItem = document.querySelector('.theme-dropdown .dropdown-item-active');
+      if (activeItem && activeItem.classList.contains('js-set-theme-light')) {
+        themeIcon.className = 'fas fa-moon';
+      } else if (activeItem && activeItem.classList.contains('js-set-theme-dark')) {
+        themeIcon.className = 'fas fa-sun';
+      }
+    }
+
+    function getCurrentTheme() {
+      // Check which menu item is active
+      if (document.querySelector('.theme-dropdown .js-set-theme-light.dropdown-item-active')) {
+        return 'light';
+      } else if (document.querySelector('.theme-dropdown .js-set-theme-dark.dropdown-item-active')) {
+        return 'dark';
+      }
+      return 'light'; // default
+    }
+
+    if (themeLink) {
+      themeLink.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
 
-        // Get current theme
-        const htmlElement = document.documentElement;
-        const currentTheme = htmlElement.getAttribute('data-wc-theme') || 'light';
+        // Get current theme from active menu item
+        const currentTheme = getCurrentTheme();
 
-        // Toggle to opposite theme
+        // Toggle theme
         const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 
-        // Find and click the corresponding menu item in the dropdown
-        // The dropdown should have links with data-wc-theme attribute
-        const themeLinks = document.querySelectorAll('.dropdown-menu a[data-wc-theme]');
+        // Click the corresponding menu item
+        const menuItemClass = newTheme === 'light' ? 'js-set-theme-light' : 'js-set-theme-dark';
+        const menuItem = document.querySelector('.' + menuItemClass);
 
-        for (let link of themeLinks) {
-          if (link.getAttribute('data-wc-theme') === newTheme) {
-            // Click the link to trigger wowchemy's theme change
-            link.click();
-            break;
-          }
-        }
+        if (menuItem) {
+          menuItem.click();
 
-        // Fallback: if links not found, set theme directly
-        if (themeLinks.length === 0) {
-          htmlElement.setAttribute('data-wc-theme', newTheme);
-          localStorage.setItem('wcTheme', newTheme);
+          // Update icon after a short delay to ensure theme has changed
+          setTimeout(updateIcon, 100);
         }
       });
+
+      // Set initial icon
+      updateIcon();
     }
   });
 </script>
