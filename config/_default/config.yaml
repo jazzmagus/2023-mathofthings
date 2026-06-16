@@ -69,3 +69,10 @@ security:
   _merge: deep
 sitemap:
   _merge: deep
+
+############################
+## SERVER
+############################
+
+server:
+  port: 1313
