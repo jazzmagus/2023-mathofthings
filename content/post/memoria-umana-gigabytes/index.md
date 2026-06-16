@@ -58,8 +58,6 @@ gallery_item:
 
 <!-- {{< toc hide_on="xl" >}} -->
 
-## Una capacità inimmaginabile
-
 Pari a un **petabyte** (un milione di gigabyte), l'equivalente di circa `156 milioni di smartphone moderni da 64 GB`: è questa la capacità di memoria del cervello umano, secondo una ricerca fondamentale pubblicata nel 2016 sulla rivista ["eLife"](https://elifesciences.org/articles/14489).
 
 Secondo lo studio condotto da Terry Sejnowski e il suo team presso il [Salk Institute for Biological Studies](http://www.salk.edu/) in California, la nostra mente sarebbe in grado di memorizzare una quantità di informazioni di almeno [10 volte superiore](https://www.quantamagazine.org/the-brain-is-not-what-it-seems-20160309/) rispetto a quanto creduto prima. "È una scoperta fondamentale nel campo delle neuroscienze", ha commentato lo stesso Sejnowski.

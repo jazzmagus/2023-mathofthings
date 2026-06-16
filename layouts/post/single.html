@@ -17,8 +17,36 @@
     <h1 class="article-title">{{ .Title | markdownify }}</h1>
 
     {{ with .Params.subtitle }}
-      <p class="article-subtitle">{{ . }}</p>
+      <p class="article-subtitle">{{ . | markdownify }}</p>
     {{ end }}
+
+    <div class="article-meta" style="margin: 1.5rem 0; padding: 0.75rem 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; color: #666;">
+      {{ if .Params.authors }}
+        <span class="meta-author" style="color: #ed6f5c; font-weight: 600;">
+          di {{ range $i, $author := .Params.authors }}{{ if gt $i 0 }}, {{ end }}{{ $author }}{{ end }}
+        </span>
+      {{ end }}
+
+      <span class="meta-date">
+        {{ if ne .Lastmod .Date }}
+          <em>aggiornato:</em> {{ .Lastmod.Format "2 gennaio 2006" }}
+        {{ else }}
+          {{ .Date.Format "2 gennaio 2006" }}
+        {{ end }}
+      </span>
+
+      {{ if .Params.tags }}
+        <span class="meta-tags" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          {{ range .Params.tags }}
+            <span style="background: rgba(237, 111, 92, 0.1); padding: 0.25rem 0.6rem; border-radius: 3px; color: #ed6f5c;">{{ . }}</span>
+          {{ end }}
+        </span>
+      {{ end }}
+
+      <span class="meta-readtime">
+        {{ .ReadingTime }} min
+      </span>
+    </div>
 
     <div class="article-style">
       {{ .Content }}
