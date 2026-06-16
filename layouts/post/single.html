@@ -20,32 +20,40 @@
       <p class="article-subtitle">{{ . | markdownify }}</p>
     {{ end }}
 
-    <div class="article-meta" style="margin: 1.5rem 0; padding: 0.75rem 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; color: #666;">
-      {{ if .Params.authors }}
-        <span class="meta-author" style="color: #ed6f5c; font-weight: 600;">
-          di {{ range $i, $author := .Params.authors }}{{ if gt $i 0 }}, {{ end }}{{ $author }}{{ end }}
-        </span>
-      {{ end }}
-
-      <span class="meta-date">
-        {{ if ne .Lastmod .Date }}
-          <em>aggiornato:</em> {{ .Lastmod.Format "2 gennaio 2006" }}
-        {{ else }}
-          {{ .Date.Format "2 gennaio 2006" }}
+    <div class="article-meta" style="margin: 1.5rem 0; padding: 0.75rem 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #666;">
+      <div class="meta-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        {{ if .Params.authors }}
+          <span class="meta-author" style="color: #ed6f5c; font-weight: 600;">
+            {{ range $i, $author := .Params.authors }}{{ if gt $i 0 }}, {{ end }}{{ $author }}{{ end }}
+          </span>
         {{ end }}
-      </span>
 
-      {{ if .Params.tags }}
-        <span class="meta-tags" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-          {{ range .Params.tags }}
-            <span style="background: rgba(237, 111, 92, 0.1); padding: 0.25rem 0.6rem; border-radius: 3px; color: #ed6f5c;">{{ . }}</span>
+        <span class="meta-date" style="text-align: center; flex: 1;">
+          {{ if ne .Lastmod .Date }}
+            aggiornato: {{ .Lastmod.Format "2 gennaio 2006" }}
+          {{ else }}
+            {{ .Date.Format "2 gennaio 2006" }}
           {{ end }}
         </span>
-      {{ end }}
 
-      <span class="meta-readtime">
-        {{ .ReadingTime }} min
-      </span>
+        <span class="meta-readtime" style="text-align: right; display: flex; gap: 0.4rem; align-items: center;">
+          <svg style="width: 0.9rem; height: 0.9rem; stroke: #ed6f5c; fill: none; stroke-width: 1.2;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 6h16v14c0 1-1 2-2 2H6c-1 0-2-1-2-2V6z"/>
+            <line x1="4" y1="10" x2="20" y2="10"/>
+            <line x1="8" y1="6" x2="8" y2="3"/>
+            <line x1="16" y1="6" x2="16" y2="3"/>
+          </svg>
+          {{ .ReadingTime }} min
+        </span>
+      </div>
+
+      {{ if .Params.tags }}
+        <div class="meta-tags" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
+          {{ range .Params.tags }}
+            <span style="background: rgba(237, 111, 92, 0.08); padding: 0.2rem 0.5rem; border-radius: 2px; color: #999; font-size: 0.7rem;">{{ . }}</span>
+          {{ end }}
+        </div>
+      {{ end }}
     </div>
 
     <div class="article-style">
