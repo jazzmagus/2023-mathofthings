@@ -11,7 +11,7 @@ featured: false
 draft: false
 image:
   filename: featured.jpg
-  caption: 'Conservazione dell'energia meccanica'
+  caption: "Conservazione dell'energia meccanica"
   focal_point: Center
   placement: 2
   preview_only: false
