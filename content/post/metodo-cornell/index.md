@@ -55,11 +55,9 @@ gallery_item:
   image: theme-strawberry.png
 ---
 
-## Il Metodo Cornell
-
 >Ideato quasi 80 anni fa dal prof. Walter Pauk della Cornell University di New York, è un sistema efficace per prendere appunti.
 
-- Nonostante la sua semplicità – alla fine si tratta di un foglio diviso in 3 parti – il metodo Cornell ti permette di seguire una lezione, una conferenza, una riunione di lavoro:
+Nonostante la sua semplicità – alla fine si tratta di un foglio diviso in 3 parti – il metodo Cornell ti permette di seguire una lezione, una conferenza, una riunione di lavoro:
 
 - Mantenendo la `concentrazione` ai massimi livelli;
 - Aumentando `comprensione` e `coinvolgimento`;
