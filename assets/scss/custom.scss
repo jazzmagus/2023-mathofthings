@@ -142,7 +142,7 @@ h1, h2, h3, h4, h5, h6 {
   padding-bottom: 0.1rem;
   font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', monospace !important;
 
-  a, .nav-link, .dropdown-item, .navbar-text {
+  a:not(.navbar-brand), .nav-link, .dropdown-item, .navbar-text {
     font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', monospace !important;
   }
 }
