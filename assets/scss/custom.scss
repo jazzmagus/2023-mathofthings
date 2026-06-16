@@ -1297,6 +1297,98 @@ html:has(body.dark) {
   }
 }
 
+// ─── ACCORDION SECTION FOR YEAR-BASED CONTENT ──────────────────────
+
+.accordion-section {
+  margin-bottom: 1.5rem;
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: rgba(#c9a876, 0.05);
+  border: 1px solid rgba(21, 20, 15, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease-out;
+  user-select: none;
+
+  .dark & {
+    background: rgba(#c9a876, 0.08);
+  }
+
+  &:hover {
+    border-color: rgba($primary, 0.3);
+    box-shadow: 0 4px 12px rgba(21, 20, 15, 0.08);
+  }
+
+  &.active {
+    border-color: rgba($primary, 0.3);
+    box-shadow: 0 4px 12px rgba(21, 20, 15, 0.08);
+  }
+}
+
+.accordion-title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex: 1;
+
+  .accordion-year {
+    font-family: $sta-font-heading, serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.2;
+    min-width: fit-content;
+
+    .dark & {
+      color: #fafaf9;
+    }
+  }
+
+  .accordion-desc {
+    font-family: 'Georgia', serif;
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.5;
+
+    .dark & {
+      color: #999;
+    }
+  }
+}
+
+.accordion-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: $primary;
+  font-size: 1.2rem;
+  transition: transform 0.25s ease-out;
+  flex-shrink: 0;
+
+  &.active {
+    transform: rotate(180deg);
+  }
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  padding: 0 1.25rem;
+
+  &.active {
+    max-height: 10000px;
+    padding: 1rem 1.25rem;
+  }
+}
+
 // Articles & talks list styling: thin horizontal cards
 .articles-card-list {
   display: flex;
