@@ -1364,11 +1364,12 @@ body {
     }
 
     .about-text-footer {
-      font-family: 'Georgia', serif;
+      font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
       font-size: 0.8rem;
       color: #1a1a1a;
       line-height: 1.5;
       margin: 0;
+      font-weight: 500;
 
       .dark & {
         color: #d0d0d0;
