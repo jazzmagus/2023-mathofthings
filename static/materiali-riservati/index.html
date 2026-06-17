@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materiali Riservati</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #f7f1e6 0%, #ece1cc 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+        }
+
+        .password-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        body.dark-mode .password-container {
+            background: #2a2a2a;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .password-container h1 {
+            color: #ed6f5c;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        body.dark-mode .password-container h1 {
+            color: #f08e7c;
+        }
+
+        .password-container p {
+            color: #1a1a1a;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        body.dark-mode .password-container p {
+            color: #d0d0d0;
+        }
+
+        .password-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .password-form input {
+            padding: 12px;
+            border: 2px solid #ed6f5c;
+            border-radius: 6px;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+            background: white;
+            color: #1a1a1a;
+        }
+
+        body.dark-mode .password-form input {
+            background: #1a1a1a;
+            color: #d0d0d0;
+            border-color: #f08e7c;
+        }
+
+        .password-form button {
+            padding: 12px;
+            background: #ed6f5c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        body.dark-mode .password-form button {
+            background: #f08e7c;
+        }
+
+        .password-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(237, 111, 92, 0.3);
+        }
+
+        .content-area {
+            display: none;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        body.dark-mode .content-area {
+            background: #2a2a2a;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .content-area h1 {
+            color: #ed6f5c;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+
+        body.dark-mode .content-area h1 {
+            color: #f08e7c;
+        }
+
+        .materials-list {
+            list-style: none;
+        }
+
+        .materials-list li {
+            margin-bottom: 20px;
+        }
+
+        .materials-list a {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #ed6f5c;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        body.dark-mode .materials-list a {
+            background: #f08e7c;
+        }
+
+        .materials-list a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(237, 111, 92, 0.3);
+        }
+
+        .logout-btn {
+            margin-top: 30px;
+            padding: 10px 20px;
+            background: #999;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn:hover {
+            background: #777;
+        }
+
+        .error-msg {
+            color: #d32f2f;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        body.dark-mode .error-msg {
+            color: #ff6b6b;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #ed6f5c;
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        body.dark-mode .back-link {
+            color: #f08e7c;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-link">← home</a>
+
+    <div class="password-container" id="passwordContainer">
+        <h1>Materiali Riservati</h1>
+        <p>Inserisci la password per accedere ai documenti</p>
+        <form class="password-form" id="passwordForm">
+            <input type="password" id="passwordInput" placeholder="Password" required>
+            <button type="submit">Accedi</button>
+            <div class="error-msg" id="errorMsg">Password non corretta</div>
+        </form>
+    </div>
+
+    <div class="content-area" id="contentArea">
+        <h1>Materiali Riservati</h1>
+        <ul class="materials-list">
+            <li>
+                <a href="/materiali-riservati/questionario.html">Questionario Fine Anno</a>
+            </li>
+            <li>
+                <a href="/materiali-riservati/relazione.html">Relazione</a>
+            </li>
+            <li>
+                <a href="/materiali-riservati/report.html">Report</a>
+            </li>
+        </ul>
+        <button class="logout-btn" id="logoutBtn">Esci</button>
+    </div>
+
+    <script>
+        const PASSWORD = 'Coltrane1964';
+        const passwordForm = document.getElementById('passwordForm');
+        const passwordInput = document.getElementById('passwordInput');
+        const passwordContainer = document.getElementById('passwordContainer');
+        const contentArea = document.getElementById('contentArea');
+        const errorMsg = document.getElementById('errorMsg');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // Check if already authenticated
+        if (sessionStorage.getItem('materialiRiservatiAuth') === 'true') {
+            showContent();
+        }
+
+        passwordForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (passwordInput.value === PASSWORD) {
+                sessionStorage.setItem('materialiRiservatiAuth', 'true');
+                errorMsg.style.display = 'none';
+                showContent();
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+            }
+        });
+
+        logoutBtn.addEventListener('click', function() {
+            sessionStorage.removeItem('materialiRiservatiAuth');
+            passwordInput.value = '';
+            errorMsg.style.display = 'none';
+            showPassword();
+        });
+
+        function showContent() {
+            passwordContainer.style.display = 'none';
+            contentArea.style.display = 'block';
+        }
+
+        function showPassword() {
+            passwordContainer.style.display = 'block';
+            contentArea.style.display = 'none';
+        }
+
+        // Dark mode toggle
+        function checkDarkMode() {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.body.classList.add('dark-mode');
+            }
+        }
+        checkDarkMode();
+    </script>
+</body>
+</html>
