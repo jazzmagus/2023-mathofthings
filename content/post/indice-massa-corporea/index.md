@@ -1,5 +1,5 @@
 ---
-title: "`BMI` — Indice di Massa Corporea"
+title: "BMI — Indice di Massa Corporea"
 subtitle: matematica e salute
 summary: brain food
 authors:
