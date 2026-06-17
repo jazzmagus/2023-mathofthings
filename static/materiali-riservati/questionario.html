@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionario di valutazione — Matematica a.s. 2025/26</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f0ebe1;
+  --border:#e2dcd2; --border-light:#ece7dd;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#8a827a;
+  --accent:#6a1b9a; --accent-light:#f3e5f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --radius:10px; --shadow:0 2px 12px rgba(44,37,32,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px}
+
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--accent);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+
+/* CONTAINER */
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+/* BANNER */
+.banner{position:relative;overflow:hidden;background:linear-gradient(135deg,#6a1b9a 0%,#3a6b8c 55%,#4a7c59 100%);border-radius:18px;padding:36px 32px 32px;margin-bottom:32px;color:#fff}
+.banner-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-end;padding-right:24px;pointer-events:none;user-select:none}
+.banner-bg-text{font-family:'Playfair Display',serif;font-size:7rem;font-weight:800;font-style:italic;opacity:.08;line-height:1;letter-spacing:-4px;white-space:nowrap}
+.banner-pill{display:inline-block;font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;background:rgba(255,255,255,.15);border-radius:100px;padding:4px 12px;margin-bottom:14px}
+.banner-symbols{font-size:1.6rem;letter-spacing:10px;margin-bottom:10px;opacity:.75;font-family:'Playfair Display',serif}
+.banner h1{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,4.5vw,2.2rem);font-weight:800;line-height:1.2;margin-bottom:8px}
+.banner h1 em{font-style:italic;opacity:.85}
+.banner-sub{font-family:'Fira Code',monospace;font-size:.75rem;opacity:.7;letter-spacing:.5px}
+
+/* HERO */
+.hero{margin-bottom:24px}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h2{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,4vw,1.9rem);font-weight:800;line-height:1.25;margin-bottom:10px}
+.hero h2 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+
+/* INTRO BOX */
+.intro-box{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--radius);padding:18px 22px;margin:20px 0;box-shadow:var(--shadow);font-size:.95rem;color:var(--text-mid);line-height:1.7;font-style:italic}
+.intro-box strong{color:var(--text);font-style:normal}
+
+/* INTRO META */
+.intro-meta{display:flex;gap:24px;margin:20px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.btn-start{margin-top:10px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;letter-spacing:.3px}
+.btn-start:hover{background:#4a0072}
+
+/* PROGRESS */
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .5s ease}
+
+/* SECTION CARD */
+.s-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;box-shadow:var(--shadow)}
+.s-tag{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.s-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:6px}
+.s-desc{font-size:.88rem;color:var(--text-mid);margin-bottom:28px;font-style:italic;padding-bottom:20px;border-bottom:1px solid var(--border-light)}
+
+/* QUESTION BLOCK */
+.q-block{margin-bottom:32px}
+.q-block:last-of-type{margin-bottom:0}
+.q-num{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:7px}
+.q-optional{font-style:italic;font-weight:400;opacity:.8}
+.q-text{font-size:1rem;font-weight:500;line-height:1.65;margin-bottom:16px;color:var(--text)}
+
+/* LIKERT */
+.likert-scale{display:flex;flex-direction:column;gap:8px}
+.likert-btns{display:flex;gap:8px}
+.likert-btn{flex:1;padding:12px 6px;border:1.5px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text-mid);font-family:'Fira Code',monospace;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .15s;text-align:center;line-height:1}
+.likert-btn:hover{border-color:var(--accent);background:var(--accent-light);color:var(--accent)}
+.likert-btn.sel{border-color:var(--accent);background:var(--accent);color:#fff}
+.likert-labels{display:flex;justify-content:space-between;font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);padding:0 2px}
+
+/* NPS */
+.nps-scale{display:flex;flex-direction:column;gap:8px}
+.nps-btns{display:flex;gap:5px;flex-wrap:nowrap}
+.nps-btn{flex:1;padding:11px 2px;border:1.5px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text-mid);font-family:'Fira Code',monospace;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .15s;text-align:center;line-height:1}
+.nps-btn:hover{border-color:var(--accent);background:var(--accent-light);color:var(--accent)}
+.nps-btn.sel{border-color:var(--accent);background:var(--accent);color:#fff}
+.nps-labels{display:flex;justify-content:space-between;font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim)}
+
+/* RADIO */
+.radio-opts{display:flex;flex-direction:column;gap:8px}
+.radio-opt{display:flex;align-items:center;gap:12px;padding:12px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:all .15s;user-select:none}
+.radio-opt:hover{border-color:var(--accent);background:var(--accent-light)}
+.radio-opt.sel{border-color:var(--accent);background:var(--accent-light)}
+.radio-dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:all .15s;position:relative}
+.radio-opt.sel .radio-dot{border-color:var(--accent);background:var(--accent)}
+.radio-opt.sel .radio-dot::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:6px;height:6px;border-radius:50%;background:#fff}
+.radio-text{font-size:.95rem;line-height:1.4}
+
+/* YES/NO */
+.yesno-wrap{display:flex;gap:10px;margin-bottom:4px}
+.yesno-btn{padding:11px 32px;border:1.5px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text-mid);font-family:'Source Sans 3',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .15s}
+.yesno-btn:hover{border-color:var(--accent);background:var(--accent-light);color:var(--accent)}
+.yesno-btn.sel{border-color:var(--accent);background:var(--accent);color:#fff}
+
+/* CONDITIONAL */
+.cond-field{margin-top:14px;padding:16px 18px;background:var(--surface-alt);border:1px solid var(--border-light);border-radius:8px;display:none}
+.cond-field.show{display:block}
+.cond-label{font-family:'Fira Code',monospace;font-size:.68rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px}
+
+/* INPUTS */
+textarea.q-ta{width:100%;padding:14px 16px;border:1.5px solid var(--border);border-radius:8px;font-family:'Source Sans 3',sans-serif;font-size:.93rem;line-height:1.65;color:var(--text);background:var(--surface);resize:vertical;min-height:88px;transition:border-color .2s}
+textarea.q-ta:focus{outline:none;border-color:var(--accent)}
+textarea.q-ta::placeholder{color:var(--text-dim)}
+input.q-short{padding:12px 16px;border:1.5px solid var(--border);border-radius:8px;font-family:'Fira Code',monospace;font-size:1rem;color:var(--text);background:var(--surface);transition:border-color .2s;width:220px;max-width:100%}
+input.q-short:focus{outline:none;border-color:var(--accent)}
+input.q-short::placeholder{color:var(--text-dim);font-size:.85rem}
+
+/* SECTION NAV */
+.s-nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:20px;border-top:1px solid var(--border-light)}
+.btn-back{font-family:'Source Sans 3',sans-serif;font-size:.88rem;padding:10px 20px;background:var(--surface);color:var(--text-mid);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s}
+.btn-back:hover{border-color:var(--text-mid);color:var(--text)}
+.btn-fwd{font-family:'Source Sans 3',sans-serif;font-size:.95rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-fwd:hover{background:#4a0072}
+.btn-submit{background:var(--green)}
+.btn-submit:hover{background:#3a6b49}
+
+/* END SCREEN */
+.end-banner{background:linear-gradient(135deg,#4a7c59 0%,#6a1b9a 55%,#3a6b8c 100%);border-radius:18px;padding:40px 32px;text-align:center;color:#fff;margin-bottom:28px;position:relative;overflow:hidden}
+.end-banner::before{content:'🎓';position:absolute;top:16px;right:24px;font-size:5rem;opacity:.15;transform:rotate(15deg)}
+.end-banner::after{content:'☀️';position:absolute;bottom:12px;left:20px;font-size:3.5rem;opacity:.1;transform:rotate(-10deg)}
+.end-emoji{font-size:3.5rem;margin-bottom:14px;display:block}
+.end-title{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:12px}
+.end-tagline{font-size:.97rem;opacity:.88;max-width:460px;margin:0 auto;line-height:1.65}
+
+.end-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:26px 30px;box-shadow:var(--shadow);margin-bottom:16px}
+.end-quote{font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;line-height:1.75;color:var(--text-mid);border-left:3px solid var(--accent);padding-left:18px}
+.end-sign{text-align:right;font-family:'Fira Code',monospace;font-size:.75rem;color:var(--text-dim);margin-top:12px}
+.end-citation{text-align:center;font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;line-height:1.65;color:var(--text-mid);padding:20px 24px}
+.end-citation-src{display:block;font-family:'Fira Code',monospace;font-size:.7rem;font-style:normal;color:var(--text-dim);margin-top:8px;letter-spacing:.5px}
+
+/* SUBMIT OVERLAY */
+.submit-overlay{display:none;position:fixed;inset:0;background:rgba(250,247,242,.9);backdrop-filter:blur(8px);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.submit-overlay.show{display:flex}
+.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.submit-msg{font-family:'Fira Code',monospace;font-size:.8rem;color:var(--text-dim);letter-spacing:1px}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .s-card{padding:20px 18px}
+  .banner{padding:26px 20px}
+  .banner h1{font-size:1.5rem}
+  .likert-btns{gap:5px}
+  .nps-btns{gap:3px}
+  .nps-btn{font-size:.78rem;padding:9px 2px}
+  .end-banner{padding:28px 20px}
+}
+</style>
+</head>
+<body>
+
+<div class="submit-overlay" id="overlay">
+  <div class="spinner"></div>
+  <div class="submit-msg">Invio in corso…</div>
+</div>
+
+<div class="topbar">
+  <div class="topbar-brand">Valutazione docente · 2025/26</div>
+  <div class="topbar-tag">IIS G.A. Remondini · Serale</div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════
+     INTRO
+═══════════════════════════════════════════════ -->
+<div id="scr-0">
+
+  <div class="banner">
+    <div class="banner-bg"><span class="banner-bg-text">Matematica</span></div>
+    <div class="banner-pill">Fine anno · a.s. 2025/26</div>
+    <div class="banner-symbols">π · ∑ · √ · ∞ · Δ · θ</div>
+    <h1>Come è andata,<br><em>davvero?</em></h1>
+    <div class="banner-sub">IIS G.A. Remondini — Corso serale · Classe 4ᵃ/5ᵃ SE</div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-tag">Questionario di valutazione del docente</div>
+    <h2>La tua opinione<br><em>conta</em>.</h2>
+    <p class="hero-sub">Questo questionario è anonimo e serve a me — non a te. Non ci sono risposte giuste o sbagliate. L'unica cosa utile è la tua onestà.</p>
+  </div>
+
+  <div class="intro-box">
+    Se una domanda ti sembra strana o inutile, dimmelo pure nell'ultima sezione.<br>
+    <strong>Grazie per il tempo che ci dedichi.</strong>
+  </div>
+
+  <div class="intro-meta">
+    <div class="meta-item"><span class="meta-label">Sezioni</span><span class="meta-value">6</span></div>
+    <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">22</span></div>
+    <div class="meta-item"><span class="meta-label">Tempo stimato</span><span class="meta-value">10–12 min</span></div>
+    <div class="meta-item"><span class="meta-label">Anonimato</span><span class="meta-value">Garantito ✓</span></div>
+  </div>
+
+  <button class="btn-start" onclick="goto(1)">Inizia il questionario →</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SEZ. 1 — Clima e relazione
+═══════════════════════════════════════════════ -->
+<div id="scr-1" style="display:none">
+  <div class="progress-wrap">
+    <div class="progress-info">
+      <span class="progress-label">Sezione 1 di 6</span>
+      <span class="progress-frac" id="pf-1">Clima e relazione</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="s-card">
+    <div class="s-tag">Sezione 1</div>
+    <div class="s-title">Clima e relazione</div>
+    <div class="s-desc">Scala: 1 = Per niente &nbsp;·&nbsp; 5 = Moltissimo</div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 1</div>
+      <div class="q-text">Hai mai avuto la sensazione che il prof stesse cercando di capire la tua difficoltà, non solo di rispiegarti la stessa cosa in modo uguale?</div>
+      <div class="likert-scale">
+        <div class="likert-btns" id="q1-btns"></div>
+        <div class="likert-labels"><span>Per niente</span><span>Moltissimo</span></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 2</div>
+      <div class="q-text">Ti sei sentito/a libero/a di sbagliare senza timore di essere giudicato/a davanti agli altri?</div>
+      <div class="likert-scale">
+        <div class="likert-btns" id="q2-btns"></div>
+        <div class="likert-labels"><span>Per niente</span><span>Moltissimo</span></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 3</div>
+      <div class="q-text">Quanto ti sei sentito/a "visto/a" come persona, non solo come studente con un voto?</div>
+      <div class="likert-scale">
+        <div class="likert-btns" id="q3-btns"></div>
+        <div class="likert-labels"><span>Per niente</span><span>Moltissimo</span></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 4 &nbsp;<span class="q-optional">(facoltativa)</span></div>
+      <div class="q-text">C'è stato un momento in cui il prof ha detto o fatto qualcosa che ti ha fatto pensare: <em>"questo insegnante capisce cosa si prova quando non si capisce"?</em></div>
+      <textarea class="q-ta" id="q4" placeholder="Raccontalo brevemente, se vuoi..."></textarea>
+    </div>
+
+    <div class="s-nav">
+      <span></span>
+      <button class="btn-fwd" onclick="goto(2)">Avanti →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SEZ. 2 — Metodo didattico
+═══════════════════════════════════════════════ -->
+<div id="scr-2" style="display:none">
+  <div class="progress-wrap">
+    <div class="progress-info">
+      <span class="progress-label">Sezione 2 di 6</span>
+      <span class="progress-frac">Metodo didattico</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:16.7%"></div></div>
+  </div>
+
+  <div class="s-card">
+    <div class="s-tag">Sezione 2</div>
+    <div class="s-title">Metodo didattico</div>
+    <div class="s-desc">Leggi le etichette ai lati di ogni scala — cambiano domanda per domanda.</div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 5</div>
+      <div class="q-text">Le connessioni tra matematica e altri ambiti (arte, musica, tecnologia, vita quotidiana) ti hanno aiutato a dare senso ai concetti oppure ti hanno distratto?</div>
+      <div class="likert-scale">
+        <div class="likert-btns" id="q5-btns"></div>
+        <div class="likert-labels"><span>Mi hanno distratto</span><span>Mi hanno aiutato molto</span></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 6</div>
+      <div class="q-text">Con quale frequenza hai avuto la sensazione di costruire un'idea da solo/a, guidato ma non imboccato?</div>
+      <div class="likert-scale">
+        <div class="likert-btns" id="q6-btns"></div>
+        <div class="likert-labels"><span>Mai</span><span>Quasi sempre</span></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 7</div>
+      <div class="q-text">Il ritmo delle lezioni ti ha permesso di "stare dentro" al ragionamento, o spesso avevi la sensazione di rincorrere?</div>
+      <div class="likert-scale">
+        <div class="likert-btns" id="q7-btns"></div>
+        <div class="likert-labels"><span>Rincorrevo sempre</span><span>Riuscivo sempre a seguire</span></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 8</div>
+      <div class="q-text">Quanto le attività pratiche o i problemi "reali" ti hanno aiutato più delle spiegazioni teoriche?</div>
+      <div class="likert-scale">
+        <div class="likert-btns" id="q8-btns"></div>
+        <div class="likert-labels"><span>Per niente</span><span>Molto più della teoria</span></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 9</div>
+      <div class="q-text">C'è qualcosa nel metodo che hai trovato particolarmente efficace e che non avevi mai incontrato prima in una classe di matematica?</div>
+      <textarea class="q-ta" id="q9" placeholder="Descrivi liberamente..."></textarea>
+    </div>
+
+    <div class="s-nav">
+      <button class="btn-back" onclick="goto(1)">← Indietro</button>
+      <button class="btn-fwd" onclick="goto(3)">Avanti →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SEZ. 3 — Strumenti e risorse digitali
+═══════════════════════════════════════════════ -->
+<div id="scr-3" style="display:none">
+  <div class="progress-wrap">
+    <div class="progress-info">
+      <span class="progress-label">Sezione 3 di 6</span>
+      <span class="progress-frac">Strumenti digitali</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:33.3%"></div></div>
+  </div>
+
+  <div class="s-card">
+    <div class="s-tag">Sezione 3</div>
+    <div class="s-title">Strumenti e risorse digitali</div>
+    <div class="s-desc">Scala: 1 = Per niente utile &nbsp;·&nbsp; 5 = Molto utile</div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 10</div>
+      <div class="q-text">Quanto hai trovato utili le slide e i materiali digitali condivisi rispetto a un classico libro di testo?</div>
+      <div class="likert-scale">
+        <div class="likert-btns" id="q10-btns"></div>
+        <div class="likert-labels"><span>Per niente utile</span><span>Molto utile</span></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 11</div>
+      <div class="q-text">C'è stato un momento in cui un grafico, un'animazione o uno strumento digitale ha "acceso" qualcosa che le parole da sole non riuscivano a trasmettere?</div>
+      <div class="yesno-wrap">
+        <button class="yesno-btn" id="q11-yes" onclick="pickYN('q11', true)">Sì</button>
+        <button class="yesno-btn" id="q11-no"  onclick="pickYN('q11', false)">No</button>
+      </div>
+      <div class="cond-field" id="q11-cond">
+        <div class="cond-label">Descrivilo brevemente →</div>
+        <textarea class="q-ta" id="q11-text" placeholder="Qual è stato quel momento?" style="min-height:64px"></textarea>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 12</div>
+      <div class="q-text">Gli strumenti compensativi messi a disposizione (calcolatrice, mappe, testi digitali) ti hanno cambiato il modo di affrontare le verifiche?</div>
+      <div class="radio-opts" id="q12-opts">
+        <div class="radio-opt" onclick="pickRadio('q12',0)"><div class="radio-dot"></div><span class="radio-text">Sì, in meglio</span></div>
+        <div class="radio-opt" onclick="pickRadio('q12',1)"><div class="radio-dot"></div><span class="radio-text">Sì, ma non molto</span></div>
+        <div class="radio-opt" onclick="pickRadio('q12',2)"><div class="radio-dot"></div><span class="radio-text">No, non li ho usati</span></div>
+        <div class="radio-opt" onclick="pickRadio('q12',3)"><div class="radio-dot"></div><span class="radio-text">Non ne avevo bisogno</span></div>
+      </div>
+    </div>
+
+    <div class="s-nav">
+      <button class="btn-back" onclick="goto(2)">← Indietro</button>
+      <button class="btn-fwd" onclick="goto(4)">Avanti →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SEZ. 4 — Il tuo apprendimento
+═══════════════════════════════════════════════ -->
+<div id="scr-4" style="display:none">
+  <div class="progress-wrap">
+    <div class="progress-info">
+      <span class="progress-label">Sezione 4 di 6</span>
+      <span class="progress-frac">Il tuo apprendimento</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+  </div>
+
+  <div class="s-card">
+    <div class="s-tag">Sezione 4</div>
+    <div class="s-title">Il tuo apprendimento</div>
+    <div class="s-desc">Queste domande riguardano te e quello che hai vissuto quest'anno.</div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 13</div>
+      <div class="q-text">C'è qualcosa che pensavi di non riuscire mai a capire e che invece ora capisci (almeno un po')? Cosa?</div>
+      <textarea class="q-ta" id="q13" placeholder="Anche una cosa piccola conta..."></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 14</div>
+      <div class="q-text">Se dovessi spiegare a un amico la cosa più interessante che hai incontrato quest'anno in matematica, cosa diresti?</div>
+      <textarea class="q-ta" id="q14" placeholder="Immagina di raccontarla a qualcuno che non sa niente di matematica..."></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 15</div>
+      <div class="q-text">Pensi di aver imparato qualcosa di utile al di là del programma scolastico?</div>
+      <div class="radio-opts" id="q15-opts">
+        <div class="radio-opt" onclick="pickRadio('q15',0)"><div class="radio-dot"></div><span class="radio-text">Sì, decisamente</span></div>
+        <div class="radio-opt" onclick="pickRadio('q15',1)"><div class="radio-dot"></div><span class="radio-text">Forse</span></div>
+        <div class="radio-opt" onclick="pickRadio('q15',2)"><div class="radio-dot"></div><span class="radio-text">No, solo contenuti del programma</span></div>
+      </div>
+      <div class="cond-field" id="q15-cond">
+        <div class="cond-label">Se sì — cosa? →</div>
+        <textarea class="q-ta" id="q15-text" placeholder="Descrivi brevemente..." style="min-height:64px"></textarea>
+      </div>
+    </div>
+
+    <div class="s-nav">
+      <button class="btn-back" onclick="goto(3)">← Indietro</button>
+      <button class="btn-fwd" onclick="goto(5)">Avanti →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SEZ. 5 — Feedback costruttivo
+═══════════════════════════════════════════════ -->
+<div id="scr-5" style="display:none">
+  <div class="progress-wrap">
+    <div class="progress-info">
+      <span class="progress-label">Sezione 5 di 6</span>
+      <span class="progress-frac">Feedback costruttivo</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:66.7%"></div></div>
+  </div>
+
+  <div class="s-card">
+    <div class="s-tag">Sezione 5</div>
+    <div class="s-title">Feedback costruttivo</div>
+    <div class="s-desc">Queste domande servono a migliorare davvero, non a ricevere complimenti.</div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 16</div>
+      <div class="q-text">C'è una cosa che il prof fa e che ti chiedi perché non facciano anche gli altri insegnanti?</div>
+      <textarea class="q-ta" id="q16" placeholder="Cosa vorresti che facessero anche gli altri?"></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 17</div>
+      <div class="q-text">C'è una cosa che il prof fa e che vorresti smettesse di fare (o facesse meno)?</div>
+      <textarea class="q-ta" id="q17" placeholder="Sii onesto/a — serve davvero..."></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 18</div>
+      <div class="q-text">Se potessi cambiare una cosa sola nella struttura delle lezioni, quale sarebbe?</div>
+      <textarea class="q-ta" id="q18" placeholder="Una sola cosa..."></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 19</div>
+      <div class="q-text">C'è qualcosa che avresti voluto affrontare quest'anno e che non è mai stato toccato?</div>
+      <textarea class="q-ta" id="q19" placeholder="Un argomento, un tipo di problema, un approccio..."></textarea>
+    </div>
+
+    <div class="s-nav">
+      <button class="btn-back" onclick="goto(4)">← Indietro</button>
+      <button class="btn-fwd" onclick="goto(6)">Avanti →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SEZ. 6 — Valutazione globale
+═══════════════════════════════════════════════ -->
+<div id="scr-6" style="display:none">
+  <div class="progress-wrap">
+    <div class="progress-info">
+      <span class="progress-label">Sezione 6 di 6</span>
+      <span class="progress-frac">Valutazione globale</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:83.3%"></div></div>
+  </div>
+
+  <div class="s-card">
+    <div class="s-tag">Sezione 6 — ultima</div>
+    <div class="s-title">Valutazione globale</div>
+    <div class="s-desc">Ci siamo quasi. Solo tre ultime domande.</div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 20</div>
+      <div class="q-text">Su una scala da 0 a 10, quanto consiglieresti questo corso a un collega o amico che sta pensando di tornare a scuola da adulto?</div>
+      <div class="nps-scale">
+        <div class="nps-btns" id="q20-btns"></div>
+        <div class="nps-labels"><span>0 — Non lo consiglierei</span><span>10 — Con entusiasmo</span></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 21</div>
+      <div class="q-text">In una sola parola, come descriveresti le lezioni di matematica di quest'anno?</div>
+      <input type="text" class="q-short" id="q21" placeholder="Una parola sola..." maxlength="30">
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Domanda 22 &nbsp;<span class="q-optional">(facoltativa)</span></div>
+      <div class="q-text">Vuoi aggiungere qualcosa che le domande non ti hanno permesso di dire?</div>
+      <textarea class="q-ta" id="q22" placeholder="Spazio libero — qualunque cosa..." style="min-height:100px"></textarea>
+    </div>
+
+    <div class="s-nav">
+      <button class="btn-back" onclick="goto(5)">← Indietro</button>
+      <button class="btn-fwd btn-submit" id="btn-submit" onclick="submitForm()">Concludi il questionario ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     FINE — Saluto di fine anno
+═══════════════════════════════════════════════ -->
+<div id="scr-7" style="display:none">
+
+  <div class="end-banner">
+    <span class="end-emoji">🎓 ✨ 🌿</span>
+    <div class="end-title">Grazie davvero.</div>
+    <div class="end-tagline">Hai appena fatto qualcosa che pochissimi fanno: hai guardato indietro con onestà. Questo vale tantissimo.</div>
+  </div>
+
+  <div class="end-card">
+    <div class="end-quote">
+      Tornare a scuola da adulto richiede un coraggio silenzioso che spesso non viene riconosciuto abbastanza. Ogni sera che hai scelto di esserci — dopo il lavoro, dopo la stanchezza, dopo tutto il resto — ha avuto un peso reale. E io l'ho visto.
+      <br><br>
+      Che tu abbia capito tutto, un po' o quasi niente di matematica: hai dimostrato che si può ricominciare. E questo non te lo porta via nessuno.
+      <br><br>
+      Buona estate. Meritato riposo. E — se ti va — ci si rivede in settembre. 🌿
+    </div>
+    <div class="end-sign">— Il prof, a.s. 2025/26 · IIS G.A. Remondini</div>
+  </div>
+
+  <div class="end-card">
+    <div class="end-citation">
+      "La matematica non è fatta di numeri. È fatta di idee — e le idee non finiscono mai."
+      <span class="end-citation-src">— attribuito a Paul Erdős, adattato liberamente</span>
+    </div>
+  </div>
+
+  <div class="end-card" style="background:var(--accent-light);border-color:#c9a0dc;text-align:center;padding:22px 28px">
+    <div style="font-family:'Fira Code',monospace;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px">Un piccolo segreto</div>
+    <div style="font-size:.97rem;color:var(--text-mid);line-height:1.7">
+      Anche il prof compila un questionario su se stesso a fine anno.<br>
+      Il tuo feedback è già parte delle sue risposte. 📝
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:24px">
+    <button class="btn-back" onclick="goto(0)" style="font-size:.85rem;color:var(--text-dim)">↺ Ricomincia dall'inizio</button>
+  </div>
+
+</div>
+
+</div><!-- /container -->
+
+<script>
+// ─── CONFIG ──────────────────────────────────────
+// Incolla qui l'URL del Web App dopo il deploy su Apps Script
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwzdMbBeANGrtS320uqKuzxc_r_kruQ2gYB-0s0-Jr5oRF61Oz3mZqunuRLtWesfHR4/exec';
+
+// ─── STATE ───────────────────────────────────────
+const S = {};
+
+// ─── LIKERT INIT ─────────────────────────────────
+function mkLikert(id) {
+  const el = document.getElementById(id + '-btns');
+  if (!el || el.dataset.ready) return;
+  el.innerHTML = [1,2,3,4,5].map(v =>
+    `<button class="likert-btn" id="${id}-${v}" onclick="pickLikert('${id}',${v})">${v}</button>`
+  ).join('');
+  el.dataset.ready = '1';
+}
+
+function mkNPS(id) {
+  const el = document.getElementById(id + '-btns');
+  if (!el || el.dataset.ready) return;
+  el.innerHTML = Array.from({length:11},(_,i) =>
+    `<button class="nps-btn" id="${id}-${i}" onclick="pickNPS('${id}',${i})">${i}</button>`
+  ).join('');
+  el.dataset.ready = '1';
+}
+
+// ─── PICKERS ─────────────────────────────────────
+function pickLikert(id, val) {
+  S[id] = val;
+  [1,2,3,4,5].forEach(v =>
+    document.getElementById(`${id}-${v}`).classList.toggle('sel', v === val)
+  );
+}
+
+function pickNPS(id, val) {
+  S[id] = val;
+  for (let i = 0; i <= 10; i++)
+    document.getElementById(`${id}-${i}`).classList.toggle('sel', i === val);
+}
+
+function pickYN(id, val) {
+  S[id] = val;
+  document.getElementById(`${id}-yes`).classList.toggle('sel', val === true);
+  document.getElementById(`${id}-no`).classList.toggle('sel', val === false);
+  const cond = document.getElementById(`${id}-cond`);
+  if (cond) cond.classList.toggle('show', val === true);
+}
+
+function pickRadio(groupId, idx) {
+  S[groupId] = idx;
+  document.querySelectorAll(`#${groupId}-opts .radio-opt`).forEach((el, i) =>
+    el.classList.toggle('sel', i === idx)
+  );
+  if (groupId === 'q15') {
+    document.getElementById('q15-cond').classList.toggle('show', idx < 2);
+  }
+}
+
+// ─── NAVIGATION ──────────────────────────────────
+function goto(n) {
+  document.querySelectorAll('[id^="scr-"]').forEach(el => el.style.display = 'none');
+  const scr = document.getElementById(`scr-${n}`);
+  if (scr) scr.style.display = 'block';
+
+  // Init widgets on first visit
+  if (n === 1) { mkLikert('q1'); mkLikert('q2'); mkLikert('q3'); }
+  if (n === 2) { mkLikert('q5'); mkLikert('q6'); mkLikert('q7'); mkLikert('q8'); }
+  if (n === 3) { mkLikert('q10'); }
+  if (n === 6) { mkNPS('q20'); }
+
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ─── RACCOLTA DATI ───────────────────────────────
+function collectData() {
+  const tv = id => (document.getElementById(id) || {}).value || '';
+  return {
+    q1:       S.q1  ?? '',
+    q2:       S.q2  ?? '',
+    q3:       S.q3  ?? '',
+    q4:       tv('q4'),
+    q5:       S.q5  ?? '',
+    q6:       S.q6  ?? '',
+    q7:       S.q7  ?? '',
+    q8:       S.q8  ?? '',
+    q9:       tv('q9'),
+    q10:      S.q10 ?? '',
+    q11:      S.q11 ?? '',
+    q11_text: tv('q11-text'),
+    q12:      S.q12 ?? '',
+    q13:      tv('q13'),
+    q14:      tv('q14'),
+    q15:      S.q15 ?? '',
+    q15_text: tv('q15-text'),
+    q16:      tv('q16'),
+    q17:      tv('q17'),
+    q18:      tv('q18'),
+    q19:      tv('q19'),
+    q20:      S.q20 ?? '',
+    q21:      tv('q21'),
+    q22:      tv('q22')
+  };
+}
+
+// ─── INVIO ───────────────────────────────────────
+async function submitForm() {
+  document.getElementById('overlay').classList.add('show');
+  const payload = collectData();
+
+  if (SCRIPT_URL) {
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',        // evita preflight CORS con Apps Script
+        body: JSON.stringify(payload)
+      });
+    } catch(e) {
+      // no-cors: la risposta non è leggibile ma il POST arriva lo stesso
+    }
+  }
+
+  document.getElementById('overlay').classList.remove('show');
+  goto(7);
+}
+
+// ─── START ───────────────────────────────────────
+// Start on intro
+goto(0);
+</script>
+</body>
+</html>

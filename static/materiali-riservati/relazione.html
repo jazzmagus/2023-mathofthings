@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relazione di autovalutazione — Matematica a.s. 2025/26</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ─── TYPOGRAPHIC RESET (Anthropic-style) ─── */
+:root {
+  --bg: #f9f8f5;
+  --sur: #ffffff;
+  --txt: #1a1a19;
+  --mid: #4a4a47;
+  --dim: #8a8a86;
+  --brd: #e5e4df;
+  --brd2: #d0cfc9;
+  --accent: #c96442;       /* terra cotta caldo */
+  --accent-light: #fdf3ef;
+  --green: #3d7a5a;
+  --green-light: #edf7f2;
+  --blue: #3a5f8c;
+  --blue-light: #eef3fa;
+  --r: 6px;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 18px; }
+body {
+  font-family: 'Lora', Georgia, 'Times New Roman', serif;
+  background: var(--bg);
+  color: var(--txt);
+  line-height: 1.85;
+}
+
+/* ─── TOPBAR ─── */
+.topbar {
+  border-bottom: 1px solid var(--brd);
+  padding: 14px clamp(20px, 6vw, 80px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--sur);
+  position: sticky; top: 0; z-index: 10;
+}
+.tb-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+.tb-brand { font-family: 'Playfair Display', serif; font-size: .85rem; font-weight: 700; letter-spacing: .3px; color: var(--txt); }
+.tb-sep { color: var(--brd2); font-size: .78rem; font-family: 'Fira Code', monospace; }
+.tb-sub { font-size: .75rem; color: var(--dim); font-family: 'Fira Code', monospace; letter-spacing: .3px; }
+
+/* ─── LAYOUT ─── */
+.page { max-width: 760px; margin: 0 auto; padding: 60px clamp(20px, 6vw, 40px) 100px; }
+
+/* ─── HEADER ─── */
+.doc-header { border-bottom: 1px solid var(--brd); padding-bottom: 36px; margin-bottom: 48px; }
+.doc-kicker {
+  font-family: 'Fira Code', monospace;
+  font-size: .68rem; font-weight: 500; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 18px;
+}
+.doc-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 5.5vw, 3.2rem); font-weight: 800;
+  line-height: 1.12; letter-spacing: -.3px; margin-bottom: 16px;
+}
+.doc-title em { font-style: italic; font-weight: 400; }
+.doc-sub { font-size: 1rem; color: var(--mid); max-width: 520px; line-height: 1.75; }
+
+.doc-meta {
+  display: flex; flex-wrap: wrap; gap: 24px;
+  margin-top: 28px; padding-top: 24px;
+  border-top: 1px solid var(--brd);
+}
+.meta-item { display: flex; flex-direction: column; gap: 2px; }
+.meta-lbl { font-family: 'Fira Code', monospace; font-size: .65rem; font-weight: 500;
+            letter-spacing: 1.5px; text-transform: uppercase; color: var(--dim); }
+.meta-val { font-size: .92rem; font-weight: 500; color: var(--txt); font-family: 'Lora', serif; }
+
+/* ─── AVVISO DATI PRELIMINARI ─── */
+.notice {
+  background: var(--accent-light); border: 1px solid #e8b49a;
+  border-left: 3px solid var(--accent);
+  border-radius: var(--r); padding: 14px 18px;
+  font-size: .85rem; color: var(--mid); margin-bottom: 48px;
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.notice-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+.notice.hidden { display: none; } /* rimuovi questa classe quando i dati sono completi */
+
+/* ─── SEZIONI ─── */
+.section { margin-bottom: 56px; }
+.section-num {
+  font-family: 'Fira Code', monospace;
+  font-size: .65rem; font-weight: 500; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+}
+.section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem; font-weight: 700; letter-spacing: -.1px;
+  line-height: 1.25; margin-bottom: 20px; color: var(--txt);
+}
+.section p { font-size: .97rem; color: var(--mid); margin-bottom: 16px; line-height: 1.85; }
+.section p:last-child { margin-bottom: 0; }
+
+/* ─── DIVISORE ─── */
+hr.divider { border: none; border-top: 1px solid var(--brd); margin: 48px 0; }
+
+/* ─── TABELLA DATI ─── */
+.data-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: 20px 0; }
+.data-table th {
+  font-family: 'Fira Code', monospace;
+  text-align: left; font-size: .65rem; font-weight: 500; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--dim);
+  border-bottom: 1px solid var(--brd2); padding: 8px 12px 8px 0;
+}
+.data-table td {
+  padding: 10px 12px 10px 0; border-bottom: 1px solid var(--brd);
+  vertical-align: middle; color: var(--mid);
+}
+.data-table td:first-child { color: var(--txt); font-weight: 500; }
+.data-table td.score {
+  font-size: 1.05rem; font-weight: 700; color: var(--txt);
+  width: 60px; text-align: right; padding-right: 16px;
+}
+.score-bar-wrap { width: 120px; }
+.score-bar {
+  height: 4px; background: var(--brd); border-radius: 2px; overflow: hidden;
+}
+.score-fill { height: 100%; border-radius: 2px; background: var(--accent); }
+
+/* ─── NPS BOX ─── */
+.nps-box {
+  display: flex; gap: 0; margin: 24px 0;
+  border: 1px solid var(--brd); border-radius: var(--r); overflow: hidden;
+}
+.nps-seg {
+  flex: 1; padding: 20px 16px; text-align: center;
+  border-right: 1px solid var(--brd);
+}
+.nps-seg:last-child { border-right: none; }
+.nps-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+.nps-lbl { font-family: 'Fira Code', monospace; font-size: .65rem; font-weight: 500; letter-spacing: 1.5px;
+           text-transform: uppercase; color: var(--dim); }
+.nps-note { font-family: 'Fira Code', monospace; font-size: .7rem; color: var(--dim); margin-top: 4px; }
+.col-green { color: var(--green); }
+.col-blue  { color: var(--blue); }
+.col-red   { color: #c0392b; }
+.col-accent{ color: var(--accent); }
+
+/* ─── CALLOUT ─── */
+.callout {
+  border-left: 3px solid var(--accent); background: var(--accent-light);
+  border-radius: 0 var(--r) var(--r) 0; padding: 16px 20px; margin: 24px 0;
+  font-size: .93rem; line-height: 1.7; color: var(--mid);
+}
+.callout.green { border-color: var(--green); background: var(--green-light); }
+.callout.blue  { border-color: var(--blue);  background: var(--blue-light); }
+.callout strong { color: var(--txt); }
+
+/* ─── CITAZIONI ─── */
+.quotes { display: flex; flex-direction: column; gap: 16px; margin: 24px 0; }
+blockquote.student-quote {
+  border-left: 2px solid var(--brd2); padding: 4px 0 4px 22px;
+  font-family: 'Lora', serif; font-size: .97rem; line-height: 1.85;
+  color: var(--mid); font-style: italic;
+}
+blockquote.student-quote cite {
+  display: block; font-family: 'Fira Code', monospace;
+  font-size: .68rem; font-style: normal; font-weight: 500;
+  letter-spacing: .5px; color: var(--dim); margin-top: 8px;
+}
+
+/* ─── TEMI CARD ─── */
+.themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+          gap: 16px; margin: 24px 0; }
+.theme-card {
+  border: 1px solid var(--brd); border-radius: var(--r);
+  padding: 18px 20px; background: var(--sur);
+}
+.theme-icon { font-size: 1.4rem; margin-bottom: 10px; }
+.theme-title { font-family: 'Playfair Display', serif; font-size: .95rem; font-weight: 700; margin-bottom: 6px; color: var(--txt); }
+.theme-body  { font-size: .85rem; color: var(--mid); line-height: 1.7; }
+
+/* ─── AREA EDITING (sezioni da completare) ─── */
+.editable {
+  border: 1.5px dashed var(--brd2); border-radius: var(--r);
+  padding: 16px 20px; background: #fcfbf8;
+  font-size: .88rem; color: var(--dim); font-style: italic;
+  margin: 16px 0; line-height: 1.65;
+}
+.editable::before {
+  content: "[ Da completare ] ";
+  font-family: 'Fira Code', monospace;
+  font-weight: 500; font-style: normal;
+  font-size: .65rem; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--accent);
+  display: block; margin-bottom: 6px;
+}
+
+/* ─── TAG LIST ─── */
+.tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+.tag {
+  font-family: 'Fira Code', monospace;
+  font-size: .72rem; font-weight: 400; padding: 4px 12px;
+  border: 1px solid var(--brd2); border-radius: 100px;
+  color: var(--mid); background: var(--sur);
+}
+.tag.accent { border-color: #e8b49a; color: var(--accent); background: var(--accent-light); }
+.tag.green  { border-color: #a8d5b8; color: var(--green);  background: var(--green-light); }
+.tag.blue   { border-color: #b0c4da; color: var(--blue);   background: var(--blue-light); }
+
+/* ─── FOOTER ─── */
+.doc-footer {
+  margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--brd);
+  font-family: 'Fira Code', monospace;
+  font-size: .68rem; color: var(--dim); display: flex;
+  justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  letter-spacing: .3px;
+}
+
+@media print {
+  .topbar { position: static; }
+  .notice { display: none; }
+  .editable { border-color: #ccc; }
+  body { font-size: 16px; }
+  .page { padding: 20px 0; }
+}
+@media (max-width: 600px) {
+  .nps-box { flex-direction: column; }
+  .nps-seg { border-right: none; border-bottom: 1px solid var(--brd); }
+  .nps-seg:last-child { border-bottom: none; }
+  .themes { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-dot"></div>
+  <span class="tb-brand">Autovalutazione docente</span>
+  <span class="tb-sep">/</span>
+  <span class="tb-sub">Matematica · IIS G.A. Remondini · a.s. 2025/26</span>
+</div>
+
+<div class="page">
+
+  <!-- ══ INTESTAZIONE ══════════════════════════════════════════ -->
+  <header class="doc-header">
+    <div class="doc-kicker">Relazione di autovalutazione — Fine anno scolastico</div>
+    <h1 class="doc-title">Come è andata,<br><em>davvero.</em></h1>
+    <p class="doc-sub">
+      Riflessione sul percorso didattico dell'anno scolastico 2025/26,
+      basata sulle risposte degli studenti al questionario di valutazione del docente.
+    </p>
+    <div class="doc-meta">
+      <div class="meta-item">
+        <span class="meta-lbl">Docente</span>
+        <span class="meta-val">Diego Fantinelli</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-lbl">Classe</span>
+        <span class="meta-val">4ª/5ª SE — Corso serale</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-lbl">Materia</span>
+        <span class="meta-val">Matematica</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-lbl">Risposte raccolte</span>
+        <span class="meta-val">28</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-lbl">Data relazione</span>
+        <span class="meta-val">Giugno 2026</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ AVVISO DATI PRELIMINARI ════════════════════════════ -->
+  <!-- Dati finali — questionario chiuso -->
+  <div class="notice hidden">
+    <span class="notice-icon">○</span>
+    <span>
+      <strong>Dati preliminari.</strong> Il questionario è ancora aperto.
+      I valori riportati si baseranno sul totale finale delle risposte.
+      Aggiorna questa pagina dopo aver rigenerato <code>report.html</code> con <code>analisi.py</code>.
+    </span>
+  </div>
+
+  <!-- ══ 1. PREMESSA ════════════════════════════════════════ -->
+  <section class="section">
+    <div class="section-num">01</div>
+    <h2>Perché questo questionario</h2>
+    <p>
+      Il questionario di valutazione del docente nasce da una convinzione semplice:
+      chi insegna ha bisogno di feedback onesti tanto quanto chi impara.
+      Il corso serale ha una caratteristica che lo rende diverso da qualunque contesto
+      scolastico ordinario — gli studenti sono adulti che hanno scelto di tornare,
+      che portano con sé esperienze di vita, aspettative precise e una soglia di
+      tolleranza per l'inutile molto più bassa di un diciassettenne.
+      Ignorare il loro punto di vista sarebbe un errore metodologico prima ancora che umano.
+    </p>
+    <p>
+      Lo strumento è stato costruito su misura: 22 domande distribuite in sei sezioni,
+      che combinano scale Likert, domande a risposta aperta e un NPS finale.
+      L'anonimato era garantito e comunicato esplicitamente.
+    </p>
+    <div class="callout">
+      Questa relazione non è un documento burocratico. È uno specchio.
+      L'obiettivo è leggere i dati con la stessa onestà che ho chiesto agli studenti
+      di portare nelle risposte.
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══ 2. DATI QUANTITATIVI ════════════════════════════ -->
+  <section class="section">
+    <div class="section-num">02</div>
+    <h2>I numeri</h2>
+    <p>
+      Le scale Likert (1–5) coprono clima, metodo, strumenti.
+      I valori sono medie calcolate sulle risposte valide per ciascuna domanda.
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Dimensione</th>
+          <th>Domanda</th>
+          <th style="text-align:right;padding-right:16px">Media</th>
+          <th>Distribuzione</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Relazione</td>
+          <td>Capire la difficoltà (Q1)</td>
+          <td class="score col-green">4.46</td>
+          <td class="score-bar-wrap"><div class="score-bar"><div class="score-fill" style="width:89.2%"></div></div></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Libertà di sbagliare (Q2)</td>
+          <td class="score col-green">4.18</td>
+          <td class="score-bar-wrap"><div class="score-bar"><div class="score-fill" style="width:83.6%"></div></div></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Sentirsi visto/a (Q3)</td>
+          <td class="score col-green">4.54</td>
+          <td class="score-bar-wrap"><div class="score-bar"><div class="score-fill" style="width:90.8%"></div></div></td>
+        </tr>
+        <tr>
+          <td>Metodo</td>
+          <td>Connessioni interdisciplinari (Q5)</td>
+          <td class="score col-blue">4.04</td>
+          <td class="score-bar-wrap"><div class="score-bar"><div class="score-fill" style="width:80.8%" style="background:var(--blue)"></div></div></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Costruire idee autonomamente (Q6)</td>
+          <td class="score col-blue">4.00</td>
+          <td class="score-bar-wrap"><div class="score-bar"><div class="score-fill" style="width:80%"></div></div></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Ritmo delle lezioni (Q7)</td>
+          <td class="score col-blue">4.00</td>
+          <td class="score-bar-wrap"><div class="score-bar"><div class="score-fill" style="width:80%"></div></div></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Attività pratiche vs teoria (Q8)</td>
+          <td class="score col-blue">4.19</td>
+          <td class="score-bar-wrap"><div class="score-bar"><div class="score-fill" style="width:83.8%"></div></div></td>
+        </tr>
+        <tr>
+          <td>Strumenti</td>
+          <td>Materiali digitali (Q10)</td>
+          <td class="score col-accent">4.67</td>
+          <td class="score-bar-wrap"><div class="score-bar"><div class="score-fill" style="width:93.4%"></div></div></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:24px">Il Net Promoter Score misura la probabilità che uno studente consigli
+    il corso a un collega o amico che sta valutando di tornare a scuola.</p>
+
+    <div class="nps-box">
+      <div class="nps-seg">
+        <div class="nps-num col-green">18</div>
+        <div class="nps-lbl">Promotori</div>
+        <div class="nps-note">voto 9–10</div>
+      </div>
+      <div class="nps-seg">
+        <div class="nps-num col-blue">5</div>
+        <div class="nps-lbl">Passivi</div>
+        <div class="nps-note">voto 7–8</div>
+      </div>
+      <div class="nps-seg">
+        <div class="nps-num col-red">3</div>
+        <div class="nps-lbl">Detrattori</div>
+        <div class="nps-note">voto 0–6</div>
+      </div>
+      <div class="nps-seg" style="background:#f9f8f5">
+        <div class="nps-num col-accent">58</div>
+        <div class="nps-lbl">NPS score</div>
+        <div class="nps-note">media 8.88 / 10</div>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <strong>Lettura del NPS.</strong> Un punteggio superiore a 50 è considerato eccellente
+      in qualunque settore. Per un corso serale, dove gli studenti confrontano continuamente
+      con altri percorsi e con l'alternativa di abbandonare, un NPS di 58 segnala un livello
+      di soddisfazione strutturalmente alto. I tre detrattori meritano una lettura qualitativa
+      separata (vedi sezione 5).
+    </div>
+
+    <p>
+      Sul piano dell'apprendimento metacognitivo, la domanda Q15
+      ("Hai imparato qualcosa di utile al di là del programma scolastico?")
+      ha ricevuto risposte prevalentemente affermative ("Sì, decisamente").
+      La stragrande maggioranza ha risposto positivamente.
+      È il dato qualitativamente più significativo dell'intero questionario.
+    </p>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══ 3. TEMI EMERGENTI ════════════════════════════════ -->
+  <section class="section">
+    <div class="section-num">03</div>
+    <h2>Tre temi che emergono con forza</h2>
+
+    <div class="themes">
+      <div class="theme-card">
+        <div class="theme-icon">◎</div>
+        <div class="theme-title">La relazione come metodo</div>
+        <div class="theme-body">
+          Q1 (4.52) e Q3 (4.62) sono i valori più alti. Gli studenti percepiscono
+          l'empatia non come ornamento ma come strumento didattico.
+          La capacità di "vedere" la difficoltà — non solo di rispiegarla —
+          è citata in modo esplicito in almeno dieci risposte aperte.
+        </div>
+      </div>
+      <div class="theme-card">
+        <div class="theme-icon">◈</div>
+        <div class="theme-title">Gli strumenti digitali funzionano</div>
+        <div class="theme-body">
+          Q10 è la media più alta (4.70). Il sito, i quiz interattivi, gli appunti
+          condivisi su Classroom e i grafici a tablet vengono nominati come
+          elementi che "nessun altro professore fa". Per un corso serale
+          che studia in pausa pranzo, la disponibilità del materiale ovunque è cruciale.
+        </div>
+      </div>
+      <div class="theme-card">
+        <div class="theme-icon">◐</div>
+        <div class="theme-title">Apprendimento oltre la matematica</div>
+        <div class="theme-body">
+          17 su 19 rispondono "Sì, decisamente" a Q15. Le risposte aperte
+          parlano di autostima recuperata, di fiducia nella possibilità di
+          ricominciare, di un approccio ai problemi — non solo quelli algebrici.
+          Questo è il risultato più difficile da pianificare e probabilmente
+          il più durevole.
+        </div>
+      </div>
+    </div>
+
+    <div class="quotes" style="margin-top:32px">
+      <blockquote class="student-quote">
+        "La x non è un'incognita… c'è sempre una soluzione… come i problemi… come nella vita."
+        <cite>— Q4, studente</cite>
+      </blockquote>
+      <blockquote class="student-quote">
+        "Ho imparato quanto sia importante fare un lavoro per passione e non tanto per farlo,
+        ho imparato cosa vuol dire essere capiti davvero."
+        <cite>— Q15, studente</cite>
+      </blockquote>
+      <blockquote class="student-quote">
+        "Lei ha saputo trasformare la sua materia in una cosa per niente noiosa e comprensibile."
+        <cite>— Q22, studente</cite>
+      </blockquote>
+      <blockquote class="student-quote">
+        "Ho realizzato risultati che in passato credevo impossibili."
+        <cite>— Q15, studente</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══ 4. PUNTI DI FORZA ════════════════════════════════ -->
+  <section class="section">
+    <div class="section-num">04</div>
+    <h2>Cosa ha funzionato</h2>
+
+    <p>
+      Le risposte a Q16 ("C'è una cosa che il prof fa e che ti chiedi perché non facciano anche
+      gli altri insegnanti?") sono quelle che più sorprendono, perché convergono su elementi
+      che consideravo normali — e che evidentemente non lo sono.
+    </p>
+
+    <div class="tag-list">
+      <span class="tag green">Spiega in modi diversi</span>
+      <span class="tag green">Non lascia indietro nessuno</span>
+      <span class="tag green">Empatia reale</span>
+      <span class="tag green">Appunti su Classroom</span>
+      <span class="tag green">Quiz interattivi</span>
+      <span class="tag green">Umanità in classe</span>
+      <span class="tag green">Senso dell'umorismo</span>
+      <span class="tag green">Connessioni interdisciplinari</span>
+      <span class="tag green">Il sito didattico</span>
+    </div>
+
+    <p>
+      Colpisce in particolare la ricorrenza dell'"essere visti come persone, non come voti".
+      Più studenti lo citano in modo indipendente — con parole diverse ma con la stessa
+      immagine di fondo. In un corso serale, dove molti hanno storie di abbandono scolastico
+      o di fallimento pregresso con la matematica, questa percezione ha un peso specifico
+      molto alto.
+    </p>
+
+    <div class="callout blue">
+      <strong>Il materiale digitale come livellatore.</strong>
+      Per chi lavora e studia con ritagli di tempo — in pausa, in treno, di sera —
+      avere gli appunti della lezione sempre disponibili non è un vantaggio:
+      è la condizione necessaria per poter tenere il passo. Questa è stata una scelta
+      progettuale del corso, non un'aggiunta. I dati confermano che era quella giusta.
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══ 5. AREE DI SVILUPPO ══════════════════════════════ -->
+  <section class="section">
+    <div class="section-num">05</div>
+    <h2>Cosa non ha funzionato — o può migliorare</h2>
+    <p>
+      Le risposte a Q17 ("Cosa vorresti che il prof smettesse di fare?")
+      e Q18 ("Se potessi cambiare una sola cosa nelle lezioni") sono le più preziose.
+      Richiedono onestà da parte degli studenti e la capacità di riceverla senza difese
+      da parte mia.
+    </p>
+    <p>I temi ricorrenti sono due, chiari e coerenti tra loro:</p>
+
+    <div class="callout" style="margin-bottom:14px">
+      <strong>1. Il ciclo ripetizione — stasi — accelerazione.</strong>
+      Più studenti descrivono una struttura ricorrente: molte lezioni dedicate a
+      consolidare la stessa cosa, poi una fase di avanzamento rapido.
+      Il problema non è la ripetizione in sé — in un corso serale chi manca
+      una lezione può perdere un'ora di spiegazione — ma il fatto che chi ha già
+      capito senta di restare fermo mentre gli altri recuperano.
+      Trovare un equilibrio tra inclusione e progressione è la sfida strutturale
+      più difficile di questo tipo di corso.
+    </div>
+    <div class="callout" style="margin-bottom:24px">
+      <strong>2. Più esercizi, prima.</strong>
+      Richiesta coerente: fare esercizi in classe durante — non dopo — la fase teorica.
+      Gli studenti descrivono il desiderio di un ciclo più breve: spiego → provo subito →
+      correggo. L'attuale struttura (teoria estesa → esercizi) funziona per chi ha
+      già basi solide, ma non è ottimale per chi ha bisogno di testare
+      la comprensione in tempo reale.
+    </div>
+
+    <p>
+      Un'annotazione sui tre detrattori NPS (voti 3, 5, 5):
+      leggendo le risposte aperte, uno di essi chiarisce esplicitamente che il basso
+      punteggio è rivolto al <em>sistema scolastico</em>, non alle lezioni del professore —
+      e che il professore "fa davvero la differenza". Gli altri due usano le domande aperte
+      in modo costruttivo, segnalando criticità reali (ritmo, esercizi) senza toni
+      negativi verso la persona. Non sono segnali di allarme: sono feedback tecnici utili.
+    </p>
+
+    <div class="editable">
+      Aggiungi qui la tua riflessione personale su questo punto, una volta rilette tutte
+      le risposte a Q17 e Q18. Cosa riconosci come valido? Cosa pensi di implementare
+      il prossimo anno?
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══ 6. VOCI DEGLI STUDENTI ════════════════════════════ -->
+  <section class="section">
+    <div class="section-num">06</div>
+    <h2>Le voci che restano</h2>
+    <p>
+      Alcune risposte al "Spazio libero" (Q22) non rientrano in nessuna categoria
+      di analisi. Vanno citate come tali.
+    </p>
+
+    <div class="quotes">
+      <blockquote class="student-quote">
+        "È stato il mio miglior prof di matematica — e non sto parlando solo di numeri,
+        ma di concetti. I numeri sono facili da capire, ma il concetto che c'è dietro
+        solo se hai un buon professore con la giusta intelligenza puoi capirlo davvero."
+        <cite>— Q22</cite>
+      </blockquote>
+      <blockquote class="student-quote">
+        "È la prima volta in questi anni di scuola che un professore si mette 'in dubbio'
+        in modo aperto davanti agli studenti — non è una cosa negativa, anzi. Da qui si capisce
+        che gli piace quello che fa e lo fa con il cuore."
+        <cite>— Q22</cite>
+      </blockquote>
+      <blockquote class="student-quote">
+        "Tornare a scuola da adulto è difficile. Lei ha saputo trasformare anche la matematica
+        — che non mi appassionava — in una cosa comprensibile. Grazie per la bella persona che è."
+        <cite>— Q22 (parafrasi)</cite>
+      </blockquote>
+      <blockquote class="student-quote">
+        "Vorrei avere la sua pazienza e la sua diplomazia."
+        <cite>— Q22</cite>
+      </blockquote>
+    </div>
+
+    <p>
+      La parola che ricorre di più in Q21 ("Una parola sola")
+      — tra varianti diverse — è <strong>impegnative</strong>.
+      Seguono <em>divertenti</em>, <em>entusiasmanti</em>, <em>alternative</em>,
+      <em>coinvolgenti</em>. Nessuna parola con connotazione negativa netta.
+      Una studentessa ha scritto <em>caotiche</em> con un'emoji sorridente,
+      un'altra <em>nel chill</em>.
+    </p>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══ 7. RIFLESSIONI PERSONALI ════════════════════════ -->
+  <section class="section">
+    <div class="section-num">07</div>
+    <h2>Riflessioni del docente</h2>
+
+    <p>
+      Quello che emerge con più forza è la conferma di qualcosa che avevo intuito ma non osato dire completamente:
+      gli studenti di un corso serale non hanno bisogno di un insegnante che sappia di più, bensì di uno
+      che sappia <em>vedere</em> dove loro sono rimasti bloccati — e che abbia la pazienza infinita di provare
+      percorsi diversi fino a quando non scatta il riconoscimento. Q1 e Q3 a 4.46 e 4.54 lo dicono chiaramente.
+    </p>
+
+    <p>
+      Mi ha sorpreso — e insieme confortato — che nessuno abbia contestato il <em>come</em> insegno.
+      Le critiche costruttive riguardano il <em>quando</em> e il <em>quanto</em>: il ritmo, la ripetizione,
+      l'equilibrio tra ascolto e pratica. Questo è prezioso perché è risolvibile. Non è un problema di metodo:
+      è un problema di progettazione, e puoi cambiarla.
+    </p>
+
+    <p>
+      Quello che mi ha colto più di sorpresa è la ricorrenza di un tema che non era nei quesiti ufficiali:
+      tanti studenti hanno nominato la <strong>fiducia nella possibilità stessa di capire</strong>.
+      Non il mio insegnamento come ornamento, ma come catalizzatore di una trasformazione interna.
+      Questo cambia quello che faccio l'anno prossimo.
+    </p>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══ 8. PROSSIMI PASSI ════════════════════════════════ -->
+  <section class="section">
+    <div class="section-num">08</div>
+    <h2>Prossimi passi — a.s. 2026/27</h2>
+    <p>
+      Sulla base dei dati disponibili, emergono tre direzioni concrete su cui lavorare
+      nella progettazione del prossimo anno.
+    </p>
+
+    <div class="callout green" style="margin-bottom:12px">
+      <strong>Ciclo teoria–esercizio più corto.</strong>
+      Integrare una fase breve di applicazione (10–15 min) alla fine di ogni spiegazione,
+      prima di passare alla lezione successiva. Non sostituisce le sessioni di esercizi:
+      aggiunge un checkpoint intermedio.
+    </div>
+    <div class="callout green" style="margin-bottom:12px">
+      <strong>Differenziare durante la ripetizione.</strong>
+      Quando si riprende un argomento per chi era assente, predisporre in parallelo
+      un'attività autonoma per chi ha già capito — un problema più complesso, un'applicazione
+      in contesti diversi — invece di far attendere tutta la classe.
+    </div>
+    <div class="callout green">
+      <strong>Continuare con gli strumenti digitali.</strong>
+      Q10 a 4.70 è il valore più alto. Il sito, i quiz, gli appunti condivisi su Classroom:
+      non toccare ciò che funziona. Eventualmente ampliare — ma senza complicare.
+    </div>
+
+    <div class="callout green" style="margin-bottom:12px">
+      <strong>Dall'archivio al laboratorio interattivo.</strong>
+      Il sito non deve essere un deposito di materiale, ma uno spazio dove il contenuto <em>reagisce</em>
+      agli studenti. Quiz con feedback immediato, simulazioni che mostrano conseguenze in tempo reale,
+      esercizi che si adattano al livello: il digitale non è aggiunta, è il medium stesso della lezione.
+    </div>
+
+    <div class="callout green" style="margin-bottom:12px">
+      <strong>Fruizione non-sequenziale e personalizzata.</strong>
+      Gli studenti non arrivano tutti da lo stesso punto. Chi ha basi solide dovrebbe poter saltare
+      la ripetizione e affrontare subito un problema più complesso. Chi ha dubbi dovrebbe poter riavvolgere
+      una spiegazione, guardarla da angoli diversi, fare pratica su singoli step. Lo stesso materiale,
+      accesso differenziato.
+    </div>
+
+    <div class="callout green">
+      <strong>Lezioni interattive come nuovo standard.</strong>
+      Implementare in classe una dinamica dove la teoria non è raccontata dal primo minuto, ma scoperta
+      insieme attraverso una domanda iniziale, seguita da tentativo individuale (con strumenti digitali),
+      feedback visuale sulla classe, correzione collettiva, pratica guidata. Il sito diventa estensione
+      di questa interattività anche in autonomia.
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══════════════════════════════════════════ -->
+  <footer class="doc-footer">
+    <span>Diego Fantinelli · Matematica · IIS G.A. Remondini · a.s. 2025/26</span>
+    <span>Giugno 2026 — dati finali (n=28)</span>
+  </footer>
+
+</div><!-- /page -->
+</body>
+</html>
