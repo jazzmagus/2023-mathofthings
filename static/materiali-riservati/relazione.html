@@ -39,6 +39,7 @@ body {
   padding: 14px clamp(20px, 6vw, 80px);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   background: var(--sur);
   position: sticky; top: 0; z-index: 10;
@@ -47,6 +48,8 @@ body {
 .tb-brand { font-family: 'Playfair Display', serif; font-size: .85rem; font-weight: 700; letter-spacing: .3px; color: var(--txt); }
 .tb-sep { color: var(--brd2); font-size: .78rem; font-family: 'Fira Code', monospace; }
 .tb-sub { font-size: .75rem; color: var(--dim); font-family: 'Fira Code', monospace; letter-spacing: .3px; }
+.topbar-home { font-family: 'Fira Code', monospace; font-size: .75rem; color: var(--dim); text-decoration: none; transition: color .2s ease; }
+.topbar-home:hover { color: var(--accent); }
 
 /* ─── LAYOUT ─── */
 .page { max-width: 760px; margin: 0 auto; padding: 60px clamp(20px, 6vw, 40px) 100px; }
@@ -236,10 +239,13 @@ blockquote.student-quote cite {
 <body>
 
 <div class="topbar">
-  <div class="tb-dot"></div>
-  <span class="tb-brand">Autovalutazione docente</span>
-  <span class="tb-sep">/</span>
-  <span class="tb-sub">Matematica · IIS G.A. Remondini · a.s. 2025/26</span>
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <div class="tb-dot"></div>
+    <span class="tb-brand">Autovalutazione docente</span>
+    <span class="tb-sep">/</span>
+    <span class="tb-sub">Matematica · IIS G.A. Remondini · a.s. 2025/26</span>
+  </div>
+  <a href="/" class="topbar-home">← home</a>
 </div>
 
 <div class="page">

@@ -20,10 +20,12 @@ html{scroll-behavior:smooth}
 body{font-family:'Source Sans 3',Georgia,serif;background:var(--bg);color:var(--txt);line-height:1.75;font-size:17px}
 
 .topbar{background:rgba(250,247,242,.97);border-bottom:1px solid var(--brd);
-  padding:14px clamp(16px,4vw,40px);display:flex;align-items:baseline;gap:14px;
+  padding:14px clamp(16px,4vw,40px);display:flex;align-items:baseline;justify-content:space-between;gap:14px;
   position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}
 .tb-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--accent)}
 .tb-tag{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--dim);letter-spacing:1px}
+.topbar-home{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--dim);text-decoration:none;transition:color .2s ease}
+.topbar-home:hover{color:var(--accent)}
 
 .wrap{max-width:900px;margin:0 auto;padding:40px clamp(20px,5vw,40px) 80px}
 
@@ -97,8 +99,11 @@ body{font-family:'Source Sans 3',Georgia,serif;background:var(--bg);color:var(--
 <body>
 
 <div class="topbar">
-  <span class="tb-brand">Report · Questionario fine anno</span>
-  <span class="tb-tag">IIS G.A. Remondini · Corso serale · Classe 3ª/4ª/5ª SE · a.s. 2025/26</span>
+  <div style="display: flex; align-items: baseline; gap: 14px;">
+    <span class="tb-brand">Report · Questionario fine anno</span>
+    <span class="tb-tag">IIS G.A. Remondini · Corso serale · Classe 3ª/4ª/5ª SE · a.s. 2025/26</span>
+  </div>
+  <a href="/" class="topbar-home">← home</a>
 </div>
 
 <div class="wrap">
