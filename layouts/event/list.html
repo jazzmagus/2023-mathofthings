@@ -18,7 +18,18 @@
   </div>
 
   <div class="articles-card-list">
+    {{ $regularPages := slice }}
+    {{ $lastPages := slice }}
     {{ range .Pages.ByDate.Reverse }}
+      {{ if .Params.pinned_last }}
+        {{ $lastPages = $lastPages | append . }}
+      {{ else }}
+        {{ $regularPages = $regularPages | append . }}
+      {{ end }}
+    {{ end }}
+    {{ $allPages := concat $regularPages $lastPages }}
+
+    {{ range $allPages }}
       {{ $title := .Title }}
       {{ $link := .Params.external_link | default .RelPermalink }}
       <a href="{{ $link }}" class="article-item-link" {{ if .Params.external_link }}target="_blank" rel="noopener"{{ end }}>
@@ -36,7 +47,7 @@
           {{ with .Resources.GetMatch "featured*" }}
             <img src="{{ .RelPermalink }}" alt="{{ $title }}" class="article-thumbnail">
           {{ end }}
-          <span class="article-icon" aria-hidden="true">→</span>
+          <span class="article-icon" aria-hidden="true">{{ if .Params.is_reserved }}🔒{{ else }}→{{ end }}</span>
         </div>
       </a>
     {{ end }}
