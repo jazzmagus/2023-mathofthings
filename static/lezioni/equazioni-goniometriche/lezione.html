@@ -1,353 +1,294 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equazioni Goniometriche — Lezione Interattiva</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Georgia', serif;
-            background: #f7f1e6;
-            color: #1a1a1a;
-            line-height: 1.7;
-            font-size: 17px;
-        }
-        body.dark-mode {
-            background: #1a1a1a;
-            color: #d0d0d0;
-        }
-        .container { max-width: 900px; margin: 0 auto; padding: 60px 20px 80px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione — Equazioni Goniometriche</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --purple:#6a1b9a; --purple-light:#f3e5f5;
+  --gold:#b8860b; --gold-light:#fdf8ed;
+  --teal:#4f6d7a; --teal-light:#e8eff2;
+  --danger:#b33a3a;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
 
-        /* TOPBAR */
-        .topbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(247, 241, 230, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 0 20px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            z-index: 100;
-        }
-        body.dark-mode .topbar {
-            background: rgba(26, 26, 26, 0.95);
-            border-bottom-color: rgba(255,255,255,0.1);
-        }
-        .topbar-brand {
-            font-family: 'Playfair Display', serif;
-            font-size: 1rem;
-            font-weight: 700;
-            color: #ed6f5c;
-        }
-        .topbar-home {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: #999;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .topbar-home:hover { color: #ed6f5c; }
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-nav{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;flex:1}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill{background:none;border:none;font-family:'Source Sans 3',sans-serif;font-size:.82rem;color:var(--text-dim);padding:6px 14px;border-radius:20px;cursor:pointer;white-space:nowrap;transition:all .2s}
+.nav-pill:hover{background:var(--surface-alt);color:var(--text)}
+.nav-pill.active{background:var(--accent);color:#fff;font-weight:600}
 
-        /* TITLE */
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            margin: 1rem 0 0.5rem;
-            color: #ed6f5c;
-        }
-        body.dark-mode h1 { color: #f08e7c; }
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 80px}
+.section{display:none;animation:appear .4s ease}
+.section.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
-        /* SECTIONS */
-        h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            margin: 2rem 0 0.8rem;
-            color: #1a1a1a;
-            border-left: 4px solid #ed6f5c;
-            padding-left: 1rem;
-        }
-        body.dark-mode h2 { color: #d0d0d0; border-left-color: #f08e7c; }
+.hero{margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7}
 
-        h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            margin: 1.5rem 0 0.5rem;
-            color: #ed6f5c;
-        }
-        body.dark-mode h3 { color: #f08e7c; }
+.cb{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:26px 30px;margin:24px 0;box-shadow:var(--shadow);position:relative}
+.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;border-radius:var(--radius) 0 0 var(--radius)}
+.cb.tip::before{background:var(--blue)}
+.cb.warn::before{background:var(--gold)}
+.cb.danger::before{background:var(--danger)}
+.cb.success::before{background:var(--green)}
+.cb.method::before{background:var(--accent)}
+.cb.purple::before{background:var(--purple)}
+.cb.teal::before{background:var(--teal)}
+.cb-label{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;font-weight:600}
+.cb.tip .cb-label{color:var(--blue)}
+.cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)}
+.cb.success .cb-label{color:var(--green)}
+.cb.method .cb-label{color:var(--accent)}
+.cb.purple .cb-label{color:var(--purple)}
+.cb.teal .cb-label{color:var(--teal)}
 
-        /* ACCORDION */
-        .accordion-item {
-            border: 1px solid rgba(0,0,0,0.1);
-            margin-bottom: 1rem;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-        body.dark-mode .accordion-item { border-color: rgba(255,255,255,0.1); }
+.math-block{background:#fdfaf6;border:1px solid var(--border-light);border-radius:8px;padding:18px 24px;margin:14px 0;overflow-x:auto}
+.math-block.dark{background:var(--surface-alt)}
 
-        .accordion-title {
-            background: rgba(237, 111, 92, 0.08);
-            padding: 1rem;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            user-select: none;
-            transition: all 0.3s;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.95rem;
-        }
-        body.dark-mode .accordion-title { background: rgba(240, 142, 124, 0.12); }
+h2{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3.5vw,1.95rem);font-weight:800;line-height:1.15;margin:32px 0 20px;color:var(--text)}
+h3{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;line-height:1.2;margin:24px 0 14px;color:var(--text)}
 
-        .accordion-title:hover {
-            background: rgba(237, 111, 92, 0.15);
-        }
-        body.dark-mode .accordion-title:hover { background: rgba(240, 142, 124, 0.2); }
+ul,ol{margin:16px 0 16px 24px}
+li{margin-bottom:8px;line-height:1.7}
 
-        .accordion-content {
-            display: none;
-            padding: 1.5rem;
-            background: #fff;
-            border-top: 1px solid rgba(0,0,0,0.1);
-        }
-        body.dark-mode .accordion-content {
-            background: #2a2a2a;
-            border-top-color: rgba(255,255,255,0.1);
-        }
+a{color:var(--accent);text-decoration:none;transition:.2s}
+a:hover{text-decoration:underline}
 
-        .accordion-content.active { display: block; }
+.bb{display:inline-block;padding:8px 16px;background:var(--surface);border:1px solid var(--border);border-radius:20px;font-family:'Fira Code',monospace;font-size:.85rem;cursor:pointer;transition:all .2s;color:var(--text-mid)}
+.bb:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
 
-        /* FORMULA BLOCKS */
-        .formula-block {
-            background: rgba(237, 111, 92, 0.04);
-            padding: 1.5rem;
-            border-left: 3px solid #ed6f5c;
-            margin: 1.5rem 0;
-            border-radius: 4px;
-        }
-        body.dark-mode .formula-block { background: rgba(240, 142, 124, 0.08); }
+.accordion{margin:16px 0}
+.acc-header{background:var(--surface);border:1px solid var(--border);padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-radius:var(--radius);transition:all .2s;user-select:none}
+.acc-header:hover{background:var(--surface-alt)}
+.acc-header.active{background:var(--accent-light);border-color:var(--accent)}
+.acc-body{display:none;background:var(--surface);border:1px solid var(--border);border-top:none;padding:20px;border-radius:0 0 var(--radius) var(--radius)}
+.acc-body.active{display:block}
+.acc-arrow{transition:transform .3s}
+.acc-header.active .acc-arrow{transform:rotate(180deg)}
 
-        /* EXAMPLES */
-        .example {
-            background: rgba(100, 200, 150, 0.08);
-            padding: 1.5rem;
-            border-left: 3px solid #4a7c59;
-            margin: 1.5rem 0;
-            border-radius: 4px;
-        }
-        body.dark-mode .example { background: rgba(100, 200, 150, 0.12); }
-
-        .example h4 {
-            color: #4a7c59;
-            margin-bottom: 0.5rem;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-        }
-        body.dark-mode .example h4 { color: #6db383; }
-
-        /* CODE/MONO */
-        code {
-            font-family: 'JetBrains Mono', monospace;
-            background: rgba(0,0,0,0.05);
-            padding: 0.2em 0.4em;
-            border-radius: 3px;
-            color: #ed6f5c;
-        }
-        body.dark-mode code {
-            background: rgba(255,255,255,0.1);
-            color: #f08e7c;
-        }
-
-        /* LISTS */
-        ul, ol { margin-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 1rem; }
-        li { margin-bottom: 0.4rem; }
-
-        /* BLOCKQUOTE */
-        blockquote {
-            border-left: 3px solid #ed6f5c;
-            padding-left: 1.5rem;
-            margin: 1.5rem 0;
-            color: #666;
-            font-style: italic;
-        }
-        body.dark-mode blockquote { color: #aaa; }
-
-        /* BACK LINK */
-        .back-link {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: #ed6f5c;
-            text-decoration: none;
-            z-index: 50;
-        }
-        .back-link:hover { text-decoration: underline; }
-
-        /* RESPONSIVE */
-        @media (max-width: 640px) {
-            h1 { font-size: 1.8rem; }
-            h2 { font-size: 1.4rem; }
-            .container { padding: 70px 15px 60px; }
-        }
-    </style>
+@media(max-width:600px){
+  body{font-size:16px}
+  h2{font-size:1.5rem}
+  .container{padding:70px 16px 60px}
+}
+</style>
 </head>
 <body>
-    <a href="/" class="back-link">← home</a>
 
-    <div class="topbar">
-        <span class="topbar-brand">Equazioni Goniometriche</span>
-        <a href="/" class="topbar-home">← home</a>
+<div class="topbar">
+  <span class="topbar-brand">Equazioni Goniometriche</span>
+  <nav class="topbar-nav" id="nav-pills"></nav>
+</div>
+
+<div class="container">
+
+  <!-- SEZIONE 1: INTRODUZIONE -->
+  <section class="section active" id="intro">
+    <div class="hero">
+      <div class="hero-tag">Trigonometria</div>
+      <h1>Equazioni <em>Goniometriche</em></h1>
+      <p class="hero-sub">Risolvi equazioni dove l'incognita compare nell'argomento di funzioni seno, coseno e tangente.</p>
     </div>
 
-    <div class="container">
-        <h1>Equazioni Goniometriche</h1>
-        <p style="color: #666; font-size: 1.1rem; margin-bottom: 2rem;">Risolvi equazioni dove l'incognita compare nell'argomento di funzioni seno, coseno e tangente.</p>
+    <div class="cb method">
+      <div class="cb-label">Definizione</div>
+      <p>Un'equazione si dice <strong>goniometrica</strong> se l'incognita compare nell'<strong>argomento</strong> di una funzione goniometrica.</p>
+      <p style="margin-top:12px;"><strong>Equazioni elementari:</strong></p>
+      <div class="math-block">
+        \[\sin x = p, \quad \cos x = q, \quad \tan x = h, \quad \text{con } p, q, h \in \mathbb{R}\]
+      </div>
+    </div>
+  </section>
 
-        <!-- DEFINIZIONE -->
-        <div class="formula-block">
-            <strong>Definizione:</strong> Un'equazione si dice <strong>goniometrica</strong> se l'incognita compare nell'<strong>argomento</strong> di una funzione goniometrica.
-            <br><br>
-            Equazioni elementari:
-            $$\sin x = p, \quad \cos x = q, \quad \tan x = h, \quad \text{con } p, q, h \in \mathbb{R}$$
-        </div>
+  <!-- SEZIONE 2: RICONDUCIBILI A ELEMENTARI -->
+  <section class="section" id="riconducibili">
+    <h2>Equazioni riconducibili a elementari</h2>
 
-        <!-- SEZIONE 1 -->
-        <h2>1. Equazioni riconducibili a elementari</h2>
+    <h3>Formule di riferimento</h3>
 
-        <div class="accordion-item">
-            <div class="accordion-title" onclick="toggleAccordion(this)">
-                <span>Formula fondamentale della trigonometria</span>
-                <span>▼</span>
-            </div>
-            <div class="accordion-content">
-                $$\sin^2 x + \cos^2 x = 1$$
-            </div>
-        </div>
-
-        <div class="accordion-item">
-            <div class="accordion-title" onclick="toggleAccordion(this)">
-                <span>Formule di addizione</span>
-                <span>▼</span>
-            </div>
-            <div class="accordion-content">
-                $$\sin(\alpha+\beta) = \sin\alpha\cos\beta + \cos\alpha\sin\beta$$
-                $$\cos(\alpha+\beta) = \cos\alpha\cos\beta - \sin\alpha\sin\beta$$
-                $$\tan(\alpha+\beta) = \frac{\tan\alpha + \tan\beta}{1 - \tan\alpha\tan\beta}$$
-            </div>
-        </div>
-
-        <div class="accordion-item">
-            <div class="accordion-title" onclick="toggleAccordion(this)">
-                <span>Formule di duplicazione</span>
-                <span>▼</span>
-            </div>
-            <div class="accordion-content">
-                $$\sin 2\alpha = 2\sin\alpha\cos\alpha$$
-                $$\cos 2\alpha = \cos^2\alpha - \sin^2\alpha$$
-                $$\tan 2\alpha = \frac{2\tan\alpha}{1-\tan^2\alpha}$$
-            </div>
-        </div>
-
-        <!-- ESEMPIO 1 -->
-        <div class="example">
-            <h4>Esempio 1: Sostituzione e equazione di 2° grado</h4>
-            $$2\cos^2 x - 3\cos x + 1 = 0$$
-            <p style="margin-top: 1rem;">Usiamo la sostituzione $t = \cos x$:</p>
-            $$2t^2 - 3t + 1 = 0$$
-            <p style="margin-top: 0.5rem;">Le soluzioni sono: $t_1 = 1$ e $t_2 = \dfrac{1}{2}$</p>
-            <ul style="margin-top: 0.5rem;">
-                <li>$\cos x = 1 \Rightarrow x = 2k\pi$</li>
-                <li>$\cos x = \dfrac{1}{2} \Rightarrow x = \pm\dfrac{\pi}{3} + 2k\pi$</li>
-            </ul>
-        </div>
-
-        <!-- SEZIONE 2 -->
-        <h2>2. Equazioni lineari in seno e coseno</h2>
-
-        <div class="formula-block">
-            $$a\sin x + b\cos x + c = 0 \quad (a \neq 0, \, b \neq 0)$$
-        </div>
-
-        <h3>Metodo dell'angolo aggiunto</h3>
-        <p>Una combinazione lineare di seno e coseno può essere riscritta come:</p>
-        $$a\sin x + b\cos x = A\sin(x + \varphi)$$
-        <p>dove $A = \sqrt{a^2 + b^2}$ e $\tan\varphi = \dfrac{b}{a}$</p>
-
-        <!-- ESEMPIO 2 -->
-        <div class="example">
-            <h4>Esempio 2: Angolo aggiunto</h4>
-            $$\sqrt{3}\sin x - \cos x - 1 = 0$$
-            <p style="margin-top: 1rem;">Trasformiamo usando il metodo dell'angolo aggiunto:</p>
-            $$\sqrt{3}\sin x - \cos x = 1$$
-            $$2\left(\frac{\sqrt{3}}{2}\sin x - \frac{1}{2}\cos x\right) = 1$$
-            $$2\sin\left(x - \frac{\pi}{6}\right) = 1$$
-            $$\sin\left(x - \frac{\pi}{6}\right) = \frac{1}{2}$$
-            <p style="margin-top: 0.5rem;">Soluzioni: $x = \dfrac{\pi}{3} + 2k\pi$ oppure $x = \pi + 2k\pi$</p>
-        </div>
-
-        <!-- SEZIONE 3 -->
-        <h2>3. Equazioni omogenee di secondo grado</h2>
-
-        <div class="formula-block">
-            $$a\sin^2 x + b\sin x\cos x + c\cos^2 x = 0$$
-        </div>
-
-        <p>Se $\cos x \neq 0$, dividiamo per $\cos^2 x$ e otteniamo un'equazione in $\tan x$:</p>
-        $$a\tan^2 x + b\tan x + c = 0$$
-
-        <!-- ESEMPIO 3 -->
-        <div class="example">
-            <h4>Esempio 3: Equazione omogenea</h4>
-            $$\sin^2 x - 3\sqrt{3}\sin x\cos x + 6\cos^2 x = 0$$
-            <p style="margin-top: 1rem;">Dividiamo per $\cos^2 x$:</p>
-            $$\tan^2 x - 3\sqrt{3}\tan x + 6 = 0$$
-            <p style="margin-top: 0.5rem;">Soluzioni: $\tan x = \sqrt{3}$ oppure $\tan x = 2\sqrt{3}$</p>
-            <ul style="margin-top: 0.5rem;">
-                <li>$x = \dfrac{\pi}{3} + k\pi$</li>
-                <li>$x = \arctan(2\sqrt{3}) + k\pi$</li>
-            </ul>
-        </div>
-
-        <!-- RIEPILOGO -->
-        <h2>Riepilogo</h2>
-        <div class="formula-block">
-            <strong>Strategie risolutive:</strong>
-            <ol style="margin-top: 1rem;">
-                <li><strong>Sostituzione:</strong> Se compare una sola funzione goniometrica (es. $t = \sin x$)</li>
-                <li><strong>Angolo aggiunto:</strong> Per combinazioni di seno e coseno</li>
-                <li><strong>Formule goniometriche:</strong> Per ridurre a forme elementari</li>
-                <li><strong>Divisione per $\cos^2 x$:</strong> Per equazioni omogenee</li>
-            </ol>
-        </div>
-
-        <p style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(0,0,0,0.1); color: #999; text-align: center; font-size: 0.9rem;">
-            Lezione completata. Esercitati con i problemi assegnati.
-        </p>
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span><strong>Relazione fondamentale</strong></span>
+        <span class="acc-arrow">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="math-block">\[\sin^2 x + \cos^2 x = 1\]</div>
+      </div>
     </div>
 
-    <script>
-        function toggleAccordion(element) {
-            const content = element.nextElementSibling;
-            content.classList.toggle('active');
-            const arrow = element.querySelector('span:last-child');
-            arrow.style.transform = content.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
-        }
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span><strong>Formule di addizione</strong></span>
+        <span class="acc-arrow">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="math-block">
+          \[\begin{aligned}
+          \sin(\alpha+\beta) &= \sin\alpha\cos\beta + \cos\alpha\sin\beta \\
+          \cos(\alpha+\beta) &= \cos\alpha\cos\beta - \sin\alpha\sin\beta \\
+          \tan(\alpha+\beta) &= \frac{\tan\alpha + \tan\beta}{1 - \tan\alpha\tan\beta}
+          \end{aligned}\]
+        </div>
+      </div>
+    </div>
 
-        // Dark mode
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.classList.add('dark-mode');
-        }
-    </script>
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span><strong>Formule di duplicazione</strong></span>
+        <span class="acc-arrow">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="math-block">
+          \[\begin{aligned}
+          \sin 2\alpha &= 2\sin\alpha\cos\alpha \\
+          \cos 2\alpha &= \cos^2\alpha - \sin^2\alpha \\
+          \tan 2\alpha &= \frac{2\tan\alpha}{1-\tan^2\alpha}
+          \end{aligned}\]
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:32px;">Esempi risvolti</h3>
+
+    <div class="cb success">
+      <div class="cb-label">Esempio 1</div>
+      <p><strong>Equazione:</strong></p>
+      <div class="math-block">\[2\cos^2 x - 3\cos x + 1 = 0\]</div>
+      <p style="margin-top:16px;"><strong>Soluzione:</strong> Usiamo la sostituzione \(t = \cos x\):</p>
+      <div class="math-block">\[2t^2 - 3t + 1 = 0 \quad \Rightarrow \quad t_1 = 1, \quad t_2 = \frac{1}{2}\]</div>
+      <p style="margin-top:16px;"><strong>Risultato:</strong></p>
+      <ul>
+        <li>\(\cos x = 1 \Rightarrow x = 2k\pi\)</li>
+        <li>\(\cos x = \dfrac{1}{2} \Rightarrow x = \pm\dfrac{\pi}{3} + 2k\pi\)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SEZIONE 3: LINEARI -->
+  <section class="section" id="lineari">
+    <h2>Equazioni lineari in seno e coseno</h2>
+
+    <div class="cb method">
+      <div class="cb-label">Forma Generale</div>
+      <div class="math-block">\[a\sin x + b\cos x + c = 0 \quad (a \neq 0, \, b \neq 0)\]</div>
+    </div>
+
+    <h3>Metodo dell'angolo aggiunto</h3>
+    <p>Una combinazione lineare di seno e coseno può essere riscritta come:</p>
+    <div class="math-block">\[a\sin x + b\cos x = A\sin(x + \varphi)\]</div>
+    <p style="margin-top:12px;">dove \(A = \sqrt{a^2 + b^2}\) e \(\tan\varphi = \dfrac{b}{a}\)</p>
+
+    <div class="cb success" style="margin-top:24px;">
+      <div class="cb-label">Esempio 2</div>
+      <p><strong>Equazione:</strong></p>
+      <div class="math-block">\[\sqrt{3}\sin x - \cos x - 1 = 0\]</div>
+      <p style="margin-top:16px;"><strong>Trasformazione:</strong></p>
+      <div class="math-block">
+        \[\begin{aligned}
+        &\sqrt{3}\sin x - \cos x = 1 \\
+        &2\sin\left(x - \frac{\pi}{6}\right) = 1 \\
+        &\sin\left(x - \frac{\pi}{6}\right) = \frac{1}{2}
+        \end{aligned}\]
+      </div>
+      <p style="margin-top:16px;"><strong>Soluzioni:</strong> \(x = \dfrac{\pi}{3} + 2k\pi\) oppure \(x = \pi + 2k\pi\)</p>
+    </div>
+  </section>
+
+  <!-- SEZIONE 4: OMOGENEE -->
+  <section class="section" id="omogenee">
+    <h2>Equazioni omogenee di secondo grado</h2>
+
+    <div class="cb method">
+      <div class="cb-label">Forma Generale</div>
+      <div class="math-block">\[a\sin^2 x + b\sin x\cos x + c\cos^2 x = 0\]</div>
+    </div>
+
+    <p style="margin-top:20px;">Se \(\cos x \neq 0\), dividiamo per \(\cos^2 x\) e otteniamo un'equazione in \(\tan x\):</p>
+    <div class="math-block">\[a\tan^2 x + b\tan x + c = 0\]</div>
+
+    <div class="cb success" style="margin-top:24px;">
+      <div class="cb-label">Esempio 3</div>
+      <p><strong>Equazione:</strong></p>
+      <div class="math-block">\[\sin^2 x - 3\sqrt{3}\sin x\cos x + 6\cos^2 x = 0\]</div>
+      <p style="margin-top:16px;"><strong>Dividiamo per \(\cos^2 x\):</strong></p>
+      <div class="math-block">\[\tan^2 x - 3\sqrt{3}\tan x + 6 = 0\]</div>
+      <p style="margin-top:16px;"><strong>Soluzioni:</strong></p>
+      <ul>
+        <li>\(\tan x = \sqrt{3} \Rightarrow x = \dfrac{\pi}{3} + k\pi\)</li>
+        <li>\(\tan x = 2\sqrt{3} \Rightarrow x = \arctan(2\sqrt{3}) + k\pi\)</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<script>
+// Navpills
+const sections = ['intro', 'riconducibili', 'lineari', 'omogenee'];
+const labels = ['Intro', 'Riconducibili', 'Lineari', 'Omogenee'];
+const navContainer = document.getElementById('nav-pills');
+
+sections.forEach((id, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'nav-pill' + (i === 0 ? ' active' : '');
+  btn.textContent = labels[i];
+  btn.onclick = () => showSection(id, btn);
+  navContainer.appendChild(btn);
+});
+
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Accordion
+function toggleAcc(header) {
+  header.classList.toggle('active');
+  header.nextElementSibling.classList.toggle('active');
+}
+
+// Fade in
+document.body.style.opacity = '1';
+
+// MathJax render
+MathJax.typesetPromise().catch(err => console.log(err));
+</script>
+
 </body>
 </html>
