@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lezione — Equazioni Goniometriche</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
 <script>
 MathJax = {
   tex: {
@@ -37,7 +37,7 @@ MathJax = {
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
 
 .topbar {
   position:fixed; top:0; left:0; right:0; z-index:100;
@@ -60,7 +60,7 @@ body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(
 .topbar-center::-webkit-scrollbar{display:none}
 .nav-pill {
   background:none; border:none;
-  font-family:'Source Sans 3',sans-serif;
+  font-family:'JetBrains Mono',monospace;
   font-size:.82rem; color:var(--text-dim);
   padding:6px 14px; border-radius:20px; cursor:pointer;
   white-space:nowrap; transition:all .2s;
@@ -121,9 +121,17 @@ h3{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;line-h
 ul,ol{margin:16px 0 16px 24px}
 li{margin-bottom:8px;line-height:1.7}
 
-.checklist{list-style:none;margin:12px 0}
-.checklist li{position:relative;padding:6px 0 6px 32px;font-size:.95rem}
-.checklist li::before{content:'□';position:absolute;left:6px;top:6px;font-size:1.1rem;color:var(--accent)}
+.section-intro{font-family:'Georgia',serif;font-size:0.95rem;color:var(--text-mid);margin:16px 0 24px;line-height:1.6;max-width:800px;text-align:left}
+
+.checklist-grid{margin:16px 0}
+.checklist-group{margin-bottom:0;padding-bottom:12px;border-bottom:0.5px solid var(--accent)}
+.checklist-group:last-child{border-bottom:none}
+.checklist-group h4{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text);margin:16px 0 12px;padding-top:0}
+.checklist-group ul{list-style:none;margin:0;padding:0}
+.checklist-group li{position:relative;padding:6px 0 6px 26px;font-size:0.96rem;font-family:'JetBrains Mono',monospace;color:var(--text-mid);line-height:1.3;cursor:pointer;transition:all .2s}
+.checklist-group li::before{content:'☐';position:absolute;left:0;top:5px;font-size:0.95rem;color:var(--accent);font-weight:400;transition:all .2s}
+.checklist-group li.checked{color:var(--text-dim);text-decoration:line-through}
+.checklist-group li.checked::before{content:'☑';color:var(--accent)}
 
 .accordion{margin:16px 0}
 .acc-item{margin-bottom:8px}
@@ -136,7 +144,7 @@ li{margin-bottom:8px;line-height:1.7}
 .acc-header.active .acc-arrow{transform:rotate(180deg)}
 
 .bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:52px;padding-top:26px;border-top:1px solid var(--border-light)}
-.bb{font-family:'Source Sans 3',sans-serif;font-size:.9rem;padding:10px 26px;border-radius:8px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:all .2s;box-shadow:var(--shadow)}
+.bb{font-family:'JetBrains Mono',monospace;font-size:.9rem;padding:10px 26px;border-radius:8px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:all .2s;box-shadow:var(--shadow)}
 .bb:hover{border-color:var(--accent);color:var(--accent)}
 .bb.primary{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
 .bb.primary:hover{background:#a8144e}
@@ -165,6 +173,10 @@ const sections = [
     title: 'Definizione ed <em>equazioni elementari</em>',
     nav: 'Fondamenti',
     body: `
+      <p class="section-intro">
+        Un'<strong>equazione goniometrica</strong> è un'equazione in cui l'incognita compare come argomento di funzioni trigonometriche. A differenza delle equazioni algebriche ordinarie, hanno infinite soluzioni a causa della periodicità. Risolvere significa trovare tutti i valori di \\(x\\) in forma parametrica. Negli utilizzi pratici, modellano fenomeni ciclici: moti oscillatori, onde (suono, luce, radio), segnali (telecomunicazioni, acustica), circuiti AC, vibrazioni strutturali e moto rotazionale. Apprenderai a risolvere quattro tipi: elementari, riconducibili per sostituzione, lineari, e omogenee di secondo grado.
+      </p>
+
       <div class="cb method">
         <div class="cb-label">Definizione</div>
         <p>Un'equazione si dice <strong>goniometrica</strong> se l'incognita compare nell'<strong>argomento</strong> di una funzione goniometrica.</p>
@@ -222,7 +234,7 @@ const sections = [
     title: 'Equazioni <em>riconducibili</em> a elementari',
     nav: 'Riconducibili',
     body: `
-      <p>Molte equazioni non sono immediatamente elementari, ma con le giuste trasformazioni lo diventano.</p>
+      <p class="section-intro">Nella pratica raramente incontri equazioni già elementari. Imparerai a riconoscere le strategie per trasformarne di complesse in semplici: sono le stesse tecniche algebriche che usi per le equazioni polinomiali, solo applicate alle funzioni goniometriche.</p>
 
       <h3>Strategia: sostituzione</h3>
 
@@ -278,6 +290,8 @@ const sections = [
     title: 'Equazioni <em>lineari</em> in seno e coseno',
     nav: 'Lineari',
     body: `
+      <p class="section-intro">Questo è il tipo di equazione che più frequentemente incontrerai in problemi reali. Il metodo dell'angolo aggiunto è una tecnica potentissima usata in telecomunicazioni, acustica e nelle analisi di circuiti AC.</p>
+
       <div class="cb method">
         <div class="cb-label">Forma generale</div>
         <div class="math-block">\\[a\\sin x + b\\cos x + c = 0 \\quad (a \\neq 0, \\, b \\neq 0)\\]</div>
@@ -330,6 +344,8 @@ const sections = [
     title: 'Equazioni <em>omogenee</em> di 2° grado',
     nav: 'Omogenee',
     body: `
+      <p class="section-intro">Qui affrontiamo il livello più astratto, ma con una struttura elegante: niente termini noti, solo combinazioni di seno e coseno. La chiave è dividere per cos²x e trasformare tutto in tangente. Usato in ottimizzazione e in alcuni problemi di geometria.</p>
+
       <div class="cb method">
         <div class="cb-label">Forma generale</div>
         <div class="math-block">\\[a\\sin^2 x + b\\sin x \\cos x + c\\cos^2 x = 0\\]</div>
@@ -380,40 +396,50 @@ const sections = [
     title: 'Checklist di <em>autocontrollo</em>',
     nav: 'Checklist',
     body: `
-      <p>Completa questa checklist mentre studi gli argomenti della lezione.</p>
+      <p class="section-intro">Completa gli item mentre studi. Non è uno sprint: ogni checkmark significa che hai compreso davvero quel concetto.</p>
 
-      <h3>Fondamenti</h3>
-      <ul class="checklist">
-        <li>Conosco la definizione di equazione goniometrica</li>
-        <li>Conosco le tre formule risolutive (per seno, coseno, tangente)</li>
-        <li>So risolvere \\(\\sin x = p\\) per qualsiasi valore di \\(p\\)</li>
-        <li>So risolvere \\(\\cos x = q\\) per qualsiasi valore di \\(q\\)</li>
-        <li>So risolvere \\(\\tan x = h\\) per qualsiasi valore di \\(h\\)</li>
-      </ul>
+      <div class="checklist-grid">
+        <div class="checklist-group">
+          <h4>Fondamenti</h4>
+          <ul>
+            <li>Definizione di equazione goniometrica</li>
+            <li>Tre formule risolutive (seno, coseno, tangente)</li>
+            <li>Risolvere \\(\\sin x = p\\) per qualsiasi \\(p\\)</li>
+            <li>Risolvere \\(\\cos x = q\\) per qualsiasi \\(q\\)</li>
+            <li>Risolvere \\(\\tan x = h\\) per qualsiasi \\(h\\)</li>
+          </ul>
+        </div>
 
-      <h3>Equazioni riconducibili a elementari</h3>
-      <ul class="checklist">
-        <li>So applicare una sostituzione \\(t = \\sin x\\) o \\(t = \\cos x\\)</li>
-        <li>So riconoscere quando è possibile usare una formula goniometrica</li>
-        <li>So completare l'esercizio tornando alla variabile originale \\(x\\)</li>
-        <li>So verificare le soluzioni trovate</li>
-      </ul>
+        <div class="checklist-group">
+          <h4>Riconducibili</h4>
+          <ul>
+            <li>Sostituzione \\(t = \\sin x\\) o \\(t = \\cos x\\)</li>
+            <li>Riconoscere quando usare una formula</li>
+            <li>Tornare alla variabile originale \\(x\\)</li>
+            <li>Verificare le soluzioni trovate</li>
+          </ul>
+        </div>
 
-      <h3>Equazioni lineari in seno e coseno</h3>
-      <ul class="checklist">
-        <li>Conosco il metodo dell'angolo aggiunto</li>
-        <li>So calcolare \\(A = \\sqrt{a^2 + b^2}\\)</li>
-        <li>So trovare l'angolo \\(\\varphi\\) con le condizioni \\(\\sin \\varphi = \\frac{b}{A}\\) e \\(\\cos \\varphi = \\frac{a}{A}\\)</li>
-        <li>So trasformare \\(a\\sin x + b\\cos x\\) in \\(A\\sin(x + \\varphi)\\)</li>
-      </ul>
+        <div class="checklist-group">
+          <h4>Lineari</h4>
+          <ul>
+            <li>Metodo dell'angolo aggiunto</li>
+            <li>Calcolare \\(A = \\sqrt{a^2 + b^2}\\)</li>
+            <li>Trovare l'angolo \\(\\varphi\\)</li>
+            <li>Trasformare in \\(A\\sin(x + \\varphi)\\)</li>
+          </ul>
+        </div>
 
-      <h3>Equazioni omogenee di 2° grado</h3>
-      <ul class="checklist">
-        <li>Conosco quando un'equazione è omogenea di 2° grado</li>
-        <li>So verificare se \\(\\cos x = 0\\) è soluzione</li>
-        <li>So dividere per \\(\\cos^2 x\\) e ottenere un'equazione in \\(\\tan x\\)</li>
-        <li>So risolvere l'equazione di 2° grado risultante</li>
-      </ul>
+        <div class="checklist-group">
+          <h4>Omogenee</h4>
+          <ul>
+            <li>Riconoscere equazione omogenea di 2°</li>
+            <li>Verificare se \\(\\cos x = 0\\) è soluzione</li>
+            <li>Dividere per \\(\\cos^2 x\\)</li>
+            <li>Risolvere l'equazione in \\(\\tan x\\)</li>
+          </ul>
+        </div>
+      </div>
     `
   }
 ];
@@ -434,15 +460,15 @@ function showSection(i) {
   currentSection = i;
   const sec = sections[i];
 
-  app.innerHTML = \`
+  app.innerHTML = `
     <section class="section active">
       <div class="hero">
-        <div class="hero-tag">\${sec.tag}</div>
-        <h1>\${sec.title}</h1>
+        <div class="hero-tag">${sec.tag}</div>
+        <h1>${sec.title}</h1>
       </div>
-      \${sec.body}
+      ${sec.body}
     </section>
-  \`;
+  `;
 
   document.querySelectorAll('.nav-pill').forEach((p, idx) => {
     p.classList.toggle('active', idx === i);
@@ -452,6 +478,14 @@ function showSection(i) {
     h.onclick = function() {
       this.classList.toggle('active');
       this.nextElementSibling.classList.toggle('active');
+    };
+  });
+
+  // Checklist interattiva
+  document.querySelectorAll('.checklist-group li').forEach(li => {
+    li.onclick = function(e) {
+      e.stopPropagation();
+      this.classList.toggle('checked');
     };
   });
 

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lezione — Limiti di funzione</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
 <script>
 MathJax = {
   tex: {
@@ -92,6 +92,13 @@ body {
 }
 .nav-pill:hover{background:var(--surface-alt);color:var(--text)}
 .nav-pill.active{background:var(--accent);color:#fff;font-weight:600}
+.topbar-home {
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.75rem; color:var(--text-dim);
+  text-decoration:none; cursor:pointer;
+  white-space:nowrap;
+}
+.topbar-home:hover{color:var(--accent)}
 
 /* ── CONTAINER ── */
 .container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 80px}
@@ -209,8 +216,10 @@ p{margin:8px 0} .dim{color:var(--text-dim)} strong{font-weight:600}
 
 /* ── CHECKLIST ── */
 .checklist{list-style:none;margin:12px 0}
-.checklist li{position:relative;padding:6px 0 6px 32px;font-size:.95rem}
-.checklist li::before{content:'□';position:absolute;left:6px;top:6px;font-size:1.1rem;color:var(--accent)}
+.checklist li{position:relative;padding:6px 0 6px 32px;font-size:.95rem;font-family:'JetBrains Mono',monospace;cursor:pointer;transition:all .2s}
+.checklist li::before{content:'☐';position:absolute;left:6px;top:6px;font-size:1rem;color:var(--accent);transition:all .2s}
+.checklist li.checked{color:var(--text-dim);text-decoration:line-through}
+.checklist li.checked::before{content:'☑'}
 
 /* ── MathJax overrides ── */
 mjx-container[jax="SVG"] { direction: ltr; }
@@ -1101,6 +1110,14 @@ function render() {
     const active = document.querySelector('.section.active');
     if (active) MathJax.typesetPromise([active]);
   }
+
+  // Checklist interattiva
+  document.querySelectorAll('.checklist li').forEach(li => {
+    li.onclick = function(e) {
+      e.stopPropagation();
+      this.classList.toggle('checked');
+    };
+  });
 }
 
 function goTo(idx) {

@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Limiti: concetti fondamentali</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.btn-start{margin-top:8px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-start:hover{background:#a8144e}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{background:#a8144e}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-retry:hover{background:#a8144e}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(6,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quiz · Limiti</div>
+  <div class="topbar-tag">IIS G.A. Remondini</div>
+</div>
+
+<div class="container">
+
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Test di preparazione</div>
+      <h1>Limiti — <em>concetti fondamentali</em></h1>
+      <p class="hero-sub">30 domande a risposta multipla. Copre tutto il necessario: intuizione del limite, calcolo per sostituzione, forme indeterminate, limiti all'infinito, asintoti e continuità.</p>
+    </div>
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">30</span></div>
+      <div class="meta-item"><span class="meta-label">Tipo</span><span class="meta-value">Risposta multipla</span></div>
+      <div class="meta-item"><span class="meta-label">Feedback</span><span class="meta-value">Immediato</span></div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia il test</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso</span>
+        <span class="progress-frac" id="prog-frac">1 / 30</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag">IIS G.A. Remondini · Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den">su 30 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova il test</button>
+      <a class="btn-lesson" href="../limiti/">Torna alla lezione</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const Q = [
+
+  // ── INTUIZIONE E CONCETTO ──
+  {
+    badge: "Concetto di limite",
+    q: "Cosa significa \\(\\displaystyle\\lim_{x \\to 2} f(x) = 5\\)?",
+    opts: [
+      "\\(f(2) = 5\\) per definizione",
+      "\\(f(x)\\) si avvicina a \\(5\\) quando \\(x\\) si avvicina a \\(2\\)",
+      "\\(f(x) = 5\\) per ogni \\(x\\)",
+      "Il grafico passa per il punto \\((5,\\, 2)\\)"
+    ],
+    ans: 1,
+    exp: "Il limite descrive il <em>comportamento</em> di \\(f(x)\\) nelle vicinanze di \\(x = 2\\), non necessariamente nel punto \\(x = 2\\). Non è detto che \\(f(2)\\) esista o che valga \\(5\\)."
+  },
+  {
+    badge: "Concetto di limite",
+    q: "La variabile \\(x\\) nella scrittura \\(\\lim_{x \\to a}\\):",
+    opts: [
+      "Raggiunge esattamente il valore \\(a\\)",
+      "È sempre maggiore di \\(a\\)",
+      "Si avvicina ad \\(a\\) senza mai arrivarci",
+      "Vale \\(0\\)"
+    ],
+    ans: 2,
+    exp: "Il cuore del concetto di limite: \\(x\\) <em>tende</em> ad \\(a\\) ma non lo raggiunge. Quello che succede nel punto \\(a\\) è irrilevante per il valore del limite."
+  },
+  {
+    badge: "Limite di una costante",
+    q: "Quanto vale \\(\\displaystyle\\lim_{x \\to 0} 7\\)?",
+    opts: [
+      "\\(0\\)",
+      "Non esiste",
+      "\\(+\\infty\\)",
+      "\\(7\\)"
+    ],
+    ans: 3,
+    exp: "Il limite di una funzione costante è la costante stessa: \\(f(x) = 7\\) vale sempre \\(7\\), qualunque sia \\(x\\). Quindi il limite è \\(7\\)."
+  },
+  {
+    badge: "Concetto di limite",
+    q: "Se \\(\\displaystyle\\lim_{x \\to 3} f(x) = 4\\), è necessario che \\(f(3) = 4\\)?",
+    opts: [
+      "Sì, sempre",
+      "No — il limite non dipende dal valore in \\(x = 3\\)",
+      "Sì, ma solo se \\(f\\) è un polinomio",
+      "Dipende dal segno di \\(f\\)"
+    ],
+    ans: 1,
+    exp: "No. Il limite può valere \\(4\\) anche se \\(f(3)\\) non è definita (buco) o se \\(f(3) \\neq 4\\). Il limite guarda il comportamento <em>intorno</em> al punto, non nel punto."
+  },
+  {
+    badge: "Limite di x",
+    q: "Quanto vale \\(\\displaystyle\\lim_{x \\to 5} x\\)?",
+    opts: [
+      "\\(0\\)",
+      "\\(1\\)",
+      "Non esiste",
+      "\\(5\\)"
+    ],
+    ans: 3,
+    exp: "La funzione \\(f(x) = x\\) si avvicina a \\(5\\) quando \\(x\\) si avvicina a \\(5\\). In generale: \\(\\lim_{x \\to a} x = a\\)."
+  },
+
+  // ── SOSTITUZIONE DIRETTA ──
+  {
+    badge: "Sostituzione diretta",
+    q: "Calcola \\(\\displaystyle\\lim_{x \\to 3} (2x + 1)\\).",
+    opts: [
+      "\\(5\\)",
+      "\\(6\\)",
+      "\\(7\\)",
+      "\\(8\\)"
+    ],
+    ans: 2,
+    exp: "La funzione \\(2x+1\\) è un polinomio, quindi continua. Si sostituisce direttamente: \\(2(3) + 1 = 7\\)."
+  },
+  {
+    badge: "Sostituzione diretta",
+    q: "Calcola \\(\\displaystyle\\lim_{x \\to 2} x^2\\).",
+    opts: [
+      "\\(2\\)",
+      "\\(4\\)",
+      "\\(8\\)",
+      "\\(0\\)"
+    ],
+    ans: 1,
+    exp: "Sostituzione diretta: \\((2)^2 = 4\\)."
+  },
+  {
+    badge: "Sostituzione diretta",
+    q: "Calcola \\(\\displaystyle\\lim_{x \\to 0} (x^3 - 2x + 5)\\).",
+    opts: [
+      "\\(3\\)",
+      "\\(0\\)",
+      "\\(5\\)",
+      "\\(-5\\)"
+    ],
+    ans: 2,
+    exp: "Sostituzione: \\((0)^3 - 2(0) + 5 = 5\\). I termini con \\(x\\) si azzerano."
+  },
+  {
+    badge: "Sostituzione diretta",
+    q: "Calcola \\(\\displaystyle\\lim_{x \\to 1} (x^2 + 2x - 1)\\).",
+    opts: [
+      "\\(0\\)",
+      "\\(2\\)",
+      "\\(4\\)",
+      "\\(-1\\)"
+    ],
+    ans: 1,
+    exp: "Sostituzione: \\((1)^2 + 2(1) - 1 = 1 + 2 - 1 = 2\\)."
+  },
+  {
+    badge: "Sostituzione diretta",
+    q: "Calcola \\(\\displaystyle\\lim_{x \\to -1} (x + 3)\\).",
+    opts: [
+      "\\(4\\)",
+      "\\(-4\\)",
+      "\\(2\\)",
+      "\\(-2\\)"
+    ],
+    ans: 2,
+    exp: "Sostituzione: \\((-1) + 3 = 2\\)."
+  },
+  {
+    badge: "Sostituzione diretta",
+    q: "Calcola \\(\\displaystyle\\lim_{x \\to 4} \\sqrt{x}\\).",
+    opts: [
+      "\\(16\\)",
+      "\\(2\\)",
+      "\\(8\\)",
+      "Non esiste"
+    ],
+    ans: 1,
+    exp: "\\(\\sqrt{4} = 2\\). La funzione radice è continua per \\(x > 0\\), quindi si sostituisce direttamente."
+  },
+
+  // ── FORME INDETERMINATE ──
+  {
+    badge: "Forma indeterminata",
+    q: "Sostituendo \\(x = 2\\) in \\(\\dfrac{x^2 - 4}{x - 2}\\) si ottiene:",
+    opts: [
+      "\\(0\\)",
+      "\\(4\\)",
+      "\\(\\dfrac{0}{0}\\) — forma indeterminata",
+      "\\(+\\infty\\)"
+    ],
+    ans: 2,
+    exp: "\\((4-4)/(2-2) = 0/0\\). Questa è una <strong>forma indeterminata</strong>: non ci dice nulla sul valore del limite. Dobbiamo fattorizzare il numeratore."
+  },
+  {
+    badge: "Forme indeterminate",
+    q: "La forma indeterminata \\(0/0\\) significa:",
+    opts: [
+      "Il limite vale \\(0\\)",
+      "Il limite è \\(+\\infty\\)",
+      "Il limite non esiste",
+      "Non possiamo concludere: dobbiamo usare un'altra tecnica"
+    ],
+    ans: 3,
+    exp: "\\(0/0\\) non è né \\(0\\), né infinito, né qualsiasi altro valore. È <em>indeterminato</em>: dobbiamo semplificare l'espressione (ad es. fattorizzando) prima di trovare il valore del limite."
+  },
+  {
+    badge: "Forme indeterminate",
+    q: "Quale di queste è una forma indeterminata?",
+    opts: [
+      "\\(\\dfrac{3}{\\infty}\\)",
+      "\\(\\dfrac{0}{5}\\)",
+      "\\(\\dfrac{\\infty}{\\infty}\\)",
+      "\\(5 \\cdot \\infty\\)"
+    ],
+    ans: 2,
+    exp: "\\(3/\\infty = 0\\) e \\(0/5 = 0\\) sono determinati. \\(5 \\cdot \\infty = \\infty\\) è determinato. Solo \\(\\infty/\\infty\\) è una forma indeterminata (insieme a \\(0/0\\), \\(\\infty - \\infty\\), ecc.)."
+  },
+  {
+    badge: "Fattorizzazione — 0/0",
+    q: "Per risolvere \\(\\displaystyle\\lim_{x \\to 1} \\frac{x^2 - 1}{x - 1}\\), il primo passo è:",
+    opts: [
+      "Sostituire \\(x = 1\\) → dà \\(0/0\\)",
+      "Fattorizzare: \\(x^2 - 1 = (x-1)(x+1)\\) e semplificare",
+      "Concludere che il limite non esiste",
+      "Applicare la regola di L'Hôpital"
+    ],
+    ans: 1,
+    exp: "Sostituendo si ottiene \\(0/0\\). Il passo corretto è fattorizzare: \\(x^2 - 1 = (x-1)(x+1)\\). Poi si semplifica il fattore \\((x-1)\\) e si sostituisce."
+  },
+  {
+    badge: "Fattorizzazione — 0/0",
+    q: "Calcola \\(\\displaystyle\\lim_{x \\to 1} \\frac{x^2 - 1}{x - 1}\\).",
+    opts: [
+      "\\(0\\)",
+      "\\(1\\)",
+      "\\(2\\)",
+      "Non esiste"
+    ],
+    ans: 2,
+    exp: "Fattorizzando: \\(\\dfrac{(x-1)(x+1)}{x-1} = x+1\\) per \\(x \\neq 1\\). Sostituendo \\(x = 1\\): \\(1 + 1 = 2\\)."
+  },
+  {
+    badge: "Fattorizzazione — 0/0",
+    q: "Calcola \\(\\displaystyle\\lim_{x \\to 3} \\frac{x^2 - 9}{x - 3}\\).",
+    opts: [
+      "\\(0\\)",
+      "\\(3\\)",
+      "\\(6\\)",
+      "Non esiste"
+    ],
+    ans: 2,
+    exp: "\\(x^2 - 9 = (x-3)(x+3)\\). Semplificando: \\(x + 3\\). Sostituendo \\(x = 3\\): \\(3 + 3 = 6\\)."
+  },
+  {
+    badge: "Fattorizzazione — 0/0",
+    q: "Calcola \\(\\displaystyle\\lim_{x \\to -2} \\frac{x^2 - 4}{x + 2}\\).",
+    opts: [
+      "\\(0\\)",
+      "\\(4\\)",
+      "\\(-4\\)",
+      "Non esiste"
+    ],
+    ans: 2,
+    exp: "\\(x^2 - 4 = (x-2)(x+2)\\). Semplificando: \\(x - 2\\). Sostituendo \\(x = -2\\): \\(-2 - 2 = -4\\)."
+  },
+
+  // ── LIMITI ALL'INFINITO ──
+  {
+    badge: "Limite all'infinito",
+    q: "Quanto vale \\(\\displaystyle\\lim_{x \\to +\\infty} \\frac{1}{x}\\)?",
+    opts: [
+      "\\(+\\infty\\)",
+      "\\(1\\)",
+      "\\(0\\)",
+      "Non esiste"
+    ],
+    ans: 2,
+    exp: "Quando \\(x\\) cresce senza limite, \\(1/x\\) diventa sempre più piccolo, tendendo a \\(0\\). È uno dei limiti fondamentali."
+  },
+  {
+    badge: "Limite all'infinito",
+    q: "Quanto vale \\(\\displaystyle\\lim_{x \\to +\\infty} x^2\\)?",
+    opts: [
+      "\\(0\\)",
+      "\\(1\\)",
+      "Non esiste",
+      "\\(+\\infty\\)"
+    ],
+    ans: 3,
+    exp: "Quando \\(x\\) tende a \\(+\\infty\\), \\(x^2\\) cresce senza limite: tende a \\(+\\infty\\)."
+  },
+  {
+    badge: "Limite all'infinito",
+    q: "Quanto vale \\(\\displaystyle\\lim_{x \\to +\\infty} \\frac{1}{x^2}\\)?",
+    opts: [
+      "\\(+\\infty\\)",
+      "\\(1\\)",
+      "\\(0\\)",
+      "\\(-\\infty\\)"
+    ],
+    ans: 2,
+    exp: "Come \\(1/x\\), anche \\(1/x^2 \\to 0\\) per \\(x \\to +\\infty\\) — anzi, tende a zero più rapidamente."
+  },
+  {
+    badge: "Funzioni razionali — ∞",
+    q: "Per calcolare \\(\\displaystyle\\lim_{x \\to +\\infty}\\) di una funzione razionale fratta, si guardano:",
+    opts: [
+      "I termini costanti",
+      "I termini di grado minore",
+      "I termini di grado massimo al numeratore e al denominatore",
+      "Il coefficiente di \\(x\\)"
+    ],
+    ans: 2,
+    exp: "Per \\(x \\to \\infty\\) dominano i termini con esponente più alto: tutti gli altri diventano trascurabili rispetto ad essi."
+  },
+  {
+    badge: "Funzioni razionali — ∞",
+    q: "Calcola \\(\\displaystyle\\lim_{x \\to +\\infty} \\frac{3x^2 + 1}{x^2 - 2}\\).",
+    opts: [
+      "\\(1\\)",
+      "\\(0\\)",
+      "\\(+\\infty\\)",
+      "\\(3\\)"
+    ],
+    ans: 3,
+    exp: "I termini dominanti sono \\(3x^2\\) e \\(x^2\\). Il rapporto è \\(3x^2/x^2 = 3\\). I termini \\(+1\\) e \\(-2\\) diventano trascurabili all'infinito."
+  },
+  {
+    badge: "Funzioni razionali — ∞",
+    q: "Calcola \\(\\displaystyle\\lim_{x \\to +\\infty} \\frac{2x + 1}{x^2 + 1}\\).",
+    opts: [
+      "\\(2\\)",
+      "\\(0\\)",
+      "\\(+\\infty\\)",
+      "\\(1\\)"
+    ],
+    ans: 1,
+    exp: "Il numeratore cresce come \\(x\\) (grado 1), il denominatore come \\(x^2\\) (grado 2). Il denominatore cresce più veloce: il limite è \\(0\\)."
+  },
+  {
+    badge: "Funzioni razionali — ∞",
+    q: "Calcola \\(\\displaystyle\\lim_{x \\to +\\infty} \\frac{5x^3}{2x^3 + x}\\).",
+    opts: [
+      "\\(0\\)",
+      "\\(\\dfrac{5}{2}\\)",
+      "\\(+\\infty\\)",
+      "\\(5\\)"
+    ],
+    ans: 1,
+    exp: "Termine dominante: \\(5x^3 / 2x^3 = 5/2\\). Il termine \\(+x\\) al denominatore è trascurabile rispetto a \\(2x^3\\) per \\(x\\) grande."
+  },
+
+  // ── ASINTOTI ──
+  {
+    badge: "Asintoto verticale",
+    q: "Un asintoto verticale \\(x = a\\) corrisponde a:",
+    opts: [
+      "\\(\\lim_{x \\to a} f(x) = a\\)",
+      "\\(\\lim_{x \\to a} f(x) = \\pm\\infty\\)",
+      "\\(f(a) = \\infty\\)",
+      "Il grafico attraversa la retta \\(x = a\\)"
+    ],
+    ans: 1,
+    exp: "L'asintoto verticale \\(x = a\\) corrisponde a un limite infinito: la curva si avvicina indefinitamente a quella retta senza mai toccarla."
+  },
+  {
+    badge: "Asintoto verticale",
+    q: "La funzione \\(f(x) = \\dfrac{1}{x - 3}\\) ha un asintoto verticale in:",
+    opts: [
+      "\\(x = 0\\)",
+      "\\(x = 1\\)",
+      "\\(x = 3\\)",
+      "Non ha asintoti verticali"
+    ],
+    ans: 2,
+    exp: "Il denominatore si annulla per \\(x = 3\\), quindi \\(f(x) \\to \\pm\\infty\\) quando \\(x \\to 3\\). La retta \\(x = 3\\) è l'asintoto verticale."
+  },
+  {
+    badge: "Asintoto orizzontale",
+    q: "Un asintoto orizzontale \\(y = L\\) si ha quando:",
+    opts: [
+      "\\(\\lim_{x \\to 0} f(x) = L\\)",
+      "\\(f(L) = 0\\)",
+      "\\(\\lim_{x \\to \\pm\\infty} f(x) = L\\)",
+      "\\(f(L) = L\\)"
+    ],
+    ans: 2,
+    exp: "L'asintoto orizzontale descrive il comportamento della funzione per \\(x \\to \\pm\\infty\\). Se la funzione si avvicina al valore \\(L\\), la retta \\(y = L\\) è un asintoto orizzontale."
+  },
+  {
+    badge: "Asintoto orizzontale",
+    q: "La funzione \\(f(x) = \\dfrac{2x}{x + 1}\\) ha come asintoto orizzontale:",
+    opts: [
+      "\\(y = 0\\)",
+      "\\(y = 1\\)",
+      "\\(y = 2\\)",
+      "Non ha asintoti orizzontali"
+    ],
+    ans: 2,
+    exp: "\\(\\lim_{x \\to +\\infty} \\dfrac{2x}{x+1} = \\dfrac{2x}{x} = 2\\). La retta \\(y = 2\\) è l'asintoto orizzontale."
+  },
+
+  // ── CONTINUITÀ ──
+  {
+    badge: "Continuità",
+    q: "Una funzione \\(f(x)\\) è continua nel punto \\(x = a\\) se:",
+    opts: [
+      "\\(f(a)\\) esiste",
+      "\\(\\lim_{x \\to a} f(x)\\) esiste",
+      "\\(\\lim_{x \\to a} f(x) = f(a)\\)",
+      "Il grafico non ha buchi"
+    ],
+    ans: 2,
+    exp: "La definizione di continuità richiede: (1) \\(f(a)\\) esiste, (2) il limite esiste, (3) coincidono. La condizione sintetica è: \\(\\lim_{x \\to a} f(x) = f(a)\\)."
+  },
+  {
+    badge: "Continuità",
+    q: "La funzione \\(f(x) = \\dfrac{x^2 - 4}{x - 2}\\) ha una discontinuità in \\(x = 2\\) perché:",
+    opts: [
+      "Il limite per \\(x \\to 2\\) non esiste",
+      "Il limite è infinito",
+      "\\(f(2)\\) non è definita, anche se il limite esiste ed è finito",
+      "Non ha discontinuità"
+    ],
+    ans: 2,
+    exp: "Per \\(x \\neq 2\\): \\(f(x) = x+2\\), quindi \\(\\lim_{x \\to 2} f(x) = 4\\). Ma \\(f(2) = 0/0\\) non è definita. È una <strong>discontinuità eliminabile</strong>: basta ridefinire \\(f(2) = 4\\)."
+  },
+  {
+    badge: "Continuità",
+    q: "Se \\(\\lim_{x \\to a^-} f(x) \\neq \\lim_{x \\to a^+} f(x)\\), la funzione ha in \\(x = a\\):",
+    opts: [
+      "Una discontinuità eliminabile",
+      "Un asintoto verticale",
+      "Una discontinuità a salto",
+      "Nessuna discontinuità"
+    ],
+    ans: 2,
+    exp: "Quando il limite da sinistra e il limite da destra esistono ma sono diversi, si ha una <strong>discontinuità a salto</strong>. Il grafico salta da un valore all'altro."
+  }
+
+];
+
+// ── STATO ──
+let cur = 0, score = 0, answered = false, results = [];
+
+// ── LOGICA ──
+function startQuiz() {
+  cur = 0; score = 0; answered = false; results = [];
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx], total = Q.length;
+  document.getElementById('prog-frac').textContent = (idx+1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('q-badge').textContent = q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const letters = ['A','B','C','D'];
+  document.getElementById('q-opts').innerHTML = q.opts.map((o,i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${o}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === q.ans;
+  if (isOk) score++;
+  results.push(isOk);
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('opt-' + i).classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) document.getElementById('opt-' + q.ans).classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur+1);
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next show';
+  btn.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+
+  const msgs = [
+    [27, "Eccellente! Padroneggi i limiti. Vai alla verifica con fiducia."],
+    [22, "Molto bene. Un ripasso dei punti deboli e sei pronto."],
+    [16, "Buona base. Ricontrolla le sezioni dove hai sbagliato e riprova."],
+    [10, "C'è ancora del lavoro da fare. Rileggi la lezione con calma."],
+    [0,  "Non mollare. Riparti dall'intuizione del limite e riprova."]
+  ];
+  document.getElementById('res-msg').textContent = (msgs.find(m => score >= m[0]) || msgs[4])[1];
+
+  document.getElementById('res-grid').innerHTML = results.map((ok,i) =>
+    `<div class="rev-cell ${ok?'ok':'err'}" title="Domanda ${i+1}: ${ok?'corretta':'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) pick(parseInt(e.key)-1);
+  if ((e.key==='Enter'||e.key===' ') && answered) { e.preventDefault(); nextQ(); }
+});
+</script>
+</body>
+</html>
