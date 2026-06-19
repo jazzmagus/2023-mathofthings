@@ -56,7 +56,6 @@ gallery_item:
   image: theme-strawberry.png
 ---
 
-<!-- <!-- toc --> -->
 
 Pari a un **petabyte** (un milione di gigabyte), l'equivalente di circa `156 milioni di smartphone moderni da 64 GB`: è questa la capacità di memoria del cervello umano, secondo una ricerca fondamentale pubblicata nel 2016 sulla rivista ["eLife"](https://elifesciences.org/articles/14489).
 

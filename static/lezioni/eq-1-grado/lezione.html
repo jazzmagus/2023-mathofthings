@@ -58,9 +58,9 @@ body{font-family:'Georgia','Georgia',serif;background:var(--bg);color:var(--text
 .hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:12px}
 .hero h1 em{font-style:italic;color:var(--accent)}
-.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7;text-align:justify}
 
-.cb{background:rgba(193,24,91,.03);border:none;border-radius:0;padding:16px 0 16px 18px;margin:18px 0;box-shadow:none;position:relative;border-left:2px solid var(--accent)}
+.cb{background:var(--surface-alt);border:none;border-radius:0;padding:16px 0 16px 18px;margin:18px 0;box-shadow:none;position:relative;border-left:2px solid var(--accent)}
 .cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;display:none}
 .cb.tip::before{background:transparent}
 .cb.warn::before{background:transparent}
@@ -79,7 +79,7 @@ body{font-family:'Georgia','Georgia',serif;background:var(--bg);color:var(--text
 .cb.teal .cb-label{color:var(--teal)}
 
 .math-block{background:rgba(0,0,0,.02);border:none;border-radius:0;padding:12px 16px;margin:10px 0;overflow-x:auto}
-.math-block.hero-formula{background:rgba(193,24,91,.05);border:none;padding:16px 20px;text-align:center}
+.math-block.hero-formula{background:var(--surface-alt);border:none;padding:16px 20px;text-align:center}
 .math-block.result{border-left:2px solid var(--green);background:rgba(74,124,89,.04);padding:12px 16px;margin:10px 0}
 .math-block.warning{border-left:2px solid var(--danger);background:rgba(179,58,58,.04);padding:12px 16px;margin:10px 0}
 .math-block.dark{background:rgba(0,0,0,.04)}

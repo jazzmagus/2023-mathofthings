@@ -16,7 +16,6 @@ image:
   preview_only: false
 ---
 
-<!-- <!-- toc --> -->
 
 
 ><i class="fa-solid fa-quote-left"></i> Faith in oneself is the best and safest course. <i class="fa-solid fa-quote-right"></i>

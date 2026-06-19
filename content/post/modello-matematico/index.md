@@ -35,7 +35,6 @@ projects: []
 
 ---
 
-<!-- <!-- toc --> -->
 
 # Il concetto di modello matematico
 
