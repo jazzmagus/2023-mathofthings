@@ -18,7 +18,7 @@ image:
   preview_only: false
 ---
 
-<!-- {{< toc hide_on="xl" >}} -->
+<!-- <!-- toc --> -->
 
 > There is not one big cosmic meaning for all, there is only the meaning we each give to our life.
 > <br> &mdash; <cite>Anaïs Nin</cite>

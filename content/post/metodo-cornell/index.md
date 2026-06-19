@@ -170,7 +170,7 @@ L’efficacia del metodo Cornell si basa su due fatti principali:
 
 - Una volta invece che si investe del tempo nel prendere degli appunti dei quali non si ricorderà praticamente nulla: *quel tempo è perso per sempre.*
 
-{{< figure src="./cornell-page.png" caption="Pagina di riferimento del Metodo Cornell" numbered="true" >}}
+<!-- figure -->
 
 ---
 

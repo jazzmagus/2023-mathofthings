@@ -52,4 +52,4 @@ Questo case study è un esempio concreto di quello che definisco **uso efficient
 
 Il manuale prodotto è accessibile al link qui sotto, protetto da password per uso interno.
 
-{{% locked-link href="/lezioni/zucchetti-g1/" %}}Apri il Manuale Gestionale Zucchetti →{{% /locked-link %}}
+<!-- locked -->Apri il Manuale Gestionale Zucchetti →

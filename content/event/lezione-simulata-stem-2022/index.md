@@ -41,6 +41,6 @@ projects:
   - uda
 ---
 
-{{% callout note %}}
+<!-- callout -->
 Click on the **Slides** button above to view the simulated lesson.
-{{% /callout %}}
+<!-- /callout -->

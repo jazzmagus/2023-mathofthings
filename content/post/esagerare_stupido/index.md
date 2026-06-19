@@ -60,7 +60,7 @@ gallery_item:
   image: theme-strawberry.png
 ---
 
-<!-- {{< toc hide_on="xl" >}} -->
+<!-- <!-- toc --> -->
 
 > bisogna esagerare per impressionare», ma spesso chi esagera dà solo un'impressione di stupidità
 > <br> &mdash; <cite>George Bernard D Shaw</cite>

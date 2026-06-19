@@ -61,7 +61,7 @@ projects: []
 #   image: theme-strawberry.png
 ---
 
-<!-- {{< toc hide_on="xl" >}} -->
+<!-- <!-- toc --> -->
 
 ><i class="fa-solid fa-quote-left"></i> The function of wisdom is to discriminate between good and evil <i class="fa-solid fa-quote-right"></i>
 ><br>&mdash; <cite>Cicerone</cite>

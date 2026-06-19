@@ -36,7 +36,7 @@ projects: []
 
 ---
 
-<!-- {{< toc hide_on="xl" >}} -->
+<!-- <!-- toc --> -->
 
 " *Faith in oneself is the best and safest course.* "  
 — Michelangelo

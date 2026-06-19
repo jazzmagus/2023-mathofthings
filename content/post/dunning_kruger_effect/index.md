@@ -61,7 +61,7 @@ gallery_item:
   image: theme-strawberry.png
 ---
 
-<!-- {{< toc hide_on="xl" >}} -->
+<!-- <!-- toc --> -->
 
 > “I know that I am intelligent, because I know that I know nothing.”
 >

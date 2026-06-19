@@ -73,4 +73,4 @@ highlight_name: true
 
 **Diego Fantinelli** is a professor of Mathematics at the "Enrico Fermi" Technical Institute based in Bassano del Grappa, Vicenza, Italy.
 
-{{< icon name="download" pack="fas" >}} Download my {{< staticref "uploads/demo_resume.pdf" "newtab" >}}resumé{{< /staticref >}}.
+ Download my resumé.
