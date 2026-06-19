@@ -60,7 +60,7 @@ body{font-family:'Georgia','Georgia',serif;background:var(--bg);color:var(--text
 .hero h1 em{font-style:italic;color:var(--accent)}
 .hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7}
 
-.cb{background:rgba(193,24,91,.03);border:none;border-radius:0;padding:16px 0;margin:18px 0;box-shadow:none;position:relative;border-left:2px solid var(--accent)}
+.cb{background:rgba(193,24,91,.03);border:none;border-radius:0;padding:16px 0 16px 18px;margin:18px 0;box-shadow:none;position:relative;border-left:2px solid var(--accent)}
 .cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;display:none}
 .cb.tip::before{background:transparent}
 .cb.warn::before{background:transparent}
@@ -197,7 +197,7 @@ const S = [
 {
   tag:"TEORIA",
   title:"Che cos'è un'<em>equazione</em>",
-  sub:"La bilancia, l'incognita, e l'idea di equilibrio.",
+  sub:"Un'equazione è una domanda travestita da uguaglianza: c'è un numero misterioso, lo chiamiamo x, e il nostro compito è scoprire chi è. La bilancia è l'immagine perfetta per ragionarci: i due piatti devono restare in equilibrio, e ogni mossa che facciamo su un piatto va fatta anche sull'altro. L'obiettivo finale è sempre lo stesso: isolare la x da una parte, lasciando tutto il resto dall'altra — cioè trovare il valore che rende l'uguaglianza vera.",
   nav:"Definizione",
   body:`
     <div class="cb method">
