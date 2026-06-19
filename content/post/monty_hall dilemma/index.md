@@ -20,8 +20,9 @@ draft: false
 # To use, add an image named `featured.jpg/png` to your page's folder.
 # Focal point options: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight
 image:
+  filename: featured.jpg
   caption: ''
-  focal_point: "center"
+  focal_point: "Center"
   placement: 2
   preview_only: false
 
