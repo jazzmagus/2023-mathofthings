@@ -6,7 +6,7 @@ authors:
 - diego fantinelli
 tags: [matematica, didattica, filosofia-della-scienza]
 categories: []
-date: 2026-06-20T20:35:23+02:00
+date: "2026-06-20T00:00:00Z"
 featured: true
 draft: false
 image:
