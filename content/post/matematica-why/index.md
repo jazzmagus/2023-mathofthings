@@ -141,3 +141,9 @@ Quindi quando arriva la domanda "Prof, a cosa serve?", ormai la risposta è ques
 > "Ti serve per capire quello che ancora non sai di non sapere. Ti serve per il futuro che non puoi prevedere. Ti serve per essere umano nel senso più profondo: curioso, libero, consapevole. Inoltre, tra tre mesi ci sarà il compito, quindi inizia a studiare."
 
 **La matematica non serve a niente.** Serve a *tutto*.
+
+---
+
+<p style="font-size:0.88rem;line-height:1.4;"><em>I giganti citati — Galileo, Einstein, Feynman, Hardy, Gauss — rappresentano secoli di riflessione su questa domanda. Le loro risposte rimangono straordinariamente attuali.</em></p>
+
+<p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:300;line-height:1.3;color:#8a827a;">Questo articolo è stato scritto con l'indispensabile contributo di Claude — il quale, va detto, non ha chiesto nulla in cambio. Per ora.</p>
