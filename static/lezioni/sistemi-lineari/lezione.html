@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione — Sistemi di equazioni lineari</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --purple:#6a1b9a; --purple-light:#f3e5f5;
+  --gold:#b8860b; --gold-light:#fdf8ed;
+  --teal:#4f6d7a; --teal-light:#e8eff2;
+  --danger:#b33a3a;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Georgia','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-nav{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;flex:1}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill{background:none;border:none;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--text-dim);padding:6px 14px;border-radius:0;cursor:pointer;white-space:nowrap;transition:all .2s;border-bottom:2px solid transparent}
+.nav-pill:hover{background:none;color:var(--text)}
+.nav-pill.active{background:none;color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
+.topbar-home{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-dim);text-decoration:none;cursor:pointer;white-space:nowrap}
+.topbar-home:hover{color:var(--accent)}
+
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 60px}
+.section{display:none !important;animation:appear .4s ease}
+.section.active{display:block !important}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7;text-align:justify}
+
+.cb{background:var(--surface-alt);border:none;border-radius:0;padding:16px 0 16px 18px;margin:18px 0;box-shadow:none;position:relative;border-left:2px solid var(--accent)}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600;color:var(--accent)}
+.cb.tip .cb-label{color:var(--blue)}
+.cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)}
+.cb.success .cb-label{color:var(--green)}
+.cb.method .cb-label{color:var(--accent)}
+
+.math-block{background:rgba(0,0,0,.02);border:none;border-radius:0;padding:12px 16px;margin:10px 0;overflow-x:auto}
+.math-block.hero-formula{background:var(--surface-alt);border:none;padding:16px 20px;text-align:center}
+.math-block.result{border-left:2px solid var(--green);background:rgba(74,124,89,.04);padding:12px 16px;margin:10px 0}
+
+.step-math{margin:4px 0;padding:2px 0}
+.step-math .label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);margin-bottom:2px}
+.step-math .label.green{color:var(--green)}
+
+.accordion{border:none;border-radius:0;overflow:visible;margin:16px 0;box-shadow:none}
+.acc-item{border-bottom:1px solid rgba(0,0,0,.08);border-top:none}
+.acc-item:last-child{border-bottom:none}
+.acc-header{display:flex;align-items:center;gap:12px;padding:14px 0;background:none;cursor:pointer;transition:all .2s;user-select:none}
+.acc-num{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.acc-title{font-weight:600;font-size:.95rem;flex:1;color:var(--text)}
+.acc-arrow{width:16px;height:16px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.acc-item.open .acc-body{max-height:8000px}
+.acc-inner{padding:8px 0 16px 36px}
+
+.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9rem}
+.ct th{text-align:left;padding:11px 14px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--border-light);font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct td{padding:10px 14px;border-bottom:1px solid var(--border-light);vertical-align:top}
+
+.step-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:start;margin:10px 0}
+.step-circle{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.7rem;flex-shrink:0;margin-top:1px}
+.step-text{font-size:.9rem;padding-top:2px;line-height:1.6}
+
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:20px;border-top:1px solid var(--border-light)}
+.bb{font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:0;border:none;background:none;color:var(--text);transition:all .2s;cursor:pointer;text-decoration:none}
+.bb:hover{color:var(--accent);text-decoration:underline}
+.bb:disabled{opacity:.35;cursor:not-allowed}
+.bb.primary:hover{color:var(--accent);text-decoration:underline}
+.page-info{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-dim)}
+
+p{margin:6px 0}
+ul,ol{margin:8px 0 8px 20px}
+li{margin:2px 0}
+.dim{color:var(--text-dim)}
+strong{font-weight:600}
+h2{margin:24px 0 12px}
+h3{margin:16px 0 8px}
+mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Sistemi lineari</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  let html = '<div class="accordion">';
+  items.forEach((it, i) => {
+    html += '<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><div class="acc-num">' + (i+1) + '</div><div class="acc-title">' + it.t + '</div><svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="acc-body"><div class="acc-inner">' + it.h + '</div></div></div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+let cur = 0;
+const S = [
+{
+  tag:"TEORIA",
+  title:"Che cos'è un <em>sistema</em> di equazioni lineari",
+  sub:"Un insieme di equazioni in cui tutte le incognite devono soddisfare contemporaneamente ogni equazione.",
+  nav:"Definizione",
+  body: '<div class="cb method"><div class="cb-label">Definizione</div><p>Un <strong>sistema di equazioni lineari</strong> è un insieme di due o più equazioni lineari con le stesse incognite. L\'obiettivo è trovare i valori delle incognite che soddisfano <strong>tutte</strong> le equazioni contemporaneamente.</p><div class="math-block hero-formula">\\[\\begin{cases} a_1 x + b_1 y = c_1 \\\\ a_2 x + b_2 y = c_2 \\end{cases}\\]</div><p><strong>Nota:</strong> Diciamo che il sistema è <strong>compatibile</strong> se ammette almeno una soluzione, e <strong>incompatibile</strong> se non ne ammette nessuna.</p></div><div class="cb tip"><div class="cb-label">Esempio fondamentale</div><p>Il seguente sistema ha due equazioni e due incognite:</p><div class="math-block">\\[\\begin{cases} 2x + y = 5 \\\\ x - y = 1 \\end{cases}\\]</div><p>La soluzione è il punto \\((x, y) = (2, 1)\\) — è l\'unico valore che rende vera <strong>entrambe</strong> le equazioni.</p></div><h3>Le tre categorie di sistemi</h3><div class="cb success"><div class="cb-label">Sistema compatibile determinato</div><p>Ha <strong>una sola soluzione</strong>. Geometricamente: le rette si incontrano in un punto unico.</p><div class="math-block">\\[\\begin{cases} x + y = 3 \\\\ x - y = 1 \\end{cases} \\quad \\Longrightarrow \\quad (x, y) = (2, 1)\\]</div></div><div class="cb warning"><div class="cb-label">Sistema compatibile indeterminato</div><p>Ha <strong>infinite soluzioni</strong>. Le equazioni sono dipendenti (una è un multiplo dell\'altra). Geometricamente: le rette sono coincidenti.</p><div class="math-block">\\[\\begin{cases} 2x + 2y = 6 \\\\ x + y = 3 \\end{cases} \\quad \\Longrightarrow \\quad \\text{infinite soluzioni}\\]</div></div><div class="cb danger"><div class="cb-label">Sistema incompatibile</div><p><strong>Nessuna soluzione</strong>. Le equazioni sono contraddittorie. Geometricamente: le rette sono parallele e distinte.</p><div class="math-block">\\[\\begin{cases} x + y = 1 \\\\ x + y = 3 \\end{cases} \\quad \\Longrightarrow \\quad \\text{nessuna soluzione}\\]</div></div>'
+},
+
+{
+  tag:"TEORIA",
+  title:"Il <em>criterio dei rapporti</em>",
+  sub:"Capire subito se un sistema è determinato analizzando solo i coefficienti.",
+  nav:"Criterio rapporti",
+  body: '<div class="cb method"><div class="cb-label">Come funziona</div><p>Confrontando i rapporti tra i coefficienti, capiamo rapidamente la natura del sistema <strong>senza risolverlo numericamente</strong>.</p><div class="math-block hero-formula">\\[r_x = \\frac{a_1}{a_2} \\quad r_y = \\frac{b_1}{b_2} \\quad r_c = \\frac{c_1}{c_2}\\]</div></div><h3>Le tre regole</h3><table class="ct"><tr><th>Condizione</th><th>Tipo di sistema</th><th>Significato geometrico</th></tr><tr><td>\\(r_x \\neq r_y\\)</td><td><strong>Compatibile determinato</strong></td><td>Rette incidenti (un punto)</td></tr><tr><td>\\(r_x = r_y = r_c\\)</td><td><strong>Compatibile indeterminato</strong></td><td>Rette coincidenti</td></tr><tr><td>\\(r_x = r_y \\neq r_c\\)</td><td><strong>Incompatibile</strong></td><td>Rette parallele</td></tr></table>' + acc([{t:'Esempio 1 — Determinato: \\(r_x \\neq r_y\\)',h:'<div class="step-math"><div class="label">Sistema: 2x + 3y = 7 e x - 2y = -1</div></div><div class="math-block">\\[r_x = \\frac{2}{1} = 2, \\quad r_y = \\frac{3}{-2} = -\\frac{3}{2}\\]</div><p>Poiché \\(r_x \\neq r_y\\), il sistema è <strong>compatibile determinato</strong>.</p>'},{t:'Esempio 2 — Indeterminato: \\(r_x = r_y = r_c\\)',h:'<div class="step-math"><div class="label">Sistema: 2x + 4y = 6 e x + 2y = 3</div></div><div class="math-block">\\[r_x = 2, \\quad r_y = 2, \\quad r_c = 2\\]</div><p>Poiché tutti i rapporti sono uguali, il sistema è <strong>compatibile indeterminato</strong>.</p>'},{t:'Esempio 3 — Impossibile: \\(r_x = r_y\\) ma \\(r_c\\) diverso',h:'<div class="step-math"><div class="label">Sistema: x + y = 1 e x + y = 5</div></div><div class="math-block">\\[r_x = 1, \\quad r_y = 1, \\quad r_c = \\frac{1}{5}\\]</div><p>Poiché \\(r_x = r_y \\neq r_c\\), il sistema è <strong>incompatibile</strong> (rette parallele).</p>'}]) + '</div>'
+},
+
+{
+  tag:"METODO",
+  title:"Metodo di <em>sostituzione</em>",
+  sub:"Ricavare una variabile e sostituirla nell'altra equazione.",
+  nav:"Sostituzione",
+  body: '<div class="cb method"><div class="cb-label">Procedura in 4 passi</div><div class="step-grid"><div class="step-circle">1</div><div class="step-text">Scegli l\'equazione più semplice e ricava una variabile</div><div class="step-circle">2</div><div class="step-text">Sostituisci l\'espressione nell\'altra equazione</div><div class="step-circle">3</div><div class="step-text">Risolvi l\'equazione in una sola variabile</div><div class="step-circle">4</div><div class="step-text">Ricava l\'altra variabile sostituendo il valore trovato</div></div><p class="dim">È efficace quando una variabile ha coefficiente 1 o −1.</p></div>' + acc([{t:'Esempio 1: \\(x + y = 3\\) e \\(2x - y = 0\\)',h:'<div class="step-math"><div class="label">1. Ricavo y dalla prima</div></div><div class="math-block">\\[y = 3 - x\\]</div><div class="step-math"><div class="label">2. Sostituisco nella seconda</div></div><div class="math-block">\\[2x - (3 - x) = 0 \\quad \\Rightarrow \\quad 3x - 3 = 0 \\quad \\Rightarrow \\quad x = 1\\]</div><div class="step-math"><div class="label">3. Trovo y</div></div><div class="math-block result">\\[y = 3 - 1 = 2 \\quad \\Rightarrow \\quad (x, y) = (1, 2)\\]</div>'},{t:'Esempio 2: \\(\\dfrac{x}{2} + \\dfrac{y}{3} = 2\\) e \\(x - y = 1\\)',h:'<div class="step-math"><div class="label">1. Ricavo x dalla seconda</div></div><div class="math-block">\\[x = y + 1\\]</div><div class="step-math"><div class="label">2. Sostituisco nella prima</div></div><div class="math-block">\\[\\frac{y+1}{2} + \\frac{y}{3} = 2\\]</div><div class="step-math"><div class="label">3. Risolvo (MCM = 6)</div></div><div class="math-block">\\[3(y+1) + 2y = 12 \\quad \\Rightarrow \\quad 5y = 9 \\quad \\Rightarrow \\quad y = \\frac{9}{5}\\]</div><div class="math-block result">\\[x = \\frac{14}{5}, \\quad (x, y) = \\left(\\frac{14}{5}, \\frac{9}{5}\\right)\\]</div>'}]) + '</div>'
+},
+
+{
+  tag:"METODO",
+  title:"Metodo di <em>riduzione</em>",
+  sub:"Combinare le equazioni per eliminare una variabile.",
+  nav:"Riduzione",
+  body: '<div class="cb method"><div class="cb-label">Procedura in 4 passi</div><div class="step-grid"><div class="step-circle">1</div><div class="step-text">Se necessario, moltiplica le equazioni per coefficienti opportuni</div><div class="step-circle">2</div><div class="step-text">Somma o sottrai le equazioni per eliminare una variabile</div><div class="step-circle">3</div><div class="step-text">Risolvi l\'equazione in una sola variabile</div><div class="step-circle">4</div><div class="step-text">Sostituisci il valore trovato per ricavare l\'altra variabile</div></div><p class="dim">È migliore quando i coefficienti sono già allineati o facilmente rendibili opposti.</p></div>' + acc([{t:'Esempio 1: \\(2x + y = 7\\) e \\(3x - y = 8\\)',h:'<div class="step-math"><div class="label">1. I coefficienti di y sono già opposti (+1 e −1)</div></div><div class="step-math"><div class="label">2. Sommo le due equazioni</div></div><div class="math-block">\\[(2x + y) + (3x - y) = 15 \\quad \\Rightarrow \\quad 5x = 15 \\quad \\Rightarrow \\quad x = 3\\]</div><div class="step-math"><div class="label">3. Sostituisco nella prima</div></div><div class="math-block result">\\[2(3) + y = 7 \\quad \\Rightarrow \\quad y = 1 \\quad \\Rightarrow \\quad (x, y) = (3, 1)\\]</div>'},{t:'Esempio 2: \\(3x - y = 10\\) e \\(6x + 2y = 4\\)',h:'<div class="step-math"><div class="label">1. Moltiplico la prima per 2 (rendo opposti i coefficienti di y)</div></div><div class="math-block">\\[\\begin{cases} 6x - 2y = 20 \\\\ 6x + 2y = 4 \\end{cases}\\]</div><div class="step-math"><div class="label">2. Sommo</div></div><div class="math-block">\\[12x = 24 \\quad \\Rightarrow \\quad x = 2\\]</div><div class="step-math"><div class="label">3. Sostituisco nella prima originale</div></div><div class="math-block result">\\[3(2) - y = 10 \\quad \\Rightarrow \\quad y = -4 \\quad \\Rightarrow \\quad (x, y) = (2, -4)\\]</div>'}]) + '</div>'
+},
+
+{
+  tag:"METODO",
+  title:"Metodo di <em>Cramer</em>",
+  sub:"Usare i determinanti per risolvere il sistema.",
+  nav:"Cramer",
+  body: '<div class="cb success"><div class="cb-label">Formula per sistemi 2×2</div><p>Dato il sistema \\(\\begin{cases} a_1 x + b_1 y = c_1 \\\\ a_2 x + b_2 y = c_2 \\end{cases}\\), si calcolano tre determinanti:</p><div class="math-block">\\[D = a_1 b_2 - a_2 b_1, \\quad D_x = c_1 b_2 - c_2 b_1, \\quad D_y = a_1 c_2 - a_2 c_1\\]</div><p>Se \\(D \\neq 0\\):</p><div class="math-block hero-formula">\\[x = \\frac{D_x}{D}, \\quad y = \\frac{D_y}{D}\\]</div></div>' + acc([{t:'Esempio 1: \\(x + 2y = 5\\) e \\(3x - y = 4\\)',h:'<div class="step-math"><div class="label">Calcolo i determinanti</div></div><div class="math-block">\\[D = (1)(-1) - (3)(2) = -7\\]\\[D_x = (5)(-1) - (4)(2) = -13\\]\\[D_y = (1)(4) - (3)(5) = -11\\]</div><div class="step-math"><div class="label">Applico Cramer</div></div><div class="math-block result">\\[x = \\frac{-13}{-7} = \\frac{13}{7}, \\quad y = \\frac{-11}{-7} = \\frac{11}{7}\\]</div>'},{t:'Esempio 2: 2x + y = 7 e 3x - y = 8',h:'<div class="step-math"><div class="label">Calcolo i determinanti</div></div><div class="math-block">\\[D = (2)(-1) - (3)(1) = -5\\]\\[D_x = (7)(-1) - (8)(1) = -15\\]\\[D_y = (2)(8) - (3)(7) = -5\\]</div><div class="step-math"><div class="label">Applico Cramer</div></div><div class="math-block result">\\[x = \\frac{-15}{-5} = 3, \\quad y = \\frac{-5}{-5} = 1 \\quad \\Rightarrow \\quad (x, y) = (3, 1)\\]</div>'}]) + '<div class="cb danger"><div class="cb-label">Caso D = 0</div><p>Se \\(D = 0\\): se anche \\(D_x = D_y = 0\\) → indeterminato; altrimenti → impossibile.</p></div></div>'
+},
+
+{
+  tag:"TEORIA",
+  title:"Interpretazione <em>geometrica</em>",
+  sub:"Visualizzare il sistema come rette nel piano.",
+  nav:"Geometria",
+  body: '<div class="cb tip"><div class="cb-label">Idea fondamentale</div><p>Ogni equazione lineare in due variabili descrive una <strong>retta nel piano xy</strong>. La soluzione del sistema è l\'intersezione tra le rette.</p></div><h3>Le tre configurazioni</h3><div class="cb success"><div class="cb-label">Compatibile determinato: rette incidenti</div><p>Le due rette si incrociano in <strong>un unico punto</strong> — questo è il punto soluzione.</p><p><strong>Esempio:</strong> \\(\\begin{cases} x + y = 3 \\\\ x - y = 1 \\end{cases}\\) → Soluzione \\((2, 1)\\), il punto d\'intersezione.</p></div><div class="cb warning"><div class="cb-label">Compatibile indeterminato: rette coincidenti</div><p>Le due rette sono <strong>la stessa retta</strong>. Tutti i punti sulla retta sono soluzioni.</p><p><strong>Esempio:</strong> \\(\\begin{cases} 2x + 2y = 6 \\\\ x + y = 3 \\end{cases}\\) → La prima è il doppio della seconda; infinite soluzioni.</p></div><div class="cb danger"><div class="cb-label">Incompatibile: rette parallele</div><p>Le due rette hanno <strong>la stessa pendenza ma non coincidono</strong>. Non si intersecano.</p><p><strong>Esempio:</strong> \\(\\begin{cases} x + y = 1 \\\\ x + y = 5 \\end{cases}\\) → Stessa pendenza, diverse intercette; nessuna soluzione.</p></div>'
+},
+
+{
+  tag:"PROCEDURA",
+  title:"Checklist di <em>risoluzione</em>",
+  sub:"Passo dopo passo verso la soluzione.",
+  nav:"Procedura",
+  body: '<div class="cb method"><div class="cb-label">Procedura sistematica</div><ol style="margin-left: 20px; line-height: 2;"><li><strong>Analizza il sistema:</strong> Conta equazioni vs. incognite; ordina le equazioni; verifica se coefficienti sono comodi</li><li><strong>Scegli il metodo:</strong> Sostituzione se una variabile ha coefficiente 1 o −1; Riduzione se i coefficienti sono opposti; Cramer per calcolo diretto</li><li><strong>Applica il metodo:</strong> Segui i passi in ordine; fai attenzione ai segni; usa MCM per le frazioni</li><li><strong>Verifica:</strong> Sostituisci i valori in <strong>entrambe</strong> le equazioni originali</li><li><strong>Classifica:</strong> Una soluzione → Determinato; Infinite → Indeterminato; Nessuna → Impossibile</li></ol></div><div class="cb warn"><div class="cb-label">Errori comuni da evitare</div><ul style="margin: 8px 0;"><li><strong>Cambio di segno:</strong> Quando muovi un termine da un membro all\'altro, cambia il segno</li><li><strong>Errori con frazioni:</strong> Trova il MCM corretto prima di moltiplicare</li><li><strong>Sostituzione incompleta:</strong> Ricordati di sostituire il valore trovato nell\'altra equazione</li><li><strong>Dimenticanza della verifica:</strong> Verifica sempre nella soluzione originale, non in quella manipolata</li></ul></div>'
+}
+];
+
+const tot = S.length;
+
+function render() {
+  document.getElementById('topNav').innerHTML = S.map((s,i) => '<button class="nav-pill ' + (i===cur?'active':'') + '" onclick="goTo(' + i + ')">' + s.nav + '</button>').join('');
+
+  const s = S[cur];
+  document.getElementById('app').innerHTML = '<div class="section active"><div class="hero"><div class="hero-tag">' + s.tag + '</div><h1>' + s.title + '</h1><p class="hero-sub">' + s.sub + '</p></div>' + s.body + '<div class="bottom-nav"><button class="bb" onclick="goTo(' + (cur-1) + ')" ' + (cur===0?'disabled':'') + '>← Precedente</button><span class="page-info">' + (cur+1) + ' / ' + tot + '</span><button class="bb primary" onclick="goTo(' + (cur+1) + ')" ' + (cur===tot-1?'disabled':'') + '>Successivo →</button></div></div>';
+
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    const active = document.querySelector('.section.active');
+    if (active) MathJax.typesetPromise([active]);
+  }
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= tot) return;
+  cur = idx;
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(cur + 1);
+  if (e.key === 'ArrowLeft')  goTo(cur - 1);
+});
+
+if (typeof MathJax !== 'undefined' && MathJax.startup) {
+  MathJax.startup.promise.then(() => render());
+} else {
+  render();
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>
