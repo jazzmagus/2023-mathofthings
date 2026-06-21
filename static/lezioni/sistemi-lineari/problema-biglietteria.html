@@ -63,23 +63,23 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-hei
 .step-guide{background:var(--surface-alt);border-left:3px solid var(--accent);padding:16px 20px;border-radius:4px;margin-bottom:24px;font-family:'Georgia',serif;font-size:.98rem;line-height:1.7}
 
 .options{display:flex;flex-direction:column;gap:9px;margin-top:24px}
-.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt{display:flex;flex-direction:column;gap:0;padding:0;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none;overflow:hidden}
 .opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-header{display:flex;align-items:flex-start;gap:14px;padding:13px 16px}
 .opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
 .opt-text{font-size:.95rem;line-height:1.5;font-family:'Georgia',serif}
+.opt-feedback-box{padding:12px 16px;padding-top:0;font-size:.9rem;line-height:1.6;display:none;font-family:'Georgia',serif;border-top:1px solid rgba(0,0,0,.05)}
+.opt-feedback-box.show{display:block}
+
 .opt.correct{border-color:var(--green);background:var(--green-light)}
 .opt.correct .opt-letter{color:var(--green)}
+.opt.correct .opt-feedback-box{color:var(--green)}
+
 .opt.wrong{border-color:var(--danger);background:var(--danger-light)}
 .opt.wrong .opt-letter{color:var(--danger)}
-.opt.locked{cursor:default}
+.opt.wrong .opt-feedback-box{color:var(--danger)}
 
-.feedback{margin-top:28px;padding:18px 20px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none;font-family:'Georgia',serif}
-.feedback.show{display:block}
-.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
-.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
-.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:8px}
-.feedback.fb-ok .fb-label{color:var(--green)}
-.feedback.fb-err .fb-label{color:var(--danger)}
+.opt.locked{cursor:default}
 
 .btn-next{font-family:'Fira Code',monospace;font-size:.95rem;font-weight:600;padding:0;background:none;border:none;cursor:pointer;display:none;color:var(--accent);text-decoration:none;letter-spacing:.3px}
 .btn-next.show{display:inline}
@@ -93,6 +93,9 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-hei
 .step-num{font-family:'Fira Code',monospace;font-size:.75rem;color:var(--accent);font-weight:600;margin-bottom:8px}
 .step-desc{font-size:.98rem;line-height:1.7;color:var(--text)}
 .considerations{background:var(--surface-alt);border-left:3px solid var(--accent);padding:18px 20px;border-radius:4px;margin:24px 0;font-family:'Georgia',serif;font-size:.98rem;line-height:1.7}
+
+.btn-restart{font-family:'Georgia',serif;font-size:1rem;font-weight:700;padding:12px 24px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;margin-top:24px}
+.btn-restart:hover{background:#d65545}
 
 @media(max-width:600px){
   body{font-size:16px}
@@ -145,11 +148,6 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-hei
     <div class="step-guide" id="step-guide" style="display:none"></div>
     <div class="q-text" id="q-text"></div>
     <div class="options" id="q-opts"></div>
-
-    <div class="feedback" id="q-feedback">
-      <div class="fb-label" id="fb-label"></div>
-      <div id="fb-text"></div>
-    </div>
 
     <p style="margin-top:28px;font-family:'Georgia',serif">
       <a href="#" class="btn-next" id="btn-next" onclick="nextStep(event)">Inizia →</a>
@@ -210,6 +208,8 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-hei
         L'incasso di €2.100 per 150 persone rappresenta un prezzo medio di €14 a biglietto. Questa soluzione è realistica: il rapporto tra biglietti interi e ridotti riflette una platea eterogenea, dove la maggior parte paga il prezzo pieno ma una frazione significativa beneficia di agevolazioni.<br><br>
         In pratica, il teatro potrebbe usare questa informazione per pianificare le riduzioni future o per valutare il potere d'acquisto del pubblico.
       </div>
+
+      <button class="btn-restart" onclick="restartProblem()">Ricomincia</button>
     </div>
   </div>
 </div>
@@ -221,7 +221,7 @@ const steps = [
     guide: "In un problema, le variabili rappresentano le quantità sconosciute che dobbiamo trovare. Conviene assegnare lettere diverse a quantità diverse. Di solito:\n\n• Scegli una lettera (x, y, z, ecc.) per ogni quantità incognita\n• Usa lettere intuitivamente: x per la prima incognita, y per la seconda\n• Assegna sempre il primo tipo di oggetto/persona a x e il secondo a y",
     q: "Come definiamo correttamente le variabili?",
     opts: [
-      { text: "\\(x\\) = biglietti ridotti, \\(y\\) = biglietti interi", correct: false, feedback: "Questo è tecnicamamente possibile, ma non è la scelta più intuitiva. Conviene assegnare \\(x\\) al tipo principale (biglietti interi) e \\(y\\) al tipo secondario (ridotti). In questo modo il sistema risulta più naturale." },
+      { text: "\\(x\\) = biglietti ridotti, \\(y\\) = biglietti interi", correct: false, feedback: "Questo è tecnicamante possibile, ma non è la scelta più intuitiva. Conviene assegnare \\(x\\) al tipo principale (biglietti interi) e \\(y\\) al tipo secondario (ridotti). In questo modo il sistema risulta più naturale." },
       { text: "\\(x\\) = biglietti interi, \\(y\\) = biglietti ridotti", correct: true, feedback: "Esatto! Assegnare \\(x\\) al tipo principale (interi) e \\(y\\) al secondario (ridotti) rende il sistema più intuitivo e il procedimento risolutivo più fluido." },
       { text: "\\(x\\) = prezzo intero, \\(y\\) = prezzo ridotto", correct: false, feedback: "No, i prezzi sono già noti dal problema (€15 e €12). Le variabili devono rappresentare le quantità incognite: il numero di biglietti di ciascun tipo che vogliamo trovare." },
       { text: "\\(x\\) = incasso, \\(y\\) = numero totale", correct: false, feedback: "No, l'incasso totale (€2.100) e il numero totale di biglietti (150) sono già noti. Non sono incognite. Dobbiamo trovare il numero di biglietti interi e il numero di biglietti ridotti." }
@@ -274,7 +274,6 @@ function showStep(idx) {
   answered = false;
 
   if (idx === 0) {
-    // Prima pagina: solo problema, niente domande
     document.getElementById('prog-frac').textContent = '0 / 4';
     document.getElementById('prog-fill').style.width = '0%';
     document.getElementById('p-title').style.display = 'block';
@@ -284,13 +283,11 @@ function showStep(idx) {
     document.getElementById('step-guide').style.display = 'none';
     document.getElementById('q-text').style.display = 'none';
     document.getElementById('q-opts').style.display = 'none';
-    document.getElementById('q-feedback').style.display = 'none';
     document.getElementById('btn-next').textContent = 'Inizia →';
     document.getElementById('btn-next').classList.add('show');
     return;
   }
 
-  // Domande vere (idx >= 1)
   const step = steps[idx - 1];
   document.getElementById('prog-frac').textContent = idx + ' / 4';
   document.getElementById('prog-fill').style.width = ((idx / 4) * 100) + '%';
@@ -313,14 +310,14 @@ function showStep(idx) {
   const letters = ['A', 'B', 'C', 'D'];
   document.getElementById('q-opts').innerHTML = shuffled.map((opt, i) =>
     `<div class="opt" id="opt-${i}" onclick="pick(${i}, ${correctIdx}, ${shuffled[i].correct}, '${shuffled[i].feedback.replace(/'/g, "\\'")}')">
-       <span class="opt-letter">${letters[i]}</span>
-       <span class="opt-text">${opt.text}</span>
+       <div class="opt-header">
+         <span class="opt-letter">${letters[i]}</span>
+         <span class="opt-text">${opt.text}</span>
+       </div>
+       <div class="opt-feedback-box"></div>
      </div>`
   ).join('');
 
-  const fb = document.getElementById('q-feedback');
-  fb.className = 'feedback';
-  document.getElementById('fb-text').innerHTML = '';
   document.getElementById('btn-next').className = 'btn-next';
 
   MathJax.typesetPromise([document.getElementById('problem-container')]).catch(err => console.log(err));
@@ -334,20 +331,23 @@ function pick(i, correctIdx, isCorrect, feedback) {
 
   const opts = document.querySelectorAll('.opt');
   opts.forEach(o => o.classList.add('locked'));
-  opts[i].classList.add(isCorrect ? 'correct' : 'wrong');
-  if (!isCorrect) opts[correctIdx].classList.add('correct');
 
-  const fb = document.getElementById('q-feedback');
-  fb.classList.add('show');
-  fb.classList.add(isCorrect ? 'fb-ok' : 'fb-err');
-  document.getElementById('fb-label').textContent = isCorrect ? 'Corretto!' : 'Non corretto';
-  document.getElementById('fb-text').innerHTML = feedback;
+  const selected = opts[i];
+  selected.classList.add(isCorrect ? 'correct' : 'wrong');
+  selected.querySelector('.opt-feedback-box').textContent = feedback;
+  selected.querySelector('.opt-feedback-box').classList.add('show');
+
+  if (!isCorrect) {
+    opts[correctIdx].classList.add('correct');
+    opts[correctIdx].querySelector('.opt-feedback-box').textContent = steps[current - 1].opts[correctIdx].feedback;
+    opts[correctIdx].querySelector('.opt-feedback-box').classList.add('show');
+  }
 
   const btn = document.getElementById('btn-next');
   btn.classList.add('show');
   btn.textContent = current < 4 ? 'Prossimo step →' : 'Vedi il risultato →';
 
-  MathJax.typesetPromise([fb]);
+  MathJax.typesetPromise([document.getElementById('problem-container')]);
 }
 
 function nextStep(e) {
@@ -361,7 +361,6 @@ function nextStep(e) {
     document.getElementById('step-guide').style.display = 'none';
     document.getElementById('q-text').style.display = 'none';
     document.getElementById('q-opts').style.display = 'none';
-    document.getElementById('q-feedback').style.display = 'none';
     document.getElementById('btn-next').style.display = 'none';
 
     const pb = document.querySelector('.progress-bar-wrap');
@@ -371,6 +370,15 @@ function nextStep(e) {
   } else {
     showStep(current);
   }
+}
+
+function restartProblem() {
+  current = 0;
+  score = 0;
+  answered = false;
+  document.getElementById('results').classList.remove('show');
+  document.querySelector('.progress-bar-wrap').style.display = 'block';
+  showStep(0);
 }
 
 init();
