@@ -1,1082 +1,434 @@
 <!DOCTYPE html>
-<html lang="it">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lezione — Equazioni di 1° grado</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script>
-MathJax = {
-  tex: {
-    inlineMath: [['\\(','\\)']],
-    displayMath: [['\\[','\\]']],
-  },
-  svg: { fontCache: 'global', scale: 1.05 },
-  startup: {
-    ready: () => {
-      MathJax.startup.defaultReady();
-      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
-    }
-  }
-};
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
-<style>
-:root {
-  --bg:#faf7f2; --surface:#fff; --surface-alt:#f0ebe1;
-  --border:#e2dcd2; --border-light:#ece7dd;
-  --text:#2c2520; --text-mid:#5a524a; --text-dim:#8a827a;
-  --accent:#ed6f5c; --accent-light:#fbe6e2;
-  --blue:#3a6b8c; --blue-light:#e8f0f5;
-  --green:#4a7c59; --green-light:#eaf5ed;
-  --purple:#6a1b9a; --purple-light:#f3e5f5;
-  --gold:#b8860b; --gold-light:#fdf8ed;
-  --teal:#4f6d7a; --teal-light:#e8eff2;
-  --danger:#b33a3a;
-  --radius:10px; --shadow:none;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Georgia','Source Sans 3',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
-
-.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
-.topbar-brand{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:600;color:var(--accent);white-space:nowrap;text-decoration:none}
-.topbar-nav{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;flex:1}
-.topbar-nav::-webkit-scrollbar{display:none}
-.pdf-btn{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--accent);text-decoration:none;background:none;border:1px solid rgba(44,37,32,.1);border-radius:20px;padding:6px 14px;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
-.pdf-btn:hover{background:var(--accent-light)}
-.nav-pill{background:none;border:none;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--text-dim);padding:6px 12px;border-radius:6px;cursor:pointer;white-space:nowrap;transition:all .2s}
-.nav-pill:hover{color:var(--accent)}
-.nav-pill.active{color:var(--accent);font-weight:600}
-
-.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 80px}
-.section{display:none;animation:appear .4s ease}
-.section.active{display:block}
-@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-
-.hero{margin-bottom:40px;padding-bottom:32px;border-bottom:2px solid var(--border)}
-.hero-tag{font-family:'JetBrains Mono',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
-.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:12px}
-.hero h1 em{font-style:italic;color:var(--accent)}
-.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7;padding-left:0.8cm;text-align:justify}
-
-.cb{background:var(--surface);border:1px solid rgba(44,37,32,.06);border-radius:var(--radius);padding:20px 24px 20px 32px;margin:20px 0;position:relative}
-.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;border-radius:var(--radius) 0 0 var(--radius)}
-.cb.tip::before{background:var(--blue)}
-.cb.warn::before{background:var(--gold)}
-.cb.danger::before{background:var(--danger)}
-.cb.success::before{background:var(--green)}
-.cb.method::before{background:var(--accent)}
-.cb.purple::before{background:var(--purple)}
-.cb.teal::before{background:var(--teal)}
-.cb-label{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;font-weight:600}
-.cb.tip .cb-label{color:var(--blue)}
-.cb.warn .cb-label{color:var(--gold)}
-.cb.danger .cb-label{color:var(--danger)}
-.cb.success .cb-label{color:var(--green)}
-.cb.method .cb-label{color:var(--accent)}
-.cb.purple .cb-label{color:var(--purple)}
-.cb.teal .cb-label{color:var(--teal)}
-
-.math-block{background:#fdfaf6;border:1px solid var(--border-light);border-radius:8px;padding:18px 24px;margin:14px 0;overflow-x:auto}
-.math-block.hero-formula{background:#fff;border:2px solid var(--accent);padding:12px 28px;text-align:center}
-.math-block.result{border-left:4px solid var(--green);background:var(--green-light)}
-.math-block.warning{border-left:4px solid var(--danger);background:#fdf0f0}
-.math-block.dark{background:var(--surface-alt)}
-
-.step-math{margin:6px 0;padding:4px 0}
-.step-math .label{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
-.step-math .label.green{color:var(--green)}
-
-.accordion{border:1px solid rgba(44,37,32,.06);border-radius:var(--radius);overflow:hidden;margin:20px 0}
-.acc-item{border-bottom:1px solid var(--border-light)}
-.acc-item:last-child{border-bottom:none}
-.acc-header{display:flex;align-items:center;gap:14px;padding:16px 22px;background:var(--surface);cursor:pointer;transition:background .2s;user-select:none}
-.acc-header:hover{background:var(--surface-alt)}
-.acc-num{width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0;font-family:'JetBrains Mono',monospace}
-.acc-title{font-weight:600;font-size:.98rem;flex:1}
-.acc-arrow{width:18px;height:18px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
-.acc-item.open .acc-arrow{transform:rotate(180deg)}
-.acc-body{max-height:0;overflow:hidden;transition:max-height .45s ease;background:var(--surface)}
-.acc-item.open .acc-body{max-height:8000px}
-.acc-inner{padding:4px 22px 22px;border-top:1px solid var(--border-light)}
-
-.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9rem}
-.ct th{text-align:left;padding:11px 14px;font-weight:600;color:var(--accent);border-bottom:2px solid var(--border);font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
-.ct td{padding:10px 14px;border-bottom:1px solid var(--border-light);vertical-align:top}
-.ct tr:last-child td{border-bottom:none}
-
-.step-grid{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;align-items:start;margin:14px 0}
-.step-circle{width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.8rem;flex-shrink:0;margin-top:2px}
-.step-text{font-size:.95rem;padding-top:4px;line-height:1.6}
-
-.compare-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
-.compare-card{border-radius:8px;padding:14px 16px;font-size:.88rem;line-height:1.6}
-.compare-card.wrong{background:#fdf0f0;border:1px solid var(--danger)}
-.compare-card.right{background:var(--green-light);border:1px solid var(--green)}
-.compare-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:6px}
-.compare-card.wrong .compare-label{color:var(--danger)}
-.compare-card.right .compare-label{color:var(--green)}
-
-.checklist{list-style:none;margin:12px 0}
-.checklist li{position:relative;padding:6px 0 6px 32px;font-size:.95rem}
-.checklist li::before{content:'□';position:absolute;left:6px;top:6px;font-size:1.1rem;color:var(--accent)}
-
-.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:52px;padding-top:26px;border-top:2px solid var(--border)}
-.bb{font-family:'JetBrains Mono',monospace;font-size:.8rem;padding:9px 22px;border-radius:8px;cursor:pointer;border:1px solid rgba(44,37,32,.1);background:none;color:var(--text-dim);transition:all .2s}
-.bb:hover{border-color:var(--accent);color:var(--accent)}
-.bb:disabled{opacity:.35;cursor:not-allowed}
-.bb:disabled:hover{border-color:rgba(44,37,32,.1);color:var(--text-dim)}
-.bb.primary{font-weight:600}
-.page-info{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--text-dim)}
-
-p{margin:8px 0} .dim{color:var(--text-dim)} strong{font-weight:600}
-mjx-container[jax="SVG"]{direction:ltr}
-mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%}
-
-.section-num{display:none;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--accent);letter-spacing:3px;margin-bottom:10px}
-
-#printCover{display:none}
-.cover-label{font-family:'JetBrains Mono',monospace;font-size:10pt;letter-spacing:5px;text-transform:uppercase;color:var(--accent)}
-.cover-title{font-family:'Playfair Display',serif;font-weight:800;font-size:52pt;line-height:1.12;margin:40px 0 22px}
-.cover-title em{font-style:italic;color:var(--accent)}
-.cover-sub{font-family:'Georgia','Source Sans 3',serif;font-size:13pt;color:var(--text-mid);max-width:430px;line-height:1.65}
-.cover-rule{height:2px;background:var(--accent);margin-bottom:14px}
-.cover-meta{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9pt;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase}
-
-@media print{
-  @page{size:A4;margin:12mm 13mm}
-  html{font-size:12px}
-  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .topbar, .bottom-nav, .nav-pill{display:none !important}
-  body{opacity:1 !important;font-size:9pt;line-height:1.45}
-  .container{max-width:none;padding:0}
-
-  body.print-all .section{display:block !important;page-break-after:always;break-after:page;margin-bottom:0}
-  body.print-all .section:last-child{page-break-after:auto;break-after:auto}
-
-  .acc-body{max-height:none !important;overflow:visible !important}
-  .acc-arrow{display:none}
-  .acc-header{cursor:default;page-break-after:avoid;break-after:avoid;padding:8px 12px}
-  .acc-inner{padding:2px 12px 10px}
-
-  .cb, .math-block, .step-grid, .compare-row, .ct, table{
-    page-break-inside:avoid;break-inside:avoid
-  }
-
-  .cb{padding:10px 14px;margin:10px 0}
-  .cb-label{font-size:.62rem;margin-bottom:5px}
-  .math-block{padding:10px 14px;margin:8px 0}
-  .accordion{margin:10px 0}
-  .step-grid{gap:5px 10px;margin:8px 0}
-  .step-circle{width:22px;height:22px;font-size:.7rem}
-  .compare-row{margin:8px 0}
-  .compare-card{padding:10px 12px}
-  .ct{margin:8px 0;font-size:.82rem}
-  .ct th, .ct td{padding:6px 10px}
-  .checklist li{padding:3px 0 3px 28px}
-  p{margin:5px 0}
-
-  .hero{border-bottom:2px solid var(--accent);margin-bottom:14px;padding-bottom:10px;page-break-after:avoid;break-after:avoid}
-  .hero-tag{font-size:8pt;margin-bottom:6px}
-  .hero h1{font-size:18pt;margin-bottom:8px}
-  .hero-sub{font-size:9.5pt;padding-left:0;text-align:left;max-width:none;line-height:1.5}
-
-  .section-num{font-size:.7rem;margin-bottom:6px}
-  .section-num{display:block !important}
-
-  img{max-width:60% !important;height:auto !important}
-
-  #printCover{
-    display:flex !important;
-    flex-direction:column;
-    justify-content:space-between;
-    height:273mm;
-    page-break-after:always;
-    break-after:page;
-  }
-}
-
-@media(max-width:640px){
-  body{font-size:16px}
-  .hero h1{font-size:1.7rem}
-  .acc-header{padding:13px 14px}
-  .acc-inner{padding:4px 14px 18px}
-  .cb{padding:18px}
-  .compare-row{grid-template-columns:1fr}
-  .math-block{padding:14px 16px}
-}
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
 </head>
 <body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700&family=JetBrains+Mono:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#faf7f2;font-family:Georgia,'Times New Roman',serif;color:#2c2520;-webkit-font-smoothing:antialiased;}
+  *{box-sizing:border-box;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  ::selection{background:#fce4ec;}
+  button{font:inherit;}
+</style>
+</helmet>
 
-<div class="topbar">
-  <a class="topbar-brand" href="/">← Home</a>
-  <div class="topbar-nav" id="topNav"></div>
-  <a class="pdf-btn" href="/lezioni/equazioni-1-grado/equazioni-1-grado.pdf" download>PDF ↓</a>
+<div style="min-height:100vh;">
+
+  <header style="position:sticky;top:0;z-index:50;background:rgba(250,247,242,.93);backdrop-filter:blur(8px);border-bottom:1px solid #ece7de;">
+    <div style="max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:20px;padding:14px 32px;">
+      <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.02rem;color:#2c2520;white-space:nowrap;">Modelli · Equazioni di 1° grado</div>
+      <div style="flex:1;display:flex;gap:5px;align-items:center;justify-content:center;">
+        <sc-for list="{{ dots }}" as="d" hint-placeholder-count="11">
+          <span style="{{ d.style }}"></span>
+        </sc-for>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#6e6760;white-space:nowrap;">{{ counter }}</div>
+    </div>
+  </header>
+
+  <main style="max-width:1080px;margin:0 auto;padding:46px 32px 90px;">
+    <div style="{{ gridStyle }}">
+
+      <div>
+
+        <sc-if value="{{ isIntro }}" hint-placeholder-val="{{ true }}">
+          <div style="animation:fadeUp .5s ease;">
+            <div style="font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:#c2185b;margin-bottom:16px;">Matematica · Modelli dal mondo reale</div>
+            <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(2.1rem,5vw,3.1rem);line-height:1.12;margin:0 0 22px;color:#2c2520;">Un problema vero,<br>un'equazione come <em style="font-style:italic;color:#c2185b;">modello</em></h1>
+            <p style="font-size:1.1rem;line-height:1.75;color:#5a524a;max-width:610px;margin:0 0 18px;">Non si parte dai numeri. Si parte da una decisione che potresti dover prendere domani. Il lavoro è uno solo: trasformare le parole in un'equazione di primo grado — e poi farla parlare.</p>
+            <p style="font-size:1.02rem;line-height:1.7;color:#6e6760;max-width:610px;margin:0;">Ad ogni passo scegli tu. Sbagliare è permesso, anzi: serve a capire dove si inciampa. Alla fine non avrai solo un numero, ma una decisione.</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isProblem }}" hint-placeholder-val="{{ false }}">
+          <div style="animation:fadeUp .4s ease;">
+            <div style="font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:#c2185b;margin-bottom:14px;">Il problema</div>
+            <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.14;margin:0 0 18px;color:#2c2520;">La grande promessa di <em style="font-style:italic;color:#c2185b;">gennaio</em></h1>
+            <p style="font-size:1.05rem;line-height:1.75;color:#5a524a;margin:0 0 8px;">Ogni anno, il 2 gennaio, Bruno pronuncia la stessa frase solenne: «Quest'anno mi rimetto in forma». Stavolta fa sul serio — dice. Si presenta alla palestra <strong>Olimpo Fitness</strong> e l'addetto gli mette davanti due tariffe.</p>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:26px 0;">
+              <div style="background:#fff;border:1px solid #e4ddd4;border-radius:10px;padding:20px;">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:1.6px;text-transform:uppercase;color:#c2185b;font-weight:700;margin-bottom:10px;">Tariffa Libera</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;margin-bottom:8px;color:#2c2520;">5 € <span style="font-size:.92rem;font-weight:400;color:#6e6760;">a ingresso</span></div>
+                <p style="font-size:.92rem;color:#5a524a;margin:0;line-height:1.55;">Paghi solo quando entri. Nessun abbonamento mensile.</p>
+              </div>
+              <div style="background:#fff;border:1px solid #e4ddd4;border-radius:10px;padding:20px;">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:1.6px;text-transform:uppercase;color:#3a6b8c;font-weight:700;margin-bottom:10px;">Tariffa Smart</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;margin-bottom:8px;color:#2c2520;">36 € <span style="font-size:.92rem;font-weight:400;color:#6e6760;">al mese</span> + 2 € <span style="font-size:.92rem;font-weight:400;color:#6e6760;">a ingresso</span></div>
+                <p style="font-size:.92rem;color:#5a524a;margin:0;line-height:1.55;">Quota fissa mensile, poi paghi molto meno ogni volta.</p>
+              </div>
+            </div>
+
+            <div style="background:#f5f0e8;border-left:2px solid #c2185b;padding:16px 20px;border-radius:0 8px 8px 0;">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;color:#c2185b;font-weight:700;margin-bottom:6px;">La domanda</div>
+              <p style="font-size:1.06rem;color:#2c2520;margin:0;line-height:1.62;">Dopo quanti ingressi in un mese le due tariffe vengono a costare <strong>uguale</strong>? E soprattutto: quale dovrebbe scegliere davvero Bruno?</p>
+            </div>
+            <p style="font-family:'Fira Code',monospace;font-size:.82rem;color:#6e6760;margin:20px 0 0;">Sembra una domanda da supermercato. È un'equazione travestita.</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isChoice }}" hint-placeholder-val="{{ false }}">
+          <div style="animation:fadeUp .4s ease;">
+            <div style="font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:2.2px;text-transform:uppercase;color:#c2185b;margin-bottom:13px;">{{ tag }}</div>
+            <h2 style="font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(1.4rem,2.8vw,1.9rem);line-height:1.26;color:#2c2520;margin:0 0 10px;">{{ q }}</h2>
+            <p style="font-size:.96rem;color:#6e6760;margin:0 0 26px;line-height:1.6;">{{ hint }}</p>
+            <div style="display:flex;flex-direction:column;gap:11px;">
+              <sc-for list="{{ opts }}" as="opt" hint-placeholder-count="4">
+                <button onClick="{{ opt.onClick }}" style="{{ opt.card }}" style-hover="border-color:#c2185b;">
+                  <span style="{{ opt.letterStyle }}">{{ opt.letter }}</span>
+                  <span style="{{ opt.labelStyle }}">{{ opt.label }}</span>
+                  <span style="{{ opt.iconStyle }}">{{ opt.icon }}</span>
+                </button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ feedback }}" hint-placeholder-val="{{ false }}">
+              <div style="{{ feedbackStyle }}">
+                <div style="{{ feedbackLabelStyle }}">{{ feedbackLabel }}</div>
+                <p style="font-size:.98rem;line-height:1.62;color:#2c2520;margin:0;">{{ feedback }}</p>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isReveal }}" hint-placeholder-val="{{ false }}">
+          <div style="animation:fadeUp .4s ease;">
+            <div style="font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:#c2185b;margin-bottom:14px;">La soluzione</div>
+            <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(1.8rem,4vw,2.5rem);line-height:1.14;margin:0 0 14px;color:#2c2520;">Tre righe e abbiamo <em style="font-style:italic;color:#c2185b;">finito</em></h1>
+            <p style="font-size:1.04rem;line-height:1.7;color:#5a524a;margin:0;">Ora è pura meccanica: i principi di equivalenza fanno il lavoro al posto nostro.</p>
+
+            <div style="background:#fff;border:1px solid #e4ddd4;border-radius:10px;padding:6px 12px;margin:24px 0;">
+              <div style="display:flex;align-items:center;gap:18px;padding:13px 8px;border-bottom:1px solid #ece7de;animation:fadeUp .5s ease both;animation-delay:.04s;">
+                <div style="flex:none;width:240px;font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.8px;text-transform:uppercase;color:#6e6760;">Il modello</div>
+                <div style="font-family:Georgia,serif;font-style:italic;font-size:1.5rem;color:#2c2520;">5x = 36 + 2x</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:18px;padding:13px 8px;border-bottom:1px solid #ece7de;animation:fadeUp .5s ease both;animation-delay:.10s;">
+                <div style="flex:none;width:240px;font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.8px;text-transform:uppercase;color:#6e6760;">Porto le x a sinistra (cambia segno)</div>
+                <div style="font-family:Georgia,serif;font-style:italic;font-size:1.5rem;color:#2c2520;">5x − 2x = 36</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:18px;padding:13px 8px;border-bottom:1px solid #ece7de;animation:fadeUp .5s ease both;animation-delay:.16s;">
+                <div style="flex:none;width:240px;font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.8px;text-transform:uppercase;color:#6e6760;">Raccolgo i termini simili</div>
+                <div style="font-family:Georgia,serif;font-style:italic;font-size:1.5rem;color:#2c2520;">3x = 36</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:18px;padding:13px 8px;border-bottom:1px solid #ece7de;animation:fadeUp .5s ease both;animation-delay:.22s;">
+                <div style="flex:none;width:240px;font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.8px;text-transform:uppercase;color:#6e6760;">Divido per 3, il coefficiente di x</div>
+                <div style="font-family:Georgia,serif;font-style:italic;font-size:1.5rem;color:#2c2520;">x = 36 : 3</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:18px;padding:18px 8px;animation:fadeUp .5s ease both;animation-delay:.30s;">
+                <div style="flex:none;width:240px;font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.8px;text-transform:uppercase;color:#4a7c59;font-weight:700;">Soluzione</div>
+                <div style="font-family:Georgia,serif;font-style:italic;font-size:2.2rem;color:#4a7c59;font-weight:600;">x = 12</div>
+              </div>
+            </div>
+
+            <p style="font-size:1.04rem;line-height:1.72;color:#5a524a;margin:0;">Dodici. Ma dodici <em style="font-style:italic">cosa</em>? Un numero da solo non risolve niente: va riportato al mondo da cui è partito.</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isFinal }}" hint-placeholder-val="{{ false }}">
+          <div style="animation:fadeUp .4s ease;">
+            <div style="font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:#c2185b;margin-bottom:14px;">Verifica e morale</div>
+            <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(1.8rem,4vw,2.5rem);line-height:1.14;margin:0 0 22px;color:#2c2520;">Dal problema alla <em style="font-style:italic;color:#c2185b;">decisione</em></h1>
+
+            <div style="background:rgba(74,124,89,.07);border-left:2px solid #4a7c59;padding:16px 20px;border-radius:0 8px 8px 0;margin-bottom:24px;">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;color:#4a7c59;font-weight:700;margin-bottom:8px;">Verifica a x = 12</div>
+              <p style="font-size:1rem;line-height:1.7;color:#2c2520;margin:0;">LIBERA → <em style="font-style:italic">5 · 12 = 60 €</em>. &nbsp; SMART → <em style="font-style:italic">36 + 2 · 12 = 36 + 24 = 60 €</em>. &nbsp; Stesso costo: il modello regge. ✓</p>
+            </div>
+
+            <p style="font-size:1.05rem;line-height:1.75;color:#5a524a;margin:0 0 16px;">L'abbonamento SMART è una scommessa sulla versione disciplinata di te stesso. L'equazione non ti dice chi sei — ti dice soltanto a quale soglia quella scommessa comincia a pagare. Per Bruno, oggi, quella soglia (12 ingressi al mese, tre volte a settimana) è molto lontana.</p>
+            <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.3rem;line-height:1.55;color:#2c2520;margin:24px 0 0;">Modellare è questo: trasformare una scelta confusa in tre righe che decidono al posto tuo.</p>
+          </div>
+        </sc-if>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:44px;padding-top:22px;border-top:1px solid #ece7de;">
+          <button onClick="{{ back }}" style="{{ backStyle }}">← Indietro</button>
+          <button onClick="{{ primaryAction }}" style="{{ primaryStyle }}">{{ primaryLabel }}</button>
+        </div>
+
+      </div>
+
+      <sc-if value="{{ showAside }}" hint-placeholder-val="{{ false }}">
+        <aside style="position:sticky;top:88px;display:flex;flex-direction:column;gap:16px;">
+          <div style="background:#fff;border:1px solid #e4ddd4;border-radius:10px;padding:16px 18px;">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:1.4px;text-transform:uppercase;color:#6e6760;font-weight:600;margin-bottom:12px;">Le due tariffe</div>
+            <div style="font-size:.9rem;color:#2c2520;line-height:1.5;margin-bottom:10px;">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1px;color:#c2185b;font-weight:700;">LIBERA</span><br>5 € a ingresso
+            </div>
+            <div style="font-size:.9rem;color:#2c2520;line-height:1.5;">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1px;color:#3a6b8c;font-weight:700;">SMART</span><br>36 €/mese + 2 € a ingresso
+            </div>
+          </div>
+
+          <div style="background:#f5f0e8;border:1px solid #e4ddd4;border-radius:10px;padding:18px;">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1.6px;text-transform:uppercase;color:#c2185b;font-weight:700;margin-bottom:14px;">Il modello finora</div>
+            <sc-if value="{{ hasModel }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:13px;">
+                <sc-for list="{{ model }}" as="m" hint-placeholder-count="2">
+                  <div style="display:flex;flex-direction:column;gap:3px;">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:1.2px;text-transform:uppercase;color:#6e6760;">{{ m.label }}</div>
+                    <div style="{{ m.valStyle }}">{{ m.val }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ noModel }}" hint-placeholder-val="{{ true }}">
+              <p style="font-family:'Fira Code',monospace;font-size:.8rem;color:#8a8078;margin:0;line-height:1.55;">Si costruisce passo dopo passo, con le tue risposte.</p>
+            </sc-if>
+          </div>
+        </aside>
+      </sc-if>
+
+    </div>
+  </main>
+
 </div>
-<div id="printCover">
-  <div class="cover-label">Lezione interattiva · Matematica</div>
-  <div>
-    <h1 class="cover-title">Equazioni<br>di primo <em>grado</em></h1>
-    <p class="cover-sub">Che cos'è un'equazione, i principi di equivalenza, il metodo di risoluzione passo per passo, i casi con parentesi e frazioni, gli errori più frequenti ed esercizi guidati con verifica.</p>
-  </div>
-  <div>
-    <div class="cover-rule"></div>
-    <div class="cover-meta">
-      <span>themathofthings.com</span>
-      <span>10 sezioni</span>
-    </div>
-  </div>
-</div>
-<div class="container" id="app"></div>
-
-<script>
-function acc(items) {
-  return '<div class="accordion">'+items.map((it,i)=>`
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)">
-        <div class="acc-num">${i+1}</div>
-        <div class="acc-title">${it.t}</div>
-        <svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      </div>
-      <div class="acc-body"><div class="acc-inner">${it.h}</div></div>
-    </div>`).join('')+'</div>';
-}
-
-function toggleAcc(el) {
-  const item = el.parentElement;
-  item.classList.toggle('open');
-  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
-    MathJax.typesetPromise([item]);
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.state = { i:0, maxI:0, ans:{} };
+    this._screens = this.buildScreens();
   }
-}
 
-function svgBilancia() {
-  return `<div style="display:flex;flex-direction:column;align-items:center;margin:20px 0;gap:10px">
-  <img src="/lezioni/equazioni-1-grado/bilancia.png" width="640" height="307" alt="Bilancia in equilibrio">
-  <span style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--text-dim)">bilancia in equilibrio = uguaglianza vera</span>
-  </div>`;
-}
-
-const S = [
-
-// ═══ 0: COS'È UN'EQUAZIONE ═══
-{
-  tag:"TEORIA",
-  title:"Equazioni di primo grado — Che cos'è un'<em>equazione</em>",
-  sub:"Un'equazione è una domanda travestita da uguaglianza: c'è un numero misterioso, lo chiamiamo x, e il nostro compito è scoprire chi è. La bilancia è l'immagine perfetta per ragionarci: i due piatti devono restare in equilibrio, e ogni mossa che facciamo su un piatto va fatta anche sull'altro. L'obiettivo finale è sempre lo stesso: isolare la x da una parte, lasciando tutto il resto dall'altra — cioè trovare il valore che rende l'uguaglianza vera.",
-  nav:"Definizione",
-  body:`
-    <div class="cb method">
-      <div class="cb-label">Definizione</div>
-      <p>Un'<strong>equazione</strong> è un'uguaglianza che contiene una lettera (l'<strong>incognita</strong>, di solito \\(x\\)) di cui non conosciamo il valore.</p>
-      <div class="math-block hero-formula">
-        \\[ ax + b = 0 \\qquad (a \\neq 0) \\]
-      </div>
-      <p><strong>Risolvere</strong> l'equazione significa trovare il valore di \\(x\\) che la rende vera.</p>
-    </div>
-
-    ${svgBilancia()}
-
-    <div class="cb tip">
-      <div class="cb-label">La metafora della bilancia</div>
-      <p>Immagina una bilancia in perfetto equilibrio. I due piatti sono i due <strong>membri</strong> dell'equazione.</p>
-      <p>Qualunque cosa aggiungi o togli da un piatto, devi fare <strong>la stessa cosa sull'altro</strong> per mantenere l'equilibrio. Questa è la regola fondamentale.</p>
-    </div>
-
-    <p style="margin-top:20px"><strong>I termini che devi conoscere:</strong></p>
-    <table class="ct">
-      <tr><th>Termine</th><th>Che cosa è</th><th>Esempio in \\(3x + 5 = 14\\)</th></tr>
-      <tr><td>1° membro</td><td>tutto ciò che sta a sinistra dell'=</td><td>\\(3x + 5\\)</td></tr>
-      <tr><td>2° membro</td><td>tutto ciò che sta a destra dell'=</td><td>\\(14\\)</td></tr>
-      <tr><td>Incognita</td><td>la lettera da trovare</td><td>\\(x\\)</td></tr>
-      <tr><td>Coefficiente</td><td>il numero davanti all'incognita</td><td>\\(3\\)</td></tr>
-      <tr><td>Termine noto</td><td>il numero senza lettera</td><td>\\(5\\) e \\(14\\)</td></tr>
-      <tr><td>Soluzione</td><td>il valore di \\(x\\) che rende vera l'uguaglianza</td><td>\\(x = 3\\) ✓</td></tr>
-    </table>
-
-    <div class="cb warn">
-      <div class="cb-label">Come si verifica una soluzione</div>
-      <p>Sostituisci il valore trovato al posto di \\(x\\) e controlla che i due membri diano lo stesso risultato.</p>
-      <div class="math-block">
-        \\[ 3x + 5 = 14 \\quad \\xrightarrow{x=3} \\quad 3 \\cdot 3 + 5 = 9 + 5 = 14 \\; ✓ \\]
-      </div>
-    </div>
-  `
-},
-
-// ═══ 1: PRINCIPI DI EQUIVALENZA ═══
-{
-  tag:"TEORIA",
-  title:"I <em>principi di equivalenza</em>",
-  sub:"Le due regole fondamentali per trasformare un'equazione senza cambiarne la soluzione.",
-  nav:"Principi",
-  body:`
-    <div class="cb method">
-      <div class="cb-label">Idea chiave</div>
-      <p>Due equazioni sono <strong>equivalenti</strong> se hanno le stesse soluzioni. I principi di equivalenza ci dicono quali operazioni possiamo fare senza cambiare le soluzioni.</p>
-    </div>
-
-    <div class="cb blue">
-      <div class="cb-label">I° Principio — addizione e sottrazione</div>
-      <p><strong>Aggiungere o sottrarre la stessa quantità a entrambi i membri</strong> non cambia la soluzione.</p>
-      <div class="math-block">
-        \\[ 3x + 5 = 14 \\quad \\Longrightarrow \\quad 3x + 5 \\underbrace{- 5}_{} = 14 \\underbrace{- 5}_{} \\quad \\Longrightarrow \\quad 3x = 9 \\]
-      </div>
-      <p class="dim" style="margin-top:8px"><strong>Regola pratica:</strong> un termine che "passa" da un membro all'altro cambia segno.</p>
-    </div>
-
-    <div class="cb blue">
-      <div class="cb-label">II° Principio — moltiplicazione e divisione</div>
-      <p><strong>Moltiplicare o dividere entrambi i membri per lo stesso numero (≠ 0)</strong> non cambia la soluzione.</p>
-      <div class="math-block">
-        \\[ 3x = 9 \\quad \\Longrightarrow \\quad \\frac{3x}{3} = \\frac{9}{3} \\quad \\Longrightarrow \\quad x = 3 \\]
-      </div>
-    </div>
-
-    <div class="cb danger">
-      <div class="cb-label">Non si può mai dividere per zero!</div>
-      <p>La divisione per zero non è definita in matematica. Se il coefficiente di \\(x\\) si azzera, si tratta di un caso speciale — non cercare di dividere.</p>
-    </div>
-
-    <div class="cb success">
-      <div class="cb-label">I due principi insieme — esempio completo</div>
-      <div class="math-block">
-        \\[\\begin{aligned}
-          3x + 5 &= 14 \\\\
-          3x &= 14 - 5 \\quad &\\text{(I° principio: sposto +5)} \\\\
-          3x &= 9 \\\\
-          x &= 3 \\quad &\\text{(II° principio: divido per 3)}
-        \\end{aligned}\\]
-      </div>
-    </div>
-  `
-},
-
-// ═══ 2: METODO DI RISOLUZIONE ═══
-{
-  tag:"METODO",
-  title:"Come si <em>risolve</em>",
-  sub:"Sei passi da seguire nell'ordine. Poi si verifica sempre.",
-  nav:"Metodo",
-  body:`
-    <div class="cb method">
-      <div class="cb-label">I 6 passi</div>
-      <div class="step-grid">
-        <div class="step-circle">1</div><div class="step-text">Sviluppa le <strong>parentesi</strong> (proprietà distributiva)</div>
-        <div class="step-circle">2</div><div class="step-text">Elimina i <strong>denominatori</strong> (moltiplica tutto per il MCM)</div>
-        <div class="step-circle">3</div><div class="step-text">Porta tutti i termini con \\(x\\) a <strong>sinistra</strong></div>
-        <div class="step-circle">4</div><div class="step-text">Porta tutti i numeri a <strong>destra</strong></div>
-        <div class="step-circle">5</div><div class="step-text">Raccogli i termini simili</div>
-        <div class="step-circle">6</div><div class="step-text">Dividi per il coefficiente di \\(x\\) → <strong>soluzione</strong></div>
-      </div>
-      <p class="dim" style="margin-top:8px">Ogni termine che cambia membro <strong>cambia segno</strong>. Poi verifica sempre!</p>
-    </div>
-
-    ${acc([
-      {
-        t:"Esempio 1 — base: \\(4x - 9 = 7\\)",
-        h:`
-          <div class="step-math"><div class="label">Sposto il -9 a destra (cambia segno)</div></div>
-          <div class="math-block">
-            \\[\\begin{aligned}
-              4x &= 7 + 9 \\\\
-              4x &= 16 \\\\
-              x &= 4
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block result">\\[ x = 4 \\]</div>
-          <div class="step-math"><div class="label green">Verifica</div>
-            <p>\\(4 \\cdot 4 - 9 = 16 - 9 = 7\\) ✓</p>
-          </div>
-        `
+  buildScreens(){
+    return [
+      { view:'intro' },
+      { view:'problem' },
+      { view:'choice', key:'incognita', tag:'Passo 1 · Modellare',
+        q:'Da dove si comincia: chi è la nostra incognita x?',
+        hint:'L’incognita è ciò che NON conosciamo e vogliamo trovare. Tutto il resto sono dati.',
+        formula:false,
+        options:[
+          {l:'Il numero di ingressi in palestra in un mese', ok:true,  fb:'Esatto. I prezzi (5 €, 36 €, 2 €) li conosciamo già: l’unica cosa che fa cambiare il conto è quante volte Bruno entra. Quello è x.'},
+          {l:'Il costo totale che Bruno pagherà',            ok:false, fb:'È ciò che vogliamo confrontare, ma dipende da un’altra quantità. L’incognita di partenza è proprio quella quantità.'},
+          {l:'Il prezzo di un singolo ingresso',            ok:false, fb:'Quello è un dato noto (5 € oppure 2 €), non un’incognita da trovare.'},
+          {l:'Il numero di mesi di abbonamento',            ok:false, fb:'Il confronto avviene dentro un solo mese: il mese non è la variabile.'},
+        ],
+        commit:{label:'Incognita', val:'x = ingressi in un mese', formula:false}
       },
-      {
-        t:"Esempio 2 — \\(x\\) in entrambi i membri: \\(5x + 3 = 2x - 9\\)",
-        h:`
-          <div class="step-math"><div class="label">Porto le x a sinistra, i numeri a destra</div></div>
-          <div class="math-block">
-            \\[\\begin{aligned}
-              5x - 2x &= -9 - 3 \\\\
-              3x &= -12 \\\\
-              x &= -4
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block result">\\[ x = -4 \\]</div>
-          <div class="step-math"><div class="label green">Verifica</div>
-            <p>\\(5(-4)+3 = -17\\) e \\(2(-4)-9 = -17\\) ✓</p>
-          </div>
-        `
+      { view:'choice', key:'libera', tag:'Passo 1 · Modellare',
+        q:'Con la tariffa LIBERA paghi 5 € ogni volta che entri. Se entri x volte in un mese, quanto spendi?',
+        hint:'5 euro che si ripetono ad ogni ingresso.',
+        formula:true,
+        options:[
+          {l:'5x',    ok:true,  fb:'Sì: 5 € ripetuti x volte è una moltiplicazione → 5 · x = 5x.'},
+          {l:'5 + x', ok:false, fb:'Sarebbe “5 più gli ingressi”. Ma qui ogni ingresso costa 5 €: è un prodotto, non una somma.'},
+          {l:'x : 5', ok:false, fb:'La divisione non c’entra: ogni ingresso aggiunge 5 €, quindi si moltiplica.'},
+          {l:'5',     ok:false, fb:'5 è il costo di un solo ingresso. Con x ingressi diventa 5 per x.'},
+        ],
+        commit:{label:'Costo LIBERA', val:'5x', formula:true}
       },
-      {
-        t:"Esempio 3 — raccoglimento: \\(4x + 7 - x = 2x - 5 + 3x\\)",
-        h:`
-          <div class="step-math"><div class="label">Raccolgo subito i termini simili da entrambi i lati</div></div>
-          <div class="math-block">
-            \\[\\begin{aligned}
-              (4-1)x + 7 &= (2+3)x - 5 \\\\
-              3x + 7 &= 5x - 5 \\\\
-              3x - 5x &= -5 - 7 \\\\
-              -2x &= -12 \\\\
-              x &= 6
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block result">\\[ x = 6 \\]</div>
-        `
-      }
-    ])}
-  `
-},
-
-// ═══ 3: PARENTESI ═══
-{
-  tag:"CASO FREQUENTE",
-  title:"Equazioni con <em>parentesi</em>",
-  sub:"Prima si sviluppano le parentesi, poi si risolve normalmente.",
-  nav:"Parentesi",
-  body:`
-    <div class="cb blue">
-      <div class="cb-label">Proprietà distributiva</div>
-      <p>Il numero fuori dalla parentesi moltiplica <strong>ogni termine</strong> dentro la parentesi.</p>
-      <div class="math-block hero-formula">
-        \\[ a(b + c) = ab + ac \\]
-      </div>
-    </div>
-
-    <div class="cb danger">
-      <div class="cb-label">Attenzione al segno − davanti alla parentesi</div>
-      <p>Se c'è un \\(-\\) (o un numero negativo) davanti alla parentesi, <strong>tutti i segni interni si invertono</strong>.</p>
-      <div class="compare-row">
-        <div class="compare-card wrong">
-          <div class="compare-label">Sbagliato</div>
-          \\(-(x + 3) = -x + 3\\)
-        </div>
-        <div class="compare-card right">
-          <div class="compare-label">Corretto</div>
-          \\(-(x + 3) = -x - 3\\)
-        </div>
-      </div>
-    </div>
-
-    ${acc([
-      {
-        t:"Esempio 1 — \\(5(x-2) = 3x + 4\\)",
-        h:`
-          <div class="step-math"><div class="label">1. Sviluppo la parentesi</div></div>
-          <div class="math-block">
-            \\[ 5x - 10 = 3x + 4 \\]
-          </div>
-          <div class="step-math"><div class="label">2. Porto le x a sinistra, i numeri a destra</div></div>
-          <div class="math-block">
-            \\[\\begin{aligned}
-              5x - 3x &= 4 + 10 \\\\
-              2x &= 14 \\\\
-              x &= 7
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block result">\\[ x = 7 \\]</div>
-          <div class="step-math"><div class="label green">Verifica</div>
-            <p>\\(5(7-2) = 25\\) e \\(3 \\cdot 7 + 4 = 25\\) ✓</p>
-          </div>
-        `
+      { view:'choice', key:'smart', tag:'Passo 1 · Modellare',
+        q:'Con la tariffa SMART paghi 36 € fissi al mese, più 2 € per ogni ingresso. Spesa totale con x ingressi?',
+        hint:'Una parte è fissa, una parte cresce con gli ingressi.',
+        formula:true,
+        options:[
+          {l:'36 + 2x', ok:true,  fb:'Esatto: i 36 € fissi non dipendono dagli ingressi; i 2 € invece si ripetono x volte → 36 + 2x.'},
+          {l:'36x + 2', ok:false, fb:'Ruoli scambiati: i 36 € sono fissi (non per ingresso), i 2 € sono quelli da pagare ad ogni ingresso.'},
+          {l:'38x',     ok:false, fb:'Non puoi sommare 36 e 2: uno è fisso, l’altro è “per ingresso”. Sono grandezze diverse.'},
+          {l:'36 + 2',  ok:false, fb:'Hai dimenticato gli ingressi: i 2 € vanno moltiplicati per x.'},
+        ],
+        commit:{label:'Costo SMART', val:'36 + 2x', formula:true}
       },
-      {
-        t:"Esempio 2 — doppia parentesi: \\(3(x+1) - 2(x-4) = 11\\)",
-        h:`
-          <div class="step-math"><div class="label">Sviluppo entrambe le parentesi — attenzione al −2</div></div>
-          <div class="math-block">
-            \\[\\begin{aligned}
-              3x + 3 - 2x + 8 &= 11 \\\\
-              x + 11 &= 11 \\\\
-              x &= 0
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block result">\\[ x = 0 \\]</div>
-          <p class="dim">Nota: \\(x = 0\\) è una soluzione valida! Zero è un numero come gli altri.</p>
-        `
+      { view:'choice', key:'equazione', tag:'Passo 2 · Scrivere l’equazione',
+        q:'Cerchiamo il punto in cui le due tariffe costano uguale. Come si scrive “lo stesso costo”?',
+        hint:'“Costano uguale” è un’uguaglianza fra le due spese.',
+        formula:true,
+        options:[
+          {l:'5x = 36 + 2x',      ok:true,  fb:'Perfetto. “Costano uguale” significa mettere un = fra le due spese. Ecco il modello completo del problema.'},
+          {l:'5x = 36 − 2x',      ok:false, fb:'Il costo SMART è 36 + 2x: il costo degli ingressi si somma alla quota fissa, non si sottrae.'},
+          {l:'5x + 36 + 2x = 0',  ok:false, fb:'Non cerchiamo “quando il costo è zero”, ma “quando i due costi sono uguali fra loro”.'},
+          {l:'5x > 36 + 2x',      ok:false, fb:'Il simbolo > risponde a “quando costa di più”. Per il pareggio serve l’uguale.'},
+        ],
+        commit:{label:'Equazione', val:'5x = 36 + 2x', formula:true}
       },
-      {
-        t:"Esempio 3 — \\(2(3x-1) = 4(x+3) - 2\\)",
-        h:`
-          <div class="math-block">
-            \\[\\begin{aligned}
-              6x - 2 &= 4x + 12 - 2 \\\\
-              6x - 2 &= 4x + 10 \\\\
-              6x - 4x &= 10 + 2 \\\\
-              2x &= 12 \\\\
-              x &= 6
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block result">\\[ x = 6 \\]</div>
-        `
-      }
-    ])}
-  `
-},
-
-// ═══ 4: FRAZIONI ═══
-{
-  tag:"CASO FREQUENTE",
-  title:"Equazioni con <em>frazioni</em>",
-  sub:"Il trucco: trovare il MCM e moltiplicare tutto per farlo sparire.",
-  nav:"Frazioni",
-  body:`
-    <div class="cb method">
-      <div class="cb-label">Il metodo — 3 passi</div>
-      <div class="step-grid">
-        <div class="step-circle">1</div>
-        <div class="step-text">Trova il <strong>MCM</strong> (minimo comune multiplo) di tutti i denominatori</div>
-        <div class="step-circle">2</div>
-        <div class="step-text">Moltiplica <strong>ogni termine</strong> dell'equazione per il MCM — le frazioni spariscono</div>
-        <div class="step-circle">3</div>
-        <div class="step-text">Risolvi l'equazione ottenuta normalmente</div>
-      </div>
-    </div>
-
-    <div class="cb danger">
-      <div class="cb-label">Errore classico</div>
-      <p>Il MCM va moltiplicato per <strong>ogni termine</strong>, anche quelli interi (senza denominatore).</p>
-      <div class="compare-row">
-        <div class="compare-card wrong">
-          <div class="compare-label">Sbagliato</div>
-          \\(\\dfrac{x}{2} + 1 = 3\\) <br>
-          ×2 → \\(x + 1 = 3\\) ← il +1 non è stato moltiplicato
-        </div>
-        <div class="compare-card right">
-          <div class="compare-label">Corretto</div>
-          \\(\\dfrac{x}{2} + 1 = 3\\) <br>
-          ×2 → \\(x + 2 = 6\\)
-        </div>
-      </div>
-    </div>
-
-    ${acc([
-      {
-        t:"Esempio 1 — \\(\\dfrac{x}{2} + \\dfrac{1}{3} = \\dfrac{x}{6} + 2\\)",
-        h:`
-          <div class="step-math"><div class="label">Denominatori: 2, 3, 6 → MCM = 6</div></div>
-          <div class="step-math"><div class="label">Moltiplico ogni termine per 6</div></div>
-          <div class="math-block">
-            \\[\\begin{aligned}
-              \\frac{x}{2} \\cdot 6 + \\frac{1}{3} \\cdot 6 &= \\frac{x}{6} \\cdot 6 + 2 \\cdot 6 \\\\[6pt]
-              3x + 2 &= x + 12 \\\\
-              3x - x &= 12 - 2 \\\\
-              2x &= 10
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block result">\\[ x = 5 \\]</div>
-          <div class="step-math"><div class="label green">Verifica</div>
-            <p>\\(5/2 + 1/3 = 15/6 + 2/6 = 17/6\\) e \\(5/6 + 2 = 5/6 + 12/6 = 17/6\\) ✓</p>
-          </div>
-        `
+      { view:'choice', key:'primopasso', tag:'Passo 3 · Risolvere',
+        q:'Abbiamo 5x = 36 + 2x. Per isolare la x, qual è una prima mossa corretta?',
+        hint:'Obiettivo: radunare le x da una parte e i numeri dall’altra.',
+        formula:false,
+        options:[
+          {l:'Porto i 2x a sinistra: diventa 5x − 2x = 36',        ok:true,  fb:'Bene: un termine che cambia membro cambia segno. Le x finiscono da una parte, i numeri dall’altra.'},
+          {l:'Aggiungo 2x a sinistra senza toccare il lato destro', ok:false, fb:'Così rompi l’equilibrio della bilancia: ciò che fai a un membro va fatto anche all’altro.'},
+          {l:'Divido subito tutto per 5',                           ok:false, fb:'Troppo presto: a destra c’è ancora un 2x. Prima si radunano le x da una sola parte.'},
+        ],
+        commit:null
       },
-      {
-        t:"Esempio 2 — \\(\\dfrac{x-1}{3} = \\dfrac{2x+1}{5}\\)",
-        h:`
-          <div class="step-math"><div class="label">Denominatori: 3, 5 → MCM = 15</div></div>
-          <div class="math-block">
-            \\[\\begin{aligned}
-              \\frac{x-1}{3} \\cdot 15 &= \\frac{2x+1}{5} \\cdot 15 \\\\[6pt]
-              5(x-1) &= 3(2x+1) \\\\
-              5x - 5 &= 6x + 3 \\\\
-              5x - 6x &= 3 + 5 \\\\
-              -x &= 8
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block result">\\[ x = -8 \\]</div>
-        `
-      }
-    ])}
-  `
-},
-
-// ═══ 5: CASI PARTICOLARI ═══
-{
-  tag:"ATTENZIONE",
-  title:"I casi <em>particolari</em>",
-  sub:"Quando il coefficiente di x si azzera: impossibile o indeterminata.",
-  nav:"Casi particolari",
-  body:`
-    <div class="cb tip">
-      <div class="cb-label">Quando capita</div>
-      <p>Dopo aver svolto tutti i passaggi, se tutti i termini con \\(x\\) si eliminano, non ottieni una soluzione normale. Guarda cosa rimane:</p>
-    </div>
-
-    <table class="ct" style="margin-top:16px">
-      <tr><th>Risultato finale</th><th>Tipo di equazione</th><th>Soluzioni</th></tr>
-      <tr>
-        <td>\\(ax = b\\) con \\(a \\neq 0\\)</td>
-        <td style="color:var(--green)"><strong>Determinata</strong></td>
-        <td><strong>Una sola soluzione</strong>: \\(x = b/a\\)</td>
-      </tr>
-      <tr>
-        <td>\\(0 = 0\\)</td>
-        <td style="color:var(--blue)"><strong>Indeterminata</strong></td>
-        <td><strong>Infinite soluzioni</strong> — ogni valore di \\(x\\) va bene</td>
-      </tr>
-      <tr>
-        <td>\\(0 = k\\) con \\(k \\neq 0\\)</td>
-        <td style="color:var(--danger)"><strong>Impossibile</strong></td>
-        <td><strong>Nessuna soluzione</strong> — nessun valore di \\(x\\) funziona</td>
-      </tr>
-    </table>
-
-    ${acc([
-      {
-        t:"Esempio — impossibile: \\(2x + 3 = 2x - 1\\)",
-        h:`
-          <div class="math-block">
-            \\[\\begin{aligned}
-              2x + 3 &= 2x - 1 \\\\
-              2x - 2x &= -1 - 3 \\\\
-              0 &= -4
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block warning">
-            <strong>Impossibile!</strong> \\(0 \\neq -4\\) per nessun valore di \\(x\\). L'equazione non ha soluzioni.
-          </div>
-        `
+      { view:'reveal' },
+      { view:'choice', key:'interpreta', tag:'Passo 4 · Interpretare',
+        q:'Abbiamo trovato x = 12. Che cosa significa, nel mondo di Bruno?',
+        hint:'Un numero da solo non risolve un problema: va riportato alle parole di partenza.',
+        formula:false,
+        options:[
+          {l:'A 12 ingressi al mese le due tariffe costano esattamente uguale (60 € entrambe)', ok:true,  fb:'Esatto. x = 12 è il punto di pareggio: la soglia che decide quale tariffa conviene.'},
+          {l:'Bruno è obbligato ad andare in palestra 12 volte',                                ok:false, fb:'L’equazione non obbliga nessuno: dice solo dove i due prezzi si incontrano.'},
+          {l:'Ogni ingresso costa 12 €',                                                        ok:false, fb:'No: 12 è un numero di ingressi, non un prezzo. Il costo di pareggio è 60 €.'},
+          {l:'La tariffa SMART costa sempre 12 €',                                              ok:false, fb:'12 non è un costo: è il numero di ingressi in cui le due tariffe pareggiano.'},
+        ],
+        commit:null
       },
-      {
-        t:"Esempio — indeterminata: \\(3x - 6 = 3(x-2)\\)",
-        h:`
-          <div class="math-block">
-            \\[\\begin{aligned}
-              3x - 6 &= 3x - 6 \\\\
-              3x - 3x &= -6 + 6 \\\\
-              0 &= 0
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block result">
-            <strong>Indeterminata:</strong> \\(0 = 0\\) è sempre vero. Ogni valore di \\(x\\) è una soluzione.
-          </div>
-          <p class="dim">In pratica i due membri erano la stessa espressione scritta in modo diverso.</p>
-        `
-      }
-    ])}
-
-    <div class="cb warn">
-      <div class="cb-label">Come riconoscerli</div>
-      <p>Se durante la risoluzione vedi che le \\(x\\) si "cancellano" tutte, <strong>non è un errore</strong> — è un caso particolare. Guarda cosa rimane e concludi di conseguenza.</p>
-    </div>
-  `
-},
-
-// ═══ 6: LAP ═══
-{
-  tag:"TEORIA",
-  title:"La legge di annullamento<br>del <em>prodotto</em>",
-  sub:"Se il prodotto di due fattori è zero, almeno uno dei due è zero. Una regola che apre un nuovo mondo.",
-  nav:"LAP",
-  body:`
-    <div class="cb method">
-      <div class="cb-label">La regola — LAP</div>
-      <p>Se il <strong>prodotto</strong> di due espressioni è uguale a zero:</p>
-      <div class="math-block hero-formula">
-        \\[ A \\cdot B = 0 \\quad \\Longleftrightarrow \\quad A = 0 \\quad \\text{oppure} \\quad B = 0 \\]
-      </div>
-      <p>Questo vale perché l'unico modo di ottenere zero da una moltiplicazione è che <strong>almeno uno dei fattori sia zero</strong>.</p>
-    </div>
-
-    <div class="cb tip">
-      <div class="cb-label">Come si usa</div>
-      <div class="step-grid">
-        <div class="step-circle">1</div>
-        <div class="step-text">Porta tutto al primo membro: ottieni \\(\\text{espressione} = 0\\)</div>
-        <div class="step-circle">2</div>
-        <div class="step-text"><strong>Fattorizza</strong> il primo membro (raccogli il fattore comune)</div>
-        <div class="step-circle">3</div>
-        <div class="step-text">Applica la LAP: poni <strong>ciascun fattore uguale a zero</strong></div>
-        <div class="step-circle">4</div>
-        <div class="step-text">Risolvi ciascuna equazione di 1° grado ottenuta</div>
-      </div>
-    </div>
-
-    ${acc([
-      {
-        t:"Esempio base — \\(x(x - 3) = 0\\)",
-        h:`
-          <p>L'equazione è già in forma fattorizzata. Applico subito la LAP:</p>
-          <div class="math-block">
-            \\[ x = 0 \\quad \\text{oppure} \\quad x - 3 = 0 \\]
-          </div>
-          <div class="math-block result">\\[ x_1 = 0 \\qquad x_2 = 3 \\]</div>
-        `
+      { view:'choice', key:'decisione', tag:'Passo 5 · Decidere',
+        q:'Negli ultimi tre anni Bruno è andato in palestra in media 5 volte… a gennaio, poi più niente. Sotto i 12 ingressi conviene LIBERA, sopra conviene SMART. Cosa gli conviene davvero?',
+        hint:'Confronta i 5 ingressi realistici con la soglia di pareggio di 12.',
+        formula:false,
+        options:[
+          {l:'La tariffa LIBERA',                  ok:true,  fb:'Giusto. A 5 ingressi: LIBERA = 25 €, SMART = 46 €. Risparmia 21 € — e non scommette su un Bruno disciplinato che la storia non ha mai visto.'},
+          {l:'La tariffa SMART',                   ok:false, fb:'SMART conviene solo SOPRA i 12 ingressi al mese (tre volte a settimana, ogni settimana). A 5 ingressi Bruno paga 46 € invece di 25 €.'},
+          {l:'Sono indifferenti, tanto è uguale',  ok:false, fb:'Uguali lo sono solo a 12 ingressi. A 5 c’è una bella differenza: 25 € contro 46 €.'},
+        ],
+        commit:{label:'Decisione', val:'Conviene la tariffa LIBERA', formula:false}
       },
-      {
-        t:"Esempio — \\(x^2 - 5x = 0\\) — la trappola della divisione",
-        h:`
-          <div class="cb danger" style="margin-bottom:14px">
-            <div class="cb-label">Non dividere per x!</div>
-            <p>Se dividi entrambi i membri per \\(x\\) ottieni \\(x - 5 = 0\\) e perdi la soluzione \\(x = 0\\). Il raccoglimento è l'unico metodo corretto.</p>
-          </div>
-          <div class="step-math"><div class="label">Raccolgo x a fattore comune</div></div>
-          <div class="math-block">
-            \\[ x^2 - 5x = 0 \\quad \\Longrightarrow \\quad x(x - 5) = 0 \\]
-          </div>
-          <div class="step-math"><div class="label">Applico la LAP</div></div>
-          <div class="math-block result">\\[ x_1 = 0 \\qquad x_2 = 5 \\]</div>
-        `
-      },
-      {
-        t:"Esempio — \\(x^2 = 3x\\) — stessa trappola, forma diversa",
-        h:`
-          <div class="step-math"><div class="label">Porto tutto al primo membro</div></div>
-          <div class="math-block">
-            \\[ x^2 - 3x = 0 \\quad \\Longrightarrow \\quad x(x - 3) = 0 \\]
-          </div>
-          <div class="math-block result">\\[ x_1 = 0 \\qquad x_2 = 3 \\]</div>
-          <p class="dim">Nota: \\(x = 0\\) è una soluzione reale e valida — non va mai ignorata.</p>
-        `
-      },
-      {
-        t:"Esempio — \\((2x - 1)(x + 5) = 0\\)",
-        h:`
-          <p>Due fattori già pronti. Applico direttamente la LAP:</p>
-          <div class="math-block">
-            \\[\\begin{aligned}
-              2x - 1 = 0 \\quad &\\Rightarrow \\quad x_1 = \\tfrac{1}{2} \\\\[6pt]
-              x + 5 = 0 \\quad &\\Rightarrow \\quad x_2 = -5
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block result">\\[ x_1 = \\frac{1}{2} \\qquad x_2 = -5 \\]</div>
-        `
-      },
-      {
-        t:"Esempio avanzato — raccoglimento parziale: \\(3x(x-2) = x - 2\\)",
-        h:`
-          <div class="step-math"><div class="label">Porto tutto al primo membro</div></div>
-          <div class="math-block">
-            \\[ 3x(x-2) - (x-2) = 0 \\]
-          </div>
-          <div class="step-math"><div class="label">Raccolgo (x−2) come fattore comune</div></div>
-          <div class="math-block">
-            \\[ (x-2)(3x - 1) = 0 \\]
-          </div>
-          <div class="step-math"><div class="label">LAP</div></div>
-          <div class="math-block result">\\[ x_1 = 2 \\qquad x_2 = \\frac{1}{3} \\]</div>
-        `
-      },
-      {
-        t:"Equazione di 2° grado che si riduce al 1° grado: \\((x+2)(x-3) = (x-1)(x+4)\\)",
-        h:`
-          <div class="step-math"><div class="label">Sviluppo entrambi i prodotti</div></div>
-          <div class="math-block">
-            \\[ x^2 - x - 6 = x^2 + 3x - 4 \\]
-          </div>
-          <div class="step-math"><div class="label">I termini x² si cancellano!</div></div>
-          <div class="math-block">
-            \\[\\begin{aligned}
-              -x - 6 &= 3x - 4 \\\\
-              -x - 3x &= -4 + 6 \\\\
-              -4x &= 2
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block result">\\[ x = -\\frac{1}{2} \\]</div>
-          <p class="dim">Anche un'equazione che sembra di 2° grado può ridursi al 1° grado se i termini in \\(x^2\\) si cancellano.</p>
-        `
-      }
-    ])}
-
-    <div class="cb success">
-      <div class="cb-label">Quando usare la LAP</div>
-      <p>La LAP si usa ogni volta che riesci a scrivere l'equazione come <strong>prodotto = 0</strong>. Il passaggio chiave è sempre la <strong>fattorizzazione</strong>: raccogli il fattore comune, poi applica la regola.</p>
-    </div>
-  `
-},
-
-// ═══ 7: ERRORI ═══
-{
-  tag:"ATTENZIONE",
-  title:"Gli errori più <em>comuni</em>",
-  sub:"Impararli a memoria ti salva da mezzo punto perso per distrazione.",
-  nav:"Errori",
-  body:`
-    <div class="cb danger">
-      <div class="cb-label">Errore 1 — Cambio di membro senza cambiare segno</div>
-      <p>Quando un termine passa dall'altro lato dell'uguale, <strong>deve cambiare segno</strong>.</p>
-      <div class="compare-row">
-        <div class="compare-card wrong">
-          <div class="compare-label">Sbagliato</div>
-          \\(3x - 5 = 10\\)<br>
-          \\(3x = 10 - 5\\)<br>
-          \\(3x = 5\\) ← il segno era già negativo, non cambia niente<br>
-          <span style="font-size:.8rem;color:var(--danger)">Errore: il -5 era già negativo, portato a destra diventa +5</span>
-        </div>
-        <div class="compare-card right">
-          <div class="compare-label">Corretto</div>
-          \\(3x - 5 = 10\\)<br>
-          \\(3x = 10 + 5\\)<br>
-          \\(3x = 15\\)<br>
-          \\(x = 5\\)
-        </div>
-      </div>
-    </div>
-
-    <div class="cb danger">
-      <div class="cb-label">Errore 2 — Distributiva incompleta</div>
-      <p>Il fattore fuori dalla parentesi moltiplica <strong>tutti</strong> i termini dentro.</p>
-      <div class="compare-row">
-        <div class="compare-card wrong">
-          <div class="compare-label">Sbagliato</div>
-          \\(2(x + 4) = 2x + 4\\)
-        </div>
-        <div class="compare-card right">
-          <div class="compare-label">Corretto</div>
-          \\(2(x + 4) = 2x + 8\\)
-        </div>
-      </div>
-    </div>
-
-    <div class="cb danger">
-      <div class="cb-label">Errore 3 — MCM applicato solo alle frazioni</div>
-      <p>Il MCM va moltiplicato per <strong>ogni termine</strong> dell'equazione, anche quelli senza denominatore.</p>
-      <div class="compare-row">
-        <div class="compare-card wrong">
-          <div class="compare-label">Sbagliato</div>
-          \\(\\dfrac{x}{3} + 2 = 1\\)<br>
-          ×3 → \\(x + 2 = 3\\) ← il +2 non è stato moltiplicato!
-        </div>
-        <div class="compare-card right">
-          <div class="compare-label">Corretto</div>
-          \\(\\dfrac{x}{3} + 2 = 1\\)<br>
-          ×3 → \\(x + 6 = 3\\)
-        </div>
-      </div>
-    </div>
-
-    <div class="cb warn">
-      <div class="cb-label">Il rimedio universale — la verifica</div>
-      <p>Sostituisci il valore trovato nell'equazione <strong>originale</strong> (non in quella trasformata). Se i due membri danno lo stesso numero, la soluzione è giusta. Se no, c'è un errore da cercare.</p>
-    </div>
-  `
-},
-
-// ═══ 7: ESERCIZI ═══
-{
-  tag:"ESERCIZI GUIDATI",
-  title:"Mettere tutto <em>insieme</em>",
-  sub:"Sei esercizi di livello crescente: dai classici di 1° grado alle equazioni riducibili con la LAP.",
-  nav:"Esercizi",
-  body:`
-    ${acc([
-      {
-        t:"Es. 1 — \\(\\dfrac{2x+1}{4} - \\dfrac{x-3}{6} = 2\\)",
-        h:`
-          <div class="step-math"><div class="label">MCM(4, 6) = 12</div></div>
-          <div class="math-block">
-            \\[\\begin{aligned}
-              3(2x+1) - 2(x-3) &= 24 \\\\
-              6x + 3 - 2x + 6 &= 24 \\\\
-              4x + 9 &= 24 \\\\
-              4x &= 15
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block result">\\[ x = \\frac{15}{4} = 3{,}75 \\]</div>
-        `
-      },
-      {
-        t:"Es. 2 — \\(4(x+2) - 3(2x-1) = x - 7\\)",
-        h:`
-          <div class="math-block">
-            \\[\\begin{aligned}
-              4x + 8 - 6x + 3 &= x - 7 \\\\
-              -2x + 11 &= x - 7 \\\\
-              -2x - x &= -7 - 11 \\\\
-              -3x &= -18 \\\\
-              x &= 6
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block result">\\[ x = 6 \\]</div>
-          <div class="step-math"><div class="label green">Verifica</div>
-            <p>\\(4(8) - 3(11) = 32 - 33 = -1\\) e \\(6 - 7 = -1\\) ✓</p>
-          </div>
-        `
-      },
-      {
-        t:"Es. 3 — Caso particolare: \\(5(x-1) = 5x + 3\\)",
-        h:`
-          <div class="math-block">
-            \\[\\begin{aligned}
-              5x - 5 &= 5x + 3 \\\\
-              5x - 5x &= 3 + 5 \\\\
-              0 &= 8
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block warning">
-            <strong>Impossibile.</strong> Non esiste nessun valore di \\(x\\) che soddisfa questa equazione.
-          </div>
-        `
-      },
-      {
-        t:"Es. 5 — LAP: \\(2x^2 - 8x = 0\\)",
-        h:`
-          <div class="step-math"><div class="label">Raccolgo il fattore comune 2x</div></div>
-          <div class="math-block">
-            \\[ 2x(x - 4) = 0 \\]
-          </div>
-          <div class="step-math"><div class="label">LAP</div></div>
-          <div class="math-block result">\\[ x_1 = 0 \\qquad x_2 = 4 \\]</div>
-          <div class="step-math"><div class="label green">Verifica</div>
-            <p>\\(x_1 = 0\\): \\(0 - 0 = 0\\) ✓ &nbsp;|&nbsp; \\(x_2 = 4\\): \\(2(16) - 8(4) = 32 - 32 = 0\\) ✓</p>
-          </div>
-        `
-      },
-      {
-        t:"Es. 6 — Equazione di grado superiore riducibile: \\((x+1)(x+3) = (x-2)(x+5)\\)",
-        h:`
-          <div class="step-math"><div class="label">Sviluppo entrambi i membri</div></div>
-          <div class="math-block">
-            \\[ x^2 + 4x + 3 = x^2 + 3x - 10 \\]
-          </div>
-          <div class="step-math"><div class="label">I termini x² si cancellano — rimane un'equazione di 1° grado</div></div>
-          <div class="math-block">
-            \\[\\begin{aligned}
-              4x + 3 &= 3x - 10 \\\\
-              4x - 3x &= -10 - 3 \\\\
-              x &= -13
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block result">\\[ x = -13 \\]</div>
-          <div class="step-math"><div class="label green">Verifica</div>
-            <p>\\((-12)(-10) = 120\\) e \\((-15)(-8) = 120\\) ✓</p>
-          </div>
-        `
-      },
-      {
-        t:"Es. 4 — Problema: l'età di Lodovico",
-        h:`
-          <p><strong>Testo:</strong> Lodovico ha il doppio degli anni di sua sorella. Tra 5 anni la somma delle loro età sarà 34. Quanti anni ha Lodovico oggi?</p>
-          <div class="step-math"><div class="label">Imposto le variabili</div>
-            <p>Sia \\(x\\) l'età della sorella oggi. Allora Lodovico ha \\(2x\\) anni.</p>
-          </div>
-          <div class="step-math"><div class="label">Tra 5 anni</div>
-            <p>Sorella: \\(x + 5\\); Lodovico: \\(2x + 5\\)</p>
-          </div>
-          <div class="step-math"><div class="label">Equazione</div></div>
-          <div class="math-block">
-            \\[\\begin{aligned}
-              (x+5) + (2x+5) &= 34 \\\\
-              3x + 10 &= 34 \\\\
-              3x &= 24 \\\\
-              x &= 8
-            \\end{aligned}\\]
-          </div>
-          <div class="math-block result">
-            La sorella ha 8 anni, <strong>Lodovico ha \\(2 \\cdot 8 = 16\\) anni</strong>.
-          </div>
-          <div class="step-math"><div class="label green">Verifica</div>
-            <p>Tra 5 anni: \\(13 + 21 = 34\\) ✓</p>
-          </div>
-        `
-      }
-    ])}
-  `
-},
-
-// ═══ 8: CHECKLIST ═══
-{
-  tag:"RIEPILOGO",
-  title:"Checklist di <em>risoluzione</em>",
-  sub:"Usala come promemoria ogni volta che affronti un esercizio.",
-  nav:"Checklist",
-  body:`
-    <div class="cb method">
-      <div class="cb-label">Risolvere un'equazione di 1° grado</div>
-      <ul class="checklist">
-        <li>Sviluppa le parentesi (distributiva: il fattore moltiplica tutti i termini)</li>
-        <li>Elimina i denominatori: calcola il MCM e moltiplica <strong>ogni termine</strong></li>
-        <li>Porta le \\(x\\) a sinistra e i numeri a destra (cambiano segno!)</li>
-        <li>Raccogli i termini simili</li>
-        <li>Dividi per il coefficiente di \\(x\\)</li>
-        <li><strong>Verifica</strong> sostituendo nell'equazione originale</li>
-        <li>Se le \\(x\\) spariscono: guarda se rimane \\(0=0\\) (indeterminata) o \\(0=k\\) (impossibile)</li>
-      </ul>
-    </div>
-
-    <div class="cb danger">
-      <div class="cb-label">I tre errori da non fare mai</div>
-      <ul class="checklist">
-        <li><strong>Mai</strong> cambiare membro senza cambiare segno</li>
-        <li><strong>Mai</strong> applicare la distributiva solo al primo termine della parentesi</li>
-        <li><strong>Mai</strong> moltiplicare per il MCM solo le frazioni, dimenticando i termini interi</li>
-      </ul>
-    </div>
-
-    <div class="cb success">
-      <div class="cb-label">La verifica salva sempre</div>
-      <p>Anche se non sei sicuro di aver fatto tutto bene, la verifica ti dice immediatamente se la soluzione è corretta. Costa 30 secondi e vale un punto.</p>
-    </div>
-  `
-}
-
-];
-
-// ── APP LOGIC ──
-let cur = 0;
-const tot = S.length;
-
-function render() {
-  document.getElementById('topNav').innerHTML = S.map((s,i) =>
-    `<button class="nav-pill ${i===cur?'active':''}" onclick="goTo(${i})">${s.nav}</button>`
-  ).join('');
-
-  document.getElementById('app').innerHTML = S.map((s,i) => `
-    <div class="section ${i===cur?'active':''}">
-      <div class="hero">
-        <div class="section-num">${String(i+1).padStart(2,'0')} / ${String(tot).padStart(2,'0')}</div>
-        <div class="hero-tag">${s.tag}</div>
-        <h1>${s.title}</h1>
-        <p class="hero-sub">${s.sub}</p>
-      </div>
-      ${s.body}
-      <div class="bottom-nav">
-        <button class="bb" onclick="goTo(${i-1})" ${i===0?'disabled':''}>← Precedente</button>
-        <span class="page-info">${i+1} / ${tot}</span>
-        <button class="bb primary" onclick="goTo(${i+1})" ${i===tot-1?'disabled':''}>Successivo →</button>
-      </div>
-    </div>
-  `).join('');
-
-  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-    const active = document.querySelector('.section.active');
-    if (active) MathJax.typesetPromise([active]);
+      { view:'final' },
+    ];
   }
-}
 
-function goTo(idx) {
-  if (idx < 0 || idx >= tot) return;
-  cur = idx;
-  render();
-  window.scrollTo({top:0, behavior:'smooth'});
-}
+  valStyle(formula, hi){
+    if(hi) return 'font-family:Georgia,serif;font-style:italic;font-size:1.25rem;color:#4a7c59;font-weight:600;';
+    if(formula) return 'font-family:Georgia,serif;font-style:italic;font-size:1.15rem;color:#2c2520;';
+    return 'font-size:.96rem;color:#2c2520;line-height:1.4;';
+  }
 
-document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight') goTo(cur + 1);
-  if (e.key === 'ArrowLeft')  goTo(cur - 1);
-});
+  choose(idx){
+    const i = this.state.i;
+    const cur = this._screens[i];
+    const a = this.state.ans[i] || {picked:null, solved:false};
+    if(a.solved) return;
+    const ok = cur.options[idx].ok;
+    this.setState({ ans: { ...this.state.ans, [i]: { picked:idx, solved:ok } } });
+  }
 
-if (typeof MathJax !== 'undefined' && MathJax.startup) {
-  MathJax.startup.promise.then(() => render());
-} else {
-  render();
-  document.body.style.opacity = '1';
-}
+  next(){
+    const ni = Math.min(this.state.i + 1, this._screens.length - 1);
+    this.setState({ i:ni, maxI: Math.max(this.state.maxI, ni) });
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+  back(){
+    const ni = Math.max(this.state.i - 1, 0);
+    this.setState({ i:ni });
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+  restart(){
+    this.setState({ i:0, maxI:0, ans:{} });
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
 
-if (new URLSearchParams(location.search).get('print') === '1') {
-  const preparePrint = () => {
-    document.body.classList.add('print-all');
-    document.querySelectorAll('.section').forEach(s => s.classList.add('active'));
-    document.querySelectorAll('.acc-item').forEach(a => a.classList.add('open'));
-  };
-  if (typeof MathJax !== 'undefined' && MathJax.startup) {
-    MathJax.startup.promise.then(() => {
-      preparePrint();
-      MathJax.typesetPromise([document.getElementById('app')]);
+  componentDidMount(){
+    this._key = (e) => {
+      if(e.key === 'ArrowLeft'){ this.back(); return; }
+      if(e.key === 'ArrowRight' || e.key === 'Enter'){
+        const i = this.state.i;
+        const cur = this._screens[i];
+        const a = this.state.ans[i] || {};
+        if(cur.view === 'final'){ return; }
+        if(cur.view !== 'choice' || a.solved){ this.next(); }
+      }
+    };
+    window.addEventListener('keydown', this._key);
+  }
+  componentWillUnmount(){ window.removeEventListener('keydown', this._key); }
+
+  renderVals(){
+    const S = this._screens;
+    const i = this.state.i;
+    const cur = S[i];
+    const total = S.length;
+    const ans = this.state.ans;
+    const a = ans[i] || { picked:null, solved:false };
+    const view = cur.view;
+    const isChoice = view === 'choice';
+
+    let correctIdx = -1;
+    let opts = [];
+    if(isChoice){
+      cur.options.forEach((o, idx) => { if(o.ok) correctIdx = idx; });
+      opts = cur.options.map((o, idx) => {
+        const solved = a.solved;
+        const isCorrect = idx === correctIdx;
+        const picked = a.picked === idx;
+        let card = 'display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#fff;border:1px solid #e4ddd4;border-radius:9px;padding:15px 18px;cursor:pointer;transition:all .16s;color:#2c2520;';
+        let letterBg = '#f5f0e8', letterColor = '#6e6760', icon = '', iconColor = '#b33a3a';
+        if(solved && isCorrect){
+          card = 'display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:rgba(74,124,89,.09);border:1.5px solid #4a7c59;border-radius:9px;padding:14.5px 17.5px;transition:all .16s;color:#2c2520;cursor:default;';
+          letterBg = '#4a7c59'; letterColor = '#fff'; icon = '✓'; iconColor = '#4a7c59';
+        } else if(solved && !isCorrect){
+          card += 'opacity:.4;cursor:default;';
+        } else if(!solved && picked){
+          card = 'display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:rgba(179,58,58,.07);border:1.5px solid #b33a3a;border-radius:9px;padding:14.5px 17.5px;cursor:pointer;transition:all .16s;color:#2c2520;';
+          letterBg = '#b33a3a'; letterColor = '#fff'; icon = '✗'; iconColor = '#b33a3a';
+        }
+        const labelStyle = cur.formula
+          ? 'flex:1;font-family:Georgia,serif;font-style:italic;font-size:1.4rem;letter-spacing:.5px;'
+          : 'flex:1;font-size:1.02rem;line-height:1.5;';
+        return {
+          idx, label:o.l,
+          card, labelStyle,
+          letter: String.fromCharCode(65 + idx),
+          letterStyle: 'flex:none;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:\'JetBrains Mono\',monospace;font-size:.78rem;font-weight:700;background:' + letterBg + ';color:' + letterColor + ';',
+          icon,
+          iconStyle: 'flex:none;width:18px;text-align:center;font-size:1.05rem;font-weight:700;color:' + iconColor + ';',
+          onClick: () => this.choose(idx),
+        };
+      });
+    }
+
+    let feedback = null, feedbackOk = false, feedbackLabel = '';
+    if(isChoice && a.picked != null){
+      if(a.solved){ feedback = cur.options[correctIdx].fb; feedbackOk = true; feedbackLabel = 'Corretto'; }
+      else { feedback = cur.options[a.picked].fb; feedbackOk = false; feedbackLabel = 'Riprova'; }
+    }
+
+    const dots = S.map((s, k) => {
+      const bg = k === i ? '#c2185b' : (k < i ? '#c9b8a8' : '#e4ddd4');
+      const w = k === i ? '26px' : '16px';
+      return { style: 'flex:none;width:' + w + ';height:4px;border-radius:2px;background:' + bg + ';transition:all .25s;' };
     });
-  } else {
-    preparePrint();
+
+    const solved = k => ans[k] && ans[k].solved;
+    const model = [];
+    if(solved(2)) model.push({ label:'Incognita',    val:'x = ingressi in un mese',     valStyle:this.valStyle(false,false) });
+    if(solved(3)) model.push({ label:'Costo LIBERA',  val:'5x',                          valStyle:this.valStyle(true,false) });
+    if(solved(4)) model.push({ label:'Costo SMART',   val:'36 + 2x',                     valStyle:this.valStyle(true,false) });
+    if(solved(5)) model.push({ label:'Equazione',     val:'5x = 36 + 2x',                valStyle:this.valStyle(true,false) });
+    if(this.state.maxI >= 7) model.push({ label:'Soluzione', val:'x = 12',               valStyle:this.valStyle(true,true) });
+    if(solved(9)) model.push({ label:'Decisione',     val:'Conviene la tariffa LIBERA',  valStyle:this.valStyle(false,false) });
+
+    const showAside = !(view === 'intro' || view === 'problem');
+    const canAdvance = !isChoice || a.solved;
+    const isFinal = view === 'final';
+
+    const labels = { intro:'Comincia →', problem:'Costruiamo il modello →', reveal:'Interpretiamo →', final:'Ricomincia ↺' };
+    let primaryLabel = labels[view] || 'Continua →';
+    if(isChoice && !a.solved) primaryLabel = 'Scegli una risposta';
+
+    return {
+      view,
+      isIntro: view === 'intro', isProblem: view === 'problem',
+      isChoice, isReveal: view === 'reveal', isFinal,
+      tag: cur.tag || '', q: cur.q || '', hint: cur.hint || '',
+      opts,
+      feedback, feedbackOk, feedbackLabel,
+      feedbackStyle: 'background:' + (feedbackOk ? 'rgba(74,124,89,.08)' : 'rgba(179,58,58,.06)') + ';border-left:2px solid ' + (feedbackOk ? '#4a7c59' : '#b33a3a') + ';padding:14px 18px;border-radius:0 8px 8px 0;margin-top:20px;animation:fadeUp .3s ease;',
+      feedbackLabelStyle: 'font-family:\'JetBrains Mono\',monospace;font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:6px;color:' + (feedbackOk ? '#4a7c59' : '#b33a3a') + ';',
+      dots, counter: (i + 1) + ' / ' + total,
+      model, hasModel: model.length > 0, noModel: model.length === 0,
+      showAside,
+      gridStyle: showAside ? 'display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:42px;align-items:start;' : 'max-width:680px;margin:0 auto;',
+      canAdvance,
+      primaryLabel,
+      primaryStyle: canAdvance
+        ? 'font-family:\'JetBrains Mono\',monospace;font-size:.82rem;letter-spacing:.5px;background:#c2185b;color:#fff;border:none;border-radius:8px;padding:13px 26px;cursor:pointer;transition:all .18s;'
+        : 'font-family:\'JetBrains Mono\',monospace;font-size:.82rem;letter-spacing:.5px;background:#ece7de;color:#a89c8e;border:none;border-radius:8px;padding:13px 26px;cursor:not-allowed;',
+      primaryAction: isFinal ? (() => this.restart()) : (canAdvance ? (() => this.next()) : (() => {})),
+      backDisabled: i === 0,
+      backStyle: 'font-family:\'JetBrains Mono\',monospace;font-size:.82rem;background:none;border:none;color:' + (i === 0 ? '#cfc6ba' : '#5a524a') + ';cursor:' + (i === 0 ? 'default' : 'pointer') + ';padding:6px 2px;',
+      back: () => this.back(),
+    };
   }
 }
 </script>
