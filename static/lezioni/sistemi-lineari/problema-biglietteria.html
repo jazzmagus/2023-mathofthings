@@ -352,11 +352,6 @@ function pick(i, correctIdx, isCorrect, feedback) {
   document.getElementById('fb-label').textContent = isCorrect ? 'Corretto' : 'Non corretto';
   document.getElementById('fb-text').innerHTML = feedback;
 
-  if (!isCorrect) {
-    const correctFeedback = opts[correctIdx].getAttribute('data-correct-feedback');
-    document.getElementById('fb-text').innerHTML = feedback + '<br><br><strong>Risposta corretta:</strong><br>' + correctFeedback;
-  }
-
   const btn = document.getElementById('btn-next');
   btn.classList.add('show');
   btn.textContent = current < 4 ? 'Prossimo step →' : 'Vedi il risultato →';
