@@ -8,7 +8,7 @@ tags: [itis, lesson, 2021]
 categories: []
 date: "2021-09-08T00:00:00Z"
 featured: true
-draft: false
+draft: true
 
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder.
@@ -145,7 +145,7 @@ projects: []
 ## domande?
 
 ---
-<!-- 
+<!--
 <!-- callout -->
 This homepage section is an example of adding [elements](https://sourcethemes.com/academic/docs/writing-markdown-latex/) to the [*Blank* widget](https://sourcethemes.com/academic/docs/widgets/).
 
