@@ -1,5 +1,5 @@
 ---
-title: "Chi ha paura della _matematica_?"
+title: "A cosa _serve_ la matematica? Non te lo _dico_!"
 subtitle: "Una riflessione sulla domanda più frequente in aula"
 summary: "A cosa serve veramente la matematica? Risposte ironiche, professionali e dalle grandi menti della scienza."
 authors:

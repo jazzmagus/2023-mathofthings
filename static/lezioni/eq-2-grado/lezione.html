@@ -116,16 +116,19 @@ body {
 .hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7}
 
 /* ── CONCEPT BOXES ── */
-.cb{background:rgba(193,24,91,.03);border:none;border-radius:0;padding:16px 0;margin:18px 0;box-shadow:none;position:relative;border-left:2px solid var(--accent)}
+.cb{background:var(--surface-alt);border:none;border-radius:0;padding:16px 0 16px 18px;margin:18px 0;box-shadow:none;position:relative;border-left:2px solid var(--accent)}
 .cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;display:none}
-.cb.tip::before{background:var(--blue)} .cb.warn::before{background:var(--gold)}
-.cb.danger::before{background:var(--danger)} .cb.success::before{background:var(--green)}
-.cb.method::before{background:var(--accent)} .cb.purple::before{background:var(--purple)}
-.cb.teal::before{background:var(--teal)}
+.cb.tip::before{background:transparent} .cb.warn::before{background:transparent}
+.cb.danger::before{background:transparent} .cb.success::before{background:transparent}
+.cb.method::before{background:transparent} .cb.purple::before{background:transparent}
+.cb.teal::before{background:transparent}
 .cb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600;color:var(--accent)}
-.cb.tip .cb-label{color:var(--blue)} .cb.warn .cb-label{color:var(--gold)}
-.cb.danger .cb-label{color:var(--danger)} .cb.success .cb-label{color:var(--green)}
-.cb.method .cb-label{color:var(--accent)} .cb.purple .cb-label{color:var(--purple)}
+.cb.tip .cb-label{color:var(--blue)}
+.cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)}
+.cb.success .cb-label{color:var(--green)}
+.cb.method .cb-label{color:var(--accent)}
+.cb.purple .cb-label{color:var(--purple)}
 .cb.teal .cb-label{color:var(--teal)}
 
 /* ── MATH DISPLAY BLOCKS ── */
@@ -141,7 +144,7 @@ body {
   background: rgba(0,0,0,.04);
 }
 .math-block.hero-formula {
-  background: rgba(193,24,91,.05);
+  background: var(--surface-alt);
   border: none;
   padding: 16px 20px;
   text-align: center;
@@ -195,20 +198,20 @@ body {
 .ct tr:last-child td{border-bottom:none}
 
 /* ── SVG ── */
-.graph-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:18px 0;box-shadow:var(--shadow);overflow-x:auto;text-align:center}
+.graph-box{background:none;border:1px solid var(--border-light);border-radius:0;padding:20px;margin:18px 0;box-shadow:none;overflow-x:auto;text-align:center}
 .graph-box svg text{font-family:'Georgia',sans-serif}
 
 /* ── TYPE CARDS ── */
 .type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
-.type-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:transform .2s}
-.type-card:hover{transform:translateY(-2px)}
+.type-card{background:none;border:none;border-left:2px solid var(--accent);border-radius:0;padding:20px 0 20px 18px;box-shadow:none;transition:transform .2s}
+.type-card:hover{transform:none}
 .type-card h4{font-family:'Playfair Display',serif;font-size:1.05rem;margin-bottom:6px}
-.type-card .tc-eq{margin:8px 0;padding:10px 12px;background:#fdfaf6;border:1px solid var(--border-light);border-radius:6px;text-align:center}
+.type-card .tc-eq{margin:8px 0;padding:10px 12px;background:none;border:none;border-left:1px solid var(--text-dim);border-radius:0;text-align:left;padding-left:12px}
 .type-card p{font-size:.9rem;color:var(--text-mid)}
 
 /* ── DELTA CARDS ── */
 .delta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
-.delta-card{text-align:center;padding:20px 14px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow)}
+.delta-card{text-align:center;padding:20px 14px;border-radius:0;border:1px solid var(--border-light);background:none;box-shadow:none}
 .delta-card h4{font-family:'Fira Code',monospace;font-size:.95rem;margin-bottom:10px}
 
 /* ── BOTTOM NAV ── */
@@ -1029,12 +1032,12 @@ const S = [
       </ul>
     </div>
 
-    <div style="margin-top:32px;padding:24px 28px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)">
+    <div style="margin-top:32px;padding:24px 0 24px 18px;background:none;border:none;border-left:2px solid var(--accent);border-radius:0;box-shadow:none">
       <div style="font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px">Metti alla prova</div>
       <p style="font-size:.97rem;color:var(--text-mid);margin-bottom:18px;line-height:1.6">Hai studiato la teoria — ora è il momento di verificare quanto hai capito. Scegli il livello:</p>
       <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <a href="../quiz-eq-2-grado/" style="font-family:'Georgia',sans-serif;font-size:.92rem;font-weight:700;padding:12px 26px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;text-decoration:none;transition:background .2s" onmouseover="this.style.background='#a8144e'" onmouseout="this.style.background='var(--accent)'">Test base · 20 domande →</a>
-        <a href="../quiz-eq-2-grado-v2/" style="font-family:'Georgia',sans-serif;font-size:.92rem;font-weight:700;padding:12px 26px;background:var(--purple);color:#fff;border:none;border-radius:8px;cursor:pointer;text-decoration:none;transition:background .2s" onmouseover="this.style.background='#4a0072'" onmouseout="this.style.background='var(--purple)'">Test avanzato · 30 domande →</a>
+        <a href="../quiz-eq-2-grado/" style="font-family:'Georgia',sans-serif;font-size:.92rem;font-weight:700;padding:12px 26px;background:var(--accent);color:#fff;border:none;border-radius:0;cursor:pointer;text-decoration:none;transition:all .2s" onmouseover="this.style.background='#a8144e';this.style.transform='translateY(-1px)'" onmouseout="this.style.background='var(--accent)';this.style.transform='translateY(0)'">Test base · 20 domande →</a>
+        <a href="../quiz-eq-2-grado-v2/" style="font-family:'Georgia',sans-serif;font-size:.92rem;font-weight:700;padding:12px 26px;background:var(--purple);color:#fff;border:none;border-radius:0;cursor:pointer;text-decoration:none;transition:all .2s" onmouseover="this.style.background='#4a0072';this.style.transform='translateY(-1px)'" onmouseout="this.style.background='var(--purple)';this.style.transform='translateY(0)'">Test avanzato · 30 domande →</a>
       </div>
     </div>
   `
