@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problema — Sistemi Lineari: Biglietteria Teatrale</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Georgia:ital,wght@0,400;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#ed6f5c; --accent-light:#fce4ec;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.topbar-home{font-family:'Fira Code',monospace;font-size:.75rem;color:var(--text-dim);text-decoration:none;cursor:pointer;white-space:nowrap;margin-left:auto}
+.topbar-home:hover{color:var(--accent)}
+
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;font-family:'Georgia',serif}
+
+.problem-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow);margin-bottom:24px}
+.p-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:16px}
+.p-text{font-size:1.02rem;line-height:1.8;margin-bottom:20px;color:var(--text);font-family:'Georgia',serif}
+.p-text strong{font-weight:700}
+
+.progress-bar-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;font-family:'Fira Code',monospace;font-size:.7rem}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px;display:none}
+.q-badge.show{display:block}
+.q-text{font-size:1.02rem;font-weight:500;line-height:1.65;margin-bottom:22px;color:var(--text);font-family:'Georgia',serif}
+
+.options{display:flex;flex-direction:column;gap:9px;margin-top:24px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5;font-family:'Georgia',serif}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:28px;padding:18px 20px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none;font-family:'Georgia',serif}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:8px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.btn-next{font-family:'Fira Code',monospace;font-size:.95rem;font-weight:600;padding:0;background:none;border:none;cursor:pointer;display:none;color:var(--accent);text-decoration:none;letter-spacing:.3px}
+.btn-next.show{display:inline}
+.btn-next:hover{color:var(--text)}
+
+.results-section{display:none}
+.results-section.show{display:block}
+.res-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:800;margin:32px 0 16px;color:var(--text)}
+.sol-step{margin:20px 0;padding:16px 0;border-bottom:1px solid var(--border-light);font-family:'Georgia',serif}
+.sol-step:last-child{border-bottom:none}
+.step-num{font-family:'Fira Code',monospace;font-size:.75rem;color:var(--accent);font-weight:600;margin-bottom:8px}
+.step-desc{font-size:.98rem;line-height:1.7;color:var(--text)}
+.considerations{background:var(--surface-alt);border-left:3px solid var(--accent);padding:18px 20px;border-radius:4px;margin:24px 0;font-family:'Georgia',serif;font-size:.98rem;line-height:1.7}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .problem-card{padding:20px 18px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Problema — Sistemi Lineari</div>
+  <div class="topbar-tag">IIS G.A. Remondini</div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+
+<div class="container">
+  <div class="hero">
+    <div class="hero-tag">Applicazione pratica</div>
+    <h1>Biglietteria <em>Teatrale</em></h1>
+    <p class="hero-sub">Risolvi il problema passo dopo passo. Ogni domanda riguarda un singolo step della soluzione del sistema.</p>
+  </div>
+
+  <div class="problem-card" id="problem-container">
+    <div class="progress-bar-wrap">
+      <div class="progress-info">
+        <span>Progresso</span>
+        <span id="prog-frac">1 / 5</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="p-title" id="p-title">Il Problema</div>
+    <div class="p-text" id="p-text" style="margin-bottom:28px">
+      Un teatro registra le vendite della serata di venerdì. Sono stati venduti complessivamente <strong>150 biglietti</strong> (interi e ridotti) per un incasso totale di <strong>€2.100</strong>.<br><br>
+      Il biglietto intero costa <strong>€15</strong> e il biglietto ridotto costa <strong>€12</strong>.<br><br>
+      <strong>Quanti biglietti interi e quanti ridotti sono stati venduti?</strong>
+    </div>
+
+    <div id="setup-guide" style="background:var(--surface-alt);border-left:3px solid var(--accent);padding:18px 20px;border-radius:4px;margin-bottom:28px;font-family:'Georgia',serif;font-size:.98rem;line-height:1.7">
+      <strong style="color:var(--accent)">Come impostare il modello:</strong><br><br>
+      Per risolvere questo problema con un sistema di equazioni, devi:<br>
+      1. Definire le variabili che rappresentano le quantità incognite<br>
+      2. Scrivere le equazioni in base alle condizioni date<br>
+      3. Risolvere il sistema passo dopo passo<br><br>
+      Rispondi alle domande seguenti per costruire la soluzione.
+    </div>
+
+    <div class="q-badge" id="q-badge" style="display:none"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="q-opts"></div>
+
+    <div class="feedback" id="q-feedback">
+      <div class="fb-label" id="fb-label"></div>
+      <div id="fb-text"></div>
+    </div>
+
+    <p style="margin-top:28px;font-family:'Georgia',serif">
+      <a href="#" class="btn-next" id="btn-next" onclick="nextStep(event)">Inizia →</a>
+    </p>
+
+    <!-- RISULTATI FINALI -->
+    <div class="results-section" id="results">
+      <div class="res-title">Soluzione Completa</div>
+
+      <div class="sol-step">
+        <div class="step-num">Passo 1: Definire le variabili</div>
+        <div class="step-desc">
+          Sia \(x\) = numero di biglietti interi<br>
+          Sia \(y\) = numero di biglietti ridotti
+        </div>
+      </div>
+
+      <div class="sol-step">
+        <div class="step-num">Passo 2: Scrivere il sistema</div>
+        <div class="step-desc">
+          \[\begin{cases} x + y = 150 \\ 15x + 12y = 2100 \end{cases}\]
+          La prima equazione rappresenta il numero totale di biglietti.<br>
+          La seconda rappresenta l'incasso totale.
+        </div>
+      </div>
+
+      <div class="sol-step">
+        <div class="step-num">Passo 3: Risolvere con il metodo di sostituzione</div>
+        <div class="step-desc">
+          Dalla prima equazione: \(y = 150 - x\)<br><br>
+          Sostituisci nella seconda:<br>
+          \(15x + 12(150-x) = 2100\)<br>
+          \(15x + 1800 - 12x = 2100\)<br>
+          \(3x = 300\)<br>
+          \(x = 100\)
+        </div>
+      </div>
+
+      <div class="sol-step">
+        <div class="step-num">Passo 4: Trovare l'altra variabile</div>
+        <div class="step-desc">
+          \(y = 150 - 100 = 50\)
+        </div>
+      </div>
+
+      <div class="sol-step">
+        <div class="step-num">Passo 5: Verifica della soluzione</div>
+        <div class="step-desc">
+          Numero totale: \(100 + 50 = 150\) ✓<br>
+          Incasso: \(100 \times 15 + 50 \times 12 = 1500 + 600 = 2100\) ✓
+        </div>
+      </div>
+
+      <div class="res-title">Interpretazione della Soluzione</div>
+      <div class="considerations">
+        <strong>Cosa significa questa soluzione nel contesto reale?</strong><br><br>
+        Il teatro ha venduto <strong>100 biglietti interi</strong> a €15 e <strong>50 biglietti ridotti</strong> a €12. Questo significa che circa il 67% della platea ha pagato il prezzo intero, mentre il 33% ha avuto diritto a una riduzione (probabilmente studenti, over 65, disabili, ecc.).<br><br>
+        L'incasso di €2.100 per 150 persone rappresenta un prezzo medio di €14 a biglietto. Questa soluzione è realistica: il rapporto tra biglietti interi e ridotti riflette una platea eterogenea, dove la maggior parte paga il prezzo pieno ma una frazione significativa beneficia di agevolazioni.<br><br>
+        In pratica, il teatro potrebbe usare questa informazione per pianificare le riduzioni future o per valutare il potere d'acquisto del pubblico.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const steps = [
+  {
+    badge: "Domanda 1: Il Problema",
+    q: "Quale è la risposta al problema?",
+    opts: [
+      { text: "(x, y) = (120 interi, 30 ridotti)", correct: false, feedback: "No. Se fosse così, l'incasso sarebbe 120×15 + 30×12 = 1800 + 360 = €2.160, non €2.100. Controlla i tuoi calcoli." },
+      { text: "(x, y) = (100 interi, 50 ridotti)", correct: true, feedback: "Esatto! 100 biglietti interi a €15 e 50 ridotti a €12 danno un incasso di 1500 + 600 = €2.100 su un totale di 150 biglietti." },
+      { text: "(x, y) = (75 interi, 75 ridotti)", correct: false, feedback: "No. Se metà fossero interi e metà ridotti, l'incasso sarebbe 75×15 + 75×12 = 1125 + 900 = €2.025, non €2.100." },
+      { text: "(x, y) = (80 interi, 70 ridotti)", correct: false, feedback: "No. Questo darebbe 80×15 + 70×12 = 1200 + 840 = €2.040, che non corrisponde a €2.100." }
+    ]
+  },
+  {
+    badge: "Step 1: Definire le variabili",
+    q: "Come definiamo correttamente le variabili?",
+    opts: [
+      { text: "\\(x\\) = biglietti ridotti, \\(y\\) = biglietti interi", correct: false, feedback: "Non è sbagliato in assoluto, ma per coerenza conviene assegnare \\(x\\) ai biglietti interi (il tipo principale) e \\(y\\) ai ridotti. L'importante è essere coerenti." },
+      { text: "\\(x\\) = biglietti interi, \\(y\\) = biglietti ridotti", correct: true, feedback: "Perfetto! Assegnare \\(x\\) al tipo principale rende il sistema più intuitivo da risolvere." },
+      { text: "\\(x\\) = prezzo intero, \\(y\\) = prezzo ridotto", correct: false, feedback: "No, i prezzi sono già noti (€15 e €12). Le variabili devono essere le quantità incognite: i numeri di biglietti." },
+      { text: "\\(x\\) = incasso, \\(y\\) = numero totale", correct: false, feedback: "No, l'incasso totale (€2.100) e il numero totale (150) sono già noti. Dobbiamo trovare le quantità di ciascun tipo di biglietto." }
+    ]
+  },
+  {
+    badge: "Step 2: Scrivere il sistema",
+    q: "Quale sistema rappresenta correttamente il problema?",
+    opts: [
+      { text: "\\[\\begin{cases} x + y = 150 \\\\ 15x + 12y = 2100 \\end{cases}\\]", correct: true, feedback: "Corretto! La prima equazione rappresenta il totale di 150 biglietti. La seconda rappresenta l'incasso: 15 euro per ogni biglietto intero (\\(x\\)) più 12 euro per ogni ridotto (\\(y\\)) uguaglia €2.100." },
+      { text: "\\[\\begin{cases} x + y = 2100 \\\\ 15x + 12y = 150 \\end{cases}\\]", correct: false, feedback: "No, le equazioni sono invertite. Il totale dei biglietti è 150, non l'incasso. L'incasso (in euro) è 2100, non il numero di biglietti." },
+      { text: "\\[\\begin{cases} 15x + 12y = 150 \\\\ x + y = 2100 \\end{cases}\\]", correct: false, feedback: "No, hai confuso ancora le equazioni. 15x + 12y rappresenta il denaro (€2.100), mentre x + y rappresenta il numero di persone (150)." },
+      { text: "\\[\\begin{cases} x - y = 150 \\\\ 15x + 12y = 2100 \\end{cases}\\]", correct: false, feedback: "No, la prima equazione dovrebbe essere una somma (\\(x + y = 150\\)), non una differenza. Una differenza non ci darebbe il totale di 150 biglietti." }
+    ]
+  },
+  {
+    badge: "Step 3: Risolvere il sistema",
+    q: "Dalla prima equazione \\(x + y = 150\\), ricaviamo \\(y\\). Qual è il risultato?",
+    opts: [
+      { text: "\\(y = 150 + x\\)", correct: false, feedback: "No. Se sommi \\(x\\) a 150, stai aumentando il totale, non isolando \\(y\\). Ricorda: per isolare \\(y\\) da \\(x + y = 150\\), devi sottrarre \\(x\\) da entrambi i lati." },
+      { text: "\\(y = x - 150\\)", correct: false, feedback: "No. Questo darebbe un valore negativo di \\(y\\) per la maggior parte dei valori di \\(x\\). Sottrai \\(x\\) da 150, non il contrario." },
+      { text: "\\(y = 150 - x\\)", correct: true, feedback: "Esatto! Sottraendo \\(x\\) da entrambi i lati di \\(x + y = 150\\) otteniamo \\(y = 150 - x\\). Questo è il primo principio di equivalenza." },
+      { text: "\\(y = \\frac{150}{x}\\)", correct: false, feedback: "No, questo rappresenterebbe un rapporto inverso tra \\(x\\) e \\(y\\), non una relazione lineare. Dalla addizione \\(x + y = 150\\) si ricava una sottrazione, non una divisione." }
+    ]
+  },
+  {
+    badge: "Step 4: Sostituzione e calcolo",
+    q: "Sostituendo \\(y = 150 - x\\) nella seconda equazione e risolvendo, quale valore di \\(x\\) troviamo?",
+    opts: [
+      { text: "\\(x = 80\\)", correct: false, feedback: "No. Se \\(x = 80\\), allora \\(y = 70\\) e l'incasso sarebbe 80×15 + 70×12 = 1200 + 840 = €2.040, non €2.100." },
+      { text: "\\(x = 100\\)", correct: true, feedback: "Perfetto! Sostituendo \\(y = 150 - x\\) in 15x + 12y = 2100 otteniamo 15x + 12(150-x) = 2100, che semplifica a 3x = 300, quindi x = 100." },
+      { text: "\\(x = 75\\)", correct: false, feedback: "No. Se \\(x = 75\\), allora \\(y = 75\\) e l'incasso sarebbe 75×15 + 75×12 = 1125 + 900 = €2.025, non €2.100." },
+      { text: "\\(x = 120\\)", correct: false, feedback: "No. Se \\(x = 120\\), allora \\(y = 30\\) e l'incasso sarebbe 120×15 + 30×12 = 1800 + 360 = €2.160, non €2.100." }
+    ]
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function init() {
+  showStep(0);
+}
+
+function showStep(idx) {
+  answered = false;
+
+  if (idx === 0) {
+    // Prima pagina: solo problema, niente domande
+    document.getElementById('prog-frac').textContent = '0 / ' + steps.length;
+    document.getElementById('prog-fill').style.width = '0%';
+    document.getElementById('p-title').style.display = 'block';
+    document.getElementById('p-text').style.display = 'block';
+    document.getElementById('setup-guide').style.display = 'block';
+    document.getElementById('q-badge').style.display = 'none';
+    document.getElementById('q-text').style.display = 'none';
+    document.getElementById('q-opts').style.display = 'none';
+    document.getElementById('q-feedback').style.display = 'none';
+    document.getElementById('btn-next').textContent = 'Inizia →';
+    document.getElementById('btn-next').classList.add('show');
+    return;
+  }
+
+  // Domande vere (idx >= 1)
+  const step = steps[idx - 1];
+  document.getElementById('prog-frac').textContent = idx + ' / ' + steps.length;
+  document.getElementById('prog-fill').style.width = ((idx / steps.length) * 100) + '%';
+
+  document.getElementById('p-title').style.display = 'none';
+  document.getElementById('p-text').style.display = 'none';
+  document.getElementById('setup-guide').style.display = 'none';
+  document.getElementById('q-badge').style.display = 'block';
+  document.getElementById('q-text').style.display = 'block';
+  document.getElementById('q-opts').style.display = 'flex';
+
+  document.getElementById('q-badge').textContent = step.badge;
+  document.getElementById('q-text').textContent = step.q;
+
+  let shuffled = [...step.opts].sort(() => Math.random() - 0.5);
+  let correctIdx = shuffled.findIndex(o => o.correct);
+
+  const letters = ['A', 'B', 'C', 'D'];
+  document.getElementById('q-opts').innerHTML = shuffled.map((opt, i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i}, ${correctIdx}, ${shuffled[i].correct}, '${shuffled[i].feedback.replace(/'/g, "\\'")}')">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${opt.text}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('problem-container')]).catch(err => console.log(err));
+}
+
+function pick(i, correctIdx, isCorrect, feedback) {
+  if (answered) return;
+  answered = true;
+
+  if (isCorrect) score++;
+
+  const opts = document.querySelectorAll('.opt');
+  opts.forEach(o => o.classList.add('locked'));
+  opts[i].classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) opts[correctIdx].classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.classList.add('show');
+  fb.classList.add(isCorrect ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isCorrect ? 'Corretto!' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = feedback;
+
+  const btn = document.getElementById('btn-next');
+  btn.classList.add('show');
+  btn.textContent = current < steps.length - 1 ? 'Prossimo step →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextStep(e) {
+  e.preventDefault();
+  current++;
+  if (current >= steps.length) {
+    document.getElementById('results').classList.add('show');
+    document.getElementById('p-title').style.display = 'none';
+    document.getElementById('p-text').style.display = 'none';
+    document.getElementById('q-badge').style.display = 'none';
+    document.getElementById('q-text').style.display = 'none';
+    document.getElementById('q-opts').style.display = 'none';
+    document.getElementById('q-feedback').style.display = 'none';
+    document.getElementById('btn-next').style.display = 'none';
+    document.getElementById('progress-bar-wrap').style.display = 'none';
+
+    const pb = document.querySelector('.progress-bar-wrap');
+    if (pb) pb.style.display = 'none';
+
+    MathJax.typesetPromise([document.getElementById('results')]);
+  } else {
+    showStep(current);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
