@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700&family=JetBrains+Mono:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#faf7f2;font-family:Georgia,'Times New Roman',serif;color:#2c2520;-webkit-font-smoothing:antialiased;}
+  *{box-sizing:border-box;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  ::selection{background:#fce4ec;}
+  button{font:inherit;}
+</style>
+</helmet>
+
+<div style="min-height:100vh;">
+
+  <header style="position:sticky;top:0;z-index:50;background:rgba(250,247,242,.93);backdrop-filter:blur(8px);border-bottom:1px solid #ece7de;">
+    <div style="max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:14px 32px;">
+      <a href="https://mathofthings.netlify.app/" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:.74rem;color:#a89c8e;text-decoration:none;white-space:nowrap;transition:color .18s;" style-hover="color:#c2185b;"><span style="font-size:.9rem;line-height:1;">←</span> home</a>
+      <div style="width:1px;height:18px;background:#e4ddd4;flex:none;"></div>
+      <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.02rem;color:#2c2520;white-space:nowrap;">Modelli · Equazioni di 2° grado</div>
+      <div style="flex:1;display:flex;gap:5px;align-items:center;justify-content:center;">
+        <sc-for list="{{ dots }}" as="d" hint-placeholder-count="11">
+          <span style="{{ d.style }}"></span>
+        </sc-for>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#6e6760;white-space:nowrap;">{{ counter }}</div>
+    </div>
+  </header>
+
+  <main style="max-width:1080px;margin:0 auto;padding:46px 32px 90px;">
+    <div style="{{ gridStyle }}">
+
+      <div>
+
+        <sc-if value="{{ isIntro }}" hint-placeholder-val="{{ true }}">
+          <div style="animation:fadeUp .5s ease;">
+            <div style="font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:#c2185b;margin-bottom:16px;">Matematica · Modelli dal mondo reale</div>
+            <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(2.1rem,5vw,3.1rem);line-height:1.12;margin:0 0 22px;color:#2c2520;">Un indovinello vero,<br>un'equazione di <em style="font-style:italic;color:#c2185b;">secondo grado</em></h1>
+            <p style="font-size:1.1rem;line-height:1.75;color:#5a524a;max-width:610px;margin:0 0 18px;">Si alza il livello. Stavolta l'incognita non se ne sta buona: si moltiplica per sé stessa. E quando appare quel piccolo <em style="font-style:italic">n²</em>, l'equazione smette di darti una sola risposta — te ne offre <strong>due</strong>.</p>
+            <p style="font-size:1.02rem;line-height:1.7;color:#6e6760;max-width:610px;margin:0;">Il bello viene dopo: una delle due risposte è giusta, l'altra è un fantasma algebrico. Tocca a te capire quale tenere e quale lasciare andare. Passo dopo passo, dalle parole al modello.</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isProblem }}" hint-placeholder-val="{{ false }}">
+          <div style="animation:fadeUp .4s ease;">
+            <div style="font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:#c2185b;margin-bottom:14px;">Il problema</div>
+            <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.14;margin:0 0 18px;color:#2c2520;">Il mistero dei <em style="font-style:italic;color:#c2185b;">78 cin cin</em></h1>
+            <p style="font-size:1.05rem;line-height:1.75;color:#5a524a;margin:0 0 8px;">Cenone di Capodanno, casa di zia Wanda. A mezzanotte tutti si alzano e, come ogni anno, <strong>ognuno brinda una volta con ciascun altro</strong>: un solo, sacro «cin cin» per ogni coppia di invitati. Cugino Berto, che si annoia, li conta tutti uno per uno: <strong>78 tintinnii</strong> esatti.</p>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:26px 0;">
+              <div style="background:#fff;border:1px solid #e4ddd4;border-radius:10px;padding:20px;">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:1.6px;text-transform:uppercase;color:#c2185b;font-weight:700;margin-bottom:10px;">La regola</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;margin-bottom:8px;color:#2c2520;">Tutti con tutti</div>
+                <p style="font-size:.92rem;color:#5a524a;margin:0;line-height:1.55;">Ogni invitato fa un cin cin con ciascuno degli altri. Una volta sola, mai con sé stesso.</p>
+              </div>
+              <div style="background:#fff;border:1px solid #e4ddd4;border-radius:10px;padding:20px;">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:1.6px;text-transform:uppercase;color:#3a6b8c;font-weight:700;margin-bottom:10px;">Il dato</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;margin-bottom:8px;color:#2c2520;">78 <span style="font-size:.92rem;font-weight:400;color:#6e6760;">cin cin contati</span></div>
+                <p style="font-size:.92rem;color:#5a524a;margin:0;line-height:1.55;">Berto giura di non averne perso nemmeno uno. È l'unico numero certo della serata.</p>
+              </div>
+            </div>
+
+            <div style="background:#f5f0e8;border-left:2px solid #c2185b;padding:16px 20px;border-radius:0 8px 8px 0;">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;color:#c2185b;font-weight:700;margin-bottom:6px;">La domanda</div>
+              <p style="font-size:1.06rem;color:#2c2520;margin:0;line-height:1.62;">Senza foto, senza lista, senza ricontare le sedie: <strong>quante persone</strong> erano sedute esattamente a quel tavolo?</p>
+            </div>
+            <p style="font-family:'Fira Code',monospace;font-size:.82rem;color:#6e6760;margin:20px 0 0;">Sembra un rompicapo da cenone. È un'equazione di secondo grado travestita da brindisi.</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isChoice }}" hint-placeholder-val="{{ false }}">
+          <div style="animation:fadeUp .4s ease;">
+            <div style="font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:2.2px;text-transform:uppercase;color:#c2185b;margin-bottom:13px;">{{ tag }}</div>
+            <h2 style="font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(1.4rem,2.8vw,1.9rem);line-height:1.26;color:#2c2520;margin:0 0 10px;">{{ q }}</h2>
+            <p style="font-size:.96rem;color:#6e6760;margin:0 0 26px;line-height:1.6;">{{ hint }}</p>
+            <div style="display:flex;flex-direction:column;gap:11px;">
+              <sc-for list="{{ opts }}" as="opt" hint-placeholder-count="4">
+                <button onClick="{{ opt.onClick }}" style="{{ opt.card }}" style-hover="border-color:#c2185b;">
+                  <span style="{{ opt.letterStyle }}">{{ opt.letter }}</span>
+                  <span style="{{ opt.labelStyle }}">{{ opt.label }}</span>
+                  <span style="{{ opt.iconStyle }}">{{ opt.icon }}</span>
+                </button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ feedback }}" hint-placeholder-val="{{ false }}">
+              <div style="{{ feedbackStyle }}">
+                <div style="{{ feedbackLabelStyle }}">{{ feedbackLabel }}</div>
+                <p style="font-size:.98rem;line-height:1.62;color:#2c2520;margin:0;">{{ feedback }}</p>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isReveal }}" hint-placeholder-val="{{ false }}">
+          <div style="animation:fadeUp .4s ease;">
+            <div style="font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:#c2185b;margin-bottom:14px;">La soluzione</div>
+            <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(1.8rem,4vw,2.5rem);line-height:1.14;margin:0 0 14px;color:#2c2520;">Due strade, <em style="font-style:italic;color:#c2185b;">una formula</em></h1>
+            <p style="font-size:1.04rem;line-height:1.7;color:#5a524a;margin:0;">Per il secondo grado c'è un attrezzo universale: la formula risolutiva. Le diamo in pasto i tre coefficienti e lei sputa fuori le soluzioni.</p>
+
+            <div style="background:#fff;border:1px solid #e4ddd4;border-radius:10px;padding:6px 12px;margin:24px 0;">
+              <div style="display:flex;align-items:center;gap:18px;padding:13px 8px;border-bottom:1px solid #ece7de;animation:fadeUp .5s ease both;animation-delay:.04s;">
+                <div style="flex:none;width:240px;font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.8px;text-transform:uppercase;color:#6e6760;">La formula risolutiva</div>
+                <div style="font-family:Georgia,serif;font-style:italic;font-size:1.35rem;color:#2c2520;">n = (−b ± √(b² − 4ac)) / 2a</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:18px;padding:13px 8px;border-bottom:1px solid #ece7de;animation:fadeUp .5s ease both;animation-delay:.10s;">
+                <div style="flex:none;width:240px;font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.8px;text-transform:uppercase;color:#6e6760;">Sostituisco a=1, b=−1, c=−156</div>
+                <div style="font-family:Georgia,serif;font-style:italic;font-size:1.35rem;color:#2c2520;">n = (1 ± √(1 + 624)) / 2</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:18px;padding:13px 8px;border-bottom:1px solid #ece7de;animation:fadeUp .5s ease both;animation-delay:.16s;">
+                <div style="flex:none;width:240px;font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.8px;text-transform:uppercase;color:#6e6760;">Il discriminante è un quadrato perfetto</div>
+                <div style="font-family:Georgia,serif;font-style:italic;font-size:1.35rem;color:#2c2520;">√625 = 25</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:18px;padding:13px 8px;border-bottom:1px solid #ece7de;animation:fadeUp .5s ease both;animation-delay:.22s;">
+                <div style="flex:none;width:240px;font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.8px;text-transform:uppercase;color:#6e6760;">Due strade: il ± si sdoppia</div>
+                <div style="font-family:Georgia,serif;font-style:italic;font-size:1.35rem;color:#2c2520;">n = (1 ± 25) / 2</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:18px;padding:18px 8px;animation:fadeUp .5s ease both;animation-delay:.30s;">
+                <div style="flex:none;width:240px;font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.8px;text-transform:uppercase;color:#4a7c59;font-weight:700;">Soluzioni</div>
+                <div style="display:flex;align-items:baseline;gap:18px;">
+                  <span style="font-family:Georgia,serif;font-style:italic;font-size:2.2rem;color:#4a7c59;font-weight:600;">n = 13</span>
+                  <span style="font-family:Georgia,serif;font-style:italic;font-size:1.4rem;color:#a89c8e;">oppure&nbsp;&nbsp;n = −12</span>
+                </div>
+              </div>
+            </div>
+
+            <p style="font-size:1.04rem;line-height:1.72;color:#5a524a;margin:0;">Due numeri usciti dalla stessa formula. Ma una festa con <em style="font-style:italic">meno dodici</em> invitati non si è mai vista. Quale delle due soluzioni sopravvive al mondo reale?</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isFinal }}" hint-placeholder-val="{{ false }}">
+          <div style="animation:fadeUp .4s ease;">
+            <div style="font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:#c2185b;margin-bottom:14px;">Verifica e morale</div>
+            <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(1.8rem,4vw,2.5rem);line-height:1.14;margin:0 0 22px;color:#2c2520;">Da indovinello a <em style="font-style:italic;color:#c2185b;">decisione</em></h1>
+
+            <div style="background:rgba(74,124,89,.07);border-left:2px solid #4a7c59;padding:16px 20px;border-radius:0 8px 8px 0;margin-bottom:24px;">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;color:#4a7c59;font-weight:700;margin-bottom:8px;">Verifica con n = 13</div>
+              <p style="font-size:1rem;line-height:1.7;color:#2c2520;margin:0;">Cin cin a testa → <em style="font-style:italic">13 − 1 = 12</em>. &nbsp; Totale → <em style="font-style:italic">13 · 12 : 2 = 156 : 2 = 78</em>. &nbsp; Esattamente i tintinnii di Berto: il modello regge. ✓</p>
+            </div>
+
+            <p style="font-size:1.05rem;line-height:1.75;color:#5a524a;margin:0 0 16px;">Tredici persone al tavolo di zia Wanda. La soluzione <em style="font-style:italic">n = −12</em> non era un errore di calcolo: era la formula che fa onestamente il suo dovere, restituendo ogni numero che azzera l'equazione. Sei tu, non lei, a sapere che gli invitati non possono essere negativi.</p>
+            <p style="font-size:1.05rem;line-height:1.75;color:#5a524a;margin:0 0 16px;">È questa la firma del secondo grado: due soluzioni in uscita, e un passo in più di pensiero per scegliere quella vera. Il primo grado non te lo chiedeva mai.</p>
+            <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.3rem;line-height:1.55;color:#2c2520;margin:24px 0 0;">Modellare è anche questo: lasciar parlare l'algebra fino in fondo, e poi avere il coraggio di scartare ciò che il mondo non accetta.</p>
+          </div>
+        </sc-if>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:44px;padding-top:22px;border-top:1px solid #ece7de;">
+          <button onClick="{{ back }}" style="{{ backStyle }}">← Indietro</button>
+          <button onClick="{{ primaryAction }}" style="{{ primaryStyle }}">{{ primaryLabel }}</button>
+        </div>
+
+      </div>
+
+      <sc-if value="{{ showAside }}" hint-placeholder-val="{{ false }}">
+        <aside style="position:sticky;top:88px;display:flex;flex-direction:column;gap:16px;">
+          <div style="background:#fff;border:1px solid #e4ddd4;border-radius:10px;padding:16px 18px;">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:1.4px;text-transform:uppercase;color:#6e6760;font-weight:600;margin-bottom:12px;">I fatti</div>
+            <div style="font-size:.9rem;color:#2c2520;line-height:1.5;margin-bottom:10px;">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1px;color:#c2185b;font-weight:700;">REGOLA</span><br>Ognuno brinda una volta con ciascun altro
+            </div>
+            <div style="font-size:.9rem;color:#2c2520;line-height:1.5;">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1px;color:#3a6b8c;font-weight:700;">CONTEGGIO</span><br>78 cin cin in tutto
+            </div>
+          </div>
+
+          <div style="background:#f5f0e8;border:1px solid #e4ddd4;border-radius:10px;padding:18px;">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1.6px;text-transform:uppercase;color:#c2185b;font-weight:700;margin-bottom:14px;">Il modello finora</div>
+            <sc-if value="{{ hasModel }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:13px;">
+                <sc-for list="{{ model }}" as="m" hint-placeholder-count="2">
+                  <div style="display:flex;flex-direction:column;gap:3px;">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:1.2px;text-transform:uppercase;color:#6e6760;">{{ m.label }}</div>
+                    <div style="{{ m.valStyle }}">{{ m.val }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ noModel }}" hint-placeholder-val="{{ true }}">
+              <p style="font-family:'Fira Code',monospace;font-size:.8rem;color:#8a8078;margin:0;line-height:1.55;">Si costruisce passo dopo passo, con le tue risposte.</p>
+            </sc-if>
+          </div>
+        </aside>
+      </sc-if>
+
+    </div>
+  </main>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.state = { i:0, maxI:0, ans:{} };
+    this._screens = this.buildScreens();
+  }
+
+  buildScreens(){
+    return [
+      { view:'intro' },
+      { view:'problem' },
+      { view:'choice', key:'incognita', tag:'Passo 1 · Modellare',
+        q:'Da dove si comincia: chi è la nostra incognita n?',
+        hint:'L’incognita è ciò che NON conosciamo e vogliamo trovare. Tutto il resto sono dati.',
+        formula:false,
+        options:[
+          {l:'Il numero di persone sedute a tavola', ok:true,  fb:'Esatto. Il 78 lo conosciamo già: l’unica cosa ignota è quanti erano gli invitati. Quello è n.'},
+          {l:'Il numero totale di cin cin',           ok:false, fb:'Quello è il dato noto: 78. Non è da trovare, è il punto di partenza.'},
+          {l:'Il numero di bicchieri sul tavolo',     ok:false, fb:'Un dettaglio scenografico: non è ciò che il problema ci chiede di scoprire.'},
+          {l:'I minuti passati a brindare',           ok:false, fb:'Il tempo non entra nel conto: conta solo chi brinda con chi.'},
+        ],
+        commit:{label:'Incognita', val:'n = persone a tavola', formula:false}
+      },
+      { view:'choice', key:'perpersona', tag:'Passo 1 · Modellare',
+        q:'Ogni persona brinda una volta con ciascuna delle altre. Se a tavola ci sono n persone, con quante altre brinda UNA persona?',
+        hint:'Con tutte… tranne una. Indovina quale.',
+        formula:true,
+        options:[
+          {l:'n − 1', ok:true,  fb:'Sì: con tutte tranne sé stessa. Su n presenti, ognuno fa n − 1 cin cin.'},
+          {l:'n',     ok:false, fb:'Quasi: ma nessuno brinda con sé stesso. Va tolta una persona → n − 1.'},
+          {l:'n + 1', ok:false, fb:'Impossibile brindare con più persone di quante ce ne siano a tavola.'},
+          {l:'2n',    ok:false, fb:'Il doppio dei presenti? Una persona non può fare più cin cin che commensali disponibili.'},
+        ],
+        commit:{label:'Cin cin a testa', val:'n − 1', formula:true}
+      },
+      { view:'choice', key:'totale', tag:'Passo 1 · Modellare',
+        q:'Se ognuna delle n persone fa n − 1 cin cin, il prodotto è n(n − 1). Ma il numero VERO di tintinnii è…?',
+        hint:'Quando Anna brinda con Bea, è UN solo cin cin. Ma in n(n − 1) l’abbiamo contato due volte: una per Anna, una per Bea.',
+        formula:true,
+        options:[
+          {l:'n(n − 1) / 2', ok:true,  fb:'Perfetto. Ogni cin cin coinvolge due persone, quindi n(n − 1) conta ogni tintinnio due volte: si divide per 2.'},
+          {l:'n(n − 1)',     ok:false, fb:'Così ogni cin cin è contato due volte (Anna→Bea e Bea→Anna sono lo stesso tintinnio). Manca il : 2.'},
+          {l:'n(n − 1) · 2', ok:false, fb:'Al contrario: raddoppiare peggiora il doppio conteggio. Bisogna dimezzarlo, non raddoppiarlo.'},
+          {l:'n²',           ok:false, fb:'n² conterebbe anche i “cin cin con sé stessi” e i doppioni. Il conto giusto è n(n − 1) / 2.'},
+        ],
+        commit:{label:'Totale cin cin', val:'n(n − 1) / 2', formula:true}
+      },
+      { view:'choice', key:'equazione', tag:'Passo 2 · Scrivere l’equazione',
+        q:'I cin cin sono 78. Qual è l’equazione del problema scritta in forma normale (= 0)?',
+        hint:'Prima uguaglia a 78, poi libera dalla frazione e porta tutto a sinistra.',
+        formula:true,
+        options:[
+          {l:'n² − n − 156 = 0', ok:true,  fb:'Esatto. Da n(n − 1)/2 = 78 moltiplichi per 2 → n² − n = 156, poi porti il 156 a sinistra. Ecco la forma normale di secondo grado.'},
+          {l:'n² − n − 78 = 0',  ok:false, fb:'Hai dimenticato il × 2: n(n − 1)/2 = 78 diventa n(n − 1) = 156, non 78.'},
+          {l:'n² + n − 156 = 0', ok:false, fb:'Attento al segno: n(n − 1) = n² − n, quindi il termine in n è negativo.'},
+          {l:'n² − 156 = 0',     ok:false, fb:'Manca il termine − n: n(n − 1) vale n² − n, non semplicemente n².'},
+        ],
+        commit:{label:'Equazione', val:'n² − n − 156 = 0', formula:true}
+      },
+      { view:'choice', key:'abc', tag:'Passo 3 · Risolvere',
+        q:'n² − n − 156 = 0 ha la forma ax² + bx + c = 0. Quali sono a, b e c?',
+        hint:'Leggi i coefficienti rispettando i segni. Il termine senza n è c.',
+        formula:false,
+        options:[
+          {l:'a = 1, b = −1, c = −156', ok:true,  fb:'Bene: un solo n² → a = 1; il − n dà b = −1; il termine noto, già a sinistra, è −156.'},
+          {l:'a = 1, b = 1, c = 156',   ok:false, fb:'Sbagliati i segni: sia − n sia − 156 sono negativi, quindi b = −1 e c = −156.'},
+          {l:'a = 1, b = −1, c = 156',  ok:false, fb:'Quasi: ma il termine noto è −156, non +156 (sta a sinistra dell’uguale).'},
+          {l:'a = 0, b = −1, c = −156', ok:false, fb:'Se a fosse 0 non sarebbe di secondo grado. Il n² c’è eccome: a = 1.'},
+        ],
+        commit:null
+      },
+      { view:'reveal' },
+      { view:'choice', key:'interpreta', tag:'Passo 4 · Interpretare',
+        q:'La formula dà due soluzioni: n = 13 e n = −12. Quale teniamo?',
+        hint:'Una delle due deve fare i conti con la realtà di un tavolo da cenone.',
+        formula:false,
+        options:[
+          {l:'n = 13: a tavola c’erano 13 persone', ok:true,  fb:'Esatto. n = −12 si scarta: non esistono −12 invitati. Il secondo grado regala due soluzioni, ma il problema accetta solo quelle che hanno senso.'},
+          {l:'n = −12',                              ok:false, fb:'Meno dodici persone a tavola non esistono: il numero di invitati è una quantità positiva.'},
+          {l:'Vanno bene entrambe',                  ok:false, fb:'Matematicamente azzerano entrambe l’equazione, ma −12 persone non hanno senso nel mondo reale. Se ne tiene una sola.'},
+          {l:'La media: n = 0,5',                     ok:false, fb:'Non si fa la media delle due soluzioni: si sceglie quella che ha senso nel problema.'},
+        ],
+        commit:null
+      },
+      { view:'choice', key:'verifica', tag:'Passo 5 · Verificare e decidere',
+        q:'Cugino Berto, ancora scettico, rifà il conto a mano. Con 13 persone, quanti cin cin vengono?',
+        hint:'Riapplica il modello: cin cin a testa, poi diviso due.',
+        formula:false,
+        options:[
+          {l:'13 · 12 : 2 = 78', ok:true,  fb:'Perfetto: 13 persone fanno esattamente 78 cin cin. Il modello combacia col conteggio di Berto. Caso chiuso.'},
+          {l:'13 · 12 = 156',    ok:false, fb:'Quello è il doppio: hai dimenticato di dividere per 2. Ogni cin cin è stato contato due volte.'},
+          {l:'13 · 13 = 169',    ok:false, fb:'Nessuno brinda con sé stesso: è 13 · 12, non 13². E va comunque diviso per 2.'},
+        ],
+        commit:{label:'Risposta', val:'13 persone (78 cin cin ✓)', formula:false}
+      },
+      { view:'final' },
+    ];
+  }
+
+  valStyle(formula, hi){
+    if(hi) return 'font-family:Georgia,serif;font-style:italic;font-size:1.25rem;color:#4a7c59;font-weight:600;';
+    if(formula) return 'font-family:Georgia,serif;font-style:italic;font-size:1.15rem;color:#2c2520;';
+    return 'font-size:.96rem;color:#2c2520;line-height:1.4;';
+  }
+
+  choose(idx){
+    const i = this.state.i;
+    const cur = this._screens[i];
+    const a = this.state.ans[i] || {picked:null, solved:false};
+    if(a.solved) return;
+    const ok = cur.options[idx].ok;
+    this.setState({ ans: { ...this.state.ans, [i]: { picked:idx, solved:ok } } });
+  }
+
+  next(){
+    const ni = Math.min(this.state.i + 1, this._screens.length - 1);
+    this.setState({ i:ni, maxI: Math.max(this.state.maxI, ni) });
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+  back(){
+    const ni = Math.max(this.state.i - 1, 0);
+    this.setState({ i:ni });
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+  restart(){
+    this.setState({ i:0, maxI:0, ans:{} });
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+
+  componentDidMount(){
+    this._key = (e) => {
+      if(e.key === 'ArrowLeft'){ this.back(); return; }
+      if(e.key === 'ArrowRight' || e.key === 'Enter'){
+        const i = this.state.i;
+        const cur = this._screens[i];
+        const a = this.state.ans[i] || {};
+        if(cur.view === 'final'){ return; }
+        if(cur.view !== 'choice' || a.solved){ this.next(); }
+      }
+    };
+    window.addEventListener('keydown', this._key);
+  }
+  componentWillUnmount(){ window.removeEventListener('keydown', this._key); }
+
+  renderVals(){
+    const S = this._screens;
+    const i = this.state.i;
+    const cur = S[i];
+    const total = S.length;
+    const ans = this.state.ans;
+    const a = ans[i] || { picked:null, solved:false };
+    const view = cur.view;
+    const isChoice = view === 'choice';
+
+    let correctIdx = -1;
+    let opts = [];
+    if(isChoice){
+      cur.options.forEach((o, idx) => { if(o.ok) correctIdx = idx; });
+      opts = cur.options.map((o, idx) => {
+        const solved = a.solved;
+        const isCorrect = idx === correctIdx;
+        const picked = a.picked === idx;
+        let card = 'display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#fff;border:1px solid #e4ddd4;border-radius:9px;padding:15px 18px;cursor:pointer;transition:all .16s;color:#2c2520;';
+        let letterBg = '#f5f0e8', letterColor = '#6e6760', icon = '', iconColor = '#b33a3a';
+        if(solved && isCorrect){
+          card = 'display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:rgba(74,124,89,.09);border:1.5px solid #4a7c59;border-radius:9px;padding:14.5px 17.5px;transition:all .16s;color:#2c2520;cursor:default;';
+          letterBg = '#4a7c59'; letterColor = '#fff'; icon = '✓'; iconColor = '#4a7c59';
+        } else if(solved && !isCorrect){
+          card += 'opacity:.4;cursor:default;';
+        } else if(!solved && picked){
+          card = 'display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:rgba(179,58,58,.07);border:1.5px solid #b33a3a;border-radius:9px;padding:14.5px 17.5px;cursor:pointer;transition:all .16s;color:#2c2520;';
+          letterBg = '#b33a3a'; letterColor = '#fff'; icon = '✗'; iconColor = '#b33a3a';
+        }
+        const labelStyle = cur.formula
+          ? 'flex:1;font-family:Georgia,serif;font-style:italic;font-size:1.4rem;letter-spacing:.5px;'
+          : 'flex:1;font-size:1.02rem;line-height:1.5;';
+        return {
+          idx, label:o.l,
+          card, labelStyle,
+          letter: String.fromCharCode(65 + idx),
+          letterStyle: 'flex:none;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:\'JetBrains Mono\',monospace;font-size:.78rem;font-weight:700;background:' + letterBg + ';color:' + letterColor + ';',
+          icon,
+          iconStyle: 'flex:none;width:18px;text-align:center;font-size:1.05rem;font-weight:700;color:' + iconColor + ';',
+          onClick: () => this.choose(idx),
+        };
+      });
+    }
+
+    let feedback = null, feedbackOk = false, feedbackLabel = '';
+    if(isChoice && a.picked != null){
+      if(a.solved){ feedback = cur.options[correctIdx].fb; feedbackOk = true; feedbackLabel = 'Corretto'; }
+      else { feedback = cur.options[a.picked].fb; feedbackOk = false; feedbackLabel = 'Riprova'; }
+    }
+
+    const dots = S.map((s, k) => {
+      const bg = k === i ? '#c2185b' : (k < i ? '#c9b8a8' : '#e4ddd4');
+      const w = k === i ? '26px' : '16px';
+      return { style: 'flex:none;width:' + w + ';height:4px;border-radius:2px;background:' + bg + ';transition:all .25s;' };
+    });
+
+    const solved = k => ans[k] && ans[k].solved;
+    const model = [];
+    if(solved(2)) model.push({ label:'Incognita',       val:'n = persone a tavola',  valStyle:this.valStyle(false,false) });
+    if(solved(3)) model.push({ label:'Cin cin a testa',  val:'n − 1',                 valStyle:this.valStyle(true,false) });
+    if(solved(4)) model.push({ label:'Totale cin cin',   val:'n(n − 1) / 2',          valStyle:this.valStyle(true,false) });
+    if(solved(5)) model.push({ label:'Equazione',        val:'n² − n − 156 = 0',      valStyle:this.valStyle(true,false) });
+    if(this.state.maxI >= 7) model.push({ label:'Soluzioni', val:'n = 13  (e  n = −12)', valStyle:this.valStyle(true,true) });
+    if(solved(9)) model.push({ label:'Risposta',         val:'13 persone al tavolo',  valStyle:this.valStyle(false,false) });
+
+    const showAside = !(view === 'intro' || view === 'problem');
+    const canAdvance = !isChoice || a.solved;
+    const isFinal = view === 'final';
+
+    const labels = { intro:'Comincia →', problem:'Costruiamo il modello →', reveal:'Interpretiamo →', final:'Ricomincia ↺' };
+    let primaryLabel = labels[view] || 'Continua →';
+    if(isChoice && !a.solved) primaryLabel = 'Scegli una risposta';
+
+    return {
+      view,
+      isIntro: view === 'intro', isProblem: view === 'problem',
+      isChoice, isReveal: view === 'reveal', isFinal,
+      tag: cur.tag || '', q: cur.q || '', hint: cur.hint || '',
+      opts,
+      feedback, feedbackOk, feedbackLabel,
+      feedbackStyle: 'background:' + (feedbackOk ? 'rgba(74,124,89,.08)' : 'rgba(179,58,58,.06)') + ';border-left:2px solid ' + (feedbackOk ? '#4a7c59' : '#b33a3a') + ';padding:14px 18px;border-radius:0 8px 8px 0;margin-top:20px;animation:fadeUp .3s ease;',
+      feedbackLabelStyle: 'font-family:\'JetBrains Mono\',monospace;font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:6px;color:' + (feedbackOk ? '#4a7c59' : '#b33a3a') + ';',
+      dots, counter: (i + 1) + ' / ' + total,
+      model, hasModel: model.length > 0, noModel: model.length === 0,
+      showAside,
+      gridStyle: showAside ? 'display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:42px;align-items:start;' : 'max-width:680px;margin:0 auto;',
+      canAdvance,
+      primaryLabel,
+      primaryStyle: canAdvance
+        ? 'font-family:\'JetBrains Mono\',monospace;font-size:.82rem;letter-spacing:.5px;background:#c2185b;color:#fff;border:none;border-radius:8px;padding:13px 26px;cursor:pointer;transition:all .18s;'
+        : 'font-family:\'JetBrains Mono\',monospace;font-size:.82rem;letter-spacing:.5px;background:#ece7de;color:#a89c8e;border:none;border-radius:8px;padding:13px 26px;cursor:not-allowed;',
+      primaryAction: isFinal ? (() => this.restart()) : (canAdvance ? (() => this.next()) : (() => {})),
+      backDisabled: i === 0,
+      backStyle: 'font-family:\'JetBrains Mono\',monospace;font-size:.82rem;background:none;border:none;color:' + (i === 0 ? '#cfc6ba' : '#5a524a') + ';cursor:' + (i === 0 ? 'default' : 'pointer') + ';padding:6px 2px;',
+      back: () => this.back(),
+    };
+  }
+}
+</script>
+</body>
+</html>
