@@ -60,6 +60,8 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-hei
 .q-badge.show{display:block}
 .q-text{font-size:1.02rem;font-weight:500;line-height:1.65;margin-bottom:22px;color:var(--text);font-family:'Georgia',serif}
 
+.step-guide{background:var(--surface-alt);border-left:3px solid var(--accent);padding:16px 20px;border-radius:4px;margin-bottom:24px;font-family:'Georgia',serif;font-size:.98rem;line-height:1.7}
+
 .options{display:flex;flex-direction:column;gap:9px;margin-top:24px}
 .opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
 .opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
@@ -118,7 +120,7 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-hei
     <div class="progress-bar-wrap">
       <div class="progress-info">
         <span>Progresso</span>
-        <span id="prog-frac">1 / 5</span>
+        <span id="prog-frac">0 / 4</span>
       </div>
       <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
     </div>
@@ -140,6 +142,7 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-hei
     </div>
 
     <div class="q-badge" id="q-badge" style="display:none"></div>
+    <div class="step-guide" id="step-guide" style="display:none"></div>
     <div class="q-text" id="q-text"></div>
     <div class="options" id="q-opts"></div>
 
@@ -214,53 +217,47 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-hei
 <script>
 const steps = [
   {
-    badge: "Domanda 1: Il Problema",
-    q: "Quale è la risposta al problema?",
-    opts: [
-      { text: "(x, y) = (120 interi, 30 ridotti)", correct: false, feedback: "No. Se fosse così, l'incasso sarebbe 120×15 + 30×12 = 1800 + 360 = €2.160, non €2.100. Controlla i tuoi calcoli." },
-      { text: "(x, y) = (100 interi, 50 ridotti)", correct: true, feedback: "Esatto! 100 biglietti interi a €15 e 50 ridotti a €12 danno un incasso di 1500 + 600 = €2.100 su un totale di 150 biglietti." },
-      { text: "(x, y) = (75 interi, 75 ridotti)", correct: false, feedback: "No. Se metà fossero interi e metà ridotti, l'incasso sarebbe 75×15 + 75×12 = 1125 + 900 = €2.025, non €2.100." },
-      { text: "(x, y) = (80 interi, 70 ridotti)", correct: false, feedback: "No. Questo darebbe 80×15 + 70×12 = 1200 + 840 = €2.040, che non corrisponde a €2.100." }
-    ]
-  },
-  {
     badge: "Step 1: Definire le variabili",
+    guide: "In un problema, le variabili rappresentano le quantità sconosciute che dobbiamo trovare. Conviene assegnare lettere diverse a quantità diverse. Di solito:\n\n• Scegli una lettera (x, y, z, ecc.) per ogni quantità incognita\n• Usa lettere intuitivamente: x per la prima incognita, y per la seconda\n• Assegna sempre il primo tipo di oggetto/persona a x e il secondo a y",
     q: "Come definiamo correttamente le variabili?",
     opts: [
-      { text: "\\(x\\) = biglietti ridotti, \\(y\\) = biglietti interi", correct: false, feedback: "Non è sbagliato in assoluto, ma per coerenza conviene assegnare \\(x\\) ai biglietti interi (il tipo principale) e \\(y\\) ai ridotti. L'importante è essere coerenti." },
-      { text: "\\(x\\) = biglietti interi, \\(y\\) = biglietti ridotti", correct: true, feedback: "Perfetto! Assegnare \\(x\\) al tipo principale rende il sistema più intuitivo da risolvere." },
-      { text: "\\(x\\) = prezzo intero, \\(y\\) = prezzo ridotto", correct: false, feedback: "No, i prezzi sono già noti (€15 e €12). Le variabili devono essere le quantità incognite: i numeri di biglietti." },
-      { text: "\\(x\\) = incasso, \\(y\\) = numero totale", correct: false, feedback: "No, l'incasso totale (€2.100) e il numero totale (150) sono già noti. Dobbiamo trovare le quantità di ciascun tipo di biglietto." }
+      { text: "\\(x\\) = biglietti ridotti, \\(y\\) = biglietti interi", correct: false, feedback: "Questo è tecnicamamente possibile, ma non è la scelta più intuitiva. Conviene assegnare \\(x\\) al tipo principale (biglietti interi) e \\(y\\) al tipo secondario (ridotti). In questo modo il sistema risulta più naturale." },
+      { text: "\\(x\\) = biglietti interi, \\(y\\) = biglietti ridotti", correct: true, feedback: "Esatto! Assegnare \\(x\\) al tipo principale (interi) e \\(y\\) al secondario (ridotti) rende il sistema più intuitivo e il procedimento risolutivo più fluido." },
+      { text: "\\(x\\) = prezzo intero, \\(y\\) = prezzo ridotto", correct: false, feedback: "No, i prezzi sono già noti dal problema (€15 e €12). Le variabili devono rappresentare le quantità incognite: il numero di biglietti di ciascun tipo che vogliamo trovare." },
+      { text: "\\(x\\) = incasso, \\(y\\) = numero totale", correct: false, feedback: "No, l'incasso totale (€2.100) e il numero totale di biglietti (150) sono già noti. Non sono incognite. Dobbiamo trovare il numero di biglietti interi e il numero di biglietti ridotti." }
     ]
   },
   {
     badge: "Step 2: Scrivere il sistema",
+    guide: "Un sistema di equazioni lineari raccoglie tutte le condizioni del problema in forma matematica. Per ogni dato noto, scriviamo un'equazione:\n\n• Una equazione per il numero totale di oggetti/persone (somma)\n• Una equazione per il costo/valore/importo totale (combinazione pesata)\n• Ogni equazione deve contenere le variabili che abbiamo definito",
     q: "Quale sistema rappresenta correttamente il problema?",
     opts: [
-      { text: "\\[\\begin{cases} x + y = 150 \\\\ 15x + 12y = 2100 \\end{cases}\\]", correct: true, feedback: "Corretto! La prima equazione rappresenta il totale di 150 biglietti. La seconda rappresenta l'incasso: 15 euro per ogni biglietto intero (\\(x\\)) più 12 euro per ogni ridotto (\\(y\\)) uguaglia €2.100." },
-      { text: "\\[\\begin{cases} x + y = 2100 \\\\ 15x + 12y = 150 \\end{cases}\\]", correct: false, feedback: "No, le equazioni sono invertite. Il totale dei biglietti è 150, non l'incasso. L'incasso (in euro) è 2100, non il numero di biglietti." },
-      { text: "\\[\\begin{cases} 15x + 12y = 150 \\\\ x + y = 2100 \\end{cases}\\]", correct: false, feedback: "No, hai confuso ancora le equazioni. 15x + 12y rappresenta il denaro (€2.100), mentre x + y rappresenta il numero di persone (150)." },
-      { text: "\\[\\begin{cases} x - y = 150 \\\\ 15x + 12y = 2100 \\end{cases}\\]", correct: false, feedback: "No, la prima equazione dovrebbe essere una somma (\\(x + y = 150\\)), non una differenza. Una differenza non ci darebbe il totale di 150 biglietti." }
+      { text: "\\[\\begin{cases} x + y = 150 \\\\ 15x + 12y = 2100 \\end{cases}\\]", correct: true, feedback: "Perfetto! La prima equazione \\(x + y = 150\\) dice che il numero totale di biglietti è 150. La seconda equazione \\(15x + 12y = 2100\\) dice che l'incasso è €2.100: 15 euro per ogni biglietto intero più 12 euro per ogni ridotto." },
+      { text: "\\[\\begin{cases} x + y = 2100 \\\\ 15x + 12y = 150 \\end{cases}\\]", correct: false, feedback: "No, le equazioni sono invertite. Il numero totale è 150 (non 2100), e l'incasso è €2.100 (non 150). Hai confuso le quantità." },
+      { text: "\\[\\begin{cases} 15x + 12y = 150 \\\\ x + y = 2100 \\end{cases}\\]", correct: false, feedback: "No, ancora una volta le equazioni sono invertite. Ricorda: \\(x + y\\) rappresenta il numero di persone (150), mentre \\(15x + 12y\\) rappresenta il denaro (€2.100)." },
+      { text: "\\[\\begin{cases} x - y = 150 \\\\ 15x + 12y = 2100 \\end{cases}\\]", correct: false, feedback: "No, la prima equazione dovrebbe essere una somma (\\(x + y = 150\\)), non una differenza. Una differenza non rappresenta il totale di 150 biglietti, ma la loro differenza." }
     ]
   },
   {
-    badge: "Step 3: Risolvere il sistema",
+    badge: "Step 3: Ricavare una variabile",
+    guide: "Il metodo di sostituzione funziona così:\n\n• Scegli l'equazione più semplice (di solito quella senza moltiplicazioni)\n• Ricava (isola) una variabile da questa equazione\n• L'isolamento significa spostare i termini per avere la variabile sola da un lato\n• Usa i principi di equivalenza: aggiungi/sottrai lo stesso numero a entrambi i lati",
     q: "Dalla prima equazione \\(x + y = 150\\), ricaviamo \\(y\\). Qual è il risultato?",
     opts: [
-      { text: "\\(y = 150 + x\\)", correct: false, feedback: "No. Se sommi \\(x\\) a 150, stai aumentando il totale, non isolando \\(y\\). Ricorda: per isolare \\(y\\) da \\(x + y = 150\\), devi sottrarre \\(x\\) da entrambi i lati." },
-      { text: "\\(y = x - 150\\)", correct: false, feedback: "No. Questo darebbe un valore negativo di \\(y\\) per la maggior parte dei valori di \\(x\\). Sottrai \\(x\\) da 150, non il contrario." },
-      { text: "\\(y = 150 - x\\)", correct: true, feedback: "Esatto! Sottraendo \\(x\\) da entrambi i lati di \\(x + y = 150\\) otteniamo \\(y = 150 - x\\). Questo è il primo principio di equivalenza." },
-      { text: "\\(y = \\frac{150}{x}\\)", correct: false, feedback: "No, questo rappresenterebbe un rapporto inverso tra \\(x\\) e \\(y\\), non una relazione lineare. Dalla addizione \\(x + y = 150\\) si ricava una sottrazione, non una divisione." }
+      { text: "\\(y = 150 + x\\)", correct: false, feedback: "No. Se sommi \\(x\\) a 150, aumenti il totale. Per isolare \\(y\\) da \\(x + y = 150\\), devi sottrarre \\(x\\) da entrambi i lati, non sommarlo." },
+      { text: "\\(y = x - 150\\)", correct: false, feedback: "No. Questo darebbe valori negativi di \\(y\\) per la maggior parte dei valori di \\(x\\), il che non ha senso nel nostro contesto. Sottrai \\(x\\) da 150, non il contrario." },
+      { text: "\\(y = 150 - x\\)", correct: true, feedback: "Esatto! Dalla equazione \\(x + y = 150\\), sottraendo \\(x\\) da entrambi i lati otteniamo \\(y = 150 - x\\). Questo è il primo principio di equivalenza: le operazioni uguali su entrambi i lati mantengono l'uguaglianza." },
+      { text: "\\(y = \\frac{150}{x}\\)", correct: false, feedback: "No, una divisione rappresenterebbe un rapporto inverso tra \\(x\\) e \\(y\\), non una relazione lineare. Dalla addizione \\(x + y = 150\\) ricaviamo una sottrazione \\(y = 150 - x\\), non una divisione." }
     ]
   },
   {
-    badge: "Step 4: Sostituzione e calcolo",
+    badge: "Step 4: Sostituzione e soluzione",
+    guide: "Ora sostituiamo l'espressione ricavata nell'altra equazione:\n\n• Prendi l'espressione \\(y = 150 - x\\)\n• Mettila al posto di \\(y\\) nella seconda equazione \\(15x + 12y = 2100\\)\n• Risolvi per \\(x\\) seguendo l'ordine delle operazioni\n• Semplifica termini simili e isola \\(x\\)",
     q: "Sostituendo \\(y = 150 - x\\) nella seconda equazione e risolvendo, quale valore di \\(x\\) troviamo?",
     opts: [
-      { text: "\\(x = 80\\)", correct: false, feedback: "No. Se \\(x = 80\\), allora \\(y = 70\\) e l'incasso sarebbe 80×15 + 70×12 = 1200 + 840 = €2.040, non €2.100." },
-      { text: "\\(x = 100\\)", correct: true, feedback: "Perfetto! Sostituendo \\(y = 150 - x\\) in 15x + 12y = 2100 otteniamo 15x + 12(150-x) = 2100, che semplifica a 3x = 300, quindi x = 100." },
-      { text: "\\(x = 75\\)", correct: false, feedback: "No. Se \\(x = 75\\), allora \\(y = 75\\) e l'incasso sarebbe 75×15 + 75×12 = 1125 + 900 = €2.025, non €2.100." },
-      { text: "\\(x = 120\\)", correct: false, feedback: "No. Se \\(x = 120\\), allora \\(y = 30\\) e l'incasso sarebbe 120×15 + 30×12 = 1800 + 360 = €2.160, non €2.100." }
+      { text: "\\(x = 80\\)", correct: false, feedback: "No. Se \\(x = 80\\), allora \\(y = 70\\). L'incasso sarebbe 80×15 + 70×12 = 1200 + 840 = €2.040. Ma il problema dice che l'incasso è €2.100, non €2.040." },
+      { text: "\\(x = 100\\)", correct: true, feedback: "Perfetto! Sostituendo \\(y = 150 - x\\) in \\(15x + 12y = 2100\\) otteniamo \\(15x + 12(150-x) = 2100\\), che semplifica a \\(3x = 300\\), quindi \\(x = 100\\). Verifica: 100×15 + 50×12 = 1500 + 600 = 2100 ✓" },
+      { text: "\\(x = 75\\)", correct: false, feedback: "No. Se \\(x = 75\\), allora \\(y = 75\\). L'incasso sarebbe 75×15 + 75×12 = 1125 + 900 = €2.025. Questo non corrisponde a €2.100." },
+      { text: "\\(x = 120\\)", correct: false, feedback: "No. Se \\(x = 120\\), allora \\(y = 30\\). L'incasso sarebbe 120×15 + 30×12 = 1800 + 360 = €2.160. Questo è più di €2.100, quindi è sbagliato." }
     ]
   }
 ];
@@ -278,12 +275,13 @@ function showStep(idx) {
 
   if (idx === 0) {
     // Prima pagina: solo problema, niente domande
-    document.getElementById('prog-frac').textContent = '0 / ' + steps.length;
+    document.getElementById('prog-frac').textContent = '0 / 4';
     document.getElementById('prog-fill').style.width = '0%';
     document.getElementById('p-title').style.display = 'block';
     document.getElementById('p-text').style.display = 'block';
     document.getElementById('setup-guide').style.display = 'block';
     document.getElementById('q-badge').style.display = 'none';
+    document.getElementById('step-guide').style.display = 'none';
     document.getElementById('q-text').style.display = 'none';
     document.getElementById('q-opts').style.display = 'none';
     document.getElementById('q-feedback').style.display = 'none';
@@ -294,17 +292,19 @@ function showStep(idx) {
 
   // Domande vere (idx >= 1)
   const step = steps[idx - 1];
-  document.getElementById('prog-frac').textContent = idx + ' / ' + steps.length;
-  document.getElementById('prog-fill').style.width = ((idx / steps.length) * 100) + '%';
+  document.getElementById('prog-frac').textContent = idx + ' / 4';
+  document.getElementById('prog-fill').style.width = ((idx / 4) * 100) + '%';
 
   document.getElementById('p-title').style.display = 'none';
   document.getElementById('p-text').style.display = 'none';
   document.getElementById('setup-guide').style.display = 'none';
   document.getElementById('q-badge').style.display = 'block';
+  document.getElementById('step-guide').style.display = 'block';
   document.getElementById('q-text').style.display = 'block';
   document.getElementById('q-opts').style.display = 'flex';
 
   document.getElementById('q-badge').textContent = step.badge;
+  document.getElementById('step-guide').innerHTML = step.guide.replace(/\n/g, '<br>');
   document.getElementById('q-text').textContent = step.q;
 
   let shuffled = [...step.opts].sort(() => Math.random() - 0.5);
@@ -345,7 +345,7 @@ function pick(i, correctIdx, isCorrect, feedback) {
 
   const btn = document.getElementById('btn-next');
   btn.classList.add('show');
-  btn.textContent = current < steps.length - 1 ? 'Prossimo step →' : 'Vedi il risultato →';
+  btn.textContent = current < 4 ? 'Prossimo step →' : 'Vedi il risultato →';
 
   MathJax.typesetPromise([fb]);
 }
@@ -353,16 +353,16 @@ function pick(i, correctIdx, isCorrect, feedback) {
 function nextStep(e) {
   e.preventDefault();
   current++;
-  if (current >= steps.length) {
+  if (current > 4) {
     document.getElementById('results').classList.add('show');
     document.getElementById('p-title').style.display = 'none';
     document.getElementById('p-text').style.display = 'none';
     document.getElementById('q-badge').style.display = 'none';
+    document.getElementById('step-guide').style.display = 'none';
     document.getElementById('q-text').style.display = 'none';
     document.getElementById('q-opts').style.display = 'none';
     document.getElementById('q-feedback').style.display = 'none';
     document.getElementById('btn-next').style.display = 'none';
-    document.getElementById('progress-bar-wrap').style.display = 'none';
 
     const pb = document.querySelector('.progress-bar-wrap');
     if (pb) pb.style.display = 'none';
