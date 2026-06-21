@@ -8,7 +8,7 @@ tags: [itis, lesson, 2021]
 categories: []
 date: "2021-10-11T00:00:00Z"
 featured: true
-draft: false
+draft: true
 
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder.
@@ -87,7 +87,7 @@ gallery_item:
 >
 > - Si presenta nella forma seguente:
 > $$x^2 + sx+p$$
-> - in cui le lettere $s$ e $p$, stanno ad indicare  
+> - in cui le lettere $s$ e $p$, stanno ad indicare
 
 ### Divisione polinomiale
 
