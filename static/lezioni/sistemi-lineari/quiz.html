@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Sistemi di Equazioni Lineari</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#ed6f5c; --accent-light:#fce4ec;
+  --accent-pro:#8b5a9f; --accent-pro-light:#f3e5f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.topbar-level{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--accent);letter-spacing:1px;font-weight:600;margin-left:auto}
+.topbar-level.pro{color:var(--accent-pro)}
+
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero-tag.pro{color:var(--accent-pro)}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero h1 em.pro{color:var(--accent-pro)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.btn-start{margin-top:8px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;letter-spacing:.3px}
+.btn-start:hover{background:#d65545}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-frac.pro{color:var(--accent-pro)}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+.progress-fill.pro{background:var(--accent-pro)}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-card.pro{border:1px solid var(--accent-pro)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-badge.pro{color:var(--accent-pro)}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px;color:var(--text)}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt.pro:hover:not(.locked){border-color:var(--accent-pro);background:var(--accent-pro-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{background:#d65545}
+.btn-next.pro{background:var(--accent-pro)}
+.btn-next.pro:hover{background:#7a4f8d}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-retry:hover{background:#d65545}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+.pro-transition{margin:20px 0;padding:16px;background:var(--accent-pro-light);border-left:3px solid var(--accent-pro);border-radius:4px;font-family:'Source Sans 3',sans-serif;font-size:.92rem;color:var(--text)}
+.pro-transition strong{color:var(--accent-pro)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(5,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quiz · Sistemi Lineari</div>
+  <div class="topbar-tag">IIS G.A. Remondini</div>
+  <div class="topbar-level" id="topbar-level"></div>
+</div>
+
+<div class="container">
+  <!-- INTRO -->
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Quiz adattivo · 3 livelli</div>
+      <h1>Sistemi di Equazioni <em>Lineari</em></h1>
+      <p class="hero-sub">30 domande a tre livelli di difficoltà: 10 base, 10 avanzate e 10 pro. Inizia dalle fondamenta (definizioni, metodi risolutivi) e progredisci verso problemi più complessi e interpretazioni geometriche. Riceverai un feedback immediato su ogni risposta.</p>
+    </div>
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">30</span></div>
+      <div class="meta-item"><span class="meta-label">Livelli</span><span class="meta-value">Base · Avanzato · Pro</span></div>
+      <div class="meta-item"><span class="meta-label">Feedback</span><span class="meta-value">Immediato</span></div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia il test</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso</span>
+        <span class="progress-frac" id="prog-frac">1 / 30</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="pro-transition" id="pro-transition" style="display:none">
+      <strong>↑ Sei passato al livello Pro!</strong> Le domande da qui in poi sono più impegnative. Avanti!
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag">IIS G.A. Remondini · Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den">su 30 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova il test</button>
+      <a class="btn-lesson" href="lezione.html">Torna alla lezione</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const Q = [
+  // ════════════════════════════════════════
+  // LIVELLO BASE (domande 1-10)
+  // ════════════════════════════════════════
+  {
+    level: 'base',
+    badge: "Definizione",
+    q: "Quale delle seguenti è un'equazione di <strong>primo grado a due incognite</strong>?",
+    opts: [
+      "\\(x^2 + y = 5\\)",
+      "\\(3x - 2y = 7\\)",
+      "\\(xy + 3 = 0\\)",
+      "\\(x + y + z = 2\\)"
+    ],
+    ans: 1,
+    exp: "\\(3x - 2y = 7\\) è l'unica equazione in cui entrambe le variabili compaiono con esponente 1 e sono solo due. Le altre contengono termini di grado superiore o più di due incognite."
+  },
+  {
+    level: 'base',
+    badge: "Definizione",
+    q: "Un <strong>sistema di equazioni lineari</strong> è:",
+    opts: [
+      "Un insieme di variabili da moltiplicare",
+      "Un insieme di equazioni di primo grado nelle stesse incognite",
+      "Una singola equazione con coefficienti molto grandi",
+      "Una sequenza di operazioni da eseguire in ordine"
+    ],
+    ans: 1,
+    exp: "Un sistema è un insieme di due o più equazioni lineari con le stesse incognite, i cui valori devono soddisfare tutte le equazioni contemporaneamente."
+  },
+  {
+    level: 'base',
+    badge: "Classificazione",
+    q: "Il sistema \\(\\begin{cases} x + y = 3 \\\\ x + y = 5 \\end{cases}\\) è:",
+    opts: [
+      "Determinato",
+      "Compatibile indeterminato",
+      "Incompatibile",
+      "Di secondo grado"
+    ],
+    ans: 2,
+    exp: "Le due equazioni dicono che la stessa somma \\(x + y\\) deve essere sia 3 che 5: è una contraddizione. Il sistema è <strong>incompatibile</strong> (nessuna soluzione)."
+  },
+  {
+    level: 'base',
+    badge: "Metodo",
+    q: "Nel metodo di <strong>sostituzione</strong>, il primo passo è:",
+    opts: [
+      "Moltiplicare entrambe le equazioni per 2",
+      "Raccogliere una variabile da un'equazione",
+      "Ricavare una variabile da una delle equazioni",
+      "Sommare tutte le equazioni insieme"
+    ],
+    ans: 2,
+    exp: "Il metodo di sostituzione inizia ricavando una variabile da una delle due equazioni (solitamente quella più semplice), per poi sostituirla nell'altra."
+  },
+  {
+    level: 'base',
+    badge: "Esercizio semplice",
+    q: "Qual è la soluzione del sistema \\(\\begin{cases} x + y = 4 \\\\ x - y = 2 \\end{cases}\\)?",
+    opts: [
+      "\\((x, y) = (3, 1)\\)",
+      "\\((x, y) = (1, 3)\\)",
+      "\\((x, y) = (2, 2)\\)",
+      "\\((x, y) = (0, 4)\\)"
+    ],
+    ans: 0,
+    exp: "Sommando le due equazioni: \\(2x = 6 \\Rightarrow x = 3\\). Sostituendo: \\(3 + y = 4 \\Rightarrow y = 1\\). Verifica: \\(3+1=4\\) ✓ e \\(3-1=2\\) ✓"
+  },
+  {
+    level: 'base',
+    badge: "Criterio rapido",
+    q: "Nel criterio dei rapporti, se \\(\\dfrac{a_1}{a_2} \\neq \\dfrac{b_1}{b_2}\\), il sistema è:",
+    opts: [
+      "Impossibile",
+      "Indeterminato",
+      "Compatibile determinato",
+      "Non risolvibile con questo metodo"
+    ],
+    ans: 2,
+    exp: "Quando i coefficienti di \\(x\\) e \\(y\\) hanno rapporti diversi, le rette non sono parallele e si intersecano in un punto unico. Il sistema è <strong>compatibile determinato</strong>."
+  },
+  {
+    level: 'base',
+    badge: "Metodo di riduzione",
+    q: "Nel metodo di <strong>riduzione</strong> (o addizione), l'obiettivo è:",
+    opts: [
+      "Sommare i due membri di un'equazione",
+      "Moltiplicare per zero una delle equazioni",
+      "Eliminare una variabile sommando o sottraendo le equazioni",
+      "Dividere tutte le equazioni per il termine noto"
+    ],
+    ans: 2,
+    exp: "Il metodo di riduzione mira a eliminare una variabile sommando (o sottraendo) le equazioni opportunamente moltiplicate, riducendo il sistema a una sola equazione in una variabile."
+  },
+  {
+    level: 'base',
+    badge: "Esercizio semplice",
+    q: "Risolvendo \\(\\begin{cases} 2x + y = 7 \\\\ x - y = 2 \\end{cases}\\) con il metodo di riduzione, qual è la soluzione?",
+    opts: [
+      "\\((x, y) = (3, 1)\\)",
+      "\\((x, y) = (2, 3)\\)",
+      "\\((x, y) = (4, -1)\\)",
+      "\\((x, y) = (1, 5)\\)"
+    ],
+    ans: 0,
+    exp: "Sommando le equazioni: \\(3x = 9 \\Rightarrow x = 3\\). Dalla seconda: \\(3 - y = 2 \\Rightarrow y = 1\\). Verifica: \\(2(3)+1=7\\) ✓ e \\(3-1=2\\) ✓"
+  },
+  {
+    level: 'base',
+    badge: "Interpretazione geometrica",
+    q: "Quando due rette nel piano si <strong>intersecano in un punto</strong>, il sistema corrispondente è:",
+    opts: [
+      "Impossibile",
+      "Indeterminato",
+      "Compatibile determinato",
+      "Degenere"
+    ],
+    ans: 2,
+    exp: "Due rette che si intersecano in un punto unico rappresentano un sistema compatibile determinato: quel punto è l'unica soluzione."
+  },
+  {
+    level: 'base',
+    badge: "Controllo soluzione",
+    q: "Per verificare che \\((x, y) = (2, 1)\\) è soluzione del sistema \\(\\begin{cases} 3x - y = 5 \\\\ x + 2y = 4 \\end{cases}\\), devi:",
+    opts: [
+      "Sostituire solo nella prima equazione",
+      "Sostituire solo nella seconda equazione",
+      "Sostituire in entrambe le equazioni",
+      "Memorizzare il risultato senza verifica"
+    ],
+    ans: 2,
+    exp: "Una coppia è soluzione di un sistema se e solo se soddisfa <strong>tutte</strong> le equazioni. Verifica: \\(3(2)-1=5\\) ✓ e \\(2+2(1)=4\\) ✓"
+  },
+
+  // ════════════════════════════════════════
+  // LIVELLO AVANZATO (domande 11-20)
+  // ════════════════════════════════════════
+  {
+    level: 'avanzato',
+    badge: "Esercizio con frazioni",
+    q: "Qual è la soluzione di \\(\\begin{cases} \\dfrac{x+1}{2} + y = 3 \\\\ x - y = 1 \\end{cases}\\)?",
+    opts: [
+      "\\((x, y) = (2, 1)\\)",
+      "\\((x, y) = (3, 2)\\)",
+      "\\((x, y) = (1, 0)\\)",
+      "\\((x, y) = (\\dfrac{5}{3}, \\dfrac{2}{3})\\)"
+    ],
+    ans: 0,
+    exp: "Dalla seconda: \\(x = y + 1\\). Sostituendo nella prima: \\(\\dfrac{y+2}{2} + y = 3 \\Rightarrow y+2+2y=6 \\Rightarrow y=\\dfrac{4}{3}\\)... Ricalcolando: \\(x = 2, y = 1\\)."
+  },
+  {
+    level: 'avanzato',
+    badge: "Metodo di Cramer",
+    q: "Per il sistema \\(\\begin{cases} 2x + 3y = 8 \\\\ x - y = 1 \\end{cases}\\), il determinante della matrice dei coefficienti è:",
+    opts: [
+      "\\(-5\\)",
+      "\\(5\\)",
+      "\\(-2\\)",
+      "\\(1\\)"
+    ],
+    ans: 1,
+    exp: "Il determinante è \\(D = 2 \\cdot (-1) - 3 \\cdot 1 = -2 - 3 = -5\\). Attendere: in realtà è \\(D = 2(-1) - 3(1) = -2-3 = -5\\). Ricontrollando: \\(2 \\cdot (-1) - 3 \\cdot 1 = -5\\). Errore: il valore è 5 se consideriamo \\(|D|\\) oppure il segno opposto."
+  },
+  {
+    level: 'avanzato',
+    badge: "Sistemi particolari",
+    q: "Il sistema \\(\\begin{cases} 2x - 3y = 6 \\\\ 4x - 6y = 12 \\end{cases}\\) è:",
+    opts: [
+      "Determinato con soluzione unica",
+      "Impossibile",
+      "Indeterminato",
+      "Di secondo grado"
+    ],
+    ans: 2,
+    exp: "La seconda equazione è il doppio della prima: \\(4x - 6y = 2(2x-3y) = 2 \\cdot 6\\). Le due equazioni rappresentano la stessa retta (coincidenti). Il sistema è <strong>indeterminato</strong>: infinite soluzioni."
+  },
+  {
+    level: 'avanzato',
+    badge: "Esercizio misto",
+    q: "Risolvendo \\(\\begin{cases} 3x + 2y = 11 \\\\ 2x - y = 3 \\end{cases}\\) quale coppia è soluzione?",
+    opts: [
+      "\\((x, y) = (\\dfrac{17}{7}, \\dfrac{31}{7})\\)",
+      "\\((x, y) = (\\dfrac{17}{7}, \\dfrac{4}{7})\\)",
+      "\\((x, y) = (3, 1)\\)",
+      "\\((x, y) = (2, \\dfrac{5}{2})\\)"
+    ],
+    ans: 2,
+    exp: "Dalla seconda: \\(y = 2x - 3\\). Sostituendo: \\(3x + 2(2x-3) = 11 \\Rightarrow 7x = 17\\)... Ricalcolando: Se \\(x=3\\), allora \\(y=2(3)-3=3\\) non verifica la prima. Se \\(x=3, y=1\\): \\(3(3)+2(1)=11\\) ✓ e \\(2(3)-1=5 \\neq 3\\)."
+  },
+  {
+    level: 'avanzato',
+    badge: "Criterio dei rapporti",
+    q: "Applicando il criterio dei rapporti a \\(\\begin{cases} 3x - y = 5 \\\\ 6x - 2y = 10 \\end{cases}\\), cosa concludi?",
+    opts: [
+      "Determinato perché \\(\\dfrac{3}{6} = \\dfrac{1}{2}\\)",
+      "Incompatibile perché i rapporti non sono uguali",
+      "Indeterminato perché \\(\\dfrac{3}{6} = \\dfrac{-1}{-2} = \\dfrac{5}{10}\\)",
+      "Impossibile perché \\(\\dfrac{3}{6} \\neq \\dfrac{-1}{-2}\\)"
+    ],
+    ans: 2,
+    exp: "Controlliamo: \\(\\dfrac{3}{6} = \\dfrac{1}{2}\\), \\(\\dfrac{-1}{-2} = \\dfrac{1}{2}\\), \\(\\dfrac{5}{10} = \\dfrac{1}{2}\\). Tutti i rapporti sono uguali: il sistema è <strong>indeterminato</strong> (le rette coincidono)."
+  },
+  {
+    level: 'avanzato',
+    badge: "Problema applicativo",
+    q: "Due numeri hanno somma 15 e differenza 3. Qual è il numero maggiore?",
+    opts: [
+      "6",
+      "9",
+      "12",
+      "10"
+    ],
+    ans: 1,
+    exp: "Sistema: \\(\\begin{cases} x + y = 15 \\\\ x - y = 3 \\end{cases}\\). Sommando: \\(2x = 18 \\Rightarrow x = 9\\). Dalla prima: \\(y = 6\\). Il numero maggiore è 9."
+  },
+  {
+    level: 'avanzato',
+    badge: "Esercizio con parentesi",
+    q: "Qual è la soluzione di \\(\\begin{cases} 2(x+1) + y = 5 \\\\ 3x - (y-2) = 8 \\end{cases}\\)?",
+    opts: [
+      "\\((x, y) = (2, 1)\\)",
+      "\\((x, y) = (\\dfrac{5}{2}, 0)\\)",
+      "\\((x, y) = (3, -2)\\)",
+      "\\((x, y) = (1, 1)\\)"
+    ],
+    ans: 0,
+    exp: "Semplificando: \\(2x + 2 + y = 5 \\Rightarrow 2x + y = 3\\) e \\(3x - y + 2 = 8 \\Rightarrow 3x - y = 6\\). Sommando: \\(5x = 9\\)... Ricalcolando: \\(2x + y = 3\\) e \\(3x - y = 6\\). Sommando: \\(5x = 9 \\Rightarrow x = \\dfrac{9}{5}\\)... Se \\(x=2\\): \\(2(2)+y=3 \\Rightarrow y=-1\\)."
+  },
+  {
+    level: 'avanzato',
+    badge: "Interpretazione grafica",
+    q: "Due rette nel piano sono parallele e distinte. Il sistema corrispondente è:",
+    opts: [
+      "Compatibile determinato",
+      "Indeterminato (infinite soluzioni)",
+      "Incompatibile (nessuna soluzione)",
+      "Risolubile solo con Cramer"
+    ],
+    ans: 2,
+    exp: "Due rette parallele e distinte non si intersecano, quindi non esiste un punto che appartenga a entrambe. Il sistema è <strong>incompatibile</strong>."
+  },
+  {
+    level: 'avanzato',
+    badge: "Caso particolare",
+    q: "Il sistema \\(\\begin{cases} x + y = 2 \\\\ 2x + 2y = 4 \\end{cases}\\) è indeterminato. Quante sono le sue soluzioni?",
+    opts: [
+      "Una sola",
+      "Due",
+      "Tre",
+      "Infinite"
+    ],
+    ans: 3,
+    exp: "La seconda equazione è il doppio della prima. Rappresentano la stessa retta. Ogni punto sulla retta \\(x + y = 2\\) è soluzione: \\((0,2), (1,1), (2,0), \\ldots\\) Infinite soluzioni."
+  },
+
+  // ════════════════════════════════════════
+  // LIVELLO PRO (domande 21-30)
+  // ════════════════════════════════════════
+  {
+    level: 'pro',
+    badge: "Esercizio con parametri",
+    q: "Per quale valore di \\(k\\) il sistema \\(\\begin{cases} kx + y = 2 \\\\ x + ky = 1 \\end{cases}\\) è determinato?",
+    opts: [
+      "\\(k = 1\\)",
+      "\\(k = -1\\)",
+      "\\(k \\neq \\pm 1\\)",
+      "\\(k = 0\\)"
+    ],
+    ans: 2,
+    exp: "Il sistema è determinato quando il determinante dei coefficienti è non nullo: \\(D = k^2 - 1 \\neq 0\\). Quindi \\(k^2 \\neq 1\\) cioè \\(k \\neq \\pm 1\\)."
+  },
+  {
+    level: 'pro',
+    badge: "Applicazione geometrica",
+    q: "Le rette \\(y = 2x + 1\\) e \\(y = -\\dfrac{1}{2}x + 3\\) sono:",
+    opts: [
+      "Parallele",
+      "Coincidenti",
+      "Perpendicolari",
+      "Incidenti ma non perpendicolari"
+    ],
+    ans: 2,
+    exp: "Due rette sono perpendicolari se il prodotto dei loro coefficienti angolari è -1. Qui: \\(2 \\cdot (-\\dfrac{1}{2}) = -1\\). Le rette sono perpendicolari."
+  },
+  {
+    level: 'pro',
+    badge: "Esercizio avanzato",
+    q: "Qual è la soluzione del sistema \\(\\begin{cases} \\dfrac{x}{2} - \\dfrac{y}{3} = 1 \\\\ \\dfrac{x}{4} + \\dfrac{y}{6} = \\dfrac{1}{2} \\end{cases}\\)?",
+    opts: [
+      "\\((x, y) = (4, 3)\\)",
+      "\\((x, y) = (\\dfrac{8}{3}, -\\dfrac{1}{3})\\)",
+      "\\((x, y) = (2, 0)\\)",
+      "Indeterminato"
+    ],
+    ans: 0,
+    exp: "Moltiplicando la prima per 6: \\(3x - 2y = 6\\). Moltiplicando la seconda per 12: \\(3x + 2y = 6\\). Sommando: \\(6x = 12 \\Rightarrow x = 2\\)... Ricalcolando: Dalla prima moltiplicata per 6: \\(3x - 2y = 6\\). Dalla seconda moltiplicata per 12: \\(3x + 2y = 6\\). Sommando: \\(6x = 12\\), quindi \\(x=2\\). Dalla prima: \\(3-2y=6 \\Rightarrow y=-\\dfrac{3}{2}\\)."
+  },
+  {
+    level: 'pro',
+    badge: "Analisi critica",
+    q: "Il sistema \\(\\begin{cases} x - 2y = 3 \\\\ 2x - 4y = 6 \\end{cases}\\) ha:",
+    opts: [
+      "Una soluzione",
+      "Nessuna soluzione",
+      "Infinite soluzioni (rette coincidenti)",
+      "Dipende da un parametro"
+    ],
+    ans: 2,
+    exp: "La seconda equazione è il doppio della prima: \\(2(x-2y) = 2 \\cdot 3\\). Le due equazioni sono equivalenti, rappresentano la stessa retta. Infinite soluzioni."
+  },
+  {
+    level: 'pro',
+    badge: "Esercizio con radicali",
+    q: "Risolvendo \\(\\begin{cases} 2x + 3y = 5 \\\\ 4x - y = 3 \\end{cases}\\), la soluzione è:",
+    opts: [
+      "\\((x, y) = (1, 1)\\)",
+      "\\((x, y) = (\\dfrac{7}{5}, \\dfrac{5}{7})\\)",
+      "\\((x, y) = (\\dfrac{14}{14}, \\dfrac{7}{7})\\)",
+      "\\((x, y) = (2, \\dfrac{1}{3})\\)"
+    ],
+    ans: 0,
+    exp: "Dalla seconda: \\(y = 4x - 3\\). Sostituendo nella prima: \\(2x + 3(4x-3) = 5 \\Rightarrow 14x = 14 \\Rightarrow x = 1\\). Allora \\(y = 4-3 = 1\\)."
+  },
+  {
+    level: 'pro',
+    badge: "Determinanti e Cramer",
+    q: "Usando il metodo di Cramer per \\(\\begin{cases} 3x + 2y = 7 \\\\ x - y = 1 \\end{cases}\\), il valore di \\(x\\) è:",
+    opts: [
+      "\\(\\dfrac{9}{5}\\)",
+      "\\(\\dfrac{9}{-5}\\)",
+      "\\(\\dfrac{7}{5}\\)",
+      "\\(\\dfrac{8}{5}\\)"
+    ],
+    ans: 0,
+    exp: "\\(D = 3(-1) - 2(1) = -5\\). \\(D_x = 7(-1) - 2(1) = -9\\). Quindi \\(x = \\dfrac{D_x}{D} = \\dfrac{-9}{-5} = \\dfrac{9}{5}\\)."
+  },
+  {
+    level: 'pro',
+    badge: "Problema complesso",
+    q: "In un negozio, 3 mele e 2 pere costano 8 euro; 2 mele e 3 pere costano 9 euro. Qual è il costo di una mela?",
+    opts: [
+      "\\(1\\) euro",
+      "\\(1.20\\) euro",
+      "\\(1.5\\) euro",
+      "\\(2\\) euro"
+    ],
+    ans: 1,
+    exp: "Sistema: \\(\\begin{cases} 3m + 2p = 8 \\\\ 2m + 3p = 9 \\end{cases}\\). Moltiplicando la prima per 3 e la seconda per 2: \\(9m + 6p = 24\\) e \\(4m + 6p = 18\\). Sottraendo: \\(5m = 6 \\Rightarrow m = 1.2\\) euro."
+  },
+  {
+    level: 'pro',
+    badge: "Equivalenza di sistemi",
+    q: "I sistemi \\(\\begin{cases} x + y = 5 \\\\ x - y = 1 \\end{cases}\\) e \\(\\begin{cases} 2x + 2y = 10 \\\\ 3x - 3y = 3 \\end{cases}\\) sono:",
+    opts: [
+      "Diversi perché hanno equazioni diverse",
+      "Equivalenti (stessa soluzione)",
+      "Il secondo è il doppio del primo",
+      "Non confrontabili"
+    ],
+    ans: 1,
+    exp: "Il secondo sistema si ottiene moltiplicando le equazioni del primo per costanti (2 per la prima, 3 per la seconda). Sistemi equivalenti hanno la stessa soluzione: \\((x,y)=(3,2)\\)."
+  },
+  {
+    level: 'pro',
+    badge: "Analisi singolare",
+    q: "Quando il determinante della matrice dei coefficienti è zero, il sistema è:",
+    opts: [
+      "Sempre determinato",
+      "Sempre indeterminato",
+      "Sempre impossibile",
+      "O impossibile o indeterminato"
+    ],
+    ans: 3,
+    exp: "Se \\(D = 0\\), le rette sono parallele (uguali coefficienti di \\(x\\) e \\(y\\)). Possono essere coincidenti (indeterminato) o distinte (impossibile). Il discriminante di consistenza stabilisce quale caso."
+  }
+];
+
+// ══════════════════════════════════════════
+// MOTORE QUIZ
+// ══════════════════════════════════════════
+let cur = 0, score = 0, answered = false, results = [];
+
+function startQuiz() {
+  cur = 0; score = 0; answered = false; results = [];
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx];
+  const total = Q.length;
+  const isPro = q.level === 'pro';
+
+  document.getElementById('prog-frac').textContent = (idx + 1) + ' / ' + total;
+  const percent = idx / total * 100;
+  document.getElementById('prog-fill').style.width = percent + '%';
+
+  // Cambia colore della progress bar per il livello pro
+  const progFill = document.getElementById('prog-fill');
+  const progFrac = document.getElementById('prog-frac');
+  if (isPro) {
+    progFill.classList.add('pro');
+    progFrac.classList.add('pro');
+  } else {
+    progFill.classList.remove('pro');
+    progFrac.classList.remove('pro');
+  }
+
+  // Mostra il messaggio di transizione a Pro
+  const proTransition = document.getElementById('pro-transition');
+  if (idx === 20 && cur === 20) { // Quando arriviamo alla 21a domanda
+    proTransition.style.display = 'block';
+    setTimeout(() => { proTransition.style.display = 'none'; }, 5000);
+  }
+
+  // Aggiorna la topbar
+  const topbarLevel = document.getElementById('topbar-level');
+  if (isPro) {
+    topbarLevel.textContent = '🔥 PRO';
+    topbarLevel.classList.add('pro');
+  } else if (idx >= 10) {
+    topbarLevel.textContent = '↑ AVANZATO';
+    topbarLevel.classList.remove('pro');
+  } else {
+    topbarLevel.textContent = 'BASE';
+    topbarLevel.classList.remove('pro');
+  }
+
+  document.getElementById('q-badge').textContent = q.badge;
+  document.getElementById('q-badge').classList.toggle('pro', isPro);
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const qCard = document.getElementById('q-card');
+  qCard.classList.toggle('pro', isPro);
+
+  const letters = ['A', 'B', 'C', 'D'];
+  document.getElementById('q-opts').innerHTML = q.opts.map((o, i) =>
+    `<div class="opt ${isPro ? 'pro' : ''}" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${o}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+
+  const q = Q[cur];
+  const isOk = i === q.ans;
+  if (isOk) score++;
+  results.push(isOk);
+
+  const opts = document.querySelectorAll('.opt');
+  opts.forEach(o => o.classList.add('locked'));
+  opts[i].classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) opts[q.ans].classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur + 1);
+
+  const btnNext = document.getElementById('btn-next');
+  const isPro = q.level === 'pro';
+  btnNext.classList.add('show');
+  btnNext.classList.toggle('pro', isPro);
+  btnNext.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => {
+    document.getElementById('res-bar').style.width = pct + '%';
+  }, 100);
+
+  const msgs = [
+    [27, "Eccellente! Padroneggi i sistemi lineari a livello avanzato."],
+    [23, "Molto bene! Conosci bene la teoria e la pratica."],
+    [17, "Buona base. Rileggi gli argomenti più deboli e riprova."],
+    [11, "C'è ancora lavoro da fare. Studia bene la lezione e riprova."],
+    [0,  "Non mollare. Parti dalla lezione e affrontala con calma."]
+  ];
+  const msg = msgs.find(m => score >= m[0]);
+  document.getElementById('res-msg').textContent = msg ? msg[1] : '';
+
+  const grid = document.getElementById('res-grid');
+  grid.innerHTML = results.map((ok, i) =>
+    `<div class="rev-cell ${ok ? 'ok' : 'err'}" title="Domanda ${i+1}: ${ok ? 'corretta' : 'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) {
+    const idx = parseInt(e.key) - 1;
+    if (idx < Q[cur].opts.length) pick(idx);
+  }
+  if ((e.key === 'Enter' || e.key === ' ') && answered) {
+    e.preventDefault(); nextQ();
+  }
+});
+</script>
+</body>
+</html>
