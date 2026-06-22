@@ -19,6 +19,22 @@
   </div>
 
   <div class="articles-card-list">
+
+    <!-- Featured Article: Jazz & Math -->
+    <a href="/lezioni/jazz-and-math/" class="article-item-link">
+      <div class="article-content">
+        <h3 class="article-title">Jazz & <em>Math</em></h3>
+        <p class="article-meta">
+          <span class="article-summary">Scopri come la matematica è il fondamento invisibile del jazz. Dalla scala temperata ai genî come Coltrane.</span>
+          <span class="article-date">22 Giu 2026</span>
+        </p>
+      </div>
+      <div class="article-visual">
+        <img src="/uploads/jazz-and-math.jpg" alt="Jazz & Math" class="article-thumbnail">
+        <span class="article-icon" aria-hidden="true">→</span>
+      </div>
+    </a>
+
     {{ range .Pages.ByDate.Reverse }}
       {{ $title := .Title }}
       <a href="{{ .RelPermalink }}" class="article-item-link">
