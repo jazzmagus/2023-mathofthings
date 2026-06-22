@@ -144,6 +144,10 @@ Quindi quando arriva la domanda "Prof, a cosa serve?", ormai la risposta è ques
 
 ---
 
+**Approfondimento consigliato:** Per vedere come la matematica descrive concretamente il mondo reale, leggi [Studio di Funzione Razionale](/lezioni/studio-funzione-razionale/) — una funzione che letteralmente salva vite.
+
+---
+
 <p style="font-size:0.88rem;line-height:1.4;"><em>I giganti citati — Galileo, Einstein, Feynman, Hardy, Gauss — rappresentano secoli di riflessione su questa domanda. Le loro risposte rimangono straordinariamente attuali.</em></p>
 
 <p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:300;line-height:1.3;color:#8a827a;">Questo articolo è stato scritto con l'indispensabile contributo di Claude — il quale, va detto, non ha chiesto nulla in cambio. Per ora.</p>

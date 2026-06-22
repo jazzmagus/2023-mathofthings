@@ -252,11 +252,43 @@
       font-family: 'JetBrains Mono', monospace;
     }
     
+    /* Mobile responsiveness */
+    @media (max-width: 640px) {
+      .doc {
+        max-width: 100% !important;
+        padding: 24px clamp(12px, 3vw, 20px) 48px !important;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .title-section {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .title-right {
+        text-align: left;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      h2 {
+        font-size: 1.15rem;
+      }
+
+      .mjx-chtml {
+        font-size: 0.9em !important;
+        overflow-x: auto;
+      }
+    }
+
     /* Print styles */
     .running-hdr, .running-ftr, .hdr-space, .ftr-space { display: none; }
-    
+
     p, li { text-wrap: pretty; }
-    
+
     @page { size: letter; margin: 0; }
     
     @media print {
