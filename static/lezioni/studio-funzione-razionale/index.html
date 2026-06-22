@@ -30,16 +30,10 @@
         inlineMath: [['$', '$'], ['\\(', '\\)']],
         displayMath: [['$$', '$$'], ['\\[', '\\]']]
       },
-      svg: { fontCache: 'global', scale: 1.05 },
-      startup: {
-        ready: () => {
-          MathJax.startup.defaultReady();
-          MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
-        }
-      }
+      svg: { fontCache: 'global', scale: 1.05 }
     };
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+  <script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Georgia:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap');
 
