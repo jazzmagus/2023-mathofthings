@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<template id="__bundler_thumbnail" data-bg-color="#fafafa">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#fafafa"/>
+    <g transform="translate(600, 400)">
+      <!-- Coordinate axes -->
+      <line x1="-200" y1="0" x2="200" y2="0" stroke="#d97757" stroke-width="3"/>
+      <line x1="0" y1="-200" x2="0" y2="200" stroke="#d97757" stroke-width="3"/>
+      <!-- Function curve (parabola-like) -->
+      <path d="M -150,-80 Q -75,-150 0,-120 Q 75,-150 150,-80" stroke="#1a1a1a" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <!-- Title text -->
+      <text x="0" y="250" font-family="Georgia, serif" font-size="48" font-weight="600" text-anchor="middle" fill="#1a1a1a">Studio di Funzione</text>
+      <text x="0" y="310" font-family="JetBrains Mono, monospace" font-size="32" text-anchor="middle" fill="#d97757">Reale</text>
+    </g>
+  </svg>
+</template>
+
+<helmet>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      startup: { typeset: true }
+    };
+  </script>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Georgia:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap');
+    
+    body { margin: 0; background: #fafafa; }
+    
+    .doc { 
+      box-sizing: border-box; 
+      max-width: 8.5in; 
+      margin: 0 auto;
+      background: inherit;
+      padding: 48px clamp(24px, 5vw, 0.75in) 96px; 
+      font-family: Georgia, serif;
+      font-size: 15px;
+      line-height: 1.65;
+      color: #2c2c2c;
+    }
+    
+    .doc-frame { width: 100%; border-collapse: collapse; }
+    .doc-frame td { padding: 0; }
+    
+    /* Title section */
+    .title-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 40px;
+      align-items: flex-start;
+    }
+    
+    .title-left h1 {
+      margin: 0;
+      font-size: 4em;
+      line-height: 1.25;
+      text-wrap: balance;
+      color: #1a1a1a;
+      font-weight: normal;
+      letter-spacing: -0.01em;
+      font-family: Georgia, serif;
+    }
+    
+    .title-left h1 .accent {
+      color: #C2175B;
+      font-style: italic;
+      font-weight: normal;
+      font-family: Georgia, serif;
+    }
+    
+    .title-right {
+      text-align: right;
+      padding-top: 8px;
+    }
+    
+    .title-right .author {
+      display: block;
+      font-size: 14px;
+      color: #1a1a1a;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    
+    .title-right .date {
+      display: block;
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 6px;
+    }
+    
+    .title-right .category {
+      display: block;
+      font-size: 12px;
+      color: #C2175B;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    
+    h2 {
+      margin: 28px 0 16px 0;
+      font-size: 1.35em;
+      line-height: 1.25;
+      text-wrap: balance;
+      color: #1a1a1a;
+      font-weight: normal;
+      letter-spacing: -0.005em;
+    }
+    
+    /* Abstract: una colonna, riquadrata */
+    .abstract {
+      background: #f5f5f5;
+      padding: 20px 24px;
+      margin: 32px 0;
+      border-left: 3px solid #C2175B;
+      font-size: 14px;
+      line-height: 1.6;
+      font-style: italic;
+      color: #404040;
+    }
+    
+    .abstract-title {
+      font-weight: 600;
+      font-style: normal;
+      color: #1a1a1a;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #C2175B;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    
+    /* Two-column layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 32px;
+    }
+    
+    .col {
+      text-wrap: pretty;
+      text-align: justify;
+    }
+    
+    /* Step headers */
+    .step-title {
+      font-weight: 600;
+      color: #C2175B;
+      font-size: 1em;
+      margin: 24px 0 12px 0;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    
+    .step-num {
+      display: inline-block;
+      font-weight: 600;
+      color: #C2175B;
+      min-width: 24px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    
+    .step-content {
+      margin-bottom: 16px;
+      line-height: 1.65;
+    }
+    
+    /* Emphasis and highlights */
+    .highlight {
+      color: #C2175B;
+      font-weight: 600;
+    }
+    
+    .key-concept {
+      color: #1a1a1a;
+      font-weight: 600;
+      font-style: italic;
+    }
+    
+    /* Example function box */
+    .example-box {
+      background: #f9f7f4;
+      border-left: 2px solid #C2175B;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    
+    .example-title {
+      font-weight: 600;
+      color: #C2175B;
+      font-size: 0.95em;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    
+    /* Objective callout */
+    .objective {
+      background: #f9f7f4;
+      border-left: 3px solid #C2175B;
+      padding: 18px 22px;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.65;
+      color: #1a1a1a;
+    }
+    
+    .objective-label {
+      display: block;
+      font-weight: 600;
+      color: #C2175B;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    
+    /* Print styles */
+    .running-hdr, .running-ftr, .hdr-space, .ftr-space { display: none; }
+    
+    p, li { text-wrap: pretty; }
+    
+    @page { size: letter; margin: 0; }
+
+    /* Mobile responsiveness */
+    @media (max-width: 640px) {
+      .doc {
+        max-width: 100% !important;
+        padding: 24px clamp(12px, 3vw, 20px) 48px !important;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .title-section {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .title-right {
+        text-align: left;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      h2 {
+        font-size: 1.15rem;
+      }
+
+      svg, img {
+        max-width: 100% !important;
+        height: auto !important;
+      }
+    }
+
+    @media print {
+      html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      html, body { margin: 0; padding: 0; }
+      .doc { max-width: none !important; margin: 0 !important;
+             padding: 0 0.75in !important; box-shadow: none !important;
+             border: none !important; }
+      #dc-root, .sc-host { height: auto !important; }
+      .hdr-space, .ftr-space { display: table-cell;
+             height: 0.75in !important; }
+      .running-hdr, .running-ftr { display: flex !important;
+             justify-content: space-between; align-items: baseline;
+             position: fixed !important; left: 0; right: 0;
+             margin: 0 !important; font-size: 11px;
+             letter-spacing: 0.05em; text-transform: uppercase; }
+      .running-hdr { top: 0; padding: 0.35in 0.75in 0 !important; }
+      .running-ftr { bottom: 0; padding: 0 0.75in 0.35in !important; }
+      h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+      figure, pre, blockquote, img, svg, tr { break-inside: avoid; }
+      p, li { orphans: 3; widows: 3; }
+      .screen-only { display: none !important; }
+      .two-col { break-inside: avoid; }
+    }
+  </style>
+</helmet>
+
+<main class="doc">
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+      <div class="title-section">
+        <div class="title-left">
+          <h1>Studio di una <span class="accent">Funzione</span> Reale di <span class="accent">Variabile</span> Reale</h1>
+        </div>
+        <div class="title-right">
+          <span class="author">Diego Falcinelli</span>
+          <span class="date">Giugno 2026</span>
+          <span class="category">Divulgazione Matematica</span>
+          <p style="margin: 32px 0 0 0; padding-top: 24px; border-top: 1px solid #e0e0e0; font-size: 14px; font-style: italic; color: #666; text-align: right; line-height: 1.6;"><span style="display: block; margin-bottom: 6px;">«La matematica è il linguaggio con cui Dio ha scritto l'universo.»</span> <span style="white-space: nowrap;">— Galileo Galilei</span></p>
+        </div>
+      </div>
+
+      <div class="objective">
+        <span class="objective-label">L'obiettivo</span>
+        <p style="margin: 0;">Data un'equazione: $$y = f(x)$$ vogliamo <span class="highlight">visualizzare il grafico della funzione</span>. Non è magia: è un metodo sistematico e preciso che ci permette di passare da una formula astratta a una <span class="key-concept">immagine mentale concreta</span> di come la funzione si comporta.</p>
+      </div>
+
+      <div class="abstract">
+        <span class="abstract-title">Abstract</span>
+        <p style="margin: 0;">Lo studio di funzione è uno dei pilastri dell'analisi matematica. In questo articolo esaminiamo la metodologia completa, passo passo, per affrontare lo studio di una funzione razionale reale di variabile reale, dalla sua classificazione fino al calcolo della derivata seconda. Scopriremo come ogni passaggio costruisce informazioni essenziali per disegnare il grafico, e come l'apparente rigore matematico cela un'elegante semplicità.</p>
+      </div>
+
+      <div class="two-col">
+        <div class="col">
+          
+          <h2 style="margin-top: 0;">Metodologia Sistematica</h2>
+
+          <div class="step-title">
+            <span class="step-num">1.</span>
+            <span>Classificazione della Funzione</span>
+          </div>
+          <div class="step-content">
+            Prima di iniziare, dobbiamo capire <span class="highlight">che tipo di funzione</span> stiamo affrontando. È una funzione <span class="key-concept">razionale intera</span> (polinomio) o <span class="key-concept">razionale fratta</span> (rapporto di polinomi)? Irrazionale, trigonometrica, logaritmica, esponenziale? La classificazione ci dice già molto sul comportamento della funzione — ad esempio, una razionale fratta avrà asintoti verticali, mentre una funzione esponenziale avrà asintoti orizzontali.
+            
+            Ogni categoria ha proprietà caratteristiche: i polinomi sono funzioni continue ovunque senza discontinuità, le funzioni razionali fratte presentano punti di discontinuità, le funzioni irrazionali hanno vincoli sul loro dominio, e le funzioni trigonometriche sono periodiche. Riconoscere la famiglia di appartenenza della nostra funzione è il primo passo per orientarsi verso la soluzione del problema.
+            
+            <div class="example-box">
+              <span class="example-title">Esempio 1: Razionale intera</span>
+              <p style="margin: 0;">$$f(x) = x^3 - 3x^2 + 2$$</p>
+              <p style="margin: 8px 0 0 0; font-size: 13px;">Un polinomio di grado 3. Dominio: tutti i reali. Niente asintoti.</p>
+            </div>
+
+            <div class="example-box">
+              <span class="example-title">Esempio 2: Razionale fratta</span>
+              <p style="margin: 0;">$$g(x) = \frac{x + 1}{x^2 - 1}$$</p>
+              <p style="margin: 8px 0 0 0; font-size: 13px;">Rapporto di polinomi. Qui c'è da stare attenti: $x^2 - 1 = 0$ quando $x = \pm 1$.</p>
+            </div>
+          </div>
+
+          <div class="step-title">
+            <span class="step-num">2.</span>
+            <span>Dominio (Campo di Esistenza)</span>
+          </div>
+          <div class="step-content">
+            Il dominio è l'insieme di tutti gli <span class="highlight">x per cui la funzione è definita</span>. Per una razionale intera, è tutto ℝ. Per una razionale fratta, escludiamo i valori che annullano il denominatore. Per funzioni irrazionali, il dominio è vincolato dalle condizioni di esistenza della radice (ad esempio, una radice pari richiede argomento non negativo).
+            
+            La determinazione del dominio è cruciale perché esclude a priori le zone del piano dove la funzione non esiste. Una discontinuità nel dominio (come un "buco" in una retta numerica) diventerà una caratteristica visibile del grafico: una linea verticale che il grafico non può attraversare.
+            <p style="margin: 12px 0 0 0;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-style: normal; color: #1a1a1a;">Esempio 1:</span> $D = \mathbb{R}$ (tutti i numeri reali)<br/>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-style: normal; color: #1a1a1a;">Esempio 2:</span> $D = \mathbb{R} \setminus \{-1, 1\}$ (escludiamo le discontinuità)
+            </p>
+          </div>
+
+          <div class="step-title">
+            <span class="step-num">3.</span>
+            <span>Simmetrie e Parità</span>
+          </div>
+          <div class="step-content">
+            Controlliamo se $f(-x) = f(x)$ (funzione <span class="key-concept">pari</span>, simmetrica rispetto all'asse y) oppure $f(-x) = -f(x)$ (funzione <span class="key-concept">dispari</span>, simmetrica rispetto all'origine). Se è pari o dispari, studiamo solo una "metà" del grafico e riflettiamo il risultato.
+            
+            Le funzioni pari hanno la forma tipica di una parabola — specchiata perfettamente sull'asse verticale. Le funzioni dispari, come il grafico di una funzione cubica, hanno una simmetria rotazionale di 180° intorno all'origine. Riconoscere queste simmetrie non è solo un esercizio teorico: riduce drasticamente il lavoro computazionale necessario per tracciare il grafico completo.
+            <p style="margin: 12px 0 0 0;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-style: normal; color: #1a1a1a;">Esempio 1:</span> $f(-x) = (-x)^3 - 3(-x)^2 + 2 = -x^3 - 3x^2 + 2 \neq \pm f(x)$ → né pari né dispari<br/>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-style: normal; color: #1a1a1a;">Esempio 2:</span> Non è né pari né dispari.
+            </p>
+          </div>
+
+          <div class="step-title">
+            <span class="step-num">4.</span>
+            <span>Intersezioni con gli Assi</span>
+          </div>
+          <div class="step-content">
+            Dove il grafico <span class="highlight">taglia gli assi</span>? Poniamo $f(x) = 0$ per gli zeri (intersezioni con l'asse x), e calcoliamo $f(0)$ per l'intersezione con l'asse y. Gli zeri della funzione sono punti critici dal punto di vista grafico: sono i punti dove il grafico "attraversa" l'asse orizzontale.
+            
+            Trovare gli zeri può essere semplice (per funzioni lineari o quadratiche) o molto complesso (per polinomi di grado superiore). Non sempre avremo una formula chiusa: a volte dovremo approssimare gli zeri numericamente. L'intersezione con l'asse y è invece sempre facile da calcolare e ci dà un punto certo da cui possiamo iniziare a tracciare il grafico.
+            <p style="margin: 12px 0 0 0;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-style: normal; color: #1a1a1a;">Esempio 1:</span> Zeri: risolvi $x^3 - 3x^2 + 2 = 0$. Asse y: $f(0) = 2$<br/>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-style: normal; color: #1a1a1a;">Esempio 2:</span> Zeri: $x + 1 = 0 \Rightarrow x = -1$, ma è fuori dal dominio! Asse y: $g(0) = -1$
+            </p>
+          </div>
+
+        </div>
+
+        <div class="col">
+          
+          <div class="step-title" style="margin-top: 0;">
+            <span class="step-num">5.</span>
+            <span>Asintoti</span>
+          </div>
+          <div class="step-content">
+            Gli asintoti sono le "linee fantasma" che la funzione <span class="highlight">cerca di raggiungere all'infinito</span>. Possono essere orizzontali, verticali, oppure obliqui, e rappresentano il comportamento asintotico della funzione.
+            
+            Un asintoto verticale è una barriera invisibile che il grafico non può attraversare — la funzione tende a $+\infty$ oppure $-\infty$ mentre si avvicina a questa linea. Gli asintoti orizzontali e obliqui, invece, descrivono come il grafico si comporta quando $x$ tende all'infinito: la curva si avvicina sempre più a quella linea retta senza però raggiungerla mai (se non in casi eccezionali).
+            <p style="margin: 12px 0 8px 0;">
+              <span class="key-concept">Asintoti verticali:</span> dove il denominatore si annulla (per razionali fratte)<br/>
+              <span class="key-concept">Asintoti orizzontali:</span> confronta i gradi dei polinomi numeratore/denominatore<br/>
+              <span class="key-concept">Asintoti obliqui:</span> quando il numeratore ha grado uno in più del denominatore
+            </p>
+            <div class="example-box">
+              <span class="example-title">Esempio 2 approfondito</span>
+              <p style="margin: 0;">Asintoto verticale: $x = -1$ e $x = 1$. Asintoto orizzontale: numeratore ha grado 1, denominatore grado 2, quindi $y = 0$.</p>
+            </div>
+          </div>
+
+          <div class="step-title">
+            <span class="step-num">6.</span>
+            <span>Limiti agli Estremi</span>
+          </div>
+          <div class="step-content">
+            Calcoliamo:
+            $$\lim_{\substack{x \to +\infty}} f(x) \quad \text{e} \quad \lim_{\substack{x \to -\infty}} f(x)$$
+            Questo ci dice il <span class="highlight">comportamento della funzione all'infinito</span>. I limiti alle estremità del dominio sono fondamentali per capire come il grafico si estende verso i bordi del piano cartesiano. Per le funzioni razionali, il comportamento asintotico dipende dai gradi dei polinomi: se il numeratore e il denominatore hanno lo stesso grado, il limite è il rapporto dei coefficienti di grado massimo; se il numeratore ha grado maggiore, il limite è infinito.
+            
+            Questi calcoli non sono un'astrazione sterile — sono l'informazione che ci dice: "il grafico in alto a destra salirà verso l'infinito" oppure "scenderà verso l'asse x". Senza questa informazione, il nostro disegno sarebbe incompleto e fuorviante.
+            <p style="margin: 12px 0 0 0;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-style: normal; color: #1a1a1a;">Esempio 1:</span> Polinomio di grado dispari → limiti opposti (+∞ e −∞)<br/>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-style: normal; color: #1a1a1a;">Esempio 2:</span> Grado numeratore < grado denominatore → entrambi i limiti tendono a 0
+            </p>
+          </div>
+
+          <div class="step-title">
+            <span class="step-num">7.</span>
+            <span>Derivata Prima e Monotonia</span>
+          </div>
+          <div class="step-content">
+            Calcoliamo <span class="key-concept">$f'(x)$</span> e studiamo il suo <span class="highlight">segno</span>. Dove $f'(x) > 0$, la funzione è crescente; dove $f'(x) < 0$, è decrescente. Dove $f'(x) = 0$, abbiamo punti critici — potenziali massimi e minimi.
+            
+            La derivata prima è la velocità istantanea di cambio della funzione: quando è positiva, il grafico sale; quando è negativa, scende. Studiare il segno della derivata significa creare una <span class="key-concept">tabella di variazione</span>, uno strumento estremamente utile che sintetizza in una riga tutto ciò che sappiamo sulla monotonia della funzione. Questo è il punto in cui il grafico inizia veramente a prendere forma: sappiamo dove "sale" e dove "scende", e possiamo già immaginare la struttura complessiva della curva.
+          </div>
+
+          <div class="step-title">
+            <span class="step-num">8.</span>
+            <span>Massimi e Minimi Locali</span>
+          </div>
+          <div class="step-content">
+            Nei punti dove $f'(x) = 0$, applichiamo il <span class="key-concept">test della derivata prima</span> oppure della <span class="key-concept">derivata seconda</span> per capire se è un massimo, un minimo, o un punto di flesso a tangente orizzontale.
+            
+            Il test della derivata prima è semplice: se la derivata cambia da positiva a negativa, abbiamo un massimo locale; se cambia da negativa a positiva, abbiamo un minimo locale; se non cambia segno, il punto è un flesso. Il test della derivata seconda, invece, usa la concavità: se $f''(x) > 0$ nel punto critico, è un minimo; se $f''(x) < 0$, è un massimo. Questi punti sono visualmente importantissimi: sono le "cime" e le "valli" del grafico, i punti dove la curva cambia direzione in modo drammatico.
+          </div>
+
+          <div class="step-title">
+            <span class="step-num">9.</span>
+            <span>Derivata Seconda e Concavità</span>
+          </div>
+          <div class="step-content">
+            Calcoliamo <span class="key-concept">$f''(x)$</span>. Dove $f''(x) > 0$, il grafico è <span class="highlight">concavo verso l'alto</span> (∪); dove $f''(x) < 0$, è <span class="highlight">concavo verso il basso</span> (∩). I punti dove $f''(x) = 0$ sono i <span class="key-concept">flessi</span>.
+            
+            La derivata seconda misura la "curvatura" del grafico: quanto rapidamente la pendenza della tangente cambia. Dove è positiva, la curva "accelera verso l'alto"; dove è negativa, "accelera verso il basso". I punti di flesso sono quelli dove questa accelerazione cambia segno — sono i punti dove la curva passa da "gonfia" a "concava" (o viceversa). La concavità è un'informazione visiva potentissima: ci permette di disegnare il grafico con una precisione che va ben oltre i soli punti critici, dando al nostro disegno un'eleganza e una fedeltà matematica che altrimenti mancherebbe.
+          </div>
+
+          <div class="step-title">
+            <span class="step-num">10.</span>
+            <span>Sintesi e Grafico</span>
+          </div>
+          <div class="step-content">
+            Mettiamo tutto insieme. Abbiamo dominio, zeri, asintoti, monotonia, estremi locali, concavità e flessi. <span class="highlight">Ora possiamo disegnare il grafico con sicurezza.</span>
+            
+            Il grafico finale non è una fotografia casuale, ma una mappa fedele e completa di come la funzione si comporta. Ogni informazione che abbiamo raccolto nei dieci step precedenti trova il suo posto nel disegno: il dominio stabilisce dove possiamo disegnare, gli asintoti forniscono i "binari" invisibili che la curva segue all'infinito, i punti critici sono i vertici della curva, e la concavità ci dice esattamente come collegare questi punti.
+            
+            Questo metodo sistematico trasforma lo studio di una funzione da un'operazione nebulosa e casuale a un processo logico e prevedibile. Non è magia, non è intuizione — è matematica pura che parla il linguaggio universale dei grafici. E una volta che avete imparato questo linguaggio, potete leggere il comportamento di qualsiasi funzione, non importa quanto complicata possa sembrare all'inizio.
+          </div>
+
+        </div>
+      </div>
+
+      <p style="margin-top: 40px; padding-top: 24px; border-top: 1px solid #e0e0e0; color: #666; font-size: 13px;">
+        <em>Lo studio di funzione è una danza tra rigore e intuizione: il metodo è preciso, ma l'obiettivo è sempre lo stesso — vedere ciò che l'equazione racconta.</em>
+      </p>
+
+      <!-- Seconda sezione: ECG -->
+      <div style="margin-top: 60px; padding-top: 40px; border-top: 2px solid #C2175B;">
+        <h1 style="margin: 0 0 24px 0; font-size: 2.4em; line-height: 1.3; text-wrap: balance; color: #1a1a1a; font-weight: normal; letter-spacing: -0.01em; font-family: Georgia, serif;">
+          Funzioni <span style="font-style: italic; color: #C2175B;">reali</span> — Può essere <span style="font-style: italic; color: #C2175B;">questione</span> <span style="font-style: italic; color: #C2175B;">di</span> vita o <span style="font-style: italic; color: #C2175B;">di</span> morte
+        </h1>
+
+        <div style="background: #f5f5f5; padding: 20px 24px; margin: 32px 0; border-left: 3px solid #C2175B; font-size: 14px; line-height: 1.6; color: #404040;">
+          <p style="margin: 0; text-align: left; font-style: italic;">L'elettrocardiogramma è una straordinaria applicazione pratica dello studio di funzione. Ogni battito cardiaco genera un segnale elettrico che, quando rappresentato graficamente nel tempo, rivela lo stato di salute del cuore. Questo grafico non è casuale: segue leggi matematiche precise, e imparare a leggerlo significa letteralmente saper interpretare la vita stessa.</p>
+        </div>
+
+        <h2 style="margin: 32px 0 16px 0; font-size: 1.3em; line-height: 1.25; text-wrap: balance; color: #1a1a1a; font-weight: normal; letter-spacing: -0.005em;">L'Equazione dell'Attività Cardiaca</h2>
+
+        <p style="margin: 16px 0; text-align: left; padding: 24px; background: #f9f7f4; border-radius: 4px; font-size: 15px; line-height: 1.65;">
+          Una semplificazione dell'attività cardiaca può essere rappresentata come una combinazione di funzioni sinusoidali:
+        </p>
+
+        <div style="background: #f9f7f4; padding: 24px; margin: 24px 0; border-left: 3px solid #C2175B; font-size: 15px; text-align: center;">
+          $$V(t) = A \sin(\omega t + \phi) + B e^{-\lambda t} \sin(\omega_2 t)$$
+          
+          <p style="margin: 16px 0 0 0; font-size: 13px; color: #666; text-align: left;">
+            Dove:<br/>
+            • $V(t)$ = voltaggio registrato nel tempo<br/>
+            • $A$ = ampiezza dell'onda principale<br/>
+            • $\omega$ = frequenza cardiaca angolare (legata ai battiti per minuto)<br/>
+            • $\phi$ = fase iniziale<br/>
+            • $B$ e $\lambda$ = parametri di attenuazione delle oscillazioni<br/>
+            • $\omega_2$ = frequenza secondaria delle onde minori
+          </p>
+        </div>
+
+        <p style="margin: 24px 0; font-size: 14px; line-height: 1.65; text-align: left;">
+          Questa equazione, per quanto semplificata, cattura l'essenza matematica di un ECG: una sovrapposizione di oscillazioni smorzate che variano nel tempo. Applicando il metodo dello studio di funzione a questa equazione — analizzando il dominio, gli zeri, gli estremi, la concavità — possiamo identificare anomalie nel segnale che potrebbero indicare aritmie, infarto, o altre patologie cardiache. Ciò che il cardiologo vede come una "forma strana" nel grafico, il matematico vede come una violazione delle proprietà attese della funzione.
+        </p>
+
+        <h2 style="margin: 32px 0 16px 0; font-size: 1.3em; line-height: 1.25; text-wrap: balance; color: #1a1a1a; font-weight: normal; letter-spacing: -0.005em;">Il Grafico dell'Elettrocardiogramma</h2>
+
+        <div style="margin: 24px 0; padding: 20px; background: #f5f5f5; border-radius: 4px; display: flex; justify-content: center;">
+          <img src="ecg.png" alt="Elettrocardiogramma (ECG)" style="width: 100%; max-width: 900px; height: auto; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        </div>
+        <p style="margin: 12px 0 0 0; text-align: center; font-size: 13px; color: #666; font-style: italic;">Figura 1: Rappresentazione standard di un elettrocardiogramma (ECG) con le onde caratteristiche P, QRS e T, gli intervalli PR e QT, e i parametri di calibrazione (25 mm/s e 10 mm/mV).</p>
+
+        <div class="two-col" style="margin-top: 32px;">
+          <div class="col">
+            <h3 style="margin: 0 0 12px 0; font-size: 1.1em; color: #C2175B; font-weight: 600; font-family: 'JetBrains Mono', monospace; text-transform: uppercase;">Le onde del battito cardiaco</h3>
+            
+            <p style="margin: 0 0 16px 0; text-align: justify;">
+              L'ECG mostra chiaramente le tre fasi principali della contrazione cardiaca, ognuna caratterizzata da un'onda specifica. L'<span class="key-concept">onda P</span> rappresenta la depolarizzazione degli atri — il momento in cui gli atri si contraggono per spingere il sangue nei ventricoli. È una piccola ondulazione, quasi delicata, che anticipa gli eventi più drammatici a venire.
+            </p>
+
+            <p style="margin: 0 0 16px 0; text-align: justify;">
+              Il <span class="key-concept">complesso QRS</span> è il momento critico: rappresenta la depolarizzazione dei ventricoli, la contrazione più potente del cuore. È caratterizzato da tre componenti — l'onda Q (negativa), l'onda R (positiva e più grande), e l'onda S (negativa di nuovo). Questo complesso è visivamente dominante perché è qui che il muscolo cardiaco esercita la sua massima forza. Qualunque anomalia in questa sezione segnala un grave problema: un infarto, un'aritmia, un'ipertrofia ventricolare.
+            </p>
+
+            <p style="text-align: justify;">
+              L'<span class="key-concept">onda T</span> rappresenta la ripolarizzazione ventricolare — il ritorno dei ventricoli al loro stato di riposo. È come l'espirazione dopo un'inspirazione profonda: il cuore si rilassa, preparandosi per il prossimo battito. La forma e l'ampiezza di questa onda forniscono informazioni cruciali sullo stato metabolico e sulla salute generale del muscolo cardiaco.
+            </p>
+          </div>
+
+          <div class="col">
+            <h3 style="margin: 0 0 12px 0; font-size: 1.1em; color: #C2175B; font-weight: 600; font-family: 'JetBrains Mono', monospace; text-transform: uppercase;">Lo studio di funzione nell'ECG</h3>
+            
+            <p style="margin: 0 0 16px 0; text-align: justify;">
+              Applicare il nostro metodo sistematico a un ECG significa riconoscere che il grafico del segnale cardiaco non è una collezione casuale di picchi e valli, ma il risultato di funzioni matematiche ben definite. Il <span class="highlight">dominio</span> è il tempo della registrazione; gli <span class="highlight">zeri</span> sono i momenti in cui il voltaggio torna alla linea di base; i <span class="highlight">massimi e minimi</span> sono le cime e le valli delle onde.
+            </p>
+
+            <p style="margin: 0 0 16px 0; text-align: justify;">
+              Gli <span class="highlight">asintoti</span>, in questo contesto, non sono presenti — il segnale deve sempre tornare alla linea di base tra i battiti. La <span class="highlight">concavità</span> del segnale — come il grafico "curva" — rivela il ritmo con cui gli atomi di potassio e sodio si muovono attraverso le membrane cellulari del cuore. Una curva troppo ripida indica una velocità anomala di conduzione; una curva appiattita suggerisce un'ostruzione o una malformazione.
+            </p>
+
+            <p style="margin: 0 0 16px 0; text-align: justify;">
+              Quando un cardiologo guarda un ECG e dice "questo non è normale", sta facendo — consapevolmente o meno — uno studio di funzione. Riconosce che la forma, l'ampiezza, la durata di ogni onda, il loro ordine e il loro comportamento nel tempo devono seguire pattern attesi. Una deviazione da questi pattern è il segnale visibile di qualcosa che non funziona matematicamente — e quindi fisiologicamente — nel cuore del paziente.
+            </p>
+
+            <p style="text-align: justify;">
+              In questo senso, la capacità di leggere un ECG non è una magia medica, ma l'applicazione pratica e letteralmente salvavita dello studio di funzione. Ogni medico che legge un ECG è, in realtà, un matematico che interpreta il grafico più importante che esista: quello della vita stessa.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top: 60px; padding-top: 40px; border-top: 1px solid #e0e0e0; color: #999; font-size: 12px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.3px; line-height: 1.5;">
+        Questo articolo è stato scritto con l'indispensabile contributo di Claude — il quale, va detto, non ha chiesto nulla in cambio. Per ora.
+      </p>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>
