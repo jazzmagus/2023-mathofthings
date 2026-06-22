@@ -239,6 +239,26 @@
     font-style: italic;
   }
 
+  /* Concept box - responsive */
+  .concept-box {
+    margin: 12px 0;
+    padding: 16px;
+    background: #f9f7f4;
+    border-left: 3px solid #C2175B;
+    border-top: none;
+    font-size: 14px;
+    line-height: 1.65;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 640px) {
+    .concept-box {
+      margin: 12px 0;
+      padding: 12px;
+      font-size: 13px;
+    }
+  }
+
   /* Formula wrapper */
   .formula-block {
     margin: 16px 0;
@@ -312,13 +332,36 @@
       gap: 16px;
     }
 
+    .two-col-flow {
+      column-count: 1;
+      column-gap: 0;
+    }
+
     h2 {
       font-size: 1.15rem;
+    }
+
+    h3 {
+      font-size: 1rem;
     }
 
     svg, img {
       max-width: 100% !important;
       height: auto !important;
+    }
+
+    ul, ol {
+      padding-left: 20px;
+      margin: 12px 0;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    .concept-box {
+      overflow-x: auto;
+      word-wrap: break-word;
     }
   }
 </style>
@@ -364,7 +407,7 @@
 
       <p>Quando Charlie Parker improvvisa un solo su un blues a 12 battute, non sta facendo quello che gli viene: sta navigando dentro una <span class="highlight">griglia armonica definita</span>. Sa esattamente quanti battiti ha, sa quali accordi stanno suonando dietro, sa quali note sono "sicure" e quali sono "tensione consapevole".</p>
 
-      <p style="margin-top: 20px; padding: 16px 20px; background: #f9f7f4; border-left: 3px solid #C2175B; font-size: 14px; line-height: 1.65;">
+      <p class="concept-box">
         <span class="key-concept">La formula segreta del jazz:</span><br/>
         $$\text{Jazz} = \text{Struttura rigorosa} + \text{Libertà entro quella struttura}$$
       </p>
@@ -525,7 +568,7 @@
 
   <p>È la forma più iconografica. 12 battute, distribuite così:</p>
 
-  <p style="margin: 12px 0; padding: 16px 20px; background: #f9f7f4; border-left: 3px solid #C2175B; font-size: 14px; line-height: 1.65;">
+  <p class="concept-box">
     <strong>Battute 1-4:</strong> Accordo I (es: Do7)<br/>
     <strong>Battute 5-6:</strong> Accordo IV (es: Fa7)<br/>
     <strong>Battute 7-8:</strong> Accordo I (es: Do7)<br/>
@@ -552,7 +595,7 @@
 
   <p>È improvvisazione, ma è <span class="highlight">improvvisazione consapevole e strutturata.</span></p>
 
-  <p style="margin-top: 20px; padding: 16px 20px; background: #f9f7f4; border-left: 3px solid #C2175B; font-size: 14px; line-height: 1.65;">
+  <p class="concept-box">
     <strong>Lo scenario:</strong> Il vincolo non limita — <span class="highlight">struttura il genio</span>. È vero quando studiate equazioni, è vero quando scrivete poesia, ed è vero quando improvvisate jazz.
   </p>
 
