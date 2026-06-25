@@ -156,15 +156,15 @@
     
     /* Two-column layout */
     .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
+      column-count: 2;
+      column-gap: 28px;
       margin-top: 32px;
     }
-    
+
     .col {
       text-wrap: pretty;
       text-align: justify;
+      break-inside: avoid;
     }
     
     /* Step headers */
