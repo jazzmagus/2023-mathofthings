@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Numeri Razionali ℚ — Lezione interattiva</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']]
+  },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready() {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --gold:#b8860b;
+  --danger:#b33a3a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);white-space:nowrap;flex-shrink:0}
+.topbar-nav{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;flex:1}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill{background:none;border:none;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--text-dim);padding:6px 14px;cursor:pointer;white-space:nowrap;transition:color .2s;border-bottom:2px solid transparent}
+.nav-pill:hover{color:var(--text)}
+.nav-pill.active{color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
+.topbar-home{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-dim);text-decoration:none;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.topbar-home:hover{color:var(--accent)}
+
+/* LAYOUT */
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 60px}
+.section{display:none;animation:appear .4s ease}
+.section.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.65rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);line-height:1.7;text-wrap:pretty}
+
+/* CALLOUT */
+.cb{background:var(--surface-alt);border-left:2px solid var(--accent);border-radius:0 8px 8px 0;padding:16px 18px;margin:18px 0}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600;color:var(--accent)}
+.cb.tip .cb-label{color:var(--blue)}
+.cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)}
+.cb.success .cb-label{color:var(--green)}
+
+/* MATH */
+.math-block{background:rgba(0,0,0,.025);padding:12px 16px;margin:10px 0;overflow-x:auto;border-radius:2px}
+.math-block.center{text-align:center}
+.math-block.result{border-left:2px solid var(--green);background:rgba(74,124,89,.04)}
+.math-block.warn{border-left:2px solid var(--danger);background:rgba(179,58,58,.04)}
+mjx-container[jax="SVG"]{direction:ltr}
+mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%}
+
+/* ACCORDION */
+.accordion{margin:16px 0}
+.acc-item{border-bottom:1px solid rgba(0,0,0,.08)}
+.acc-item:last-child{border-bottom:none}
+.acc-header{display:flex;align-items:center;gap:12px;padding:14px 0;cursor:pointer;user-select:none;background:none;border:none;width:100%;text-align:left}
+.acc-num{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.7rem;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.acc-title{font-weight:600;font-size:.93rem;flex:1;color:var(--text);font-family:Georgia,serif;text-align:left;line-height:1.4}
+.acc-arrow{width:16px;height:16px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.acc-item.open .acc-body{max-height:9000px}
+.acc-inner{padding:8px 0 18px 36px}
+
+/* TABLE */
+.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.88rem}
+.ct th{text-align:left;padding:10px 14px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--border-light);font-size:.74rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct td{padding:9px 14px;border-bottom:1px solid var(--border-light);vertical-align:top;line-height:1.65}
+.ct tr:last-child td{border-bottom:none}
+
+/* COMPARE */
+.compare-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.compare-card{padding:12px 14px;font-size:.88rem;line-height:1.6;border-radius:4px}
+.compare-card.wrong{background:rgba(179,58,58,.05)}
+.compare-card.right{background:rgba(74,124,89,.05)}
+.compare-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+.compare-card.wrong .compare-label{color:var(--danger)}
+.compare-card.right .compare-label{color:var(--green)}
+
+/* QUIZ */
+.quiz-block{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin:28px 0}
+.quiz-eyebrow{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.quiz-q{font-size:1rem;font-weight:700;font-family:'Playfair Display',serif;margin-bottom:16px;line-height:1.45}
+.quiz-opts{display:flex;flex-direction:column;gap:8px}
+.quiz-opt{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:11px 16px;text-align:left;cursor:pointer;font-family:Georgia,serif;font-size:.92rem;color:var(--text);transition:all .2s;line-height:1.5}
+.quiz-opt:hover:not(:disabled){border-color:var(--blue);background:var(--blue-light)}
+.quiz-opt:disabled{cursor:default}
+.quiz-opt.quiz-correct{border-color:var(--green);background:var(--green-light);color:var(--green);font-weight:600}
+.quiz-opt.quiz-wrong{border-color:var(--danger);background:rgba(179,58,58,.07);color:var(--danger)}
+.quiz-feedback{margin-top:14px}
+.fb-ok,.fb-no{padding:13px 16px;border-radius:0 6px 6px 0;font-size:.9rem;line-height:1.65}
+.fb-ok{background:var(--green-light);border-left:3px solid var(--green)}
+.fb-no{background:rgba(179,58,58,.06);border-left:3px solid var(--danger)}
+.fb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;display:block;margin-bottom:6px}
+.fb-ok .fb-label{color:var(--green)}
+.fb-no .fb-label{color:var(--danger)}
+
+/* STEP GRID */
+.step-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:start;margin:10px 0}
+.step-circle{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.7rem;flex-shrink:0;margin-top:3px}
+.step-text{font-size:.9rem;padding-top:2px;line-height:1.65}
+
+/* BOTTOM NAV */
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:44px;padding-top:20px;border-top:1px solid var(--border-light)}
+.bb{font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:0;border:none;background:none;color:var(--text);transition:all .2s;cursor:pointer}
+.bb:hover{color:var(--accent);text-decoration:underline}
+.bb:disabled{opacity:.35;cursor:not-allowed}
+.bb:disabled:hover{color:var(--text);text-decoration:none}
+.dots{display:flex;gap:6px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--border);transition:all .3s;cursor:pointer;border:none;padding:0;flex-shrink:0}
+.dot.active{background:var(--accent);width:20px;border-radius:4px}
+
+/* TYPOGRAPHY */
+p{margin:6px 0}
+ul,ol{margin:8px 0 8px 24px}
+li{margin:3px 0;line-height:1.7}
+strong{font-weight:700}
+.dim{color:var(--text-dim)}
+h2{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin:26px 0 10px;color:var(--text)}
+h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;margin:18px 0 8px;color:var(--text)}
+
+/* FIGURA SVG */
+.semiretta-wrap{display:flex;flex-direction:column;align-items:center;margin:20px 0 8px}
+.semiretta-cap{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:1px;color:var(--text-dim);margin-top:6px}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  body{font-size:15.5px}
+  .hero h1{font-size:1.65rem}
+  .cb{padding:14px 14px}
+  .quiz-block{padding:16px 16px}
+  .compare-row{grid-template-columns:1fr}
+  .math-block{padding:12px 12px}
+  .container{padding:80px 18px 60px}
+  .topbar-brand{font-size:.9rem}
+  .acc-inner{padding:8px 0 16px 24px}
+  .acc-title{font-size:.88rem}
+  .ct{font-size:.82rem}
+  .ct th,.ct td{padding:8px 10px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">ℚ — Numeri Razionali</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+/* ═══════════════ QUIZ ENGINE ═══════════════ */
+const QUIZZES = {
+  minimi: {
+    correct: 1,
+    feedbacks: [
+      `<span class="fb-label">Non esatto</span>
+       <p>\\(\\dfrac{9}{12}\\) è equivalente a \\(\\dfrac{18}{24}\\), ma non è ancora ridotta ai minimi termini:
+       \\(9\\) e \\(12\\) hanno ancora il divisore comune \\(3\\). Dividendo per \\(3\\) si ottiene \\(\\dfrac{3}{4}\\).</p>`,
+
+      `<span class="fb-label">Corretto</span>
+       <p>Esatto. Il \\(\\text{MCD}(18,24) = 6\\): dividendo numeratore e denominatore per \\(6\\) si ottiene
+       \\(\\dfrac{18:6}{24:6} = \\dfrac{3}{4}\\), in cui \\(3\\) e \\(4\\) sono primi tra loro.</p>`,
+
+      `<span class="fb-label">Non esatto</span>
+       <p>\\(\\dfrac{6}{8}\\) è equivalente, ma non ridotta: \\(6\\) e \\(8\\) sono ancora entrambi pari.
+       Dividendo per \\(2\\) si arriva a \\(\\dfrac{3}{4}\\), la forma minima.</p>`
+    ]
+  },
+
+  reciproco: {
+    correct: 1,
+    feedbacks: [
+      `<span class="fb-label">Non esatto</span>
+       <p>Hai moltiplicato i numeratori tra loro e i denominatori tra loro: quella è la
+       <em>moltiplicazione</em>. Per <strong>dividere</strong> bisogna prima trasformare la divisione
+       nel prodotto per il reciproco del secondo: \\(\\dfrac{3}{4} \\cdot \\dfrac{5}{2}\\).</p>`,
+
+      `<span class="fb-label">Corretto</span>
+       <p>Esatto. Dividere per \\(\\dfrac{2}{5}\\) equivale a moltiplicare per il suo reciproco \\(\\dfrac{5}{2}\\):
+       \\(\\dfrac{3}{4} \\cdot \\dfrac{5}{2} = \\dfrac{15}{8}\\).</p>`,
+
+      `<span class="fb-label">Non esatto</span>
+       <p>\\(\\dfrac{5}{6}\\) non c'entra con questa operazione. La regola è: si lascia la prima frazione e si
+       moltiplica per il <strong>reciproco</strong> della seconda, ottenendo
+       \\(\\dfrac{3}{4} \\cdot \\dfrac{5}{2} = \\dfrac{15}{8}\\).</p>`
+    ]
+  },
+
+  generatrice: {
+    correct: 1,
+    feedbacks: [
+      `<span class="fb-label">Non esatto</span>
+       <p>\\(\\dfrac{6}{10}\\) sarebbe la generatrice del decimale <em>finito</em> \\(0{,}6\\), non del periodico
+       \\(0{,}\\overline{6}\\). Per un periodico semplice il denominatore è fatto di \\(9\\), non di \\(10\\).</p>`,
+
+      `<span class="fb-label">Corretto</span>
+       <p>Esatto. Per il periodico semplice \\(0{,}\\overline{6}\\): al numeratore le cifre del periodo \\((6)\\),
+       al denominatore tanti \\(9\\) quante le cifre del periodo \\((9)\\). Quindi
+       \\(0{,}\\overline{6} = \\dfrac{6}{9} = \\dfrac{2}{3}\\).</p>`,
+
+      `<span class="fb-label">Non esatto</span>
+       <p>\\(\\dfrac{6}{100}\\) vale \\(0{,}06\\), tutt'altro numero. La regola del periodico semplice usa i \\(9\\)
+       al denominatore: \\(0{,}\\overline{6} = \\dfrac{6}{9} = \\dfrac{2}{3}\\).</p>`
+    ]
+  }
+};
+
+function answerQuiz(qid, chosen) {
+  const q = QUIZZES[qid];
+  const block = document.getElementById('quiz-' + qid);
+  if (!block || block.dataset.answered) return;
+  block.dataset.answered = 'true';
+  block.querySelectorAll('.quiz-opt').forEach((opt, i) => {
+    opt.disabled = true;
+    if (i === q.correct) opt.classList.add('quiz-correct');
+    else if (i === chosen) opt.classList.add('quiz-wrong');
+  });
+  const fb = document.getElementById('quiz-fb-' + qid);
+  const ok = chosen === q.correct;
+  fb.innerHTML = `<div class="${ok ? 'fb-ok' : 'fb-no'}">${q.feedbacks[chosen]}</div>`;
+  if (typeof MathJax !== 'undefined') MathJax.typesetPromise([fb]);
+}
+
+function quiz(qid, question, options) {
+  return `<div class="quiz-block" id="quiz-${qid}">
+    <div class="quiz-eyebrow">Checkpoint</div>
+    <div class="quiz-q">${question}</div>
+    <div class="quiz-opts">
+      ${options.map((o, i) =>
+        `<button class="quiz-opt" onclick="answerQuiz('${qid}', ${i})">${o}</button>`
+      ).join('')}
+    </div>
+    <div class="quiz-feedback" id="quiz-fb-${qid}"></div>
+  </div>`;
+}
+
+/* ═══════════════ ACCORDION ═══════════════ */
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) => `
+    <div class="acc-item">
+      <button class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-num">${i + 1}</div>
+        <div class="acc-title">${it.t}</div>
+        <svg class="acc-arrow" viewBox="0 0 20 20" fill="none">
+          <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="acc-body"><div class="acc-inner">${it.h}</div></div>
+    </div>`).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.closest('.acc-item');
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+/* ═══════════════ FIGURA: TRE QUARTI ═══════════════ */
+function frazioneSVG() {
+  const parts = 4, shaded = 3, w = 360, h = 64, pw = w / parts;
+  let rects = '';
+  for (let i = 0; i < parts; i++) {
+    const isShaded = i < shaded;
+    rects += `<rect x="${i * pw}" y="0" width="${pw}" height="${h}"
+              fill="${isShaded ? '#c2185b' : 'transparent'}" fill-opacity="${isShaded ? 0.32 : 0}"
+              stroke="#5a524a" stroke-width="1.2"/>`;
+  }
+  return `<div class="semiretta-wrap">
+    <svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg"
+         style="width:100%;max-width:${w}px;display:block"
+         aria-label="Tre quarti di un intero">${rects}</svg>
+    <span class="semiretta-cap">\\(\\tfrac{3}{4}\\): l'intero diviso in 4 parti, ne prendiamo 3</span>
+  </div>`;
+}
+
+/* ═══════════════ SCHERMATE ═══════════════ */
+const S = [
+
+/* ──── 0 · INTRODUZIONE ──── */
+{
+  tag: `INTRODUZIONE`,
+  title: `Quando anche ℤ non <em>basta</em>`,
+  nav: `Introduzione`,
+  sub: `Con gli interi la sottrazione è sempre possibile, ma la divisione no: \\(3 : 2\\) non dà un numero intero. Eppure "una pizza e mezza a testa" è una risposta sensata. Per dare un risultato a ogni divisione nascono le frazioni, e con esse l'insieme \\(\\mathbb{Q}\\).`,
+  body: `
+    <div class="cb tip">
+      <div class="cb-label">Il limite di ℤ</div>
+      <p>Proviamo a dividere \\(3\\) per \\(2\\). In \\(\\mathbb{Z}\\) non esiste alcun intero che moltiplicato
+      per \\(2\\) dia \\(3\\): la divisione \\(3 : 2\\) <strong>non ha risultato</strong> tra gli interi.</p>
+    </div>
+
+    <p>Eppure l'operazione descrive situazioni concretissime:</p>
+    <ul>
+      <li>dividere \\(3\\) pizze tra \\(2\\) persone;</li>
+      <li>misurare una lunghezza che sta "una volta e mezza" in un'unità;</li>
+      <li>spartire equamente un'eredità, un tempo, una spesa.</li>
+    </ul>
+
+    <div class="cb method">
+      <div class="cb-label">Definizione</div>
+      <p>Per dare un risultato a (quasi) ogni divisione si amplia \\(\\mathbb{Z}\\) introducendo le
+      <strong>frazioni</strong>, ottenendo l'insieme dei <strong>numeri razionali</strong> \\(\\mathbb{Q}\\)
+      (dal latino <em>ratio</em>, rapporto):</p>
+      <div class="math-block center">
+        \\[ \\mathbb{Q} = \\left\\{\\, \\frac{a}{b} \\ \\middle|\\ a \\in \\mathbb{Z},\\ b \\in \\mathbb{Z},\\ b \\neq 0 \\,\\right\\} \\]
+      </div>
+      <p>Ogni intero è anche un razionale (basta porre \\(b = 1\\)): vale quindi \\(\\ \\mathbb{Z} \\subset \\mathbb{Q}\\).</p>
+    </div>
+  `
+},
+
+/* ──── 1 · LE FRAZIONI ──── */
+{
+  tag: `STRUTTURA`,
+  title: `Che cos'è una <em>frazione</em>`,
+  nav: `Le frazioni`,
+  sub: `Una frazione è fatta di un numeratore e un denominatore, e si può leggere in tre modi diversi. Da qui nascono le frazioni equivalenti e la riduzione ai minimi termini, il gesto più usato in tutto il calcolo con le frazioni.`,
+  body: `
+    <div class="cb method">
+      <div class="cb-label">Numeratore e denominatore</div>
+      <p>La frazione \\(\\dfrac{a}{b}\\) è formata da due interi:</p>
+      <ul>
+        <li>il <strong>numeratore</strong> \\(a\\): quante parti si considerano;</li>
+        <li>il <strong>denominatore</strong> \\(b \\neq 0\\): in quante parti uguali è diviso l'intero.</li>
+      </ul>
+    </div>
+
+    ${frazioneSVG()}
+
+    <p>Una stessa frazione si può leggere in <strong>tre modi</strong>, tutti utili:</p>
+    <div class="step-grid">
+      <div class="step-circle">1</div>
+      <div class="step-text"><strong>parte di un intero</strong>: \\(\\dfrac{3}{4}\\) di una torta;</div>
+      <div class="step-circle">2</div>
+      <div class="step-text"><strong>quoziente</strong> di una divisione: \\(\\dfrac{3}{4} = 3 : 4\\);</div>
+      <div class="step-circle">3</div>
+      <div class="step-text"><strong>operatore</strong>: «\\(\\dfrac{3}{4}\\) di \\(20\\)» significa \\(20 : 4 \\cdot 3 = 15\\).</div>
+    </div>
+
+    <div class="cb warn">
+      <div class="cb-label">Perché il denominatore non può essere zero</div>
+      <p>Scrivere \\(\\dfrac{a}{0}\\) significherebbe dividere per zero, operazione priva di significato.
+      Per questo \\(b \\neq 0\\) compare nella definizione stessa di \\(\\mathbb{Q}\\).</p>
+    </div>
+
+    <h3>Frazioni equivalenti e minimi termini</h3>
+    <p>Due frazioni sono <strong>equivalenti</strong> se rappresentano lo stesso numero:
+    \\(\\ \\dfrac{1}{2} = \\dfrac{2}{4} = \\dfrac{50}{100}\\). Vale infatti la
+    <strong>proprietà invariantiva</strong>: moltiplicando o dividendo numeratore e denominatore per uno
+    stesso numero \\(\\neq 0\\) si ottiene una frazione equivalente.</p>
+    <p>Una frazione è <strong>ridotta ai minimi termini</strong> quando numeratore e denominatore sono primi
+    tra loro. Per ottenerla, si dividono entrambi per il loro <strong>MCD</strong>:</p>
+    <div class="math-block center">
+      \\[ \\frac{18}{24} = \\frac{18 : 6}{24 : 6} = \\frac{3}{4} \\qquad (\\text{MCD}(18,24) = 6) \\]
+    </div>
+
+    ${quiz('minimi',
+      `Qual è la frazione \\(\\dfrac{18}{24}\\) ridotta ai <em>minimi termini</em>?`,
+      [`\\(\\dfrac{9}{12}\\)`, `\\(\\dfrac{3}{4}\\)`, `\\(\\dfrac{6}{8}\\)`]
+    )}
+  `
+},
+
+/* ──── 2 · CONFRONTO E DENSITÀ ──── */
+{
+  tag: `ORDINAMENTO`,
+  title: `Confronto e <em>densità</em>`,
+  nav: `Confronto`,
+  sub: `Per confrontare due frazioni si riducono allo stesso denominatore. E qui emerge una proprietà che distingue \\(\\mathbb{Q}\\) da \\(\\mathbb{N}\\) e \\(\\mathbb{Z}\\): tra due razionali, per quanto vicini, ce ne sono sempre infiniti altri.`,
+  body: `
+    <div class="cb method">
+      <div class="cb-label">Come si confrontano</div>
+      <ul>
+        <li><strong>Stesso denominatore</strong>: è maggiore la frazione con numeratore maggiore.
+        \\(\\ \\dfrac{3}{7} < \\dfrac{5}{7}\\)</li>
+        <li><strong>Denominatori diversi</strong>: si riducono prima allo stesso denominatore (il mcm),
+        poi si confrontano i numeratori.</li>
+      </ul>
+      <div class="math-block center">
+        \\[ \\frac{2}{3} \\ \\text{e}\\ \\frac{3}{4} \\ \\rightarrow\\ \\frac{8}{12} \\ \\text{e}\\ \\frac{9}{12} \\ \\rightarrow\\ \\frac{2}{3} < \\frac{3}{4} \\]
+      </div>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Una proprietà sorprendente: la densità</div>
+      <p>Tra due numeri razionali distinti, per quanto vicini, esistono <strong>infiniti</strong> altri razionali.
+      Per esempio, tra \\(\\dfrac{1}{3}\\) e \\(\\dfrac{1}{2}\\) c'è la loro media \\(\\dfrac{5}{12}\\), e tra questa e
+      \\(\\dfrac{1}{2}\\) ce n'è un'altra, e così via senza fine.</p>
+      <p>A differenza di \\(\\mathbb{N}\\) e \\(\\mathbb{Z}\\), in \\(\\mathbb{Q}\\) <strong>non esiste il "numero
+      successivo"</strong>: i razionali non sono isolati, ma fittamente impacchettati sulla retta.</p>
+    </div>
+  `
+},
+
+/* ──── 3 · OPERAZIONI ──── */
+{
+  tag: `CALCOLO`,
+  title: `Le quattro <em>operazioni</em>`,
+  nav: `Operazioni`,
+  sub: `Addizione e sottrazione passano per il denominatore comune; la moltiplicazione è diretta; la divisione introduce il protagonista di \\(\\mathbb{Q}\\): il reciproco, che rende la divisione sempre possibile.`,
+  body: `
+    ${acc([
+      {
+        t: `Addizione e sottrazione`,
+        h: `
+          <p>Con lo <strong>stesso denominatore</strong>: si operano i numeratori, il denominatore resta.</p>
+          <div class="math-block center">\\[ \\frac{2}{7} + \\frac{3}{7} = \\frac{5}{7} \\]</div>
+          <p>Con <strong>denominatori diversi</strong>: si riduce al denominatore comune (il <strong>mcm</strong>),
+          poi si opera sui numeratori.</p>
+          <div class="math-block center">\\[ \\frac{1}{2} + \\frac{1}{3} = \\frac{3}{6} + \\frac{2}{6} = \\frac{5}{6} \\]</div>
+        `
+      },
+      {
+        t: `Moltiplicazione`,
+        h: `
+          <p>Si moltiplicano i numeratori tra loro e i denominatori tra loro. Conviene
+          <strong>semplificare prima</strong> di moltiplicare, per lavorare con numeri piccoli.</p>
+          <div class="math-block center">
+            \\[ \\frac{a}{b} \\cdot \\frac{c}{d} = \\frac{a \\cdot c}{b \\cdot d} \\qquad\\qquad \\frac{3}{4} \\cdot \\frac{2}{9} = \\frac{1}{6} \\]
+          </div>
+        `
+      },
+      {
+        t: `Divisione e numero reciproco`,
+        h: `
+          <p>Il <strong>reciproco</strong> di \\(\\dfrac{a}{b}\\) (con \\(a \\neq 0\\)) è \\(\\dfrac{b}{a}\\), ottenuto
+          scambiando numeratore e denominatore; il loro prodotto è \\(1\\).</p>
+          <p>Dividere per una frazione equivale a <strong>moltiplicare per il suo reciproco</strong>:</p>
+          <div class="math-block center">
+            \\[ \\frac{a}{b} : \\frac{c}{d} = \\frac{a}{b} \\cdot \\frac{d}{c} \\qquad\\qquad \\frac{3}{4} : \\frac{2}{5} = \\frac{3}{4} \\cdot \\frac{5}{2} = \\frac{15}{8} \\]
+          </div>
+        `
+      }
+    ])}
+
+    <div class="cb success">
+      <div class="cb-label">La conquista di ℚ</div>
+      <p>L'esistenza del reciproco rende la <strong>divisione sempre possibile</strong> (tranne che per zero).
+      È l'analogo, per la moltiplicazione, di ciò che l'opposto era stato per l'addizione in \\(\\mathbb{Z}\\).</p>
+    </div>
+
+    <h3>Potenze a esponente negativo</h3>
+    <p>In \\(\\mathbb{Q}\\) ha senso anche l'esponente negativo, definito come reciproco della potenza positiva:</p>
+    <div class="math-block center">
+      \\[ a^{-n} = \\frac{1}{a^n} \\qquad\\qquad 2^{-3} = \\frac{1}{8} \\qquad \\left(\\frac{2}{3}\\right)^{-2} = \\left(\\frac{3}{2}\\right)^{2} = \\frac{9}{4} \\]
+    </div>
+
+    ${quiz('reciproco',
+      `Quanto vale \\(\\dfrac{3}{4} : \\dfrac{2}{5}\\)?`,
+      [`\\(\\dfrac{6}{20}\\)`, `\\(\\dfrac{15}{8}\\)`, `\\(\\dfrac{5}{6}\\)`]
+    )}
+  `
+},
+
+/* ──── 4 · DECIMALI ──── */
+{
+  tag: `RAPPRESENTAZIONE`,
+  title: `Frazioni e numeri <em>decimali</em>`,
+  nav: `Decimali`,
+  sub: `Eseguendo la divisione, ogni frazione diventa un decimale finito o periodico. E viceversa: da ogni decimale finito o periodico si risale alla frazione che lo genera. È la carta d'identità dei numeri razionali.`,
+  body: `
+    <div class="cb method">
+      <div class="cb-label">Due soli esiti possibili</div>
+      <p>Dividendo numeratore per denominatore si ottiene sempre uno di questi:</p>
+      <ul>
+        <li>un <strong>decimale finito</strong>, se la divisione termina: \\(\\ \\dfrac{3}{4} = 0{,}75\\);</li>
+        <li>un <strong>decimale periodico</strong>, se una o più cifre si ripetono: \\(\\ \\dfrac{1}{3} = 0{,}\\overline{3}\\).</li>
+      </ul>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Un fatto fondamentale</div>
+      <p>Ogni razionale corrisponde a un decimale <strong>finito</strong> o <strong>periodico</strong>; e viceversa,
+      ogni decimale finito o periodico proviene da una frazione. (I decimali <em>illimitati e non periodici</em>
+      esistono, ma non sono razionali: saranno i numeri irrazionali della prossima lezione.)</p>
+    </div>
+
+    <h3>La frazione generatrice</h3>
+    <p>Data la scrittura decimale, la frazione da cui proviene si chiama <strong>frazione generatrice</strong>.
+    Le regole pratiche:</p>
+    <table class="ct">
+      <tr><th>Tipo</th><th>Regola</th><th>Esempio</th></tr>
+      <tr>
+        <td>Finito</td>
+        <td>numero senza virgola su \\(1\\) seguito da tanti zeri quante le cifre decimali</td>
+        <td>\\(0{,}75 = \\dfrac{75}{100} = \\dfrac{3}{4}\\)</td>
+      </tr>
+      <tr>
+        <td>Periodico semplice</td>
+        <td>cifre del periodo su tanti \\(9\\) quante le cifre del periodo</td>
+        <td>\\(0{,}\\overline{45} = \\dfrac{45}{99} = \\dfrac{5}{11}\\)</td>
+      </tr>
+      <tr>
+        <td>Periodico misto</td>
+        <td>(tutte le cifre − antiperiodo) su tanti \\(9\\) quante le cifre del periodo, seguiti da tanti \\(0\\) quante quelle dell'antiperiodo</td>
+        <td>\\(0{,}1\\overline{6} = \\dfrac{16 - 1}{90} = \\dfrac{1}{6}\\)</td>
+      </tr>
+    </table>
+
+    ${quiz('generatrice',
+      `Qual è la frazione generatrice di \\(0{,}\\overline{6}\\) (zero virgola sei <em>periodico</em>)?`,
+      [`\\(\\dfrac{6}{10}\\)`, `\\(\\dfrac{2}{3}\\)`, `\\(\\dfrac{6}{100}\\)`]
+    )}
+  `
+},
+
+/* ──── 5 · SINTESI ──── */
+{
+  tag: `RIEPILOGO`,
+  title: `Cosa ci ha dato <em>ℚ</em>`,
+  nav: `Sintesi`,
+  sub: `L'ampliamento da \\(\\mathbb{Z}\\) a \\(\\mathbb{Q}\\) nasce per rendere possibile ogni divisione, ma porta con sé una struttura ricchissima: reciproci, esponenti negativi e una retta fittamente popolata.`,
+  body: `
+    <table class="ct">
+      <tr><th></th><th>In \\(\\mathbb{Z}\\)</th><th>In \\(\\mathbb{Q}\\)</th></tr>
+      <tr>
+        <td>Divisione \\(a : b\\) (con \\(b \\neq 0\\))</td>
+        <td>solo se \\(a\\) è multiplo di \\(b\\)</td>
+        <td style="color:var(--green)"><strong>sempre possibile</strong></td>
+      </tr>
+      <tr>
+        <td>Reciproco di un numero \\(\\neq 0\\)</td>
+        <td>assente</td>
+        <td style="color:var(--green)"><strong>presente</strong></td>
+      </tr>
+      <tr>
+        <td>Esponente delle potenze</td>
+        <td>solo \\(\\geq 0\\)</td>
+        <td><strong>qualunque intero</strong></td>
+      </tr>
+      <tr>
+        <td>Numeri tra due vicini</td>
+        <td>nessuno (isolati)</td>
+        <td><strong>infiniti</strong> (densità)</td>
+      </tr>
+    </table>
+
+    <div class="cb warn">
+      <div class="cb-label">Resta però un buco</div>
+      <p>Per quanto i razionali siano densi, <strong>non riempiono tutta la retta</strong>: esistono lunghezze,
+      come la diagonale di un quadrato di lato \\(1\\), che <em>nessuna</em> frazione può misurare esattamente.</p>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">E adesso?</div>
+      <p>Sarà proprio questa scoperta — la lunghezza \\(\\sqrt{2}\\) — a spingerci verso l'ultimo ampliamento,
+      l'insieme dei numeri reali \\(\\mathbb{R}\\).</p>
+    </div>
+  `
+}
+
+];
+
+/* ═══════════════ APP ═══════════════ */
+let cur = 0;
+const tot = S.length;
+
+function render() {
+  document.getElementById('topNav').innerHTML = S.map((s, i) =>
+    `<button class="nav-pill ${i === cur ? 'active' : ''}" onclick="goTo(${i})">${s.nav}</button>`
+  ).join('');
+
+  document.getElementById('app').innerHTML = S.map((s, i) => `
+    <div class="section ${i === cur ? 'active' : ''}">
+      <div class="hero">
+        <div class="hero-tag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p class="hero-sub">${s.sub}</p>
+      </div>
+      ${s.body}
+      <div class="bottom-nav">
+        <button class="bb" onclick="goTo(${i - 1})" ${i === 0 ? 'disabled' : ''}>← Indietro</button>
+        <div class="dots">
+          ${S.map((_, j) =>
+            `<button class="dot ${j === i ? 'active' : ''}" onclick="goTo(${j})"
+             title="Schermata ${j + 1} di ${tot}"></button>`
+          ).join('')}
+        </div>
+        <button class="bb" onclick="goTo(${i + 1})" ${i === tot - 1 ? 'disabled' : ''}>Avanti →</button>
+      </div>
+    </div>
+  `).join('');
+
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    const active = document.querySelector('.section.active');
+    if (active) MathJax.typesetPromise([active]);
+  }
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= tot) return;
+  cur = idx;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(cur + 1);
+  if (e.key === 'ArrowLeft')  goTo(cur - 1);
+});
+
+if (typeof MathJax !== 'undefined' && MathJax.startup && MathJax.startup.promise) {
+  MathJax.startup.promise.then(() => render());
+} else {
+  render();
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>

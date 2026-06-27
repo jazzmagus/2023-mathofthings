@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Numeri Interi Relativi ℤ — Lezione interattiva</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']]
+  },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready() {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --gold:#b8860b;
+  --danger:#b33a3a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);white-space:nowrap;flex-shrink:0}
+.topbar-nav{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;flex:1}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill{background:none;border:none;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--text-dim);padding:6px 14px;cursor:pointer;white-space:nowrap;transition:color .2s;border-bottom:2px solid transparent}
+.nav-pill:hover{color:var(--text)}
+.nav-pill.active{color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
+.topbar-home{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-dim);text-decoration:none;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.topbar-home:hover{color:var(--accent)}
+
+/* LAYOUT */
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 60px}
+.section{display:none;animation:appear .4s ease}
+.section.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.65rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);line-height:1.7;text-wrap:pretty}
+
+/* CALLOUT */
+.cb{background:var(--surface-alt);border-left:2px solid var(--accent);border-radius:0 8px 8px 0;padding:16px 18px;margin:18px 0}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600;color:var(--accent)}
+.cb.tip .cb-label{color:var(--blue)}
+.cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)}
+.cb.success .cb-label{color:var(--green)}
+
+/* MATH */
+.math-block{background:rgba(0,0,0,.025);padding:12px 16px;margin:10px 0;overflow-x:auto;border-radius:2px}
+.math-block.center{text-align:center}
+.math-block.result{border-left:2px solid var(--green);background:rgba(74,124,89,.04)}
+.math-block.warn{border-left:2px solid var(--danger);background:rgba(179,58,58,.04)}
+mjx-container[jax="SVG"]{direction:ltr}
+mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%}
+
+/* ACCORDION */
+.accordion{margin:16px 0}
+.acc-item{border-bottom:1px solid rgba(0,0,0,.08)}
+.acc-item:last-child{border-bottom:none}
+.acc-header{display:flex;align-items:center;gap:12px;padding:14px 0;cursor:pointer;user-select:none;background:none;border:none;width:100%;text-align:left}
+.acc-num{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.7rem;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.acc-title{font-weight:600;font-size:.93rem;flex:1;color:var(--text);font-family:Georgia,serif;text-align:left;line-height:1.4}
+.acc-arrow{width:16px;height:16px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.acc-item.open .acc-body{max-height:9000px}
+.acc-inner{padding:8px 0 18px 36px}
+
+/* TABLE */
+.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.88rem}
+.ct th{text-align:left;padding:10px 14px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--border-light);font-size:.74rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct td{padding:9px 14px;border-bottom:1px solid var(--border-light);vertical-align:top;line-height:1.65}
+.ct tr:last-child td{border-bottom:none}
+
+/* COMPARE */
+.compare-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.compare-card{padding:12px 14px;font-size:.88rem;line-height:1.6;border-radius:4px}
+.compare-card.wrong{background:rgba(179,58,58,.05)}
+.compare-card.right{background:rgba(74,124,89,.05)}
+.compare-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+.compare-card.wrong .compare-label{color:var(--danger)}
+.compare-card.right .compare-label{color:var(--green)}
+
+/* QUIZ */
+.quiz-block{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin:28px 0}
+.quiz-eyebrow{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.quiz-q{font-size:1rem;font-weight:700;font-family:'Playfair Display',serif;margin-bottom:16px;line-height:1.45}
+.quiz-opts{display:flex;flex-direction:column;gap:8px}
+.quiz-opt{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:11px 16px;text-align:left;cursor:pointer;font-family:Georgia,serif;font-size:.92rem;color:var(--text);transition:all .2s;line-height:1.5}
+.quiz-opt:hover:not(:disabled){border-color:var(--blue);background:var(--blue-light)}
+.quiz-opt:disabled{cursor:default}
+.quiz-opt.quiz-correct{border-color:var(--green);background:var(--green-light);color:var(--green);font-weight:600}
+.quiz-opt.quiz-wrong{border-color:var(--danger);background:rgba(179,58,58,.07);color:var(--danger)}
+.quiz-feedback{margin-top:14px}
+.fb-ok,.fb-no{padding:13px 16px;border-radius:0 6px 6px 0;font-size:.9rem;line-height:1.65}
+.fb-ok{background:var(--green-light);border-left:3px solid var(--green)}
+.fb-no{background:rgba(179,58,58,.06);border-left:3px solid var(--danger)}
+.fb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;display:block;margin-bottom:6px}
+.fb-ok .fb-label{color:var(--green)}
+.fb-no .fb-label{color:var(--danger)}
+
+/* STEP GRID */
+.step-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:start;margin:10px 0}
+.step-circle{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.7rem;flex-shrink:0;margin-top:3px}
+.step-text{font-size:.9rem;padding-top:2px;line-height:1.65}
+
+/* BOTTOM NAV */
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:44px;padding-top:20px;border-top:1px solid var(--border-light)}
+.bb{font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:0;border:none;background:none;color:var(--text);transition:all .2s;cursor:pointer}
+.bb:hover{color:var(--accent);text-decoration:underline}
+.bb:disabled{opacity:.35;cursor:not-allowed}
+.bb:disabled:hover{color:var(--text);text-decoration:none}
+.dots{display:flex;gap:6px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--border);transition:all .3s;cursor:pointer;border:none;padding:0;flex-shrink:0}
+.dot.active{background:var(--accent);width:20px;border-radius:4px}
+
+/* TYPOGRAPHY */
+p{margin:6px 0}
+ul,ol{margin:8px 0 8px 24px}
+li{margin:3px 0;line-height:1.7}
+strong{font-weight:700}
+.dim{color:var(--text-dim)}
+h2{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin:26px 0 10px;color:var(--text)}
+h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;margin:18px 0 8px;color:var(--text)}
+
+/* RETTA SVG */
+.semiretta-wrap{display:flex;flex-direction:column;align-items:center;margin:20px 0 8px}
+.semiretta-cap{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:1px;color:var(--text-dim);margin-top:6px}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  body{font-size:15.5px}
+  .hero h1{font-size:1.65rem}
+  .cb{padding:14px 14px}
+  .quiz-block{padding:16px 16px}
+  .compare-row{grid-template-columns:1fr}
+  .math-block{padding:12px 12px}
+  .container{padding:80px 18px 60px}
+  .topbar-brand{font-size:.9rem}
+  .acc-inner{padding:8px 0 16px 24px}
+  .acc-title{font-size:.88rem}
+  .ct{font-size:.82rem}
+  .ct th,.ct td{padding:8px 10px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">ℤ — Numeri Interi Relativi</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+/* ═══════════════ QUIZ ENGINE ═══════════════ */
+const QUIZZES = {
+  ordinamento: {
+    correct: 1,
+    feedbacks: [
+      `<span class="fb-label">Non esatto</span>
+       <p>Tra due numeri <em>negativi</em> la regola del valore assoluto si rovescia: è maggiore quello con
+       valore assoluto <strong>minore</strong>. Poiché \\(|-1| = 1 &lt; 5 = |-5|\\), il numero maggiore è \\(-1\\),
+       non \\(-5\\).</p>`,
+
+      `<span class="fb-label">Corretto</span>
+       <p>Esatto. Sulla retta orientata \\(-1\\) sta più a <strong>destra</strong> di \\(-5\\), quindi
+       \\(-1 > -5\\). Tra due negativi è maggiore quello più vicino allo zero, cioè con valore
+       assoluto minore.</p>`,
+
+      `<span class="fb-label">Non esatto</span>
+       <p>Il valore assoluto serve a misurare la distanza dallo zero, ma <em>non</em> stabilisce da solo
+       chi è maggiore: \\(|-1| = 1\\) e \\(|-5| = 5\\) sono diversi. Tra i due numeri,
+       \\(-1\\) è il maggiore perché più vicino allo zero.</p>`
+    ]
+  },
+
+  somma: {
+    correct: 1,
+    feedbacks: [
+      `<span class="fb-label">Non esatto</span>
+       <p>Gli addendi sono <em>discordi</em> (segni diversi): non si sommano i valori assoluti.
+       Si <strong>sottrae</strong> il minore dal maggiore: \\(7 - 3 = 4\\), e si tiene il segno dell'addendo
+       con valore assoluto maggiore, cioè il \\(-\\). Risultato: \\(-4\\).</p>`,
+
+      `<span class="fb-label">Corretto</span>
+       <p>Esatto. Addendi discordi: \\(|-7| = 7\\) e \\(|+3| = 3\\). Si sottrae \\(7 - 3 = 4\\) e si attribuisce
+       il segno dell'addendo con valore assoluto maggiore (\\(-7\\)). Quindi
+       \\((-7) + (+3) = -4\\).</p>`,
+
+      `<span class="fb-label">Non esatto</span>
+       <p>Attenzione al segno: vince l'addendo con valore assoluto <strong>maggiore</strong>, qui \\(-7\\).
+       Il valore della differenza è giusto (\\(7 - 3 = 4\\)), ma il segno dev'essere \\(-\\):
+       il risultato è \\(-4\\).</p>`,
+
+      `<span class="fb-label">Non esatto</span>
+       <p>Stai sommando i valori assoluti, ma questo si fa solo con addendi <em>concordi</em>.
+       Qui i segni sono diversi: si sottrae \\(7 - 3 = 4\\) col segno del maggiore in valore
+       assoluto. Risultato: \\(-4\\).</p>`
+    ]
+  },
+
+  potenza: {
+    correct: 1,
+    feedbacks: [
+      `<span class="fb-label">Non esatto</span>
+       <p>Senza parentesi, l'elevamento a potenza riguarda <strong>solo</strong> il \\(2\\), e il segno meno
+       resta davanti: \\(-2^2 = -(2^2) = -4\\). Sarebbe \\(+4\\) solo scrivendo \\((-2)^2\\),
+       con la base negativa tra parentesi.</p>`,
+
+      `<span class="fb-label">Corretto</span>
+       <p>Esatto. In \\(-2^2\\) la base della potenza è il \\(2\\), non il \\(-2\\): si calcola
+       \\(2^2 = 4\\) e poi si applica il segno meno, ottenendo \\(-4\\). Solo \\((-2)^2\\) vale \\(+4\\).</p>`,
+
+      `<span class="fb-label">Non esatto</span>
+       <p>Quello è il risultato di \\((-2)^2\\), con base negativa <em>tra parentesi</em>.
+       Senza parentesi, \\(-2^2\\) significa \\(-(2 \\cdot 2) = -4\\): l'elevamento agisce solo sul \\(2\\).</p>`
+    ]
+  }
+};
+
+function answerQuiz(qid, chosen) {
+  const q = QUIZZES[qid];
+  const block = document.getElementById('quiz-' + qid);
+  if (!block || block.dataset.answered) return;
+  block.dataset.answered = 'true';
+  block.querySelectorAll('.quiz-opt').forEach((opt, i) => {
+    opt.disabled = true;
+    if (i === q.correct) opt.classList.add('quiz-correct');
+    else if (i === chosen) opt.classList.add('quiz-wrong');
+  });
+  const fb = document.getElementById('quiz-fb-' + qid);
+  const ok = chosen === q.correct;
+  fb.innerHTML = `<div class="${ok ? 'fb-ok' : 'fb-no'}">${q.feedbacks[chosen]}</div>`;
+  if (typeof MathJax !== 'undefined') MathJax.typesetPromise([fb]);
+}
+
+function quiz(qid, question, options) {
+  return `<div class="quiz-block" id="quiz-${qid}">
+    <div class="quiz-eyebrow">Checkpoint</div>
+    <div class="quiz-q">${question}</div>
+    <div class="quiz-opts">
+      ${options.map((o, i) =>
+        `<button class="quiz-opt" onclick="answerQuiz('${qid}', ${i})">${o}</button>`
+      ).join('')}
+    </div>
+    <div class="quiz-feedback" id="quiz-fb-${qid}"></div>
+  </div>`;
+}
+
+/* ═══════════════ ACCORDION ═══════════════ */
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) => `
+    <div class="acc-item">
+      <button class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-num">${i + 1}</div>
+        <div class="acc-title">${it.t}</div>
+        <svg class="acc-arrow" viewBox="0 0 20 20" fill="none">
+          <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="acc-body"><div class="acc-inner">${it.h}</div></div>
+    </div>`).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.closest('.acc-item');
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+/* ═══════════════ RETTA ORIENTATA SVG ═══════════════ */
+function rettaSVG() {
+  const nums = [-3, -2, -1, 0, 1, 2, 3];
+  const ticks = nums.map((n, i) => {
+    const x = 47 + i * 69;
+    const isZero = n === 0;
+    const label = n > 0 ? '+' + n : (n < 0 ? '−' + Math.abs(n) : '0');
+    const txtColor = isZero ? '#c2185b' : '#2c2520';
+    const tickColor = isZero ? '#c2185b' : '#5a524a';
+    return `<line x1="${x}" y1="28" x2="${x}" y2="46" stroke="${tickColor}" stroke-width="${isZero ? 2.2 : 1.6}"/>
+            <text x="${x}" y="64" text-anchor="middle" font-family="Georgia,serif" font-size="14" font-weight="${isZero ? 700 : 400}" fill="${txtColor}">${label}</text>`;
+  }).join('');
+  return `<div class="semiretta-wrap">
+    <svg viewBox="0 0 510 76" xmlns="http://www.w3.org/2000/svg"
+         style="width:100%;max-width:510px;display:block"
+         aria-label="Retta orientata dei numeri interi relativi">
+      <line x1="14" y1="37" x2="496" y2="37" stroke="#2c2520" stroke-width="1.8"/>
+      <polygon points="496,31 510,37 496,43" fill="#2c2520"/>
+      <polygon points="14,31 0,37 14,43" fill="#2c2520"/>
+      ${ticks}
+    </svg>
+    <span class="semiretta-cap">retta orientata dei numeri interi relativi</span>
+  </div>`;
+}
+
+/* ═══════════════ SCHERMATE ═══════════════ */
+const S = [
+
+/* ──── 0 · INTRODUZIONE ──── */
+{
+  tag: `INTRODUZIONE`,
+  title: `Quando ℕ non <em>basta</em>`,
+  nav: `Introduzione`,
+  sub: `Nei numeri naturali una sottrazione come \\(4 - 6\\) non ha risposta. Eppure descrive benissimo la realtà: un debito, una temperatura sotto zero, un piano interrato. Per dare un risultato a ogni sottrazione si amplia \\(\\mathbb{N}\\) e nasce l'insieme \\(\\mathbb{Z}\\).`,
+  body: `
+    <div class="cb tip">
+      <div class="cb-label">Il limite di ℕ</div>
+      <p>Nell'insieme \\(\\mathbb{N}\\) la sottrazione <strong>non è sempre possibile</strong>: l'operazione
+      \\(4 - 6\\) non ha risultato, perché non esiste alcun numero naturale che sommato a \\(6\\) dia \\(4\\).</p>
+      <div class="math-block center">
+        \\[ 4 - 6 = \\; ? \\qquad \\text{nessun numero naturale} \\]
+      </div>
+    </div>
+
+    <p>Eppure situazioni del genere descrivono il mondo di tutti i giorni:</p>
+    <ul>
+      <li>una temperatura di \\(6\\) gradi <strong>sotto</strong> lo zero;</li>
+      <li>un <strong>debito</strong> di \\(40\\) euro;</li>
+      <li>\\(3\\) piani <strong>sotto</strong> il livello stradale.</li>
+    </ul>
+
+    <div class="cb method">
+      <div class="cb-label">Definizione</div>
+      <p>Per dare un risultato a <em>ogni</em> sottrazione si amplia \\(\\mathbb{N}\\) introducendo i numeri
+      preceduti dal segno, ottenendo l'insieme dei <strong>numeri interi relativi</strong> \\(\\mathbb{Z}\\):</p>
+      <div class="math-block center">
+        \\[ \\mathbb{Z} = \\{\\, \\dots;\\ -3;\\ -2;\\ -1;\\ 0;\\ +1;\\ +2;\\ +3;\\ \\dots \\,\\} \\]
+      </div>
+    </div>
+
+    <div class="cb">
+      <div class="cb-label">Idea chiave</div>
+      <p>Ogni famiglia di numeri nasce per superare un limite della precedente. \\(\\mathbb{Z}\\) nasce da
+      una sola esigenza: rendere la <strong>sottrazione sempre eseguibile</strong>.</p>
+    </div>
+  `
+},
+
+/* ──── 1 · L'INSIEME ℤ ──── */
+{
+  tag: `STRUTTURA`,
+  title: `I numeri <em>relativi</em>`,
+  nav: `L'insieme ℤ`,
+  sub: `Ogni intero relativo è fatto di due ingredienti: un segno e un valore assoluto. Da qui nascono le idee di opposto, di numeri concordi e discordi, e l'inclusione di \\(\\mathbb{N}\\) dentro \\(\\mathbb{Z}\\).`,
+  body: `
+    <div class="cb method">
+      <div class="cb-label">Segno e valore assoluto</div>
+      <p>Ogni numero relativo è formato da un <strong>segno</strong> (\\(+\\) oppure \\(-\\)) e da un
+      <strong>valore assoluto</strong> (un numero naturale).</p>
+      <ul>
+        <li>i numeri preceduti dal segno \\(+\\) sono <strong>positivi</strong>;</li>
+        <li>i numeri preceduti dal segno \\(-\\) sono <strong>negativi</strong>;</li>
+        <li>lo <strong>zero</strong> non è né positivo né negativo: \\(\\ +0 = -0 = 0\\).</li>
+      </ul>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Relazione con ℕ</div>
+      <p>Ogni numero naturale è anche un intero relativo (positivo). Vale quindi l'inclusione:</p>
+      <div class="math-block center">
+        \\[ \\mathbb{N} \\subset \\mathbb{Z} \\]
+      </div>
+    </div>
+
+    <h3>Proprietà dell'insieme ℤ</h3>
+    <ul>
+      <li>\\(\\mathbb{Z}\\) è <strong>infinito</strong> in <strong>entrambe</strong> le direzioni;</li>
+      <li>ogni intero relativo ha sia un <strong>successivo</strong> sia un <strong>precedente</strong>;</li>
+      <li>\\(\\mathbb{Z}\\) <strong>non</strong> ha né elemento <strong>minimo</strong> né elemento <strong>massimo</strong>.</li>
+    </ul>
+
+    <h3>Valore assoluto</h3>
+    <div class="cb">
+      <div class="cb-label">Definizione</div>
+      <p>Il <strong>valore assoluto</strong> (o <strong>modulo</strong>) di un numero intero relativo è il numero
+      stesso privato del suo segno. Si indica con due barre verticali.</p>
+      <div class="math-block center">
+        \\[ |+5| = 5 \\qquad |-5| = 5 \\qquad |0| = 0 \\]
+      </div>
+      <p>Geometricamente, il valore assoluto è la <strong>distanza</strong> del numero dallo zero sulla retta.</p>
+    </div>
+
+    <h3>Opposti, concordi, discordi</h3>
+    <div class="step-grid">
+      <div class="step-circle">=</div>
+      <div class="step-text">Due numeri con lo <strong>stesso valore assoluto</strong> e <strong>segni diversi</strong>
+      si dicono <strong>opposti</strong>. L'opposto di \\(+5\\) è \\(-5\\), e la loro somma è zero:
+      \\(\\ a + (-a) = 0\\).</div>
+      <div class="step-circle">+</div>
+      <div class="step-text">Due numeri sono <strong>concordi</strong> se hanno lo <strong>stesso segno</strong>.</div>
+      <div class="step-circle">−</div>
+      <div class="step-text">Due numeri sono <strong>discordi</strong> se hanno <strong>segni diversi</strong>.</div>
+    </div>
+
+    ${quiz('ordinamento',
+      `Quale dei due numeri è <em>maggiore</em>: \\(-1\\) oppure \\(-5\\)?`,
+      [
+        `\\(-5\\), perché \\(5\\) è più grande di \\(1\\)`,
+        `\\(-1\\), perché è più vicino allo zero`,
+        `Hanno valori assoluti diversi, quindi non si possono confrontare`
+      ]
+    )}
+  `
+},
+
+/* ──── 2 · RETTA ORIENTATA ──── */
+{
+  tag: `RAPPRESENTAZIONE`,
+  title: `La retta <em>orientata</em>`,
+  nav: `Retta orientata`,
+  sub: `I numeri interi relativi si dispongono su una retta: lo zero al centro, i positivi a destra, i negativi a sinistra. La posizione sulla retta è la chiave per ordinarli.`,
+  body: `
+    <p>Si fissa l'<strong>origine</strong> in corrispondenza dello zero, i numeri <strong>positivi</strong> a destra
+    e i <strong>negativi</strong> a sinistra. La retta si estende all'infinito in entrambe le direzioni.</p>
+
+    ${rettaSVG()}
+
+    <div class="cb method">
+      <div class="cb-label">Ordinamento in ℤ</div>
+      <p>Un numero è tanto <strong>maggiore</strong> quanto più si trova a <strong>destra</strong> sulla retta. Quindi:</p>
+      <ul>
+        <li>ogni numero <strong>positivo</strong> è maggiore di zero e di ogni numero negativo;</li>
+        <li>tra due numeri <strong>negativi</strong> è maggiore quello con valore assoluto <strong>minore</strong>:
+        \\(\\ -1 > -5\\);</li>
+        <li>lo zero è maggiore di ogni negativo e minore di ogni positivo.</li>
+      </ul>
+      <div class="math-block center">
+        \\[ -5 < -2 < 0 < +3 < +7 \\]
+      </div>
+    </div>
+
+    <div class="cb warn">
+      <div class="cb-label">L'errore tipico</div>
+      <p>Verrebbe da dire che \\(-5\\) è maggiore di \\(-1\\) perché \\(5 > 1\\). È il contrario:
+      con i negativi <strong>più grande è il valore assoluto, più piccolo è il numero</strong>.</p>
+    </div>
+  `
+},
+
+/* ──── 3 · OPERAZIONI ──── */
+{
+  tag: `CALCOLO`,
+  title: `Le quattro <em>operazioni</em>`,
+  nav: `Operazioni`,
+  sub: `Addizione, sottrazione, moltiplicazione e divisione in \\(\\mathbb{Z}\\). La grande novità è l'opposto, che rende la sottrazione sempre possibile; il filo conduttore è la regola dei segni.`,
+  body: `
+    <h3>Addizione</h3>
+    <p>L'addizione in \\(\\mathbb{Z}\\) segue due casi.</p>
+    <div class="compare-row">
+      <div class="compare-card right">
+        <div class="compare-label">Addendi concordi</div>
+        Si <strong>sommano</strong> i valori assoluti e si tiene il segno comune.<br>
+        \\((+3) + (+5) = +8\\)<br>
+        \\((-3) + (-5) = -8\\)
+      </div>
+      <div class="compare-card wrong">
+        <div class="compare-label">Addendi discordi</div>
+        Si <strong>sottrae</strong> il minore dal maggiore, col segno del maggiore.<br>
+        \\((+7) + (-3) = +4\\)<br>
+        \\((-7) + (+3) = -4\\)
+      </div>
+    </div>
+
+    <div class="cb success">
+      <div class="cb-label">La conquista di ℤ — l'opposto</div>
+      <p>Ogni numero ha un <strong>opposto</strong>, e \\(a + (-a) = 0\\). È questa la grande differenza
+      rispetto a \\(\\mathbb{N}\\): l'esistenza dell'opposto rende la sottrazione <strong>sempre eseguibile</strong>.</p>
+    </div>
+
+    ${acc([
+      {
+        t: `Sottrazione: addizionare l'opposto`,
+        h: `
+          <p>Sottrarre un numero equivale ad <strong>addizionare il suo opposto</strong>:</p>
+          <div class="math-block center">\\[ a - b = a + (-b) \\]</div>
+          <p>Così il limite di \\(\\mathbb{N}\\) scompare:</p>
+          <div class="math-block result">\\[ (+4) - (+6) = (+4) + (-6) = -2 \\]</div>
+        `
+      },
+      {
+        t: `Somma algebrica e parentesi`,
+        h: `
+          <p>Poiché ogni sottrazione diventa l'addizione dell'opposto, addizioni e sottrazioni si scrivono
+          come un'unica <strong>somma algebrica</strong>, togliendo le parentesi:</p>
+          <div class="math-block center">\\[ (+7) - (+3) + (-2) = +7 - 3 - 2 = +2 \\]</div>
+          <div class="step-grid">
+            <div class="step-circle">+</div>
+            <div class="step-text">Segno \\(+\\) davanti alla parentesi → i termini interni restano <strong>invariati</strong>.</div>
+            <div class="step-circle">−</div>
+            <div class="step-text">Segno \\(-\\) davanti alla parentesi → i termini interni cambiano <strong>tutti</strong> di segno.</div>
+          </div>
+        `
+      },
+      {
+        t: `Moltiplicazione — la regola dei segni`,
+        h: `
+          <p>Si moltiplicano i valori assoluti e si attribuisce il segno secondo la <strong>regola dei segni</strong>:</p>
+          <div class="math-block center">
+            \\[ (+)\\cdot(+) = + \\qquad (+)\\cdot(-) = - \\qquad (-)\\cdot(+) = - \\qquad (-)\\cdot(-) = + \\]
+          </div>
+          <p>In sintesi: fattori <strong>concordi</strong> → prodotto <strong>positivo</strong>; fattori
+          <strong>discordi</strong> → prodotto <strong>negativo</strong>.</p>
+          <div class="math-block result">
+            \\[ (-3)\\cdot(+4) = -12 \\qquad (-3)\\cdot(-4) = +12 \\]
+          </div>
+        `
+      },
+      {
+        t: `Divisione`,
+        h: `
+          <p>La divisione (quando esatta) segue la <strong>stessa regola dei segni</strong> della moltiplicazione:</p>
+          <div class="math-block center">
+            \\[ (-12):(+4) = -3 \\qquad (-12):(-4) = +3 \\]
+          </div>
+          <p class="dim">Resta valido il limite di sempre: la divisione per zero non è mai definita.</p>
+        `
+      }
+    ])}
+
+    ${quiz('somma',
+      `Quanto vale \\((-7) + (+3)\\)?`,
+      [`\\(+10\\)`, `\\(-4\\)`, `\\(+4\\)`, `\\(-10\\)`]
+    )}
+  `
+},
+
+/* ──── 4 · POTENZE ──── */
+{
+  tag: `CALCOLO`,
+  title: `Le potenze in <em>ℤ</em>`,
+  nav: `Potenze`,
+  sub: `Il segno di una potenza in \\(\\mathbb{Z}\\) dipende da due cose: il segno della base e la parità dell'esponente. E attenzione alle parentesi: \\((-2)^2\\) e \\(-2^2\\) non sono la stessa cosa.`,
+  body: `
+    <div class="cb method">
+      <div class="cb-label">Segno di una potenza</div>
+      <ul>
+        <li><strong>Base positiva</strong>: il risultato è sempre <strong>positivo</strong>.<br>
+        \\((+2)^3 = +8 \\qquad (+2)^4 = +16\\)</li>
+        <li><strong>Base negativa</strong> ed esponente <strong>pari</strong> → risultato <strong>positivo</strong>:
+        \\(\\ (-2)^4 = +16\\);</li>
+        <li><strong>Base negativa</strong> ed esponente <strong>dispari</strong> → risultato <strong>negativo</strong>:
+        \\(\\ (-2)^3 = -8\\).</li>
+      </ul>
+    </div>
+
+    <div class="cb danger">
+      <div class="cb-label">Attenzione alle parentesi</div>
+      <p>La base negativa va racchiusa tra parentesi. Senza, l'elevamento riguarda <strong>solo</strong> il numero,
+      e il segno meno resta davanti al risultato.</p>
+      <div class="compare-row">
+        <div class="compare-card right">
+          <div class="compare-label">Base negativa</div>
+          \\((-2)^2 = (-2)\\cdot(-2) = +4\\)
+        </div>
+        <div class="compare-card wrong">
+          <div class="compare-label">Solo il 2 elevato</div>
+          \\(-2^2 = -(2\\cdot 2) = -4\\)
+        </div>
+      </div>
+    </div>
+
+    <p class="dim">Le proprietà delle potenze (prodotto, quoziente, potenza di potenza) valgono in
+    \\(\\mathbb{Z}\\) come in \\(\\mathbb{N}\\), con l'attenzione aggiuntiva al segno.</p>
+
+    ${quiz('potenza',
+      `Quanto vale \\(-2^2\\) (senza parentesi sulla base)?`,
+      [`\\(+4\\)`, `\\(-4\\)`, `\\(-2\\)`]
+    )}
+  `
+},
+
+/* ──── 5 · SINTESI ──── */
+{
+  tag: `RIEPILOGO`,
+  title: `Cosa ci ha dato <em>ℤ</em>`,
+  nav: `Sintesi`,
+  sub: `L'ampliamento da \\(\\mathbb{N}\\) a \\(\\mathbb{Z}\\) nasce da una sola esigenza — rendere la sottrazione sempre eseguibile — ma porta con sé una struttura nuova.`,
+  body: `
+    <table class="ct">
+      <tr><th></th><th>In \\(\\mathbb{N}\\)</th><th>In \\(\\mathbb{Z}\\)</th></tr>
+      <tr>
+        <td>Sottrazione \\(a - b\\)</td>
+        <td>solo se \\(a \\geq b\\)</td>
+        <td style="color:var(--green)"><strong>sempre possibile</strong></td>
+      </tr>
+      <tr>
+        <td>Elemento opposto</td>
+        <td>assente</td>
+        <td style="color:var(--green)"><strong>presente</strong> (\\(a + (-a) = 0\\))</td>
+      </tr>
+      <tr>
+        <td>Elemento minimo</td>
+        <td>lo zero</td>
+        <td><strong>non esiste</strong></td>
+      </tr>
+      <tr>
+        <td>Direzioni dell'insieme</td>
+        <td>una (verso \\(+\\infty\\))</td>
+        <td><strong>due</strong> (\\(\\pm\\infty\\))</td>
+      </tr>
+    </table>
+
+    <div class="cb success">
+      <div class="cb-label">In una frase</div>
+      <p>Da \\(\\mathbb{N}\\) a \\(\\mathbb{Z}\\): ogni numero acquista un opposto e la retta si estende
+      simmetricamente in entrambe le direzioni. La sottrazione, prima incompleta, diventa un'operazione
+      sempre eseguibile.</p>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">E adesso?</div>
+      <p>Resta un limite: in \\(\\mathbb{Z}\\) la <em>divisione</em> non è sempre possibile
+      (\\(3 : 2\\) non dà un intero). Sarà questa l'esigenza che porterà al prossimo ampliamento,
+      verso i numeri razionali \\(\\mathbb{Q}\\).</p>
+    </div>
+  `
+}
+
+];
+
+/* ═══════════════ APP ═══════════════ */
+let cur = 0;
+const tot = S.length;
+
+function render() {
+  document.getElementById('topNav').innerHTML = S.map((s, i) =>
+    `<button class="nav-pill ${i === cur ? 'active' : ''}" onclick="goTo(${i})">${s.nav}</button>`
+  ).join('');
+
+  // screens
+  document.getElementById('app').innerHTML = S.map((s, i) => `
+    <div class="section ${i === cur ? 'active' : ''}">
+      <div class="hero">
+        <div class="hero-tag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p class="hero-sub">${s.sub}</p>
+      </div>
+      ${s.body}
+      <div class="bottom-nav">
+        <button class="bb" onclick="goTo(${i - 1})" ${i === 0 ? 'disabled' : ''}>← Indietro</button>
+        <div class="dots">
+          ${S.map((_, j) =>
+            `<button class="dot ${j === i ? 'active' : ''}" onclick="goTo(${j})"
+             title="Schermata ${j + 1} di ${tot}"></button>`
+          ).join('')}
+        </div>
+        <button class="bb" onclick="goTo(${i + 1})" ${i === tot - 1 ? 'disabled' : ''}>Avanti →</button>
+      </div>
+    </div>
+  `).join('');
+
+  // typeset active section
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    const active = document.querySelector('.section.active');
+    if (active) MathJax.typesetPromise([active]);
+  }
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= tot) return;
+  cur = idx;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(cur + 1);
+  if (e.key === 'ArrowLeft')  goTo(cur - 1);
+});
+
+// avvia dopo MathJax
+if (typeof MathJax !== 'undefined' && MathJax.startup && MathJax.startup.promise) {
+  MathJax.startup.promise.then(() => render());
+} else {
+  render();
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>

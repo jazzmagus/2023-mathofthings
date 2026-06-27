@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Numeri Reali ℝ — Lezione interattiva</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']]
+  },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready() {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --gold:#b8860b;
+  --danger:#b33a3a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);white-space:nowrap;flex-shrink:0}
+.topbar-nav{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;flex:1}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill{background:none;border:none;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--text-dim);padding:6px 14px;cursor:pointer;white-space:nowrap;transition:color .2s;border-bottom:2px solid transparent}
+.nav-pill:hover{color:var(--text)}
+.nav-pill.active{color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
+.topbar-home{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-dim);text-decoration:none;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.topbar-home:hover{color:var(--accent)}
+
+/* LAYOUT */
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 60px}
+.section{display:none;animation:appear .4s ease}
+.section.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.65rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);line-height:1.7;text-wrap:pretty}
+
+/* CALLOUT */
+.cb{background:var(--surface-alt);border-left:2px solid var(--accent);border-radius:0 8px 8px 0;padding:16px 18px;margin:18px 0}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600;color:var(--accent)}
+.cb.tip .cb-label{color:var(--blue)}
+.cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)}
+.cb.success .cb-label{color:var(--green)}
+
+/* MATH */
+.math-block{background:rgba(0,0,0,.025);padding:12px 16px;margin:10px 0;overflow-x:auto;border-radius:2px}
+.math-block.center{text-align:center}
+.math-block.result{border-left:2px solid var(--green);background:rgba(74,124,89,.04)}
+.math-block.warn{border-left:2px solid var(--danger);background:rgba(179,58,58,.04)}
+mjx-container[jax="SVG"]{direction:ltr}
+mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%}
+
+/* ACCORDION */
+.accordion{margin:16px 0}
+.acc-item{border-bottom:1px solid rgba(0,0,0,.08)}
+.acc-item:last-child{border-bottom:none}
+.acc-header{display:flex;align-items:center;gap:12px;padding:14px 0;cursor:pointer;user-select:none;background:none;border:none;width:100%;text-align:left}
+.acc-num{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.7rem;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.acc-title{font-weight:600;font-size:.93rem;flex:1;color:var(--text);font-family:Georgia,serif;text-align:left;line-height:1.4}
+.acc-arrow{width:16px;height:16px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.acc-item.open .acc-body{max-height:9000px}
+.acc-inner{padding:8px 0 18px 36px}
+
+/* TABLE */
+.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.88rem}
+.ct th{text-align:left;padding:10px 14px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--border-light);font-size:.74rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct td{padding:9px 14px;border-bottom:1px solid var(--border-light);vertical-align:top;line-height:1.65}
+.ct tr:last-child td{border-bottom:none}
+
+/* COMPARE */
+.compare-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.compare-card{padding:12px 14px;font-size:.88rem;line-height:1.6;border-radius:4px}
+.compare-card.wrong{background:rgba(179,58,58,.05)}
+.compare-card.right{background:rgba(74,124,89,.05)}
+.compare-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+.compare-card.wrong .compare-label{color:var(--danger)}
+.compare-card.right .compare-label{color:var(--green)}
+
+/* QUIZ */
+.quiz-block{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin:28px 0}
+.quiz-eyebrow{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.quiz-q{font-size:1rem;font-weight:700;font-family:'Playfair Display',serif;margin-bottom:16px;line-height:1.45}
+.quiz-opts{display:flex;flex-direction:column;gap:8px}
+.quiz-opt{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:11px 16px;text-align:left;cursor:pointer;font-family:Georgia,serif;font-size:.92rem;color:var(--text);transition:all .2s;line-height:1.5}
+.quiz-opt:hover:not(:disabled){border-color:var(--blue);background:var(--blue-light)}
+.quiz-opt:disabled{cursor:default}
+.quiz-opt.quiz-correct{border-color:var(--green);background:var(--green-light);color:var(--green);font-weight:600}
+.quiz-opt.quiz-wrong{border-color:var(--danger);background:rgba(179,58,58,.07);color:var(--danger)}
+.quiz-feedback{margin-top:14px}
+.fb-ok,.fb-no{padding:13px 16px;border-radius:0 6px 6px 0;font-size:.9rem;line-height:1.65}
+.fb-ok{background:var(--green-light);border-left:3px solid var(--green)}
+.fb-no{background:rgba(179,58,58,.06);border-left:3px solid var(--danger)}
+.fb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;display:block;margin-bottom:6px}
+.fb-ok .fb-label{color:var(--green)}
+.fb-no .fb-label{color:var(--danger)}
+
+/* STEP GRID */
+.step-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:start;margin:10px 0}
+.step-circle{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.7rem;flex-shrink:0;margin-top:3px}
+.step-text{font-size:.9rem;padding-top:2px;line-height:1.65}
+
+/* BOTTOM NAV */
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:44px;padding-top:20px;border-top:1px solid var(--border-light)}
+.bb{font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:0;border:none;background:none;color:var(--text);transition:all .2s;cursor:pointer}
+.bb:hover{color:var(--accent);text-decoration:underline}
+.bb:disabled{opacity:.35;cursor:not-allowed}
+.bb:disabled:hover{color:var(--text);text-decoration:none}
+.dots{display:flex;gap:6px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--border);transition:all .3s;cursor:pointer;border:none;padding:0;flex-shrink:0}
+.dot.active{background:var(--accent);width:20px;border-radius:4px}
+
+/* TYPOGRAPHY */
+p{margin:6px 0}
+ul,ol{margin:8px 0 8px 24px}
+li{margin:3px 0;line-height:1.7}
+strong{font-weight:700}
+.dim{color:var(--text-dim)}
+h2{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin:26px 0 10px;color:var(--text)}
+h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;margin:18px 0 8px;color:var(--text)}
+
+/* FIGURA SVG */
+.semiretta-wrap{display:flex;flex-direction:column;align-items:center;margin:20px 0 8px}
+.semiretta-cap{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:1px;color:var(--text-dim);margin-top:6px}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  body{font-size:15.5px}
+  .hero h1{font-size:1.65rem}
+  .cb{padding:14px 14px}
+  .quiz-block{padding:16px 16px}
+  .compare-row{grid-template-columns:1fr}
+  .math-block{padding:12px 12px}
+  .container{padding:80px 18px 60px}
+  .topbar-brand{font-size:.9rem}
+  .acc-inner{padding:8px 0 16px 24px}
+  .acc-title{font-size:.88rem}
+  .ct{font-size:.82rem}
+  .ct th,.ct td{padding:8px 10px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">ℝ — Numeri Reali</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+/* ═══════════════ QUIZ ENGINE ═══════════════ */
+const QUIZZES = {
+  irrazionale: {
+    correct: 1,
+    feedbacks: [
+      `<span class="fb-label">Non esatto</span>
+       <p>\\(\\sqrt{4} = 2\\): è un numero intero, quindi razionale. La radice è irrazionale solo quando il
+       radicando <em>non</em> è un quadrato perfetto.</p>`,
+
+      `<span class="fb-label">Corretto</span>
+       <p>Esatto. \\(2\\) non è un quadrato perfetto, quindi \\(\\sqrt{2} = 1{,}41421356\\ldots\\) ha sviluppo
+       decimale illimitato e non periodico: è il prototipo del numero <strong>irrazionale</strong>.</p>`,
+
+      `<span class="fb-label">Non esatto</span>
+       <p>\\(0{,}\\overline{3} = \\dfrac{1}{3}\\) è un decimale periodico, dunque <em>razionale</em>.
+       Il numero irrazionale dell'elenco è \\(\\sqrt{2}\\).</p>`
+    ]
+  },
+
+  radicale: {
+    correct: 0,
+    feedbacks: [
+      `<span class="fb-label">Corretto</span>
+       <p>Esatto. Si scompone il radicando isolando il quadrato perfetto:
+       \\(\\sqrt{12} = \\sqrt{4 \\cdot 3} = \\sqrt{4}\\,\\sqrt{3} = 2\\sqrt{3}\\).</p>`,
+
+      `<span class="fb-label">Non esatto</span>
+       <p>\\(3\\sqrt{2}\\) varrebbe \\(\\sqrt{9 \\cdot 2} = \\sqrt{18}\\), non \\(\\sqrt{12}\\). Per semplificare
+       \\(\\sqrt{12}\\) si isola il quadrato perfetto \\(4\\): \\(\\sqrt{12} = 2\\sqrt{3}\\).</p>`,
+
+      `<span class="fb-label">Non esatto</span>
+       <p>\\(\\sqrt{12}\\) non è un numero intero: \\(12\\) non è un quadrato perfetto. Si può però semplificare
+       portando fuori il fattore \\(4\\): \\(\\sqrt{12} = 2\\sqrt{3} \\approx 3{,}46\\).</p>`
+    ]
+  },
+
+  classifica: {
+    correct: 2,
+    feedbacks: [
+      `<span class="fb-label">Non esatto</span>
+       <p>Un decimale <em>finito</em> è sempre razionale, ma questo numero non è finito: le cifre proseguono
+       all'infinito. Guarda se si ripetono con regolarità.</p>`,
+
+      `<span class="fb-label">Non esatto</span>
+       <p>Per essere periodico, un blocco di cifre dovrebbe ripetersi <em>identico</em> all'infinito. Qui i blocchi
+       di zeri si allungano ogni volta (\\(1,\\ 01,\\ 001,\\ \\ldots\\)): non c'è periodo.</p>`,
+
+      `<span class="fb-label">Corretto</span>
+       <p>Esatto. Lo sviluppo \\(0{,}1010010001\\ldots\\) è illimitato e <strong>non periodico</strong> (gli zeri
+       aumentano a ogni passo): è quindi un numero <strong>irrazionale</strong>, pur essendo costruito con sole
+       cifre \\(0\\) e \\(1\\).</p>`
+    ]
+  }
+};
+
+function answerQuiz(qid, chosen) {
+  const q = QUIZZES[qid];
+  const block = document.getElementById('quiz-' + qid);
+  if (!block || block.dataset.answered) return;
+  block.dataset.answered = 'true';
+  block.querySelectorAll('.quiz-opt').forEach((opt, i) => {
+    opt.disabled = true;
+    if (i === q.correct) opt.classList.add('quiz-correct');
+    else if (i === chosen) opt.classList.add('quiz-wrong');
+  });
+  const fb = document.getElementById('quiz-fb-' + qid);
+  const ok = chosen === q.correct;
+  fb.innerHTML = `<div class="${ok ? 'fb-ok' : 'fb-no'}">${q.feedbacks[chosen]}</div>`;
+  if (typeof MathJax !== 'undefined') MathJax.typesetPromise([fb]);
+}
+
+function quiz(qid, question, options) {
+  return `<div class="quiz-block" id="quiz-${qid}">
+    <div class="quiz-eyebrow">Checkpoint</div>
+    <div class="quiz-q">${question}</div>
+    <div class="quiz-opts">
+      ${options.map((o, i) =>
+        `<button class="quiz-opt" onclick="answerQuiz('${qid}', ${i})">${o}</button>`
+      ).join('')}
+    </div>
+    <div class="quiz-feedback" id="quiz-fb-${qid}"></div>
+  </div>`;
+}
+
+/* ═══════════════ ACCORDION ═══════════════ */
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) => `
+    <div class="acc-item">
+      <button class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-num">${i + 1}</div>
+        <div class="acc-title">${it.t}</div>
+        <svg class="acc-arrow" viewBox="0 0 20 20" fill="none">
+          <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="acc-body"><div class="acc-inner">${it.h}</div></div>
+    </div>`).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.closest('.acc-item');
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+/* ═══════════════ FIGURA: QUADRATO E DIAGONALE ═══════════════ */
+function quadratoSVG() {
+  return `<div class="semiretta-wrap">
+    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg"
+         style="width:100%;max-width:240px;display:block"
+         aria-label="Quadrato di lato 1 con diagonale radice di due">
+      <rect x="40" y="30" width="120" height="120" fill="#c2185b" fill-opacity="0.06" stroke="#5a524a" stroke-width="1.4"/>
+      <line x1="40" y1="150" x2="160" y2="30" stroke="#c2185b" stroke-width="2"/>
+      <text x="100" y="170" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#2c2520">1</text>
+      <text x="24" y="95" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#2c2520">1</text>
+      <text x="112" y="84" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#c2185b" font-style="italic">&#8730;2</text>
+    </svg>
+    <span class="semiretta-cap">la diagonale del quadrato di lato 1 misura \\(\\sqrt{2}\\)</span>
+  </div>`;
+}
+
+/* ═══════════════ SCHERMATE ═══════════════ */
+const S = [
+
+/* ──── 0 · INTRODUZIONE ──── */
+{
+  tag: `INTRODUZIONE`,
+  title: `I buchi nella <em>retta</em>`,
+  nav: `Introduzione`,
+  sub: `I razionali sono densi, eppure non riempiono tutta la retta. Lo si scopre con un quadrato di lato 1: la sua diagonale ha una lunghezza precisa che nessuna frazione riesce a esprimere. Quel numero è \\(\\sqrt{2}\\).`,
+  body: `
+    <div class="cb tip">
+      <div class="cb-label">Il limite di ℚ</div>
+      <p>Alla fine della lezione sui razionali era rimasta un'inquietudine: i numeri razionali, pur essendo
+      <em>densi</em>, <strong>non riempiono tutta la retta</strong>. Sembra impossibile — eppure si scopre con
+      un esempio geometrico semplicissimo.</p>
+    </div>
+
+    <p>Prendiamo un quadrato di lato \\(1\\) e tracciamone la <strong>diagonale</strong>. Per il teorema di
+    Pitagora la sua lunghezza \\(d\\) soddisfa:</p>
+    <div class="math-block center">
+      \\[ d^2 = 1^2 + 1^2 = 2 \\qquad \\Longrightarrow \\qquad d = \\sqrt{2} \\]
+    </div>
+
+    ${quadratoSVG()}
+
+    <div class="cb method">
+      <div class="cb-label">La scoperta</div>
+      <p>Esiste una frazione \\(\\dfrac{a}{b}\\) che, elevata al quadrato, dia esattamente \\(2\\)? La risposta —
+      sorprendente, e per i Greci antichi quasi drammatica — è <strong>no</strong>. La diagonale ha una lunghezza
+      ben precisa, disegnabile con riga e compasso, ma che <strong>nessuna frazione riesce a esprimere</strong>.</p>
+      <p>Per tappare questi buchi si introducono i <strong>numeri irrazionali</strong> e si arriva all'insieme dei
+      <strong>numeri reali</strong> \\(\\mathbb{R}\\).</p>
+    </div>
+  `
+},
+
+/* ──── 1 · NUMERI IRRAZIONALI ──── */
+{
+  tag: `STRUTTURA`,
+  title: `I numeri <em>irrazionali</em>`,
+  nav: `Irrazionali`,
+  sub: `Un numero irrazionale ha uno sviluppo decimale illimitato e non periodico: esattamente il tipo che mancava all'appello tra i razionali. \\(\\sqrt{2}\\), \\(\\pi\\), \\(e\\) ne sono gli esempi più celebri.`,
+  body: `
+    <div class="cb method">
+      <div class="cb-label">Definizione</div>
+      <p>Un <strong>numero irrazionale</strong> è un numero la cui scrittura decimale è <strong>illimitata</strong>
+      e <strong>non periodica</strong>: le cifre proseguono all'infinito senza mai ripetersi con regolarità.</p>
+    </div>
+
+    <p>Riprendendo la classificazione dei decimali:</p>
+    <table class="ct">
+      <tr><th>Sviluppo decimale</th><th>Tipo di numero</th><th>Esempio</th></tr>
+      <tr><td>finito</td><td style="color:var(--green)">razionale</td><td>\\(0{,}75\\)</td></tr>
+      <tr><td>illimitato periodico</td><td style="color:var(--green)">razionale</td><td>\\(0{,}\\overline{3}\\)</td></tr>
+      <tr><td>illimitato non periodico</td><td style="color:var(--accent)"><strong>irrazionale</strong></td><td>\\(\\sqrt{2} = 1{,}41421\\ldots\\)</td></tr>
+    </table>
+
+    <p>Esempi celebri: le radici \\(\\sqrt{2}, \\sqrt{3}, \\sqrt{5}, \\ldots\\) (di numeri non quadrati perfetti),
+    il <strong>pi greco</strong> \\(\\pi = 3{,}14159\\ldots\\) e il <strong>numero di Nepero</strong>
+    \\(e = 2{,}71828\\ldots\\)</p>
+
+    <div class="cb danger">
+      <div class="cb-label">Attenzione: non tutte le radici sono irrazionali</div>
+      <p>\\(\\sqrt{4} = 2\\) e \\(\\sqrt{9} = 3\\) sono razionali (anzi interi), perché \\(4\\) e \\(9\\) sono quadrati
+      perfetti. La radice di un naturale è irrazionale <strong>solo</strong> quando quel numero non è un quadrato
+      perfetto.</p>
+    </div>
+
+    ${acc([
+      {
+        t: `Perché \\(\\sqrt{2}\\) non è razionale (dimostrazione)`,
+        h: `
+          <p>Lo dimostriamo <strong>per assurdo</strong>. Supponiamo che \\(\\sqrt{2} = \\dfrac{a}{b}\\) sia una
+          frazione ridotta ai minimi termini (quindi \\(a\\) e \\(b\\) non entrambi pari). Allora:</p>
+          <div class="math-block center">\\[ a^2 = 2b^2 \\]</div>
+          <p>Dunque \\(a^2\\) è pari, e perciò anche \\(a\\) è pari: scriviamo \\(a = 2k\\). Sostituendo:</p>
+          <div class="math-block center">\\[ 4k^2 = 2b^2 \\ \\Longrightarrow\\ b^2 = 2k^2 \\]</div>
+          <p>Quindi anche \\(b\\) è pari. Ma allora \\(a\\) e \\(b\\) sono <strong>entrambi</strong> pari, contro
+          l'ipotesi che la frazione fosse ridotta ai minimi termini.</p>
+          <div class="math-block warn">La contraddizione mostra che una tale frazione <strong>non può esistere</strong>: \\(\\sqrt{2}\\) è irrazionale.</div>
+        `
+      }
+    ])}
+
+    ${quiz('irrazionale',
+      `Quale di questi numeri è <em>irrazionale</em>?`,
+      [`\\(\\sqrt{4}\\)`, `\\(\\sqrt{2}\\)`, `\\(0{,}\\overline{3}\\)`]
+    )}
+  `
+},
+
+/* ──── 2 · L'INSIEME ℝ ──── */
+{
+  tag: `STRUTTURA`,
+  title: `L'insieme dei numeri <em>reali</em>`,
+  nav: `L'insieme ℝ`,
+  sub: `Unendo i razionali e gli irrazionali si ottiene \\(\\mathbb{R}\\). È l'ultimo anello della catena \\(\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}\\): ogni insieme è nato per superare un limite del precedente.`,
+  body: `
+    <div class="cb method">
+      <div class="cb-label">Definizione</div>
+      <p>L'insieme dei <strong>numeri reali</strong> \\(\\mathbb{R}\\) è l'unione dei numeri razionali e dei numeri
+      irrazionali.</p>
+      <div class="math-block center">
+        \\[ \\mathbb{R} = \\mathbb{Q} \\cup \\{\\text{numeri irrazionali}\\} \\]
+      </div>
+      <p>Ogni razionale è anche reale, quindi \\(\\ \\mathbb{Q} \\subset \\mathbb{R}\\).</p>
+    </div>
+
+    <p>Mettendo insieme tutte le tappe otteniamo la <strong>gerarchia completa</strong> degli insiemi numerici:</p>
+    <div class="math-block center">
+      \\[ \\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R} \\]
+    </div>
+
+    <table class="ct">
+      <tr><th>Da → a</th><th>Esigenza</th><th>Conquista</th></tr>
+      <tr><td>\\(\\mathbb{N} \\to \\mathbb{Z}\\)</td><td>ogni <strong>sottrazione</strong></td><td>l'opposto, i negativi</td></tr>
+      <tr><td>\\(\\mathbb{Z} \\to \\mathbb{Q}\\)</td><td>ogni <strong>divisione</strong></td><td>il reciproco, le frazioni</td></tr>
+      <tr><td>\\(\\mathbb{Q} \\to \\mathbb{R}\\)</td><td><strong>misurare</strong> ogni lunghezza</td><td>gli irrazionali, la continuità</td></tr>
+    </table>
+  `
+},
+
+/* ──── 3 · LA RETTA REALE ──── */
+{
+  tag: `RAPPRESENTAZIONE`,
+  title: `La retta <em>reale</em>`,
+  nav: `La retta reale`,
+  sub: `I razionali lasciano buchi; i reali riempiono la retta completamente. A ogni punto corrisponde un numero, e a ogni numero un punto: è la proprietà di continuità, la più importante di \\(\\mathbb{R}\\).`,
+  body: `
+    <div class="cb method">
+      <div class="cb-label">Continuità (o completezza)</div>
+      <p>A ogni punto della retta corrisponde uno e un solo numero reale, e viceversa. Tra punti e numeri reali
+      esiste una <strong>corrispondenza biunivoca</strong>: per questo la retta dei reali si chiama
+      <strong>retta reale</strong> o <strong>continuo</strong>.</p>
+    </div>
+
+    <p>Non ci sono più interruzioni, né "il prossimo numero". Mentre in \\(\\mathbb{N}\\) dopo il \\(3\\) veniva il
+    \\(4\\), sulla retta reale tra due numeri qualsiasi c'è sempre un'infinità di altri numeri — ma ora
+    <strong>senza alcun buco residuo</strong>.</p>
+
+    <div class="cb tip">
+      <div class="cb-label">Anche \\(\\sqrt{2}\\) trova il suo posto</div>
+      <p>Il numero irrazionale \\(\\sqrt{2}\\) occupa un punto preciso della retta: lo si può addirittura costruire
+      con riga e compasso, riportando la diagonale del quadrato di lato \\(1\\) a partire dall'origine.</p>
+    </div>
+  `
+},
+
+/* ──── 4 · OPERARE CON I REALI ──── */
+{
+  tag: `CALCOLO`,
+  title: `Operare con i <em>reali</em>`,
+  nav: `Radicali`,
+  sub: `In \\(\\mathbb{R}\\) restano valide tutte le proprietà già viste in \\(\\mathbb{Q}\\). La novità sono i radicali, le approssimazioni e la notazione scientifica per i numeri molto grandi o molto piccoli.`,
+  body: `
+    ${acc([
+      {
+        t: `Radicali: proprietà di base`,
+        h: `
+          <p>Per \\(a \\geq 0\\), la radice quadrata \\(\\sqrt{a}\\) è il numero non negativo il cui quadrato vale
+          \\(a\\). Valgono:</p>
+          <div class="math-block center">
+            \\[ \\sqrt{a \\cdot b} = \\sqrt{a}\\,\\sqrt{b} \\qquad \\sqrt{\\frac{a}{b}} = \\frac{\\sqrt{a}}{\\sqrt{b}} \\quad (b \\neq 0) \\]
+          </div>
+          <p>Queste regole permettono di portare fuori dalla radice i fattori quadrati perfetti:</p>
+          <div class="math-block result">\\[ \\sqrt{12} = \\sqrt{4 \\cdot 3} = 2\\sqrt{3} \\]</div>
+        `
+      },
+      {
+        t: `Razionalizzare il denominatore`,
+        h: `
+          <p>Quando una frazione ha una radice al denominatore, si preferisce riscriverla con denominatore intero,
+          moltiplicando sopra e sotto per la stessa radice:</p>
+          <div class="math-block center">
+            \\[ \\frac{1}{\\sqrt{2}} = \\frac{1}{\\sqrt{2}} \\cdot \\frac{\\sqrt{2}}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2} \\]
+          </div>
+        `
+      },
+      {
+        t: `Approssimazioni`,
+        h: `
+          <p>Un irrazionale non si scrive mai per intero: ce ne serve un'<strong>approssimazione</strong> razionale.
+          Per \\(\\sqrt{2} = 1{,}41421\\ldots\\), al centesimo:</p>
+          <ul>
+            <li>per <strong>difetto</strong>: \\(1{,}41\\);</li>
+            <li>per <strong>eccesso</strong>: \\(1{,}42\\);</li>
+            <li><strong>arrotondamento</strong>: \\(1{,}41\\) (la cifra successiva, \\(4\\), è minore di \\(5\\)).</li>
+          </ul>
+          <p class="dim">Nelle scienze sperimentali si lavora sempre con approssimazioni: nessuna misura reale è infinitamente precisa.</p>
+        `
+      },
+      {
+        t: `Notazione scientifica`,
+        h: `
+          <p>Per numeri molto grandi o molto piccoli si scrive ogni numero come prodotto di un valore tra \\(1\\) e
+          \\(10\\) per una potenza di \\(10\\):</p>
+          <div class="math-block center">
+            \\[ N = m \\cdot 10^{\\,p} \\qquad (1 \\leq m < 10,\\ p \\in \\mathbb{Z}) \\]
+          </div>
+          <div class="math-block center">
+            \\[ 300\\,000\\,000 = 3 \\cdot 10^{8} \\qquad 0{,}000\\,025 = 2{,}5 \\cdot 10^{-5} \\]
+          </div>
+          <p class="dim">L'esponente è positivo per i numeri grandi, negativo per quelli piccoli: ritroviamo le potenze a esponente negativo di \\(\\mathbb{Q}\\).</p>
+        `
+      }
+    ])}
+
+    ${quiz('radicale',
+      `Qual è la forma semplificata di \\(\\sqrt{12}\\)?`,
+      [`\\(2\\sqrt{3}\\)`, `\\(3\\sqrt{2}\\)`, `\\(12\\) (è già intero)`]
+    )}
+  `
+},
+
+/* ──── 5 · SINTESI ──── */
+{
+  tag: `RIEPILOGO`,
+  title: `Il percorso <em>completo</em>`,
+  nav: `Sintesi`,
+  sub: `Con i numeri reali la retta è finalmente piena: a ogni punto un numero, a ogni numero un punto. È il traguardo del viaggio attraverso gli insiemi numerici.`,
+  body: `
+    <table class="ct">
+      <tr><th>Insieme</th><th>Aggiunge</th><th>Limite superato</th></tr>
+      <tr><td>\\(\\mathbb{N}\\)</td><td>naturali</td><td>contare</td></tr>
+      <tr><td>\\(\\mathbb{Z}\\)</td><td>negativi</td><td>sottrazione sempre possibile</td></tr>
+      <tr><td>\\(\\mathbb{Q}\\)</td><td>frazioni</td><td>divisione sempre possibile</td></tr>
+      <tr><td>\\(\\mathbb{R}\\)</td><td>irrazionali</td><td>misurare ogni lunghezza</td></tr>
+    </table>
+
+    <div class="math-block center">
+      \\[ \\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R} \\]
+    </div>
+
+    <div class="cb success">
+      <div class="cb-label">In una frase</div>
+      <p>Ogni ampliamento è nato per superare un limite: i negativi per sottrarre, le frazioni per dividere, gli
+      irrazionali per misurare. Con \\(\\mathbb{R}\\) la retta non ha più buchi — è l'ambiente in cui si svolgerà
+      quasi tutta la matematica che incontrerai d'ora in poi.</p>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Curiosità — oltre ℝ</div>
+      <p>Anche i reali hanno un limite: l'equazione \\(x^2 = -1\\) non ha soluzioni reali. Per superarlo si
+      introdurranno, più avanti, i <strong>numeri complessi</strong> \\(\\mathbb{C}\\) — ma questa è un'altra storia.</p>
+    </div>
+
+    ${quiz('classifica',
+      `Il numero \\(0{,}1010010001\\ldots\\) (gli zeri aumentano ogni volta) è…`,
+      [`razionale, perché ha cifre finite`, `razionale, perché è periodico`, `irrazionale`]
+    )}
+  `
+}
+
+];
+
+/* ═══════════════ APP ═══════════════ */
+let cur = 0;
+const tot = S.length;
+
+function render() {
+  document.getElementById('topNav').innerHTML = S.map((s, i) =>
+    `<button class="nav-pill ${i === cur ? 'active' : ''}" onclick="goTo(${i})">${s.nav}</button>`
+  ).join('');
+
+  document.getElementById('app').innerHTML = S.map((s, i) => `
+    <div class="section ${i === cur ? 'active' : ''}">
+      <div class="hero">
+        <div class="hero-tag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p class="hero-sub">${s.sub}</p>
+      </div>
+      ${s.body}
+      <div class="bottom-nav">
+        <button class="bb" onclick="goTo(${i - 1})" ${i === 0 ? 'disabled' : ''}>← Indietro</button>
+        <div class="dots">
+          ${S.map((_, j) =>
+            `<button class="dot ${j === i ? 'active' : ''}" onclick="goTo(${j})"
+             title="Schermata ${j + 1} di ${tot}"></button>`
+          ).join('')}
+        </div>
+        <button class="bb" onclick="goTo(${i + 1})" ${i === tot - 1 ? 'disabled' : ''}>Avanti →</button>
+      </div>
+    </div>
+  `).join('');
+
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    const active = document.querySelector('.section.active');
+    if (active) MathJax.typesetPromise([active]);
+  }
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= tot) return;
+  cur = idx;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(cur + 1);
+  if (e.key === 'ArrowLeft')  goTo(cur - 1);
+});
+
+if (typeof MathJax !== 'undefined' && MathJax.startup && MathJax.startup.promise) {
+  MathJax.startup.promise.then(() => render());
+} else {
+  render();
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>
