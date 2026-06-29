@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programma Svolto — Classe Quarta QES Serale</title>
+  <link href="https://fonts.googleapis.com/css2?family=Georgia:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #ed6f5c;
+      --primary-dark: #f08e7c;
+      --bg: #f7f1e6;
+      --bg-dark: #1a1a1a;
+      --text: #1a1a1a;
+      --text-light: #d0d0d0;
+      --border: rgba(21, 20, 15, 0.1);
+      --border-dark: rgba(208, 208, 208, 0.1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1a1a1a;
+        --text: #d0d0d0;
+        --border: var(--border-dark);
+      }
+    }
+
+    body {
+      font-family: Georgia, serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text);
+      background-color: var(--bg);
+      padding: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .meta {
+      font-size: 0.9rem;
+      font-style: italic;
+      opacity: 0.8;
+    }
+
+    section {
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      margin-top: 2.5rem;
+      border-left: 3px solid var(--primary);
+      padding-left: 1rem;
+    }
+
+    .module {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .module-header {
+      background-color: rgba(237, 111, 92, 0.04);
+      padding: 1rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      user-select: none;
+    }
+
+    .module-header:hover {
+      background-color: rgba(237, 111, 92, 0.08);
+    }
+
+    .module-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      flex: 1;
+    }
+
+    .module-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      opacity: 0.7;
+      margin-right: 1rem;
+    }
+
+    .toggle-icon {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      text-align: center;
+      line-height: 18px;
+      color: var(--primary);
+      font-weight: bold;
+      transition: transform 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .module.collapsed .toggle-icon {
+      transform: rotate(-90deg);
+    }
+
+    .module-content {
+      padding: 1.5rem;
+      display: block;
+    }
+
+    .module.collapsed .module-content {
+      display: none;
+    }
+
+    .subsection {
+      margin-bottom: 1.5rem;
+    }
+
+    .subsection-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin-bottom: 0.8rem;
+      padding-left: 1.8rem;
+      position: relative;
+    }
+
+    input[type="checkbox"] {
+      position: absolute;
+      left: 0;
+      top: 0.35rem;
+      width: 12px;
+      height: 12px;
+      cursor: pointer;
+      accent-color: var(--primary);
+      appearance: none;
+      border: 1.2px solid var(--primary);
+      border-radius: 50%;
+      background-color: transparent;
+      transition: all 0.2s;
+    }
+
+    input[type="checkbox"]:hover {
+      box-shadow: 0 0 0 2px rgba(237, 111, 92, 0.15);
+    }
+
+    input[type="checkbox"]:checked {
+      background-color: var(--primary);
+    }
+
+    li input[type="checkbox"]:checked + label {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+
+    label {
+      display: block;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .objectives {
+      background-color: rgba(237, 111, 92, 0.05);
+      border-left: 3px solid var(--primary);
+      padding: 1.5rem;
+      border-radius: 4px;
+      margin-bottom: 2rem;
+    }
+
+    .objectives h3 {
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .objectives ul {
+      padding-left: 0;
+    }
+
+    .objectives li {
+      padding-left: 1.8rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+    }
+
+    .objectives li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: bold;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+      opacity: 0.8;
+      text-align: center;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 2rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .module-header {
+        background-color: rgba(240, 142, 124, 0.08);
+      }
+
+      .module-header:hover {
+        background-color: rgba(240, 142, 124, 0.12);
+      }
+
+      .objectives {
+        background-color: rgba(240, 142, 124, 0.08);
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="/" class="back-link">← torna al sito</a>
+
+  <header>
+    <h1 style="font-size: 4rem; font-weight: 700; line-height: 1.15; margin-bottom: 0.2rem; font-family: Georgia, serif;">Programmazione</h1>
+    <h2 style="font-size: 3.8rem; font-weight: 700; line-height: 1.15; margin-bottom: 1rem; font-family: Georgia, serif; border: none; padding-left: 0;">Classi <em style="color: var(--primary); font-style: italic;">Quarte</em></h2>
+    <p style="font-size: 1.8rem; font-family: 'JetBrains Mono', monospace; font-weight: 600; margin-bottom: 1.2rem; color: var(--primary);">Matematica</p>
+    <p class="meta">IIS "G. A. Remondini" — a.s. 2026/'27 — Prof. Diego Fantinelli</p>
+  </header>
+
+  <section class="objectives">
+    <h3>Obiettivi generali della disciplina</h3>
+    <p style="margin-bottom: 1rem;"><strong>Libro di testo:</strong> L. Sasso <em>Colori della matematica</em> (Ed. Bianca) Vol. A + Algebra 2, Petrini</p>
+    <p style="margin-bottom: 1rem;"><strong>Verifiche:</strong> 3 nel trimestre; 4 nel pentamestre</p>
+    <p style="margin: 1rem 0 0.5rem 0;"><strong>Competenze generali (Classi 3ª–5ª):</strong></p>
+    <ul style="margin-left: 1rem;">
+      <li style="padding-left: 1.8rem;">Sviluppare capacità logiche e deduttive.</li>
+      <li style="padding-left: 1.8rem;">Esprimersi e comunicare in un linguaggio sempre più chiaro e preciso, usando simboli e formule.</li>
+      <li style="padding-left: 1.8rem;">Saper utilizzare consapevolmente tecniche e strumenti di calcolo e applicarli in situazioni concrete.</li>
+      <li style="padding-left: 1.8rem;">Saper matematizzare problemi di varia natura e quindi interpretare e rappresentare dati.</li>
+    </ul>
+  </section>
+
+  <section>
+    <!-- MODULO 0 -->
+    <div class="module collapsed">
+      <div class="module-header">
+        <div class="module-title">MODULO 0 — Ripasso: fattorizzazione polinomiale</div>
+        <div class="module-meta">sett–ott</div>
+        <div class="toggle-icon">›</div>
+      </div>
+      <div class="module-content">
+        <div class="subsection">
+          <div class="subsection-title">Conoscenze</div>
+          <ul>
+            <li><input type="checkbox"><label>Disequazioni numeriche intere di primo grado.</label></li>
+            <li><input type="checkbox"><label>Fattorizzazione polinomiale: tutti i metodi di scomposizione.</label></li>
+          </ul>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">Abilità</div>
+          <ul>
+            <li><input type="checkbox"><label>Saper scomporre in fattori irriducibili un polinomio di grado n utilizzando i metodi più comuni.</label></li>
+            <li><input type="checkbox"><label>Risolvere disequazioni di primo grado e verificare la correttezza dei procedimenti utilizzati.</label></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULO 2B -->
+    <div class="module collapsed">
+      <div class="module-header">
+        <div class="module-title">MODULO 2B — Frazioni algebriche ed equazioni di primo grado fratte</div>
+        <div class="module-meta">nov | A1, A2</div>
+        <div class="toggle-icon">›</div>
+      </div>
+      <div class="module-content">
+        <div class="subsection">
+          <div class="subsection-title">Conoscenze</div>
+          <ul>
+            <li><input type="checkbox"><label>Frazioni algebriche: semplificazioni e operazioni con le frazioni algebriche (moltiplicazione e divisione).</label></li>
+            <li><input type="checkbox"><label>Equazioni numeriche di primo grado fratte.</label></li>
+            <li><input type="checkbox"><label>Tecniche risolutive di un problema, anche utilizzando equazioni di primo grado.</label></li>
+          </ul>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">Abilità</div>
+          <ul>
+            <li><input type="checkbox"><label>Risolvere espressioni con le frazioni algebriche.</label></li>
+            <li><input type="checkbox"><label>Risolvere equazioni di primo grado e verificare la correttezza dei procedimenti utilizzati.</label></li>
+            <li><input type="checkbox"><label>Utilizzo dell'algebra per risolvere problemi numerici.</label></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULO 2F -->
+    <div class="module collapsed">
+      <div class="module-header">
+        <div class="module-title">MODULO 2F — Equazioni di 2° grado</div>
+        <div class="module-meta">dic | A1, A2</div>
+        <div class="toggle-icon">›</div>
+      </div>
+      <div class="module-content">
+        <div class="subsection">
+          <div class="subsection-title">Conoscenze</div>
+          <ul>
+            <li><input type="checkbox"><label>Regole risolutive delle equazioni di secondo grado, complete e incomplete.</label></li>
+            <li><input type="checkbox"><label>Significato e discussione del discriminante di un'equazione di 2° grado.</label></li>
+            <li><input type="checkbox"><label>Equazioni di secondo grado intere e frazionarie a coefficienti interi e razionali.</label></li>
+          </ul>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">Abilità</div>
+          <ul>
+            <li><input type="checkbox"><label>Risolvere equazioni di secondo grado numeriche intere e fratte e verificare la correttezza dei procedimenti utilizzati.</label></li>
+            <li><input type="checkbox"><label>Risolvere semplici problemi di secondo grado.</label></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULO 3A -->
+    <div class="module collapsed">
+      <div class="module-header">
+        <div class="module-title">MODULO 3A — Il piano cartesiano e la retta</div>
+        <div class="module-meta">gen–feb | B1, B2</div>
+        <div class="toggle-icon">›</div>
+      </div>
+      <div class="module-content">
+        <div class="subsection">
+          <div class="subsection-title">Conoscenze</div>
+          <ul>
+            <li><input type="checkbox"><label>Il piano cartesiano: distanza tra due punti, punto medio di un segmento.</label></li>
+            <li><input type="checkbox"><label>La retta nel piano cartesiano: retta passante per l'origine, retta in posizione generica, significato geometrico del coefficiente angolare e di ordinata all'origine, rette parallele e perpendicolari, intersezione tra rette, equazione di retta passante per due punti.</label></li>
+          </ul>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">Abilità</div>
+          <ul>
+            <li><input type="checkbox"><label>Saper rappresentare nel piano cartesiano una retta nota la sua equazione e determinare l'equazione di una retta note alcune condizioni.</label></li>
+            <li><input type="checkbox"><label>Problemi di scelta tra più alternative (solo a livello di esercitazione).</label></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULO 2E -->
+    <div class="module collapsed">
+      <div class="module-header">
+        <div class="module-title">MODULO 2E — Sistemi lineari di equazioni e problemi</div>
+        <div class="module-meta">mar | A1, A2</div>
+        <div class="toggle-icon">›</div>
+      </div>
+      <div class="module-content">
+        <div class="subsection">
+          <div class="subsection-title">Conoscenze</div>
+          <ul>
+            <li><input type="checkbox"><label>Sistemi di equazioni di primo grado.</label></li>
+            <li><input type="checkbox"><label>Interpretazione geometrica dei sistemi di equazioni.</label></li>
+            <li><input type="checkbox"><label>Conoscere le regole per risolvere un problema con equazioni o sistemi di primo grado.</label></li>
+          </ul>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">Abilità</div>
+          <ul>
+            <li><input type="checkbox"><label>Saper risolvere un sistema di primo grado con diversi metodi: sostituzione, addizione e sottrazione, metodo grafico, Cramer.</label></li>
+            <li><input type="checkbox"><label>Risolvere problemi che implicano l'uso di funzioni, di equazioni e di sistemi di equazioni anche per via grafica.</label></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULO 3B -->
+    <div class="module collapsed">
+      <div class="module-header">
+        <div class="module-title">MODULO 3B — La parabola</div>
+        <div class="module-meta">apr | B1, B2</div>
+        <div class="toggle-icon">›</div>
+      </div>
+      <div class="module-content">
+        <div class="subsection">
+          <div class="subsection-title">Conoscenze</div>
+          <ul>
+            <li><input type="checkbox"><label>La parabola nel piano cartesiano: parabola con asse di simmetria parallelo all'asse y, studio dell'equazione y = ax² + bx + c con casi particolari, formule del vertice e dell'asse di simmetria.</label></li>
+            <li><input type="checkbox"><label>Disegnare il grafico della parabola dopo aver determinato: vertice, asse di simmetria, intersezioni con gli assi.</label></li>
+          </ul>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">Abilità</div>
+          <ul>
+            <li><input type="checkbox"><label>Saper rappresentare graficamente nel piano cartesiano la parabola nota l'equazione.</label></li>
+            <li><input type="checkbox"><label>Saper determinare le intersezioni tra retta e parabola.</label></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="objectives" style="margin-top: 3rem;">
+    <h3>Obiettivo finale — Competenze</h3>
+    <ul style="margin-left: 1rem;">
+      <li style="padding-left: 1.8rem;">Saper utilizzare le tecniche di calcolo per risolvere le equazioni di 1° grado fratte, quelle di 2° grado e i sistemi di equazioni lineari.</li>
+      <li style="padding-left: 1.8rem;">Saper risolvere problemi di geometria analitica sulla retta.</li>
+      <li style="padding-left: 1.8rem;">Saper risolvere problemi di geometria analitica sulla parabola.</li>
+      <li style="padding-left: 1.8rem;">Saper risolvere disequazioni di 1° e 2° facendo uso della retta e della parabola.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Programma Svolto — Classe Quarta QES Serale | a.s. 2026/'27 | Prof. Diego Fantinelli</p>
+    <p style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.6;">Approvato dai rappresentanti degli studenti</p>
+  </footer>
+
+  <script>
+    // Accordion toggle
+    document.querySelectorAll('.module-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const module = header.closest('.module');
+        module.classList.toggle('collapsed');
+      });
+    });
+
+    // Checkbox persistence with localStorage
+    const storageKey = 'programma-quarta-checklist';
+
+    function saveCheckboxState() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      const state = Array.from(checkboxes).map(cb => cb.checked);
+      localStorage.setItem(storageKey, JSON.stringify(state));
+    }
+
+    function loadCheckboxState() {
+      const state = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach((cb, idx) => {
+        if (idx < state.length) {
+          cb.checked = state[idx];
+        }
+      });
+    }
+
+    // Attach save listener to all checkboxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener('change', saveCheckboxState);
+    });
+
+    // Load state on page load
+    loadCheckboxState();
+  </script>
+</body>
+</html>
