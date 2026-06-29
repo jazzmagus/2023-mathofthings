@@ -611,6 +611,32 @@ const S = [
       </div>
       <p style="margin-top:10px">Verifica con numeri: \\((2+3)^2 = 5^2 = 25\\), mentre \\(2^2 + 3^2 = 4 + 9 = 13 \\neq 25\\).</p>
     </div>
+
+    <h2>Esercizi guidati</h2>
+    ${acc([
+      {
+        t: `Esercizio 1: prodotto e quoziente di potenze`,
+        h: `
+          <p><strong>Calcola e semplifica:</strong> \\(\\dfrac{5^6 \\cdot 5^2}{5^4}\\)</p>
+          <div style="background:rgba(194,24,91,0.04);padding:12px;border-radius:4px;margin:12px 0;border-left:2px solid #c2185b">
+            <p style="font-size:0.9rem"><strong>Soluzione passo passo:</strong></p>
+            <div class="math-block center" style="margin:8px 0">\\[ \\frac{5^6 \\cdot 5^2}{5^4} = \\frac{5^{6+2}}{5^4} = \\frac{5^8}{5^4} = 5^{8-4} = 5^4 = 625 \\]</div>
+            <p style="font-size:0.9rem"><strong>Spiegazione:</strong> Nel numeratore, moltiplichiamo potenze con la stessa base sommando gli esponenti: \\(5^6 \\cdot 5^2 = 5^{6+2} = 5^8\\). Poi dividiamo per \\(5^4\\) sottraendo gli esponenti: \\(5^8 : 5^4 = 5^{8-4} = 5^4\\). Infine calcoliamo: \\(5^4 = 625\\).</p>
+          </div>
+        `
+      },
+      {
+        t: `Esercizio 2: potenza di potenza e prodotto di potenze`,
+        h: `
+          <p><strong>Calcola e semplifica:</strong> \\((2^2)^3 \\cdot 2^1\\)</p>
+          <div style="background:rgba(194,24,91,0.04);padding:12px;border-radius:4px;margin:12px 0;border-left:2px solid #c2185b">
+            <p style="font-size:0.9rem"><strong>Soluzione passo passo:</strong></p>
+            <div class="math-block center" style="margin:8px 0">\\[ (2^2)^3 \\cdot 2^1 = 2^{2 \\cdot 3} \\cdot 2^1 = 2^6 \\cdot 2^1 = 2^{6+1} = 2^7 = 128 \\]</div>
+            <p style="font-size:0.9rem"><strong>Spiegazione:</strong> Per la potenza di potenza, moltiplichiamo gli esponenti: \\((2^2)^3 = 2^{2 \\times 3} = 2^6\\). Adesso moltiplichiamo \\(2^6 \\cdot 2^1\\) sommando gli esponenti: \\(2^{6+1} = 2^7 = 128\\).</p>
+          </div>
+        `
+      }
+    ])}
   `
 },
 
