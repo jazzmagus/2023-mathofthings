@@ -1313,7 +1313,7 @@ html:has(body.dark) {
 
 .accordion-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   padding: 1.25rem 0 1.25rem 1rem;
   margin-left: -1rem;
@@ -1668,5 +1668,37 @@ body {
     transform: scale(3);
     cursor: zoom-out;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  }
+}
+
+// Programma interattivo link in accordion header
+.programma-link {
+  color: $primary;
+  text-decoration: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  margin-right: 1.5rem;
+  padding-top: 0.05rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+
+  .programma-arrow {
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+  }
+
+  &:hover {
+    .programma-arrow {
+      opacity: 1;
+    }
+  }
+
+  .dark & {
+    color: $primary;
   }
 }
