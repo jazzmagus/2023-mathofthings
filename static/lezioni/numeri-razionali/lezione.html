@@ -304,6 +304,22 @@ function frazioneSVG() {
   </div>`;
 }
 
+/* ═══════════════ FIGURA: QUADRATO CON DIAGONALE ═══════════════ */
+function quadratoSVG() {
+  return `<div class="semiretta-wrap">
+    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg"
+         style="width:100%;max-width:240px;display:block"
+         aria-label="Quadrato di lato 1 con diagonale radice di due">
+      <rect x="40" y="30" width="120" height="120" fill="#c2185b" fill-opacity="0.06" stroke="#5a524a" stroke-width="1.4"/>
+      <line x1="40" y1="150" x2="160" y2="30" stroke="#c2185b" stroke-width="0.8"/>
+      <text x="100" y="170" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#2c2520">1</text>
+      <text x="24" y="95" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#2c2520">1</text>
+      <text x="112" y="84" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#c2185b" font-style="italic">&#8730;2</text>
+    </svg>
+    <span class="semiretta-cap">la diagonale del quadrato di lato 1 misura \\(\\sqrt{2}\\)</span>
+  </div>`;
+}
+
 /* ═══════════════ SCHERMATE ═══════════════ */
 const S = [
 
@@ -373,6 +389,14 @@ const S = [
       <p>Scrivere \\(\\dfrac{a}{0}\\) significherebbe dividere per zero, operazione priva di significato.
       Per questo \\(b \\neq 0\\) compare nella definizione stessa di \\(\\mathbb{Q}\\).</p>
     </div>
+
+    <h3>Frazioni proprie, improprie, apparenti</h3>
+    <p>A seconda del confronto tra numeratore e denominatore, le frazioni si classificano in tre tipi:</p>
+    <ul style="margin:12px 0;padding-left:24px">
+      <li><strong>Propria</strong>: numeratore <strong>minore</strong> del denominatore, es. \\(\\dfrac{2}{5}\\) (vale meno di un intero);</li>
+      <li><strong>Impropria</strong>: numeratore <strong>maggiore</strong> del denominatore, es. \\(\\dfrac{7}{5}\\) (vale più di un intero);</li>
+      <li><strong>Apparente</strong>: il numeratore è <strong>multiplo</strong> del denominatore, es. \\(\\dfrac{10}{5} = 2\\) (è in realtà un intero "travestito").</li>
+    </ul>
 
     <h3>Frazioni equivalenti e minimi termini</h3>
     <p>Due frazioni sono <strong>equivalenti</strong> se rappresentano lo stesso numero:
@@ -459,6 +483,30 @@ const S = [
           <p>Dividere per una frazione equivale a <strong>moltiplicare per il suo reciproco</strong>:</p>
           <div class="math-block center">
             \\[ \\frac{a}{b} : \\frac{c}{d} = \\frac{a}{b} \\cdot \\frac{d}{c} \\qquad\\qquad \\frac{3}{4} : \\frac{2}{5} = \\frac{3}{4} \\cdot \\frac{5}{2} = \\frac{15}{8} \\]
+          </div>
+        `
+      },
+      {
+        t: `Esercizio guidato: moltiplicazione`,
+        h: `
+          <p><strong>Consiglio:</strong> prima di moltiplicare, <strong>semplifica in croce</strong> (divide numeratore e denominatore di frazioni diverse).</p>
+          <p><strong>Calcola:</strong> \\(\\dfrac{6}{5} \\cdot \\dfrac{10}{9}\\)</p>
+          <div style="background:rgba(194,24,91,0.04);padding:12px;border-radius:4px;margin:12px 0;border-left:2px solid #c2185b">
+            <p style="font-size:0.9rem"><strong>Soluzione:</strong></p>
+            <div class="math-block center" style="margin:8px 0">\\[ \\frac{6}{5} \\cdot \\frac{10}{9} = \\frac{\\cancel{6}^{\\,2}}{\\cancel{5}} \\cdot \\frac{\\cancel{10}^{\\,2}}{\\cancel{9}^{\\,3}} = \\frac{2 \\cdot 2}{1 \\cdot 3} = \\frac{4}{3} \\]</div>
+            <p style="font-size:0.9rem"><strong>Spiegazione:</strong> Il 6 al numeratore della prima frazione e il 9 al denominatore della seconda hanno MCD = 3, quindi <strong>dividiamo per 3</strong>: 6÷3=2 e 9÷3=3. Il 5 al denominatore della prima e il 10 al numeratore della seconda hanno MCD = 5, quindi <strong>dividiamo per 5</strong>: 5÷5=1 e 10÷5=2. Rimane \\(\\dfrac{2 \\cdot 2}{1 \\cdot 3} = \\dfrac{4}{3}\\).</p>
+          </div>
+        `
+      },
+      {
+        t: `Esercizio guidato: divisione`,
+        h: `
+          <p><strong>Ricorda:</strong> la divisione di due frazioni è una moltiplicazione per il reciproco della seconda.</p>
+          <p><strong>Calcola:</strong> \\(\\dfrac{4}{7} : \\dfrac{8}{3}\\)</p>
+          <div style="background:rgba(194,24,91,0.04);padding:12px;border-radius:4px;margin:12px 0;border-left:2px solid #c2185b">
+            <p style="font-size:0.9rem"><strong>Soluzione:</strong></p>
+            <div class="math-block center" style="margin:8px 0">\\[ \\frac{4}{7} : \\frac{8}{3} = \\frac{4}{7} \\cdot \\frac{3}{8} = \\frac{\\cancel{4}^{\\,1}}{7} \\cdot \\frac{3}{\\cancel{8}^{\\,2}} = \\frac{1 \\cdot 3}{7 \\cdot 2} = \\frac{3}{14} \\]</div>
+            <p style="font-size:0.9rem"><strong>Spiegazione:</strong> Scambiamo numeratore e denominatore della seconda frazione per ottenere il reciproco: \\(\\dfrac{8}{3} \\to \\dfrac{3}{8}\\). Adesso moltiplichiamo le due frazioni. Il 4 e l'8 hanno MCD = 4, quindi <strong>dividiamo per 4</strong>: 4÷4=1 e 8÷4=2. Rimane \\(\\dfrac{1 \\cdot 3}{7 \\cdot 2} = \\dfrac{3}{14}\\).</p>
           </div>
         `
       }
@@ -568,8 +616,16 @@ const S = [
 
     <div class="cb warn">
       <div class="cb-label">Resta però un buco</div>
-      <p>Per quanto i razionali siano densi, <strong>non riempiono tutta la retta</strong>: esistono lunghezze,
-      come la diagonale di un quadrato di lato \\(1\\), che <em>nessuna</em> frazione può misurare esattamente.</p>
+      <p>Per quanto i razionali siano densi, <strong>non riempiono tutta la retta</strong>: esistono lunghezze che <em>nessuna</em> frazione può misurare esattamente. L'esempio classico è la diagonale di un quadrato di lato \\(1\\).</p>
+    </div>
+
+    ${quadratoSVG()}
+
+    <div class="cb method">
+      <div class="cb-label">Il teorema di Pitagora e √2</div>
+      <p>Per il <strong>teorema di Pitagora</strong>, in un quadrato di lato \\(1\\) la diagonale \\(d\\) soddisfa:</p>
+      <div class="math-block center">\\[ d^2 = 1^2 + 1^2 = 2 \\quad \\Longrightarrow \\quad d = \\sqrt{2} \\]</div>
+      <p>Eppure <strong>non esiste nessuna frazione</strong> il cui quadrato sia esattamente \\(2\\). Il numero \\(\\sqrt{2} = 1{,}41421356\\ldots\\) ha uno sviluppo decimale <strong>illimitato e non periodico</strong>: è il nostro primo numero <em>irrazionale</em>.</p>
     </div>
 
     <div class="cb tip">
