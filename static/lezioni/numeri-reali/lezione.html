@@ -511,6 +511,32 @@ const S = [
       `Qual è la forma semplificata di \\(\\sqrt{12}\\)?`,
       [`\\(2\\sqrt{3}\\)`, `\\(3\\sqrt{2}\\)`, `\\(12\\) (è già intero)`]
     )}
+
+    <h3>Esercizi guidati sui radicali</h3>
+    ${acc([
+      {
+        t: `Esercizio 1: estrarre quadrati perfetti da una radice`,
+        h: `
+          <p><strong>Semplifica:</strong> \\(\\sqrt{50}\\)</p>
+          <div style="background:rgba(194,24,91,0.04);padding:12px;border-radius:4px;margin:12px 0;border-left:2px solid #c2185b">
+            <p style="font-size:0.9rem"><strong>Soluzione passo passo:</strong></p>
+            <div class="math-block center" style="margin:8px 0">\\[ \\sqrt{50} = \\sqrt{25 \\cdot 2} = \\sqrt{25} \\cdot \\sqrt{2} = 5\\sqrt{2} \\]</div>
+            <p style="font-size:0.9rem"><strong>Spiegazione:</strong> Riconosci che \\(50 = 25 \\cdot 2\\), e \\(25 = 5^2\\) è un quadrato perfetto. Fattorizza: \\(\\sqrt{50} = \\sqrt{25 \\cdot 2}\\). Separa le radici: \\(\\sqrt{25} \\cdot \\sqrt{2} = 5 \\cdot \\sqrt{2}\\).</p>
+          </div>
+        `
+      },
+      {
+        t: `Esercizio 2: razionalizzare un denominatore`,
+        h: `
+          <p><strong>Razionalizza:</strong> \\(\\dfrac{3}{\\sqrt{5}}\\)</p>
+          <div style="background:rgba(194,24,91,0.04);padding:12px;border-radius:4px;margin:12px 0;border-left:2px solid #c2185b">
+            <p style="font-size:0.9rem"><strong>Soluzione passo passo:</strong></p>
+            <div class="math-block center" style="margin:8px 0">\\[ \\frac{3}{\\sqrt{5}} = \\frac{3}{\\sqrt{5}} \\cdot \\frac{\\sqrt{5}}{\\sqrt{5}} = \\frac{3\\sqrt{5}}{5} \\]</div>
+            <p style="font-size:0.9rem"><strong>Spiegazione:</strong> Moltiplica numeratore e denominatore per \\(\\sqrt{5}\\) (la radice che sta al denominatore). Al denominatore ottieni \\(\\sqrt{5} \\cdot \\sqrt{5} = 5\\), che è intero. Il numeratore diventa \\(3\\sqrt{5}\\).</p>
+          </div>
+        `
+      }
+    ])}
   `
 },
 
