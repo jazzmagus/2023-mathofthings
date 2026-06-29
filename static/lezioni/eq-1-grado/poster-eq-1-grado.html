@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Equazioni di 1° grado — Scheda di riferimento</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Georgia:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script>
 MathJax = {
   tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
@@ -35,7 +35,7 @@ MathJax = {
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
 body {
-  font-family:'Source Sans 3','Georgia',serif;
+  font-family:Georgia,serif;
   background:var(--bg);
   color:var(--text);
   line-height:1.6;
@@ -53,11 +53,11 @@ body {
   height:52px; display:flex; align-items:center;
   padding:0 clamp(16px,4vw,40px); gap:16px;
 }
-.topbar-brand { font-family:'Playfair Display',serif; font-size:.95rem; font-weight:700; color:var(--text); }
-.topbar-tag { font-family:'Fira Code',monospace; font-size:.65rem; color:var(--text-dim); letter-spacing:1px; }
+.topbar-brand { font-family:Georgia,serif; font-size:.95rem; font-weight:700; color:var(--text); }
+.topbar-tag { font-family:'JetBrains Mono',monospace; font-size:.65rem; color:var(--text-dim); letter-spacing:1px; }
 .btn-print {
   margin-left:auto;
-  font-family:'Fira Code',monospace; font-size:.68rem; letter-spacing:1px;
+  font-family:'JetBrains Mono',monospace; font-size:.68rem; letter-spacing:1px;
   padding:6px 16px; border:1px solid var(--border); border-radius:20px;
   background:var(--surface); color:var(--text-mid); cursor:pointer; transition:all .2s;
 }
@@ -76,9 +76,9 @@ body {
   margin-bottom:16px; padding-bottom:12px;
   border-bottom:2.5px solid var(--accent);
 }
-.poster-title { font-family:'Playfair Display',serif; font-size:1.7rem; font-weight:800; line-height:1.1; }
+.poster-title { font-family:Georgia,serif; font-size:1.7rem; font-weight:800; line-height:1.1; }
 .poster-title em { color:var(--accent); font-style:italic; }
-.poster-meta { font-family:'Fira Code',monospace; font-size:.65rem; color:var(--text-dim); letter-spacing:1px; text-align:right; line-height:1.8; }
+.poster-meta { font-family:'JetBrains Mono',monospace; font-size:.65rem; color:var(--text-dim); letter-spacing:1px; text-align:right; line-height:1.8; }
 
 /* ── GRIGLIA 3 COLONNE ── */
 .grid {
@@ -93,15 +93,15 @@ body {
 /* ── BOX ── */
 .box {
   background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:10px 12px;
+  border:1px solid var(--border-light);
+  border-radius:6px;
+  padding:8px 10px;
   position:relative;
   overflow:hidden;
 }
 .box::before {
   content:''; position:absolute;
-  left:0; top:0; bottom:0; width:3px;
+  left:0; top:0; bottom:0; width:2px;
 }
 .box.accent::before  { background:var(--accent); }
 .box.blue::before    { background:var(--blue); }
@@ -112,7 +112,7 @@ body {
 .box.danger::before  { background:var(--danger); }
 
 .box-label {
-  font-family:'Fira Code',monospace;
+  font-family:'JetBrains Mono',monospace;
   font-size:.6rem; letter-spacing:1.5px; text-transform:uppercase; font-weight:600;
   margin-bottom:7px;
 }
@@ -125,7 +125,7 @@ body {
 .box.danger .box-label  { color:var(--danger); }
 
 .box h3 {
-  font-family:'Playfair Display',serif;
+  font-family:Georgia,serif;
   font-size:.95rem; font-weight:700; margin-bottom:6px;
 }
 .box p { margin:4px 0; font-size:.88rem; line-height:1.55; }
@@ -134,11 +134,11 @@ body {
 
 /* ── FORMULA BOX ── */
 .formula {
-  background:var(--surface-alt);
-  border:1px solid var(--border-light);
-  border-radius:6px;
-  padding:8px 12px;
-  margin:8px 0;
+  background:transparent;
+  border:none;
+  border-radius:0;
+  padding:6px 0;
+  margin:6px 0;
   text-align:center;
   font-size:.95rem;
 }
@@ -146,30 +146,31 @@ body {
 .formula.accent-border { border-color:var(--accent); border-width:1.5px; }
 
 /* ── STEP LIST ── */
-.steps { list-style:none; margin:6px 0; }
+.steps { list-style:none; margin:6px 0; padding-left:0; }
 .steps li {
-  display:flex; align-items:flex-start; gap:8px;
-  padding:3px 0; font-size:.86rem; line-height:1.5;
-  border-bottom:1px solid var(--border-light);
+  display:block; padding:3px 0 3px 26px;
+  font-size:.86rem; line-height:1.5;
+  position:relative;
+  border-bottom:none;
 }
 .steps li:last-child { border-bottom:none; }
 .step-n {
-  font-family:'Fira Code',monospace; font-size:.7rem; font-weight:700;
+  font-family:'JetBrains Mono',monospace; font-size:.65rem; font-weight:700;
   color:#fff; background:var(--accent); border-radius:50%;
-  width:17px; height:17px; display:flex; align-items:center; justify-content:center;
-  flex-shrink:0; margin-top:1px;
+  width:16px; height:16px; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; position:absolute; left:0; top:2px;
 }
 
 /* ── EXAMPLE BLOCK ── */
 .ex {
-  background:var(--surface-alt);
-  border-radius:6px;
-  padding:8px 10px;
-  margin:7px 0;
+  background:transparent;
+  border-radius:0;
+  padding:6px 0;
+  margin:6px 0;
   font-size:.85rem;
 }
 .ex-label {
-  font-family:'Fira Code',monospace; font-size:.58rem; letter-spacing:1px;
+  font-family:'JetBrains Mono',monospace; font-size:.58rem; letter-spacing:1px;
   text-transform:uppercase; color:var(--text-dim); margin-bottom:4px;
 }
 .ex-line { margin:2px 0; line-height:1.5; }
@@ -182,7 +183,7 @@ body {
 /* ── CASI TABLE ── */
 .casi-table { width:100%; border-collapse:collapse; font-size:.82rem; margin:6px 0; }
 .casi-table th {
-  font-family:'Fira Code',monospace; font-size:.6rem; text-transform:uppercase; letter-spacing:.8px;
+  font-family:'JetBrains Mono',monospace; font-size:.6rem; text-transform:uppercase; letter-spacing:.8px;
   color:var(--accent); border-bottom:1.5px solid var(--border); padding:5px 8px; text-align:left;
 }
 .casi-table td { padding:5px 8px; border-bottom:1px solid var(--border-light); vertical-align:top; }
@@ -203,14 +204,14 @@ body {
 
 /* ── ERRORE TAG ── */
 .warn-tag {
-  display:inline-block; font-family:'Fira Code',monospace;
+  display:inline-block; font-family:'JetBrains Mono',monospace;
   font-size:.6rem; letter-spacing:1px; text-transform:uppercase;
   background:var(--danger-light); color:var(--danger);
   border:1px solid var(--danger); border-radius:4px;
   padding:1px 6px; margin-right:4px; vertical-align:middle;
 }
 .ok-tag {
-  display:inline-block; font-family:'Fira Code',monospace;
+  display:inline-block; font-family:'JetBrains Mono',monospace;
   font-size:.6rem; letter-spacing:1px; text-transform:uppercase;
   background:var(--green-light); color:var(--green);
   border:1px solid var(--green); border-radius:4px;
@@ -221,7 +222,7 @@ body {
 .poster-footer {
   margin-top:14px; padding-top:10px; border-top:1px solid var(--border);
   display:flex; justify-content:space-between;
-  font-family:'Fira Code',monospace; font-size:.62rem; color:var(--text-dim);
+  font-family:'JetBrains Mono',monospace; font-size:.62rem; color:var(--text-dim);
 }
 
 /* ── PRINT ── */
@@ -275,7 +276,7 @@ body {
 
       <!-- bilancia immagine -->
       <div class="bilancia-wrap">
-        <img src="bilancia.png" alt="Bilancia in equilibrio" style="max-width:100px;height:auto;margin:2px 0">
+        <img src="bilancia.png" alt="Bilancia in equilibrio" style="max-width:120px;height:auto;margin:4px 0">
       </div>
 
       <p style="font-size:.82rem;color:var(--text-dim)">I due piatti devono stare in equilibrio: qualunque cosa facciamo a uno, dobbiamo farlo anche all'altro.</p>
