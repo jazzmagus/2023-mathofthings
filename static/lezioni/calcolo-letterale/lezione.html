@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione — Calcolo Letterale</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --purple:#6a1b9a; --purple-light:#f3e5f5;
+  --gold:#b8860b; --gold-light:#fdf8ed;
+  --teal:#4f6d7a; --teal-light:#e8eff2;
+  --danger:#b33a3a;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Crimson Text','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-nav{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;flex:1}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill{background:none;border:none;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--text-dim);padding:6px 14px;border-radius:0;cursor:pointer;white-space:nowrap;transition:all .2s;border-bottom:2px solid transparent}
+.nav-pill:hover{background:none;color:var(--text)}
+.nav-pill.active{background:none;color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
+.topbar-home{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-dim);text-decoration:none;cursor:pointer;white-space:nowrap}
+.topbar-home:hover{color:var(--accent)}
+
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 60px}
+.section{display:none;animation:appear .4s ease}
+.section.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7;text-align:justify}
+
+.cb{background:var(--surface-alt);border:none;border-radius:0;padding:16px 0 16px 18px;margin:18px 0;box-shadow:none;position:relative;border-left:2px solid var(--accent)}
+.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;display:none}
+.cb.tip::before{background:transparent}
+.cb.warn::before{background:transparent}
+.cb.danger::before{background:transparent}
+.cb.success::before{background:transparent}
+.cb.method::before{background:transparent}
+.cb.purple::before{background:transparent}
+.cb.teal::before{background:transparent}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600;color:var(--accent)}
+.cb.tip .cb-label{color:var(--blue)}
+.cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)}
+.cb.success .cb-label{color:var(--green)}
+.cb.method .cb-label{color:var(--accent)}
+.cb.purple .cb-label{color:var(--purple)}
+.cb.teal .cb-label{color:var(--teal)}
+
+.math-block{background:rgba(0,0,0,.02);border:none;border-radius:0;padding:12px 16px;margin:10px 0;overflow-x:auto}
+.math-block.hero-formula{background:var(--surface-alt);border:none;padding:16px 20px;text-align:center}
+.math-block.result{border-left:2px solid var(--green);background:rgba(74,124,89,.04);padding:12px 16px;margin:10px 0}
+.math-block.warning{border-left:2px solid var(--danger);background:rgba(179,58,58,.04);padding:12px 16px;margin:10px 0}
+.math-block.dark{background:rgba(0,0,0,.04)}
+
+.step-math{margin:4px 0;padding:2px 0}
+.step-math .label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);margin-bottom:2px}
+.step-math .label.green{color:var(--green)}
+
+.accordion{border:none;border-radius:0;overflow:visible;margin:16px 0;box-shadow:none}
+.acc-item{border-bottom:1px solid rgba(0,0,0,.08);border-top:none}
+.acc-item:last-child{border-bottom:none}
+.acc-header{display:flex;align-items:center;gap:12px;padding:14px 0;background:none;cursor:pointer;transition:all .2s;user-select:none}
+.acc-header:hover{background:none}
+.acc-num{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.acc-title{font-weight:600;font-size:.95rem;flex:1;color:var(--text)}
+.acc-arrow{width:16px;height:16px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease;background:none}
+.acc-item.open .acc-body{max-height:8000px}
+.acc-inner{padding:8px 0 16px 36px;border-top:none}
+
+.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9rem}
+.ct th{text-align:left;padding:11px 14px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--border-light);font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct td{padding:10px 14px;border-bottom:1px solid var(--border-light);vertical-align:top}
+.ct tr:last-child td{border-bottom:none}
+
+.step-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:start;margin:10px 0}
+.step-circle{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.7rem;flex-shrink:0;margin-top:1px}
+.step-text{font-size:.9rem;padding-top:2px;line-height:1.6}
+
+.compare-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.compare-card{border-radius:0;padding:12px 14px;font-size:.85rem;line-height:1.6;border:none}
+.compare-card.wrong{background:rgba(179,58,58,.05)}
+.compare-card.right{background:rgba(74,124,89,.05)}
+.compare-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+.compare-card.wrong .compare-label{color:var(--danger)}
+.compare-card.right .compare-label{color:var(--green)}
+
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:20px;border-top:1px solid var(--border-light)}
+.bb{font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:0;border:none;background:none;color:var(--text);transition:all .2s;cursor:pointer;text-decoration:none}
+.bb:hover{color:var(--accent);text-decoration:underline}
+.bb:disabled{opacity:.35;cursor:not-allowed;text-decoration:none}
+.bb:disabled:hover{color:var(--text);text-decoration:none}
+.bb.primary{background:none;color:var(--text);border:none;font-weight:400}
+.bb.primary:hover{color:var(--accent);text-decoration:underline;background:none}
+.page-info{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-dim)}
+
+p{margin:6px 0}
+ul,ol{margin:8px 0 8px 20px}
+li{margin:2px 0}
+.dim{color:var(--text-dim)}
+strong{font-weight:600}
+h2{margin:24px 0 12px}
+h3{margin:16px 0 8px}
+mjx-container[jax="SVG"]{direction:ltr}
+mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%}
+
+@media(max-width:640px){
+  body{font-size:16px}
+  .hero h1{font-size:1.7rem}
+  .acc-header{padding:13px 14px}
+  .acc-inner{padding:4px 14px 18px}
+  .cb{padding:18px}
+  .compare-row{grid-template-columns:1fr}
+  .math-block{padding:14px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Calcolo Letterale</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">'+items.map((it,i)=>`
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-num">${i+1}</div>
+        <div class="acc-title">${it.t}</div>
+        <svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="acc-body"><div class="acc-inner">${it.h}</div></div>
+    </div>`).join('')+'</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+
+// ═══ 0: INTRODUZIONE ═══
+{
+  tag:"TEORIA",
+  title:"Il potere della <em>generalizzazione</em>",
+  sub:"Passare dai numeri alle lettere per scoprire proprietà universali.",
+  nav:"Introduzione",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Definizione</div>
+      <p>Il <strong>calcolo letterale</strong> sostituisce i numeri con <strong>lettere</strong> (variabili) per scoprire proprietà che valgono per intere classi di elementi, non solo per un numero specifico.</p>
+    </div>
+
+    <p>Calcolare l'area di <strong>un</strong> rettangolo è facile. Ma se devi calcolare l'area di <em>decine</em> di rettangoli diversi? O se vuoi una <strong>formula</strong> che funzioni per qualsiasi rettangolo?</p>
+
+    <div class="cb tip">
+      <div class="cb-label">Il nucleo dell'idea</div>
+      <p>Una volta che scrivi una formula con le lettere — come \\(A = b \\times h\\) — puoi usarla infinite volte, per qualunque coppia di valori di \\(b\\) e \\(h\\). Questo è il potere della generalizzazione.</p>
+    </div>
+
+    <h3>Espressioni algebriche</h3>
+    <p>Un'<strong>espressione algebrica</strong> è una combinazione di numeri e lettere legati da operazioni: addizione, sottrazione, moltiplicazione, divisione, potenza.</p>
+
+    <div class="math-block">
+      \\[ \\text{Esempi:} \\quad 2x + 3y - 5, \\quad \\frac{a^2b}{c+1}, \\quad \\sqrt{x^2 - y} \\]
+    </div>
+
+    <h3>Tipi di espressioni</h3>
+    <ul>
+      <li><strong>Razionali:</strong> solo \\(+, -, \\cdot, \\div\\) e potenze intere. Es: \\(3x^2 + 2x - 1\\)</li>
+      <li><strong>Irrazionali:</strong> contengono radici. Es: \\(\\sqrt{x+1}\\)</li>
+    </ul>
+
+    <h3>Valore numerico</h3>
+    <p>Sostituiamo alle lettere numeri reali specifici.</p>
+
+    <div class="math-block result">
+      Se \\(x = 2\\) e \\(y = -1\\), allora \\(2x^2 + 3y - 5 = 2(4) + 3(-1) - 5 = 8 - 3 - 5 = 0\\)
+    </div>
+  `
+},
+
+// ═══ 1: MONOMI ═══
+{
+  tag:"TEORIA",
+  title:"I monomi: i <em>mattoni</em> dell'algebra",
+  sub:"Moltiplicazioni tra numeri e potenze.",
+  nav:"Monomi",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Definizione</div>
+      <p>Un <strong>monomio</strong> è un'espressione che contiene <strong>solo moltiplicazioni</strong> tra numeri e potenze di lettere (con esponenti naturali).</p>
+    </div>
+
+    <table class="ct">
+      <tr><th>Sono monomi</th><th>Non sono monomi</th></tr>
+      <tr><td>\\(5x^2\\)</td><td>\\(3x + 2y\\) (addizione)</td></tr>
+      <tr><td>\\(-3ab^3\\)</td><td>\\(\\frac{5}{x}\\) (esponente negativo)</td></tr>
+      <tr><td>\\(\\frac{2}{7}x^2y^4z\\)</td><td>\\(\\sqrt{x}\\) (esponente frazionario)</td></tr>
+    </table>
+
+    <h3>Forma normale</h3>
+    <p><strong>Coefficiente</strong> (numero) × <strong>Parte letterale</strong> (lettere con esponenti).</p>
+
+    <div class="math-block">
+      \\[ 5 \\cdot a \\cdot b^3 \\cdot 2 \\cdot a \\xrightarrow{\\text{forma normale}} 10a^2b^3 \\]
+    </div>
+
+    <h3>Grado di un monomio</h3>
+    <ul>
+      <li><strong>Complessivo:</strong> somma di tutti gli esponenti. Es: \\(5x^3yz^2\\) ha grado \\(3+1+2=6\\)</li>
+      <li><strong>Rispetto a una lettera:</strong> l'esponente di quella lettera. Es: grado rispetto a \\(x\\) è 3</li>
+    </ul>
+
+    <h3>Monomi simili e operazioni</h3>
+    <p><strong>Simili</strong> = stessa parte letterale. Es: \\(3x^2y\\) e \\(-5x^2y\\) sono simili.</p>
+
+    <div class="cb tip">
+      <div class="cb-label">Operazioni con monomi</div>
+      <ul>
+        <li><strong>Somma:</strong> solo monomi simili. \\(3xy + 5xy = 8xy\\)</li>
+        <li><strong>Moltiplicazione:</strong> \\((2a^2b) \\cdot (3ab^3) = 6a^3b^4\\)</li>
+        <li><strong>Divisione:</strong> \\(\\frac{6a^3b^4}{2ab^2} = 3a^2b^2\\)</li>
+      </ul>
+    </div>
+
+    ${acc([
+      {
+        t:"Es. 1 — Ridurre a forma normale: \\(3x \\cdot 2x^2 \\cdot (-y)\\)",
+        h:`
+          <div class="step-math"><div class="label">Moltiplica i coefficienti</div></div>
+          <div class="math-block">\\[3 \\cdot 2 \\cdot (-1) = -6\\]</div>
+          <div class="step-math"><div class="label">Somma gli esponenti di \\(x\\)</div></div>
+          <div class="math-block">\\[x^1 \\cdot x^2 = x^3\\]</div>
+          <div class="math-block result">\\[ -6x^3y \\]</div>
+        `
+      },
+      {
+        t:"Es. 2 — Potenza di un monomio: \\((2x^2y)^3\\)",
+        h:`
+          <div class="step-math"><div class="label">Eleva il coefficiente</div></div>
+          <div class="math-block">\\[2^3 = 8\\]</div>
+          <div class="step-math"><div class="label">Moltiplica gli esponenti</div></div>
+          <div class="math-block">\\[x^{2 \\cdot 3} = x^6, \\quad y^{1 \\cdot 3} = y^3\\]</div>
+          <div class="math-block result">\\[ 8x^6y^3 \\]</div>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 2: POLINOMI ═══
+{
+  tag:"TEORIA",
+  title:"I polinomi: somme <em>algebriche</em>",
+  sub:"Addizioni di monomi non necessariamente simili.",
+  nav:"Polinomi",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">Definizione</div>
+      <p>Un <strong>polinomio</strong> è una <strong>somma algebrica</strong> di monomi (non necessariamente simili).</p>
+    </div>
+
+    <div class="math-block">
+      \\[ \\text{Esempi:} \\quad 2x^2 + 3x + 5, \\quad a^3 + 2a^2b - 3b^2 + 1, \\quad x + y - z \\]
+    </div>
+
+    <h3>Forma normale (ridotta)</h3>
+    <p>Ridurre i termini simili sommandoli.</p>
+
+    <div class="math-block">
+      \\[3x^2 + 2x + 5x^2 - 3x + 1 = (3+5)x^2 + (2-3)x + 1 = 8x^2 - x + 1\\]
+    </div>
+
+    <h3>Grado di un polinomio</h3>
+    <p>Il grado complessivo è il <strong>massimo</strong> tra i gradi dei singoli termini.</p>
+
+    <div class="math-block">
+      \\[ \\text{Nel polinomio } 3x^3y + 2x^2 + 5: \\quad \\text{grado} = 3+1 = 4 \\]
+    </div>
+
+    <h3>Proprietà speciali</h3>
+    <ul>
+      <li><strong>Completo:</strong> ha tutti i termini dal max grado a 0. Es: \\(x^3 + 2x^2 - x + 5\\)</li>
+      <li><strong>Ordinato:</strong> termini in ordine crescente/decrescente di grado</li>
+      <li><strong>Omogeneo:</strong> tutti i termini hanno stesso grado. Es: \\(x^3 + 2x^2y + 3xy^2\\) (tutti grado 3)</li>
+    </ul>
+
+    <h3>Operazioni</h3>
+    <div class="math-block">
+      \\[ \\text{Somma: } (3x^2 + 2x - 1) + (x^2 - 5x + 3) = 4x^2 - 3x + 2 \\]
+      \\[ \\text{Moltiplicazione: } 2x(3x^2 - 2x + 1) = 6x^3 - 4x^2 + 2x \\]
+    </div>
+
+    ${acc([
+      {
+        t:"Es. — Moltiplicare polinomi: \\((x + 2)(x^2 - 3x + 1)\\)",
+        h:`
+          <div class="step-math"><div class="label">Distribuisci ogni termine del primo polinomio</div></div>
+          <div class="math-block">
+            \\[x \\cdot x^2 + x \\cdot (-3x) + x \\cdot 1 + 2 \\cdot x^2 + 2 \\cdot (-3x) + 2 \\cdot 1\\]
+          </div>
+          <div class="math-block">
+            \\[= x^3 - 3x^2 + x + 2x^2 - 6x + 2\\]
+          </div>
+          <div class="math-block result">\\[ x^3 - x^2 - 5x + 2 \\]</div>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 3: PRODOTTI NOTEVOLI ═══
+{
+  tag:"FORMULE RICORRENTI",
+  title:"Prodotti notevoli: le <em>scorciatoie</em>",
+  sub:"Formule che ricorrono spesso — impara a riconoscerle nelle due direzioni.",
+  nav:"Prodotti notevoli",
+  body:`
+    <div class="cb success">
+      <div class="cb-label">Consiglio</div>
+      <p>Impara a memoria, ma usale in <strong>entrambe le direzioni</strong>: sviluppo E scomposizione!</p>
+    </div>
+
+    <h3>1. Somma per differenza (Differenza di quadrati)</h3>
+    <div class="math-block hero-formula">
+      \\[ (A + B)(A - B) = A^2 - B^2 \\]
+    </div>
+    <div class="cb tip">
+      <div class="cb-label">Esempi</div>
+      <p>\\((x + 3)(x - 3) = x^2 - 9\\)</p>
+      <p>\\((2a^2 + 5b)(2a^2 - 5b) = 4a^4 - 25b^2\\)</p>
+    </div>
+
+    <h3>2. Quadrato di binomio</h3>
+    <div class="math-block hero-formula">
+      \\[ (A + B)^2 = A^2 + 2AB + B^2 \\]
+      \\[ (A - B)^2 = A^2 - 2AB + B^2 \\]
+    </div>
+    <div class="cb tip">
+      <div class="cb-label">Esempi</div>
+      <p>\\((x + 5)^2 = x^2 + 10x + 25\\)</p>
+      <p>\\((3a - 2b)^2 = 9a^2 - 12ab + 4b^2\\)</p>
+    </div>
+
+    <h3>3. Cubo di binomio</h3>
+    <div class="math-block hero-formula">
+      \\[ (A + B)^3 = A^3 + 3A^2B + 3AB^2 + B^3 \\]
+      \\[ (A - B)^3 = A^3 - 3A^2B + 3AB^2 - B^3 \\]
+    </div>
+
+    <h3>4. Somma e differenza di cubi</h3>
+    <div class="math-block hero-formula">
+      \\[ A^3 + B^3 = (A + B)(A^2 - AB + B^2) \\]
+      \\[ A^3 - B^3 = (A - B)(A^2 + AB + B^2) \\]
+    </div>
+    <div class="cb danger">
+      <div class="cb-label">Attenzione al segno</div>
+      <p>Il trinomio "falso quadrato" ha il segno <strong>opposto</strong> rispetto al binomio!</p>
+    </div>
+
+    ${acc([
+      {
+        t:"Es. 1 — Riconosci il quadrato perfetto: \\(x^2 + 8x + 16\\)",
+        h:`
+          <div class="step-math"><div class="label">Identifica i quadrati perfetti</div></div>
+          <div class="math-block">\\[x^2 = (x)^2, \\quad 16 = 4^2\\]</div>
+          <div class="step-math"><div class="label">Verifica il doppio prodotto</div></div>
+          <div class="math-block">\\[8x = 2 \\cdot x \\cdot 4 \\quad \\checkmark\\]</div>
+          <div class="math-block result">\\[ (x+4)^2 \\]</div>
+        `
+      },
+      {
+        t:"Es. 2 — Differenza di cubi: \\(x^3 - 8\\)",
+        h:`
+          <div class="step-math"><div class="label">Riconosci i cubi perfetti</div></div>
+          <div class="math-block">\\[x^3 - 2^3\\]</div>
+          <div class="step-math"><div class="label">Applica la formula \\(A^3 - B^3 = (A-B)(A^2 + AB + B^2)\\)</div></div>
+          <div class="math-block result">\\[ (x-2)(x^2 + 2x + 4) \\]</div>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 4: FATTORIZZAZIONE ═══
+{
+  tag:"TECNICA",
+  title:"Fattorizzazione: riscrivere come <em>prodotto</em>",
+  sub:"Operazione inversa dello sviluppo — rivela la struttura nascosta.",
+  nav:"Fattorizzazione",
+  body:`
+    <div class="cb method">
+      <div class="cb-label">L'idea</div>
+      <p><strong>Fattorizzare</strong> = riscrivere un polinomio come <strong>prodotto di fattori</strong> di grado inferiore.</p>
+    </div>
+
+    <h3>Strategia generale</h3>
+    <div class="step-grid">
+      <div class="step-circle">1</div>
+      <div class="step-text"><strong>Fattore comune?</strong> → Raccoglimento totale</div>
+      <div class="step-circle">2</div>
+      <div class="step-text"><strong>4+ termini?</strong> → Raccoglimento parziale</div>
+      <div class="step-circle">3</div>
+      <div class="step-text"><strong>3 termini?</strong> → Prodotti notevoli o trinomio scomponibile</div>
+      <div class="step-circle">4</div>
+      <div class="step-text"><strong>2 termini?</strong> → Differenza/somma di quadrati/cubi</div>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">Regola d'oro</div>
+      <p>Sempre raccogliere prima un fattore comune!</p>
+    </div>
+
+    <h3>Metodo 1: Raccoglimento totale</h3>
+    <div class="math-block">
+      \\[3x^2 + 6x + 9 = 3(x^2 + 2x + 3)\\]
+      \\[4x^3y^2 - 8x^2y^3 + 12xy = 4xy(x^2y - 2xy^2 + 3)\\]
+    </div>
+
+    <h3>Metodo 2: Raccoglimento parziale</h3>
+    <p>Per 4+ termini senza fattore comune totale.</p>
+    <div class="math-block">
+      \\[ax + ay + bx + by = a(x+y) + b(x+y) = (a+b)(x+y)\\]
+    </div>
+
+    <h3>Metodo 3: Prodotti notevoli</h3>
+    <div class="math-block">
+      \\[x^2 - 25 = (x-5)(x+5)\\]
+      \\[x^2 + 8x + 16 = (x+4)^2\\]
+      \\[x^3 - 8 = (x-2)(x^2+2x+4)\\]
+    </div>
+
+    <h3>Metodo 4: Trinomio scomponibile</h3>
+    <p>Per \\(x^2 + bx + c\\): cerca due numeri \\(m\\) e \\(n\\) tali che \\(m + n = b\\) e \\(m \\cdot n = c\\).</p>
+    <div class="math-block">
+      \\[x^2 + 5x + 6: \\quad m=2, n=3 \\quad \\Rightarrow \\quad (x+2)(x+3)\\]
+    </div>
+
+    ${acc([
+      {
+        t:"Es. — Fattorizza completamente: \\(2x^3 - 8x\\)",
+        h:`
+          <div class="step-math"><div class="label">1. Fattore comune</div></div>
+          <div class="math-block">\\[2x^3 - 8x = 2x(x^2 - 4)\\]</div>
+          <div class="step-math"><div class="label">2. Differenza di quadrati</div></div>
+          <div class="math-block">\\[x^2 - 4 = (x-2)(x+2)\\]</div>
+          <div class="math-block result">\\[ 2x(x-2)(x+2) \\]</div>
+        `
+      }
+    ])}
+  `
+},
+
+// ═══ 5: SINTESI ═══
+{
+  tag:"RIEPILOGO",
+  title:"Sintesi e <em>applicazioni</em>",
+  sub:"Dai concetti ai problemi concreti.",
+  nav:"Sintesi",
+  body:`
+    <h3>Tabella concetti chiave</h3>
+    <table class="ct">
+      <tr><th>Concetto</th><th>Definizione</th><th>Esempio</th></tr>
+      <tr><td><strong>Monomio</strong></td><td>Solo moltiplicazioni</td><td>\\(3x^2y^3\\)</td></tr>
+      <tr><td><strong>Polinomio</strong></td><td>Somma algebrica di monomi</td><td>\\(2x^2 - 3x + 1\\)</td></tr>
+      <tr><td><strong>Grado monomio</strong></td><td>Somma degli esponenti</td><td>\\(x^2y^3\\) ha grado 5</td></tr>
+      <tr><td><strong>Grado polinomio</strong></td><td>Max tra i gradi dei termini</td><td>\\(x^3 + 2x^2 + 1\\) ha grado 3</td></tr>
+      <tr><td><strong>Monomi simili</strong></td><td>Stessa parte letterale</td><td>\\(3x^2\\) e \\(-5x^2\\)</td></tr>
+    </table>
+
+    <div class="cb success">
+      <div class="cb-label">Il fondamento della matematica superiore</div>
+      <ul>
+        <li>Equazioni e disequazioni</li>
+        <li>Funzioni polinomiali</li>
+        <li>Analisi matematica</li>
+        <li>Applicazioni in fisica e ingegneria</li>
+      </ul>
+    </div>
+
+    ${acc([
+      {
+        t:"Problema 1 — Area di un rettangolo: \\((2x+3)(x-1)\\)",
+        h:`
+          <div class="step-math"><div class="label">Enunciato</div>
+            <p>Un rettangolo ha base \\(2x + 3\\) e altezza \\(x - 1\\). Esprimi l'area come polinomio. Per quale valore di \\(x\\) l'area è zero?</p>
+          </div>
+          <div class="step-math"><div class="label">Sviluppa l'area</div></div>
+          <div class="math-block">
+            \\[(2x+3)(x-1) = 2x^2 - 2x + 3x - 3 = 2x^2 + x - 3\\]
+          </div>
+          <div class="step-math"><div class="label">Fattorizza per trovare gli zeri</div></div>
+          <div class="math-block">
+            \\[(2x+3)(x-1) = 0 \\quad \\Rightarrow \\quad x = 1 \\text{ oppure } x = -\\frac{3}{2}\\]
+          </div>
+          <div class="math-block result">
+            <strong>Risposta:</strong> L'area è zero quando \\(x = 1\\) (il valore negativo è scartato)
+          </div>
+        `
+      },
+      {
+        t:"Problema 2 — Volume di un cubo: \\((a+2)^3\\)",
+        h:`
+          <div class="step-math"><div class="label">Enunciato</div>
+            <p>Un cubo ha lato \\(a + 2\\). Esprimi il volume sviluppato e fattorizzato.</p>
+          </div>
+          <div class="step-math"><div class="label">Applica la formula del cubo di binomio</div></div>
+          <div class="math-block">
+            \\[(a+2)^3 = a^3 + 3a^2 \\cdot 2 + 3a \\cdot 4 + 8 = a^3 + 6a^2 + 12a + 8\\]
+          </div>
+          <div class="math-block result">
+            <strong>Forma sviluppata:</strong> \\(a^3 + 6a^2 + 12a + 8\\)<br>
+            <strong>Forma fattorizzata:</strong> \\((a+2)^3\\)
+          </div>
+        `
+      }
+    ])}
+
+    <div class="cb">
+      <div class="cb-label">Ricorda</div>
+      <p>Non è solo tecnica. Ogni volta che fattorizzi un polinomio o riconosci un prodotto notevole, riveli la vera struttura nascosta dietro l'espressione. <strong>Questo è il potere della generalizzazione!</strong></p>
+    </div>
+  `
+}
+
+];
+
+// ── APP LOGIC ──
+let cur = 0;
+const tot = S.length;
+
+function render() {
+  document.getElementById('topNav').innerHTML = S.map((s,i) =>
+    `<button class="nav-pill ${i===cur?'active':''}" onclick="goTo(${i})">${s.nav}</button>`
+  ).join('');
+
+  document.getElementById('app').innerHTML = S.map((s,i) => `
+    <div class="section ${i===cur?'active':''}">
+      <div class="hero">
+        <div class="hero-tag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p class="hero-sub">${s.sub}</p>
+      </div>
+      ${s.body}
+      <div class="bottom-nav">
+        <button class="bb" onclick="goTo(${i-1})" ${i===0?'disabled':''}>← Precedente</button>
+        <span class="page-info">${i+1} / ${tot}</span>
+        <button class="bb primary" onclick="goTo(${i+1})" ${i===tot-1?'disabled':''}>Successivo →</button>
+      </div>
+    </div>
+  `).join('');
+
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    const active = document.querySelector('.section.active');
+    if (active) MathJax.typesetPromise([active]);
+  }
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= tot) return;
+  cur = idx;
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(cur + 1);
+  if (e.key === 'ArrowLeft')  goTo(cur - 1);
+});
+
+if (typeof MathJax !== 'undefined' && MathJax.startup) {
+  MathJax.startup.promise.then(() => render());
+} else {
+  render();
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>
