@@ -855,16 +855,12 @@ html:has(body.dark) {
 // Cards inside unified container: no individual borders/backgrounds
 .course-unified-container .course-card {
   border: none;
-  border-right: 1px solid $primary;
   background: transparent;
   transition: none;
+  position: relative;
 
   .dark & {
     background: transparent;
-  }
-
-  &:last-child {
-    border-right: none;
   }
 
   &:hover {
@@ -875,6 +871,17 @@ html:has(body.dark) {
     .card-badge {
       color: rgba($primary, 0.4);
     }
+  }
+
+  // Small vertical dash on right edge of left card (Corso)
+  &:first-child::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 2.2rem;
+    height: 85px;
+    width: 1px;
+    background: $primary;
   }
 }
 
