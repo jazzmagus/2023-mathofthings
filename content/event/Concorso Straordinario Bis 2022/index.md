@@ -29,7 +29,7 @@ tags: []
 
 # Is this a featured talk? (true/false)
 featured: true
-draft: true
+draft: false
 
 image:
   caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/bzdhc5b3Bxs)'

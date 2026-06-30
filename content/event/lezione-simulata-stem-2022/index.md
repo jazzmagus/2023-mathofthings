@@ -24,7 +24,7 @@ authors: [diego fantinelli]
 tags: [stem]
 
 featured: false
-draft: true
+draft: false
 
 image:
   caption: ''
