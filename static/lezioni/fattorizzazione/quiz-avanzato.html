@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Avanzato — Fattorizzazione Polinomiale</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#ed6f5c; --accent-light:#fce4ec;
+  --accent-pro:#8b5a9f; --accent-pro-light:#f3e5f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.topbar-level{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--accent);letter-spacing:1px;font-weight:600;margin-left:auto}
+
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.btn-start{margin-top:8px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;letter-spacing:.3px}
+.btn-start:hover{background:#d65545}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px;color:var(--text)}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{background:#d65545}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-retry:hover{background:#d65545}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(5,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quiz · Fattorizzazione</div>
+  <div class="topbar-tag">Livello Avanzato</div>
+  <div class="topbar-level" id="topbar-level"></div>
+</div>
+
+<div class="container">
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Quiz Avanzato · 20 domande</div>
+      <h1>Fattorizzazione <em>Polinomiale</em></h1>
+      <p class="hero-sub">20 domande avanzate: trinomio generale, raccoglimento parziale complesso, fattorizzazione completa, ricombinazione e combinazioni di metodi. Per chi vuole padroneggiare veramente la fattorizzazione.</p>
+    </div>
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">20</span></div>
+      <div class="meta-item"><span class="meta-label">Livello</span><span class="meta-value">Avanzato</span></div>
+      <div class="meta-item"><span class="meta-label">Feedback</span><span class="meta-value">Immediato</span></div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia il test</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso</span>
+        <span class="progress-frac" id="prog-frac">1 / 20</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag">Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den">su 20 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova il test</button>
+      <a class="btn-lesson" href="lezione.html">Torna alla lezione</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const Q = [
+  {level:'avanzato',badge:"Trinomio generale",q:"Fattorizza \\(2x^2 + 7x + 3\\):",opts:["\\((2x+1)(x+3)\\)","\\((2x+3)(x+1)\\)","\\((x+1)(2x+6)\\)","\\((2x+7)(x)\\)"],ans:0,exp:"Prodotto \\(a \\cdot c = 2 \\cdot 3 = 6\\). Numeri che sommano a 7 e moltiplicano a 6: 1 e 6. Ricombina: \\(2x^2 + x + 6x + 3 = x(2x+1) + 3(2x+1) = (2x+1)(x+3)\\)"},
+  {level:'avanzato',badge:"Raccoglimento parziale",q:"Fattorizza \\(2x^3 + 3x^2 + 8x + 12\\):",opts:["\\((2x+3)(x^2+4)\\)","\\((x^2+4)(2x+3)\\)","\\((2x+4)(x^2+3)\\)","\\(x(2x^2+3x+8)+12\\)"],ans:0,exp:"Raggruppa: \\((2x^3+3x^2) + (8x+12) = x^2(2x+3) + 4(2x+3) = (2x+3)(x^2+4)\\)"},
+  {level:'avanzato',badge:"Fattorizzazione completa",q:"Fattorizza completamente \\(2x^3 - 8x\\):",opts:["\\(2x(x^2-4)\\)","\\(2x(x-2)(x+2)\\)","\\(x(2x-4)(x+2)\\)","\\(2(x^3-4x)\\)"],ans:1,exp:"Raccoglimento: \\(2x(x^2-4)\\). Poi differenza di quadrati: \\(x^2-4=(x-2)(x+2)\\). Completa: \\(2x(x-2)(x+2)\\)"},
+  {level:'avanzato',badge:"Trinomio generale",q:"Fattorizza \\(3x^2 - 11x + 6\\):",opts:["\\((3x-2)(x-3)\\)","\\((3x-1)(x-6)\\)","\\((x-2)(3x-3)\\)","\\((3x-6)(x+1)\\)"],ans:0,exp:"\\(a \\cdot c = 3 \\cdot 6 = 18\\). Numeri: \\(-2\\) e \\(-9\\) (sommano a \\(-11\\), moltiplicano a 18). Ricombina: \\(3x^2 - 2x - 9x + 6 = x(3x-2) - 3(3x-2) = (3x-2)(x-3)\\)"},
+  {level:'avanzato',badge:"Raccoglimento parziale",q:"Fattorizza \\(a^2 - ab + ac - bc\\):",opts:["\\((a-b)(a+c)\\)","\\((a+c)(a-b)\\)","\\((a-c)(a+b)\\)","\\(a(a-b+c)-bc\\)"],ans:0,exp:"Raggruppa: \\((a^2-ab) + (ac-bc) = a(a-b) + c(a-b) = (a-b)(a+c)\\)"},
+  {level:'avanzato',badge:"Somma/differenza cubi",q:"Fattorizza \\(8a^3 - 27b^3\\):",opts:["\\((2a-3b)(4a^2+6ab+9b^2)\\)","\\((2a-3b)(4a^2-6ab+9b^2)\\)","\\((2a+3b)(4a^2+9b^2)\\)","\\(8(a^3-\\frac{27}{8}b^3)\\)"],ans:0,exp:"Differenza di cubi: \\((2a)^3 - (3b)^3 = (2a-3b)(4a^2+6ab+9b^2)\\)"},
+  {level:'avanzato',badge:"Combinazione metodi",q:"Fattorizza \\(x^4 - 16\\):",opts:["\\((x^2-4)^2\\)","\\((x^2-4)(x^2+4)\\)","\\((x-2)^2(x+2)^2\\)","\\((x-2)(x+2)(x^2+4)\\)"],ans:3,exp:"Differenza di quadrati: \\((x^2)^2 - 4^2 = (x^2-4)(x^2+4)\\). Poi fattorizza \\(x^2-4\\): \\((x-2)(x+2)\\). Completa: \\((x-2)(x+2)(x^2+4)\\)"},
+  {level:'avanzato',badge:"Quadrato perfetto",q:"Quale espressione è un quadrato perfetto?",opts:["\\(x^2 + 5x + 6\\)","\\(x^2 + 8x + 16\\)","\\(x^2 + 7x + 12\\)","\\(x^2 + 2x + 5\\)"],ans:1,exp:"\\(x^2 + 8x + 16 = (x)^2 + 2(x)(4) + 4^2 = (x+4)^2\\). Verifica doppio prodotto: \\(2 \\times x \\times 4 = 8x\\) ✓"},
+  {level:'avanzato',badge:"Trinomio particolare",q:"Fattorizza \\(x^2 - 13x + 42\\):",opts:["\\((x-6)(x-7)\\)","\\((x-3)(x-14)\\)","\\((x-2)(x-21)\\)","\\((x-1)(x-42)\\)"],ans:0,exp:"Numeri che sommano a \\(-13\\) e moltiplicano a 42: \\(-6\\) e \\(-7\\). Verifica: \\((-6)+(-7)=-13\\) ✓ e \\((-6)(-7)=42\\) ✓. Quindi: \\((x-6)(x-7)\\)"},
+  {level:'avanzato',badge:"Fattorizzazione completa",q:"Fattorizza completamente \\(3x^4 - 3x^2\\):",opts:["\\(3x^2(x^2-1)\\)","\\(3x^2(x-1)(x+1)\\)","\\(x^2(3x^2-3)\\)","\\(3(x^4-x^2)\\)"],ans:1,exp:"Raccoglimento: \\(3x^2(x^2-1)\\). Differenza di quadrati: \\(x^2-1=(x-1)(x+1)\\). Completa: \\(3x^2(x-1)(x+1)\\)"},
+  {level:'avanzato',badge:"Trinomio generale",q:"Fattorizza \\(4x^2 - 9x + 2\\):",opts:["\\((4x-1)(x-2)\\)","\\((4x-2)(x-1)\\)","\\((2x-1)(2x-2)\\)","\\((x-1)(4x-2)\\)"],ans:0,exp:"\\(a \\cdot c = 4 \\cdot 2 = 8\\). Numeri: \\(-1\\) e \\(-8\\). Ricombina: \\(4x^2 - x - 8x + 2 = x(4x-1) - 2(4x-1) = (4x-1)(x-2)\\)"},
+  {level:'avanzato',badge:"Somma di cubi",q:"Fattorizza \\(x^3 + 64\\):",opts:["\\((x+4)(x^2-4x+16)\\)","\\((x+4)(x^2+4x+16)\\)","\\((x+4)^3\\)","\\((x+4)(x^2-16)\\)"],ans:0,exp:"Somma di cubi: \\(x^3 + 4^3 = (x+4)(x^2-4x+16)\\)"},
+  {level:'avanzato',badge:"Raccoglimento parziale",q:"Fattorizza \\(xy + xz + wy + wz\\):",opts:["\\((x+w)(y+z)\\)","\\((y+z)(x+w)\\)","\\((x+y)(w+z)\\)","\\(x(y+z)+w(y+z)\\)"],ans:0,exp:"Raggruppa: \\((xy+xz) + (wy+wz) = x(y+z) + w(y+z) = (x+w)(y+z)\\)"},
+  {level:'avanzato',badge:"Differenza di quadrati",q:"Fattorizza \\((a+b)^2 - (a-b)^2\\):",opts:["\\(4ab\\)","\\((2a)(2b)\\)","\\(4ab\\)","\\(a^2-b^2\\)"],ans:0,exp:"Differenza di quadrati: \\([(a+b)+(a-b)][(a+b)-(a-b)] = [2a][2b] = 4ab\\)"},
+  {level:'avanzato',badge:"Trinomio particolare",q:"Fattorizza \\(x^2 + x - 20\\):",opts:["\\((x+5)(x-4)\\)","\\((x-5)(x+4)\\)","\\((x+2)(x-10)\\)","\\((x+10)(x-2)\\)"],ans:0,exp:"Numeri che sommano a 1 e moltiplicano a \\(-20\\): 5 e \\(-4\\). Verifica: \\(5+(-4)=1\\) ✓ e \\(5(-4)=-20\\) ✓. Quindi: \\((x+5)(x-4)\\)"},
+  {level:'avanzato',badge:"Quadrato perfetto",q:"Fattorizza \\(9x^2 - 30x + 25\\):",opts:["\\((3x-5)^2\\)","\\((3x+5)^2\\)","\\((9x-5)^2\\)","\\((3x-25)(x+1)\\)"],ans:0,exp:"Riconosci: \\((3x)^2 - 2(3x)(5) + 5^2\\). È il quadrato di \\((3x-5)\\): \\((3x-5)^2\\)"},
+  {level:'avanzato',badge:"Trinomio generale",q:"Fattorizza \\(6x^2 + 11x + 3\\):",opts:["\\((2x+3)(3x+1)\\)","\\((3x+1)(2x+3)\\)","\\((6x+3)(x+1)\\)","\\((2x+1)(3x+3)\\)"],ans:0,exp:"\\(a \\cdot c = 6 \\cdot 3 = 18\\). Numeri: 2 e 9. Ricombina: \\(6x^2 + 2x + 9x + 3 = 2x(3x+1) + 3(3x+1) = (2x+3)(3x+1)\\)"},
+  {level:'avanzato',badge:"Raccoglimento totale",q:"Fattorizza \\(12a^3b^2 - 18a^2b^3 + 6a^2b^2\\):",opts:["\\(6a^2b^2(2a-3b+1)\\)","\\(6ab(2a^2b-3ab^2+a)\\)","\\(6a^2b(2ab-3b^2+b)\\)","\\(12a^2b^2(a-\\frac{3}{2}b+\\frac{1}{2})\\)"],ans:0,exp:"MCD: 6. Potenza minima di \\(a\\): 2. Potenza minima di \\(b\\): 2. Quindi: \\(6a^2b^2(2a-3b+1)\\)"},
+  {level:'avanzato',badge:"Fattorizzazione completa",q:"Fattorizza completamente \\(x^3 - 2x^2 - x + 2\\):",opts:["\\((x-1)(x-2)(x+1)\\)","\\((x^2-1)(x-2)\\)","\\((x-2)(x-1)(x+1)\\)","\\((x^2-2)(x-1)\\)"],ans:0,exp:"Raccoglimento parziale: \\(x^2(x-2) - (x-2) = (x^2-1)(x-2)\\). Poi: \\((x-1)(x+1)(x-2)\\)"},
+  {level:'avanzato',badge:"Differenza di cubi",q:"Fattorizza \\(a^3b^3 - 1\\):",opts:["\\((ab-1)(a^2b^2+ab+1)\\)","\\((ab-1)(a^2b^2-ab+1)\\)","\\((ab+1)(a^2b^2-ab-1)\\)","\\(ab(a^2b^2-1)\\)"],ans:0,exp:"Differenza di cubi: \\((ab)^3 - 1^3 = (ab-1)(a^2b^2+ab+1)\\)"}
+];
+
+let cur = 0, score = 0, answered = false, results = [];
+
+function startQuiz() {
+  cur = 0; score = 0; answered = false; results = [];
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx];
+  const total = Q.length;
+  document.getElementById('prog-frac').textContent = (idx + 1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('topbar-level').textContent = 'AVANZATO';
+  document.getElementById('q-badge').textContent = q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+  const letters = ['A', 'B', 'C', 'D'];
+  document.getElementById('q-opts').innerHTML = q.opts.map((o, i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})"><span class="opt-letter">${letters[i]}</span><span class="opt-text">${o}</span></div>`
+  ).join('');
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === q.ans;
+  if (isOk) score++;
+  results.push(isOk);
+  const opts = document.querySelectorAll('.opt');
+  opts.forEach(o => o.classList.add('locked'));
+  opts[i].classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) opts[q.ans].classList.add('correct');
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur + 1);
+  const btnNext = document.getElementById('btn-next');
+  btnNext.classList.add('show');
+  btnNext.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+  const msgs = [[18,"Eccellente! Pronto per il livello Pro!"],[15,"Molto bene! Rileggi gli argomenti deboli."],[12,"Buon lavoro. Continua ad esercitarti."],[0,"Non mollare. Riprova!"]];
+  const msg = msgs.find(m => score >= m[0]);
+  document.getElementById('res-msg').textContent = msg ? msg[1] : '';
+  const grid = document.getElementById('res-grid');
+  grid.innerHTML = results.map((ok, i) => `<div class="rev-cell ${ok ? 'ok' : 'err'}" title="Domanda ${i+1}: ${ok ? 'corretta' : 'sbagliata'}">${i+1}</div>`).join('');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) {
+    const idx = parseInt(e.key) - 1;
+    if (idx < Q[cur].opts.length) pick(idx);
+  }
+  if ((e.key === 'Enter' || e.key === ' ') && answered) { e.preventDefault(); nextQ(); }
+});
+
+if (typeof MathJax !== 'undefined' && MathJax.startup) {
+  MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+} else {
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>
