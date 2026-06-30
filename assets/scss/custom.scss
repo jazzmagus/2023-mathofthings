@@ -1167,38 +1167,19 @@ html:has(body.dark) {
 .materials-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0;
+  gap: 1.2rem;
   margin-top: 1rem;
-  border: 1px solid rgba(21, 20, 15, 0.1);
-  border-radius: 10px;
-  background: rgba(#c9a876, 0.05);
-  overflow: hidden;
-  transition: all 0.2s ease-out;
-
-  .dark & {
-    background: rgba(#c9a876, 0.08);
-  }
-
-  &:hover {
-    border-color: rgba($primary, 0.3);
-    box-shadow: 0 4px 12px rgba(21, 20, 15, 0.08);
-    transform: translateY(-2px);
-  }
 }
 
 .materials-card {
   padding: 1rem 1.1rem;
-  border: none;
-  border-right: 1px solid $primary;
-  background: transparent;
-  transition: none;
+  border: 1px solid rgba(21, 20, 15, 0.1);
+  border-radius: 10px;
+  background: rgba(#c9a876, 0.05);
+  transition: all 0.2s ease-out;
 
   .dark & {
-    background: transparent;
-  }
-
-  &:last-child {
-    border-right: none;
+    background: rgba(#c9a876, 0.08);
   }
 
   h3 {
@@ -1237,19 +1218,6 @@ html:has(body.dark) {
 
       .materials-card-badge {
         color: $primary;
-      }
-    }
-
-    // Quando lesson-card è dentro materials-grid, rimuovi l'hover effect individuale
-    .materials-grid & {
-      &:hover {
-        border-color: transparent;
-        box-shadow: none;
-        transform: none;
-
-        .materials-card-badge {
-          color: rgba($primary, 0.4);
-        }
       }
     }
   }
