@@ -822,12 +822,60 @@ html:has(body.dark) {
   }
 }
 
-// Courses page - 2 columns x 3 rows grid
+// Courses page - unified card containers
 .courses-grid-3x2 {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 1.2rem;
   margin-top: 2rem;
+}
+
+// Unified container: wraps Corso + Materiali as a single card
+.course-unified-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  border: 1px solid rgba(21, 20, 15, 0.1);
+  border-radius: 10px;
+  background: rgba(#c9a876, 0.05);
+  overflow: hidden;
+  transition: all 0.2s ease-out;
+
+  .dark & {
+    background: rgba(#c9a876, 0.08);
+  }
+
+  &:hover {
+    border-color: rgba($primary, 0.3);
+    box-shadow: 0 4px 12px rgba(21, 20, 15, 0.08);
+    transform: translateY(-2px);
+  }
+}
+
+// Cards inside unified container: no individual borders/backgrounds
+.course-unified-container .course-card {
+  border: none;
+  border-right: 1px solid $primary;
+  background: transparent;
+  transition: none;
+
+  .dark & {
+    background: transparent;
+  }
+
+  &:last-child {
+    border-right: none;
+  }
+
+  &:hover {
+    box-shadow: none;
+    transform: none;
+    border-color: transparent;
+
+    .card-badge {
+      color: rgba($primary, 0.4);
+    }
+  }
 }
 
 .course-card {

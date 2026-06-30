@@ -571,24 +571,24 @@ const tot = S.length;
 
 function render() {
   document.getElementById('topNav').innerHTML = S.map((s,i) =>
-    \`<button class="nav-pill \${i===cur?'active':''}" onclick="goTo(\${i})">\${s.nav}</button>\`
+    `<button class="nav-pill ${i===cur?'active':''}" onclick="goTo(${i})">${s.nav}</button>`
   ).join('');
 
-  document.getElementById('app').innerHTML = S.map((s,i) => \`
-    <div class="section \${i===cur?'active':''}">
+  document.getElementById('app').innerHTML = S.map((s,i) => `
+    <div class="section ${i===cur?'active':''}">
       <div class="hero">
-        <div class="hero-tag">\${s.tag}</div>
-        <h1>\${s.title}</h1>
-        <p class="hero-sub">\${s.sub}</p>
+        <div class="hero-tag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p class="hero-sub">${s.sub}</p>
       </div>
-      \${s.body}
+      ${s.body}
       <div class="bottom-nav">
-        <button class="bb" onclick="goTo(\${i-1})" \${i===0?'disabled':''}>← Precedente</button>
-        <span class="page-info">\${i+1} / \${tot}</span>
-        <button class="bb primary" onclick="goTo(\${i+1})" \${i===tot-1?'disabled':''}>Successivo →</button>
+        <button class="bb" onclick="goTo(${i-1})" ${i===0?'disabled':''}>← Precedente</button>
+        <span class="page-info">${i+1} / ${tot}</span>
+        <button class="bb primary" onclick="goTo(${i+1})" ${i===tot-1?'disabled':''}>Successivo →</button>
       </div>
     </div>
-  \`).join('');
+  `).join('');
 
   if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
     const active = document.querySelector('.section.active');
