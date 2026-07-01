@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disequazioni di Primo Grado — Lezione interattiva</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']]
+  },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready() {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --gold:#b8860b;
+  --danger:#b33a3a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);white-space:nowrap;flex-shrink:0}
+.topbar-nav{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;flex:1}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill{background:none;border:none;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--text-dim);padding:6px 14px;cursor:pointer;white-space:nowrap;transition:color .2s;border-bottom:2px solid transparent}
+.nav-pill:hover{color:var(--text)}
+.nav-pill.active{color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
+.topbar-home{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-dim);text-decoration:none;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.topbar-home:hover{color:var(--accent)}
+
+/* LAYOUT */
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 60px}
+.section{display:none;animation:appear .4s ease}
+.section.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.65rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);line-height:1.7;text-wrap:pretty}
+
+/* CALLOUT */
+.cb{background:var(--surface-alt);border-left:2px solid var(--accent);border-radius:0 8px 8px 0;padding:16px 18px;margin:18px 0}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600;color:var(--accent)}
+.cb.tip .cb-label{color:var(--blue)}
+.cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)}
+.cb.success .cb-label{color:var(--green)}
+
+/* MATH */
+.math-block{background:rgba(0,0,0,.025);padding:12px 16px;margin:10px 0;overflow-x:auto;border-radius:2px}
+.math-block.center{text-align:center}
+.math-block.result{border-left:2px solid var(--green);background:rgba(74,124,89,.04)}
+.math-block.warn{border-left:2px solid var(--danger);background:rgba(179,58,58,.04)}
+mjx-container[jax="SVG"]{direction:ltr}
+mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%}
+
+/* ACCORDION */
+.accordion{margin:16px 0}
+.acc-item{border-bottom:1px solid rgba(0,0,0,.08)}
+.acc-item:last-child{border-bottom:none}
+.acc-header{display:flex;align-items:center;gap:12px;padding:14px 0;cursor:pointer;user-select:none;background:none;border:none;width:100%;text-align:left}
+.acc-num{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.7rem;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.acc-title{font-weight:600;font-size:.93rem;flex:1;color:var(--text);font-family:Georgia,serif;text-align:left;line-height:1.4}
+.acc-arrow{width:16px;height:16px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.acc-item.open .acc-body{max-height:9000px}
+.acc-inner{padding:8px 0 18px 36px}
+
+/* TABLE */
+.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.88rem}
+.ct th{text-align:left;padding:10px 14px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--border-light);font-size:.74rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct td{padding:9px 14px;border-bottom:1px solid var(--border-light);vertical-align:top;line-height:1.65}
+.ct tr:last-child td{border-bottom:none}
+
+/* BOTTOM NAV */
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:44px;padding-top:20px;border-top:1px solid var(--border-light)}
+.bb{font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:0;border:none;background:none;color:var(--text);transition:all .2s;cursor:pointer}
+.bb:hover{color:var(--accent);text-decoration:underline}
+.bb:disabled{opacity:.35;cursor:not-allowed}
+.bb:disabled:hover{color:var(--text);text-decoration:none}
+.dots{display:flex;gap:6px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--border);transition:all .3s;cursor:pointer;border:none;padding:0;flex-shrink:0}
+.dot.active{background:var(--accent);width:20px;border-radius:4px}
+
+/* TYPOGRAPHY */
+p{margin:6px 0}
+ul,ol{margin:8px 0 8px 24px}
+li{margin:3px 0;line-height:1.7}
+strong{font-weight:700}
+.dim{color:var(--text-dim)}
+h2{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin:26px 0 10px;color:var(--text)}
+h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;margin:18px 0 8px;color:var(--text)}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  body{font-size:15.5px}
+  .hero h1{font-size:1.65rem}
+  .cb{padding:14px 14px}
+  .container{padding:80px 18px 60px}
+  .topbar-brand{font-size:.9rem}
+  .acc-inner{padding:8px 0 16px 24px}
+  .acc-title{font-size:.88rem}
+  .ct{font-size:.82rem}
+  .ct th,.ct td{padding:8px 10px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Disequazioni · 1° grado</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+
+/* ═══════════════ ACCORDION ═══════════════ */
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) => `
+    <div class="acc-item">
+      <button class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-num">${i + 1}</div>
+        <div class="acc-title">${it.t}</div>
+        <svg class="acc-arrow" viewBox="0 0 20 20" fill="none">
+          <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="acc-body"><div class="acc-inner">${it.h}</div></div>
+    </div>`).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.closest('.acc-item');
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+/* ═══════════════ SCHERMATE ═══════════════ */
+const S = [
+
+/* ──── 0 · INTRODUZIONE ──── */
+{
+  tag: `MOTIVAZIONE`,
+  title: `Dalle uguaglianze alle <em>disuguaglianze</em>`,
+  nav: `Motivazione`,
+  sub: `Il mondo reale raramente chiede uguaglianze esatte. Più spesso chiede vincoli e range: "almeno", "al massimo", "tra". Le disequazioni sono il linguaggio matematico di questi vincoli.`,
+  body: `
+    <div class="cb tip">
+      <div class="cb-label">Il bisogno reale</div>
+      <p>Fino a ora abbiamo risolto equazioni: domande del tipo "Per quale valore di \\(x\\) questa uguaglianza è vera?". Nella realtà, però, servono spesso risposte diverse:</p>
+      <ul>
+        <li><strong>"Quanta base di cemento serve?"</strong> — Serve <em>almeno</em> quella quantità.</li>
+        <li><strong>"A quale velocità posso guidare?"</strong> — <em>Non più di</em> 130 km/h.</li>
+        <li><strong>"Quale range di temperature tolleranza?"</strong> — <em>Tra</em> -10°C e +50°C.</li>
+      </ul>
+    </div>
+
+    <p>Una disequazione come \\(2x + 3 > 7\\) non ha una singola risposta: ha <strong>infinite soluzioni</strong>. Risolvere una disequazione significa trovare <strong>tutto l'insieme</strong> di valori che la soddisfano.</p>
+
+    <div class="cb">
+      <div class="cb-label">Mappa della lezione</div>
+      <table class="ct">
+        <tr><th>#</th><th>Argomento</th></tr>
+        <tr>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">1</td>
+          <td>Definizioni e simboli</td>
+        </tr>
+        <tr>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">2</td>
+          <td>Le tre proprietà fondamentali</td>
+        </tr>
+        <tr>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">3</td>
+          <td>Risoluzione di disequazioni lineari</td>
+        </tr>
+        <tr>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">4</td>
+          <td>Rappresentazione e intervalli</td>
+        </tr>
+        <tr>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">5</td>
+          <td>Sistemi di disequazioni</td>
+        </tr>
+        <tr>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">6</td>
+          <td>Sintesi e applicazioni</td>
+        </tr>
+      </table>
+    </div>
+  `
+},
+
+/* ──── 1 · DEFINIZIONI ──── */
+{
+  tag: `TEORIA`,
+  title: `Che cosa è una <em>disequazione</em>`,
+  nav: `Definizioni`,
+  sub: `Simboli di disuguaglianza, differenza tra disequazioni e equazioni, notazione di intervalli.`,
+  body: `
+    <div class="cb">
+      <div class="cb-label">Definizione</div>
+      <p>Una <strong>disequazione</strong> è una <strong>disuguaglianza</strong> contenente almeno una <strong>incognita</strong>, di cui si cercano i valori per cui la disuguaglianza è <strong>vera</strong>.</p>
+    </div>
+
+    <h2>I quattro simboli di disuguaglianza</h2>
+    <table class="ct">
+      <tr><th>Simbolo</th><th>Significato</th><th>Tipo</th><th>Esempio</th></tr>
+      <tr><td>\\(<\\)</td><td>minore di</td><td>stretto</td><td>\\(x < 5\\)</td></tr>
+      <tr><td>\\(\\leq\\)</td><td>minore o uguale</td><td>non stretto</td><td>\\(x \\leq 5\\)</td></tr>
+      <tr><td>\\(>\\)</td><td>maggiore di</td><td>stretto</td><td>\\(x > 5\\)</td></tr>
+      <tr><td>\\(\\geq\\)</td><td>maggiore o uguale</td><td>non stretto</td><td>\\(x \\geq 5\\)</td></tr>
+    </table>
+
+    <div class="cb tip">
+      <div class="cb-label">Stretto vs non stretto</div>
+      <p><strong>Stretto</strong> (\\(<\\) o \\(>\\)): il valore limite <strong>non è incluso</strong>.</p>
+      <p><strong>Non stretto</strong> (\\(\\leq\\) o \\(\\geq\\)): il valore limite <strong>è incluso</strong>.</p>
+    </div>
+
+    <h2>Equazioni vs Disequazioni</h2>
+    <table class="ct">
+      <tr><th></th><th>Equazione</th><th>Disequazione</th></tr>
+      <tr><td><strong>Forma</strong></td><td>\\(2x + 3 = 7\\)</td><td>\\(2x + 3 > 7\\)</td></tr>
+      <tr><td><strong>Soluzioni</strong></td><td>Una sola (di solito)</td><td>Infinite</td></tr>
+      <tr><td><strong>Risposta</strong></td><td>\\(x = 2\\)</td><td>\\(x > 2\\)</td></tr>
+      <tr><td><strong>Significato</strong></td><td>"Qual è il valore esatto?"</td><td>"Quali valori sono ammessi?"</td></tr>
+    </table>
+
+    <h2>Notazione di intervalli</h2>
+    <p>Le soluzioni di una disequazione si esprimono in <strong>notazione di intervalli</strong>:</p>
+    <table class="ct">
+      <tr><th>Disequazione</th><th>Intervallo</th><th>Significato</th></tr>
+      <tr><td>\\(x < 4\\)</td><td>\\((-\\infty, 4)\\)</td><td>da meno infinito a 4, 4 escluso</td></tr>
+      <tr><td>\\(x \\geq -2\\)</td><td>\\([-2, +\\infty)\\)</td><td>da -2 incluso a più infinito</td></tr>
+      <tr><td>\\(-1 < x \\leq 3\\)</td><td>\\((-1, 3]\\)</td><td>da -1 escluso a 3 incluso</td></tr>
+    </table>
+
+    <div class="cb warn">
+      <div class="cb-label">Ricorda</div>
+      <p>Parentesi tonda \\((\\) = estremo escluso; parentesi quadra \\([\\) = estremo incluso.</p>
+    </div>
+  `
+},
+
+/* ──── 2 · PROPRIETÀ ──── */
+{
+  tag: `TEORIA`,
+  title: `Le tre <em>proprietà fondamentali</em>`,
+  nav: `Proprietà`,
+  sub: `Addizione, moltiplicazione per positivo, moltiplicazione per negativo — attenzione all'inversione del verso!`,
+  body: `
+    <p>Le disequazioni seguono regole simili alle equazioni, <strong>con una eccezione critica</strong>:</p>
+
+    ${acc([
+      {
+        t: `Proprietà 1: Addizione e sottrazione`,
+        h: `<p><strong>Se aggiungiamo (o sottraiamo) lo stesso numero a entrambi i lati, il verso <em>rimane uguale</em>.</strong></p>
+            <div class="math-block">\\[a < b \\quad \\Rightarrow \\quad a + c < b + c\\]</div>
+            <p><strong>Esempio:</strong></p>
+            <div class="math-block">\\[3x - 5 < 10\\]\\[3x < 10 + 5\\]\\[3x < 15\\]</div>`
+      },
+      {
+        t: `Proprietà 2: Moltiplicazione per numero positivo`,
+        h: `<p><strong>Se moltiplichiamo per un numero positivo, il verso <em>rimane uguale</em>.</strong></p>
+            <div class="math-block">\\[a < b \\text{ e } c > 0 \\quad \\Rightarrow \\quad a \\cdot c < b \\cdot c\\]</div>
+            <p><strong>Esempio:</strong></p>
+            <div class="math-block">\\[3x < 15\\]\\[x < \\frac{15}{3}\\]\\[x < 5\\]</div>`
+      },
+      {
+        t: `Proprietà 3: Moltiplicazione per numero negativo — ATTENZIONE!`,
+        h: `<p><strong style="color:var(--danger)">Se moltiplichiamo per un numero negativo, il verso <em>SI INVERTE</em>.</strong></p>
+            <div class="math-block warn">\\[a < b \\text{ e } c < 0 \\quad \\Rightarrow \\quad a \\cdot c > b \\cdot c\\]</div>
+            <p><strong>Questo è il punto più critico!</strong></p>
+            <p><strong>Esempio:</strong></p>
+            <div class="math-block">\\[-2x < 6\\]\\[x > \\frac{6}{-2} \\quad \\text{(il verso CAMBIA!)}\\]\\[x > -3\\]</div>
+            <div class="cb danger" style="margin-top:10px">
+              <div class="cb-label">Regola d'oro</div>
+              <p>Ogni volta che moltiplichi o dividi per un numero <strong>negativo</strong>, <strong>inverti il verso</strong>. Questo non vale per addizione/sottrazione, solo per moltiplicazione/divisione.</p>
+            </div>`
+      }
+    ])}
+  `
+},
+
+/* ──── 3 · RISOLUZIONE ──── */
+{
+  tag: `METODO`,
+  title: `Risolvere una <em>disequazione di primo grado</em>`,
+  nav: `Risoluzione`,
+  sub: `Strategia passo-passo: isolamento di x con le tre proprietà.`,
+  body: `
+    <p>Una <strong>disequazione di primo grado</strong> ha forma \\(ax + b > c\\) (o \\(<, \\geq, \\leq\\)) con \\(a \\neq 0\\).</p>
+
+    <h2>Strategia risolutiva</h2>
+    <ol>
+      <li>Trasporta tutti i termini con \\(x\\) da un lato</li>
+      <li>Trasporta tutti i termini senza \\(x\\) dall'altro lato</li>
+      <li>Isola \\(x\\)</li>
+      <li><strong>Se dividi/moltiplichi per un numero negativo, inverti il verso</strong></li>
+    </ol>
+
+    ${acc([
+      {
+        t: `Es. 1: Soluzione semplice`,
+        h: `<p><strong>Risolvere: \\(3x - 2 < 10\\)</strong></p>
+            <div class="math-block">\\[3x - 2 < 10\\]\\[3x < 10 + 2 \\quad\\text{(aggiungi 2)}\\]\\[3x < 12\\]\\[x < 4 \\quad\\text{(dividi per 3 positivo)}\\]</div>
+            <p><strong>Soluzione:</strong> \\(x < 4\\) oppure \\((-\\infty, 4)\\)</p>`
+      },
+      {
+        t: `Es. 2: Con moltiplicazione per negativo (il verso cambia!)`,
+        h: `<p><strong>Risolvere: \\(-2x + 5 \\geq 3\\)</strong></p>
+            <div class="math-block">\\[-2x + 5 \\geq 3\\]\\[-2x \\geq 3 - 5 \\quad\\text{(sottrai 5)}\\]\\[-2x \\geq -2\\]\\[x \\leq \\frac{-2}{-2} \\quad\\text{(il verso CAMBIA!)}\\]\\[x \\leq 1\\]</div>
+            <p><strong>Soluzione:</strong> \\(x \\leq 1\\) oppure \\((-\\infty, 1]\\)</p>`
+      },
+      {
+        t: `Es. 3: Con denominatori`,
+        h: `<p><strong>Risolvere: \\(\\dfrac{2x - 3}{2} > \\dfrac{x + 1}{3}\\)</strong></p>
+            <p>Moltiplica per 6 (mcm di 2 e 3):</p>
+            <div class="math-block">\\[3(2x - 3) > 2(x + 1)\\]\\[6x - 9 > 2x + 2\\]\\[4x > 11\\]\\[x > \\frac{11}{4} = 2.75\\]</div>
+            <p><strong>Soluzione:</strong> \\(x > 2.75\\) oppure \\((2.75, +\\infty)\\)</p>`
+      }
+    ])}
+  `
+},
+
+/* ──── 4 · RAPPRESENTAZIONE ──── */
+{
+  tag: `VISUALIZZAZIONE`,
+  title: `La retta numerica e gli <em>intervalli</em>`,
+  nav: `Rappresentazione`,
+  sub: `Convenzioni grafiche: punti pieni e vuoti, linee continue.`,
+  body: `
+    <p>Rappresentare graficamente le soluzioni sulla retta numerica aiuta a visualizzare l'insieme di valori.</p>
+
+    <h2>Convenzioni</h2>
+    <ul>
+      <li><strong>Punto pieno (●)</strong> = l'estremo è <em>incluso</em> (≤ o ≥)</li>
+      <li><strong>Punto vuoto (○)</strong> = l'estremo è <em>escluso</em> (< o >)</li>
+      <li><strong>Linea continua</strong> = la parte della retta che è soluzione</li>
+    </ul>
+
+    ${acc([
+      {
+        t: `Es. 1: \\(x < 4\\) (stretto)`,
+        h: `<div class="math-block" style="font-family:'JetBrains Mono',monospace;font-size:.9rem">← ○————————————————<br>-∞        4        +∞<br><br>Punto vuoto in 4, linea verso sinistra (verso -∞).</div>`
+      },
+      {
+        t: `Es. 2: \\(x \\geq -2\\) (non stretto)`,
+        h: `<div class="math-block" style="font-family:'JetBrains Mono',monospace;font-size:.9rem">————————————●————→<br>-∞      -2        +∞<br><br>Punto pieno in -2, linea verso destra (verso +∞).</div>`
+      },
+      {
+        t: `Es. 3: \\(-1 < x \\leq 5\\) (intervallo)`,
+        h: `<div class="math-block" style="font-family:'JetBrains Mono',monospace;font-size:.9rem">←————○————————●————→<br>-∞    -1        5   +∞<br><br>Punto vuoto in -1, punto pieno in 5, linea continua tra loro.</div>`
+      }
+    ])}
+
+    <h2>Classificazione degli intervalli</h2>
+    <table class="ct">
+      <tr><th>Tipo</th><th>Notazione</th><th>Significato</th></tr>
+      <tr><td>Chiuso</td><td>\\([a, b]\\)</td><td>\\(a \\leq x \\leq b\\) (estremi inclusi)</td></tr>
+      <tr><td>Aperto</td><td>\\((a, b)\\)</td><td>\\(a < x < b\\) (estremi esclusi)</td></tr>
+      <tr><td>Chiuso a sx, aperto a dx</td><td>\\([a, b)\\)</td><td>\\(a \\leq x < b\\)</td></tr>
+      <tr><td>Illimitato destro</td><td>\\([a, +\\infty)\\)</td><td>\\(x \\geq a\\)</td></tr>
+      <tr><td>Illimitato sinistro</td><td>\\((-\\infty, b]\\)</td><td>\\(x \\leq b\\)</td></tr>
+    </table>
+  `
+},
+
+/* ──── 5 · SISTEMI ──── */
+{
+  tag: `TEORIA`,
+  title: `Sistemi di <em>disequazioni</em>`,
+  nav: `Sistemi`,
+  sub: `Più disequazioni insieme: intersezione di soluzioni.`,
+  body: `
+    <p>Un <strong>sistema di disequazioni</strong> è un insieme di disequazioni che devono <strong>tutte essere soddisfatte contemporaneamente</strong>.</p>
+
+    <div class="cb">
+      <div class="cb-label">Definizione</div>
+      <p>La soluzione di un sistema è l'<strong>intersezione</strong> delle soluzioni di ogni disequazione: i numeri che rendono vera <em>ogni</em> condizione.</p>
+    </div>
+
+    <h2>Procedura risolutiva</h2>
+    <ol>
+      <li>Risolvi <strong>ogni disequazione separatamente</strong></li>
+      <li>Rappresenta le soluzioni sulla retta reale</li>
+      <li>Trova l'<strong>intersezione</strong> (la parte dove tutte le condizioni sono vere)</li>
+    </ol>
+
+    ${acc([
+      {
+        t: `Es. 1: Sistema semplice`,
+        h: `<p><strong>Risolvere:</strong></p>
+            <div class="math-block">\\[\\begin{cases} x < 5 \\\\ x \\geq -2 \\end{cases}\\]</div>
+            <p><strong>Soluzione della prima:</strong> \\((-\\infty, 5)\\)</p>
+            <p><strong>Soluzione della seconda:</strong> \\([-2, +\\infty)\\)</p>
+            <div class="math-block" style="font-family:'JetBrains Mono',monospace;font-size:.88rem">Primo:     ←————○<br>Secondo:       ●————→<br>Intersezione:  ●——○<br></div>
+            <p><strong>Soluzione finale:</strong> \\(-2 \\leq x < 5\\) oppure \\([-2, 5)\\)</p>`
+      },
+      {
+        t: `Es. 2: Con isolamento di x`,
+        h: `<p><strong>Risolvere:</strong></p>
+            <div class="math-block">\\[\\begin{cases} 2x - 3 > 1 \\\\ 3x + 2 \\leq 11 \\end{cases}\\]</div>
+            <p><strong>Prima:</strong> \\(2x > 4 \\Rightarrow x > 2\\)</p>
+            <p><strong>Seconda:</strong> \\(3x \\leq 9 \\Rightarrow x \\leq 3\\)</p>
+            <div class="math-block" style="font-family:'JetBrains Mono',monospace;font-size:.88rem">Primo:      ○————————<br>Secondo:    ————●<br>Intersezione: ○—●</div>
+            <p><strong>Soluzione finale:</strong> \\(2 < x \\leq 3\\) oppure \\((2, 3]\\)</p>`
+      },
+      {
+        t: `Es. 3: Sistema impossibile`,
+        h: `<p><strong>Risolvere:</strong></p>
+            <div class="math-block">\\[\\begin{cases} x > 5 \\\\ x < 2 \\end{cases}\\]</div>
+            <div class="math-block" style="font-family:'JetBrains Mono',monospace;font-size:.88rem">Primo:           ○————————→<br>Secondo:  ←————○<br>Intersezione: (nessuna)</div>
+            <p><strong>Soluzione finale:</strong> \\(\\emptyset\\) (insieme vuoto — nessuna soluzione)</p>`
+      }
+    ])}
+  `
+},
+
+/* ──── 6 · SINTESI ──── */
+{
+  tag: `SINTESI`,
+  title: `Il linguaggio dei <em>vincoli</em>`,
+  nav: `Sintesi`,
+  sub: `Ricapitolazione: equazioni vs disequazioni, applicazioni pratiche.`,
+  body: `
+    <div class="cb success">
+      <div class="cb-label">Che cosa abbiamo imparato</div>
+      <ul>
+        <li>Una <strong>disequazione</strong> è una disuguaglianza con incognita; ha <em>infinite</em> soluzioni.</li>
+        <li>I quattro simboli: \\(<, \\leq, >, \\geq\\). <strong>Stretto</strong> vs <strong>non stretto</strong>.</li>
+        <li>Tre proprietà fondamentali: addizione (verso invariato), moltiplicazione positiva (verso invariato), moltiplicazione negativa <strong>(verso si inverte!)</strong>.</li>
+        <li>Risoluzione: isola \\(x\\) come nelle equazioni, ma ricorda il cambio di verso con i negativi.</li>
+        <li>Rappresentazione grafica: punti pieni/vuoti, linee continue, notazione di intervalli.</li>
+        <li>Sistemi: intersezione di soluzioni — tutte le condizioni devono essere vere contemporaneamente.</li>
+      </ul>
+    </div>
+
+    <h2>Equazione vs Disequazione — il confronto finale</h2>
+    <table class="ct">
+      <tr><th></th><th>Equazione</th><th>Disequazione</th></tr>
+      <tr>
+        <td><strong>Domanda</strong></td>
+        <td>"Quale valore esatto?"</td>
+        <td>"Quali valori sono ammessi?"</td>
+      </tr>
+      <tr>
+        <td><strong>Soluzioni</strong></td>
+        <td>Di solito una sola</td>
+        <td>Di solito un intero intervallo</td>
+      </tr>
+      <tr>
+        <td><strong>Applicazione</strong></td>
+        <td>Equilibrio, punto di pareggio</td>
+        <td>Vincoli, range di accettabilità</td>
+      </tr>
+      <tr>
+        <td><strong>Verso</strong></td>
+        <td>Solo \\(=\\)</td>
+        <td>\\(<, \\leq, >, \\geq\\)</td>
+      </tr>
+    </table>
+
+    <div class="cb tip">
+      <div class="cb-label">La lezione prossima</div>
+      <p>Passeremo alle <strong>disequazioni di grado superiore</strong> (parabole, polinomi): come risolverle fattorizzando e studiando il segno di ogni fattore. Per ora hai le fondamenta: le proprietà e il metodo di risoluzione lineare sono il punto di partenza per tutto il resto.</p>
+    </div>
+  `
+}
+
+]; // fine schermate
+
+/* ═══════════════ APP ═══════════════ */
+let cur = 0;
+const tot = S.length;
+
+function render() {
+  // nav pills
+  document.getElementById('topNav').innerHTML = S.map((s, i) =>
+    `<button class="nav-pill ${i === cur ? 'active' : ''}" onclick="goTo(${i})">${s.nav}</button>`
+  ).join('');
+
+  // screens
+  document.getElementById('app').innerHTML = S.map((s, i) => `
+    <div class="section ${i === cur ? 'active' : ''}">
+      <div class="hero">
+        <div class="hero-tag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p class="hero-sub">${s.sub}</p>
+      </div>
+      ${s.body}
+      <div class="bottom-nav">
+        <button class="bb" onclick="goTo(${i - 1})" ${i === 0 ? 'disabled' : ''}>← Indietro</button>
+        <div class="dots">
+          ${S.map((_, j) =>
+            `<button class="dot ${j === i ? 'active' : ''}" onclick="goTo(${j})"
+             title="Sezione ${j + 1} di ${tot}"></button>`
+          ).join('')}
+        </div>
+        <button class="bb" onclick="goTo(${i + 1})" ${i === tot - 1 ? 'disabled' : ''}>Avanti →</button>
+      </div>
+    </div>
+  `).join('');
+
+  // typeset active section
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    const active = document.querySelector('.section.active');
+    if (active) MathJax.typesetPromise([active]);
+  }
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= tot) return;
+  cur = idx;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(cur + 1);
+  if (e.key === 'ArrowLeft')  goTo(cur - 1);
+});
+
+// avvia dopo MathJax
+if (typeof MathJax !== 'undefined' && MathJax.startup && MathJax.startup.promise) {
+  MathJax.startup.promise.then(() => render());
+} else {
+  render();
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>
