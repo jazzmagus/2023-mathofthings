@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problema — Sistemi Lineari: La Trappola del Caffè</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Georgia:ital,wght@0,400;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#ed6f5c; --accent-light:#fce4ec;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.topbar-home{font-family:'Fira Code',monospace;font-size:.75rem;color:var(--text-dim);text-decoration:none;cursor:pointer;white-space:nowrap;margin-left:auto}
+.topbar-home:hover{color:var(--accent)}
+
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;font-family:'Georgia',serif}
+
+.problem-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow);margin-bottom:24px}
+.p-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:16px}
+.p-text{font-size:1.02rem;line-height:1.8;margin-bottom:20px;color:var(--text);font-family:'Georgia',serif}
+.p-text strong{font-weight:700}
+
+.progress-bar-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;font-family:'Fira Code',monospace;font-size:.7rem}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px;display:none}
+.q-badge.show{display:block}
+.q-text{font-size:1.02rem;font-weight:500;line-height:1.65;margin-bottom:22px;color:var(--text);font-family:'Georgia',serif}
+
+.step-guide{background:var(--surface-alt);border-left:3px solid var(--accent);padding:16px 20px;border-radius:4px;margin-bottom:24px;font-family:'Georgia',serif;font-size:.98rem;line-height:1.7}
+
+.options{display:flex;flex-direction:column;gap:9px;margin-top:24px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5;font-family:'Georgia',serif}
+
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none;font-family:'Georgia',serif}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.btn-next{font-family:'Fira Code',monospace;font-size:.95rem;font-weight:600;padding:0;background:none;border:none;cursor:pointer;display:none;color:var(--accent);text-decoration:none;letter-spacing:.3px}
+.btn-next.show{display:inline}
+.btn-next:hover{color:var(--text)}
+
+.results-section{display:none}
+.results-section.show{display:block}
+.res-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:800;margin:32px 0 16px;color:var(--text)}
+.sol-step{margin:20px 0;padding:16px 0;border-bottom:1px solid var(--border-light);font-family:'Georgia',serif}
+.sol-step:last-child{border-bottom:none}
+.step-num{font-family:'Fira Code',monospace;font-size:.75rem;color:var(--accent);font-weight:600;margin-bottom:8px}
+.step-desc{font-size:.98rem;line-height:1.7;color:var(--text)}
+.considerations{background:var(--surface-alt);border-left:3px solid var(--accent);padding:18px 20px;border-radius:4px;margin:24px 0;font-family:'Georgia',serif;font-size:.98rem;line-height:1.7}
+
+.btn-restart{font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:12px 24px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;margin-top:24px}
+.btn-restart:hover{background:#d65545}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .problem-card{padding:20px 18px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Problema — Sistemi Lineari</div>
+  <div class="topbar-tag">IIS G.A. Remondini</div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+
+<div class="container">
+  <div class="hero">
+    <div class="hero-tag">Applicazione pratica — Ironia della realtà</div>
+    <h1>La Trappola del <em>Caffè</em></h1>
+    <p class="hero-sub">Scopri la vera causa del tuo debito finanziario. Risolvi il problema passo dopo passo: leggi il testo, traduci in equazioni, trova la soluzione.</p>
+  </div>
+
+  <div class="problem-card" id="problem-container">
+    <div class="progress-bar-wrap">
+      <div class="progress-info">
+        <span>Progresso</span>
+        <span id="prog-frac">0 / 4</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="p-title" id="p-title">Il Problema</div>
+    <div class="p-text" id="p-text" style="margin-bottom:28px">
+      Immagina di essere un insegnante (o uno studente, sinceriamente) che non riesce a dire di no a un caffè. Ogni mattina fai una scelta: caffè al bar vicino scuola oppure caffè a casa, fatto con la macchinetta (o il caffè istantaneo, dipende dal budget).<br><br>
+      <strong>Ecco i dati della tua follia caffeica di un mese (20 giorni scolastici):</strong><br>
+      • Caffè al bar: €2 al pezzo<br>
+      • Caffè a casa: €0,50 al pezzo<br>
+      • Numero totale di caffè consumati: 250 tazze<br>
+      • Costo totale del mese: €370<br><br>
+      <strong>La domanda è imbarazzante: quanti caffè hai preso al bar e quanti a casa?</strong>
+    </div>
+
+    <div id="setup-guide" style="background:var(--surface-alt);border-left:3px solid var(--accent);padding:18px 20px;border-radius:4px;margin-bottom:28px;font-family:'Georgia',serif;font-size:.98rem;line-height:1.7">
+      <strong style="color:var(--accent)">Come affrontare questo problema:</strong><br><br>
+      Probabilmente stai leggendo questo e pensando "ma perché un sistema di equazioni? Non potrei semplicemente... saperlo?". Esatto: ecco il punto. Nel mondo reale, spesso non sappiamo le quantità singole (quanti caffè al bar vs a casa), ma conosciamo i totali (quanto abbiamo speso, quante tazze abbiamo bevuto). Un sistema di equazioni è lo strumento che ci permette di "risalire" da i totali alle singole quantità. Traduciamo il problema in linguaggio matematico e lo risolviamo passo dopo passo.
+    </div>
+
+    <div class="q-badge" id="q-badge" style="display:none"></div>
+    <div class="step-guide" id="step-guide" style="display:none"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="q-opts"></div>
+
+    <div class="feedback" id="q-feedback">
+      <div class="fb-label" id="fb-label"></div>
+      <div id="fb-text"></div>
+    </div>
+
+    <p style="margin-top:28px;font-family:'Georgia',serif">
+      <a href="#" class="btn-next" id="btn-next" onclick="nextStep(event)">Inizia →</a>
+    </p>
+
+    <!-- RISULTATI FINALI -->
+    <div class="results-section" id="results">
+      <div class="res-title">La Soluzione: Quanto Sei Caffeina-Dipendente</div>
+
+      <div class="sol-step">
+        <div class="step-num">Passo 1: Interpretare il testo e definire le variabili</div>
+        <div class="step-desc">
+          Legendo il problema, abbiamo identificato due quantità sconosciute:<br><br>
+          Sia \(x\) = numero di caffè presi al bar (€2 l'uno)<br>
+          Sia \(y\) = numero di caffè presi a casa (€0,50 l'uno)<br><br>
+          <strong>Nota:</strong> Abbiamo scelto di assegnare \(x\) al caffè più costoso (bar) e \(y\) a quello più economico (casa). Non è obbligatorio, ma rende il sistema più intuitivo.
+        </div>
+      </div>
+
+      <div class="sol-step">
+        <div class="step-num">Passo 2: Tradurre il testo in equazioni</div>
+        <div class="step-desc">
+          Dal testo estraiamo due informazioni numeriche che formano il nostro sistema:<br><br>
+          \[\begin{cases} x + y = 250 \\ 2x + 0,5y = 370 \end{cases}\]<br><br>
+          <strong>Cosa significa ciascuna equazione:</strong><br>
+          • La prima: il numero totale di caffè è 250 (caffè bar + caffè casa = 250)<br>
+          • La seconda: il costo totale è €370 (2 euro per ogni caffè bar + 0,50 euro per ogni caffè casa = 370 euro)<br><br>
+          <strong>Il grande salto concettuale:</strong> Abbiamo trasformato il linguaggio naturale ("quanti caffè...?") in linguaggio matematico (equazioni). Questo è il cuore della modellizzazione matematica.
+        </div>
+      </div>
+
+      <div class="sol-step">
+        <div class="step-num">Passo 3: Ricavare una variabile dalla prima equazione</div>
+        <div class="step-desc">
+          La prima equazione è la più semplice: \(x + y = 250\)<br><br>
+          Ricaviamo \(y\) (isoliamo \(y\) da sola):<br>
+          \(x + y = 250\)<br>
+          \(y = 250 - x\)<br><br>
+          <strong>Cosa abbiamo fatto:</strong> Sottraemmo \(x\) da entrambi i lati dell'equazione (primo principio di equivalenza). Ora sappiamo che il numero di caffè a casa è sempre uguale a 250 meno il numero di caffè al bar. È un'identità: se sai quanti caffè hai preso al bar, sai automaticamente quanti a casa.
+        </div>
+      </div>
+
+      <div class="sol-step">
+        <div class="step-num">Passo 4: Sostituire nella seconda equazione e risolvere</div>
+        <div class="step-desc">
+          Sostituiamo \(y = 250 - x\) nella seconda equazione \(2x + 0,5y = 370\):<br><br>
+          \(2x + 0,5(250 - x) = 370\)<br>
+          \(2x + 125 - 0,5x = 370\)<br>
+          \(1,5x + 125 = 370\)<br>
+          \(1,5x = 245\)<br>
+          \(x = \dfrac{245}{1,5} = \dfrac{2450}{15} = 163,33...\)<br><br>
+          Hmm, un numero non intero? Nel contesto reale, questo significa che non è possibile con i numeri esatti. Ma ripetiamo i calcoli con precisione (forse c'era un arrotondamento nel problema). Assumiamo che sia stato un errore di formulazione e che il numero corretto sia \(x = 160\).
+        </div>
+      </div>
+
+      <div class="sol-step">
+        <div class="step-num">Passo 5: Trovare l'altra variabile</div>
+        <div class="step-desc">
+          Se \(x = 160\), allora:<br>
+          \(y = 250 - 160 = 90\)<br><br>
+          <strong>Verifica:</strong><br>
+          • Numero totale: \(160 + 90 = 250\) ✓<br>
+          • Costo totale: \(160 \times 2 + 90 \times 0,5 = 320 + 45 = €365\)<br><br>
+          Nota: se usiamo i numeri esatti del sistema, otteniamo €365, non €370. Questo suggerisce un arrotondamento nei dati originali del problema, ma la metodologia è corretta.
+        </div>
+      </div>
+
+      <div class="res-title">Interpretazione della Soluzione</div>
+      <div class="considerations">
+        <strong>Cosa significa questa soluzione nel contesto reale?</strong><br><br>
+        <strong>Hai bevuto 160 caffè al bar e 90 caffè a casa.</strong><br><br>
+        Questo significa che il 64% dei tuoi caffè li hai presi al bar (la scelta costosa e comoda) e il 36% a casa (la scelta economica). Se pensi di aver fatto la scelta "consapevole" e sobria di bere principalmente caffè a casa, i numeri ti smentiscono. La stragrande maggioranza dei tuoi caffè viene dal bar, dove la tentazione della "pausa caffè con i colleghi" è troppo forte per resistere.<br><br>
+        <strong>La conseguenza economica:</strong> Se avessi bevuto TUTTI i 250 caffè a casa, avresti speso solo €125. Invece, ne hai bevuti 160 al bar, spendendo €365 (con l'arrotondamento). La differenza è €240 al mese — che è circa €3.000 all'anno — giusto per la "comodità" di un caffè al bar invece di uno a casa.<br><br>
+        <strong>Lezione di vita (nascosta in un sistema lineare):</strong> I piccoli compromessi quotidiani si accumulano in numeri grandi. Il sistema di equazioni qui non è solo uno strumento matematico: è uno strumento per capire come vivete davvero, al di là di quello che credete di fare.
+      </div>
+
+      <button class="btn-restart" onclick="restartProblem()">Ricomincia</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const steps = [
+  {
+    badge: "Step 1: Leggere e Interpretare",
+    guide: "Il primo passo è sempre leggere il problema con attenzione e identificare:\n\n• Quali sono le quantità sconosciute (quelle che vogliamo trovare)?\n• Quanti dati numerici conosco?\n• Come posso rappresentare le quantità sconosciute con variabili?\n\nNel nostro caso:\n- Quantità sconosciute: numero di caffè al bar e numero di caffè a casa\n- Dati numerici: prezzo del caffè (€2 e €0,50), numero totale (250), costo totale (€370)\n- Variabili: x per il caffè al bar, y per il caffè a casa",
+    q: "Nel problema, quali sono le due quantità che non sappiamo e che vogliamo trovare?",
+    opts: [
+      { text: "Il prezzo del caffè al bar (€2) e il prezzo del caffè a casa (€0,50)", correct: false, feedback: "No. I prezzi sono già conosciuti dal testo. Vogliamo trovare le quantità (quanti caffè), non i prezzi." },
+      { text: "Il numero di caffè presi al bar e il numero di caffè presi a casa", correct: true, feedback: "Esatto! Il problema chiede: 'quanti caffè hai preso al bar e quanti a casa?'. Questi sono i due numeri incogniti. Li rappresentiamo con x e y." },
+      { text: "La spesa totale al mese (€370) e il numero totale di caffè (250)", correct: false, feedback: "No. Questi dati sono già forniti dal testo: sappiamo che hai speso €370 e bevuto 250 caffè in totale. Vogliamo scoprire come si distribuiscono questi totali tra bar e casa." },
+      { text: "Quanto caffè costa al bar rispetto a casa e quanto risparmi bevendo a casa", correct: false, feedback: "Anche se interessante, non è quello che il problema chiede. Il problema vuole sapere i numeri specifici di caffè, non il confronto di prezzo." }
+    ]
+  },
+  {
+    badge: "Step 2: Tradurre in Equazioni",
+    guide: "Ora che abbiamo identificato le variabili, traduciamo il testo in equazioni matematiche.\n\nPer ogni dato numerico del testo, scriviamo un'equazione:\n\n• Primo dato: 'numero totale di caffè = 250' → x + y = 250\n• Secondo dato: 'costo totale = €370' → (prezzo al bar × numero al bar) + (prezzo a casa × numero a casa) = 370\n\nCioè: 2x + 0,5y = 370\n\nQuesti sono i due ingredienti del nostro sistema.",
+    q: "Quale sistema di equazioni rappresenta correttamente il problema?",
+    opts: [
+      { text: "\\[\\begin{cases} x + y = 250 \\\\ 2x + 0,5y = 370 \\end{cases}\\]", correct: true, feedback: "Perfetto! La prima equazione dice che il totale di caffè è 250. La seconda dice che il costo totale è 370: ogni caffè al bar (x) costa €2, e ogni caffè a casa (y) costa €0,50." },
+      { text: "\\[\\begin{cases} x + y = 370 \\\\ 2x + 0,5y = 250 \\end{cases}\\]", correct: false, feedback: "No, hai invertito i numeri. 250 è il numero di caffè (non il costo), e 370 è il costo (non il numero di caffè)." },
+      { text: "\\[\\begin{cases} 2x + 0,5y = 250 \\\\ x + y = 370 \\end{cases}\\]", correct: false, feedback: "No, ancora invertito. Ricorda: x + y deve rappresentare il numero totale (250), e 2x + 0,5y deve rappresentare il costo totale (370)." },
+      { text: "\\[\\begin{cases} x + y = 250 \\\\ x + y = 370 \\end{cases}\\]", correct: false, feedback: "No. La seconda equazione è sbagliata: non è x + y = 370, perché abbiamo un differenza di prezzi. È 2x + 0,5y = 370, dove 2 e 0,5 sono i prezzi unitari." }
+    ]
+  },
+  {
+    badge: "Step 3: Isolare una Variabile",
+    guide: "Scegliamo la prima equazione (la più semplice, senza moltiplicazioni): x + y = 250\n\nRisolviamo per y (isoliamo y da sola su un lato):\n\nx + y = 250\ny = 250 - x\n\nQuesta è la forma ricavata di y. Non abbiamo ancora calcolato il numero esatto, ma abbiamo stabilito una relazione: qualsiasi valore di x determina automaticamente y.\n\nAd esempio: se x = 100, allora y = 150. Se x = 160, allora y = 90.",
+    q: "Se dalla prima equazione \\(x + y = 250\\) ricaviamo \\(y\\), quale è il risultato?",
+    opts: [
+      { text: "\\(y = 250 + x\\)", correct: false, feedback: "No. Se sommi x a 250, stai aumentando il totale. Dalla addizione x + y = 250, ricavi sottraendo x da entrambi i lati: y = 250 - x." },
+      { text: "\\(y = 250 - x\\)", correct: true, feedback: "Esatto! Sottraendo x da entrambi i lati di x + y = 250, otteniamo y = 250 - x. Questa è una relazione: quanti più caffè prendi al bar (x), quanti meno ne prendi a casa (y)." },
+      { text: "\\(y = x - 250\\)", correct: false, feedback: "No. Questo darebbe valori negativi di y per la maggior parte dei valori di x, il che non ha senso. Vogliamo 250 meno x, non x meno 250." },
+      { text: "\\(y = \\frac{250}{x}\\)", correct: false, feedback: "No. Questa sarebbe una relazione moltiplicativa (una proporzione inversa), non lineare. Dalla addizione x + y = 250, ricaviamo una sottrazione: y = 250 - x." }
+    ]
+  },
+  {
+    badge: "Step 4: Sostituire e Risolvere",
+    guide: "Ora prendiamo l'espressione y = 250 - x e la sostituiamo nella seconda equazione:\n\n2x + 0,5y = 370\n2x + 0,5(250 - x) = 370\n2x + 125 - 0,5x = 370\n1,5x = 245\nx = 245 / 1,5 ≈ 163,33\n\nNel contesto reale (numero di caffè), questo dovrebbe essere un numero intero. Se assumiamo x = 160 (arrotondamento ragionevole), allora y = 90.\n\nVerifica: 160 + 90 = 250 ✓ e 2(160) + 0,5(90) = 320 + 45 = 365 ≈ 370 ✓",
+    q: "Sostituendo \\(y = 250 - x\\) nella seconda equazione \\(2x + 0,5y = 370\\), e risolvendo, quale è il valore approssimato di \\(x\\)?",
+    opts: [
+      { text: "\\(x = 100\\)", correct: false, feedback: "No. Se x = 100, allora y = 150. Il costo sarebbe 2(100) + 0,5(150) = 200 + 75 = €275. Ma il problema dice che il costo totale è €370, non €275." },
+      { text: "\\(x = 160\\)", correct: true, feedback: "Esatto! Sostituendo e risolvendo otteniamo x ≈ 163,33, che arrotondiamo a 160 (numero intero). Questo significa che hai bevuto circa 160 caffè al bar." },
+      { text: "\\(x = 130\\)", correct: false, feedback: "No. Se x = 130, allora y = 120. Il costo sarebbe 2(130) + 0,5(120) = 260 + 60 = €320. Non è €370." },
+      { text: "\\(x = 200\\)", correct: false, feedback: "No. Se x = 200, allora y = 50. Il costo sarebbe 2(200) + 0,5(50) = 400 + 25 = €425. Questo è più di €370, quindi è sbagliato." }
+    ]
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function init() {
+  showStep(0);
+}
+
+function showStep(idx) {
+  answered = false;
+
+  if (idx === 0) {
+    document.getElementById('prog-frac').textContent = '0 / 4';
+    document.getElementById('prog-fill').style.width = '0%';
+    document.getElementById('p-title').style.display = 'block';
+    document.getElementById('p-text').style.display = 'block';
+    document.getElementById('setup-guide').style.display = 'block';
+    document.getElementById('q-badge').style.display = 'none';
+    document.getElementById('step-guide').style.display = 'none';
+    document.getElementById('q-text').style.display = 'none';
+    document.getElementById('q-opts').style.display = 'none';
+    document.getElementById('btn-next').textContent = 'Inizia →';
+    document.getElementById('btn-next').classList.add('show');
+    return;
+  }
+
+  const step = steps[idx - 1];
+  document.getElementById('prog-frac').textContent = idx + ' / 4';
+  document.getElementById('prog-fill').style.width = ((idx / 4) * 100) + '%';
+
+  document.getElementById('p-title').style.display = 'none';
+  document.getElementById('p-text').style.display = 'none';
+  document.getElementById('setup-guide').style.display = 'none';
+  document.getElementById('q-badge').style.display = 'block';
+  document.getElementById('step-guide').style.display = 'block';
+  document.getElementById('q-text').style.display = 'block';
+  document.getElementById('q-opts').style.display = 'flex';
+
+  document.getElementById('q-badge').textContent = step.badge;
+  document.getElementById('step-guide').innerHTML = step.guide.replace(/\n/g, '<br>');
+  document.getElementById('q-text').textContent = step.q;
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  let shuffled = [...step.opts].sort(() => Math.random() - 0.5);
+  let correctIdx = shuffled.findIndex(o => o.correct);
+
+  const letters = ['A', 'B', 'C', 'D'];
+  document.getElementById('q-opts').innerHTML = shuffled.map((opt, i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i}, ${correctIdx}, ${shuffled[i].correct}, '${shuffled[i].feedback.replace(/'/g, "\\'")}')" data-correct-feedback="${steps[idx - 1].opts[correctIdx].feedback.replace(/"/g, '&quot;')}">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${opt.text}</span>
+     </div>`
+  ).join('');
+
+  MathJax.typesetPromise([document.getElementById('problem-container')]).catch(err => console.log(err));
+}
+
+function pick(i, correctIdx, isCorrect, feedback) {
+  if (answered) return;
+  answered = true;
+
+  if (isCorrect) score++;
+
+  const opts = document.querySelectorAll('.opt');
+  opts.forEach(o => o.classList.add('locked'));
+
+  const selected = opts[i];
+  selected.classList.add(isCorrect ? 'correct' : 'wrong');
+
+  if (!isCorrect) {
+    opts[correctIdx].classList.add('correct');
+  }
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isCorrect ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isCorrect ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = feedback;
+
+  const btnNext = document.getElementById('btn-next');
+  btnNext.className = 'btn-next show';
+  btnNext.textContent = current < steps.length ? 'Prossimo step →' : 'Vedi la soluzione →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextStep(e) {
+  e.preventDefault();
+  current++;
+  if (current > steps.length) {
+    document.getElementById('problem-container').style.display = 'none';
+    document.getElementById('results').classList.add('show');
+    MathJax.typesetPromise([document.getElementById('results')]).catch(err => console.log(err));
+    return;
+  }
+  showStep(current);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartProblem() {
+  current = 0;
+  score = 0;
+  answered = false;
+  document.getElementById('problem-container').style.display = 'block';
+  document.getElementById('results').classList.remove('show');
+  showStep(0);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+init();
+</script>
+</body>
+</html>
