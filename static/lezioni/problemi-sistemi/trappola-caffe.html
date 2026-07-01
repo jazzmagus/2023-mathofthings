@@ -136,7 +136,7 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-hei
       Immagina di essere un insegnante — o uno studente — che non riesce a dire di no a un caffè. Ogni mattina fai una scelta: caffè al bar vicino scuola oppure caffè a casa, fatto con la macchinetta (o il caffè istantaneo, dipende dal budget).<br><br>
       <strong>Ecco i dati della tua follia caffeica di un mese (20 giorni scolastici):</strong><br>
       • Caffè al bar: €2 al pezzo<br>
-      • Caffè a casa: €0,50 al pezzo<br>
+      • Caffè a casa: €0.50 al pezzo<br>
       • Numero totale di caffè consumati: 250 tazze<br>
       • Costo totale del mese: €370<br><br>
       <strong>La domanda è imbarazzante: quanti caffè hai preso al bar e quanti a casa?</strong>
@@ -172,7 +172,7 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-hei
         <div class="step-desc">
           Legendo il problema, abbiamo identificato due quantità sconosciute:<br><br>
           Sia \(x\) = numero di caffè presi al bar (€2 l'uno)<br>
-          Sia \(y\) = numero di caffè presi a casa (€0,50 l'uno)<br><br>
+          Sia \(y\) = numero di caffè presi a casa (€0.50 l'uno)<br><br>
           <strong>Nota:</strong> Abbiamo scelto di assegnare \(x\) al caffè più costoso (bar) e \(y\) a quello più economico (casa). Non è obbligatorio, ma rende il sistema più intuitivo.
         </div>
       </div>
@@ -181,10 +181,10 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-hei
         <div class="step-num">Passo 2: Tradurre il testo in equazioni</div>
         <div class="step-desc">
           Dal testo estraiamo due informazioni numeriche che formano il nostro sistema:<br><br>
-          \[\begin{cases} x + y = 250 \\ 2x + 0,5y = 370 \end{cases}\]<br><br>
+          \[\begin{cases} x + y = 250 \\ 2x + 0.5y = 370 \end{cases}\]<br><br>
           <strong>Cosa significa ciascuna equazione:</strong><br>
           • La prima: il numero totale di caffè è 250 (caffè bar + caffè casa = 250)<br>
-          • La seconda: il costo totale è €370 (2 euro per ogni caffè bar + 0,50 euro per ogni caffè casa = 370 euro)<br><br>
+          • La seconda: il costo totale è €370 (2 euro per ogni caffè bar + 0.50 euro per ogni caffè casa = 370 euro)<br><br>
           <strong>Il grande salto concettuale:</strong> Abbiamo trasformato il linguaggio naturale ("quanti caffè...?") in linguaggio matematico (equazioni). Questo è il cuore della modellizzazione matematica.
         </div>
       </div>
@@ -203,12 +203,12 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-hei
       <div class="sol-step">
         <div class="step-num">Passo 4: Sostituire nella seconda equazione e risolvere</div>
         <div class="step-desc">
-          Sostituiamo \(y = 250 - x\) nella seconda equazione \(2x + 0,5y = 370\):<br><br>
-          \(2x + 0,5(250 - x) = 370\)<br>
-          \(2x + 125 - 0,5x = 370\)<br>
-          \(1,5x + 125 = 370\)<br>
-          \(1,5x = 245\)<br>
-          \(x = \dfrac{245}{1,5} = \dfrac{2450}{15} = 163,33...\)<br><br>
+          Sostituiamo \(y = 250 - x\) nella seconda equazione \(2x + 0.5y = 370\):<br><br>
+          \(2x + 0.5(250 - x) = 370\)<br>
+          \(2x + 125 - 0.5x = 370\)<br>
+          \(1.5x + 125 = 370\)<br>
+          \(1.5x = 245\)<br>
+          \(x = \dfrac{245}{1.5} = \dfrac{2450}{15} = 163.33...\)<br><br>
           Hmm, un numero non intero? Nel contesto reale, questo significa che non è possibile con i numeri esatti. Ma ripetiamo i calcoli con precisione (forse c'era un arrotondamento nel problema). Assumiamo che sia stato un errore di formulazione e che il numero corretto sia \(x = 160\).
         </div>
       </div>
@@ -220,7 +220,7 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-hei
           \(y = 250 - 160 = 90\)<br><br>
           <strong>Verifica:</strong><br>
           • Numero totale: \(160 + 90 = 250\) ✓<br>
-          • Costo totale: \(160 \times 2 + 90 \times 0,5 = 320 + 45 = €365\)<br><br>
+          • Costo totale: \(160 \times 2 + 90 \times 0.5 = 320 + 45 = €365\)<br><br>
           Nota: se usiamo i numeri esatti del sistema, otteniamo €365, non €370. Questo suggerisce un arrotondamento nei dati originali del problema, ma la metodologia è corretta.
         </div>
       </div>
@@ -244,10 +244,10 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-hei
 const steps = [
   {
     badge: "Step 1: Leggere e Interpretare",
-    guide: "Il primo passo è sempre leggere il problema con attenzione e identificare:\n\n• Quali sono le quantità sconosciute (quelle che vogliamo trovare)?\n• Quanti dati numerici conosco?\n• Come posso rappresentare le quantità sconosciute con variabili?\n\nNel nostro caso:\n- Quantità sconosciute: numero di caffè al bar e numero di caffè a casa\n- Dati numerici: prezzo del caffè (€2 e €0,50), numero totale (250), costo totale (€370)\n- Variabili: x per il caffè al bar, y per il caffè a casa",
+    guide: "Il primo passo è sempre leggere il problema con attenzione e identificare:\n\n• Quali sono le quantità sconosciute (quelle che vogliamo trovare)?\n• Quanti dati numerici conosco?\n• Come posso rappresentare le quantità sconosciute con variabili?\n\nNel nostro caso:\n- Quantità sconosciute: numero di caffè al bar e numero di caffè a casa\n- Dati numerici: prezzo del caffè (€2 e €0.50), numero totale (250), costo totale (€370)\n- Variabili: x per il caffè al bar, y per il caffè a casa",
     q: "Nel problema, quali sono le due quantità che non sappiamo e che vogliamo trovare?",
     opts: [
-      { text: "Il prezzo del caffè al bar (€2) e il prezzo del caffè a casa (€0,50)", correct: false, feedback: "No. I prezzi sono già conosciuti dal testo. Vogliamo trovare le quantità (quanti caffè), non i prezzi." },
+      { text: "Il prezzo del caffè al bar (€2) e il prezzo del caffè a casa (€0.50)", correct: false, feedback: "No. I prezzi sono già conosciuti dal testo. Vogliamo trovare le quantità (quanti caffè), non i prezzi." },
       { text: "Il numero di caffè presi al bar e il numero di caffè presi a casa", correct: true, feedback: "Esatto! Il problema chiede: 'quanti caffè hai preso al bar e quanti a casa?'. Questi sono i due numeri incogniti. Li rappresentiamo con x e y." },
       { text: "La spesa totale al mese (€370) e il numero totale di caffè (250)", correct: false, feedback: "No. Questi dati sono già forniti dal testo: sappiamo che hai speso €370 e bevuto 250 caffè in totale. Vogliamo scoprire come si distribuiscono questi totali tra bar e casa." },
       { text: "Quanto caffè costa al bar rispetto a casa e quanto risparmi bevendo a casa", correct: false, feedback: "Anche se interessante, non è quello che il problema chiede. Il problema vuole sapere i numeri specifici di caffè, non il confronto di prezzo." }
@@ -255,13 +255,13 @@ const steps = [
   },
   {
     badge: "Step 2: Tradurre in Equazioni",
-    guide: "Ora che abbiamo identificato le variabili, traduciamo il testo in equazioni matematiche.\n\nPer ogni dato numerico del testo, scriviamo un'equazione:\n\n• Primo dato: 'numero totale di caffè = 250' → x + y = 250\n• Secondo dato: 'costo totale = €370' → (prezzo al bar × numero al bar) + (prezzo a casa × numero a casa) = 370\n\nCioè: 2x + 0,5y = 370\n\nQuesti sono i due ingredienti del nostro sistema.",
+    guide: "Ora che abbiamo identificato le variabili, traduciamo il testo in equazioni matematiche.\n\nPer ogni dato numerico del testo, scriviamo un'equazione:\n\n• Primo dato: 'numero totale di caffè = 250' → x + y = 250\n• Secondo dato: 'costo totale = €370' → (prezzo al bar × numero al bar) + (prezzo a casa × numero a casa) = 370\n\nCioè: 2x + 0.5y = 370\n\nQuesti sono i due ingredienti del nostro sistema.",
     q: "Quale sistema di equazioni rappresenta correttamente il problema?",
     opts: [
-      { text: "\\[\\begin{cases} x + y = 250 \\\\ 2x + 0,5y = 370 \\end{cases}\\]", correct: true, feedback: "Perfetto! La prima equazione dice che il totale di caffè è 250. La seconda dice che il costo totale è 370: ogni caffè al bar (x) costa €2, e ogni caffè a casa (y) costa €0,50." },
-      { text: "\\[\\begin{cases} x + y = 370 \\\\ 2x + 0,5y = 250 \\end{cases}\\]", correct: false, feedback: "No, hai invertito i numeri. 250 è il numero di caffè (non il costo), e 370 è il costo (non il numero di caffè)." },
-      { text: "\\[\\begin{cases} 2x + 0,5y = 250 \\\\ x + y = 370 \\end{cases}\\]", correct: false, feedback: "No, ancora invertito. Ricorda: x + y deve rappresentare il numero totale (250), e 2x + 0,5y deve rappresentare il costo totale (370)." },
-      { text: "\\[\\begin{cases} x + y = 250 \\\\ x + y = 370 \\end{cases}\\]", correct: false, feedback: "No. La seconda equazione è sbagliata: non è x + y = 370, perché abbiamo un differenza di prezzi. È 2x + 0,5y = 370, dove 2 e 0,5 sono i prezzi unitari." }
+      { text: "\\[\\begin{cases} x + y = 250 \\\\ 2x + 0.5y = 370 \\end{cases}\\]", correct: true, feedback: "Perfetto! La prima equazione dice che il totale di caffè è 250. La seconda dice che il costo totale è 370: ogni caffè al bar (x) costa €2, e ogni caffè a casa (y) costa €0.50." },
+      { text: "\\[\\begin{cases} x + y = 370 \\\\ 2x + 0.5y = 250 \\end{cases}\\]", correct: false, feedback: "No, hai invertito i numeri. 250 è il numero di caffè (non il costo), e 370 è il costo (non il numero di caffè)." },
+      { text: "\\[\\begin{cases} 2x + 0.5y = 250 \\\\ x + y = 370 \\end{cases}\\]", correct: false, feedback: "No, ancora invertito. Ricorda: x + y deve rappresentare il numero totale (250), e 2x + 0.5y deve rappresentare il costo totale (370)." },
+      { text: "\\[\\begin{cases} x + y = 250 \\\\ x + y = 370 \\end{cases}\\]", correct: false, feedback: "No. La seconda equazione è sbagliata: non è x + y = 370, perché abbiamo un differenza di prezzi. È 2x + 0.5y = 370, dove 2 e 0.5 sono i prezzi unitari." }
     ]
   },
   {
@@ -277,13 +277,13 @@ const steps = [
   },
   {
     badge: "Step 4: Sostituire e Risolvere",
-    guide: "Ora prendiamo l'espressione y = 250 - x e la sostituiamo nella seconda equazione:\n\n2x + 0,5y = 370\n2x + 0,5(250 - x) = 370\n2x + 125 - 0,5x = 370\n1,5x = 245\nx = 245 / 1,5 ≈ 163,33\n\nNel contesto reale (numero di caffè), questo dovrebbe essere un numero intero. Se assumiamo x = 160 (arrotondamento ragionevole), allora y = 90.\n\nVerifica: 160 + 90 = 250 ✓ e 2(160) + 0,5(90) = 320 + 45 = 365 ≈ 370 ✓",
-    q: "Sostituendo \\(y = 250 - x\\) nella seconda equazione \\(2x + 0,5y = 370\\), e risolvendo, quale è il valore approssimato di \\(x\\)?",
+    guide: "Ora prendiamo l'espressione y = 250 - x e la sostituiamo nella seconda equazione:\n\n2x + 0.5y = 370\n2x + 0.5(250 - x) = 370\n2x + 125 - 0.5x = 370\n1.5x = 245\nx = 245 / 1.5 ≈ 163.33\n\nNel contesto reale (numero di caffè), questo dovrebbe essere un numero intero. Se assumiamo x = 160 (arrotondamento ragionevole), allora y = 90.\n\nVerifica: 160 + 90 = 250 ✓ e 2(160) + 0.5(90) = 320 + 45 = 365 ≈ 370 ✓",
+    q: "Sostituendo \\(y = 250 - x\\) nella seconda equazione \\(2x + 0.5y = 370\\), e risolvendo, quale è il valore approssimato di \\(x\\)?",
     opts: [
-      { text: "\\(x = 100\\)", correct: false, feedback: "No. Se x = 100, allora y = 150. Il costo sarebbe 2(100) + 0,5(150) = 200 + 75 = €275. Ma il problema dice che il costo totale è €370, non €275." },
-      { text: "\\(x = 160\\)", correct: true, feedback: "Esatto! Sostituendo e risolvendo otteniamo x ≈ 163,33, che arrotondiamo a 160 (numero intero). Questo significa che hai bevuto circa 160 caffè al bar." },
-      { text: "\\(x = 130\\)", correct: false, feedback: "No. Se x = 130, allora y = 120. Il costo sarebbe 2(130) + 0,5(120) = 260 + 60 = €320. Non è €370." },
-      { text: "\\(x = 200\\)", correct: false, feedback: "No. Se x = 200, allora y = 50. Il costo sarebbe 2(200) + 0,5(50) = 400 + 25 = €425. Questo è più di €370, quindi è sbagliato." }
+      { text: "\\(x = 100\\)", correct: false, feedback: "No. Se x = 100, allora y = 150. Il costo sarebbe 2(100) + 0.5(150) = 200 + 75 = €275. Ma il problema dice che il costo totale è €370, non €275." },
+      { text: "\\(x = 160\\)", correct: true, feedback: "Esatto! Sostituendo e risolvendo otteniamo x ≈ 163.33, che arrotondiamo a 160 (numero intero). Questo significa che hai bevuto circa 160 caffè al bar." },
+      { text: "\\(x = 130\\)", correct: false, feedback: "No. Se x = 130, allora y = 120. Il costo sarebbe 2(130) + 0.5(120) = 260 + 60 = €320. Non è €370." },
+      { text: "\\(x = 200\\)", correct: false, feedback: "No. Se x = 200, allora y = 50. Il costo sarebbe 2(200) + 0.5(50) = 400 + 25 = €425. Questo è più di €370, quindi è sbagliato." }
     ]
   }
 ];
