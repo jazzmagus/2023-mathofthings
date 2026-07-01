@@ -206,11 +206,15 @@ const S = [
         </tr>
         <tr>
           <td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">5</td>
-          <td>Sistemi di disequazioni</td>
+          <td>Sistemi di disequazioni (6 esempi)</td>
         </tr>
         <tr>
           <td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">6</td>
-          <td>Sintesi e applicazioni</td>
+          <td>Applicazioni pratiche (5 problemi)</td>
+        </tr>
+        <tr>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">7</td>
+          <td>Sintesi e ricapitolazione</td>
         </tr>
       </table>
     </div>
@@ -439,17 +443,121 @@ const S = [
             <div class="math-block">\\[\\begin{cases} x > 5 \\\\ x < 2 \\end{cases}\\]</div>
             <div class="math-block" style="font-family:'JetBrains Mono',monospace;font-size:.88rem">Primo:           ○————————→<br>Secondo:  ←————○<br>Intersezione: (nessuna)</div>
             <p><strong>Soluzione finale:</strong> \\(\\emptyset\\) (insieme vuoto — nessuna soluzione)</p>`
+      },
+      {
+        t: `Es. 4: Sistema con infinito soluzioni`,
+        h: `<p><strong>Risolvere:</strong></p>
+            <div class="math-block">\\[\\begin{cases} x > 1 \\\\ x > -3 \\end{cases}\\]</div>
+            <p><strong>Prima:</strong> \\(x > 1\\)</p>
+            <p><strong>Seconda:</strong> \\(x > -3\\)</p>
+            <div class="math-block" style="font-family:'JetBrains Mono',monospace;font-size:.88rem">Primo:       ○————————→<br>Secondo:  ○——————————→<br>Intersezione: ○——————→</div>
+            <p><strong>Soluzione finale:</strong> \\(x > 1\\) oppure \\((1, +\\infty)\\) — la prima condizione è più restrittiva.</p>`
+      },
+      {
+        t: `Es. 5: Sistema con tre disequazioni`,
+        h: `<p><strong>Risolvere:</strong></p>
+            <div class="math-block">\\[\\begin{cases} x > -1 \\\\ x < 4 \\\\ x \\geq 0 \\end{cases}\\]</div>
+            <p><strong>Prima:</strong> \\(x > -1\\) cioè \\((-1, +\\infty)\\)</p>
+            <p><strong>Seconda:</strong> \\(x < 4\\) cioè \\((-\\infty, 4)\\)</p>
+            <p><strong>Terza:</strong> \\(x \\geq 0\\) cioè \\([0, +\\infty)\\)</p>
+            <div class="math-block" style="font-family:'JetBrains Mono',monospace;font-size:.88rem">Prima:    ←—○————————————→<br>Seconda:  ←————————————○→<br>Terza:        ●———————————→<br>Intersezione: ●——————○</div>
+            <p><strong>Soluzione finale:</strong> \\(0 \\leq x < 4\\) oppure \\([0, 4)\\)</p>`
+      },
+      {
+        t: `Es. 6: Sistema con moltiplicazione per negativo`,
+        h: `<p><strong>Risolvere:</strong></p>
+            <div class="math-block">\\[\\begin{cases} -x + 2 < 5 \\\\ 2x + 1 \\geq -3 \\end{cases}\\]</div>
+            <p><strong>Prima:</strong> \\(-x < 3 \\Rightarrow x > -3\\) (il verso cambia!)</p>
+            <p><strong>Seconda:</strong> \\(2x \\geq -4 \\Rightarrow x \\geq -2\\)</p>
+            <div class="math-block" style="font-family:'JetBrains Mono',monospace;font-size:.88rem">Prima:     ←—○————————————→<br>Seconda:      ●——————————→<br>Intersezione: ●————————→</div>
+            <p><strong>Soluzione finale:</strong> \\(x \\geq -2\\) oppure \\([-2, +\\infty)\\) — la seconda è più restrittiva.</p>`
       }
     ])}
   `
 },
 
-/* ──── 6 · SINTESI ──── */
+/* ──── 6 · APPLICAZIONI PRATICHE ──── */
+{
+  tag: `APPLICAZIONI`,
+  title: `Disequazioni nel <em>mondo reale</em>`,
+  nav: `Applicazioni`,
+  sub: `Problemi concreti: limiti di budget, range di velocità, vincoli fisici.`,
+  body: `
+    <p>Le disequazioni non sono solo esercizi astratti: rispondono a domande reali che tutti affrontiamo ogni giorno.</p>
+
+    ${acc([
+      {
+        t: `Problema 1: Limite di spesa`,
+        h: `<p><strong>Scenario:</strong> Hai 50 euro e vuoi comprare quaderni che costano 3 euro l'uno. Quanti quaderni puoi comprare al massimo?</p>
+            <p><strong>Modello:</strong> Se \\(x\\) è il numero di quaderni:</p>
+            <div class="math-block">\\[3x \\leq 50\\]</div>
+            <p><strong>Risoluzione:</strong></p>
+            <div class="math-block">\\[x \\leq \\frac{50}{3} = 16.666...\\]</div>
+            <p><strong>Interpretazione:</strong> Poiché \\(x\\) deve essere un numero naturale (non puoi comprare 0.666 quaderni), la risposta è \\(x \\leq 16\\).</p>
+            <p><strong>Risposta pratica:</strong> Puoi comprare <strong>al massimo 16 quaderni</strong> (spendendo 48 euro, con 2 euro di resto).</p>`
+      },
+      {
+        t: `Problema 2: Range di temperatura`,
+        h: `<p><strong>Scenario:</strong> Un forno deve mantenere una temperatura fra 150°C e 250°C per cuocere correttamente il pane. Esprimi il vincolo come disequazione e sistema.</p>
+            <p><strong>Modello:</strong> Se \\(T\\) è la temperatura misurata:</p>
+            <div class="math-block">\\[\\begin{cases} T \\geq 150 \\\\ T \\leq 250 \\end{cases}\\]</div>
+            <p><strong>Notazione compatta:</strong></p>
+            <div class="math-block">\\[150 \\leq T \\leq 250\\]</div>
+            <p><strong>In intervalli:</strong> \\(T \\in [150, 250]\\)</p>
+            <p><strong>Interpretazione:</strong> Il forno è idoneo alla cottura quando la temperatura rientra in questo range chiuso: sia 150°C che 250°C sono accettabili.</p>`
+      },
+      {
+        t: `Problema 3: Vincoli di capacità`,
+        h: `<p><strong>Scenario:</strong> Un ascensore ha portata massima di 1000 kg. Una persona pesa 75 kg. Quante persone dello stesso peso possono salire insieme?</p>
+            <p><strong>Modello:</strong> Se \\(x\\) è il numero di persone:</p>
+            <div class="math-block">\\[75x \\leq 1000\\]</div>
+            <p><strong>Risoluzione:</strong></p>
+            <div class="math-block">\\[x \\leq \\frac{1000}{75} = 13.333...\\]</div>
+            <p><strong>Risposta pratica:</strong> Possono salire <strong>al massimo 13 persone</strong> (peso totale: 975 kg, entro il limite).</p>`
+      },
+      {
+        t: `Problema 4: Vincoli di distanza e tempo`,
+        h: `<p><strong>Scenario:</strong> Un'auto consuma 8 litri ogni 100 km. Se il serbatoio contiene 60 litri, qual è il range di distanza massima che può percorrere?</p>
+            <p><strong>Modello:</strong> Se \\(d\\) è la distanza in km:</p>
+            <div class="math-block">\\[\\text{Consumo} = \\frac{d}{100} \\cdot 8 \\leq 60\\]</div>
+            <p><strong>Risoluzione:</strong></p>
+            <div class="math-block">\\[\\frac{8d}{100} \\leq 60\\]\\[8d \\leq 6000\\]\\[d \\leq 750\\]</div>
+            <p><strong>Risposta pratica:</strong> L'auto può percorrere <strong>al massimo 750 km</strong> con un serbatoio pieno.</p>`
+      },
+      {
+        t: `Problema 5: Voto minimo all'esame`,
+        h: `<p><strong>Scenario:</strong> Per superare un esame devi ottenere almeno 18 punti su 30. Hai già 12 punti da verifiche precedenti; la prova finale vale 20 punti. Quale range di voti nella prova finale ti permette di superare?</p>
+            <p><strong>Modello:</strong> Se \\(v\\) è il voto della prova finale:</p>
+            <div class="math-block">\\[12 + v \\geq 18\\]</div>
+            <p><strong>Risoluzione:</strong></p>
+            <div class="math-block">\\[v \\geq 6\\]</div>
+            <p><strong>Vincolo aggiuntivo:</strong> Il voto massimo è 20, quindi: \\(v \\leq 20\\)</p>
+            <p><strong>Sistema:</strong></p>
+            <div class="math-block">\\[\\begin{cases} v \\geq 6 \\\\ v \\leq 20 \\end{cases}\\]</div>
+            <p><strong>Risposta pratica:</strong> Devi prendere <strong>almeno 6 punti nella prova finale</strong> per superare l'esame. Se prendi 6 punti, totale = 18 (il minimo per passare). Se prendi 20, totale = 32 (il massimo possibile).</p>`
+      }
+    ])}
+
+    <h2>Il metodo applicativo</h2>
+    <div class="cb success">
+      <div class="cb-label">Come trasformare un problema reale in disequazioni</div>
+      <ol>
+        <li><strong>Identifica la variabile:</strong> Cosa stai cercando? (numero di oggetti, distanza, temperatura, ecc.)</li>
+        <li><strong>Leggi il vincolo:</strong> "almeno", "al massimo", "tra" → trasformalo in simboli \\(\\geq, \\leq, <, >\\)</li>
+        <li><strong>Scrivi la disequazione:</strong> Esprimi il vincolo come una o più disequazioni</li>
+        <li><strong>Risolvi:</strong> Isola la variabile</li>
+        <li><strong>Interpreta:</strong> Ritorna al mondo reale — qual è il significato della soluzione?</li>
+      </ol>
+    </div>
+  `
+},
+
+/* ──── 7 · SINTESI ──── */
 {
   tag: `SINTESI`,
   title: `Il linguaggio dei <em>vincoli</em>`,
   nav: `Sintesi`,
-  sub: `Ricapitolazione: equazioni vs disequazioni, applicazioni pratiche.`,
+  sub: `Ricapitolazione: da disuguaglianze astratte a decisioni concrete.`,
   body: `
     <div class="cb success">
       <div class="cb-label">Che cosa abbiamo imparato</div>
