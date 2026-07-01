@@ -163,8 +163,8 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-hei
   </div>
 
   <!-- RISULTATI FINALI — sezione soluzione -->
-  <div class="problem-card" id="results" style="display:none">
-    <div style="display:block">
+  <div class="problem-card" id="results" style="display:none;">
+    <div>
       <div class="res-title">La Soluzione: Quanto Sei Caffeina-Dipendente</div>
 
       <div class="sol-step">
@@ -382,7 +382,7 @@ function nextStep(e) {
   current++;
   if (current > steps.length) {
     document.getElementById('problem-container').style.display = 'none';
-    document.getElementById('results').classList.add('show');
+    document.getElementById('results').style.display = 'block';
     MathJax.typesetPromise([document.getElementById('results')]).catch(err => console.log(err));
     return;
   }
@@ -395,7 +395,7 @@ function restartProblem() {
   score = 0;
   answered = false;
   document.getElementById('problem-container').style.display = 'block';
-  document.getElementById('results').classList.remove('show');
+  document.getElementById('results').style.display = 'none';
   showStep(0);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
