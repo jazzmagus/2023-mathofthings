@@ -35,6 +35,21 @@
       </div>
     </a>
 
+    <!-- Featured Presentation: The Complex Case -->
+    <a href="/slides/numeri-complessi-spy-story/" class="article-item-link">
+      <div class="article-content">
+        <h3 class="article-title">The <em>Complex</em> Case</h3>
+        <p class="article-meta">
+          <span class="article-summary">Una spy story matematica: Dal Ferro, Tartaglia, Cardano e Bombelli nella lotta per scoprire i numeri complessi.</span>
+          <span class="article-date">2 Lug 2026</span>
+        </p>
+      </div>
+      <div class="article-visual">
+        <img src="/slides/numeri-complessi-spy-story/featured.jpg" alt="The Complex Case" class="article-thumbnail">
+        <span class="article-icon" aria-hidden="true">→</span>
+      </div>
+    </a>
+
     {{ range .Pages.ByDate.Reverse }}
       {{ $title := .Title }}
       <a href="{{ .RelPermalink }}" class="article-item-link">
