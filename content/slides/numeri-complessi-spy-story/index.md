@@ -10,14 +10,6 @@ slides:
   transition: convex
   particles: true
   highlight_style: github
-  chalkboard:
-    enable: true
-    draw:
-      scale: 2
-      color: ['rgba(255,255,255,1)', 'rgba(237,111,92,1)']
-    eraser:
-      src: null
-    storage: local
 ---
 
 <section class="mot-hero" data-transition="zoom">
@@ -433,27 +425,3 @@ slides:
   <h1>The <span class="math-word">Math</span> of <em>Things</em></h1>
   <p class="mot-meta"><a href="https://mathofthings.netlify.app/" target="_blank" class="mono">mathofthings.netlify.app</a></p>
 </section>
-
-<script>
-// Carica Chalkboard plugin da CDN
-document.addEventListener('DOMContentLoaded', function() {
-  // Carica il CSS del chalkboard
-  const linkEl = document.createElement('link');
-  linkEl.rel = 'stylesheet';
-  linkEl.href = 'https://cdn.jsdelivr.net/npm/reveal.js-chalkboard@1.0.0/chalkboard.css';
-  document.head.appendChild(linkEl);
-
-  // Carica lo script del chalkboard
-  const scriptEl = document.createElement('script');
-  scriptEl.src = 'https://cdn.jsdelivr.net/npm/reveal.js-chalkboard@1.0.0/chalkboard.js';
-  scriptEl.onload = function() {
-    // Configura il plugin dopo il caricamento
-    if (window.RevealChalkboard) {
-      Reveal.initialize({
-        plugins: [window.RevealChalkboard]
-      });
-    }
-  };
-  document.body.appendChild(scriptEl);
-});
-</script>
