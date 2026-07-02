@@ -72,14 +72,18 @@ slides:
 <section>
   <p class="mot-kicker">Venezia, 1535</p>
   <h2>Tartaglia vs Fior</h2>
-  <div class="mot-cols">
+  <p class="mot-def fragment"><b>Niccolò Tartaglia</b> riceve una sfida pubblica: risolvere trenta problemi cubici proposti da Antonio Maria Fior.</p>
+  
+  <div class="mot-cols" style="margin-top:1.5em;">
     <div class="mot-col fragment">
-      <p class="mot-def"><b>Niccolò Tartaglia</b> riceve una sfida pubblica: risolvere trenta problemi cubici proposti da Antonio Maria Fior.</p>
-      <p style="font-size:0.8em; margin-top:1em;">Tartaglia — il nome significa letteralmente "chi balbetta", una ferita ricevuta nel Sacco di Brescia del 1512 — è un genio a sua insaputa.</p>
-      <p class="mot-result fragment" style="margin-top:1em;">Tartaglia scopre il metodo <b>pochi giorni prima della sfida</b>. Poi fa qualcosa di straordinario: per non dimenticarlo, lo <b>codifica in una poesia criptica</b>.</p>
+      <p style="font-size:0.7em; font-family:'JetBrains Mono', monospace; color:#666; line-height:1.6; margin-bottom:1.5em;">
+        Il nome significa letteralmente "chi balbetta" — una ferita ricevuta nel Sacco di Brescia del 1512.
+      </p>
+      <p class="mot-result" style="font-size:0.85em; color:#ed6f5c; font-weight:600; margin:0;">Tartaglia scopre il metodo pochi giorni prima.</p>
+      <p style="font-size:0.75em; color:#ed6f5c; margin-top:0.5em;">Per non dimenticarlo, lo <b>codifica in una poesia criptica</b>.</p>
     </div>
     <div class="mot-col fragment">
-      <img src="tartaglia.png" alt="Niccolò Tartaglia" style="max-width:100%; max-height:420px; display:block; margin:0 auto;">
+      <img src="tartaglia.png" alt="Niccolò Tartaglia" style="max-width:100%; max-height:520px; display:block; margin:0 auto;">
     </div>
   </div>
 </section>
@@ -116,15 +120,16 @@ slides:
 <section>
   <p class="mot-kicker">Milano, 1545</p>
   <h2>Gerolamo Cardano e l'Ars Magna</h2>
-  <div class="mot-cols">
+  <p class="mot-def fragment">Gerolamo Cardano, matematico e astrologo, ottiene da Tartaglia la formula <b>con una promessa solenne</b>: non divulgarla.</p>
+  
+  <div class="mot-cols" style="margin-top:1.5em;">
     <div class="mot-col fragment">
-      <p class="mot-def">Gerolamo Cardano, matematico e astrologo, ottiene da Tartaglia la formula <b>con una promessa solenne</b>: non divulgarla.</p>
-      <p style="font-size:0.75em; margin-top:1em;">Pochi anni dopo, Cardano pubblica l'<em>Ars Magna</em> — "La Grande Arte" — e <b>include la formula</b>.</p>
-      <p style="font-size:0.75em; color:#e74c3c; font-weight:600;">Attribuisce parte del merito a Tartaglia (gratitudine relativa).</p>
+      <p style="font-size:0.75em; line-height:1.6; margin-bottom:1em;">Pochi anni dopo, Cardano pubblica l'<em>Ars Magna</em> — "La Grande Arte" — e <b>include la formula</b>.</p>
+      <p style="font-size:0.75em; color:#ed6f5c; font-weight:600;">Attribuisce parte del merito a Tartaglia (gratitudine relativa).</p>
       <p style="font-size:0.7em; margin-top:1em;">Tartaglia sarà ricordato come "quello che l'ha rivelata a Cardano".</p>
     </div>
-    <div class="mot-col fragment" style="background: #f0f0f0; padding: 20px; border-radius: 8px; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 300px; font-size:0.85em; color:#999;">
-      Ritratto: Gerolamo Cardano<br><span style="font-size:0.8em;">(placeholder per immagine)</span>
+    <div class="mot-col fragment">
+      <img src="cardano.png" alt="Gerolamo Cardano" style="max-width:100%; max-height:500px; display:block; margin:0 auto;">
     </div>
   </div>
 </section>
