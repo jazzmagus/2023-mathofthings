@@ -307,8 +307,8 @@ slides:
       <p class="mot-def">Gauss riconosce i numeri complessi come <b>veri e propri numeri</b>. Conia il termine "numeri complessi".</p>
       <p style="font-size:0.8em; margin-top:1em;">Introduce la rappresentazione <b>geometrica</b>: il piano complesso. Parte reale sull'asse x, parte immaginaria sull'asse y.</p>
     </div>
-    <div class="mot-col fragment" style="background: #f0f0f0; padding: 20px; border-radius: 8px; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 300px; font-size:0.85em; color:#999;">
-      Ritratto: Carl Friedrich Gauss<br><span style="font-size:0.8em;">(placeholder per immagine)</span>
+    <div class="mot-col fragment">
+      <img src="gauss.png" alt="Carl Friedrich Gauss" style="max-width:100%; max-height:420px; display:block; margin:0 auto;">
     </div>
   </div>
 </section>
