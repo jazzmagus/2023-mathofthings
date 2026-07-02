@@ -101,7 +101,7 @@ slides:
 <section>
   <p class="mot-kicker">la poesia criptica</p>
   <h2>Tartaglia Codifica la Soluzione</h2>
-  <p class="fragment" style="font-size:0.75em; text-align:left; max-width:95%; margin:0.5em auto; line-height:1.5;">
+  <p class="fragment" style="font-size:0.75em; text-align:center; max-width:100%; margin:0.5em auto; line-height:1.5;">
     <em>"Quando che'l cubo con le cose appresso<br>
     Se agguaglia à qualche numero discreto,<br>
     Trovan dui altri differenti in esso;<br>
@@ -242,7 +242,7 @@ slides:
   <p class="mot-result fragment">$$(2 + i)^3 = 2 + 11i$$</p>
   <p class="mot-result fragment">$$(2 - i)^3 = 2 - 11i$$</p>
   <p class="fragment" style="font-size:0.8em; margin-top:1.5em;">Quindi:</p>
-  <p style="text-align:center; font-size:0.8em;">$\sqrt[3]{2 + \sqrt{-121}} + \sqrt[3]{2 - \sqrt{-121}} = (2+i) + (2-i) = 4$</p>
+  <p class="fragment" style="text-align:center; font-size:0.8em;">$\sqrt[3]{2 + \sqrt{-121}} + \sqrt[3]{2 - \sqrt{-121}} = (2+i) + (2-i) = 4$</p>
   <p class="mot-joke fragment" style="font-size:0.75em;">La risposta reale emerge dal caos immaginario.</p>
 </section>
 
@@ -283,23 +283,23 @@ slides:
   <h2>Cinque Costanti in Una Formula</h2>
   <div class="mot-cards" style="font-size:0.8em;">
     <div class="mot-card fragment">
-      <h3>e</h3>
+      <h3 style="font-size:3.5em; color:#ed6f5c; margin:0.3em 0;">e</h3>
       <p>La base dei logaritmi naturali</p>
     </div>
     <div class="mot-card fragment">
-      <h3>i</h3>
+      <h3 style="font-size:3.5em; color:#ed6f5c; margin:0.3em 0;">i</h3>
       <p>L'unità immaginaria</p>
     </div>
     <div class="mot-card fragment">
-      <h3>π</h3>
+      <h3 style="font-size:3.5em; color:#ed6f5c; margin:0.3em 0;">π</h3>
       <p>La costante del cerchio</p>
     </div>
     <div class="mot-card fragment">
-      <h3>1</h3>
+      <h3 style="font-size:3.5em; color:#ed6f5c; margin:0.3em 0;">1</h3>
       <p>L'identità moltiplicativa</p>
     </div>
     <div class="mot-card fragment">
-      <h3>0</h3>
+      <h3 style="font-size:3.5em; color:#ed6f5c; margin:0.3em 0;">0</h3>
       <p>L'identità additiva</p>
     </div>
   </div>
