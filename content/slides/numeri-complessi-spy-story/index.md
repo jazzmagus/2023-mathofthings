@@ -16,7 +16,7 @@ slides:
   <p class="mot-kicker">una storia di tradimenti e segreti</p>
   <h1>The <span class="math-word">Complex</span> Case</h1>
   <p class="mot-tagline">dalla scoperta dei numeri complessi al 1800</p>
-  <p class="mot-meta">prof. Diego Fantinelli &mdash; The Math of Things</p>
+  <p class="mot-meta">prof. Diego Fantinelli &mdash; <a href="https://mathofthings.netlify.app/" target="_blank" class="mono">The Math of Things</a></p>
 </section>
 
 ---
