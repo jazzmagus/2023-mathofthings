@@ -10,6 +10,14 @@ slides:
   transition: convex
   particles: true
   highlight_style: github
+  chalkboard:
+    enable: true
+    draw:
+      scale: 2
+      color: ['rgba(255,255,255,1)', 'rgba(237,111,92,1)']
+    eraser:
+      src: null
+    storage: local
 ---
 
 <section class="mot-hero" data-transition="zoom">
