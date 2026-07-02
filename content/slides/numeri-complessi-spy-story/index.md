@@ -76,14 +76,13 @@ slides:
   
   <div class="mot-cols" style="margin-top:1.5em;">
     <div class="mot-col fragment">
-      <p style="font-size:0.7em; font-family:'JetBrains Mono', monospace; color:#666; line-height:1.6; margin-bottom:1.5em;">
+      <p style="font-size:0.63em; font-family:'JetBrains Mono', monospace; color:#666; line-height:1.5; margin-bottom:1.2em;">
         Il nome significa letteralmente "chi balbetta" — una ferita ricevuta nel Sacco di Brescia del 1512.
       </p>
-      <p class="mot-result" style="font-size:0.85em; color:#ed6f5c; font-weight:600; margin:0;">Tartaglia scopre il metodo pochi giorni prima.</p>
-      <p style="font-size:0.75em; color:#ed6f5c; margin-top:0.5em;">Per non dimenticarlo, lo <b>codifica in una poesia criptica</b>.</p>
+      <p style="font-size:0.73em; line-height:1.6;">Tartaglia scopre il metodo pochi giorni prima. Per non dimenticarlo, lo codifica in una poesia criptica.</p>
     </div>
     <div class="mot-col fragment">
-      <img src="tartaglia.png" alt="Niccolò Tartaglia" style="max-width:100%; max-height:520px; display:block; margin:0 auto;">
+      <img src="tartaglia.png" alt="Niccolò Tartaglia" style="max-width:100%; max-height:580px; display:block; margin:0 auto;">
     </div>
   </div>
 </section>
