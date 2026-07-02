@@ -1,573 +1,415 @@
 ---
-title: "The Complex Case: La Spy Story dei Numeri Complessi"
-summary: Un thriller matematico dal 1500 al 1800
+title: The Complex Case — Spy Story
+summary: Una thriller matematica dalla scoperta dei numeri complessi
 authors: [Diego Fantinelli]
-tags: [storia, numeri complessi, algebraici, renaissance]
+tags: [storia, numeri complessi, renaissance, tradimenti]
 categories: [storia matematica]
 date: "2026-07-02T00:00:00Z"
 slides:
-  theme: serif
+  theme: mathofthings
+  transition: convex
+  particles: true
+  highlight_style: github
 ---
 
----
-
-# 🕵️ The Complex Case
-## Una Spy Story Matematica
-
-Dal Ferro. Tartaglia. Cardano. Bombelli. Euler. Gauss.
-
-*Una storia di tradimenti, formule segrete e numeri impossibili.*
-
----
-
-## Atto I: L'Enigma
-### Bologna, anni 1500
-
-Un matematico bolognese detiene un segreto.
-
-Una formula che nessuno conosce.
-
-Una formula che risolve l'irrisolvibile.
-
-**Scipione Dal Ferro** ha appena scoperto come risolvere le **equazioni cubiche**.
-
-E se la tiene per sé.
+<section class="mot-hero" data-transition="zoom">
+  <p class="mot-kicker">una storia di tradimenti e segreti</p>
+  <h1>The <span class="math-word">Complex</span> Case</h1>
+  <p class="mot-tagline">dalla scoperta dei numeri complessi al 1800</p>
+  <p class="mot-meta">prof. Diego Fantinelli &mdash; The Math of Things</p>
+</section>
 
 ---
 
-## La Formula Segreta
-
-Per l'equazione del tipo $x^3 + px = q$, la soluzione è:
-
-$$x = \sqrt[3]{\frac{q}{2} + \sqrt{\frac{q^2}{4} - \frac{p^3}{27}}} + \sqrt[3]{\frac{q}{2} - \sqrt{\frac{q^2}{4} - \frac{p^3}{27}}}$$
-
-**Il problema?** Nessuno sapeva ancora come risolverle.
-
-I Greci antichi avevano risolto le equazioni di 2° grado 2000 anni prima.
-
-Ma le cubiche? Quelle restavano un **mistero**.
+<section data-background-image="book_bkg.jpg" data-background-opacity="0.15">
+  <blockquote class="mot-quote">
+    La matematica è la poesia della logica. E come la poesia, a volte rivela verità che la realtà nega.
+    <span class="quote-attr">&mdash; Parafrasando David Hilbert</span>
+  </blockquote>
+</section>
 
 ---
 
-### Contesto Storico: L'Italia del 1500
+<section class="mot-divider" data-transition="zoom">
+  <h1 class="r-fit-text">ATTO I</h1>
+  <p class="mot-tagline">L'enigma</p>
+</section>
 
-Una vera e propria **"scuola" di algebristi** che si sfidano pubblicamente.
+<section>
+  <p class="mot-kicker">Bologna, 1520</p>
+  <h2>Il Segreto di Dal Ferro</h2>
+  <p class="mot-def fragment">Un matematico bolognese, <b>Scipione Dal Ferro</b>, scopre come risolvere le equazioni cubiche della forma $x^3 + px = q$.</p>
+  <p class="fragment" style="font-size:0.8em">I Greci hanno risolto le equazioni di secondo grado duemila anni prima. Ma le <b>cubiche</b>? Ancora un mistero.</p>
+  <p class="fragment" style="font-size:0.8em">Dal Ferro scopre il metodo. Poi — e qui comincia la storia — <b>non lo pubblica</b>. Lo trasmette segretamente al suo allievo <b>Antonio Maria Fior</b>.</p>
+</section>
 
-Ma non per gloria scientifica. 
+<section>
+  <p class="mot-kicker">contesto storico</p>
+  <h2>L'Italia del Cinquecento</h2>
+  <p class="mot-def fragment">Una vera e propria <b>scuola di algebristi</b> italiani che si sfidano pubblicamente. Non per gloria scientifica: per <b>soldi</b>.</p>
+  <dl class="mot-rows fragment" style="font-size:0.75em">
+    <dt>Chi vince</dt><dd>ottiene fama, cattedre prestigiose, compensi dagli astrologhi</dd>
+    <dt>Il contesto</dt><dd>non esiste ancora un sistema di pubblicazione scientifico. Vale il "vincolo del segreto professionale"</dd>
+    <dt>L'ironia</dt><dd>UFC mediaevale della matematica: il combattimento avviene via problemi, non via libri</dd>
+  </dl>
+</section>
 
-**Per soldi.**
-
----
-
-**Chi risolveva più problemi?** Otteneva:
-- Fama
-- Cattedre prestigiose
-- Compensi dagli astrologhi (sì, facevano astrologia nel tempo libero)
-
-Una specie di **UFC mediaevale della matematica**.
-
----
-
-## ⚠️ Il Contesto Militare (il colpo di scena)
-
-Perché gli eserciti erano interessati alle cubiche?
-
-**Le catapulte.**
-
-Calcolare la traiettoria ottimale di un proiettile richiedeva... equazioni di terzo grado.
-
-Dal Ferro non divulga la scoperta.
-
-La trasmette **segretamente** al suo allievo **Antonio Maria Fior**.
-
----
-
----
-
-## Atto II: Lo Scontro
-### Venezia, 1535
-
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
-
-<div>
-
-### Niccolò Tartaglia
-**La Sfida**
-
-Fior sfida pubblicamente Tartaglia a risolvere 30 problemi cubici.
-
-Tartaglia, ferito nel Sacco di Brescia (1512), balbettava.
-
-Il suo nome? *"Tartaglia"* significa proprio "*chi tartagli*".
-
-**Ma era un genio.**
-
-</div>
-
-<div style="background: #f0f0f0; padding: 20px; border-radius: 8px; text-align: center; min-height: 300px; display: flex; align-items: center; justify-content: center;">
-
-📸 Placeholder: Ritratto di Niccolò Tartaglia
-
-</div>
-
-</div>
+<section>
+  <p class="mot-kicker">il colpo di scena</p>
+  <h2>Perché le cubiche?</h2>
+  <p class="mot-def fragment">Le equazioni di terzo grado non sono un capriccio accademico.</p>
+  <p class="fragment" style="font-size:0.8em">Gli eserciti le usano per <b>calcolare le traiettorie delle catapulte</b>. Nel Rinascimento, il controllo militare passa per la matematica.</p>
+  <p class="fragment" style="font-size:0.8em">Chi possiede la formula ha un vantaggio strategico. Da Ferro lo sa. Per questo la protegge.</p>
+</section>
 
 ---
 
-### La Risposta di Tartaglia
+<section class="mot-divider" data-transition="zoom">
+  <h1 class="r-fit-text">ATTO II</h1>
+  <p class="mot-tagline">La sfida</p>
+</section>
 
-Tartaglia scopre il metodo **generalizzato** poco prima della sfida.
+<section>
+  <p class="mot-kicker">Venezia, 1535</p>
+  <h2>Tartaglia vs Fior</h2>
+  <p class="mot-def fragment"><b>Niccolò Tartaglia</b> riceve una sfida pubblica: risolvere trenta problemi cubici proposti da Antonio Maria Fior.</p>
+  <p class="fragment" style="font-size:0.8em">Tartaglia — il nome significa letteralmente "chi balbetta", una ferita ricevuta nel Sacco di Brescia del 1512 — è un genio a sua insaputa.</p>
+  <p class="mot-result fragment">Tartaglia scopre il metodo <b>pochi giorni prima della sfida</b>. Poi fa qualcosa di straordinario: per non dimenticarlo, lo <b>codifica in una poesia criptica</b>.</p>
+</section>
 
-Vince tutte le 30 sfide.
+<section>
+  <p class="mot-kicker">il risultato</p>
+  <h2>La Vittoria Assoluta</h2>
+  <p class="fragment">Tartaglia vince tutte e trenta le sfide.</p>
+  <p class="fragment" style="font-size:0.8em">Fior? Zero su trenta. La matematica ha il suo vincitore.</p>
+  <p class="mot-joke fragment">Ma Tartaglia, con una saggezza che contrassegnerà tutta la sua vita, <b>non pubblica la formula</b>. La tiene per sé — per ora.</p>
+</section>
 
-Fior? Zero su trenta.
-
-**Ma Tartaglia, sapiente, non pubblica la formula.**
-
-Per non dimenticarla, la **codifica in una poesia criptica**:
-
----
-
-### La Poesia Criptica di Tartaglia
-
-*"Quando che'l cubo con le cose appresso*  
-*Se agguaglia à qualche numero discreto,*  
-*Trovan dui altri differenti in esso;*  
-*Dapoi terrai questo per consueto,*  
-*Che'l loro prodotto sempre sia eguale*  
-*Al terzo cubo delle cose nette.*  
-*El residuo poi generale*  
-*Delli lor lati insieme congiunti*  
-*Dirà la cosa, e questo è il totale."*
-
-**In italiano moderno:** Una specie di **SMS criptato del 1500**.
-
----
-
----
-
-## Atto III: Il Tradimento
-### Milano, 1545
-
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
-
-<div>
-
-### Gerolamo Cardano
-**Il Traditore**
-
-Cardano, matematico e astrologo, viene a conoscenza del metodo di Tartaglia.
-
-Ottiene la formula **con la promessa solenne di non divulgarla**.
-
-Quanti anni dopo?
-
-Cardano pubblica l'*Ars Magna*.
-
-**E include la formula.**
-
-</div>
-
-<div style="background: #f0f0f0; padding: 20px; border-radius: 8px; text-align: center; min-height: 300px; display: flex; align-items: center; justify-content: center;">
-
-📸 Placeholder: Ritratto di Gerolamo Cardano
-
-</div>
-
-</div>
+<section>
+  <p class="mot-kicker">la poesia criptica</p>
+  <h2>Tartaglia Codifica la Soluzione</h2>
+  <p class="fragment" style="font-size:0.75em; text-align:left; max-width:95%; margin:0.5em auto; line-height:1.5;">
+    <em>"Quando che'l cubo con le cose appresso<br>
+    Se agguaglia à qualche numero discreto,<br>
+    Trovan dui altri differenti in esso;<br>
+    Dapoi terrai questo per consueto,<br>
+    Che'l loro prodotto sempre sia eguale<br>
+    Al terzo cubo delle cose nette."</em>
+  </p>
+  <p class="fragment" style="font-size:0.7em;">Una specie di <b>SMS criptato del 1500</b>. Solo chi conosce la chiave può decodificare il metodo.</p>
+</section>
 
 ---
 
-### Chi Era Cardano?
+<section class="mot-divider" data-transition="zoom">
+  <h1 class="r-fit-text">ATTO III</h1>
+  <p class="mot-tagline">Il tradimento</p>
+</section>
 
-Un uomo dalle molte facce:
+<section>
+  <p class="mot-kicker">Milano, 1545</p>
+  <h2>Gerolamo Cardano e l'Ars Magna</h2>
+  <div class="mot-cols">
+    <div class="mot-col fragment">
+      <p class="mot-def">Gerolamo Cardano, matematico e astrologo, ottiene da Tartaglia la formula <b>con una promessa solenne</b>: non divulgarla.</p>
+      <p style="font-size:0.75em; margin-top:1em;">Pochi anni dopo, Cardano pubblica l'<em>Ars Magna</em> — "La Grande Arte" — e <b>include la formula</b>.</p>
+      <p style="font-size:0.75em; color:#e74c3c; font-weight:600;">Attribuisce parte del merito a Tartaglia (gratitudine relativa).</p>
+      <p style="font-size:0.7em; margin-top:1em;">Tartaglia sarà ricordato come "quello che l'ha rivelata a Cardano".</p>
+    </div>
+    <div class="mot-col fragment" style="background: #f0f0f0; padding: 20px; border-radius: 8px; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 300px; font-size:0.85em; color:#999;">
+      Ritratto: Gerolamo Cardano<br><span style="font-size:0.8em;">(placeholder per immagine)</span>
+    </div>
+  </div>
+</section>
 
-- Medico
-- Astrologo
-- Matematico
-- **Giocatore d'azzardo** (usava la matematica per barare)
-- Personaggio controverso
+<section>
+  <p class="mot-kicker">chi era Cardano</p>
+  <h2>Un Uomo dalle Mille Facce</h2>
+  <dl class="mot-rows" style="font-size:0.8em;">
+    <dt class="fragment">Medico</dt><dd class="fragment">rinomato, forse il migliore d'Italia</dd>
+    <dt class="fragment">Astrologo</dt><dd class="fragment">consulente pagato profumatamente</dd>
+    <dt class="fragment">Matematico</dt><dd class="fragment">autore dell'Ars Magna</dd>
+    <dt class="fragment">Giocatore d'azzardo</dt><dd class="fragment">usava la matematica per barare ai giochi</dd>
+  </dl>
+  <p class="fragment" style="font-size:0.75em; margin-top:1.5em; color:#666;">Nel 1570, il Papa lo fa arrestare per eresia. L'accusa principale? Aver scritto l'oroscopo di Gesù Cristo. Muore povero e dimenticato.</p>
+</section>
 
-Nel 1570 viene arrestato dal Papa per eresia.
-
-**L'accusa principale?**
-
-Aver scritto l'oroscopo di Gesù Cristo.
-
----
-
-### La Formula di Cardano
-
-$$x = \sqrt[3]{-\frac{q}{2} + \sqrt{\left(\frac{q}{2}\right)^2 + \left(\frac{p}{3}\right)^3}} + \sqrt[3]{-\frac{q}{2} - \sqrt{\left(\frac{q}{2}\right)^2 + \left(\frac{p}{3}\right)^3}}$$
-
-Attribuisce parte del merito a Tartaglia (grazie mille per la solidarietà...).
-
-Ma il danno è fatto.
-
-Il metodo è ora pubblico.
-
-**Tartaglia sarà ricordato?**
-
-Sì. Ma sempre come "quello che l'ha rivelata a Cardano".
-
----
-
----
-
-## Atto IV: L'Anomalia
-### Il Mistero Irriducibile
-
-Ora tutti hanno la formula. Perfetto, no?
-
-**No.**
-
-C'è un **problema serio**.
+<section>
+  <p class="mot-kicker">la formula di Cardano</p>
+  <h2>La Soluzione Esplicita</h2>
+  <p class="mot-def fragment">Per un'equazione $x^3 + px + q = 0$:</p>
+  <p class="mot-result fragment">$$x = \sqrt[3]{-\frac{q}{2} + \sqrt{\left(\frac{q}{2}\right)^2 + \left(\frac{p}{3}\right)^3}} + \sqrt[3]{-\frac{q}{2} - \sqrt{\left(\frac{q}{2}\right)^2 + \left(\frac{p}{3}\right)^3}}$$</p>
+  <p class="fragment" style="font-size:0.75em;">Ora il metodo è pubblico. Perfetto, no?</p>
+  <p class="mot-joke fragment" style="font-size:0.75em;"><b>No.</b> C'è un problema molto serio che nessuno aveva ancora affrontato.</p>
+</section>
 
 ---
 
-### L'Equazione Maledetta
+<section class="mot-divider" data-transition="zoom">
+  <h1 class="r-fit-text">ATTO IV</h1>
+  <p class="mot-tagline">L'anomalia irriducibile</p>
+</section>
 
-Considerate l'equazione:
+<section>
+  <p class="mot-kicker">il paradosso</p>
+  <h2>L'Equazione Maledetta</h2>
+  <p class="mot-def fragment">Considerare l'equazione: $x^3 = 15x + 4$</p>
+  <p class="fragment" style="font-size:0.8em;">Si sa con <b>certezza</b> che una soluzione è $x = 4$.</p>
+  <p class="fragment" style="font-size:0.75em;">(Verifica: $4^3 = 64$ e $15 \cdot 4 + 4 = 64$. Uguale.)</p>
+  <p class="mot-result fragment" style="margin-top:1.5em;">$$x = \sqrt[3]{2 + \sqrt{-121}} + \sqrt[3]{2 - \sqrt{-121}}$$</p>
+  <p class="fragment" style="font-size:0.8em; color:#e74c3c; font-weight:600;">Ma aspetta. $\sqrt{-121}$ non esiste nei numeri reali.</p>
+</section>
 
-$$x^3 = 15x + 4$$
+<section>
+  <p class="mot-kicker">il colpo di scena</p>
+  <h2>Il Tunnel Buio</h2>
+  <p class="mot-def fragment">La formula contiene <b>radici quadrate di numeri negativi</b>.</p>
+  <p class="fragment" style="font-size:0.8em;">Eppure, l'equazione ha una soluzione reale: $x = 4$.</p>
+  <p class="fragment" style="font-size:0.8em;">È come se la formula passasse per un tunnel buio e imperscrutabile, e ne uscisse con la risposta corretta.</p>
+  <p class="mot-joke fragment" style="font-size:0.75em;">Un'anomalia nel codice della realtà.</p>
+</section>
 
-**Si sa con certezza** che una soluzione è $x = 4$.
-
-(Provate: $4^3 = 64$ e $15 \cdot 4 + 4 = 64$. ✓)
-
----
-
-### La Formula Fa Impazzire
-
-Applicando la formula di Cardano:
-
-$$x = \sqrt[3]{2 + \sqrt{-121}} + \sqrt[3]{2 - \sqrt{-121}}$$
-
-**Ma aspetta.**
-
-$\sqrt{-121}$ non esiste nei numeri reali.
-
----
-
-## 🚨 Il Colpo di Scena
-
-La formula contiene **radici quadrate di numeri negativi**.
-
-Eppure, l'equazione ha una soluzione reale.
-
-**Questo non dovrebbe succedere.**
-
-È come se la formula passasse per un tunnel buio e imperscrutabile, e ne uscisse con la risposta giusta.
-
-**Era come un'anomalia nel codice della realtà.**
-
----
-
-### Il Discriminante
-
-Il termine chiave:
-
-$$\Delta = \frac{q^2}{4} - \frac{p^3}{27}$$
-
-- Se $\Delta > 0$: tutto ok
-- Se $\Delta < 0$: **il caso irriducibile** (radici di numeri negativi)
-
-Nel nostro esempio: $\Delta = \frac{16}{4} - \frac{3375}{27} = 4 - 125 = -121$
-
-**Negativo.** Anomalia confermata.
+<section>
+  <p class="mot-kicker">il discriminante</p>
+  <h2>Il Caso Irriducibile</h2>
+  <p class="mot-def fragment">Il termine critico è il <b>discriminante</b>:</p>
+  <p class="mot-result fragment">$$\Delta = \frac{q^2}{4} - \frac{p^3}{27}$$</p>
+  <dl class="mot-rows" style="font-size:0.8em; margin-top:1.5em;">
+    <dt class="fragment">Se $\Delta > 0$</dt><dd class="fragment">tutto ok, niente strane</dd>
+    <dt class="fragment">Se $\Delta < 0$</dt><dd class="fragment">il caso irriducibile — radici di numeri negativi</dd>
+  </dl>
+  <p class="fragment" style="font-size:0.75em; margin-top:1.5em;">Nel nostro esempio: $\Delta = 4 - 125 = -121$ (negativo). Anomalia confermata.</p>
+</section>
 
 ---
 
----
+<section class="mot-divider" data-transition="zoom">
+  <h1 class="r-fit-text">ATTO V</h1>
+  <p class="mot-tagline">La rivelazione</p>
+</section>
 
-## Atto V: La Rivelazione
-### Bologna, 1560
+<section>
+  <p class="mot-kicker">Bologna, 1560</p>
+  <h2>Rafael Bombelli e l'Illuminazione</h2>
+  <div class="mot-cols">
+    <div class="mot-col fragment">
+      <p class="mot-def">Rafael Bombelli studia il caso irriducibile con ossessione scientifica.</p>
+      <p style="font-size:0.8em; margin-top:1em;">Decide di <b>osare l'impossibile</b>: e se le radici di numeri negativi <b>esistessero davvero</b>? Non come numeri reali, ma come una nuova categoria?</p>
+    </div>
+    <div class="mot-col fragment" style="background: #f0f0f0; padding: 20px; border-radius: 8px; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 300px; font-size:0.85em; color:#999;">
+      Ritratto: Rafael Bombelli<br><span style="font-size:0.8em;">(placeholder per immagine)</span>
+    </div>
+  </div>
+</section>
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+<section>
+  <p class="mot-kicker">l'idea geniale</p>
+  <h2>Più di Meno e Meno di Meno</h2>
+  <p class="mot-def fragment">Bombelli introduce nuove notazioni:</p>
+  <dl class="mot-rows" style="font-size:0.85em;">
+    <dt class="fragment">"Più di meno"</dt><dd class="fragment">abbreviato $p.d.m$, rappresenta $+i$</dd>
+    <dt class="fragment">"Meno di meno"</dt><dd class="fragment">abbreviato $m.d.m$, rappresenta $-i$</dd>
+  </dl>
+  <p class="fragment" style="font-size:0.8em; margin-top:1.5em;">Dove $i$ è l'<b>unità immaginaria</b>: $i = \sqrt{-1}$</p>
+  <p class="mot-joke fragment" style="font-size:0.8em;">Sembrerebbe pazzo. <b>Ma funziona.</b></p>
+</section>
 
-<div>
+<section>
+  <p class="mot-kicker">il calcolo miracoloso</p>
+  <h2>Da Bombelli ai Numeri Complessi</h2>
+  <p class="fragment" style="font-size:0.8em;">Bombelli scopre (con tentativi pazientissimi):</p>
+  <p class="mot-result fragment">$$(2 + i)^3 = 2 + 11i$$</p>
+  <p class="mot-result fragment">$$(2 - i)^3 = 2 - 11i$$</p>
+  <p class="fragment" style="font-size:0.8em; margin-top:1.5em;">Quindi:</p>
+  <p style="text-align:center; font-size:0.8em;">$\sqrt[3]{2 + \sqrt{-121}} + \sqrt[3]{2 - \sqrt{-121}} = (2+i) + (2-i) = 4$</p>
+  <p class="mot-joke fragment" style="font-size:0.75em;">La risposta reale emerge dal caos immaginario.</p>
+</section>
 
-### Rafael Bombelli
-**L'Illuminato**
-
-Bombelli studia il caso irriducibile con ossessione scientifica.
-
-Decide di **osare l'impossibile**.
-
-E se le radici di numeri negativi **esistessero davvero**?
-
-Non come numeri reali, ma come una nuova categoria?
-
-</div>
-
-<div style="background: #f0f0f0; padding: 20px; border-radius: 8px; text-align: center; min-height: 300px; display: flex; align-items: center; justify-content: center;">
-
-📸 Placeholder: Ritratto di Rafael Bombelli
-
-</div>
-
-</div>
-
----
-
-### L'Eureka di Bombelli
-
-Bombelli introduce:
-
-- **"Più di meno"** (abbreviato *p.d.m*) per indicare $+i$
-- **"Meno di meno"** (abbreviato *m.d.m*) per indicare $-i$
-
-Dove $i$ rappresenta l'**unità immaginaria**: $i = \sqrt{-1}$
-
-Sembrerebbe pazzo.
-
-**Ma funziona.**
-
----
-
-### Il Calcolo Geniale
-
-Bombelli scopre (con tentativi):
-
-$$(2 + i)^3 = 2 + 11i$$
-$$(2 - i)^3 = 2 - 11i$$
-
-Quindi:
-
-$$\sqrt[3]{2 + \sqrt{-121}} + \sqrt[3]{2 - \sqrt{-121}} = \sqrt[3]{2 + 11i} + \sqrt[3]{2 - 11i}$$
-
-$$= (2 + i) + (2 - i) = 4$$
-
-**Voilà!** La risposta reale emerge dal caos immaginario.
+<section>
+  <p class="mot-kicker">la conseguenza</p>
+  <h2>Il Reale e l'Immaginario sono Intrecciati</h2>
+  <p class="mot-def fragment">Bombelli riconosce una verità profonda: i numeri complessi non sono invenzioni. Sono strumenti per scoprire verità nascoste.</p>
+  <p class="fragment" style="font-size:0.8em; margin-top:1.5em;">Ma il mondo scientifico rimane scettico. Cartesio chiama questi numeri "immaginari" con tono dispregiativo. Significa: "Figmenti dell'immaginazione, non veri numeri".</p>
+</section>
 
 ---
 
-### La Visione di Bombelli
+<section class="mot-divider" data-transition="zoom">
+  <h1 class="r-fit-text">ATTO VI</h1>
+  <p class="mot-tagline">Gli alleati</p>
+</section>
 
-Bombelli riconosce che:
+<section>
+  <p class="mot-kicker">1702 — Abraham de Moivre</p>
+  <h2>Il Legame con la Trigonometria</h2>
+  <p class="mot-def fragment">De Moivre scopre il legame fondamentale tra numeri complessi e trigonometria:</p>
+  <p class="mot-result fragment">$$z^n = r^n (\cos(n\theta) + i\sin(n\theta))$$</p>
+  <p class="fragment" style="font-size:0.8em; margin-top:1.5em;">Questa formula semplifica il calcolo delle potenze di numeri complessi e getta le basi per lo studio delle radici complesse.</p>
+  <p class="mot-joke fragment" style="font-size:0.75em;">Aneddoto: De Moivre calcolò la sua data di morte stimando quanto dormiva ogni giorno. Morì il giorno previsto.</p>
+</section>
 
-- I numeri complessi **non sono invenzioni**
-- Sono strumenti per scoprire verità nascoste
-- Il "reale" e l'"immaginario" sono **intrecciati**
+<section>
+  <p class="mot-kicker">1748 — Leonhard Euler</p>
+  <h2>La Formula più Bella della Matematica</h2>
+  <p class="mot-def fragment">Euler formalizza il legame sublime tra numeri complessi, esponenziali e trigonometria:</p>
+  <p class="mot-result fragment">$$e^{ix} = \cos x + i\sin x$$</p>
+  <p class="fragment" style="font-size:0.8em;">Dal caso particolare $x = \pi$:</p>
+  <p class="mot-result fragment" style="font-size:1.2em;">$$e^{i\pi} + 1 = 0$$</p>
+</section>
 
-Ma il mondo scientifico rimane scettico.
-
-Cartesio chiama questi numeri "**immaginari**" con tono dispregiativo.
-
-Significava: "Figmenti dell'immaginazione, non veri numeri".
-
----
-
----
-
-## Atto VI: Gli Alleati
-### Il Settecento
-
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
-
-<div>
-
-### Abraham de Moivre (1702)
-
-Scopre il legame fondamentale tra numeri complessi e trigonometria:
-
-$$z^n = r^n (\cos(n\theta) + i\sin(n\theta))$$
-
-**Aneddoto pazzo:**
-Calcolò la sua data di morte stimando quanto dormiva ogni giorno.
-
-Morì il giorno esatto che aveva previsto.
-
-</div>
-
-<div style="background: #f0f0f0; padding: 20px; border-radius: 8px; text-align: center; min-height: 300px; display: flex; align-items: center; justify-content: center;">
-
-📸 Placeholder: Ritratto di De Moivre
-
-</div>
-
-</div>
-
----
-
-### Leonhard Euler (1748)
-#### La Formula Più Bella
-
-Euler scopre la relazione sublime:
-
-$$e^{ix} = \cos x + i\sin x$$
-
-E dal caso particolare $x = \pi$:
-
-# $$e^{i\pi} + 1 = 0$$
-
-Questa formula contiene:
-
-- $e$: la base dei logaritmi naturali
-- $i$: l'unità immaginaria
-- $\pi$: la costante del cerchio
-- $1$: l'identità moltiplicativa
-- $0$: l'identità additiva
-
-**Cinque delle costanti più importanti della matematica in un'unica equazione.**
-
-È considerata la **formula più bella della matematica**.
+<section>
+  <p class="mot-kicker">perché è bellissima</p>
+  <h2>Cinque Costanti in Una Formula</h2>
+  <div class="mot-cards" style="font-size:0.8em;">
+    <div class="mot-card fragment">
+      <h3>e</h3>
+      <p>La base dei logaritmi naturali</p>
+    </div>
+    <div class="mot-card fragment">
+      <h3>i</h3>
+      <p>L'unità immaginaria</p>
+    </div>
+    <div class="mot-card fragment">
+      <h3>π</h3>
+      <p>La costante del cerchio</p>
+    </div>
+    <div class="mot-card fragment">
+      <h3>1</h3>
+      <p>L'identità moltiplicativa</p>
+    </div>
+    <div class="mot-card fragment">
+      <h3>0</h3>
+      <p>L'identità additiva</p>
+    </div>
+  </div>
+  <p class="mot-joke fragment" style="font-size:0.75em; margin-top:1em;">Cinque delle costanti più importanti della matematica in un'unica equazione elegantissima.</p>
+</section>
 
 ---
 
----
+<section class="mot-divider" data-transition="zoom">
+  <h1 class="r-fit-text">ATTO VII</h1>
+  <p class="mot-tagline">La conclusione</p>
+</section>
 
-## Atto VII: La Conclusione
-### 1797-1799
+<section>
+  <p class="mot-kicker">1797-1799 — Carl Friedrich Gauss</p>
+  <h2>Il Piano Complesso</h2>
+  <div class="mot-cols">
+    <div class="mot-col fragment">
+      <p class="mot-def">Gauss riconosce i numeri complessi come <b>veri e propri numeri</b>. Conia il termine "numeri complessi".</p>
+      <p style="font-size:0.8em; margin-top:1em;">Introduce la rappresentazione <b>geometrica</b>: il piano complesso. Parte reale sull'asse x, parte immaginaria sull'asse y.</p>
+    </div>
+    <div class="mot-col fragment" style="background: #f0f0f0; padding: 20px; border-radius: 8px; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 300px; font-size:0.85em; color:#999;">
+      Ritratto: Carl Friedrich Gauss<br><span style="font-size:0.8em;">(placeholder per immagine)</span>
+    </div>
+  </div>
+</section>
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+<section>
+  <p class="mot-kicker">la geometria</p>
+  <h2>Il Piano Complesso di Gauss</h2>
+  <p class="mot-def fragment">Un numero complesso $z = a + bi$ è rappresentato come un punto $(a, b)$ nel piano.</p>
+  <p class="mot-result fragment">$$|z| = \sqrt{a^2 + b^2}$$</p>
+  <p class="fragment" style="font-size:0.8em;">Il <b>modulo</b> (o norma) è la distanza dall'origine.</p>
+  <p class="fragment" style="font-size:0.8em; margin-top:1.5em;">Questa rappresentazione trasforma l'astratto in visibile e permette di applicare la geometria all'algebra.</p>
+</section>
 
-<div>
-
-### Carl Friedrich Gauss
-**Il Risolutore**
-
-Gauss riconosce i numeri complessi come **veri e propri numeri**.
-
-Conia il termine stesso "**numeri complessi**".
-
-Introduce la rappresentazione geometrica: il **piano complesso**.
-
-Parte reale sull'asse $x$, parte immaginaria sull'asse $y$.
-
-</div>
-
-<div style="background: #f0f0f0; padding: 20px; border-radius: 8px; text-align: center; min-height: 300px; display: flex; align-items: center; justify-content: center;">
-
-📸 Placeholder: Ritratto di Carl Friedrich Gauss
-
-</div>
-
-</div>
-
----
-
-### Il Piano Complesso di Gauss
-
-```
-     Im
-      |
-      |  z = a + bi (punto nel piano)
-    b +----*
-      |   /|
-      |  / |
-      | /  |
-    0 +----+---- Re
-      |  a
-```
-
-Un numero complesso $z = a + bi$ è un punto $(a, b)$ nel piano.
-
-Il **modulo** è:
-
-$$|z| = \sqrt{a^2 + b^2}$$
-
-(La distanza dall'origine.)
+<section>
+  <p class="mot-kicker">la critica</p>
+  <h2>Gauss Difende i Numeri Complessi</h2>
+  <p class="mot-def fragment">Gauss criticava aspramente chi chiamava i numeri complessi "impossibili".</p>
+  <p class="mot-quote fragment">
+    "Sono essenziali per una matematica più profonda. Chi ancora li rifiuta non ha capito nulla della struttura della realtà matematica."
+  </p>
+  <p class="fragment" style="font-size:0.8em; margin-top:1.5em;">E aveva assolutamente ragione.</p>
+</section>
 
 ---
 
-### La Critica di Gauss
+<section class="mot-divider" data-background-image="numbers.gif" data-background-opacity="0.15" data-transition="zoom">
+  <h1 class="r-fit-text">EPILOGO</h1>
+  <p class="mot-tagline">L'eredità nel mondo reale</p>
+</section>
 
-Gauss criticava aspramente chi chiamava i numeri complessi "impossibili".
+<section>
+  <p class="mot-kicker">1890s — Charles Steinmetz</p>
+  <h2>L'Ingegnere che Produsse Elettricità</h2>
+  <p class="mot-def fragment">Charles Steinmetz, ingegnere elettrotecnico tedesco, scopre che i numeri complessi descrivono <b>perfettamente</b> il comportamento delle correnti alternate.</p>
+  <p class="fragment" style="font-size:0.8em; margin-top:1.5em;">Ingegneri e fisici iniziano a usarli per analizzare circuiti, onde, trasformatori.</p>
+  <p class="mot-quote fragment">
+    "Ha prodotto elettricità tramite i numeri complessi."
+  </p>
+  <p class="fragment" style="font-size:0.75em;">Una frase che cattura l'ironia perfetta: i "numeri impossibili" di Cardano guidano la tecnologia moderna.</p>
+</section>
 
-*"Sono essenziali per una matematica più profonda,"* affermava.
-
-E aveva ragione.
-
----
-
----
-
-## Epilogo: L'Eredità
-### 1800s - Oggi
-
-I numeri complessi non restano nella matematica pura.
-
-**Scappano verso il mondo reale:**
-
----
-
-### Charles Steinmetz (1865-1923)
-**L'Ingegnere Elettrotecnico**
-
-Nel 1890s, Steinmetz scopre che i numeri complessi descrivono **perfettamente** il comportamento delle correnti alternate.
-
-Ingegneri e fisici iniziano a usarli per:
-
-- Circuiti elettrici
-- Onde elettromagnetiche
-- Meccanica quantistica (più tardi)
-- Processamento di segnali digitali
-
-Qualcuno disse di Steinmetz:
-
-> *"Ha prodotto elettricità tramite i numeri complessi".*
+<section>
+  <p class="mot-kicker">applicazioni moderne</p>
+  <h2>Dove Vivono i Numeri Complessi Oggi</h2>
+  <dl class="mot-rows" style="font-size:0.8em;">
+    <dt class="fragment">Ingegneria elettrica</dt><dd class="fragment">Analisi dei circuiti AC, impedenze, trasformatori</dd>
+    <dt class="fragment">Fisica</dt><dd class="fragment">Meccanica quantistica, teoria dei campi, relatività</dd>
+    <dt class="fragment">Processamento del segnale</dt><dd class="fragment">Trasformate di Fourier, compressione audio e immagini</dd>
+    <dt class="fragment">Grafica 3D</dt><dd class="fragment">Rotazioni, trasformazioni, animazioni</dd>
+    <dt class="fragment">Aerodinamica</dt><dd class="fragment">Flusso di fluidi, profili alari</dd>
+  </dl>
+</section>
 
 ---
 
-### Applicazioni Moderne
+<section>
+  <p class="mot-kicker">la trama completa</p>
+  <h2>Dal Mistero alla Scoperta</h2>
+  <div class="mot-cards" style="font-size:0.75em;">
+    <div class="mot-card fragment">
+      <h3>Dal Ferro (1520)</h3>
+      <p>Scopre il segreto</p>
+    </div>
+    <div class="mot-card fragment">
+      <h3>Tartaglia (1535)</h3>
+      <p>Lo generalizza, lo codifica</p>
+    </div>
+    <div class="mot-card fragment">
+      <h3>Cardano (1545)</h3>
+      <p>Lo tradisce, lo pubblica</p>
+    </div>
+    <div class="mot-card fragment">
+      <h3>Bombelli (1560)</h3>
+      <p>Scopre il nemico vero: i numeri impossibili</p>
+    </div>
+    <div class="mot-card fragment">
+      <h3>De Moivre, Euler (1700s)</h3>
+      <p>Lo capiscono, lo formalizzano</p>
+    </div>
+    <div class="mot-card fragment">
+      <h3>Gauss (1799)</h3>
+      <p>Lo legittima matematicamente</p>
+    </div>
+  </div>
+</section>
 
-- **Ingegneria elettrica**: Analisi dei circuiti AC
-- **Fisica**: Meccanica quantistica, relatività
-- **Processamento del segnale**: Trasformate di Fourier
-- **Matematica**: Analisi complessa, geometria
-- **Grafica 3D**: Rotazioni e trasformazioni
-
-I "numeri impossibili" di Cardano guidano i razzi, i computer e le telecomunicazioni.
-
----
-
----
-
-## Il Mistero Risolto
-
-Ricapitolazione della spy story:
-
-- **Dal Ferro**: Scopre il segreto (1520)
-- **Tartaglia**: Lo generalizza, lo codifica (1535)
-- **Cardano**: Lo tradisce e lo pubblica (1545)
-- **Bombelli**: Scopre il vero nemico: i numeri "impossibili" (1560)
-- **De Moivre, Euler**: Lo capiscono, lo formalizzano (1700s)
-- **Gauss**: Lo legittima matematicamente (1799)
-
-**Finale:** I numeri complessi non erano strani. Erano solo **nascosti**, aspettando di essere scoperti.
-
----
-
-## Lezione Finale
-
-**I numeri complessi insegnano una verità profonda:**
-
-La matematica non **inventa** nuovi numeri per capriccio.
-
-Li **scopre** quando ha bisogno di loro.
-
-E spesso, quello che sembra "impossibile" è semplicemente una prospettiva che ancora non abbiamo.
-
-Come ha detto Gauss:
-
-> *"Non conosciamo, perché non abbiamo imparato a cercare nel posto giusto."*
-
----
-
-## Credits & Curiosità Finali
-
-- **Tartaglia** per balbettare durante il Sacco di Brescia, si chiama così
-- **Cardano** finì in carcere per aver fatto un oroscopo di Gesù
-- **Bombelli** usava $i$ al posto di $\sqrt{-1}$ per risparmiar tempo di scrittura
-- **De Moivre** calcolò il giorno della sua morte e ci azzeccò
-- **Euler** era cieco durante gli ultimi anni della sua vita, eppure produsse matematica profonda (dettava ai segretari)
-- **Gauss** si vantava di sapere prima gli altri di nuovi risultati... perché probabilmente li scopriva prima di altri
+<section>
+  <p class="mot-kicker">la lezione</p>
+  <h2>Quello che I Numeri Complessi Insegnano</h2>
+  <p class="mot-def fragment">La matematica non <b>inventa</b> nuovi numeri per capriccio.</p>
+  <p class="mot-def fragment">Li <b>scopre</b> quando ha bisogno di loro.</p>
+  <p class="mot-def fragment" style="margin-top:1.5em;">Spesso, quello che sembra "impossibile" è semplicemente una prospettiva che ancora non abbiamo.</p>
+  <p class="mot-quote fragment" style="margin-top:2em;">
+    "Non conosciamo, perché non abbiamo imparato a cercare nel posto giusto." — Carl Friedrich Gauss
+  </p>
+</section>
 
 ---
 
-# Fine.
+<section class="mot-divider" data-background-image="numbers.gif" data-background-opacity="0.25" data-transition="zoom">
+  <h1 class="r-fit-text">DOMANDE?</h1>
+  <p class="mot-tagline">la storia non è finita</p>
+</section>
 
-*Grazie di aver seguito questa spy story matematica.*
+---
 
-*Adesso i numeri complessi non vi sembreranno più "impossibili".*
+<section class="mot-hero" data-transition="zoom">
+  <p class="mot-kicker">grazie dell'attenzione</p>
+  <h1>The <span class="math-word">Math</span> of <em>Things</em></h1>
+  <p class="mot-meta"><a href="https://mathofthings.netlify.app/" target="_blank" class="mono">mathofthings.netlify.app</a></p>
+</section>
