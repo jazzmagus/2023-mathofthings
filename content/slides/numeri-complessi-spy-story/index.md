@@ -82,7 +82,10 @@ slides:
       <p style="font-size:0.73em; line-height:1.6;">Tartaglia scopre il metodo pochi giorni prima. Per non dimenticarlo, lo codifica in una poesia criptica.</p>
     </div>
     <div class="mot-col fragment">
-      <img src="tartaglia.png" alt="Niccolò Tartaglia" style="max-width:100%; max-height:620px; display:block; margin:0 auto;">
+      <div style="background: rgba(237,111,92,0.08); border-left: 3px solid #ed6f5c; padding: 1.2em 1em; border-radius: 4px;">
+        <p style="font-size:0.75em; margin:0 0 0.8em; color:#1a1a1a; line-height:1.6;"><b>La Strategia di Tartaglia</b></p>
+        <p style="font-size:0.7em; margin:0; color:#666; line-height:1.5;">Scopre il metodo generalizzato poco prima della sfida contro Fior. Non lo pubblica, ma lo custodisce gelosamente — una protezione contro il furto intellettuale.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -128,7 +131,10 @@ slides:
       <p style="font-size:0.7em; margin-top:1em;">Tartaglia sarà ricordato come "quello che l'ha rivelata a Cardano".</p>
     </div>
     <div class="mot-col fragment">
-      <img src="cardano.png" alt="Gerolamo Cardano" style="max-width:100%; max-height:500px; display:block; margin:0 auto;">
+      <div style="background: rgba(237,111,92,0.08); border-left: 3px solid #ed6f5c; padding: 1.2em 1em; border-radius: 4px;">
+        <p style="font-size:0.75em; margin:0 0 0.8em; color:#1a1a1a; line-height:1.6;"><b>Il Tradimento</b></p>
+        <p style="font-size:0.7em; margin:0; color:#666; line-height:1.5;">Cardano ottiene la formula <em>con promessa di segretezza</em>. Nel 1545 la pubblica comunque. Così inizia la lezione sulla fragilità dei patti intellettuali e il valore della priorità scientifica.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -209,7 +215,10 @@ slides:
       <p style="font-size:0.8em; line-height:1.6;">Decide di <b>osare l'impossibile</b>: e se le radici di numeri negativi <b>esistessero davvero</b>? Non come numeri reali, ma come una nuova categoria?</p>
     </div>
     <div class="mot-col fragment">
-      <img src="bombelli.png" alt="Rafael Bombelli" style="max-width:100%; max-height:500px; display:block; margin:0 auto;">
+      <div style="background: rgba(237,111,92,0.08); border-left: 3px solid #ed6f5c; padding: 1.2em 1em; border-radius: 4px;">
+        <p style="font-size:0.75em; margin:0 0 0.8em; color:#1a1a1a; line-height:1.6;"><b>L'Eureka</b></p>
+        <p style="font-size:0.7em; margin:0; color:#666; line-height:1.5;">Introduce $i = \sqrt{-1}$ e scopre che $(2+i)^3 = 2+11i$. Il "reale" e l'"immaginario" non sono nemici — sono <em>intrecciati</em>. Un'intuizione rivoluzionaria.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -313,7 +322,10 @@ slides:
       <p style="font-size:0.8em; margin-top:1em;">Introduce la rappresentazione <b>geometrica</b>: il piano complesso. Parte reale sull'asse x, parte immaginaria sull'asse y.</p>
     </div>
     <div class="mot-col fragment">
-      <img src="gauss.png" alt="Carl Friedrich Gauss" style="max-width:100%; max-height:420px; display:block; margin:0 auto;">
+      <div style="background: rgba(237,111,92,0.08); border-left: 3px solid #ed6f5c; padding: 1.2em 1em; border-radius: 4px;">
+        <p style="font-size:0.75em; margin:0 0 0.8em; color:#1a1a1a; line-height:1.6;"><b>La Legittimazione</b></p>
+        <p style="font-size:0.7em; margin:0; color:#666; line-height:1.5;">Gauss critica duramente chi chiama i numeri complessi "impossibili". Il piano complesso trasforma l'astratto in visibile. Finalmente, i numeri che Cartesio aveva deriso trovano una casa geometrica.</p>
+      </div>
     </div>
   </div>
 </section>
