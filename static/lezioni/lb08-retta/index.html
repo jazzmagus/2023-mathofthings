@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    -webkit-font-smoothing: antialiased;
+    font-size: 17px;
+    line-height: 1.8;
+  }
+
+  /* Navbar */
+  nav.course-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: stretch;
+    padding: 0;
+    height: 48px;
+  }
+
+  .nav-title-left {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #1a1a1a;
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-sections-wrapper {
+    display: flex;
+    gap: 18px;
+    flex: 1;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 24px;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  .nav-sections-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #666;
+    text-decoration: none;
+    padding: 0;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    letter-spacing: 0.5px;
+  }
+
+  .nav-link:hover {
+    color: #1a1a1a;
+  }
+
+  .nav-link.active {
+    color: #ed6f5c;
+    border-bottom-color: #ed6f5c;
+  }
+
+  .nav-home {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #666;
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: color 0.2s;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.5px;
+  }
+
+  .nav-home:hover {
+    color: #ed6f5c;
+  }
+
+  main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 50px 40px 80px;
+  }
+
+  section {
+    display: none;
+  }
+
+  section.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #ed6f5c;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: 3rem;
+    line-height: 1.1;
+    margin: 0 0 32px 0;
+    color: #1a1a1a;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: #ed6f5c;
+    font-weight: inherit;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.6rem;
+    line-height: 1.25;
+    margin: 40px 0 20px 0;
+    color: #1a1a1a;
+  }
+
+  h2 em {
+    font-style: italic;
+    color: #ed6f5c;
+  }
+
+  p {
+    margin: 0 0 20px 0;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #333;
+    text-align: justify;
+  }
+
+  .intro-p {
+    font-size: 1.05rem;
+    color: #444;
+    margin-bottom: 28px;
+  }
+
+  /* Definition box */
+  .definition-box {
+    background: #fafaf8;
+    border-left: 3px solid #ed6f5c;
+    padding: 28px;
+    margin: 32px 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .definition-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #ed6f5c;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  .definition-box p {
+    margin-bottom: 16px;
+  }
+
+  .definition-box strong {
+    font-weight: 700;
+  }
+
+  .definition-box em {
+    font-style: italic;
+  }
+
+  /* Formula box */
+  .formula-display {
+    background: #fafaf8;
+    border: 1px solid #e0e0e0;
+    padding: 24px 20px;
+    margin: 24px 0;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 1.1rem;
+    overflow-x: auto;
+  }
+
+  /* SVG e immagini */
+  svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 40px auto;
+  }
+
+  .svg-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+  }
+
+  .image-caption {
+    text-align: center;
+    font-family: Georgia, serif;
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+    margin-top: 16px;
+    margin-bottom: 32px;
+  }
+
+  /* Highlight box */
+  .highlight-box {
+    background: #fafaf8;
+    border-left: 3px solid #ed6f5c;
+    padding: 20px 24px;
+    margin: 28px 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .highlight-box p {
+    margin: 8px 0;
+  }
+
+  /* List styles */
+  ul, ol {
+    margin: 20px 0;
+    padding-left: 28px;
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  li {
+    margin-bottom: 10px;
+  }
+
+  /* Example accordion */
+  .example-item {
+    margin: 20px 0;
+    overflow: hidden;
+  }
+
+  .example-toggle {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    cursor: pointer;
+    user-select: none;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    transition: opacity 0.2s;
+  }
+
+  .example-toggle:hover {
+    opacity: 0.7;
+  }
+
+  .example-number {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #c2185b;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .example-title {
+    flex: 1;
+    font-family: Georgia, serif;
+    font-size: 1rem;
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+
+  .example-icon {
+    flex: none;
+    color: #666;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: transform 0.3s;
+  }
+
+  .example-toggle.open .example-icon {
+    transform: scaleY(-1);
+  }
+
+  .example-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .example-content.open {
+    max-height: 2000px;
+  }
+
+  .example-body {
+    padding: 0 0 16px 44px;
+  }
+
+  .example-body p {
+    margin-bottom: 14px;
+    font-size: 1rem;
+  }
+
+  .example-body .formula-display {
+    margin: 16px 0;
+  }
+
+  .example-step {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #c2185b;
+    font-weight: 700;
+    margin: 12px 0 8px 0;
+  }
+
+  .example-solution {
+    background: #faf7f2;
+    border-left: 3px solid #c2185b;
+    padding: 12px 14px;
+    margin: 12px 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .example-solution-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #c2185b;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .example-solution p {
+    margin: 0;
+    font-style: italic;
+    color: #2e7d32;
+    font-size: 1rem;
+  }
+
+  /* Checklist */
+  .checklist-box {
+    background: #f5f0e8;
+    border-left: 3px solid #ed6f5c;
+    padding: 24px;
+    margin: 32px 0;
+    border-radius: 0;
+  }
+
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 14px;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 0;
+    transition: opacity 0.2s;
+  }
+
+  .checklist-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .checklist-item > div:last-child {
+    font-family: Georgia, serif;
+    font-size: 0.95rem;
+    color: #1a1a1a;
+    line-height: 1.5;
+  }
+
+  .checkbox {
+    flex: none;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #ed6f5c;
+    border-radius: 1px;
+    margin-top: 4px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+  }
+
+  .checklist-item.checked .checkbox {
+    background: #ed6f5c;
+    border-color: #ed6f5c;
+  }
+
+  .checklist-item.checked .checkbox::after {
+    content: '✓';
+    color: #fff;
+    font-size: 8px;
+    font-weight: bold;
+    line-height: 1;
+  }
+
+  .checklist-item.checked {
+    opacity: 0.65;
+  }
+
+  .checklist-item.checked > div:last-child {
+    text-decoration: line-through;
+  }
+
+  /* Exercises */
+  .exercise-box {
+    background: #fafaf8;
+    border-left: 3px solid #ed6f5c;
+    padding: 20px 24px;
+    margin: 16px 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .exercise-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #ed6f5c;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .exercise-box p {
+    margin: 0;
+  }
+
+  /* Paginator */
+  .paginator {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 32px 40px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: #999;
+    letter-spacing: 0.5px;
+  }
+
+  .paginator-prev, .paginator-next {
+    color: #999;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .paginator-prev:hover, .paginator-next:hover {
+    color: #ed6f5c;
+  }
+
+  .paginator-counter {
+    color: #999;
+  }
+
+  /* Responsive navbar */
+  @media (max-width: 900px) {
+    .nav-title-left {
+      font-size: 0.88rem;
+      padding: 0 20px;
+    }
+
+    .nav-sections-wrapper {
+      gap: 20px;
+      padding: 0 20px;
+    }
+
+    .nav-link {
+      font-size: 0.85rem;
+    }
+
+    .nav-home {
+      font-size: 0.85rem;
+      padding: 0 20px;
+    }
+
+    main {
+      padding: 40px 24px 60px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    nav.course-nav {
+      height: auto;
+      flex-wrap: wrap;
+    }
+
+    .nav-title-left {
+      font-size: 0.82rem;
+      padding: 12px 16px;
+      border-right: none;
+      border-bottom: 1px solid #e0e0e0;
+      width: 100%;
+      order: 1;
+    }
+
+    .nav-sections-wrapper {
+      gap: 16px;
+      padding: 12px 16px;
+      order: 2;
+      width: 100%;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .nav-link {
+      font-size: 0.8rem;
+    }
+
+    .nav-home {
+      font-size: 0.8rem;
+      padding: 12px 16px;
+      border-left: none;
+      border-top: 1px solid #e0e0e0;
+      order: 3;
+      width: 100%;
+    }
+
+    main {
+      padding: 30px 16px 60px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="course-nav">
+  <div class="nav-title-left">LB08</div>
+  <div class="nav-sections-wrapper">
+    <a href="#" class="nav-link active" data-section="1">Piano Cartesiano</a>
+    <a href="#" class="nav-link" data-section="2">Distanza</a>
+    <a href="#" class="nav-link" data-section="3">Retta Generica</a>
+    <a href="#" class="nav-link" data-section="4">Coefficiente</a>
+    <a href="#" class="nav-link" data-section="5">Parallele</a>
+    <a href="#" class="nav-link" data-section="6">Equazione</a>
+    <a href="#" class="nav-link" data-section="7">Break-Even</a>
+    <a href="#" class="nav-link" data-section="8">Verifica</a>
+  </div>
+  <a href="/" class="nav-home">← home</a>
+</nav>
+
+<main>
+
+  <!-- Sezione 1: Piano Cartesiano -->
+  <section class="active" id="section-1">
+    <div class="section-label">Sezione 1</div>
+    <h1>Il Piano <em>Cartesiano</em></h1>
+
+    <p class="intro-p">
+      Una retta vive nello spazio. Per descriverla, occorre un linguaggio: il piano cartesiano.
+      Non è un'invenzione arbitraria — è il modo di codificare la posizione di un punto usando soltanto numeri.
+    </p>
+
+    <h2>Assi e coordinate</h2>
+    <p>
+      Il piano cartesiano è formato da due rette perpendicolari che si incontrano in un punto detto <strong>origine</strong>.
+      La retta orizzontale è l'<strong>asse delle ascisse</strong> (asse \(x\));
+      la retta verticale è l'<strong>asse delle ordinate</strong> (asse \(y\)).
+    </p>
+
+    <div class="svg-wrapper">
+      <svg width="450" height="450" viewBox="-10 -10 470 470">
+        <rect x="0" y="0" width="450" height="450" fill="#ffffff"/>
+        <g stroke="#e0e0e0" stroke-width="0.5">
+          <line x1="0" y1="50" x2="450" y2="50"/><line x1="0" y1="100" x2="450" y2="100"/>
+          <line x1="0" y1="150" x2="450" y2="150"/><line x1="0" y1="200" x2="450" y2="200"/>
+          <line x1="0" y1="250" x2="450" y2="250"/><line x1="0" y1="300" x2="450" y2="300"/>
+          <line x1="0" y1="350" x2="450" y2="350"/><line x1="0" y1="400" x2="450" y2="400"/>
+          <line x1="50" y1="0" x2="50" y2="450"/><line x1="100" y1="0" x2="100" y2="450"/>
+          <line x1="150" y1="0" x2="150" y2="450"/><line x1="200" y1="0" x2="200" y2="450"/>
+          <line x1="250" y1="0" x2="250" y2="450"/><line x1="300" y1="0" x2="300" y2="450"/>
+          <line x1="350" y1="0" x2="350" y2="450"/><line x1="400" y1="0" x2="400" y2="450"/>
+        </g>
+        <line x1="0" y1="225" x2="450" y2="225" stroke="#333" stroke-width="2"/>
+        <line x1="225" y1="0" x2="225" y2="450" stroke="#333" stroke-width="2"/>
+        <polygon points="445,225 435,221 435,229" fill="#333"/>
+        <polygon points="225,5 221,15 229,15" fill="#333"/>
+        <text x="420" y="245" font-family="Georgia" font-size="20" fill="#333">x</text>
+        <text x="235" y="25" font-family="Georgia" font-size="20" fill="#333">y</text>
+        <g font-family="'JetBrains Mono'" font-size="12" fill="#666">
+          <line x1="50" y1="222" x2="50" y2="228" stroke="#333"/><text x="40" y="248">-3</text>
+          <line x1="100" y1="222" x2="100" y2="228" stroke="#333"/><text x="90" y="248">-2</text>
+          <line x1="150" y1="222" x2="150" y2="228" stroke="#333"/><text x="140" y="248">-1</text>
+          <line x1="250" y1="222" x2="250" y2="228" stroke="#333"/><text x="245" y="248">1</text>
+          <line x1="300" y1="222" x2="300" y2="228" stroke="#333"/><text x="295" y="248">2</text>
+          <line x1="350" y1="222" x2="350" y2="228" stroke="#333"/><text x="345" y="248">3</text>
+          <line x1="222" y1="400" x2="228" y2="400" stroke="#333"/><text x="215" y="420">-3</text>
+          <line x1="222" y1="350" x2="228" y2="350" stroke="#333"/><text x="215" y="370">-2</text>
+          <line x1="222" y1="300" x2="228" y2="300" stroke="#333"/><text x="215" y="320">-1</text>
+          <line x1="222" y1="150" x2="228" y2="150" stroke="#333"/><text x="215" y="170">1</text>
+          <line x1="222" y1="100" x2="228" y2="100" stroke="#333"/><text x="215" y="120">2</text>
+          <line x1="222" y1="50" x2="228" y2="50" stroke="#333"/><text x="215" y="70">3</text>
+        </g>
+        <circle cx="225" cy="225" r="3" fill="#ed6f5c"/>
+        <text x="230" y="218" font-family="Georgia" font-size="13" fill="#ed6f5c" font-weight="600">O(0,0)</text>
+        <circle cx="325" cy="125" r="4" fill="#ed6f5c"/>
+        <line x1="325" y1="225" x2="325" y2="125" stroke="#ed6f5c" stroke-width="1" stroke-dasharray="2,2" opacity="0.5"/>
+        <line x1="225" y1="125" x2="325" y2="125" stroke="#ed6f5c" stroke-width="1" stroke-dasharray="2,2" opacity="0.5"/>
+        <text x="335" y="120" font-family="Georgia" font-size="14" fill="#ed6f5c" font-weight="600">P(2, 2)</text>
+      </svg>
+    </div>
+
+    <div class="definition-box">
+      <div class="definition-label">Definizione</div>
+      <p>
+        Ogni punto \(P\) nel piano corrisponde a una <strong>coppia ordinata</strong> \((x, y)\):
+      </p>
+      <ul style="margin: 12px 0;">
+        <li>\(x\) è la coordinata orizzontale (distanza dall'asse \(y\))</li>
+        <li>\(y\) è la coordinata verticale (distanza dall'asse \(x\))</li>
+      </ul>
+    </div>
+
+    <div class="example-item">
+      <button class="example-toggle" onclick="toggleExample(this)">
+        <span class="example-number">1</span>
+        <span class="example-title">Localizzare i punti</span>
+        <span class="example-icon">^</span>
+      </button>
+      <div class="example-content">
+        <div class="example-body">
+          <p>Nel grafico, il punto \(P\) ha coordinate \((2, 2)\): dall'origine, avanzo 2 a destra e 2 in su.</p>
+          <p><strong>Altri punti:</strong></p>
+          <ul style="margin: 8px 0; padding-left: 24px;">
+            <li>\(A(-3, 1)\) → sinistra 3, su 1</li>
+            <li>\(B(1, -2)\) → destra 1, giù 2</li>
+            <li>\(C(0, 3)\) → sull'asse \(y\)</li>
+            <li>\(D(-2, 0)\) → sull'asse \(x\)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione 2: Distanza -->
+  <section id="section-2">
+    <div class="section-label">Sezione 2</div>
+    <h1>Distanza e <em>Punto Medio</em></h1>
+
+    <p class="intro-p">
+      Adesso che i punti hanno coordinate, possiamo misurare la distanza fra loro.
+      Una formula sola, ed è il Teorema di Pitagora in altro abito.
+    </p>
+
+    <h2>Formula della distanza</h2>
+    <p>
+      Dati due punti \(P_1(x_1, y_1)\) e \(P_2(x_2, y_2)\), la <strong>distanza</strong> fra loro è:
+    </p>
+
+    <div class="formula-display">
+      $$d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$$
+    </div>
+
+    <p>
+      È il Teorema di Pitagora: \((x_2 - x_1)\) è la base del triangolo rettangolo,
+      \((y_2 - y_1)\) è l'altezza, e \(d\) è l'ipotenusa.
+    </p>
+
+    <div class="svg-wrapper">
+      <svg width="400" height="320" viewBox="-10 -10 420 340">
+        <rect x="0" y="0" width="400" height="320" fill="#ffffff"/>
+        <g stroke="#e0e0e0" stroke-width="0.5">
+          <line x1="0" y1="50" x2="400" y2="50"/><line x1="0" y1="100" x2="400" y2="100"/>
+          <line x1="0" y1="150" x2="400" y2="150"/><line x1="0" y1="200" x2="400" y2="200"/>
+          <line x1="0" y1="250" x2="400" y2="250"/>
+          <line x1="50" y1="0" x2="50" y2="320"/><line x1="100" y1="0" x2="100" y2="320"/>
+          <line x1="150" y1="0" x2="150" y2="320"/><line x1="200" y1="0" x2="200" y2="320"/>
+          <line x1="250" y1="0" x2="250" y2="320"/><line x1="300" y1="0" x2="300" y2="320"/>
+          <line x1="350" y1="0" x2="350" y2="320"/>
+        </g>
+        <line x1="0" y1="200" x2="400" y2="200" stroke="#333" stroke-width="2"/>
+        <line x1="200" y1="0" x2="200" y2="320" stroke="#333" stroke-width="2"/>
+        <circle cx="100" cy="250" r="4" fill="#ed6f5c"/>
+        <text x="75" y="275" font-family="Georgia" font-size="14" fill="#ed6f5c" font-weight="600">P₁(-2, -1)</text>
+        <circle cx="300" cy="100" r="4" fill="#ed6f5c"/>
+        <text x="310" y="95" font-family="Georgia" font-size="14" fill="#ed6f5c" font-weight="600">P₂(2, 2)</text>
+        <line x1="100" y1="250" x2="300" y2="250" stroke="#ed6f5c" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="300" y1="250" x2="300" y2="100" stroke="#ed6f5c" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="100" y1="250" x2="300" y2="100" stroke="#ed6f5c" stroke-width="2.5"/>
+        <text x="190" y="268" font-family="'JetBrains Mono'" font-size="12" fill="#ed6f5c">Δx = 4</text>
+        <text x="310" y="180" font-family="'JetBrains Mono'" font-size="12" fill="#ed6f5c">Δy = 3</text>
+        <text x="180" y="150" font-family="Georgia" font-size="13" fill="#ed6f5c" font-weight="600">d = 5</text>
+      </svg>
+    </div>
+
+    <div class="example-item">
+      <button class="example-toggle" onclick="toggleExample(this)">
+        <span class="example-number">1</span>
+        <span class="example-title">Calcolo della distanza</span>
+        <span class="example-icon">^</span>
+      </button>
+      <div class="example-content">
+        <div class="example-body">
+          <p>Calcola la distanza fra \(P_1(-2, -1)\) e \(P_2(2, 2)\).</p>
+          <div class="formula-display">
+            $$d = \sqrt{(2-(-2))^2 + (2-(-1))^2} = \sqrt{16 + 9} = \sqrt{25} = 5$$
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Punto medio</h2>
+    <p>
+      Il <strong>punto medio</strong> fra due punti \(P_1(x_1, y_1)\) e \(P_2(x_2, y_2)\) è:
+    </p>
+
+    <div class="formula-display">
+      $$M = \left( \frac{x_1 + x_2}{2}, \frac{y_1 + y_2}{2} \right)$$
+    </div>
+
+    <div class="example-item">
+      <button class="example-toggle" onclick="toggleExample(this)">
+        <span class="example-number">2</span>
+        <span class="example-title">Punto medio</span>
+        <span class="example-icon">^</span>
+      </button>
+      <div class="example-content">
+        <div class="example-body">
+          <p>Punto medio fra \(P_1(-2, -1)\) e \(P_2(2, 2)\):</p>
+          <div class="formula-display">
+            $$M = \left( \frac{-2+2}{2}, \frac{-1+2}{2} \right) = (0, 0.5)$$
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione 3: Retta Generica -->
+  <section id="section-3">
+    <div class="section-label">Sezione 3</div>
+    <h1>Retta per l'origine e Retta <em>Generica</em></h1>
+
+    <h2>Retta per l'origine</h2>
+    <p>
+      La retta più semplice passa per l'origine: \(y = mx\).
+      La lettera \(m\) si chiama <strong>coefficiente angolare</strong> e determina la pendenza.
+    </p>
+
+    <div class="svg-wrapper">
+      <svg width="450" height="450" viewBox="-10 -10 470 470">
+        <rect x="0" y="0" width="450" height="450" fill="#ffffff"/>
+        <g stroke="#e0e0e0" stroke-width="0.5">
+          <line x1="0" y1="50" x2="450" y2="50"/><line x1="0" y1="100" x2="450" y2="100"/>
+          <line x1="0" y1="150" x2="450" y2="150"/><line x1="0" y1="200" x2="450" y2="200"/>
+          <line x1="0" y1="250" x2="450" y2="250"/><line x1="0" y1="300" x2="450" y2="300"/>
+          <line x1="0" y1="350" x2="450" y2="350"/><line x1="0" y1="400" x2="450" y2="400"/>
+          <line x1="50" y1="0" x2="50" y2="450"/><line x1="100" y1="0" x2="100" y2="450"/>
+          <line x1="150" y1="0" x2="150" y2="450"/><line x1="200" y1="0" x2="200" y2="450"/>
+          <line x1="250" y1="0" x2="250" y2="450"/><line x1="300" y1="0" x2="300" y2="450"/>
+          <line x1="350" y1="0" x2="350" y2="450"/><line x1="400" y1="0" x2="400" y2="450"/>
+        </g>
+        <line x1="0" y1="225" x2="450" y2="225" stroke="#333" stroke-width="2"/>
+        <line x1="225" y1="0" x2="225" y2="450" stroke="#333" stroke-width="2"/>
+        <line x1="25" y1="325" x2="425" y2="125" stroke="#ed6f5c" stroke-width="2.5"/>
+        <text x="360" y="120" font-family="Georgia" font-size="15" fill="#ed6f5c" font-weight="600">y = 0.5x</text>
+        <circle cx="225" cy="225" r="3" fill="#ed6f5c"/>
+        <circle cx="275" cy="175" r="3" fill="#ed6f5c"/>
+        <circle cx="175" cy="275" r="3" fill="#ed6f5c"/>
+      </svg>
+    </div>
+
+    <div class="highlight-box">
+      <p>
+        Se \(m > 0\), la retta sale; se \(m < 0\), scende; se \(m = 0\), è orizzontale.
+      </p>
+    </div>
+
+    <h2>Retta generica (forma esplicita)</h2>
+    <p>
+      Una retta che non passa per l'origine si scrive come:
+    </p>
+
+    <div class="formula-display">
+      $$y = mx + q$$
+    </div>
+
+    <p>
+      Il numero \(q\) si chiama <strong>ordinata all'origine</strong>: è dove la retta interseca l'asse \(y\).
+    </p>
+
+    <div class="example-item">
+      <button class="example-toggle" onclick="toggleExample(this)">
+        <span class="example-number">1</span>
+        <span class="example-title">Retta generica</span>
+        <span class="example-icon">^</span>
+      </button>
+      <div class="example-content">
+        <div class="example-body">
+          <p>La retta \(y = 0.5x + 1\) ha:</p>
+          <ul style="margin: 8px 0; padding-left: 24px;">
+            <li>Coefficiente angolare: \(m = 0.5\) (sale di 0.5 per ogni 1 a destra)</li>
+            <li>Ordinata all'origine: \(q = 1\) (attraversa l'asse \(y\) nel punto \((0, 1)\))</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione 4: Coefficiente -->
+  <section id="section-4">
+    <div class="section-label">Sezione 4</div>
+    <h1>Coefficiente <em>Angolare</em></h1>
+
+    <p class="intro-p">
+      Il coefficiente angolare \(m\) misura quanto una retta è "inclinata".
+      È il rapporto fra la variazione di \(y\) e la variazione di \(x\).
+    </p>
+
+    <div class="formula-display">
+      $$m = \frac{\Delta y}{\Delta x} = \frac{y_2 - y_1}{x_2 - x_1}$$
+    </div>
+
+    <p>
+      Per ogni unità che avanziamo a destra, avanziamo di \(m\) unità in verticale.
+    </p>
+
+    <div class="example-item">
+      <button class="example-toggle" onclick="toggleExample(this)">
+        <span class="example-number">1</span>
+        <span class="example-title">Calcolo di m</span>
+        <span class="example-icon">^</span>
+      </button>
+      <div class="example-content">
+        <div class="example-body">
+          <p>Due punti: \(P_1(0, 2)\) e \(P_2(4, 4)\).</p>
+          <div class="formula-display">
+            $$m = \frac{4 - 2}{4 - 0} = \frac{2}{4} = 0.5$$
+          </div>
+          <p>Per ogni unità a destra, la retta sale di 0.5 unità.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione 5: Parallele -->
+  <section id="section-5">
+    <div class="section-label">Sezione 5</div>
+    <h1>Rette Parallele e <em>Perpendicolari</em></h1>
+
+    <h2>Parallele</h2>
+    <p>
+      Due rette sono <strong>parallele</strong> se hanno lo stesso coefficiente angolare:
+    </p>
+
+    <div class="definition-box">
+      <p>\(y = m x + q_1\) e \(y = m x + q_2\) con \(q_1 \neq q_2\) sono parallele.</p>
+    </div>
+
+    <div class="example-item">
+      <button class="example-toggle" onclick="toggleExample(this)">
+        <span class="example-number">1</span>
+        <span class="example-title">Rette parallele</span>
+        <span class="example-icon">^</span>
+      </button>
+      <div class="example-content">
+        <div class="example-body">
+          <p>\(y = 2x + 1\) e \(y = 2x - 3\) sono parallele (stesso \(m = 2\), diversi \(q\)).</p>
+        </div>
+      </div>
+    </div>
+
+    <h2>Perpendicolari</h2>
+    <p>
+      Due rette sono <strong>perpendicolari</strong> se:
+    </p>
+
+    <div class="formula-display">
+      $$m_1 \cdot m_2 = -1$$
+    </div>
+
+    <div class="example-item">
+      <button class="example-toggle" onclick="toggleExample(this)">
+        <span class="example-number">2</span>
+        <span class="example-title">Rette perpendicolari</span>
+        <span class="example-icon">^</span>
+      </button>
+      <div class="example-content">
+        <div class="example-body">
+          <p>Le rette \(y = 2x\) e \(y = -\frac{1}{2}x + 1\) sono perpendicolari perché:</p>
+          <div class="formula-display">
+            $$2 \cdot \left(-\frac{1}{2}\right) = -1 \checkmark$$
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Intersezione</h2>
+    <p>
+      Due rette non parallele si intersecano in un punto. Per trovarlo, risolviamo il sistema:
+    </p>
+
+    <div class="formula-display">
+      $$\begin{cases} y = m_1 x + q_1 \\ y = m_2 x + q_2 \end{cases}$$
+    </div>
+
+    <div class="example-item">
+      <button class="example-toggle" onclick="toggleExample(this)">
+        <span class="example-number">3</span>
+        <span class="example-title">Intersezione di due rette</span>
+        <span class="example-icon">^</span>
+      </button>
+      <div class="example-content">
+        <div class="example-body">
+          <p>Trova l'intersezione fra \(y = 2x + 1\) e \(y = -x + 4\).</p>
+          <div class="formula-display">
+            $$2x + 1 = -x + 4 \Rightarrow 3x = 3 \Rightarrow x = 1$$
+          </div>
+          <div class="formula-display">
+            $$y = 2(1) + 1 = 3$$
+          </div>
+          <p><strong>Punto di intersezione:</strong> \((1, 3)\).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione 6: Equazione -->
+  <section id="section-6">
+    <div class="section-label">Sezione 6</div>
+    <h1>Equazione di Retta per <em>Due Punti</em></h1>
+
+    <p class="intro-p">
+      Ti do due punti: voglio l'equazione della retta che passa per entrambi.
+      La strategia è sempre la stessa: tre passi.
+    </p>
+
+    <h2>I tre passi</h2>
+    <ol>
+      <li><strong>Calcola il coefficiente angolare:</strong> \(m = \frac{y_2 - y_1}{x_2 - x_1}\)</li>
+      <li><strong>Usa uno dei due punti</strong> per trovare \(q\) in \(y = mx + q\)</li>
+      <li><strong>Scrivi l'equazione</strong> completa</li>
+    </ol>
+
+    <div class="example-item">
+      <button class="example-toggle" onclick="toggleExample(this)">
+        <span class="example-number">1</span>
+        <span class="example-title">Retta per due punti</span>
+        <span class="example-icon">^</span>
+      </button>
+      <div class="example-content">
+        <div class="example-body">
+          <p>Retta per \(P_1(1, 3)\) e \(P_2(4, 9)\).</p>
+          <div class="example-step">Passo 1: Coefficiente angolare</div>
+          <div class="formula-display">
+            $$m = \frac{9-3}{4-1} = \frac{6}{3} = 2$$
+          </div>
+          <div class="example-step">Passo 2: Usa un punto per trovare q</div>
+          <p>\(3 = 2(1) + q \Rightarrow q = 1\)</p>
+          <div class="example-step">Passo 3: Scrivi l'equazione</div>
+          <div class="formula-display">
+            $$y = 2x + 1$$
+          </div>
+          <div class="example-solution">
+            <div class="example-solution-label">Verifica</div>
+            <p>\(P_1(1, 3)\): \(2(1)+1=3\) ✓ &nbsp; \(P_2(4, 9)\): \(2(4)+1=9\) ✓</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione 7: Break-Even -->
+  <section id="section-7">
+    <div class="section-label">Sezione 7</div>
+    <h1><em>Break-Even Point</em>: Un Caso Reale</h1>
+
+    <p class="intro-p">
+      Le rette non vivono solo nei libri. In azienda si usano ogni giorno per prendere decisioni importanti.
+      Vediamo come un'intersezione di rette risolve il problema della redditività.
+    </p>
+
+    <h2>Il problema</h2>
+    <p>
+      Marco sta pensando di aprire un'azienda di magliette personalizzate.
+      Ha costi fissi di <strong>2.000 €</strong> al mese (affitto, macchinari, software).
+      Costo variabile: <strong>5 €</strong> per maglietta.
+      Prezzo di vendita: <strong>12 €</strong> per maglietta.
+    </p>
+
+    <p>
+      <strong>Domanda:</strong> Quante magliette deve vendere Marco per iniziare a guadagnare?
+    </p>
+
+    <h2>Costruiamo le due rette</h2>
+
+    <h3>1. Costo totale (CT)</h3>
+    <div class="formula-display">
+      $$CT = 2000 + 5x$$
+    </div>
+    <p>2000 € è il costo fisso; 5 € è il costo per unità.</p>
+
+    <h3>2. Ricavo totale (RT)</h3>
+    <div class="formula-display">
+      $$RT = 12x$$
+    </div>
+    <p>Vendita a 12 € per maglietta.</p>
+
+    <h2>L'intersezione: il break-even point</h2>
+    <p>
+      Marco comincia a guadagnare quando ricavo = costo:
+    </p>
+
+    <div class="formula-display">
+      $$CT = RT \quad \Rightarrow \quad 2000 + 5x = 12x$$
+    </div>
+
+    <div class="formula-display">
+      $$2000 = 7x \quad \Rightarrow \quad x \approx 285.7$$
+    </div>
+
+    <div class="highlight-box">
+      <p>
+        <strong>Marco deve vendere almeno 286 magliette per recuperare i costi.</strong>
+        A partire dalla 286ª maglietta, il ricavo supera il costo e lui comincia a guadagnare.
+      </p>
+    </div>
+
+    <div class="svg-wrapper">
+      <svg width="520" height="420" viewBox="-20 -20 560 460">
+        <rect x="0" y="0" width="520" height="420" fill="#ffffff"/>
+        <g stroke="#e0e0e0" stroke-width="0.5">
+          <line x1="0" y1="50" x2="520" y2="50"/><line x1="0" y1="100" x2="520" y2="100"/>
+          <line x1="0" y1="150" x2="520" y2="150"/><line x1="0" y1="200" x2="520" y2="200"/>
+          <line x1="0" y1="250" x2="520" y2="250"/><line x1="0" y1="300" x2="520" y2="300"/>
+          <line x1="0" y1="350" x2="520" y2="350"/>
+          <line x1="50" y1="0" x2="50" y2="420"/><line x1="100" y1="0" x2="100" y2="420"/>
+          <line x1="150" y1="0" x2="150" y2="420"/><line x1="200" y1="0" x2="200" y2="420"/>
+          <line x1="250" y1="0" x2="250" y2="420"/><line x1="300" y1="0" x2="300" y2="420"/>
+          <line x1="350" y1="0" x2="350" y2="420"/><line x1="400" y1="0" x2="400" y2="420"/>
+          <line x1="450" y1="0" x2="450" y2="420"/><line x1="500" y1="0" x2="500" y2="420"/>
+        </g>
+        <line x1="0" y1="350" x2="520" y2="350" stroke="#333" stroke-width="2"/>
+        <line x1="50" y1="0" x2="50" y2="420" stroke="#333" stroke-width="2"/>
+        <polygon points="515,350 505,346 505,354" fill="#333"/>
+        <polygon points="50,5 46,15 54,15" fill="#333"/>
+        <text x="490" y="370" font-family="Georgia" font-size="16" fill="#333">Magliette</text>
+        <text x="55" y="25" font-family="Georgia" font-size="16" fill="#333">€</text>
+        <g font-family="'JetBrains Mono'" font-size="11" fill="#666">
+          <line x1="50" y1="347" x2="50" y2="353" stroke="#333"/><text x="35" y="368">0</text>
+          <line x1="150" y1="347" x2="150" y2="353" stroke="#333"/><text x="135" y="368">100</text>
+          <line x1="250" y1="347" x2="250" y2="353" stroke="#333"/><text x="235" y="368">200</text>
+          <line x1="350" y1="347" x2="350" y2="353" stroke="#333"/><text x="335" y="368">300</text>
+          <line x1="450" y1="347" x2="450" y2="353" stroke="#333"/><text x="435" y="368">400</text>
+          <line x1="47" y1="350" x2="53" y2="350" stroke="#333"/><text x="20" y="355">0</text>
+          <line x1="47" y1="300" x2="53" y2="300" stroke="#333"/><text x="5" y="305">1k€</text>
+          <line x1="47" y1="250" x2="53" y2="250" stroke="#333"/><text x="5" y="255">2k€</text>
+          <line x1="47" y1="200" x2="53" y2="200" stroke="#333"/><text x="5" y="205">3k€</text>
+          <line x1="47" y1="150" x2="53" y2="150" stroke="#333"/><text x="5" y="155">4k€</text>
+        </g>
+        <line x1="50" y1="200" x2="450" y2="50" stroke="#c2185b" stroke-width="2.5"/>
+        <text x="380" y="80" font-family="Georgia" font-size="14" fill="#c2185b" font-weight="600">CT = 2000 + 5x</text>
+        <line x1="50" y1="350" x2="450" y2="20" stroke="#2e7d32" stroke-width="2.5"/>
+        <text x="360" y="40" font-family="Georgia" font-size="14" fill="#2e7d32" font-weight="600">RT = 12x</text>
+        <circle cx="335" cy="93" r="5" fill="#ed6f5c" stroke="#333" stroke-width="1.5"/>
+        <text x="310" y="75" font-family="'JetBrains Mono'" font-size="11" fill="#ed6f5c" font-weight="700">Break-even</text>
+        <text x="300" y="88" font-family="'JetBrains Mono'" font-size="10" fill="#ed6f5c" font-weight="700">(286, 3432€)</text>
+        <text x="150" y="120" font-family="Georgia" font-size="13" fill="#c2185b" font-weight="600" opacity="0.6">Perdita</text>
+        <text x="320" y="280" font-family="Georgia" font-size="13" fill="#2e7d32" font-weight="600" opacity="0.6">Guadagno</text>
+      </svg>
+    </div>
+    <div class="image-caption">Il break-even point: dove ricavo e costo si incontrano</div>
+
+    <div class="example-item">
+      <button class="example-toggle" onclick="toggleExample(this)">
+        <span class="example-number">1</span>
+        <span class="example-title">Quanto guadagna davvero?</span>
+        <span class="example-icon">^</span>
+      </button>
+      <div class="example-content">
+        <div class="example-body">
+          <p>Se Marco vende 400 magliette:</p>
+          <div class="example-step">Ricavo</div>
+          <div class="formula-display">
+            $$RT = 12 \cdot 400 = 4800 \text{ €}$$
+          </div>
+          <div class="example-step">Costo</div>
+          <div class="formula-display">
+            $$CT = 2000 + 5 \cdot 400 = 4000 \text{ €}$$
+          </div>
+          <div class="example-step">Profitto</div>
+          <p>Ogni maglietta oltre il break-even genera guadagno di \(12 - 5 = 7\) €.</p>
+          <div class="example-solution">
+            <div class="example-solution-label">Risultato</div>
+            <p>\(4800 - 4000 = 800\) €</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione 8: Verifica -->
+  <section id="section-8">
+    <div class="section-label">Riepilogo</div>
+    <h1>Checklist di <em>Risoluzione</em></h1>
+
+    <p class="intro-p">
+      Usala come promemoria ogni volta che affronti un esercizio sulla retta nel piano cartesiano.
+    </p>
+
+    <!-- Categoria 1 -->
+    <div class="checklist-box">
+      <div class="definition-label">La retta nel piano cartesiano</div>
+      <div class="checklist-item" onclick="toggleCheckbox(this)">
+        <div class="checkbox"></div>
+        <div>So localizzare un punto nel piano cartesiano usando le coordinate \((x, y)\)</div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheckbox(this)">
+        <div class="checkbox"></div>
+        <div>Riesco a calcolare la distanza fra due punti con la formula di Pitagora</div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheckbox(this)">
+        <div class="checkbox"></div>
+        <div>Capisco la forma \(y = mx + q\): \(m\) è pendenza, \(q\) è intercetta</div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheckbox(this)">
+        <div class="checkbox"></div>
+        <div>So scrivere l'equazione di una retta dati due punti</div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheckbox(this)">
+        <div class="checkbox"></div>
+        <div>Riesco a trovare l'intersezione fra due rette risolvendo un sistema</div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheckbox(this)">
+        <div class="checkbox"></div>
+        <div>Capisco le rette parallele (\(m_1 = m_2\)) e perpendicolari (\(m_1 \cdot m_2 = -1\))</div>
+      </div>
+    </div>
+
+    <!-- Categoria 2 -->
+    <div class="checklist-box">
+      <div class="definition-label">Errori comuni da non fare mai</div>
+      <div class="checklist-item" onclick="toggleCheckbox(this)">
+        <div class="checkbox"></div>
+        <div>Non confondere i ruoli di \(x\) e \(y\): \(x\) è orizzontale, \(y\) è verticale</div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheckbox(this)">
+        <div class="checkbox"></div>
+        <div>Non dimenticare di verificare il risultato sostituendo i punti nell'equazione</div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheckbox(this)">
+        <div class="checkbox"></div>
+        <div>Non saltare il calcolo del coefficiente angolare \(m = \frac{\Delta y}{\Delta x}\)</div>
+      </div>
+    </div>
+
+    <!-- Categoria 3 -->
+    <div class="checklist-box">
+      <div class="definition-label">Il break-even point risolve sempre</div>
+      <div class="checklist-item" onclick="toggleCheckbox(this)">
+        <div class="checkbox"></div>
+        <div>Capisco come applicare l'intersezione di rette a problemi reali (aziendali, economici)</div>
+      </div>
+    </div>
+
+    <h2 style="margin-top: 40px;">Esercizi di verifica</h2>
+
+    <div class="exercise-box">
+      <div class="exercise-label">Esercizio 1</div>
+      <p>Calcola la distanza fra \(A(2, 3)\) e \(B(-1, 7)\).</p>
+    </div>
+
+    <div class="exercise-box">
+      <div class="exercise-label">Esercizio 2</div>
+      <p>Scrivi l'equazione della retta per \(P(0, 2)\) e \(Q(3, 8)\).</p>
+    </div>
+
+    <div class="exercise-box">
+      <div class="exercise-label">Esercizio 3</div>
+      <p>Trova il break-even se costi fissi = 5.000 €, costo variabile = 3 €/unità, prezzo = 8 €/unità.</p>
+    </div>
+
+    <div class="exercise-box">
+      <div class="exercise-label">Esercizio 4</div>
+      <p>Scrivi le equazioni di due rette parallele con pendenza 2 e intercette diverse.</p>
+    </div>
+
+    <div class="exercise-box">
+      <div class="exercise-label">Esercizio 5</div>
+      <p>Trova il punto di intersezione fra \(y = 2x + 3\) e \(y = -x + 9\).</p>
+    </div>
+
+    <div class="exercise-box">
+      <div class="exercise-label">Esercizio 6</div>
+      <p>Una retta è perpendicolare a \(y = 4x - 1\) e passa per \((1, 2)\). Qual è la sua equazione?</p>
+    </div>
+  </section>
+
+  <!-- Paginator -->
+  <div class="paginator">
+    <a href="#" class="paginator-prev" onclick="prevSection(event)">← Precedente</a>
+    <span class="paginator-counter"><span id="currentSection">1</span> / 8</span>
+    <a href="#" class="paginator-next" onclick="nextSection(event)">Successivo →</a>
+  </div>
+
+</main>
+
+<script>
+  function toggleExample(btn) {
+    const content = btn.nextElementSibling;
+    const icon = btn.querySelector('.example-icon');
+    btn.classList.toggle('open');
+    content.classList.toggle('open');
+  }
+
+  function toggleCheckbox(item) {
+    item.classList.toggle('checked');
+  }
+
+  const navLinks = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('section');
+
+  function goToSection(idx) {
+    if (idx < 0 || idx >= sections.length) return;
+
+    navLinks.forEach(l => l.classList.remove('active'));
+    navLinks[idx].classList.add('active');
+
+    sections.forEach(s => s.classList.remove('active'));
+    sections[idx].classList.add('active');
+
+    document.getElementById('currentSection').textContent = idx + 1;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function prevSection(e) {
+    e.preventDefault();
+    const currentIdx = Array.from(sections).findIndex(s => s.classList.contains('active'));
+    goToSection(currentIdx - 1);
+  }
+
+  function nextSection(e) {
+    e.preventDefault();
+    const currentIdx = Array.from(sections).findIndex(s => s.classList.contains('active'));
+    goToSection(currentIdx + 1);
+  }
+
+  navLinks.forEach((link, idx) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      goToSection(idx);
+    });
+  });
+</script>
+
+</body>
+</html>
