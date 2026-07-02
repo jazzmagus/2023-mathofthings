@@ -82,7 +82,7 @@ slides:
       <p style="font-size:0.73em; line-height:1.6;">Tartaglia scopre il metodo pochi giorni prima. Per non dimenticarlo, lo codifica in una poesia criptica.</p>
     </div>
     <div class="mot-col fragment">
-      <img src="tartaglia.png" alt="Niccolò Tartaglia" style="max-width:100%; max-height:580px; display:block; margin:0 auto;">
+      <img src="tartaglia.png" alt="Niccolò Tartaglia" style="max-width:100%; max-height:620px; display:block; margin:0 auto;">
     </div>
   </div>
 </section>
