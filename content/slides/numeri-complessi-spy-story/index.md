@@ -202,13 +202,14 @@ slides:
 <section>
   <p class="mot-kicker">Bologna, 1560</p>
   <h2>Rafael Bombelli e l'Illuminazione</h2>
-  <div class="mot-cols">
+  <p class="mot-def fragment">Rafael Bombelli studia il caso irriducibile con ossessione scientifica.</p>
+  
+  <div class="mot-cols" style="margin-top:1.5em;">
     <div class="mot-col fragment">
-      <p class="mot-def">Rafael Bombelli studia il caso irriducibile con ossessione scientifica.</p>
-      <p style="font-size:0.8em; margin-top:1em;">Decide di <b>osare l'impossibile</b>: e se le radici di numeri negativi <b>esistessero davvero</b>? Non come numeri reali, ma come una nuova categoria?</p>
+      <p style="font-size:0.8em; line-height:1.6;">Decide di <b>osare l'impossibile</b>: e se le radici di numeri negativi <b>esistessero davvero</b>? Non come numeri reali, ma come una nuova categoria?</p>
     </div>
-    <div class="mot-col fragment" style="background: #f0f0f0; padding: 20px; border-radius: 8px; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 300px; font-size:0.85em; color:#999;">
-      Ritratto: Rafael Bombelli<br><span style="font-size:0.8em;">(placeholder per immagine)</span>
+    <div class="mot-col fragment">
+      <img src="bombelli.png" alt="Rafael Bombelli" style="max-width:100%; max-height:500px; display:block; margin:0 auto;">
     </div>
   </div>
 </section>
