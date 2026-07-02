@@ -72,9 +72,16 @@ slides:
 <section>
   <p class="mot-kicker">Venezia, 1535</p>
   <h2>Tartaglia vs Fior</h2>
-  <p class="mot-def fragment"><b>Niccolò Tartaglia</b> riceve una sfida pubblica: risolvere trenta problemi cubici proposti da Antonio Maria Fior.</p>
-  <p class="fragment" style="font-size:0.8em">Tartaglia — il nome significa letteralmente "chi balbetta", una ferita ricevuta nel Sacco di Brescia del 1512 — è un genio a sua insaputa.</p>
-  <p class="mot-result fragment">Tartaglia scopre il metodo <b>pochi giorni prima della sfida</b>. Poi fa qualcosa di straordinario: per non dimenticarlo, lo <b>codifica in una poesia criptica</b>.</p>
+  <div class="mot-cols">
+    <div class="mot-col fragment">
+      <p class="mot-def"><b>Niccolò Tartaglia</b> riceve una sfida pubblica: risolvere trenta problemi cubici proposti da Antonio Maria Fior.</p>
+      <p style="font-size:0.8em; margin-top:1em;">Tartaglia — il nome significa letteralmente "chi balbetta", una ferita ricevuta nel Sacco di Brescia del 1512 — è un genio a sua insaputa.</p>
+      <p class="mot-result fragment" style="margin-top:1em;">Tartaglia scopre il metodo <b>pochi giorni prima della sfida</b>. Poi fa qualcosa di straordinario: per non dimenticarlo, lo <b>codifica in una poesia criptica</b>.</p>
+    </div>
+    <div class="mot-col fragment">
+      <img src="tartaglia.png" alt="Niccolò Tartaglia" style="max-width:100%; max-height:420px; display:block; margin:0 auto;">
+    </div>
+  </div>
 </section>
 
 <section>
