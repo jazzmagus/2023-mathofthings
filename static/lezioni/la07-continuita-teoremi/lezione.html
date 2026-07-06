@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento — Continuità e teoremi fondamentali</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {
+    fontCache: 'global',
+    scale: 1.05
+  },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => {
+        document.body.style.opacity = '1';
+      });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --surface-alt: #f5f0e8;
+  --border: #e4ddd4;
+  --border-light: #ece7de;
+  --text: #2c2520;
+  --text-mid: #5a524a;
+  --text-dim: #6e6760;
+  --accent: #c2185b;
+  --accent-light: #fce4ec;
+  --blue: #3a6b8c;
+  --blue-light: #e8f0f5;
+  --green: #4a7c59;
+  --green-light: #eaf5ed;
+  --purple: #6a1b9a;
+  --purple-light: #f3e5f5;
+  --gold: #b8860b;
+  --gold-light: #fdf8ed;
+  --teal: #4f6d7a;
+  --teal-light: #e8eff2;
+  --danger: #b33a3a;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(44,37,32,.04);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Georgia',serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.75;
+  font-size:17px;
+  opacity:0;
+  transition: opacity .3s;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center;
+  padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand {
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem; font-weight:700;
+  color:var(--text); white-space:nowrap;
+}
+.topbar-nav {
+  display:flex; gap:3px; overflow-x:auto;
+  scrollbar-width:none; flex:1;
+}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill {
+  background:none; border:none;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim);
+  padding:6px 14px; border-radius:0;
+  cursor:pointer; white-space:nowrap; transition:all .2s;
+  border-bottom:2px solid transparent;
+}
+.nav-pill:hover{background:none;color:var(--text)}
+.nav-pill.active{background:none;color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
+.topbar-home {
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.75rem; color:var(--text-dim);
+  text-decoration:none; cursor:pointer;
+  white-space:nowrap;
+}
+.topbar-home:hover{color:var(--accent)}
+
+/* ── CONTAINER ── */
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 60px}
+
+/* ── SECTIONS ── */
+.section{display:none;animation:appear .4s ease}
+.section.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HERO ── */
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7;text-align:justify}
+
+/* ── CONCEPT BOXES ── */
+.cb{background:var(--surface-alt);border:none;border-radius:0;padding:16px 0 16px 18px;margin:18px 0;box-shadow:none;position:relative;border-left:2px solid var(--accent)}
+.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;display:none}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600;color:var(--accent)}
+.cb.tip .cb-label{color:var(--blue)} .cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)} .cb.success .cb-label{color:var(--green)}
+.cb.method .cb-label{color:var(--accent)} .cb.purple .cb-label{color:var(--purple)}
+.cb.teal .cb-label{color:var(--teal)}
+.cb.tip{border-left-color:var(--blue)} .cb.warn{border-left-color:var(--gold)}
+.cb.danger{border-left-color:var(--danger)} .cb.success{border-left-color:var(--green)}
+.cb.purple{border-left-color:var(--purple)} .cb.teal{border-left-color:var(--teal)}
+
+/* ── MATH DISPLAY BLOCKS ── */
+.math-block {
+  background: rgba(0,0,0,.02);
+  border: none;
+  border-radius: 0;
+  padding: 12px 16px;
+  margin: 10px 0;
+  overflow-x: auto;
+}
+.math-block.dark { background: rgba(0,0,0,.04); }
+.math-block.hero-formula {
+  background: var(--surface-alt);
+  border: none;
+  padding: 16px 20px;
+  text-align: center;
+}
+.math-block.result {
+  border-left: 2px solid var(--green);
+  background: rgba(74,124,89,.04);
+  padding: 12px 16px;
+  margin: 10px 0;
+}
+.math-block.warning {
+  border-left: 2px solid var(--danger);
+  background: rgba(179,58,58,.04);
+  padding: 12px 16px;
+  margin: 10px 0;
+}
+
+/* ── STEP-BY-STEP ── */
+.step-math { margin: 6px 0; padding: 4px 0; }
+.step-math .label {
+  font-family: 'Fira Code', monospace;
+  font-size: .72rem; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px;
+}
+.step-math .label.green { color: var(--green); }
+
+/* ── ACCORDION ── */
+.accordion{border:none;border-radius:0;overflow:visible;margin:16px 0;box-shadow:none}
+.acc-item{border-bottom:1px solid rgba(0,0,0,.08);border-top:none}
+.acc-item:last-child{border-bottom:none}
+.acc-header{display:flex;align-items:center;gap:12px;padding:14px 0;background:none;cursor:pointer;transition:all .2s;user-select:none}
+.acc-header:hover{background:none}
+.acc-num{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.acc-title{font-weight:600;font-size:.95rem;flex:1;color:var(--text)}
+.acc-arrow{width:16px;height:16px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease;background:none}
+.acc-item.open .acc-body{max-height:8000px}
+.acc-inner{padding:8px 0 16px 36px;border-top:none}
+
+/* ── TABLES ── */
+.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9rem}
+.ct th{text-align:left;padding:11px 14px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--border-light);font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct td{padding:10px 14px;border-bottom:1px solid var(--border-light);vertical-align:top}
+.ct tr:last-child td{border-bottom:none}
+
+/* ── CASE TABLE (discussione) ── */
+.cases{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92rem;font-family:'Fira Code',monospace}
+.cases td{padding:9px 14px;border-bottom:1px solid var(--border-light);vertical-align:top}
+.cases td:first-child{color:var(--accent);white-space:nowrap;font-weight:500}
+.cases tr:last-child td{border-bottom:none}
+
+/* ── FIGURES (SVG) ── */
+.fig{display:block;margin:20px auto;max-width:100%}
+.fig-cap{font-family:'JetBrains Mono',monospace;font-size:.74rem;color:var(--text-dim);text-align:center;margin:-6px 0 18px}
+.svg-axis{stroke:var(--text-dim);stroke-width:1}
+.svg-grid{stroke:var(--border);stroke-width:1;stroke-dasharray:3 3}
+.svg-curve{fill:none;stroke:var(--accent);stroke-width:2.5}
+.svg-lbl{font-family:'JetBrains Mono',monospace;font-size:12px;fill:var(--text-mid)}
+.svg-lbl.dim{fill:var(--text-dim)}
+.svg-dot{fill:var(--accent)}
+.svg-dot-open{fill:var(--bg);stroke:var(--accent);stroke-width:2}
+
+/* ── MATHJAX FORMATTING ── */
+mjx-container[jax="SVG"] { direction: ltr; }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:52px;padding-top:26px;border-top:1px solid var(--border-light)}
+.bb{font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:0;border:none;background:none;color:var(--text);transition:all .2s;cursor:pointer;text-decoration:none}
+.bb:hover{color:var(--accent);text-decoration:underline}
+.bb:disabled{opacity:.35;cursor:not-allowed;text-decoration:none}
+.bb:disabled:hover{color:var(--text);text-decoration:none}
+.bb.primary{background:none;color:var(--text);border:none;font-weight:400}
+.bb.primary:hover{color:var(--accent);text-decoration:underline;background:none}
+.page-info{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-dim)}
+
+p{margin:6px 0}
+ul,ol{margin:8px 0 8px 20px}
+li{margin:2px 0}
+.dim{color:var(--text-dim)}
+strong{font-weight:600}
+h2{margin:24px 0 12px}
+h3{margin:16px 0 8px}
+
+/* ── CHECKLIST ── */
+.checklist{list-style:none;margin:12px 0}
+.checklist li{position:relative;padding:6px 0 6px 32px;font-size:.95rem;font-family:'JetBrains Mono',monospace;cursor:pointer;transition:all .2s}
+.checklist li::before{content:'☐';position:absolute;left:6px;top:6px;font-size:1rem;color:var(--accent);transition:all .2s}
+.checklist li.checked{color:var(--text-dim);text-decoration:line-through}
+.checklist li.checked::before{content:'☑'}
+
+@media(max-width:640px){
+  body{font-size:16px}
+  .hero h1{font-size:1.7rem}
+  .acc-header{padding:13px 14px}
+  .acc-inner{padding:4px 14px 18px}
+  .cb{padding:18px}
+  .math-block{padding:14px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Continuità e teoremi · avanzato</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+// ══════════════════════════
+// Accordion builder
+// ══════════════════════════
+function acc(items) {
+  return '<div class="accordion">'+items.map((it,i)=>`
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-num">${i+1}</div>
+        <div class="acc-title">${it.t}</div>
+        <svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="acc-body"><div class="acc-inner">${it.h}</div></div>
+    </div>`).join('')+'</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  item.classList.toggle('open');
+  if (!wasOpen && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+// ══════════════════════════
+// FIGURE SVG
+// ══════════════════════════
+// Discontinuità a salto
+const svgSalto = `
+<svg class="fig" width="340" height="210" viewBox="0 0 340 210" role="img" aria-label="Discontinuità a salto">
+  <line class="svg-axis" x1="30" y1="175" x2="320" y2="175"/>
+  <line class="svg-axis" x1="45" y1="20" x2="45" y2="190"/>
+  <line class="svg-grid" x1="180" y1="20" x2="180" y2="190"/>
+  <path class="svg-curve" d="M55 150 L178 95"/>
+  <path class="svg-curve" d="M182 145 L305 60"/>
+  <circle class="svg-dot-open" cx="180" cy="93" r="5"/>
+  <circle class="svg-dot" cx="180" cy="147" r="5"/>
+  <text class="svg-lbl dim" x="172" y="192">x₀</text>
+  <text class="svg-lbl" x="200" y="90">limite destro</text>
+  <text class="svg-lbl" x="60" y="140">limite sinistro</text>
+</svg>`;
+
+// Teorema di Weierstrass
+const svgWeier = `
+<svg class="fig" width="360" height="220" viewBox="0 0 360 220" role="img" aria-label="Teorema di Weierstrass">
+  <line class="svg-axis" x1="30" y1="185" x2="340" y2="185"/>
+  <line class="svg-axis" x1="45" y1="15" x2="45" y2="200"/>
+  <line class="svg-grid" x1="70" y1="15" x2="70" y2="185"/>
+  <line class="svg-grid" x1="300" y1="15" x2="300" y2="185"/>
+  <line class="svg-grid" x1="45" y1="45" x2="330" y2="45"/>
+  <line class="svg-grid" x1="45" y1="160" x2="330" y2="160"/>
+  <path class="svg-curve" d="M70 120 C110 40 150 40 175 100 C205 175 250 175 300 90"/>
+  <circle class="svg-dot" cx="132" cy="45" r="4.5"/>
+  <circle class="svg-dot" cx="223" cy="160" r="4.5"/>
+  <text class="svg-lbl" x="330" y="49">M (max)</text>
+  <text class="svg-lbl" x="330" y="164">m (min)</text>
+  <text class="svg-lbl dim" x="64" y="200">a</text>
+  <text class="svg-lbl dim" x="294" y="200">b</text>
+</svg>`;
+
+// Teorema di Bolzano (esistenza degli zeri)
+const svgBolzano = `
+<svg class="fig" width="360" height="220" viewBox="0 0 360 220" role="img" aria-label="Teorema di Bolzano">
+  <line class="svg-axis" x1="30" y1="115" x2="340" y2="115"/>
+  <line class="svg-axis" x1="55" y1="15" x2="55" y2="205"/>
+  <line class="svg-grid" x1="80" y1="15" x2="80" y2="205"/>
+  <line class="svg-grid" x1="300" y1="15" x2="300" y2="205"/>
+  <path class="svg-curve" d="M80 185 C140 170 165 150 195 115 C225 80 260 55 300 50"/>
+  <circle class="svg-dot" cx="80" cy="185" r="4.5"/>
+  <circle class="svg-dot" cx="300" cy="50" r="4.5"/>
+  <circle class="svg-dot" cx="195" cy="115" r="4.5"/>
+  <text class="svg-lbl dim" x="70" y="205">a</text>
+  <text class="svg-lbl dim" x="294" y="205">b</text>
+  <text class="svg-lbl" x="30" y="190">f(a)&lt;0</text>
+  <text class="svg-lbl" x="305" y="46">f(b)&gt;0</text>
+  <text class="svg-lbl" x="188" y="135">c</text>
+</svg>`;
+
+// ══════════════════════════
+// SEZIONI
+// ══════════════════════════
+const S = [
+
+// ═══ 0: MOTIVAZIONE ═══
+{
+  tag:"APPROFONDIMENTO",
+  title:"Il filo <em>ininterrotto</em>",
+  sub:"L'idea intuitiva è antica: una funzione è continua se il suo grafico si disegna «senza staccare la penna dal foglio». In questo approfondimento trasformiamo quell'intuizione in una definizione rigorosa, basata sui limiti, e ne raccogliamo i frutti: tre teoremi che sono tra i pilastri dell'analisi.",
+  nav:"Perché",
+  body:`
+  <p>La continuità è il ponte fra i <strong>limiti</strong> — che hai studiato — e il <strong>calcolo differenziale</strong>, che ti aspetta. È la proprietà che rende «prevedibili» le funzioni: dove una funzione è continua, valori vicini dell'ingresso danno valori vicini dell'uscita.</p>
+
+  <div class="cb method">
+    <div class="cb-label">Il cuore dell'idea</div>
+    <p>Una funzione è continua in un punto quando <strong>il limite coincide con il valore della funzione</strong>. Nessun salto, nessun buco, nessuna fuga verso l'infinito. Tutto ciò che segue nasce da questa singola condizione.</p>
+  </div>
+
+  <p>Ma perché tanta importanza? Perché la continuità <em>garantisce</em> proprietà che a occhio sembrano ovvie e invece vanno dimostrate: che una funzione continua su un intervallo chiuso raggiunge un massimo e un minimo (Weierstrass) e che, cambiando segno, deve annullarsi da qualche parte (Bolzano). Sono i teoremi che useremo per dimostrare che certe equazioni <strong>hanno una soluzione</strong>, anche quando non sappiamo calcolarla.</p>
+
+  <div class="cb tip">
+    <div class="cb-label">Prerequisiti</div>
+    <p>Diamo per acquisiti il concetto di <strong>limite</strong> di una funzione, i limiti destro e sinistro e l'algebra dei limiti. Serviranno costantemente.</p>
+  </div>`
+},
+
+// ═══ 1: CONTINUITÀ ═══
+{
+  tag:"DEFINIZIONE",
+  title:"Continuità in un <em>punto</em> e su un intervallo",
+  sub:"Diamo la definizione precisa di funzione continua, scomponendola in tre condizioni che devono valere tutte insieme. Poi estendiamo l'idea a un intero intervallo.",
+  nav:"Continuità",
+  body:`
+  <p>Sia \\(f\\) definita in un intorno di \\(x_0\\). Diciamo che \\(f\\) è <strong>continua in \\(x_0\\)</strong> se:</p>
+  <div class="math-block hero-formula">\\[ \\lim_{x\\to x_0} f(x) = f(x_0) \\tag{C} \\]</div>
+
+  <p>Questa sola uguaglianza racchiude <strong>tre richieste</strong>, che devono valere contemporaneamente:</p>
+  <table class="ct">
+    <tr><th>#</th><th>Condizione</th></tr>
+    <tr><td>1</td><td>\\(f(x_0)\\) esiste (cioè \\(x_0\\) appartiene al dominio)</td></tr>
+    <tr><td>2</td><td>\\(\\displaystyle\\lim_{x\\to x_0} f(x)\\) esiste ed è finito</td></tr>
+    <tr><td>3</td><td>il limite è uguale al valore: \\(\\displaystyle\\lim_{x\\to x_0} f(x) = f(x_0)\\)</td></tr>
+  </table>
+  <p>Se anche una sola di queste manca, la funzione <strong>non</strong> è continua in \\(x_0\\).</p>
+
+  <div class="cb method">
+    <div class="cb-label">Su un intervallo</div>
+    <p>Una funzione è <strong>continua su un intervallo</strong> se lo è in ogni suo punto. Agli estremi di un intervallo chiuso \\([a,b]\\) si usano i limiti <em>da un solo lato</em>: continua a destra in \\(a\\), continua a sinistra in \\(b\\).</p>
+  </div>
+
+  <h3>Le funzioni continue che già conosci</h3>
+  <p>Sono continue su tutto il loro dominio le funzioni elementari: <strong>polinomi</strong>, funzioni <strong>razionali</strong> (dove il denominatore non si annulla), <strong>radici</strong>, <strong>esponenziali</strong> e <strong>logaritmi</strong>, <strong>seno</strong> e <strong>coseno</strong>.</p>
+
+  <div class="cb success">
+    <div class="cb-label">L'algebra della continuità</div>
+    <p>Se \\(f\\) e \\(g\\) sono continue in \\(x_0\\), lo sono anche \\(f+g\\), \\(f-g\\), \\(f\\cdot g\\) e \\(\\dfrac{f}{g}\\) (se \\(g(x_0)\\neq 0\\)). Anche la <strong>composizione</strong> \\(f\\big(g(x)\\big)\\) di funzioni continue è continua. Per questo la stragrande maggioranza delle funzioni che incontri è continua «quasi ovunque»: i punti critici sono le eccezioni, ed è lì che dobbiamo guardare.</p>
+  </div>`
+},
+
+// ═══ 2: DISCONTINUITÀ ═══
+{
+  tag:"CLASSIFICAZIONE",
+  title:"Le <em>discontinuità</em> e la loro natura",
+  sub:"Quando la continuità viene a mancare, non tutte le rotture sono uguali. Si distinguono tre specie, a seconda di come si comportano i limiti destro e sinistro nel punto critico.",
+  nav:"Discontinuità",
+  body:`
+  <p>Chiamiamo \\(\\ell^- = \\lim_{x\\to x_0^-} f(x)\\) e \\(\\ell^+ = \\lim_{x\\to x_0^+} f(x)\\) i limiti sinistro e destro. La classificazione dipende da loro.</p>
+
+  <h3>Prima specie — il salto</h3>
+  <p>I due limiti esistono <strong>finiti</strong> ma sono <strong>diversi</strong>: \\(\\ell^- \\neq \\ell^+\\). Il grafico compie un «salto» la cui ampiezza è \\(|\\ell^+ - \\ell^-|\\).</p>
+  ${svgSalto}
+  <div class="fig-cap">discontinuità di prima specie: salto tra i due limiti</div>
+  <p><strong>Esempio.</strong> \\(f(x)=\\dfrac{|x|}{x}\\) in \\(x_0=0\\): a sinistra vale \\(-1\\), a destra \\(+1\\). Salto di ampiezza \\(2\\).</p>
+
+  <h3>Seconda specie — la fuga all'infinito</h3>
+  <p>Almeno uno dei due limiti è <strong>infinito</strong> oppure <strong>non esiste</strong>.</p>
+  <p><strong>Esempio.</strong> \\(f(x)=\\dfrac{1}{x}\\) in \\(x_0=0\\): \\(\\ell^-=-\\infty\\), \\(\\ell^+=+\\infty\\). Il grafico ha un asintoto verticale.</p>
+
+  <h3>Terza specie — il buco eliminabile</h3>
+  <p>Il limite esiste finito, \\(\\ell^-=\\ell^+=\\ell\\), ma <strong>non coincide</strong> con \\(f(x_0)\\), oppure \\(f(x_0)\\) non è nemmeno definito. Basterebbe «ridefinire» la funzione nel punto per renderla continua: per questo si dice <strong>eliminabile</strong>.</p>
+  <div class="math-block">\\[ f(x)=\\frac{x^2-1}{x-1}\\ \\ (x\\neq 1), \\qquad \\lim_{x\\to 1} f(x)=2 \\]</div>
+  <p>La funzione non è definita in \\(x_0=1\\), ma il limite vale \\(2\\): ponendo \\(f(1)=2\\) il buco si chiude.</p>
+
+  <table class="ct">
+    <tr><th>Specie</th><th>Comportamento di \\(\\ell^-,\\ \\ell^+\\)</th></tr>
+    <tr><td>Prima (salto)</td><td>finiti e diversi</td></tr>
+    <tr><td>Seconda</td><td>almeno uno infinito o inesistente</td></tr>
+    <tr><td>Terza (eliminabile)</td><td>uguali e finiti, ma \\(\\neq f(x_0)\\)</td></tr>
+  </table>`
+},
+
+// ═══ 3: WEIERSTRASS ═══
+{
+  tag:"TEOREMA",
+  title:"Il teorema di <em>Weierstrass</em>",
+  sub:"Il primo grande risultato: su un intervallo chiuso e limitato, una funzione continua non può «sfuggire». Deve raggiungere un valore massimo e un valore minimo.",
+  nav:"Weierstrass",
+  body:`
+  <div class="cb method">
+    <div class="cb-label">Enunciato</div>
+    <p>Se \\(f\\) è <strong>continua</strong> su un intervallo <strong>chiuso e limitato</strong> \\([a,b]\\), allora \\(f\\) assume in \\([a,b]\\) un valore <strong>massimo</strong> e un valore <strong>minimo</strong>: esistono \\(x_m, x_M \\in [a,b]\\) tali che</p>
+  </div>
+  <div class="math-block hero-formula">\\[ f(x_m) \\leq f(x) \\leq f(x_M) \\qquad \\text{per ogni } x\\in[a,b] \\]</div>
+
+  ${svgWeier}
+  <div class="fig-cap">su [a, b] il grafico ha un punto più alto (M) e uno più basso (m)</div>
+
+  <div class="cb warn">
+    <div class="cb-label">Tutte le ipotesi servono</div>
+    <p>Il teorema cade se anche una sola ipotesi manca:</p>
+    <ul>
+      <li><strong>Intervallo non chiuso:</strong> \\(f(x)=\\dfrac{1}{x}\\) su \\((0,1]\\) è continua ma <em>non ha massimo</em> (cresce oltre ogni limite vicino a \\(0\\)).</li>
+      <li><strong>Funzione non continua:</strong> una funzione con un salto su \\([a,b]\\) può non raggiungere il suo estremo superiore.</li>
+    </ul>
+  </div>
+
+  <p>Attenzione: il teorema <strong>garantisce l'esistenza</strong> di massimo e minimo, ma non dice <em>dove</em> si trovano né <em>quanto</em> valgono. È un teorema di esistenza — e questa è già un'informazione preziosa.</p>`
+},
+
+// ═══ 4: BOLZANO ═══
+{
+  tag:"TEOREMA",
+  title:"Il teorema di <em>Bolzano</em> e i valori intermedi",
+  sub:"Il secondo pilastro: se una funzione continua parte sotto lo zero e arriva sopra (o viceversa), da qualche parte deve valere esattamente zero. Sembra ovvio, ma è la chiave per dimostrare l'esistenza di soluzioni.",
+  nav:"Bolzano",
+  body:`
+  <div class="cb method">
+    <div class="cb-label">Teorema di esistenza degli zeri (Bolzano)</div>
+    <p>Se \\(f\\) è <strong>continua</strong> su \\([a,b]\\) e agli estremi assume valori di <strong>segno opposto</strong>, cioè \\(f(a)\\cdot f(b) < 0\\), allora esiste almeno un punto \\(c \\in (a,b)\\) in cui</p>
+  </div>
+  <div class="math-block hero-formula">\\[ f(c) = 0 \\]</div>
+
+  ${svgBolzano}
+  <div class="fig-cap">passando da f(a)&lt;0 a f(b)&gt;0, il grafico taglia l'asse in un punto c</div>
+
+  <p>Geometricamente è irresistibile: un tratto di curva continuo che parte sotto l'asse \\(x\\) e finisce sopra <strong>deve</strong> attraversarlo. Non può «teletrasportarsi» da una parte all'altra senza toccarlo — perché è continuo.</p>
+
+  <div class="cb success">
+    <div class="cb-label">Teorema dei valori intermedi (Darboux)</div>
+    <p>È la versione generale: una funzione continua su \\([a,b]\\) assume <strong>tutti</strong> i valori compresi fra \\(f(a)\\) e \\(f(b)\\). Il teorema di Bolzano è il caso particolare in cui il valore intermedio scelto è lo zero.</p>
+  </div>
+
+  <div class="cb warn">
+    <div class="cb-label">Cosa NON dice</div>
+    <p>Bolzano garantisce <em>almeno</em> uno zero, non esattamente uno: potrebbero essercene diversi. E se \\(f(a)\\) e \\(f(b)\\) hanno lo stesso segno, il teorema non si applica — ma uno zero potrebbe comunque esistere. È una condizione <strong>sufficiente</strong>, non necessaria.</p>
+  </div>`
+},
+
+// ═══ 5: APPLICAZIONI ═══
+{
+  tag:"APPLICAZIONI",
+  title:"Dimostrare che una soluzione <em>esiste</em>",
+  sub:"La forza di Bolzano è pratica: permette di garantire che un'equazione ha una soluzione in un certo intervallo, anche quando risolverla esattamente è impossibile. E suggerisce come approssimarla.",
+  nav:"Applicazioni",
+  body:`
+  <p>Per mostrare che l'equazione \\(g(x)=h(x)\\) ha una soluzione, si porta tutto a un membro, \\(f(x)=g(x)-h(x)\\), e si cerca un intervallo in cui \\(f\\) cambia segno.</p>
+
+  <p><strong>Esempio guidato.</strong> L'equazione \\(x^3 + x - 1 = 0\\) ha soluzioni reali?</p>
+  <div class="step-math"><div class="label">funzione</div>\\(f(x)=x^3+x-1\\) è un polinomio, dunque continua su \\(\\mathbb{R}\\).</div>
+  <div class="step-math"><div class="label">estremi</div>\\(f(0)=-1<0\\) e \\(f(1)=1>0\\): segni opposti.</div>
+  <div class="step-math"><div class="label green">conclusione</div>per Bolzano esiste \\(c\\in(0,1)\\) con \\(f(c)=0\\): l'equazione ha una soluzione in \\((0,1)\\).</div>
+  <div class="math-block result">\\[ \\exists\\, c\\in(0,1):\\ c^3+c-1=0 \\]</div>
+
+  <div class="cb tip">
+    <div class="cb-label">Dal teorema al calcolo: la bisezione</div>
+    <p>Trovato l'intervallo, si valuta \\(f\\) nel punto medio: il sottointervallo in cui \\(f\\) cambia ancora segno contiene lo zero. Ripetendo, si dimezza ogni volta l'incertezza e si approssima \\(c\\) con la precisione voluta. È il <strong>metodo di bisezione</strong>, figlio diretto di Bolzano.</p>
+  </div>
+
+  <div class="cb tip">
+    <div class="cb-label">Esercizi svolti</div>
+    <p>Prova prima da solo, poi apri la soluzione.</p>
+  </div>
+
+  ${acc([
+    { t:"Es. 1 — \\(\\cos x = x\\) ha soluzione in \\([0,1]\\)?", h:`
+      <p>Poniamo \\(f(x)=\\cos x - x\\), continua ovunque.</p>
+      <p>\\(f(0)=\\cos 0 - 0 = 1 > 0\\); \\(f(1)=\\cos 1 - 1 \\approx 0{,}54 - 1 = -0{,}46 < 0\\).</p>
+      <p>Segni opposti: per Bolzano esiste \\(c\\in(0,1)\\) con \\(\\cos c = c\\). Sì.</p>` },
+
+    { t:"Es. 2 — \\(e^x = 3-x\\) ha soluzione?", h:`
+      <p>\\(f(x)=e^x-3+x\\), continua su \\(\\mathbb{R}\\).</p>
+      <p>\\(f(0)=1-3+0=-2<0\\); \\(f(1)=e-3+1=e-2\\approx 0{,}72>0\\).</p>
+      <p>Cambio di segno in \\([0,1]\\): esiste una soluzione in \\((0,1)\\).</p>` },
+
+    { t:"Es. 3 — Un polinomio di grado dispari ha sempre uno zero reale", h:`
+      <p>Sia \\(P(x)\\) di grado dispari. Per \\(x\\to -\\infty\\) e \\(x\\to +\\infty\\) tende a infiniti di <strong>segno opposto</strong>.</p>
+      <p>Quindi esistono \\(a\\) con \\(P(a)<0\\) e \\(b\\) con \\(P(b)>0\\). Essendo \\(P\\) continuo, per Bolzano ha almeno uno zero reale. È il motivo per cui ogni equazione polinomiale di grado dispari ha sempre almeno una radice reale.</p>` }
+  ])}`
+},
+
+// ═══ 6: SINTESI ═══
+{
+  tag:"SINTESI",
+  title:"Il quadro <em>completo</em>",
+  sub:"Hai reso rigorosa la continuità e ne hai raccolto i tre grandi teoremi. Ecco la mappa dei concetti e le domande di autocontrollo prima di passare al calcolo differenziale.",
+  nav:"Sintesi",
+  body:`
+  <table class="ct">
+    <tr><th>Concetto</th><th>In una riga</th></tr>
+    <tr><td>Continuità in \\(x_0\\)</td><td>\\(\\lim_{x\\to x_0} f(x)=f(x_0)\\) (tre condizioni)</td></tr>
+    <tr><td>Discontinuità</td><td>prima (salto), seconda (infinito), terza (eliminabile)</td></tr>
+    <tr><td>Weierstrass</td><td>continua su \\([a,b]\\) ⟹ ha massimo e minimo</td></tr>
+    <tr><td>Bolzano</td><td>continua e \\(f(a)f(b)<0\\) ⟹ esiste uno zero</td></tr>
+    <tr><td>Valori intermedi</td><td>assume ogni valore fra \\(f(a)\\) e \\(f(b)\\)</td></tr>
+  </table>
+
+  <div class="cb warn">
+    <div class="cb-label">Il filo comune: gli intervalli chiusi</div>
+    <p>Weierstrass e Bolzano hanno bisogno di un intervallo <strong>chiuso e limitato</strong> e di una funzione <strong>continua</strong>. Togli un'ipotesi e il teorema può fallire. Verifica sempre le ipotesi prima di invocare un teorema.</p>
+  </div>
+
+  <h3>Controlla di saper fare</h3>
+  <ul class="checklist">
+    <li>Verifico la continuità di una funzione in un punto con le tre condizioni</li>
+    <li>Riconosco e classifico una discontinuità (prima, seconda, terza specie)</li>
+    <li>Individuo una discontinuità eliminabile e so come «chiudere il buco»</li>
+    <li>Enuncio il teorema di Weierstrass e le sue ipotesi</li>
+    <li>Enuncio il teorema di Bolzano e dei valori intermedi</li>
+    <li>Uso Bolzano per dimostrare che un'equazione ha una soluzione</li>
+    <li>Spiego l'idea del metodo di bisezione</li>
+  </ul>
+
+  <div class="cb success">
+    <div class="cb-label">Dove porta</div>
+    <p>La continuità è il presupposto della <strong>derivabilità</strong>: ogni funzione derivabile è continua (non viceversa). Da qui parte il calcolo differenziale — derivate, teoremi di Rolle e Lagrange, studio di funzione — dove questi risultati sull'esistenza tornano continuamente. Hai posato la prima pietra dell'analisi.</p>
+  </div>`
+}
+
+];
+
+// ══════════════════════════
+// APP LOGIC
+// ══════════════════════════
+let cur = 0;
+const tot = S.length;
+
+function render() {
+  document.getElementById('topNav').innerHTML = S.map((s,i) =>
+    `<button class="nav-pill ${i===cur?'active':''}" onclick="goTo(${i})">${s.nav}</button>`
+  ).join('');
+
+  document.getElementById('app').innerHTML = S.map((s,i) => `
+    <div class="section ${i===cur?'active':''}">
+      <div class="hero">
+        <div class="hero-tag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p class="hero-sub">${s.sub}</p>
+      </div>
+      ${s.body}
+      <div class="bottom-nav">
+        <button class="bb" onclick="goTo(${i-1})" ${i===0?'disabled':''}>← Precedente</button>
+        <span class="page-info">${i+1} / ${tot}</span>
+        <button class="bb primary" onclick="goTo(${i+1})" ${i===tot-1?'disabled':''}>Successivo →</button>
+      </div>
+    </div>
+  `).join('');
+
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    const active = document.querySelector('.section.active');
+    if (active) MathJax.typesetPromise([active]);
+  }
+
+  document.querySelectorAll('.checklist li').forEach(li => {
+    li.onclick = function(e) {
+      e.stopPropagation();
+      this.classList.toggle('checked');
+    };
+  });
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= tot) return;
+  cur = idx;
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(cur + 1);
+  if (e.key === 'ArrowLeft')  goTo(cur - 1);
+});
+
+if (typeof MathJax !== 'undefined' && MathJax.startup) {
+  MathJax.startup.promise.then(() => render());
+} else {
+  render();
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>
