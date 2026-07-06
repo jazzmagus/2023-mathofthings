@@ -1143,6 +1143,27 @@ html:has(body.dark) {
   }
 }
 
+// Materiali non ancora pronti: placeholder href="#" → solo testo scuro,
+// non linkato. I link veri (href reale) restano in corallo automaticamente.
+.materials-card a[href="#"] {
+  color: #1a1a1a;
+  pointer-events: none;
+  cursor: default;
+  text-decoration: none;
+  border-color: transparent;
+  background: transparent;
+
+  &:hover {
+    border-color: transparent;
+    background: transparent;
+    transform: none;
+  }
+
+  .dark & {
+    color: #d0d0d0;
+  }
+}
+
 // Anno scolastico label sopra il titolo modulo
 .module-year {
   display: block;
