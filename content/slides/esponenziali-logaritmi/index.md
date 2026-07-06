@@ -51,7 +51,7 @@ slides:
   <div class="mot-cols">
     <div class="mot-col fragment" style="font-size:0.68em">
       <p>se $a>1$ &rarr; la funzione <b>cresce</b></p>
-      <p>se $0<a<1$ &rarr; la funzione <b>decresce</b></p>
+      <p>se $0 \lt a \lt 1$ &rarr; la funzione <b>decresce</b></p>
       <p>passa sempre per $(0,1)$ e resta <b>positiva</b></p>
     </div>
     <div class="mot-col fragment">
@@ -164,8 +164,10 @@ slides:
         <line x1="40" y1="280" x2="300" y2="280" style="stroke:var(--mot-muted);stroke-width:1.5"/>
         <line x1="40" y1="20" x2="40" y2="290" style="stroke:var(--mot-muted);stroke-width:1.5"/>
         <line x1="40" y1="280" x2="290" y2="30" style="stroke:var(--mot-muted);stroke-width:1.2;stroke-dasharray:5 5"/>
-        <path d="M40 232 C 78 210 108 150 138 78 C 150 50 160 36 172 26" style="fill:none;stroke:var(--mot-primary);stroke-width:3.5;stroke-linecap:round"/>
+        <path d="M40 232 C 78 210 108 150 138 78 C 150 50 156 36 160 26" style="fill:none;stroke:var(--mot-primary);stroke-width:3.5;stroke-linecap:round"/>
         <path d="M88 280 C 110 242 170 212 242 182 C 270 170 284 164 294 160" style="fill:none;stroke:#3a6b8c;stroke-width:3.5;stroke-linecap:round"/>
+        <circle cx="40" cy="232" r="4" style="fill:var(--mot-primary)"/>
+        <circle cx="88" cy="280" r="4" style="fill:#3a6b8c"/>
         <text x="150" y="34" style="font-family:var(--mot-mono);font-size:13px;fill:var(--mot-primary)">aˣ</text>
         <text x="252" y="150" style="font-family:var(--mot-mono);font-size:13px;fill:#3a6b8c">logₐx</text>
         <text x="250" y="60" style="font-family:var(--mot-mono);font-size:12px;fill:var(--mot-muted)">y=x</text>
