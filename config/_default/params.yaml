@@ -18,7 +18,7 @@ marketing:
     site_type: Person
     local_business_type: ""
     org_name: ""
-    description: "A highly-customizable Hugo academic resume theme powered by Wowchemy website builder."
+    description: "The Math of Things — il sito di Diego Fantinelli, insegnante di Matematica e Fisica: articoli divulgativi, materiali per i corsi, lezioni interattive e presentazioni."
     twitter: ""
   analytics:
     google_analytics: ""
@@ -70,9 +70,9 @@ features:
   privacy_pack:
     enable: false
   repository:
-    url: "https://github.com/<username>/<repository>"
+    url: "https://github.com/jazzmagus/mathofthings"
     content_dir: content
-    branch: master
+    branch: main
   avatar:
     gravatar: false
     shape: circle

@@ -14,7 +14,7 @@ organizations:
   url: https://www.fermibassano.edu.it/
 
 # Short bio (displayed in user profile at end of posts)
-bio: My research interests include distributed robotics, mobile computing and programmable matter.
+bio: Teacher of Mathematics and Physics, jazz musician, and lifelong learner. I write about the maths behind everyday things.
 
 # Interests to show in About widget
 interests:
@@ -71,6 +71,4 @@ email: "diego.fantinelli@gmail.com"
 highlight_name: true
 ---
 
-**Diego Fantinelli** is a professor of Mathematics at the "Enrico Fermi" Technical Institute based in Bassano del Grappa, Vicenza, Italy.
-
- Download my resumé.
+**Diego Fantinelli** is a teacher of Mathematics and Physics at the "Enrico Fermi" Technical Institute in Bassano del Grappa, Vicenza, Italy. Alongside teaching, he is a jazz saxophonist with a background in management engineering.

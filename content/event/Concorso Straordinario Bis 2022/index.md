@@ -61,14 +61,6 @@ projects:
   - uda
 ---
 
-<!-- callout -->
-Click on the **Slides** button above to view the built-in slides feature.
-<!-- /callout -->
+Materiali relativi alla prova orale del Concorso Straordinario Bis 2022 per la classe di concorso A026 (Matematica).
 
-Slides can be added in a few ways:
-
-- **Create** slides using Wowchemy's [_Slides_](https://wowchemy.com/docs/managing-content/#create-slides) feature and link using `slides` parameter in the front matter of the talk file
-- **Upload** an existing slide deck to `static/` and link using `url_slides` parameter in the front matter of the talk file
-- **Embed** your slides (e.g. Google Slides) or presentation video on this page using [shortcodes](https://wowchemy.com/docs/writing-markdown-latex/).
-
-Further event details, including [page elements](https://wowchemy.com/docs/writing-markdown-latex/) such as image galleries, can be added to the body of this page.
+Usa il pulsante **Slides** qui sopra per aprire la presentazione.

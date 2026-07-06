@@ -1,50 +1,152 @@
-# [Hugo Academic Theme](https://github.com/wowchemy/starter-hugo-academic)
+# The Math of Things
 
-[![Screenshot](./preview.png)](https://wowchemy.com/hugo-themes/)
+Sito personale di **Diego Fantinelli**, insegnante di Matematica e Fisica al Liceo Scientifico. Raccoglie articoli divulgativi, materiali per i corsi, lezioni interattive, presentazioni e talk, con un'attenzione particolare al ragionamento passo-passo e al legame tra matematica, fisica e mondo reale.
 
-The Hugo **Academic Resumé Template** empowers you to easily create your job-winning online resumé, showcase your academic publications, and create online courses or knowledge bases to grow your audience.
+- **Sito:** <https://mathofthings.netlify.app/>
+- **Stack:** Hugo + tema Wowchemy Academic, deploy automatico su Netlify
 
-[![Get Started](https://img.shields.io/badge/-Get%20started-ff4655?style=for-the-badge)](https://wowchemy.com/hugo-themes/)
-[![Discord](https://img.shields.io/discord/722225264733716590?style=for-the-badge)](https://discord.com/channels/722225264733716590/742892432458252370/742895548159492138)  
-[![Twitter Follow](https://img.shields.io/twitter/follow/wowchemy?label=Follow%20on%20Twitter)](https://twitter.com/wowchemy)
+---
 
-️**Trusted by 250,000+ researchers, educators, and students.** Highly customizable via the integrated **no-code, widget-based Wowchemy page builder**, making every site truly personalized ⭐⭐⭐⭐⭐
+## Cos'è
 
-Easily write technical content with plain text Markdown, LaTeX math, diagrams, RMarkdown, or Jupyter, and import publications from BibTeX.
+Un sito statico che funziona come vetrina didattica ed editoriale. L'idea guida è quella suggerita dal titolo: mostrare *la matematica delle cose*, cioè come modelli e concetti matematici emergano da problemi concreti (dalla tangente alla derivata, dall'indice di massa corporea alle probabilità del dilemma di Monty Hall).
 
-[Check out the latest demo](https://academic-demo.netlify.app/) of what you'll get in less than 10 minutes, or [get inspired by our academics and research groups](https://wowchemy.com/creators/).
+Il pubblico di riferimento è duplice:
 
-The integrated [**Wowchemy**](https://wowchemy.com) website builder and CMS makes it easy to create a beautiful website for free. Edit your site in the CMS (or your favorite editor), generate it with [Hugo](https://github.com/gohugoio/hugo), and deploy with GitHub or Netlify. Customize anything on your site with widgets, light/dark themes, and language packs.
+- **Studenti** del triennio del Liceo Scientifico, per materiali di studio e ripasso.
+- **Docenti e curiosi**, per articoli divulgativi e riflessioni sulla didattica.
 
-- 👉 [**Get Started**](https://wowchemy.com/hugo-themes/)
-- 📚 [View the **documentation**](https://wowchemy.com/docs/)
-- 💬 [Chat with the **Wowchemy research community**](https://discord.gg/z8wNYzb) or [**Hugo community**](https://discourse.gohugo.io)
-- 🐦 Twitter: [@wowchemy](https://twitter.com/wowchemy) [@GeorgeCushen](https://twitter.com/GeorgeCushen) [#MadeWithWowchemy](https://twitter.com/search?q=%23MadeWithWowchemy&src=typed_query)
-- ⬇️ **Automatically import your publications from BibTeX** with the [Hugo Academic CLI](https://github.com/wowchemy/hugo-academic-cli)
-- 💡 [Suggest an improvement](https://github.com/wowchemy/wowchemy-hugo-themes/issues)
-- ⬆️ **Updating?** View the [Update Guide](https://wowchemy.com/docs/hugo-tutorials/update/) and [Release Notes](https://github.com/wowchemy/wowchemy-hugo-themes/releases)
+---
 
-## We ask you, humbly, to support this open source movement
+## Sezioni del sito
 
-Today we ask you to defend the open source independence of the Wowchemy website builder and themes 🐧
+| Sezione | Percorso | Contenuto |
+|---|---|---|
+| Home | `/` | Homepage custom (layout dedicato, non widget Wowchemy) |
+| Corsi | `/courses/` | Programmazioni didattiche e materiali per lezione |
+| Articoli | `/post/` | Blog divulgativo su matematica, fisica e metodo di studio |
+| Talks | `/event/` | Seminari, lezioni simulate e interventi pubblici |
+| Slides | `/slides/` | Presentazioni Reveal.js integrate nel tema |
+| Lezioni interattive | `/lezioni/` | Lezioni HTML+MathJax con versione PDF stampabile |
 
-We're an open source movement that depends on your support to stay online and thriving, but 99.9% of our creators don't give; they simply look the other way.
+### Articoli (una selezione)
 
-### [❤️ Click here to become a GitHub Sponsor, unlocking awesome perks such as _exclusive academic templates and widgets_](https://github.com/sponsors/gcushen)
+- Le *derivate*: dal problema della tangente alla definizione formale
+- Il concetto di *Modello Matematico*
+- La *conservazione* dell'energia
+- Il *dilemma* di Monty Hall
+- Effetto *Dunning–Kruger* e la *Memoria* umana in Gigabytes
+- Il *Metodo* di studio Cornell
+- A cosa *serve* la matematica?
 
-<p align="center"><a href="https://wowchemy.com/templates/" target="_blank" rel="noopener"><img src="https://wowchemy.com/uploads/readmes/academic_logo_200px.png" alt="Hugo Academic Theme for Wowchemy Website Builder"></a></p>
+> [!NOTE]
+> Nei titoli una o due parole possono essere messe in *corsivo colore corallo* usando la sintassi `_parola_` nel campo `title:` del frontmatter. È una convenzione grafica del tema custom.
 
-## Demo image credits
+---
 
-- [Open book](https://unsplash.com/photos/J4kK8b9Fgj8)
-- [Course](https://unsplash.com/photos/JKUTrJ4vK00)
+## Stack tecnico
 
-## Latest news
+| Componente | Dettaglio |
+|---|---|
+| Generatore | **Hugo v0.97.3** (eseguibile `~/.local/bin/hugo-0.97.3`) |
+| Tema | **Wowchemy / Academic** (pinned v0.97.3) |
+| Slides | Reveal.js v4.2.1 (integrato nel tema) |
+| Deploy | **Netlify** — build automatica al push su `main` |
+| Stile | SCSS in un unico file `assets/scss/custom.scss` |
+| Font | Google Fonts via `data/fonts/my-font.toml` |
+| Palette | tema `minimal-warm` in `data/themes/minimal-warm.toml` |
 
-<!--START_SECTION:news-->
-* [Easily make an academic CV website to get more cites and grow your audience 🚀](https:&#x2F;&#x2F;wowchemy.com&#x2F;blog&#x2F;easily-make-academic-website&#x2F;)
-* [What&#39;s new in v5.2?](https:&#x2F;&#x2F;wowchemy.com&#x2F;blog&#x2F;whats-new-in-v5.2&#x2F;)
-* [What&#39;s new in v5.1?](https:&#x2F;&#x2F;wowchemy.com&#x2F;blog&#x2F;whats-new-in-v5.1&#x2F;)
-* [Version 5.0 (February 2021)](https:&#x2F;&#x2F;wowchemy.com&#x2F;blog&#x2F;version-5.0-february-2021&#x2F;)
-* [Version 5.0 Beta 3 (February 2021)](https:&#x2F;&#x2F;wowchemy.com&#x2F;blog&#x2F;version-5.0-beta-3-february-2021&#x2F;)
-<!--END_SECTION:news-->
+> [!WARNING]
+> Usare **sempre** `~/.local/bin/hugo-0.97.3`, mai la versione di Homebrew: il tema è compatibile solo con questa release.
+
+---
+
+## Design system
+
+Palette calda con accento corallo, pensata per leggibilità e coerenza tra light e dark mode.
+
+### Colori (`minimal-warm`)
+
+| Token | Light | Dark |
+|---|---|---|
+| Primario (corallo) | `#ed6f5c` | `#f08e7c` |
+| Sfondo | `#f7f1e6` | `#1a1a1a` |
+| Sfondo menu | `#ece1cc` | `#2a2a2a` |
+| Testo corpo | `#1a1a1a` | `#d0d0d0` |
+
+### Tipografia
+
+| Ruolo | Font |
+|---|---|
+| Titoli | Playfair Display |
+| Corpo | Georgia |
+| Navbar / mono | JetBrains Mono |
+| Codice | Fira Code |
+| Display / impatto | Anton |
+
+Pattern ricorrenti: titoli con `em` corallo, card con bordo sottile e hover in `translateY`, blockquote con barra corallo a sinistra, sfondo a particelle animate (`particles-bg.html`).
+
+---
+
+## Struttura del progetto
+
+Solo i file custom; il resto è fornito dal tema.
+
+```
+mathofthings/
+├── assets/scss/custom.scss        unico SCSS da modificare
+├── data/
+│   ├── fonts/my-font.toml         stack font
+│   └── themes/minimal-warm.toml   palette colori
+├── layouts/
+│   ├── index.html                 homepage custom
+│   └── partials/                  footer, particelle, JS inline
+├── content/
+│   ├── courses/                   corsi e programmazioni
+│   ├── post/                      articoli del blog
+│   ├── event/                     talks e seminari
+│   ├── slides/                    presentazioni Reveal.js
+│   └── authors/                   profilo autore
+├── static/
+│   ├── lezioni/                   lezioni interattive HTML + PDF
+│   ├── cv/                        CV in PDF
+│   └── uploads/                   allegati
+└── config/_default/               config.yaml, params.yaml, menus.yaml
+```
+
+---
+
+## Sviluppo in locale
+
+```bash
+cd /Users/magus_home/Documents/mathofthings
+pkill -9 -f hugo; sleep 1
+nohup ~/.local/bin/hugo-0.97.3 server -D > /tmp/hugo.log 2>&1 & disown
+```
+
+Il sito è raggiungibile su <http://localhost:1313>.
+
+### Generare il PDF di una lezione interattiva
+
+```bash
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --headless=new --disable-gpu --no-pdf-header-footer \
+  --print-to-pdf=static/lezioni/<slug>/<slug>.pdf \
+  --virtual-time-budget=15000 --no-sandbox \
+  "http://localhost:1313/lezioni/<slug>/?print=1"
+```
+
+---
+
+## Deploy
+
+- Push su `main` → **Netlify** avvia automaticamente la build e pubblica il sito.
+- Messaggi di commit in italiano per contenuti didattici/editoriali.
+- Nessun deploy manuale necessario.
+
+---
+
+## Autore
+
+**Diego Fantinelli** — insegnante di Matematica e Fisica, ITIS "E. Fermi" (Bassano del Grappa).
+Interessi: composizione jazz, didattica della matematica, ciclismo.
