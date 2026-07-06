@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento — Calcolo letterale e fattorizzazione</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {
+    fontCache: 'global',
+    scale: 1.05
+  },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => {
+        document.body.style.opacity = '1';
+      });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --surface-alt: #f5f0e8;
+  --border: #e4ddd4;
+  --border-light: #ece7de;
+  --text: #2c2520;
+  --text-mid: #5a524a;
+  --text-dim: #6e6760;
+  --accent: #c2185b;
+  --accent-light: #fce4ec;
+  --blue: #3a6b8c;
+  --blue-light: #e8f0f5;
+  --green: #4a7c59;
+  --green-light: #eaf5ed;
+  --purple: #6a1b9a;
+  --purple-light: #f3e5f5;
+  --gold: #b8860b;
+  --gold-light: #fdf8ed;
+  --teal: #4f6d7a;
+  --teal-light: #e8eff2;
+  --danger: #b33a3a;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(44,37,32,.04);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Georgia',serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.75;
+  font-size:17px;
+  opacity:0;
+  transition: opacity .3s;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center;
+  padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand {
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem; font-weight:700;
+  color:var(--text); white-space:nowrap;
+}
+.topbar-nav {
+  display:flex; gap:3px; overflow-x:auto;
+  scrollbar-width:none; flex:1;
+}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill {
+  background:none; border:none;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim);
+  padding:6px 14px; border-radius:0;
+  cursor:pointer; white-space:nowrap; transition:all .2s;
+  border-bottom:2px solid transparent;
+}
+.nav-pill:hover{background:none;color:var(--text)}
+.nav-pill.active{background:none;color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
+.topbar-home {
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.75rem; color:var(--text-dim);
+  text-decoration:none; cursor:pointer;
+  white-space:nowrap;
+}
+.topbar-home:hover{color:var(--accent)}
+
+/* ── CONTAINER ── */
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 60px}
+
+/* ── SECTIONS ── */
+.section{display:none;animation:appear .4s ease}
+.section.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HERO ── */
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7;text-align:justify}
+
+/* ── CONCEPT BOXES ── */
+.cb{background:var(--surface-alt);border:none;border-radius:0;padding:16px 0 16px 18px;margin:18px 0;box-shadow:none;position:relative;border-left:2px solid var(--accent)}
+.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;display:none}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600;color:var(--accent)}
+.cb.tip .cb-label{color:var(--blue)} .cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)} .cb.success .cb-label{color:var(--green)}
+.cb.method .cb-label{color:var(--accent)} .cb.purple .cb-label{color:var(--purple)}
+.cb.teal .cb-label{color:var(--teal)}
+
+/* ── MATH DISPLAY BLOCKS ── */
+.math-block {
+  background: rgba(0,0,0,.02);
+  border: none;
+  border-radius: 0;
+  padding: 12px 16px;
+  margin: 10px 0;
+  overflow-x: auto;
+}
+.math-block.dark { background: rgba(0,0,0,.04); }
+.math-block.hero-formula {
+  background: var(--surface-alt);
+  border: none;
+  padding: 16px 20px;
+  text-align: center;
+}
+.math-block.result {
+  border-left: 2px solid var(--green);
+  background: rgba(74,124,89,.04);
+  padding: 12px 16px;
+  margin: 10px 0;
+}
+.math-block.warning {
+  border-left: 2px solid var(--danger);
+  background: rgba(179,58,58,.04);
+  padding: 12px 16px;
+  margin: 10px 0;
+}
+
+/* ── STEP-BY-STEP ── */
+.step-math { margin: 6px 0; padding: 4px 0; }
+.step-math .label {
+  font-family: 'Fira Code', monospace;
+  font-size: .72rem; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px;
+}
+.step-math .label.green { color: var(--green); }
+
+/* ── ACCORDION ── */
+.accordion{border:none;border-radius:0;overflow:visible;margin:16px 0;box-shadow:none}
+.acc-item{border-bottom:1px solid rgba(0,0,0,.08);border-top:none}
+.acc-item:last-child{border-bottom:none}
+.acc-header{display:flex;align-items:center;gap:12px;padding:14px 0;background:none;cursor:pointer;transition:all .2s;user-select:none}
+.acc-header:hover{background:none}
+.acc-num{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.acc-title{font-weight:600;font-size:.95rem;flex:1;color:var(--text)}
+.acc-arrow{width:16px;height:16px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease;background:none}
+.acc-item.open .acc-body{max-height:8000px}
+.acc-inner{padding:8px 0 16px 36px;border-top:none}
+
+/* ── TABLES ── */
+.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9rem}
+.ct th{text-align:left;padding:11px 14px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--border-light);font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct td{padding:10px 14px;border-bottom:1px solid var(--border-light);vertical-align:top}
+.ct tr:last-child td{border-bottom:none}
+
+/* ── RUFFINI ── */
+.rf{border-collapse:collapse;font-family:'Fira Code',monospace;margin:16px auto;font-size:.95rem;background:var(--surface)}
+.rf td{padding:8px 16px;text-align:center;min-width:30px}
+.rf-root{color:var(--accent);font-weight:700;border-right:2px solid var(--accent)}
+.rf-sum td{border-top:2px solid var(--text-mid)}
+.rf-sum td:first-child{border-top:none}
+.rf-rem{border-left:2px solid var(--accent);color:var(--accent);font-weight:700}
+
+/* ── TARTAGLIA ── */
+.tartaglia{display:flex;flex-direction:column;align-items:center;gap:7px;margin:18px 0}
+.tt-row{display:flex;gap:12px}
+.tt-row span{font-family:'Fira Code',monospace;font-size:.9rem;min-width:26px;text-align:center;color:var(--text-mid)}
+.tt-row:last-child span{color:var(--accent);font-weight:600}
+
+/* ── MATHJAX FORMATTING ── */
+mjx-container[jax="SVG"] { direction: ltr; }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:52px;padding-top:26px;border-top:1px solid var(--border-light)}
+.bb{font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:0;border:none;background:none;color:var(--text);transition:all .2s;cursor:pointer;text-decoration:none}
+.bb:hover{color:var(--accent);text-decoration:underline}
+.bb:disabled{opacity:.35;cursor:not-allowed;text-decoration:none}
+.bb:disabled:hover{color:var(--text);text-decoration:none}
+.bb.primary{background:none;color:var(--text);border:none;font-weight:400}
+.bb.primary:hover{color:var(--accent);text-decoration:underline;background:none}
+.page-info{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-dim)}
+
+p{margin:6px 0}
+ul,ol{margin:8px 0 8px 20px}
+li{margin:2px 0}
+.dim{color:var(--text-dim)}
+strong{font-weight:600}
+h2{margin:24px 0 12px}
+h3{margin:16px 0 8px}
+
+/* ── CHECKLIST ── */
+.checklist{list-style:none;margin:12px 0}
+.checklist li{position:relative;padding:6px 0 6px 32px;font-size:.95rem;font-family:'JetBrains Mono',monospace;cursor:pointer;transition:all .2s}
+.checklist li::before{content:'☐';position:absolute;left:6px;top:6px;font-size:1rem;color:var(--accent);transition:all .2s}
+.checklist li.checked{color:var(--text-dim);text-decoration:line-through}
+.checklist li.checked::before{content:'☑'}
+
+@media(max-width:640px){
+  body{font-size:16px}
+  .hero h1{font-size:1.7rem}
+  .acc-header{padding:13px 14px}
+  .acc-inner{padding:4px 14px 18px}
+  .cb{padding:18px}
+  .math-block{padding:14px 16px}
+  .rf td{padding:7px 10px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Calcolo letterale · avanzato</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+// ══════════════════════════
+// Accordion builder
+// ══════════════════════════
+function acc(items) {
+  return '<div class="accordion">'+items.map((it,i)=>`
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-num">${i+1}</div>
+        <div class="acc-title">${it.t}</div>
+        <svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="acc-body"><div class="acc-inner">${it.h}</div></div>
+    </div>`).join('')+'</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  item.classList.toggle('open');
+  if (!wasOpen && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+// ══════════════════════════
+// Helpers
+// ══════════════════════════
+// Schema di Ruffini calcolato automaticamente.
+// r = radice di prova, c = coefficienti dal grado massimo al noto.
+function ruffini(r, c) {
+  const bot = [c[0]], mid = [];
+  for (let i = 1; i < c.length; i++) {
+    mid.push(bot[i-1] * r);
+    bot.push(c[i] + bot[i-1] * r);
+  }
+  const rowA = `<td class="rf-root">${r}</td>` + c.map(v => `<td>${v}</td>`).join('');
+  const rowB = `<td class="rf-root"></td><td></td>` + mid.map(v => `<td>${v}</td>`).join('');
+  const rowC = `<td class="rf-root"></td>` + bot.map((v,i) =>
+    i === bot.length-1 ? `<td class="rf-rem">${v}</td>` : `<td>${v}</td>`
+  ).join('');
+  return `<table class="rf"><tr>${rowA}</tr><tr>${rowB}</tr><tr class="rf-sum">${rowC}</tr></table>`;
+}
+
+// Triangolo di Tartaglia (numero di righe)
+function tartaglia(rows) {
+  const tri = [[1]];
+  for (let i = 1; i < rows; i++) {
+    const p = tri[i-1], r = [1];
+    for (let j = 1; j < p.length; j++) r.push(p[j-1] + p[j]);
+    r.push(1);
+    tri.push(r);
+  }
+  return '<div class="tartaglia">' + tri.map(r =>
+    `<div class="tt-row">${r.map(x => `<span>${x}</span>`).join('')}</div>`
+  ).join('') + '</div>';
+}
+
+// ══════════════════════════
+// SEZIONI
+// ══════════════════════════
+const S = [
+
+// ═══ 0: MOTIVAZIONE ═══
+{
+  tag:"APPROFONDIMENTO",
+  title:"La <em>struttura</em> dei polinomi",
+  sub:"Nel corso base hai imparato a maneggiare monomi e polinomi, a riconoscere i prodotti notevoli e a raccogliere a fattor comune. Qui saliamo di livello: impariamo a dividere i polinomi, a leggere il legame profondo tra radici e fattori, e a scomporre anche là dove i metodi elementari non bastano.",
+  nav:"Perché",
+  body:`
+  <p>Scomporre un polinomio significa scriverlo come <strong>prodotto</strong> di polinomi più semplici. È l'operazione inversa della moltiplicazione, ed è la chiave per semplificare frazioni algebriche, risolvere equazioni di grado superiore e studiare le funzioni.</p>
+
+  <div class="cb method">
+    <div class="cb-label">L'idea che collega tutto</div>
+    <p>Fattorizzare e trovare le radici sono <strong>due facce della stessa medaglia</strong>: se \\(x=a\\) annulla il polinomio, allora \\((x-a)\\) è un suo fattore. Tutta la lezione ruota attorno a questo principio.</p>
+  </div>
+
+  <p>Nel corso base gli strumenti erano il raccoglimento e i prodotti notevoli «letti al contrario». Funzionano bene, ma si fermano presto: davanti a \\(x^3 - 2x^2 - 5x + 6\\) non bastano. Servono la <strong>divisione tra polinomi</strong>, la <strong>regola di Ruffini</strong> e i <strong>teoremi del resto e di Ruffini</strong>. Sono questi i protagonisti dell'approfondimento.</p>
+
+  <div class="cb tip">
+    <div class="cb-label">Prerequisiti</div>
+    <p>Diamo per acquisiti, dal corso base: operazioni tra monomi e polinomi, i prodotti notevoli fondamentali (quadrato di binomio, somma per differenza) e il raccoglimento a fattor comune totale e parziale.</p>
+  </div>`
+},
+
+// ═══ 1: PRODOTTI NOTEVOLI ESTESI ═══
+{
+  tag:"STRUMENTI",
+  title:"Il cubo di binomio e il <em>triangolo di Tartaglia</em>",
+  sub:"I prodotti notevoli non finiscono con il quadrato. Estendiamoli al cubo e, più in generale, a qualunque potenza di un binomio, grazie a uno schema numerico sorprendente.",
+  nav:"Prodotti notevoli",
+  body:`
+  <p>Sviluppando \\((a+b)^3 = (a+b)(a+b)^2\\) si ottiene il <strong>cubo di binomio</strong>:</p>
+  <div class="math-block hero-formula">\\[ (a+b)^3 = a^3 + 3a^2 b + 3ab^2 + b^3 \\]</div>
+  <p>e, cambiando i segni dei termini con potenza dispari di \\(b\\):</p>
+  <div class="math-block">\\[ (a-b)^3 = a^3 - 3a^2 b + 3ab^2 - b^3 \\]</div>
+
+  <p><strong>Esempio.</strong> \\((x+2)^3 = x^3 + 3\\cdot x^2\\cdot 2 + 3\\cdot x\\cdot 4 + 8 = x^3 + 6x^2 + 12x + 8\\).</p>
+
+  <h3>Il triangolo di Tartaglia</h3>
+  <p>I coefficienti dello sviluppo di \\((a+b)^n\\) si leggono in una tabella in cui ogni numero è la somma dei due che gli stanno sopra:</p>
+
+  ${tartaglia(6)}
+
+  <p>La riga evidenziata (\\(n=5\\)) dà i coefficienti di \\((a+b)^5\\): \\(1,\\,5,\\,10,\\,10,\\,5,\\,1\\). In ogni sviluppo l'esponente di \\(a\\) <strong>cala</strong> da \\(n\\) a \\(0\\), mentre quello di \\(b\\) <strong>cresce</strong> da \\(0\\) a \\(n\\).</p>
+
+  <div class="cb success">
+    <div class="cb-label">Letto al contrario</div>
+    <p>Riconoscere un cubo di binomio permette di scomporre al volo: \\(x^3 + 6x^2 + 12x + 8 = (x+2)^3\\). È il primo «occhio» da allenare per la fattorizzazione.</p>
+  </div>`
+},
+
+// ═══ 2: DIVISIONE TRA POLINOMI ═══
+{
+  tag:"METODO",
+  title:"La <em>divisione</em> tra polinomi",
+  sub:"Come per i numeri interi, anche tra polinomi esiste una divisione con quoziente e resto. È lo strumento generale da cui, in un caso particolare, nasce la regola di Ruffini.",
+  nav:"Divisione",
+  body:`
+  <p>Dividere il polinomio \\(A(x)\\) per \\(B(x)\\) significa trovare quoziente \\(Q(x)\\) e resto \\(R(x)\\) tali che:</p>
+  <div class="math-block hero-formula">\\[ A(x) = B(x)\\cdot Q(x) + R(x) \\qquad \\text{con } \\deg R < \\deg B \\tag{D} \\]</div>
+
+  <p><strong>Esempio.</strong> Dividiamo \\(A(x)=2x^3+3x^2-x+5\\) per \\(B(x)=x^2+x-1\\).</p>
+  <div class="step-math"><div class="label">passo 1</div>\\(2x^3 : x^2 = 2x\\). Moltiplico: \\(2x(x^2+x-1)=2x^3+2x^2-2x\\). Sottraggo: resta \\(x^2+x+5\\).</div>
+  <div class="step-math"><div class="label">passo 2</div>\\(x^2 : x^2 = 1\\). Moltiplico: \\(x^2+x-1\\). Sottraggo: resta \\(6\\).</div>
+  <div class="math-block result">\\[ Q(x) = 2x+1, \\qquad R(x) = 6 \\]</div>
+  <p>Verifica: \\((x^2+x-1)(2x+1)+6 = 2x^3+3x^2-x+5\\). Torna.</p>
+
+  <div class="cb method">
+    <div class="cb-label">Il caso speciale</div>
+    <p>Quando il divisore è di primo grado del tipo \\((x-a)\\), la divisione si può fare con un metodo molto più rapido: la <strong>regola di Ruffini</strong>. Si lavora solo con i coefficienti.</p>
+  </div>
+
+  <p><strong>Ruffini in azione.</strong> Dividiamo \\(x^3 - 2x^2 - 5x + 6\\) per \\((x-1)\\). Si incolonnano i coefficienti \\(1,\\,-2,\\,-5,\\,6\\) e si usa la radice di prova \\(1\\):</p>
+
+  ${ruffini(1, [1,-2,-5,6])}
+
+  <p>L'ultima riga dà i coefficienti del quoziente e, a destra della barra, il <strong>resto</strong>. Qui: quoziente \\(x^2 - x - 6\\) e resto \\(0\\).</p>
+
+  <div class="cb warn">
+    <div class="cb-label">Attenzione</div>
+    <p>Prima di applicare Ruffini, scrivi il polinomio in ordine di grado decrescente e inserisci uno <strong>zero</strong> per ogni potenza mancante. Ruffini vale solo per divisori del tipo \\((x-a)\\).</p>
+  </div>`
+},
+
+// ═══ 3: TEOREMA DEL RESTO E DI RUFFINI ═══
+{
+  tag:"TEORIA",
+  title:"I teoremi del <em>resto</em> e di <em>Ruffini</em>",
+  sub:"Due teoremi gemelli che spiegano perché la divisione per (x − a) è così speciale, e che trasformano la fattorizzazione in una caccia alle radici.",
+  nav:"Teoremi",
+  body:`
+  <p>C'è un modo per conoscere il resto della divisione per \\((x-a)\\) <em>senza fare la divisione</em>.</p>
+
+  <div class="cb method">
+    <div class="cb-label">Teorema del resto</div>
+    <p>Il resto della divisione di \\(P(x)\\) per \\((x-a)\\) è uguale al valore \\(P(a)\\).</p>
+  </div>
+
+  <div class="math-block hero-formula">\\[ R = P(a) \\]</div>
+
+  <p><strong>Esempio.</strong> Per \\(P(x)=x^3-2x^2-5x+6\\), il resto della divisione per \\((x-2)\\) è</p>
+  <div class="math-block">\\[ P(2) = 8 - 8 - 10 + 6 = -4 \\]</div>
+  <p>senza svolgere alcuna divisione.</p>
+
+  <p>Da qui segue immediatamente il risultato più utile per scomporre:</p>
+
+  <div class="cb success">
+    <div class="cb-label">Teorema di Ruffini</div>
+    <p>Il binomio \\((x-a)\\) è un <strong>divisore</strong> di \\(P(x)\\) se e solo se \\(P(a)=0\\), cioè se e solo se \\(a\\) è una <strong>radice</strong> del polinomio.</p>
+  </div>
+
+  <p>Nell'esempio precedente \\(P(1)=1-2-5+6=0\\): quindi \\((x-1)\\) divide \\(P(x)\\) con resto nullo — esattamente ciò che aveva mostrato lo schema di Ruffini.</p>
+
+  <div class="cb tip">
+    <div class="cb-label">La strategia</div>
+    <p>Per scomporre un polinomio: si <strong>cerca una radice</strong> \\(a\\) tale che \\(P(a)=0\\), si divide con Ruffini per \\((x-a)\\), e si ripete sul quoziente. Ogni radice trovata «stacca» un fattore di primo grado.</p>
+  </div>`
+},
+
+// ═══ 4: SCOMPOSIZIONE AVANZATA ═══
+{
+  tag:"METODO",
+  title:"Tecniche di <em>scomposizione</em>",
+  sub:"Prima di ricorrere a Ruffini conviene tenere pronto un repertorio di scomposizioni «a vista»: il trinomio caratteristico e le formule per somma e differenza di cubi ampliano di molto ciò che sai già fare.",
+  nav:"Scomposizioni",
+  body:`
+  <p>Un riepilogo ordinato dei metodi, dal più immediato al più tecnico:</p>
+  <table class="ct">
+    <tr><th>Metodo</th><th>Quando si usa</th></tr>
+    <tr><td>Raccoglimento totale</td><td>Fattore comune a tutti i termini</td></tr>
+    <tr><td>Raccoglimento parziale</td><td>4 termini a gruppi con fattore comune</td></tr>
+    <tr><td>Prodotti notevoli</td><td>Quadrati, cubi, somma per differenza</td></tr>
+    <tr><td>Trinomio caratteristico</td><td>\\(x^2 + sx + p\\)</td></tr>
+    <tr><td>Somma/differenza di cubi</td><td>\\(a^3 \\pm b^3\\)</td></tr>
+    <tr><td>Regola di Ruffini</td><td>Grado \\(\\geq 3\\), con una radice razionale</td></tr>
+  </table>
+
+  <h3>Il trinomio caratteristico</h3>
+  <p>Un trinomio \\(x^2 + sx + p\\) si scompone cercando due numeri \\(m\\) e \\(n\\) con <strong>somma \\(s\\)</strong> e <strong>prodotto \\(p\\)</strong>:</p>
+  <div class="math-block hero-formula">\\[ x^2 + sx + p = (x+m)(x+n), \\quad \\begin{cases} m+n = s \\\\ m\\cdot n = p \\end{cases} \\]</div>
+  <p><strong>Esempio.</strong> \\(x^2 - x - 6\\): cerco due numeri con somma \\(-1\\) e prodotto \\(-6\\). Sono \\(-3\\) e \\(+2\\), quindi \\(x^2 - x - 6 = (x-3)(x+2)\\).</p>
+
+  <h3>Somma e differenza di cubi</h3>
+  <div class="math-block">\\[ a^3 - b^3 = (a-b)(a^2 + ab + b^2) \\]</div>
+  <div class="math-block">\\[ a^3 + b^3 = (a+b)(a^2 - ab + b^2) \\]</div>
+  <p><strong>Esempio.</strong> \\(x^3 - 8 = x^3 - 2^3 = (x-2)(x^2 + 2x + 4)\\).</p>
+
+  <div class="cb warn">
+    <div class="cb-label">Da non confondere</div>
+    <p>Il secondo fattore è un <em>falso</em> quadrato di binomio: in \\(a^2+ab+b^2\\) il doppio prodotto è \\(ab\\), non \\(2ab\\). Per questo, in genere, non si scompone ulteriormente nei numeri reali.</p>
+  </div>`
+},
+
+// ═══ 5: RUFFINI PER GRADI SUPERIORI ═══
+{
+  tag:"METODO",
+  title:"Scomporre con <em>Ruffini</em>",
+  sub:"Quando nessun prodotto notevole aiuta e il grado è alto, entra in gioco la strategia completa: individuare le radici razionali fra i divisori del termine noto, e abbassare il grado un fattore alla volta.",
+  nav:"Ruffini avanzato",
+  body:`
+  <p>Se un polinomio a coefficienti interi ha una radice razionale, questa va cercata fra i <strong>divisori del termine noto</strong> (diviso i divisori del coefficiente di grado massimo). Per polinomi con primo coefficiente \\(1\\), bastano i divisori — con segno — del termine noto.</p>
+
+  <p><strong>Esempio completo.</strong> Scomponiamo \\(P(x)=x^3 - 2x^2 - 5x + 6\\).</p>
+  <div class="step-math"><div class="label">passo 1 — candidati</div>Divisori di \\(6\\): \\(\\pm 1,\\ \\pm 2,\\ \\pm 3,\\ \\pm 6\\).</div>
+  <div class="step-math"><div class="label">passo 2 — provo</div>\\(P(1)=1-2-5+6=0\\): \\(x=1\\) è radice, quindi \\((x-1)\\) è fattore.</div>
+  <div class="step-math"><div class="label green">passo 3 — Ruffini</div>Divido per \\((x-1)\\):</div>
+
+  ${ruffini(1, [1,-2,-5,6])}
+
+  <p>Il quoziente è \\(x^2 - x - 6\\), che è un trinomio caratteristico: \\((x-3)(x+2)\\). Quindi:</p>
+  <div class="math-block result">\\[ x^3 - 2x^2 - 5x + 6 = (x-1)(x-3)(x+2) \\]</div>
+
+  <p>Le tre radici del polinomio sono \\(1,\\ 3,\\ -2\\): ciascuna corrisponde a un fattore di primo grado.</p>
+
+  <div class="cb tip">
+    <div class="cb-label">Esercizi svolti</div>
+    <p>Apri ciascuno e prova prima a risolverlo da solo.</p>
+  </div>
+
+  ${acc([
+    { t:"Es. 1 — Scomporre \\(x^3 + 2x^2 - x - 2\\)", h:`
+      <p>Divisori di \\(-2\\): \\(\\pm1,\\pm2\\). Provo \\(x=1\\): \\(1+2-1-2=0\\). Radice.</p>
+      ${ruffini(1, [1,2,-1,-2])}
+      <p>Quoziente \\(x^2+3x+2=(x+1)(x+2)\\). Quindi:</p>
+      <div class="math-block result">\\[ x^3+2x^2-x-2 = (x-1)(x+1)(x+2) \\]</div>` },
+
+    { t:"Es. 2 — Scomporre \\(2x^3 - x^2 - 8x + 4\\)", h:`
+      <p>Con primo coefficiente \\(2\\), fra i candidati c'è anche \\(x=2\\): \\(16-4-16+4=0\\). Radice.</p>
+      ${ruffini(2, [2,-1,-8,4])}
+      <p>Quoziente \\(2x^2+3x-2\\). Scomponendo il trinomio: \\((2x-1)(x+2)\\). Quindi:</p>
+      <div class="math-block result">\\[ 2x^3-x^2-8x+4 = (x-2)(2x-1)(x+2) \\]</div>` },
+
+    { t:"Es. 3 — Scomporre \\(x^3 - 7x + 6\\)", h:`
+      <p>Attenzione al termine \\(x^2\\) mancante: i coefficienti sono \\(1,\\,0,\\,-7,\\,6\\). Provo \\(x=1\\): \\(1-7+6=0\\). Radice.</p>
+      ${ruffini(1, [1,0,-7,6])}
+      <p>Quoziente \\(x^2+x-6=(x+3)(x-2)\\). Quindi:</p>
+      <div class="math-block result">\\[ x^3-7x+6 = (x-1)(x+3)(x-2) \\]</div>` }
+  ])}`
+},
+
+// ═══ 6: SINTESI ═══
+{
+  tag:"SINTESI",
+  title:"Il quadro <em>completo</em>",
+  sub:"Hai aggiunto alla cassetta degli attrezzi la divisione tra polinomi, i teoremi del resto e di Ruffini e le scomposizioni avanzate. Ecco come si combinano in una strategia unica.",
+  nav:"Sintesi",
+  body:`
+  <div class="cb method">
+    <div class="cb-label">La strategia in ordine</div>
+    <ol>
+      <li>Raccogli sempre a fattor comune, se possibile.</li>
+      <li>Cerca un prodotto notevole (quadrati, cubi, somma per differenza).</li>
+      <li>Se è un trinomio \\(x^2+sx+p\\), usa somma e prodotto.</li>
+      <li>Se il grado è \\(\\geq 3\\), cerca una radice fra i divisori del termine noto e usa Ruffini.</li>
+      <li>Ripeti sul quoziente finché non arrivi a fattori irriducibili.</li>
+    </ol>
+  </div>
+
+  <h3>Controlla di saper fare</h3>
+  <ul class="checklist">
+    <li>Sviluppo il cubo di binomio e leggo Tartaglia</li>
+    <li>Eseguo la divisione tra due polinomi qualsiasi</li>
+    <li>Applico Ruffini per divisori del tipo (x − a)</li>
+    <li>Uso il teorema del resto per trovare R senza dividere</li>
+    <li>Collego radice e fattore con il teorema di Ruffini</li>
+    <li>Scompongo trinomi caratteristici e somme/differenze di cubi</li>
+    <li>Scompongo un polinomio di grado ≥ 3 fino ai fattori irriducibili</li>
+  </ul>
+
+  <div class="cb success">
+    <div class="cb-label">Dove porta</div>
+    <p>Saper scomporre è il prerequisito per semplificare le <strong>frazioni algebriche</strong>, risolvere <strong>equazioni di grado superiore</strong> con la legge di annullamento del prodotto e studiare dominio e segno delle funzioni. È uno degli strumenti che userai più spesso in tutto il triennio.</p>
+  </div>`
+}
+
+];
+
+// ══════════════════════════
+// APP LOGIC
+// ══════════════════════════
+let cur = 0;
+const tot = S.length;
+
+function render() {
+  document.getElementById('topNav').innerHTML = S.map((s,i) =>
+    `<button class="nav-pill ${i===cur?'active':''}" onclick="goTo(${i})">${s.nav}</button>`
+  ).join('');
+
+  document.getElementById('app').innerHTML = S.map((s,i) => `
+    <div class="section ${i===cur?'active':''}">
+      <div class="hero">
+        <div class="hero-tag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p class="hero-sub">${s.sub}</p>
+      </div>
+      ${s.body}
+      <div class="bottom-nav">
+        <button class="bb" onclick="goTo(${i-1})" ${i===0?'disabled':''}>← Precedente</button>
+        <span class="page-info">${i+1} / ${tot}</span>
+        <button class="bb primary" onclick="goTo(${i+1})" ${i===tot-1?'disabled':''}>Successivo →</button>
+      </div>
+    </div>
+  `).join('');
+
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    const active = document.querySelector('.section.active');
+    if (active) MathJax.typesetPromise([active]);
+  }
+
+  document.querySelectorAll('.checklist li').forEach(li => {
+    li.onclick = function(e) {
+      e.stopPropagation();
+      this.classList.toggle('checked');
+    };
+  });
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= tot) return;
+  cur = idx;
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(cur + 1);
+  if (e.key === 'ArrowLeft')  goTo(cur - 1);
+});
+
+if (typeof MathJax !== 'undefined' && MathJax.startup) {
+  MathJax.startup.promise.then(() => render());
+} else {
+  render();
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>
