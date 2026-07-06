@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione — La derivata</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {
+    fontCache: 'global',
+    scale: 1.05
+  },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => {
+        document.body.style.opacity = '1';
+      });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --surface-alt: #f5f0e8;
+  --border: #e4ddd4;
+  --border-light: #ece7de;
+  --text: #2c2520;
+  --text-mid: #5a524a;
+  --text-dim: #6e6760;
+  --accent: #c2185b;
+  --accent-light: #fce4ec;
+  --blue: #3a6b8c;
+  --blue-light: #e8f0f5;
+  --green: #4a7c59;
+  --green-light: #eaf5ed;
+  --purple: #6a1b9a;
+  --purple-light: #f3e5f5;
+  --gold: #b8860b;
+  --gold-light: #fdf8ed;
+  --teal: #4f6d7a;
+  --teal-light: #e8eff2;
+  --danger: #b33a3a;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(44,37,32,.04);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Georgia',serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.75;
+  font-size:17px;
+  opacity:0;
+  transition: opacity .3s;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center;
+  padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand {
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem; font-weight:700;
+  color:var(--text); white-space:nowrap;
+}
+.topbar-nav {
+  display:flex; gap:3px; overflow-x:auto;
+  scrollbar-width:none; flex:1;
+}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill {
+  background:none; border:none;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim);
+  padding:6px 14px; border-radius:0;
+  cursor:pointer; white-space:nowrap; transition:all .2s;
+  border-bottom:2px solid transparent;
+}
+.nav-pill:hover{background:none;color:var(--text)}
+.nav-pill.active{background:none;color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
+.topbar-home {
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.75rem; color:var(--text-dim);
+  text-decoration:none; cursor:pointer;
+  white-space:nowrap;
+}
+.topbar-home:hover{color:var(--accent)}
+
+/* ── CONTAINER ── */
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 60px}
+
+/* ── SECTIONS ── */
+.section{display:none;animation:appear .4s ease}
+.section.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HERO ── */
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7;text-align:justify}
+
+/* ── CONCEPT BOXES ── */
+.cb{background:var(--surface-alt);border:none;border-radius:0;padding:16px 0 16px 18px;margin:18px 0;box-shadow:none;position:relative;border-left:2px solid var(--accent)}
+.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;display:none}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600;color:var(--accent)}
+.cb.tip .cb-label{color:var(--blue)} .cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)} .cb.success .cb-label{color:var(--green)}
+.cb.method .cb-label{color:var(--accent)} .cb.purple .cb-label{color:var(--purple)}
+.cb.teal .cb-label{color:var(--teal)}
+
+/* ── MATH DISPLAY BLOCKS ── */
+.math-block {
+  background: rgba(0,0,0,.02);
+  border: none;
+  border-radius: 0;
+  padding: 12px 16px;
+  margin: 10px 0;
+  overflow-x: auto;
+}
+.math-block.dark { background: rgba(0,0,0,.04); }
+.math-block.hero-formula {
+  background: var(--surface-alt);
+  border: none;
+  padding: 16px 20px;
+  text-align: center;
+}
+.math-block.result {
+  border-left: 2px solid var(--green);
+  background: rgba(74,124,89,.04);
+  padding: 12px 16px;
+  margin: 10px 0;
+}
+.math-block.warning {
+  border-left: 2px solid var(--danger);
+  background: rgba(179,58,58,.04);
+  padding: 12px 16px;
+  margin: 10px 0;
+}
+
+/* ── STEP-BY-STEP ── */
+.step-math { margin: 6px 0; padding: 4px 0; }
+.step-math .label {
+  font-family: 'Fira Code', monospace;
+  font-size: .72rem; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px;
+}
+.step-math .label.green { color: var(--green); }
+
+/* ── ACCORDION ── */
+.accordion{border:none;border-radius:0;overflow:visible;margin:16px 0;box-shadow:none}
+.acc-item{border-bottom:1px solid rgba(0,0,0,.08);border-top:none}
+.acc-item:last-child{border-bottom:none}
+.acc-header{display:flex;align-items:center;gap:12px;padding:14px 0;background:none;cursor:pointer;transition:all .2s;user-select:none}
+.acc-header:hover{background:none}
+.acc-num{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.acc-title{font-weight:600;font-size:.95rem;flex:1;color:var(--text);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.acc-arrow{width:16px;height:16px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease;background:none}
+.acc-item.open .acc-body{max-height:8000px}
+.acc-inner{padding:8px 0 16px 36px;border-top:none}
+
+/* ── TABLES ── */
+.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9rem}
+.ct th{text-align:left;padding:11px 14px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--border-light);font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct td{padding:10px 14px;border-bottom:1px solid var(--border-light);vertical-align:top}
+.ct tr:last-child td{border-bottom:none}
+
+/* ── MATHJAX FORMATTING ── */
+mjx-container[jax="SVG"] { text-align: center; }
+mjx-munder { display: inline-block; }
+mjx-munderover { display: inline-block; }
+
+/* ── SVG ── */
+.graph-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:18px 0;box-shadow:var(--shadow);overflow-x:auto;text-align:center}
+.graph-box svg text{font-family:'Georgia',serif}
+.graph-cap{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim);margin-top:8px}
+
+/* ── DISC CARDS ── */
+.disc-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+.disc-card{text-align:center;padding:20px 14px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow)}
+.disc-card h4{font-family:'Fira Code',monospace;font-size:.9rem;margin-bottom:10px}
+.disc-card p{font-size:.85rem;color:var(--text-mid)}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:52px;padding-top:26px;border-top:1px solid var(--border-light)}
+.bb{font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:0;border:none;background:none;color:var(--text);transition:all .2s;cursor:pointer;text-decoration:none}
+.bb:hover{color:var(--accent);text-decoration:underline}
+.bb:disabled{opacity:.35;cursor:not-allowed;text-decoration:none}
+.bb:disabled:hover{color:var(--text);text-decoration:none}
+.bb.primary{background:none;color:var(--text);border:none;font-weight:400}
+.bb.primary:hover{color:var(--accent);text-decoration:underline;background:none}
+.page-info{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-dim)}
+
+p{margin:6px 0}
+ul,ol{margin:8px 0 8px 20px}
+li{margin:2px 0}
+.dim{color:var(--text-dim)}
+strong{font-weight:600}
+h2{margin:24px 0 12px}
+h3{margin:16px 0 8px}
+
+/* ── CHECKLIST ── */
+.checklist{list-style:none;margin:12px 0}
+.checklist li{position:relative;padding:6px 0 6px 32px;font-size:.95rem;font-family:'JetBrains Mono',monospace;cursor:pointer;transition:all .2s}
+.checklist li::before{content:'☐';position:absolute;left:6px;top:6px;font-size:1rem;color:var(--accent);transition:all .2s}
+.checklist li.checked{color:var(--text-dim);text-decoration:line-through}
+.checklist li.checked::before{content:'☑'}
+
+/* ── MathJax overrides ── */
+mjx-container[jax="SVG"] { direction: ltr; }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+
+@media(max-width:640px){
+  body{font-size:16px}
+  .hero h1{font-size:1.7rem}
+  .acc-header{padding:13px 14px}
+  .acc-inner{padding:4px 14px 18px}
+  .cb{padding:18px}
+  .disc-row{grid-template-columns:1fr}
+  .math-block{padding:14px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">La derivata</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+// ══════════════════════════
+// Accordion builder
+// ══════════════════════════
+function acc(items) {
+  return '<div class="accordion">'+items.map((it,i)=>`
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-num">${i+1}</div>
+        <div class="acc-title">${it.t}</div>
+        <svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="acc-body"><div class="acc-inner">${it.h}</div></div>
+    </div>`).join('')+'</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  item.classList.toggle('open');
+  if (!wasOpen && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+// ══════════════════════════
+// SVG helpers
+// ══════════════════════════
+const AXC = '#cfc7bb', TXT = '#8a827a';
+
+function axes(ox, oy, w, topY) {
+  return `
+    <line x1="${ox}" y1="${topY}" x2="${ox}" y2="${oy+14}" stroke="${AXC}" stroke-width="1.2"/>
+    <line x1="${ox-12}" y1="${oy}" x2="${w-8}" y2="${oy}" stroke="${AXC}" stroke-width="1.2"/>
+    <polygon points="${ox},${topY-6} ${ox-4},${topY+4} ${ox+4},${topY+4}" fill="${AXC}"/>
+    <polygon points="${w-4},${oy} ${w-14},${oy-4} ${w-14},${oy+4}" fill="${AXC}"/>
+    <text x="${ox-8}" y="${topY+2}" fill="${TXT}" font-size="12" font-style="italic">y</text>
+    <text x="${w-6}" y="${oy+16}" fill="${TXT}" font-size="12" font-style="italic">x</text>`;
+}
+
+// Retta secante: rapporto incrementale con Δx e Δy
+function svgSecante() {
+  const w=360, h=228, ox=44, oy=192, sx=60, sy=40, topY=16;
+  const c='#c2185b', s='#3a6b8c';
+  const f = x => 0.16*x*x + 0.4;
+  const X = x => (ox + x*sx).toFixed(1);
+  const Y = y => (oy - y*sy).toFixed(1);
+  const x0 = 1.25, xh = 3.75;
+  const mM = (f(xh)-f(x0))/(xh-x0);
+  const sec = x => f(x0) + mM*(x-x0);
+  let pts = [];
+  for (let i=0;i<=48;i++){ const x=0.2+(4.4-0.2)*i/48; pts.push(`${X(x)},${Y(f(x))}`); }
+  const xa = x0-0.55, xb = xh+0.5;
+  return `<div class="graph-box"><svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img" aria-label="Retta secante che unisce due punti della curva: il suo coefficiente angolare è il rapporto incrementale">
+    ${axes(ox,oy,w,topY)}
+    <polyline points="${pts.join(' ')}" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="${X(xa)}" y1="${Y(sec(xa))}" x2="${X(xb)}" y2="${Y(sec(xb))}" stroke="${s}" stroke-width="2"/>
+    <line x1="${X(x0)}" y1="${Y(f(x0))}" x2="${X(xh)}" y2="${Y(f(x0))}" stroke="${TXT}" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="${X(xh)}" y1="${Y(f(x0))}" x2="${X(xh)}" y2="${Y(f(xh))}" stroke="${TXT}" stroke-width="1" stroke-dasharray="3,3"/>
+    <text x="${(+X(x0)+ +X(xh))/2}" y="${+Y(f(x0))+16}" fill="${TXT}" font-size="12" text-anchor="middle" font-style="italic">Δx = h</text>
+    <text x="${+X(xh)+8}" y="${(+Y(f(x0))+ +Y(f(xh)))/2}" fill="${TXT}" font-size="12" font-style="italic">Δy</text>
+    <line x1="${X(x0)}" y1="${oy-3}" x2="${X(x0)}" y2="${oy+3}" stroke="${TXT}" stroke-width="1.2"/>
+    <text x="${X(x0)}" y="${oy+17}" fill="${TXT}" font-size="12" text-anchor="middle" font-style="italic">x<tspan baseline-shift="sub" font-size="8">0</tspan></text>
+    <line x1="${X(xh)}" y1="${oy-3}" x2="${X(xh)}" y2="${oy+3}" stroke="${TXT}" stroke-width="1.2"/>
+    <text x="${X(xh)}" y="${oy+17}" fill="${TXT}" font-size="12" text-anchor="middle" font-style="italic">x<tspan baseline-shift="sub" font-size="8">0</tspan>+h</text>
+    <circle cx="${X(x0)}" cy="${Y(f(x0))}" r="4" fill="${c}"/>
+    <text x="${+X(x0)-8}" y="${+Y(f(x0))-6}" fill="${c}" font-size="12" text-anchor="end" font-weight="600">P</text>
+    <circle cx="${X(xh)}" cy="${Y(f(xh))}" r="4" fill="${s}"/>
+    <text x="${+X(xh)+7}" y="${+Y(f(xh))-2}" fill="${s}" font-size="12" font-weight="600">Q</text>
+  </svg><div class="graph-cap">la secante PQ ha pendenza uguale al rapporto incrementale</div></div>`;
+}
+
+// Retta tangente: la secante diventa tangente quando h → 0
+function svgTangente() {
+  const w=360, h=228, ox=44, oy=192, sx=60, sy=40, topY=16;
+  const c='#c2185b', s='#3a6b8c';
+  const f = x => 0.16*x*x + 0.4, df = x => 0.32*x;
+  const X = x => (ox + x*sx).toFixed(1);
+  const Y = y => (oy - y*sy).toFixed(1);
+  const x0 = 2.4, m = df(x0), b = f(x0);
+  const tan = x => b + m*(x-x0);
+  let pts = [];
+  for (let i=0;i<=48;i++){ const x=0.2+(4.4-0.2)*i/48; pts.push(`${X(x)},${Y(f(x))}`); }
+  // secanti sbiadite che convergono alla tangente
+  let sec = '';
+  [1.5, 0.85].forEach(hh => {
+    const q = x0+hh, mm = (f(q)-f(x0))/hh;
+    const sc = x => f(x0)+mm*(x-x0);
+    sec += `<line x1="${X(x0-0.4)}" y1="${Y(sc(x0-0.4))}" x2="${X(q+0.2)}" y2="${Y(sc(q+0.2))}" stroke="${s}" stroke-width="1.3" opacity=".38"/>
+    <circle cx="${X(q)}" cy="${Y(f(q))}" r="3" fill="${s}" opacity=".45"/>`;
+  });
+  return `<div class="graph-box"><svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img" aria-label="Retta tangente alla curva nel punto P: la sua pendenza è la derivata in quel punto">
+    ${axes(ox,oy,w,topY)}
+    ${sec}
+    <polyline points="${pts.join(' ')}" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="${X(x0-1.9)}" y1="${Y(tan(x0-1.9))}" x2="${X(x0+1.9)}" y2="${Y(tan(x0+1.9))}" stroke="var(--text)" stroke-width="2"/>
+    <line x1="${X(x0)}" y1="${oy-3}" x2="${X(x0)}" y2="${oy+3}" stroke="${TXT}" stroke-width="1.2"/>
+    <text x="${X(x0)}" y="${oy+17}" fill="${TXT}" font-size="12" text-anchor="middle" font-style="italic">x<tspan baseline-shift="sub" font-size="8">0</tspan></text>
+    <circle cx="${X(x0)}" cy="${Y(f(x0))}" r="4.5" fill="var(--surface)" stroke="${c}" stroke-width="2"/>
+    <text x="${+X(x0)-8}" y="${+Y(f(x0))-6}" fill="${c}" font-size="12" text-anchor="end" font-weight="600">P</text>
+    <text x="${+X(x0+1.9)-4}" y="${+Y(tan(x0+1.9))-6}" fill="var(--text)" font-size="12" text-anchor="end" font-style="italic">tangente</text>
+  </svg><div class="graph-cap">quando h → 0 la secante ruota fino a diventare la tangente in P</div></div>`;
+}
+
+// ══════════════════════════
+// SEZIONI
+// ══════════════════════════
+const S = [
+
+// ═══ 0: IL PROBLEMA DELLA TANGENTE ═══
+{
+  tag:"MOTIVAZIONE",
+  title:"Il problema della <em>tangente</em>",
+  sub:"Sappiamo misurare la pendenza di una retta: basta il rapporto tra quanto sale e quanto avanza. Ma come si misura la pendenza di una curva, che cambia direzione in ogni punto? Rispondere a questa domanda significa inventare la derivata.",
+  nav:"Tangente",
+  body:`
+  <p>Su una <strong>retta</strong> la pendenza è sempre la stessa: il coefficiente angolare \\(m\\). Se ci spostiamo di \\(\\Delta x\\) in orizzontale, saliamo di \\(\\Delta y = m\\,\\Delta x\\). Semplice, perché la retta non cambia mai direzione.</p>
+
+  <p>Su una <strong>curva</strong> le cose cambiano: la ripidità è diversa in ogni punto. In salita ripida, in pianura, in discesa. Vogliamo dare un senso preciso alla frase <em>«quanto è ripida la curva proprio qui, nel punto \\(P\\)?»</em></p>
+
+  <div class="cb method">
+    <div class="cb-label">L'idea chiave</div>
+    <p>La pendenza «nel punto» è la pendenza della <strong>retta tangente</strong> alla curva in quel punto: la retta che sfiora la curva rasente, seguendone la direzione istantanea.</p>
+  </div>
+
+  <p>Il problema è che per tracciare una retta servono <strong>due</strong> punti, mentre la tangente ne tocca uno solo. La strategia geniale è questa: partiamo da una retta che possiamo disegnare — la <strong>secante</strong> per due punti — e poi avviciniamo il secondo punto al primo, fino a farli quasi coincidere.</p>
+
+  <div class="cb tip">
+    <div class="cb-label">Da dove veniamo</div>
+    <p>Questa lezione formalizza il percorso raccontato nell'articolo introduttivo <a href="/post/il-problema-della-tangente/">«Le derivate: dal problema della tangente alla definizione formale»</a>. Se non l'hai letto, è il punto di partenza ideale.</p>
+  </div>`
+},
+
+// ═══ 1: RAPPORTO INCREMENTALE ═══
+{
+  tag:"COSTRUZIONE",
+  title:"Il <em>rapporto incrementale</em>",
+  sub:"Prima di parlare di tangente, misuriamo la pendenza media tra due punti. È la pendenza della retta secante, e si chiama rapporto incrementale: il mattone su cui costruiremo tutto.",
+  nav:"Rapporto incr.",
+  body:`
+  <p>Fissiamo un punto di ascissa \\(x_0\\) e spostiamoci di una quantità \\(h\\) (l'<strong>incremento</strong>). Otteniamo due punti sulla curva \\(y = f(x)\\):</p>
+  <div class="math-block">\\[ P = \\big(x_0,\\, f(x_0)\\big) \\qquad Q = \\big(x_0+h,\\, f(x_0+h)\\big) \\]</div>
+
+  ${svgSecante()}
+
+  <p>La retta che unisce \\(P\\) e \\(Q\\) è la <strong>secante</strong>. Il suo coefficiente angolare è la variazione verticale divisa per quella orizzontale:</p>
+
+  <div class="math-block hero-formula">\\[ \\frac{\\Delta y}{\\Delta x} = \\frac{f(x_0+h)-f(x_0)}{h} \\tag{R} \\]</div>
+
+  <div class="cb method">
+    <div class="cb-label">Definizione</div>
+    <p>La quantità \\((R)\\) si chiama <strong>rapporto incrementale</strong> di \\(f\\) relativo al punto \\(x_0\\) e all'incremento \\(h\\). Rappresenta la <strong>pendenza media</strong> della curva tra \\(x_0\\) e \\(x_0+h\\).</p>
+  </div>
+
+  <div class="cb tip">
+    <div class="cb-label">Analogia fisica</div>
+    <p>Se \\(f(t)\\) è la posizione di un corpo al tempo \\(t\\), il rapporto incrementale è la <strong>velocità media</strong> nell'intervallo \\([t_0,\\, t_0+h]\\): spazio percorso diviso tempo impiegato.</p>
+  </div>
+
+  <p><strong>Esempio numerico.</strong> Per \\(f(x)=x^2\\), con \\(x_0=3\\) e \\(h=0{,}1\\):</p>
+  <div class="math-block">\\[ \\frac{f(3{,}1)-f(3)}{0{,}1} = \\frac{9{,}61 - 9}{0{,}1} = \\frac{0{,}61}{0{,}1} = 6{,}1 \\]</div>
+  <p>La pendenza media vicino a \\(x_0=3\\) vale circa \\(6{,}1\\). Tra poco vedremo che il valore «esatto nel punto» è \\(6\\).</p>`
+},
+
+// ═══ 2: LA DERIVATA IN UN PUNTO ═══
+{
+  tag:"DEFINIZIONE",
+  title:"La <em>derivata</em> in un punto",
+  sub:"Ora il passo decisivo: facciamo tendere l'incremento h a zero. Il punto Q scivola verso P, la secante si trasforma in tangente, e la pendenza media diventa pendenza istantanea. Questo limite è la derivata.",
+  nav:"Derivata",
+  body:`
+  <p>Cosa succede al rapporto incrementale \\((R)\\) quando \\(h\\) diventa piccolissimo? Il punto \\(Q\\) si avvicina a \\(P\\), e la secante ruota fino ad appoggiarsi alla curva: diventa la <strong>tangente</strong>. La sua pendenza è il <strong>limite</strong> del rapporto incrementale.</p>
+
+  <div class="math-block hero-formula">\\[ f'(x_0) = \\lim_{h \\to 0} \\frac{f(x_0+h)-f(x_0)}{h} \\tag{D} \\]</div>
+
+  <div class="cb method">
+    <div class="cb-label">Definizione</div>
+    <p>Se questo limite <strong>esiste ed è finito</strong>, il suo valore si chiama <strong>derivata di \\(f\\) nel punto \\(x_0\\)</strong> e si indica con \\(f'(x_0)\\). In tal caso si dice che \\(f\\) è <strong>derivabile</strong> in \\(x_0\\).</p>
+  </div>
+
+  <p>La derivata risponde finalmente alla domanda iniziale: \\(f'(x_0)\\) è la <strong>pendenza della curva nel punto</strong> \\(x_0\\), cioè la ripidità istantanea.</p>
+
+  <h3>Le notazioni</h3>
+  <p>Lo stesso oggetto si scrive in modi diversi, a seconda del contesto:</p>
+  <table class="ct">
+    <tr><th>Notazione</th><th>Si legge</th><th>Usata da</th></tr>
+    <tr><td>\\(f'(x_0)\\)</td><td>«f primo di x con zero»</td><td>Lagrange</td></tr>
+    <tr><td>\\(\\dfrac{df}{dx}(x_0)\\)</td><td>«de f su de x»</td><td>Leibniz</td></tr>
+    <tr><td>\\(Df(x_0)\\)</td><td>«D di f»</td><td>Cauchy</td></tr>
+    <tr><td>\\(\\dot{f}(t_0)\\)</td><td>«f punto»</td><td>Newton (fisica)</td></tr>
+  </table>
+
+  <div class="cb warn">
+    <div class="cb-label">Attenzione</div>
+    <p>Nel rapporto incrementale non possiamo mai porre \\(h=0\\) direttamente: otterremmo \\(\\tfrac{0}{0}\\), una forma indeterminata. Il senso del limite è proprio <strong>avvicinarsi</strong> a zero senza arrivarci, lasciando che la frazione si semplifichi prima.</p>
+  </div>`
+},
+
+// ═══ 3: SIGNIFICATO GEOMETRICO ═══
+{
+  tag:"GEOMETRIA",
+  title:"Il significato <em>geometrico</em>",
+  sub:"La derivata non è un numero astratto: è la pendenza di una retta ben precisa. Conoscere f'(x₀) ci permette di scrivere subito l'equazione della retta tangente alla curva.",
+  nav:"Tangente",
+  body:`
+  <p>Riprendiamo l'immagine delle secanti che ruotano. Al tendere di \\(h\\) a zero, il punto \\(Q\\) scende lungo la curva verso \\(P\\), e le secanti convergono a un'unica retta limite: la <strong>tangente</strong>.</p>
+
+  ${svgTangente()}
+
+  <div class="cb success">
+    <div class="cb-label">Interpretazione</div>
+    <p>\\(f'(x_0)\\) è il <strong>coefficiente angolare della retta tangente</strong> al grafico di \\(f\\) nel punto \\(\\big(x_0, f(x_0)\\big)\\).</p>
+  </div>
+
+  <p>Poiché conosciamo un punto della tangente, \\(\\big(x_0, f(x_0)\\big)\\), e la sua pendenza, \\(f'(x_0)\\), possiamo scriverne l'equazione con la formula della retta per un punto:</p>
+
+  <div class="math-block hero-formula">\\[ y - f(x_0) = f'(x_0)\\,(x - x_0) \\tag{T} \\]</div>
+
+  <p><strong>Esempio.</strong> Consideriamo \\(f(x)=x^2\\) nel punto \\(x_0=1\\). Sappiamo (lo verificheremo tra poco) che \\(f'(x)=2x\\), quindi \\(f'(1)=2\\). La tangente nel punto \\((1,1)\\) è:</p>
+  <div class="math-block result">\\[ y - 1 = 2(x-1) \\;\\Longrightarrow\\; y = 2x - 1 \\]</div>
+
+  <div class="cb tip">
+    <div class="cb-label">Segno della derivata</div>
+    <p>Il segno di \\(f'(x_0)\\) racconta l'andamento della curva nel punto:</p>
+    <ul>
+      <li>\\(f'(x_0) > 0\\): la funzione <strong>cresce</strong> (tangente in salita);</li>
+      <li>\\(f'(x_0) < 0\\): la funzione <strong>decresce</strong> (tangente in discesa);</li>
+      <li>\\(f'(x_0) = 0\\): tangente <strong>orizzontale</strong> (candidato massimo o minimo).</li>
+    </ul>
+  </div>`
+},
+
+// ═══ 4: LA FUNZIONE DERIVATA ═══
+{
+  tag:"STRUMENTI",
+  title:"La derivata come <em>funzione</em>",
+  sub:"Finora abbiamo derivato in un singolo punto. Ma se ripetiamo il calcolo per ogni x, otteniamo una nuova funzione: la funzione derivata. E per le funzioni più comuni non serve rifare ogni volta il limite: bastano poche formule.",
+  nav:"Funzione derivata",
+  body:`
+  <p>Se \\(f\\) è derivabile in ogni punto di un intervallo, a ciascun \\(x\\) possiamo associare il numero \\(f'(x)\\). Nasce così una nuova funzione, la <strong>funzione derivata</strong> \\(f'(x)\\), che riassume la pendenza di \\(f\\) in ogni punto.</p>
+
+  <div class="math-block hero-formula">\\[ f'(x) = \\lim_{h \\to 0} \\frac{f(x+h)-f(x)}{h} \\]</div>
+
+  <h3>Le derivate fondamentali</h3>
+  <p>Applicando la definizione (lo faremo per alcune nella prossima sezione) si ricavano queste formule, da tenere a memoria:</p>
+  <table class="ct">
+    <tr><th>funzione \\(f(x)\\)</th><th>derivata \\(f'(x)\\)</th></tr>
+    <tr><td>\\(k\\) (costante)</td><td>\\(0\\)</td></tr>
+    <tr><td>\\(x\\)</td><td>\\(1\\)</td></tr>
+    <tr><td>\\(x^n\\)</td><td>\\(n\\,x^{n-1}\\)</td></tr>
+    <tr><td>\\(\\sqrt{x}\\)</td><td>\\(\\dfrac{1}{2\\sqrt{x}}\\)</td></tr>
+    <tr><td>\\(\\dfrac{1}{x}\\)</td><td>\\(-\\dfrac{1}{x^2}\\)</td></tr>
+    <tr><td>\\(\\sin x\\)</td><td>\\(\\cos x\\)</td></tr>
+    <tr><td>\\(\\cos x\\)</td><td>\\(-\\sin x\\)</td></tr>
+    <tr><td>\\(e^x\\)</td><td>\\(e^x\\)</td></tr>
+    <tr><td>\\(\\ln x\\)</td><td>\\(\\dfrac{1}{x}\\)</td></tr>
+  </table>
+
+  <div class="cb method">
+    <div class="cb-label">Regole di linearità</div>
+    <p>La derivata rispetta somme e multipli costanti:</p>
+    <div class="math-block">\\[ (k\\,f)' = k\\,f' \\qquad (f+g)' = f' + g' \\]</div>
+    <p>Con questi strumenti si deriva già gran parte dei polinomi. Le regole per <strong>prodotto</strong>, <strong>quoziente</strong> e <strong>funzioni composte</strong> saranno l'argomento delle prossime lezioni.</p>
+  </div>
+
+  <p><strong>Esempio.</strong> Deriviamo \\(f(x) = 3x^4 - 5x^2 + 7\\) termine per termine:</p>
+  <div class="math-block result">\\[ f'(x) = 3\\cdot 4x^3 - 5\\cdot 2x + 0 = 12x^3 - 10x \\]</div>`
+},
+
+// ═══ 5: ESEMPI DALLA DEFINIZIONE ═══
+{
+  tag:"ESERCIZI",
+  title:"Derivate <em>dalla definizione</em>",
+  sub:"Le formule della tabella non sono magia: nascono tutte dal limite del rapporto incrementale. Qui le ricaviamo passo passo. Apri ogni esempio e segui la semplificazione della frazione prima di far tendere h a zero.",
+  nav:"Esempi",
+  body:`
+  <p>In ognuno di questi esercizi la strategia è sempre la stessa: scrivere il rapporto incrementale, <strong>semplificare</strong> per eliminare la \\(h\\) al denominatore, e solo alla fine calcolare il limite per \\(h \\to 0\\).</p>
+
+  ${acc([
+    { t:"Es. 1 — La parabola \\(f(x)=x^2\\)", h:`
+      <p>Scriviamo il rapporto incrementale e sviluppiamo il quadrato:</p>
+      <div class="math-block">\\[ \\frac{(x+h)^2 - x^2}{h} = \\frac{x^2 + 2xh + h^2 - x^2}{h} = \\frac{2xh + h^2}{h} \\]</div>
+      <p>Raccogliamo \\(h\\) e semplifichiamo:</p>
+      <div class="math-block">\\[ = \\frac{h(2x + h)}{h} = 2x + h \\]</div>
+      <p>Ora il limite è immediato:</p>
+      <div class="math-block result">\\[ f'(x) = \\lim_{h\\to 0}(2x + h) = 2x \\]</div>
+      <p>Ecco perché, nell'esempio iniziale con \\(x_0=3\\), la pendenza esatta era \\(2\\cdot 3 = 6\\).</p>` },
+
+    { t:"Es. 2 — La cubica \\(f(x)=x^3\\)", h:`
+      <p>Sviluppiamo \\((x+h)^3 = x^3 + 3x^2 h + 3x h^2 + h^3\\):</p>
+      <div class="math-block">\\[ \\frac{(x+h)^3 - x^3}{h} = \\frac{3x^2 h + 3x h^2 + h^3}{h} \\]</div>
+      <p>Raccogliamo \\(h\\) e semplifichiamo:</p>
+      <div class="math-block">\\[ = 3x^2 + 3xh + h^2 \\]</div>
+      <div class="math-block result">\\[ f'(x) = \\lim_{h\\to 0}\\big(3x^2 + 3xh + h^2\\big) = 3x^2 \\]</div>
+      <p>Conferma della regola \\((x^n)' = n\\,x^{n-1}\\) per \\(n=3\\).</p>` },
+
+    { t:"Es. 3 — L'iperbole \\(f(x)=\\dfrac{1}{x}\\)", h:`
+      <p>Portiamo la differenza a denominatore comune:</p>
+      <div class="math-block">\\[ \\frac{\\frac{1}{x+h} - \\frac{1}{x}}{h} = \\frac{1}{h}\\cdot\\frac{x - (x+h)}{x(x+h)} = \\frac{1}{h}\\cdot\\frac{-h}{x(x+h)} \\]</div>
+      <p>Semplifichiamo la \\(h\\):</p>
+      <div class="math-block">\\[ = \\frac{-1}{x(x+h)} \\]</div>
+      <div class="math-block result">\\[ f'(x) = \\lim_{h\\to 0}\\frac{-1}{x(x+h)} = -\\frac{1}{x^2} \\]</div>` },
+
+    { t:"Es. 4 — La radice \\(f(x)=\\sqrt{x}\\)", h:`
+      <p>Qui il trucco è <strong>razionalizzare</strong> moltiplicando per il coniugato:</p>
+      <div class="math-block">\\[ \\frac{\\sqrt{x+h}-\\sqrt{x}}{h}\\cdot\\frac{\\sqrt{x+h}+\\sqrt{x}}{\\sqrt{x+h}+\\sqrt{x}} = \\frac{(x+h)-x}{h\\big(\\sqrt{x+h}+\\sqrt{x}\\big)} \\]</div>
+      <p>Al numeratore resta \\(h\\), che si semplifica:</p>
+      <div class="math-block">\\[ = \\frac{1}{\\sqrt{x+h}+\\sqrt{x}} \\]</div>
+      <div class="math-block result">\\[ f'(x) = \\lim_{h\\to 0}\\frac{1}{\\sqrt{x+h}+\\sqrt{x}} = \\frac{1}{2\\sqrt{x}} \\]</div>` },
+
+    { t:"Es. 5 — Guidato: la tangente a \\(f(x)=x^2\\) in \\(x_0=3\\)", h:`
+      <p>Mettiamo insieme tutto. Vogliamo la retta tangente alla parabola nel punto di ascissa \\(x_0=3\\).</p>
+      <div class="step-math"><div class="label">passo 1 — il punto</div>\\[ f(3) = 9 \\quad\\Rightarrow\\quad P=(3,\\,9) \\]</div>
+      <div class="step-math"><div class="label">passo 2 — la pendenza</div>\\[ f'(x)=2x \\quad\\Rightarrow\\quad f'(3)=6 \\]</div>
+      <div class="step-math"><div class="label green">passo 3 — la retta (T)</div>\\[ y - 9 = 6(x-3) \\;\\Rightarrow\\; y = 6x - 9 \\]</div>
+      <p>La tangente alla parabola in \\((3,9)\\) è la retta \\(y = 6x - 9\\).</p>` }
+  ])}`
+},
+
+// ═══ 6: NON DERIVABILITÀ + SINTESI ═══
+{
+  tag:"LIMITI E SINTESI",
+  title:"Quando la derivata <em>non esiste</em>",
+  sub:"Non tutte le funzioni sono derivabili ovunque. Il limite del rapporto incrementale può non esistere, o essere infinito: geometricamente, la curva non ha una tangente unica e obliqua. Vediamo i tre casi tipici e poi tiriamo le somme.",
+  nav:"Sintesi",
+  body:`
+  <p>Perché una funzione sia derivabile in \\(x_0\\), il limite \\((D)\\) deve esistere <strong>finito</strong>, e il limite da sinistra deve coincidere con quello da destra. Quando ciò non accade, il punto è di <strong>non derivabilità</strong>.</p>
+
+  <div class="disc-row">
+    <div class="disc-card">
+      <h4>Punto angoloso</h4>
+      <p>I limiti destro e sinistro esistono ma sono <strong>diversi</strong>: due semitangenti distinte. Esempio: \\(f(x)=|x|\\) in \\(x_0=0\\).</p>
+    </div>
+    <div class="disc-card">
+      <h4>Cuspide</h4>
+      <p>I due limiti sono <strong>infiniti di segno opposto</strong>: la curva forma una punta con tangente verticale. Esempio: \\(f(x)=\\sqrt{|x|}\\) in \\(0\\).</p>
+    </div>
+    <div class="disc-card">
+      <h4>Flesso a tangente verticale</h4>
+      <p>Il limite è \\(+\\infty\\) (o \\(-\\infty\\)) da <strong>entrambi</strong> i lati: tangente verticale. Esempio: \\(f(x)=\\sqrt[3]{x}\\) in \\(0\\).</p>
+    </div>
+  </div>
+
+  <div class="cb tip">
+    <div class="cb-label">Derivabilità e continuità</div>
+    <p>Se una funzione è derivabile in un punto, allora lì è anche <strong>continua</strong>. Il viceversa è falso: \\(|x|\\) è continua in \\(0\\) ma non derivabile. In breve: <em>derivabile \\(\\Rightarrow\\) continua</em>, ma non il contrario.</p>
+  </div>
+
+  <h3>In sintesi</h3>
+  <ul class="checklist">
+    <li>Il rapporto incrementale è la pendenza della secante: \\(\\frac{f(x_0+h)-f(x_0)}{h}\\)</li>
+    <li>La derivata è il suo limite per \\(h\\to 0\\): la pendenza della tangente</li>
+    <li>\\(f'(x_0)\\) è il coefficiente angolare della tangente in \\((x_0, f(x_0))\\)</li>
+    <li>La tangente ha equazione \\(y - f(x_0) = f'(x_0)(x-x_0)\\)</li>
+    <li>Segno di \\(f'\\): positivo cresce, negativo decresce, zero tangente orizzontale</li>
+    <li>Conosco le derivate elementari e la linearità</li>
+    <li>So riconoscere punto angoloso, cuspide e flesso a tangente verticale</li>
+  </ul>
+
+  <div class="cb success">
+    <div class="cb-label">Prossimo passo</div>
+    <p>Con la definizione e le derivate fondamentali in tasca, siamo pronti per le <strong>regole di derivazione</strong> (prodotto, quoziente, funzione composta) e per le loro applicazioni allo studio di funzione.</p>
+  </div>`
+}
+
+];
+
+// ══════════════════════════
+// APP LOGIC
+// ══════════════════════════
+let cur = 0;
+const tot = S.length;
+
+function render() {
+  document.getElementById('topNav').innerHTML = S.map((s,i) =>
+    `<button class="nav-pill ${i===cur?'active':''}" onclick="goTo(${i})">${s.nav}</button>`
+  ).join('');
+
+  document.getElementById('app').innerHTML = S.map((s,i) => `
+    <div class="section ${i===cur?'active':''}">
+      <div class="hero">
+        <div class="hero-tag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p class="hero-sub">${s.sub}</p>
+      </div>
+      ${s.body}
+      <div class="bottom-nav">
+        <button class="bb" onclick="goTo(${i-1})" ${i===0?'disabled':''}>← Precedente</button>
+        <span class="page-info">${i+1} / ${tot}</span>
+        <button class="bb primary" onclick="goTo(${i+1})" ${i===tot-1?'disabled':''}>Successivo →</button>
+      </div>
+    </div>
+  `).join('');
+
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    const active = document.querySelector('.section.active');
+    if (active) MathJax.typesetPromise([active]);
+  }
+
+  document.querySelectorAll('.checklist li').forEach(li => {
+    li.onclick = function(e) {
+      e.stopPropagation();
+      this.classList.toggle('checked');
+    };
+  });
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= tot) return;
+  cur = idx;
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(cur + 1);
+  if (e.key === 'ArrowLeft')  goTo(cur - 1);
+});
+
+if (typeof MathJax !== 'undefined' && MathJax.startup) {
+  MathJax.startup.promise.then(() => render());
+} else {
+  render();
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>
