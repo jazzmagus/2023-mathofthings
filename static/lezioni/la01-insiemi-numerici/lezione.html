@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento — Insiemi numerici</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {
+    fontCache: 'global',
+    scale: 1.05
+  },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => {
+        document.body.style.opacity = '1';
+      });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --surface-alt: #f5f0e8;
+  --border: #e4ddd4;
+  --border-light: #ece7de;
+  --text: #2c2520;
+  --text-mid: #5a524a;
+  --text-dim: #6e6760;
+  --accent: #c2185b;
+  --accent-light: #fce4ec;
+  --blue: #3a6b8c;
+  --blue-light: #e8f0f5;
+  --green: #4a7c59;
+  --green-light: #eaf5ed;
+  --purple: #6a1b9a;
+  --purple-light: #f3e5f5;
+  --gold: #b8860b;
+  --gold-light: #fdf8ed;
+  --teal: #4f6d7a;
+  --teal-light: #e8eff2;
+  --danger: #b33a3a;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(44,37,32,.04);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Georgia',serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.75;
+  font-size:17px;
+  opacity:0;
+  transition: opacity .3s;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center;
+  padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand {
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem; font-weight:700;
+  color:var(--text); white-space:nowrap;
+}
+.topbar-nav {
+  display:flex; gap:3px; overflow-x:auto;
+  scrollbar-width:none; flex:1;
+}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill {
+  background:none; border:none;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim);
+  padding:6px 14px; border-radius:0;
+  cursor:pointer; white-space:nowrap; transition:all .2s;
+  border-bottom:2px solid transparent;
+}
+.nav-pill:hover{background:none;color:var(--text)}
+.nav-pill.active{background:none;color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
+.topbar-home {
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.75rem; color:var(--text-dim);
+  text-decoration:none; cursor:pointer;
+  white-space:nowrap;
+}
+.topbar-home:hover{color:var(--accent)}
+
+/* ── CONTAINER ── */
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 60px}
+
+/* ── SECTIONS ── */
+.section{display:none;animation:appear .4s ease}
+.section.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HERO ── */
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7;text-align:justify}
+
+/* ── CONCEPT BOXES ── */
+.cb{background:var(--surface-alt);border:none;border-radius:0;padding:16px 0 16px 18px;margin:18px 0;box-shadow:none;position:relative;border-left:2px solid var(--accent)}
+.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;display:none}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600;color:var(--accent)}
+.cb.tip .cb-label{color:var(--blue)} .cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)} .cb.success .cb-label{color:var(--green)}
+.cb.method .cb-label{color:var(--accent)} .cb.purple .cb-label{color:var(--purple)}
+.cb.teal .cb-label{color:var(--teal)}
+
+/* ── MATH DISPLAY BLOCKS ── */
+.math-block {
+  background: rgba(0,0,0,.02);
+  border: none;
+  border-radius: 0;
+  padding: 12px 16px;
+  margin: 10px 0;
+  overflow-x: auto;
+}
+.math-block.dark { background: rgba(0,0,0,.04); }
+.math-block.hero-formula {
+  background: var(--surface-alt);
+  border: none;
+  padding: 16px 20px;
+  text-align: center;
+}
+.math-block.result {
+  border-left: 2px solid var(--green);
+  background: rgba(74,124,89,.04);
+  padding: 12px 16px;
+  margin: 10px 0;
+}
+.math-block.warning {
+  border-left: 2px solid var(--danger);
+  background: rgba(179,58,58,.04);
+  padding: 12px 16px;
+  margin: 10px 0;
+}
+
+/* ── STEP-BY-STEP ── */
+.step-math { margin: 6px 0; padding: 4px 0; }
+.step-math .label {
+  font-family: 'Fira Code', monospace;
+  font-size: .72rem; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px;
+}
+.step-math .label.green { color: var(--green); }
+
+/* ── ACCORDION ── */
+.accordion{border:none;border-radius:0;overflow:visible;margin:16px 0;box-shadow:none}
+.acc-item{border-bottom:1px solid rgba(0,0,0,.08);border-top:none}
+.acc-item:last-child{border-bottom:none}
+.acc-header{display:flex;align-items:center;gap:12px;padding:14px 0;background:none;cursor:pointer;transition:all .2s;user-select:none}
+.acc-header:hover{background:none}
+.acc-num{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.acc-title{font-weight:600;font-size:.95rem;flex:1;color:var(--text)}
+.acc-arrow{width:16px;height:16px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease;background:none}
+.acc-item.open .acc-body{max-height:8000px}
+.acc-inner{padding:8px 0 16px 36px;border-top:none}
+
+/* ── TABLES ── */
+.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9rem}
+.ct th{text-align:left;padding:11px 14px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--border-light);font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct td{padding:10px 14px;border-bottom:1px solid var(--border-light);vertical-align:top}
+.ct tr:last-child td{border-bottom:none}
+
+/* ── SVG ── */
+.graph-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:18px 0;box-shadow:var(--shadow);overflow-x:auto;text-align:center}
+.graph-box svg text{font-family:'Georgia',serif}
+.graph-cap{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim);margin-top:8px}
+
+/* ── MATHJAX FORMATTING ── */
+mjx-container[jax="SVG"] { direction: ltr; }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:52px;padding-top:26px;border-top:1px solid var(--border-light)}
+.bb{font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:0;border:none;background:none;color:var(--text);transition:all .2s;cursor:pointer;text-decoration:none}
+.bb:hover{color:var(--accent);text-decoration:underline}
+.bb:disabled{opacity:.35;cursor:not-allowed;text-decoration:none}
+.bb:disabled:hover{color:var(--text);text-decoration:none}
+.bb.primary{background:none;color:var(--text);border:none;font-weight:400}
+.bb.primary:hover{color:var(--accent);text-decoration:underline;background:none}
+.page-info{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-dim)}
+
+p{margin:6px 0}
+ul,ol{margin:8px 0 8px 20px}
+li{margin:2px 0}
+.dim{color:var(--text-dim)}
+strong{font-weight:600}
+h2{margin:24px 0 12px}
+h3{margin:16px 0 8px}
+
+/* ── CHECKLIST ── */
+.checklist{list-style:none;margin:12px 0}
+.checklist li{position:relative;padding:6px 0 6px 32px;font-size:.95rem;font-family:'JetBrains Mono',monospace;cursor:pointer;transition:all .2s}
+.checklist li::before{content:'☐';position:absolute;left:6px;top:6px;font-size:1rem;color:var(--accent);transition:all .2s}
+.checklist li.checked{color:var(--text-dim);text-decoration:line-through}
+.checklist li.checked::before{content:'☑'}
+
+@media(max-width:640px){
+  body{font-size:16px}
+  .hero h1{font-size:1.7rem}
+  .acc-header{padding:13px 14px}
+  .acc-inner{padding:4px 14px 18px}
+  .cb{padding:18px}
+  .math-block{padding:14px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Insiemi numerici · avanzato</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+// ══════════════════════════
+// Accordion builder
+// ══════════════════════════
+function acc(items) {
+  return '<div class="accordion">'+items.map((it,i)=>`
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-num">${i+1}</div>
+        <div class="acc-title">${it.t}</div>
+        <svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="acc-body"><div class="acc-inner">${it.h}</div></div>
+    </div>`).join('')+'</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  item.classList.toggle('open');
+  if (!wasOpen && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+// ══════════════════════════
+// SVG: insiemi numerici annidati
+// ══════════════════════════
+function svgInsiemi() {
+  const boxes = [
+    { x:12,  y:12,  w:336, h:196, c:'#4f6d7a', label:'R' },
+    { x:34,  y:38,  w:292, h:150, c:'#6a1b9a', label:'Q' },
+    { x:58,  y:64,  w:236, h:104, c:'#3a6b8c', label:'Z' },
+    { x:84,  y:90,  w:176, h:58,  c:'#4a7c59', label:'N' }
+  ];
+  const rects = boxes.map(b =>
+    `<rect x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" rx="12" fill="${b.c}" fill-opacity="0.06" stroke="${b.c}" stroke-width="1.5"/>
+     <text x="${b.x+14}" y="${b.y+22}" fill="${b.c}" font-size="17" font-style="italic" font-weight="700">${b.label}</text>`
+  ).join('');
+  const samples =
+    `<text x="200" y="128" fill="#4a7c59" font-size="12">0, 1, 7</text>
+     <text x="150" y="150" fill="#3a6b8c" font-size="12">-3</text>
+     <text x="70" y="176" fill="#6a1b9a" font-size="12">1/2</text>
+     <text x="280" y="196" fill="#4f6d7a" font-size="12">&#8730;2, &#960;</text>`;
+  return `<div class="graph-box"><svg viewBox="0 0 360 220" width="360" height="220" role="img" aria-label="Insiemi numerici annidati: i naturali dentro gli interi, dentro i razionali, dentro i reali">
+    ${rects}
+    ${samples}
+  </svg><div class="graph-cap">ogni insieme è contenuto nel successivo: N &#8834; Z &#8834; Q &#8834; R</div></div>`;
+}
+
+// ══════════════════════════
+// SEZIONI
+// ══════════════════════════
+const S = [
+
+// ═══ 0: MOTIVAZIONE ═══
+{
+  tag:"APPROFONDIMENTO",
+  title:"Perché non basta <em>contare</em>",
+  sub:"Nel corso base hai usato i vari insiemi numerici come strumenti già pronti. Qui ci chiediamo da dove vengono: ogni ampliamento nasce per rispondere a una domanda a cui i numeri precedenti non sapevano rispondere. È una storia di impossibilità superate.",
+  nav:"Perché",
+  body:`
+  <p>I numeri non sono nati tutti insieme. Sono cresciuti per necessità: ogni volta che un'operazione «usciva» dall'insieme disponibile, si è costruito un insieme più ampio in cui quell'operazione avesse sempre senso.</p>
+
+  <div class="cb method">
+    <div class="cb-label">Il filo conduttore</div>
+    <p>Con i naturali \\(\\mathbb{N}\\) sai contare, ma \\(3-5\\) non esiste. Servono i numeri negativi: nasce \\(\\mathbb{Z}\\). Ma \\(3:2\\) non è intero: nasce \\(\\mathbb{Q}\\). Eppure \\(\\sqrt{2}\\) non è una frazione: nasce \\(\\mathbb{R}\\). Ogni insieme <strong>contiene</strong> il precedente e ne colma un limite.</p>
+  </div>
+
+  ${svgInsiemi()}
+
+  <p>In questo approfondimento seguiamo questa catena di ampliamenti, e poi ci fermiamo su tre idee che nel corso base erano rimaste sullo sfondo: come si <strong>dimostra</strong> una proprietà valida per tutti i naturali (il principio di induzione), perché ogni decimale periodico è in realtà una <strong>frazione</strong>, e come si dimostra che \\(\\sqrt{2}\\) <strong>non</strong> è razionale.</p>`
+},
+
+// ═══ 1: GLI AMPLIAMENTI ═══
+{
+  tag:"PANORAMICA",
+  title:"Dagli <em>ampliamenti</em> successivi",
+  sub:"Naturali, interi, razionali, reali: quattro insiemi incastonati uno nell'altro, ciascuno pensato per rendere sempre eseguibile un'operazione che prima falliva.",
+  nav:"Ampliamenti",
+  body:`
+  <table class="ct">
+    <tr><th>Insieme</th><th>Novità</th><th>Rende sempre possibile</th></tr>
+    <tr><td>\\(\\mathbb{N}\\) naturali</td><td>contare da \\(0\\)</td><td>addizione, moltiplicazione</td></tr>
+    <tr><td>\\(\\mathbb{Z}\\) interi</td><td>i numeri negativi</td><td>anche la sottrazione</td></tr>
+    <tr><td>\\(\\mathbb{Q}\\) razionali</td><td>le frazioni</td><td>anche la divisione (per \\(\\neq 0\\))</td></tr>
+    <tr><td>\\(\\mathbb{R}\\) reali</td><td>i numeri irrazionali</td><td>radici, limiti, continuità della retta</td></tr>
+  </table>
+
+  <p>La catena di inclusioni si scrive così:</p>
+  <div class="math-block hero-formula">\\[ \\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R} \\]</div>
+
+  <div class="cb tip">
+    <div class="cb-label">Razionali = frazioni</div>
+    <p>Un numero è <strong>razionale</strong> se si può scrivere come frazione \\(\\dfrac{a}{b}\\) con \\(a,b \\in \\mathbb{Z}\\) e \\(b \\neq 0\\). Vedremo che questo comprende <em>tutti</em> i numeri con sviluppo decimale finito o periodico.</p>
+  </div>
+
+  <div class="cb warn">
+    <div class="cb-label">Il salto più delicato</div>
+    <p>Il passaggio da \\(\\mathbb{Q}\\) a \\(\\mathbb{R}\\) è diverso dagli altri. Non aggiunge un tipo di operazione, ma «tappa i buchi» che i razionali lasciano sulla retta: numeri come \\(\\sqrt{2}\\) o \\(\\pi\\), che non sono frazioni. È il tema delle ultime sezioni.</p>
+  </div>`
+},
+
+// ═══ 2: PRINCIPIO DI INDUZIONE ═══
+{
+  tag:"DIMOSTRARE",
+  title:"Il principio di <em>induzione</em>",
+  sub:"Come si dimostra che una formula vale per ogni numero naturale, che sono infiniti? Non si possono provare tutti i casi. L'induzione è il meccanismo che permette di scavalcare l'infinito con due soli passi.",
+  nav:"Induzione",
+  body:`
+  <p>Immagina una fila infinita di tessere del domino. Per essere sicuri che cadano <strong>tutte</strong>, bastano due garanzie: che cada la prima, e che ogni tessera, cadendo, faccia cadere la successiva. È esattamente l'idea dell'induzione.</p>
+
+  <div class="cb method">
+    <div class="cb-label">Principio di induzione</div>
+    <p>Una proprietà \\(P(n)\\) vale per ogni naturale \\(n \\geq 1\\) se:</p>
+    <ul>
+      <li><strong>Base</strong>: \\(P(1)\\) è vera;</li>
+      <li><strong>Passo induttivo</strong>: se \\(P(k)\\) è vera, allora è vera anche \\(P(k+1)\\).</li>
+    </ul>
+  </div>
+
+  <p><strong>Esempio classico.</strong> Dimostriamo che la somma dei primi \\(n\\) naturali è</p>
+  <div class="math-block hero-formula">\\[ 1 + 2 + 3 + \\dots + n = \\frac{n(n+1)}{2} \\]</div>
+
+  <div class="step-math"><div class="label">base — n = 1</div>A sinistra \\(1\\); a destra \\(\\dfrac{1\\cdot 2}{2}=1\\). Vera.</div>
+  <div class="step-math"><div class="label">ipotesi — n = k</div>Supponiamo vera \\(1+2+\\dots+k=\\dfrac{k(k+1)}{2}\\).</div>
+  <div class="step-math"><div class="label green">passo — n = k+1</div>Aggiungo \\((k+1)\\) a entrambi i membri:</div>
+  <div class="math-block">\\[ 1+\\dots+k+(k+1) = \\frac{k(k+1)}{2} + (k+1) = (k+1)\\!\\left(\\frac{k}{2}+1\\right) = \\frac{(k+1)(k+2)}{2} \\]</div>
+  <p>che è proprio la formula con \\(k+1\\) al posto di \\(n\\). Per il principio di induzione, la formula vale per <strong>ogni</strong> \\(n\\).</p>
+
+  <div class="cb tip">
+    <div class="cb-label">Perché funziona</div>
+    <p>La base fa cadere la prima tessera; il passo garantisce l'effetto a catena. Insieme, coprono tutti gli infiniti naturali senza doverli verificare uno per uno.</p>
+  </div>`
+},
+
+// ═══ 3: FRAZIONE GENERATRICE ═══
+{
+  tag:"TECNICA",
+  title:"La frazione <em>generatrice</em>",
+  sub:"Ogni numero decimale finito o periodico è un razionale: esiste sempre una frazione che lo genera. Vediamo come ricavarla nei tre casi, dal più semplice al più insidioso.",
+  nav:"Generatrice",
+  body:`
+  <h3>Decimale finito</h3>
+  <p>Si scrive la parte decimale su una potenza di \\(10\\) e si semplifica.</p>
+  <div class="math-block">\\[ 0{,}75 = \\frac{75}{100} = \\frac{3}{4} \\]</div>
+
+  <h3>Periodico semplice</h3>
+  <p>Il periodo comincia subito dopo la virgola. Regola: al numeratore il periodo, al denominatore tanti \\(9\\) quante sono le cifre del periodo.</p>
+  <div class="math-block">\\[ 0{,}\\overline{3} = \\frac{3}{9} = \\frac{1}{3} \\qquad 0{,}\\overline{27} = \\frac{27}{99} = \\frac{3}{11} \\]</div>
+
+  <h3>Periodico misto</h3>
+  <p>Fra la virgola e il periodo c'è un antiperiodo. Regola: al numeratore <em>tutto il numero senza virgola meno la parte non periodica</em>; al denominatore tanti \\(9\\) quante le cifre del periodo, seguiti da tanti \\(0\\) quante le cifre dell'antiperiodo.</p>
+  <div class="math-block">\\[ 0{,}1\\overline{6} = \\frac{16 - 1}{90} = \\frac{15}{90} = \\frac{1}{6} \\]</div>
+
+  <div class="cb success">
+    <div class="cb-label">La conseguenza importante</div>
+    <p>Poiché ogni decimale finito o periodico proviene da una frazione, <strong>tutti</strong> questi numeri sono razionali. Di conseguenza, un numero irrazionale ha uno sviluppo decimale <strong>infinito e non periodico</strong>: le sue cifre non si ripetono mai secondo uno schema.</p>
+  </div>
+
+  ${acc([
+    { t:"Prova tu — \\(0{,}\\overline{45}\\)", h:`
+      <p>Periodico semplice, periodo di due cifre:</p>
+      <div class="math-block result">\\[ 0{,}\\overline{45} = \\frac{45}{99} = \\frac{5}{11} \\]</div>` },
+    { t:"Prova tu — \\(2{,}3\\overline{1}\\)", h:`
+      <p>Periodico misto. Tutto senza virgola: \\(231\\); parte non periodica: \\(23\\).</p>
+      <div class="math-block result">\\[ 2{,}3\\overline{1} = \\frac{231 - 23}{90} = \\frac{208}{90} = \\frac{104}{45} \\]</div>` }
+  ])}`
+},
+
+// ═══ 4: IRRAZIONALITÀ DI RADICE 2 ═══
+{
+  tag:"DIMOSTRAZIONE",
+  title:"L'irrazionalità di <em>√2</em>",
+  sub:"Che √2 non sia una frazione non è un'opinione: è un teorema, e la sua dimostrazione è uno dei ragionamenti più eleganti della matematica. Si procede per assurdo: si suppone il contrario e si arriva a una contraddizione.",
+  nav:"√2 irrazionale",
+  body:`
+  <p>Vogliamo dimostrare che non esiste alcuna frazione uguale a \\(\\sqrt{2}\\). La strategia è la <strong>dimostrazione per assurdo</strong>: assumiamo che esista e mostriamo che questo porta a un'impossibilità.</p>
+
+  <div class="cb method">
+    <div class="cb-label">Ipotesi per assurdo</div>
+    <p>Supponiamo che \\(\\sqrt{2} = \\dfrac{p}{q}\\), con \\(p,q\\) interi, \\(q \\neq 0\\), e la frazione <strong>ridotta ai minimi termini</strong> (cioè \\(p\\) e \\(q\\) senza fattori comuni).</p>
+  </div>
+
+  <div class="step-math"><div class="label">passo 1 — elevo al quadrato</div>\\[ 2 = \\frac{p^2}{q^2} \\;\\Longrightarrow\\; p^2 = 2q^2 \\]</div>
+  <div class="step-math"><div class="label">passo 2 — p è pari</div>\\(p^2\\) è il doppio di qualcosa, quindi è pari; ma allora anche \\(p\\) è pari. Scrivo \\(p = 2m\\).</div>
+  <div class="step-math"><div class="label">passo 3 — sostituisco</div>\\[ (2m)^2 = 2q^2 \\;\\Longrightarrow\\; 4m^2 = 2q^2 \\;\\Longrightarrow\\; q^2 = 2m^2 \\]</div>
+  <div class="step-math"><div class="label">passo 4 — anche q è pari</div>Con lo stesso ragionamento, \\(q^2\\) è pari, quindi \\(q\\) è pari.</div>
+
+  <div class="cb danger">
+    <div class="cb-label">La contraddizione</div>
+    <p>Abbiamo ottenuto che \\(p\\) e \\(q\\) sono <strong>entrambi pari</strong>: hanno il fattore \\(2\\) in comune. Ma avevamo supposto la frazione ridotta ai minimi termini, senza fattori comuni. Assurdo.</p>
+  </div>
+
+  <p>L'ipotesi iniziale è dunque falsa: <strong>non</strong> esiste una frazione uguale a \\(\\sqrt{2}\\). Perciò \\(\\sqrt{2}\\) è irrazionale.</p>
+
+  <div class="math-block result">\\[ \\sqrt{2} \\notin \\mathbb{Q} \\]</div>
+
+  <div class="cb tip">
+    <div class="cb-label">Un'idea potente</div>
+    <p>La dimostrazione per assurdo non costruisce il risultato: lo ottiene mostrando che negarlo conduce all'impossibile. Lo stesso schema prova che sono irrazionali \\(\\sqrt{3}\\), \\(\\sqrt{5}\\) e infinite altre radici.</p>
+  </div>`
+},
+
+// ═══ 5: DENSITÀ E COMPLETEZZA ═══
+{
+  tag:"STRUTTURA",
+  title:"Densità e <em>completezza</em>",
+  sub:"I razionali riempiono fittamente la retta: fra due qualsiasi ce n'è sempre un altro. Eppure lasciano dei buchi. I reali sono ciò che serve per completare la retta, senza lasciarne nemmeno uno.",
+  nav:"La retta reale",
+  body:`
+  <div class="cb method">
+    <div class="cb-label">Densità di \\(\\mathbb{Q}\\)</div>
+    <p>Fra due razionali distinti \\(a\\) e \\(b\\) c'è sempre un altro razionale: per esempio il loro punto medio \\(\\dfrac{a+b}{2}\\). Ripetendo, se ne trovano infiniti. Si dice che \\(\\mathbb{Q}\\) è <strong>denso</strong>.</p>
+  </div>
+
+  <p>Verrebbe da pensare che, essendo così fitti, i razionali riempiano tutta la retta. E invece no: la sezione precedente ci ha mostrato che il punto corrispondente a \\(\\sqrt{2}\\) <strong>non</strong> è razionale. È un «buco» nella retta dei razionali.</p>
+
+  <div class="cb success">
+    <div class="cb-label">Completezza di \\(\\mathbb{R}\\)</div>
+    <p>I numeri reali colmano ogni buco: a <strong>ogni</strong> punto della retta corrisponde un numero reale, e viceversa. Questa proprietà si chiama <strong>completezza</strong>, ed è ciò che distingue \\(\\mathbb{R}\\) da \\(\\mathbb{Q}\\). È il fondamento su cui poggeranno i limiti e la continuità.</p>
+  </div>
+
+  <p>Quindi la retta reale è fatta di due «famiglie» di numeri: i razionali (frazioni, decimali finiti o periodici) e gli irrazionali (decimali infiniti non periodici, come \\(\\sqrt{2}\\), \\(\\pi\\), \\(e\\)). Insieme, senza lasciare vuoti, formano \\(\\mathbb{R}\\).</p>
+
+  <div class="cb tip">
+    <div class="cb-label">Un fatto sorprendente (cenni)</div>
+    <p>Pur essendo entrambi infiniti, i razionali si possono «mettere in fila» e contare uno dopo l'altro, mentre gli irrazionali no: sono «molti di più». È un risultato di Georg Cantor, che scoprirai meglio più avanti — ma già dice quanto sia ricca la retta reale.</p>
+  </div>`
+},
+
+// ═══ 6: SINTESI ═══
+{
+  tag:"SINTESI",
+  title:"Il quadro <em>completo</em>",
+  sub:"Hai visto da dove nascono gli insiemi numerici e tre strumenti che li rendono rigorosi: l'induzione per dimostrare sui naturali, la frazione generatrice per i decimali, la dimostrazione per assurdo per gli irrazionali.",
+  nav:"Sintesi",
+  body:`
+  <div class="cb method">
+    <div class="cb-label">Le idee da portare via</div>
+    <ul>
+      <li>Ogni ampliamento \\(\\mathbb{N}\\subset\\mathbb{Z}\\subset\\mathbb{Q}\\subset\\mathbb{R}\\) rende sempre possibile una nuova operazione.</li>
+      <li>Razionale = si scrive come frazione = decimale finito o periodico.</li>
+      <li>Irrazionale = decimale infinito non periodico (es. \\(\\sqrt{2}\\), \\(\\pi\\)).</li>
+      <li>\\(\\mathbb{Q}\\) è denso ma «bucato»; \\(\\mathbb{R}\\) è completo.</li>
+    </ul>
+  </div>
+
+  <h3>Controlla di saper fare</h3>
+  <ul class="checklist">
+    <li>So dire quale operazione giustifica ogni ampliamento</li>
+    <li>Dimostro una formula sui naturali per induzione</li>
+    <li>Trovo la frazione generatrice di un decimale finito</li>
+    <li>Trovo la generatrice di un periodico semplice e misto</li>
+    <li>Ricostruisco la dimostrazione dell'irrazionalità di √2</li>
+    <li>Spiego densità di ℚ e completezza di ℝ</li>
+  </ul>
+
+  <div class="cb success">
+    <div class="cb-label">Dove porta</div>
+    <p>La completezza di \\(\\mathbb{R}\\) è la base invisibile di tutto il triennio: senza «riempire i buchi» non esisterebbero i limiti, la continuità delle funzioni e il calcolo differenziale. Aver capito <em>come</em> sono fatti i numeri reali rende solido tutto ciò che verrà dopo.</p>
+  </div>`
+}
+
+];
+
+// ══════════════════════════
+// APP LOGIC
+// ══════════════════════════
+let cur = 0;
+const tot = S.length;
+
+function render() {
+  document.getElementById('topNav').innerHTML = S.map((s,i) =>
+    `<button class="nav-pill ${i===cur?'active':''}" onclick="goTo(${i})">${s.nav}</button>`
+  ).join('');
+
+  document.getElementById('app').innerHTML = S.map((s,i) => `
+    <div class="section ${i===cur?'active':''}">
+      <div class="hero">
+        <div class="hero-tag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p class="hero-sub">${s.sub}</p>
+      </div>
+      ${s.body}
+      <div class="bottom-nav">
+        <button class="bb" onclick="goTo(${i-1})" ${i===0?'disabled':''}>← Precedente</button>
+        <span class="page-info">${i+1} / ${tot}</span>
+        <button class="bb primary" onclick="goTo(${i+1})" ${i===tot-1?'disabled':''}>Successivo →</button>
+      </div>
+    </div>
+  `).join('');
+
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    const active = document.querySelector('.section.active');
+    if (active) MathJax.typesetPromise([active]);
+  }
+
+  document.querySelectorAll('.checklist li').forEach(li => {
+    li.onclick = function(e) {
+      e.stopPropagation();
+      this.classList.toggle('checked');
+    };
+  });
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= tot) return;
+  cur = idx;
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(cur + 1);
+  if (e.key === 'ArrowLeft')  goTo(cur - 1);
+});
+
+if (typeof MathJax !== 'undefined' && MathJax.startup) {
+  MathJax.startup.promise.then(() => render());
+} else {
+  render();
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>
