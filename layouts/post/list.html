@@ -20,49 +20,50 @@
 
   <div class="articles-card-list">
 
-    <!-- Featured Presentation: The Complex Case -->
-    <a href="/slides/numeri-complessi-spy-story/" class="article-item-link">
-      <div class="article-content">
-        <h3 class="article-title">The <em>Complex</em> Case</h3>
-        <p class="article-meta">
-          <span class="article-summary">Una spy story matematica: Dal Ferro, Tartaglia, Cardano e Bombelli nella lotta per scoprire i numeri complessi.</span>
-          <span class="article-date">2 Lug 2026</span>
-        </p>
-      </div>
-      <div class="article-visual">
-        <img src="/slides/numeri-complessi-spy-story/featured.jpg" alt="The Complex Case" class="article-thumbnail">
-        <span class="article-icon" aria-hidden="true">→</span>
-      </div>
-    </a>
+    {{/* Lista unica ordinata per data: post reali + segnalazioni esterne */}}
+    {{ $mesi := slice "" "Gen" "Feb" "Mar" "Apr" "Mag" "Giu" "Lug" "Ago" "Set" "Ott" "Nov" "Dic" }}
+    {{ $items := slice }}
 
-    <!-- Featured Article: Jazz & Math -->
-    <a href="/lezioni/jazz-and-math/" class="article-item-link">
-      <div class="article-content">
-        <h3 class="article-title">Jazz & <em>Math</em></h3>
-        <p class="article-meta">
-          <span class="article-summary">Scopri come la matematica è il fondamento invisibile del jazz. Dalla scala temperata ai genî come Coltrane.</span>
-          <span class="article-date">22 Giu 2026</span>
-        </p>
-      </div>
-      <div class="article-visual">
-        <img src="/uploads/jazz-and-math.jpg" alt="Jazz & Math" class="article-thumbnail">
-        <span class="article-icon" aria-hidden="true">→</span>
-      </div>
-    </a>
+    {{ range .Pages }}
+      {{ $img := "" }}
+      {{ with .Resources.GetMatch "featured*" }}{{ $img = .RelPermalink }}{{ end }}
+      {{ $items = $items | append (dict
+          "date" .Date
+          "title" .Title
+          "url" .RelPermalink
+          "summary" (.Params.summary | default .Summary)
+          "img" $img
+      ) }}
+    {{ end }}
 
-    {{ range .Pages.ByDate.Reverse }}
-      {{ $title := .Title }}
-      <a href="{{ .RelPermalink }}" class="article-item-link">
+    {{ $items = $items | append (dict
+        "date" (time.AsTime "2026-07-02")
+        "title" "The _Complex_ Case"
+        "url" "/slides/numeri-complessi-spy-story/"
+        "summary" "Una spy story matematica: Dal Ferro, Tartaglia, Cardano e Bombelli nella lotta per scoprire i numeri complessi."
+        "img" "/slides/numeri-complessi-spy-story/featured.jpg"
+    ) }}
+    {{ $items = $items | append (dict
+        "date" (time.AsTime "2026-06-22")
+        "title" "Jazz & _Math_"
+        "url" "/lezioni/jazz-and-math/"
+        "summary" "Scopri come la matematica è il fondamento invisibile del jazz. Dalla scala temperata ai genî come Coltrane."
+        "img" "/uploads/jazz-and-math.jpg"
+    ) }}
+
+    {{ range sort $items "date" "desc" }}
+      {{ $alt := .title | $.RenderString | plainify }}
+      <a href="{{ .url }}" class="article-item-link">
         <div class="article-content">
-          <h3 class="article-title">{{ .RenderString $title }}</h3>
+          <h3 class="article-title">{{ $.RenderString .title }}</h3>
           <p class="article-meta">
-            <span class="article-summary">{{ .Params.summary | default .Summary }}</span>
-            <span class="article-date">{{ .Date.Format "2 Jan 2006" }}</span>
+            <span class="article-summary">{{ .summary }}</span>
+            <span class="article-date">{{ .date.Day }} {{ index $mesi (printf "%d" .date.Month | int) }} {{ .date.Year }}</span>
           </p>
         </div>
         <div class="article-visual">
-          {{ with .Resources.GetMatch "featured*" }}
-            <img src="{{ .RelPermalink }}" alt="{{ $title }}" class="article-thumbnail">
+          {{ with .img }}
+            <img src="{{ . }}" alt="{{ $alt }}" class="article-thumbnail">
           {{ end }}
           <span class="article-icon" aria-hidden="true">→</span>
         </div>
