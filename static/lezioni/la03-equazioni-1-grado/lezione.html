@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento — Equazioni di primo grado</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {
+    fontCache: 'global',
+    scale: 1.05
+  },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => {
+        document.body.style.opacity = '1';
+      });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --surface-alt: #f5f0e8;
+  --border: #e4ddd4;
+  --border-light: #ece7de;
+  --text: #2c2520;
+  --text-mid: #5a524a;
+  --text-dim: #6e6760;
+  --accent: #c2185b;
+  --accent-light: #fce4ec;
+  --blue: #3a6b8c;
+  --blue-light: #e8f0f5;
+  --green: #4a7c59;
+  --green-light: #eaf5ed;
+  --purple: #6a1b9a;
+  --purple-light: #f3e5f5;
+  --gold: #b8860b;
+  --gold-light: #fdf8ed;
+  --teal: #4f6d7a;
+  --teal-light: #e8eff2;
+  --danger: #b33a3a;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(44,37,32,.04);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Georgia',serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.75;
+  font-size:17px;
+  opacity:0;
+  transition: opacity .3s;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center;
+  padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand {
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem; font-weight:700;
+  color:var(--text); white-space:nowrap;
+}
+.topbar-nav {
+  display:flex; gap:3px; overflow-x:auto;
+  scrollbar-width:none; flex:1;
+}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill {
+  background:none; border:none;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim);
+  padding:6px 14px; border-radius:0;
+  cursor:pointer; white-space:nowrap; transition:all .2s;
+  border-bottom:2px solid transparent;
+}
+.nav-pill:hover{background:none;color:var(--text)}
+.nav-pill.active{background:none;color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
+.topbar-home {
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.75rem; color:var(--text-dim);
+  text-decoration:none; cursor:pointer;
+  white-space:nowrap;
+}
+.topbar-home:hover{color:var(--accent)}
+
+/* ── CONTAINER ── */
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 60px}
+
+/* ── SECTIONS ── */
+.section{display:none;animation:appear .4s ease}
+.section.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HERO ── */
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7;text-align:justify}
+
+/* ── CONCEPT BOXES ── */
+.cb{background:var(--surface-alt);border:none;border-radius:0;padding:16px 0 16px 18px;margin:18px 0;box-shadow:none;position:relative;border-left:2px solid var(--accent)}
+.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;display:none}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600;color:var(--accent)}
+.cb.tip .cb-label{color:var(--blue)} .cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)} .cb.success .cb-label{color:var(--green)}
+.cb.method .cb-label{color:var(--accent)} .cb.purple .cb-label{color:var(--purple)}
+.cb.teal .cb-label{color:var(--teal)}
+.cb.tip{border-left-color:var(--blue)} .cb.warn{border-left-color:var(--gold)}
+.cb.danger{border-left-color:var(--danger)} .cb.success{border-left-color:var(--green)}
+.cb.purple{border-left-color:var(--purple)} .cb.teal{border-left-color:var(--teal)}
+
+/* ── MATH DISPLAY BLOCKS ── */
+.math-block {
+  background: rgba(0,0,0,.02);
+  border: none;
+  border-radius: 0;
+  padding: 12px 16px;
+  margin: 10px 0;
+  overflow-x: auto;
+}
+.math-block.dark { background: rgba(0,0,0,.04); }
+.math-block.hero-formula {
+  background: var(--surface-alt);
+  border: none;
+  padding: 16px 20px;
+  text-align: center;
+}
+.math-block.result {
+  border-left: 2px solid var(--green);
+  background: rgba(74,124,89,.04);
+  padding: 12px 16px;
+  margin: 10px 0;
+}
+.math-block.warning {
+  border-left: 2px solid var(--danger);
+  background: rgba(179,58,58,.04);
+  padding: 12px 16px;
+  margin: 10px 0;
+}
+
+/* ── STEP-BY-STEP ── */
+.step-math { margin: 6px 0; padding: 4px 0; }
+.step-math .label {
+  font-family: 'Fira Code', monospace;
+  font-size: .72rem; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px;
+}
+.step-math .label.green { color: var(--green); }
+
+/* ── ACCORDION ── */
+.accordion{border:none;border-radius:0;overflow:visible;margin:16px 0;box-shadow:none}
+.acc-item{border-bottom:1px solid rgba(0,0,0,.08);border-top:none}
+.acc-item:last-child{border-bottom:none}
+.acc-header{display:flex;align-items:center;gap:12px;padding:14px 0;background:none;cursor:pointer;transition:all .2s;user-select:none}
+.acc-header:hover{background:none}
+.acc-num{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.acc-title{font-weight:600;font-size:.95rem;flex:1;color:var(--text)}
+.acc-arrow{width:16px;height:16px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease;background:none}
+.acc-item.open .acc-body{max-height:8000px}
+.acc-inner{padding:8px 0 16px 36px;border-top:none}
+
+/* ── TABLES ── */
+.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9rem}
+.ct th{text-align:left;padding:11px 14px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--border-light);font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct td{padding:10px 14px;border-bottom:1px solid var(--border-light);vertical-align:top}
+.ct tr:last-child td{border-bottom:none}
+
+/* ── CASE TABLE (discussione) ── */
+.cases{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92rem;font-family:'Fira Code',monospace}
+.cases td{padding:9px 14px;border-bottom:1px solid var(--border-light);vertical-align:top}
+.cases td:first-child{color:var(--accent);white-space:nowrap;font-weight:500}
+.cases tr:last-child td{border-bottom:none}
+
+/* ── MATHJAX FORMATTING ── */
+mjx-container[jax="SVG"] { direction: ltr; }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:52px;padding-top:26px;border-top:1px solid var(--border-light)}
+.bb{font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:0;border:none;background:none;color:var(--text);transition:all .2s;cursor:pointer;text-decoration:none}
+.bb:hover{color:var(--accent);text-decoration:underline}
+.bb:disabled{opacity:.35;cursor:not-allowed;text-decoration:none}
+.bb:disabled:hover{color:var(--text);text-decoration:none}
+.bb.primary{background:none;color:var(--text);border:none;font-weight:400}
+.bb.primary:hover{color:var(--accent);text-decoration:underline;background:none}
+.page-info{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-dim)}
+
+p{margin:6px 0}
+ul,ol{margin:8px 0 8px 20px}
+li{margin:2px 0}
+.dim{color:var(--text-dim)}
+strong{font-weight:600}
+h2{margin:24px 0 12px}
+h3{margin:16px 0 8px}
+
+/* ── CHECKLIST ── */
+.checklist{list-style:none;margin:12px 0}
+.checklist li{position:relative;padding:6px 0 6px 32px;font-size:.95rem;font-family:'JetBrains Mono',monospace;cursor:pointer;transition:all .2s}
+.checklist li::before{content:'☐';position:absolute;left:6px;top:6px;font-size:1rem;color:var(--accent);transition:all .2s}
+.checklist li.checked{color:var(--text-dim);text-decoration:line-through}
+.checklist li.checked::before{content:'☑'}
+
+@media(max-width:640px){
+  body{font-size:16px}
+  .hero h1{font-size:1.7rem}
+  .acc-header{padding:13px 14px}
+  .acc-inner{padding:4px 14px 18px}
+  .cb{padding:18px}
+  .math-block{padding:14px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Equazioni di 1° grado · avanzato</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+// ══════════════════════════
+// Accordion builder
+// ══════════════════════════
+function acc(items) {
+  return '<div class="accordion">'+items.map((it,i)=>`
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-num">${i+1}</div>
+        <div class="acc-title">${it.t}</div>
+        <svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="acc-body"><div class="acc-inner">${it.h}</div></div>
+    </div>`).join('')+'</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  item.classList.toggle('open');
+  if (!wasOpen && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+// ══════════════════════════
+// SEZIONI
+// ══════════════════════════
+const S = [
+
+// ═══ 0: MOTIVAZIONE ═══
+{
+  tag:"APPROFONDIMENTO",
+  title:"Le equazioni, <em>sul serio</em>",
+  sub:"Nel corso base hai imparato a risolvere un'equazione di primo grado applicando i principi di equivalenza. Qui cambiamo prospettiva: capiamo che cosa significa davvero «risolvere», rendiamo rigorosa l'idea di equazioni equivalenti e affrontiamo i casi che la ricetta elementare non copre — parametri, denominatori con l'incognita, valore assoluto.",
+  nav:"Perché",
+  body:`
+  <p>Risolvere un'equazione non è solo «trovare il numero». È rispondere a una domanda precisa: <em>per quali valori dell'incognita l'uguaglianza è vera?</em> La risposta è un <strong>insieme</strong>, e a volte quell'insieme è vuoto, a volte contiene infiniti elementi.</p>
+
+  <div class="cb method">
+    <div class="cb-label">L'idea che collega tutto</div>
+    <p>Ogni passaggio che facciamo — spostare termini, moltiplicare, semplificare — è lecito solo se <strong>non cambia l'insieme delle soluzioni</strong>. I principi di equivalenza servono esattamente a garantirlo. Quando questa garanzia viene a mancare (denominatori, moltiplicazioni per zero), nascono i casi delicati di questo approfondimento.</p>
+  </div>
+
+  <p>Nel corso base gli strumenti erano i due principi e un metodo meccanico. Bastano per le equazioni «intere» a coefficienti numerici. Ma appena compaiono un <strong>parametro</strong>, un'incognita al <strong>denominatore</strong> o un <strong>valore assoluto</strong>, servono attenzione e discussione. Sono questi i protagonisti.</p>
+
+  <div class="cb tip">
+    <div class="cb-label">Prerequisiti</div>
+    <p>Diamo per acquisiti, dal corso base: i due principi di equivalenza, il metodo di risoluzione passo passo e la legge di annullamento del prodotto. Da <strong>LA02</strong> riprendiamo le tecniche di scomposizione, che qui diventano un motore per risolvere equazioni di grado superiore.</p>
+  </div>`
+},
+
+// ═══ 1: FONDAMENTI RIGOROSI ═══
+{
+  tag:"TEORIA",
+  title:"Insieme delle <em>soluzioni</em> ed equivalenza",
+  sub:"Diamo definizioni precise: che cos'è una soluzione, che cos'è l'insieme delle soluzioni, quando due equazioni sono equivalenti. Da qui nasce la discussione generale dell'equazione lineare.",
+  nav:"Fondamenti",
+  body:`
+  <p>Un'<strong>equazione</strong> è un'uguaglianza fra due espressioni contenenti un'incognita. Una <strong>soluzione</strong> è un valore che, sostituito all'incognita, rende vera l'uguaglianza. L'<strong>insieme delle soluzioni</strong> \\(S\\) raccoglie tutte e sole le soluzioni.</p>
+
+  <p>In base a \\(S\\), un'equazione può essere:</p>
+  <table class="ct">
+    <tr><th>Tipo</th><th>Insieme \\(S\\)</th><th>Esempio</th></tr>
+    <tr><td>Determinata</td><td>un numero finito di soluzioni</td><td>\\(2x=6 \\Rightarrow S=\\{3\\}\\)</td></tr>
+    <tr><td>Impossibile</td><td>\\(S=\\varnothing\\)</td><td>\\(x=x+1\\)</td></tr>
+    <tr><td>Indeterminata</td><td>\\(S\\) infinito (identità)</td><td>\\(2x+2=2(x+1)\\)</td></tr>
+  </table>
+
+  <div class="cb method">
+    <div class="cb-label">Equazioni equivalenti</div>
+    <p>Due equazioni sono <strong>equivalenti</strong> quando hanno lo <strong>stesso insieme di soluzioni</strong>. Risolvere significa costruire una catena di equazioni equivalenti, sempre più semplici, fino a leggere direttamente \\(S\\).</p>
+  </div>
+
+  <p>I due <strong>principi di equivalenza</strong> sono le uniche mosse che garantiscono l'equivalenza:</p>
+  <div class="math-block">\\[ \\textbf{1° principio:}\\quad A=B \\iff A+C=B+C \\]</div>
+  <div class="math-block">\\[ \\textbf{2° principio:}\\quad A=B \\iff A\\cdot C=B\\cdot C \\quad (C\\neq 0) \\]</div>
+  <p>Il primo permette di spostare termini da un membro all'altro; il secondo di moltiplicare o dividere entrambi i membri per uno stesso numero <strong>diverso da zero</strong>.</p>
+
+  <h3>La discussione generale</h3>
+  <p>Ogni equazione di primo grado si può ricondurre, con i due principi, alla <strong>forma normale</strong>:</p>
+  <div class="math-block hero-formula">\\[ ax = b \\tag{N} \\]</div>
+  <p>Tutto dipende allora dai coefficienti \\(a\\) e \\(b\\):</p>
+  <table class="cases">
+    <tr><td>\\(a\\neq 0\\)</td><td>determinata: \\(\\;x=\\dfrac{b}{a}\\;\\) &nbsp;(una sola soluzione)</td></tr>
+    <tr><td>\\(a=0,\\ b=0\\)</td><td>indeterminata: \\(0=0\\) è sempre vera, \\(S=\\mathbb{R}\\)</td></tr>
+    <tr><td>\\(a=0,\\ b\\neq 0\\)</td><td>impossibile: \\(0=b\\) è sempre falsa, \\(S=\\varnothing\\)</td></tr>
+  </table>
+
+  <div class="cb warn">
+    <div class="cb-label">Il punto delicato</div>
+    <p>Il 2° principio richiede \\(C\\neq 0\\). Se moltiplichiamo o dividiamo per un'espressione che <em>contiene l'incognita</em> (e quindi può annullarsi), non è più garantito che l'insieme delle soluzioni resti lo stesso. È qui che entrano in gioco parametri ed equazioni fratte.</p>
+  </div>`
+},
+
+// ═══ 2: EQUAZIONI PARAMETRICHE ═══
+{
+  tag:"METODO",
+  title:"Equazioni <em>parametriche</em>",
+  sub:"Quando fra i coefficienti compare una lettera diversa dall'incognita, la soluzione non è più un singolo numero: dipende dal parametro. Risolvere vuol dire discutere tutti i casi possibili.",
+  nav:"Parametriche",
+  body:`
+  <p>In un'equazione <strong>parametrica</strong> compare, oltre all'incognita (di solito \\(x\\)), un <strong>parametro</strong> — una lettera, per esempio \\(k\\) o \\(m\\), che rappresenta un numero fissato ma generico. Poiché il coefficiente di \\(x\\) può dipendere dal parametro, dobbiamo usare la <strong>discussione</strong> della forma \\((N)\\).</p>
+
+  <div class="cb method">
+    <div class="cb-label">Il metodo in tre mosse</div>
+    <ol>
+      <li>Riduci l'equazione alla forma \\(A(k)\\,x = B(k)\\).</li>
+      <li>Trova i valori del parametro che annullano \\(A(k)\\).</li>
+      <li>Discuti: se \\(A(k)\\neq 0\\) è determinata; se \\(A(k)=0\\) guarda \\(B(k)\\).</li>
+    </ol>
+  </div>
+
+  <p><strong>Esempio guidato.</strong> Risolviamo, al variare di \\(k\\): \\((k-1)x = k^2-1\\).</p>
+  <div class="step-math"><div class="label">coefficiente di x</div>\\(A(k)=k-1\\) si annulla per \\(k=1\\).</div>
+  <div class="step-math"><div class="label">caso \\(k\\neq 1\\)</div>\\(x=\\dfrac{k^2-1}{k-1}=\\dfrac{(k-1)(k+1)}{k-1}=k+1\\). Determinata.</div>
+  <div class="step-math"><div class="label green">caso \\(k=1\\)</div>l'equazione diventa \\(0\\cdot x = 0\\): identità, \\(S=\\mathbb{R}\\).</div>
+  <div class="math-block result">\\[ k\\neq 1:\\ S=\\{k+1\\} \\qquad k=1:\\ S=\\mathbb{R} \\]</div>
+
+  <div class="cb tip">
+    <div class="cb-label">Esercizi svolti</div>
+    <p>Prova prima da solo, poi apri la soluzione.</p>
+  </div>
+
+  ${acc([
+    { t:"Es. 1 — \\(kx = 2\\)", h:`
+      <p>Qui \\(A(k)=k\\), che si annulla per \\(k=0\\).</p>
+      <div class="step-math"><div class="label">caso \\(k\\neq 0\\)</div>\\(x=\\dfrac{2}{k}\\). Determinata.</div>
+      <div class="step-math"><div class="label green">caso \\(k=0\\)</div>diventa \\(0=2\\): impossibile, \\(S=\\varnothing\\).</div>` },
+
+    { t:"Es. 2 — \\(mx - 1 = 2x + m\\)", h:`
+      <p>Porto le \\(x\\) a sinistra e i numeri a destra: \\((m-2)x = m+1\\).</p>
+      <div class="step-math"><div class="label">caso \\(m\\neq 2\\)</div>\\(x=\\dfrac{m+1}{m-2}\\). Determinata.</div>
+      <div class="step-math"><div class="label green">caso \\(m=2\\)</div>diventa \\(0=3\\): impossibile, \\(S=\\varnothing\\).</div>` },
+
+    { t:"Es. 3 — \\((m+2)x = m^2-4\\)", h:`
+      <p>\\(A(m)=m+2\\) si annulla per \\(m=-2\\).</p>
+      <div class="step-math"><div class="label">caso \\(m\\neq -2\\)</div>\\(x=\\dfrac{m^2-4}{m+2}=\\dfrac{(m-2)(m+2)}{m+2}=m-2\\). Determinata.</div>
+      <div class="step-math"><div class="label green">caso \\(m=-2\\)</div>diventa \\(0\\cdot x = 0\\): identità, \\(S=\\mathbb{R}\\).</div>` }
+  ])}
+
+  <div class="cb success">
+    <div class="cb-label">Dove ritorna</div>
+    <p>La discussione parametrica è un metodo che userai per tutto il triennio: nei <strong>sistemi lineari</strong> con parametro, nei <strong>fasci di rette</strong> in geometria analitica e ogni volta che una famiglia di problemi dipende da una costante da determinare.</p>
+  </div>`
+},
+
+// ═══ 3: EQUAZIONI FRATTE ═══
+{
+  tag:"METODO",
+  title:"Equazioni <em>fratte</em>",
+  sub:"Quando l'incognita compare al denominatore, prima ancora di risolvere bisogna stabilire dove l'equazione ha senso. E, alla fine, verificare che le soluzioni trovate siano davvero accettabili.",
+  nav:"Fratte",
+  body:`
+  <p>Un'equazione è <strong>fratta</strong> quando l'incognita compare in almeno un denominatore. Un denominatore non può mai essere nullo: i valori che lo annullano vanno esclusi <em>fin dall'inizio</em>. Si chiamano <strong>condizioni di esistenza</strong> (C.E.).</p>
+
+  <div class="cb method">
+    <div class="cb-label">Il metodo in cinque passi</div>
+    <ol>
+      <li>Scomponi i denominatori, se serve.</li>
+      <li>Poni le <strong>condizioni di esistenza</strong>: ogni denominatore \\(\\neq 0\\).</li>
+      <li>Riduci allo stesso denominatore e passa all'equazione intera dei numeratori.</li>
+      <li>Risolvi l'equazione intera.</li>
+      <li><strong>Confronta</strong> ogni soluzione con le C.E.: accetta o scarta.</li>
+    </ol>
+  </div>
+
+  <p><strong>Esempio guidato.</strong> Risolviamo \\(\\;\\dfrac{x}{x-3} + 2 = \\dfrac{3}{x-3}\\).</p>
+  <div class="step-math"><div class="label">passo 1 — C.E.</div>Il denominatore è \\(x-3\\), quindi \\(x\\neq 3\\).</div>
+  <div class="step-math"><div class="label">passo 2 — riduco</div>Moltiplico tutto per \\((x-3)\\): \\(\\;x + 2(x-3) = 3\\).</div>
+  <div class="step-math"><div class="label">passo 3 — risolvo</div>\\(x + 2x - 6 = 3 \\Rightarrow 3x = 9 \\Rightarrow x = 3\\).</div>
+  <div class="step-math"><div class="label green">passo 4 — verifico</div>Ma \\(x=3\\) è escluso dalle C.E.! Va <strong>scartato</strong>.</div>
+  <div class="math-block warning">\\[ S = \\varnothing \\]</div>
+  <p>L'algebra fornisce un numero, eppure l'equazione è <strong>impossibile</strong>: l'unico candidato non è accettabile.</p>
+
+  <div class="cb danger">
+    <div class="cb-label">La verifica non è facoltativa</div>
+    <p>In un'equazione fratta puoi ottenere una soluzione «algebrica» che viola le condizioni di esistenza. In tal caso quella soluzione <strong>non esiste</strong> e va eliminata. Saltare il confronto con le C.E. è l'errore più frequente.</p>
+  </div>
+
+  ${acc([
+    { t:"Es. 1 — \\(\\dfrac{3}{x+1} = \\dfrac{2}{x-1}\\)", h:`
+      <p>C.E.: \\(x\\neq -1\\) e \\(x\\neq 1\\).</p>
+      <p>Prodotto in croce: \\(3(x-1) = 2(x+1)\\Rightarrow 3x-3 = 2x+2 \\Rightarrow x = 5\\).</p>
+      <p>\\(x=5\\) rispetta le C.E.: accettabile.</p>
+      <div class="math-block result">\\[ S=\\{5\\} \\]</div>` },
+
+    { t:"Es. 2 — \\(\\dfrac{x^2}{x-2} = \\dfrac{4}{x-2}\\)", h:`
+      <p>C.E.: \\(x\\neq 2\\).</p>
+      <p>Uguagliando i numeratori: \\(x^2 = 4 \\Rightarrow x = \\pm 2\\).</p>
+      <p>La soluzione \\(x=2\\) è esclusa dalle C.E.; resta solo \\(x=-2\\).</p>
+      <div class="math-block result">\\[ S=\\{-2\\} \\]</div>` }
+  ])}`
+},
+
+// ═══ 4: VALORE ASSOLUTO ═══
+{
+  tag:"METODO",
+  title:"Equazioni con <em>valore assoluto</em>",
+  sub:"Il valore assoluto misura una distanza e non distingue il segno. Per questo un'equazione che lo contiene si «spezza» in più casi: la chiave è tradurre il modulo nella sua definizione.",
+  nav:"Valore assoluto",
+  body:`
+  <p>Ricordiamo la definizione: \\(|A|\\) è la <strong>distanza</strong> di \\(A\\) dallo zero, quindi</p>
+  <div class="math-block hero-formula">\\[ |A| = \\begin{cases} A & \\text{se } A\\geq 0 \\\\ -A & \\text{se } A<0 \\end{cases} \\]</div>
+
+  <h3>Tipo 1 — \\(|A(x)| = k\\)</h3>
+  <table class="cases">
+    <tr><td>\\(k<0\\)</td><td>impossibile: un valore assoluto non è mai negativo, \\(S=\\varnothing\\)</td></tr>
+    <tr><td>\\(k=0\\)</td><td>equivale a \\(A(x)=0\\)</td></tr>
+    <tr><td>\\(k>0\\)</td><td>equivale a \\(A(x)=k\\ \\ \\text{oppure}\\ \\ A(x)=-k\\)</td></tr>
+  </table>
+  <p><strong>Esempio.</strong> \\(|2x-1| = 5\\) &nbsp;(\\(k>0\\)):</p>
+  <div class="math-block">\\[ 2x-1=5 \\Rightarrow x=3 \\qquad\\text{oppure}\\qquad 2x-1=-5 \\Rightarrow x=-2 \\]</div>
+  <div class="math-block result">\\[ S=\\{-2,\\,3\\} \\]</div>
+
+  <h3>Tipo 2 — \\(|A(x)| = |B(x)|\\)</h3>
+  <p>Due numeri hanno lo stesso valore assoluto se sono uguali oppure opposti:</p>
+  <div class="math-block">\\[ |A|=|B| \\iff A=B \\ \\ \\text{oppure}\\ \\ A=-B \\]</div>
+  <p><strong>Esempio.</strong> \\(|x-1| = |2x+3|\\):</p>
+  <div class="step-math"><div class="label">caso 1</div>\\(x-1 = 2x+3 \\Rightarrow x=-4\\).</div>
+  <div class="step-math"><div class="label">caso 2</div>\\(x-1 = -(2x+3) \\Rightarrow x-1=-2x-3 \\Rightarrow 3x=-2 \\Rightarrow x=-\\tfrac{2}{3}\\).</div>
+  <div class="math-block result">\\[ S=\\left\\{-4,\\,-\\tfrac{2}{3}\\right\\} \\]</div>
+
+  <h3>Tipo 3 — \\(|A(x)| = B(x)\\)</h3>
+  <p>Qui il secondo membro può essere negativo, e allora l'equazione è impossibile. Si impone la condizione \\(B(x)\\geq 0\\) e si accettano solo le soluzioni che la rispettano.</p>
+  <p><strong>Esempio.</strong> \\(|x-2| = x\\), con condizione \\(x\\geq 0\\):</p>
+  <div class="step-math"><div class="label">caso 1</div>\\(x-2=x \\Rightarrow -2=0\\): nessuna soluzione.</div>
+  <div class="step-math"><div class="label green">caso 2</div>\\(x-2=-x \\Rightarrow 2x=2 \\Rightarrow x=1\\), e \\(1\\geq 0\\): accettabile.</div>
+  <div class="math-block result">\\[ S=\\{1\\} \\]</div>
+
+  <div class="cb warn">
+    <div class="cb-label">Sempre la verifica</div>
+    <p>Nel tipo 3 la condizione sul segno del secondo membro può scartare soluzioni: controlla sempre che i valori trovati soddisfino \\(B(x)\\geq 0\\).</p>
+  </div>`
+},
+
+// ═══ 5: RIDUCIBILI AL PRIMO GRADO ═══
+{
+  tag:"METODO",
+  title:"Dal grado superiore al <em>primo grado</em>",
+  sub:"Molte equazioni di grado maggiore di uno si risolvono senza formule speciali: basta scomporre e applicare la legge di annullamento del prodotto. È il ponte diretto con l'approfondimento sulla fattorizzazione.",
+  nav:"Riducibili",
+  body:`
+  <p>La <strong>legge di annullamento del prodotto</strong> (LAP) afferma che un prodotto è nullo se e solo se almeno uno dei fattori è nullo:</p>
+  <div class="math-block hero-formula">\\[ A(x)\\cdot B(x) = 0 \\iff A(x)=0 \\ \\text{oppure}\\ B(x)=0 \\]</div>
+  <p>Se allora portiamo tutto a primo membro e <strong>scomponiamo</strong> (con le tecniche di LA02), ogni fattore di primo grado dà una soluzione.</p>
+
+  <p><strong>Esempio 1 — raccoglimento.</strong> \\(x^2 - 3x = 0\\):</p>
+  <div class="math-block">\\[ x(x-3)=0 \\Rightarrow x=0 \\ \\text{oppure}\\ x=3 \\]</div>
+
+  <p><strong>Esempio 2 — trinomio.</strong> \\(x^2 - x - 6 = 0\\):</p>
+  <div class="math-block">\\[ (x-3)(x+2)=0 \\Rightarrow x=3 \\ \\text{oppure}\\ x=-2 \\]</div>
+
+  <p><strong>Esempio 3 — grado tre con Ruffini.</strong> \\(x^3 - 2x^2 - 5x + 6 = 0\\). Scomponendo (come in LA02) si ottiene \\((x-1)(x-3)(x+2)=0\\), da cui:</p>
+  <div class="math-block result">\\[ S=\\{-2,\\,1,\\,3\\} \\]</div>
+
+  <div class="cb danger">
+    <div class="cb-label">Non dividere per l'incognita</div>
+    <p>Da \\(x^2 = 3x\\) è tentante «dividere per \\(x\\)» e concludere \\(x=3\\). Ma così si <strong>perde</strong> la soluzione \\(x=0\\)! Dividere per un'espressione che può essere nulla viola il 2° principio. La via corretta è sempre: porta tutto a primo membro e scomponi.</p>
+  </div>
+
+  <div class="cb tip">
+    <div class="cb-label">Collegamento con LA02</div>
+    <p>Qui la scomposizione non è fine a sé stessa: è lo strumento che trasforma un'equazione di grado alto in una catena di equazioni di primo grado. Più tecniche di fattorizzazione conosci, più equazioni sai risolvere.</p>
+  </div>`
+},
+
+// ═══ 6: SINTESI ═══
+{
+  tag:"SINTESI",
+  title:"Il quadro <em>completo</em>",
+  sub:"Hai esteso le equazioni di primo grado ben oltre la ricetta iniziale: fondamenti rigorosi, discussione parametrica, condizioni di esistenza, valore assoluto, riduzione tramite scomposizione. Ecco la mappa per orientarsi.",
+  nav:"Sintesi",
+  body:`
+  <div class="cb method">
+    <div class="cb-label">Riconosci il tipo, scegli la strategia</div>
+  </div>
+  <table class="ct">
+    <tr><th>Tipo di equazione</th><th>Strategia</th></tr>
+    <tr><td>Intera lineare</td><td>Riduci a \\(ax=b\\), poi discuti \\(a\\) e \\(b\\)</td></tr>
+    <tr><td>Parametrica</td><td>Porta a \\(A(k)x=B(k)\\), discuti su \\(A(k)\\)</td></tr>
+    <tr><td>Fratta</td><td>Condizioni di esistenza, riduci, verifica l'accettabilità</td></tr>
+    <tr><td>Con valore assoluto</td><td>Spezza nei casi dettati dal segno</td></tr>
+    <tr><td>Grado \\(\\geq 2\\) riducibile</td><td>Tutto a 1° membro, scomponi, applica la LAP</td></tr>
+  </table>
+
+  <div class="cb purple">
+    <div class="cb-label">Un problema per chiudere</div>
+    <p>«La somma di un numero e del suo triplo, diminuita di \\(4\\), è uguale al doppio del numero aumentato di \\(6\\).» Traduci: \\(x+3x-4 = 2x+6\\), cioè \\(4x-4=2x+6 \\Rightarrow 2x=10 \\Rightarrow x=5\\). Impostare l'equazione giusta è metà del lavoro: la parte di <em>modellizzazione</em> conta quanto il calcolo.</p>
+  </div>
+
+  <h3>Controlla di saper fare</h3>
+  <ul class="checklist">
+    <li>Definisco l'insieme delle soluzioni e classifico un'equazione</li>
+    <li>Enuncio i due principi di equivalenza e so quando valgono</li>
+    <li>Discuto la forma normale ax = b nei tre casi</li>
+    <li>Risolvo un'equazione parametrica discutendo il parametro</li>
+    <li>Pongo le condizioni di esistenza in un'equazione fratta</li>
+    <li>Verifico e scarto le soluzioni non accettabili</li>
+    <li>Risolvo un'equazione con valore assoluto spezzandola nei casi</li>
+    <li>Risolvo un'equazione di grado ≥ 2 con scomposizione e LAP</li>
+  </ul>
+
+  <div class="cb success">
+    <div class="cb-label">Dove porta</div>
+    <p>Queste tecniche sono la base delle <strong>disequazioni</strong>, dei <strong>sistemi</strong> e della <strong>geometria analitica</strong>. La discussione parametrica, in particolare, tornerà in ogni problema che dipende da una costante: dai fasci di rette alle condizioni di tangenza. Padroneggiare le equazioni di primo grado «sul serio» è un investimento per tutto il triennio.</p>
+  </div>`
+}
+
+];
+
+// ══════════════════════════
+// APP LOGIC
+// ══════════════════════════
+let cur = 0;
+const tot = S.length;
+
+function render() {
+  document.getElementById('topNav').innerHTML = S.map((s,i) =>
+    `<button class="nav-pill ${i===cur?'active':''}" onclick="goTo(${i})">${s.nav}</button>`
+  ).join('');
+
+  document.getElementById('app').innerHTML = S.map((s,i) => `
+    <div class="section ${i===cur?'active':''}">
+      <div class="hero">
+        <div class="hero-tag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p class="hero-sub">${s.sub}</p>
+      </div>
+      ${s.body}
+      <div class="bottom-nav">
+        <button class="bb" onclick="goTo(${i-1})" ${i===0?'disabled':''}>← Precedente</button>
+        <span class="page-info">${i+1} / ${tot}</span>
+        <button class="bb primary" onclick="goTo(${i+1})" ${i===tot-1?'disabled':''}>Successivo →</button>
+      </div>
+    </div>
+  `).join('');
+
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    const active = document.querySelector('.section.active');
+    if (active) MathJax.typesetPromise([active]);
+  }
+
+  document.querySelectorAll('.checklist li').forEach(li => {
+    li.onclick = function(e) {
+      e.stopPropagation();
+      this.classList.toggle('checked');
+    };
+  });
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= tot) return;
+  cur = idx;
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(cur + 1);
+  if (e.key === 'ArrowLeft')  goTo(cur - 1);
+});
+
+if (typeof MathJax !== 'undefined' && MathJax.startup) {
+  MathJax.startup.promise.then(() => render());
+} else {
+  render();
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>
