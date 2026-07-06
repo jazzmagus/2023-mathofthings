@@ -6,7 +6,7 @@ authors:
 - diego fantinelli
 tags: [neuroscience, memory, brain]
 categories: []
-date: "2021-09-30T00:00:00Z"
+date: "2021-09-30T10:00:00Z"
 lastmod: "2026-06-16T00:00:00Z"
 featured: true
 draft: false

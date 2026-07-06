@@ -6,7 +6,7 @@ authors:
 - diego fantinelli
 tags: [itis, lesson, 2021]
 categories: []
-date: "2021-09-30T00:00:00Z"
+date: "2021-09-30T09:00:00Z"
 featured: true
 draft: false
 

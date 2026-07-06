@@ -5,8 +5,8 @@ summary: "Un percorso completo dalle rette alle curve: come nasce il concetto di
 authors: [diego fantinelli]
 tags: [analisi, derivate, limiti, teoria]
 categories: [maths]
-date: "2026-06-16T00:00:00Z"
-publishDate: "2026-06-16T00:00:00Z"
+date: "2026-06-16T10:00:00Z"
+publishDate: "2026-06-16T10:00:00Z"
 featured: false
 draft: false
 image:
