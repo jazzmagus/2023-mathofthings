@@ -1,0 +1,240 @@
+---
+title: Esponenziali e Logaritmi
+summary: Introduzione con i modelli della vita reale — tema mathofthings
+authors: [Diego Fantinelli]
+tags: [esponenziali, logaritmi, modelli]
+categories: [lesson]
+date: "2026-07-06T00:00:00Z"
+slides:
+  theme: mathofthings
+  transition: convex
+  particles: true
+  highlight_style: github
+---
+
+<section class="mot-hero" data-transition="zoom">
+  <p class="mot-kicker">matematica per il triennio</p>
+  <h1>Esponenziali e <span class="math-word">Logaritmi</span></h1>
+  <p class="mot-tagline">la matematica che <em>cresce</em> e quella che <em>misura</em></p>
+  <p class="mot-meta">prof. Diego Fantinelli &mdash; The Math of Things</p>
+</section>
+
+---
+
+<section>
+  <blockquote class="mot-quote">
+    Il più grande difetto della razza umana è la nostra incapacità di comprendere la funzione esponenziale.
+    <span class="quote-attr">&mdash; Albert A. Bartlett, fisico</span>
+  </blockquote>
+</section>
+
+---
+
+<section class="mot-divider" data-transition="zoom">
+  <h1 class="r-fit-text">CRESCITA</h1>
+</section>
+
+<section>
+  <p class="mot-kicker">una leggenda</p>
+  <h2>Il chicco di riso e la <em>scacchiera</em></h2>
+  <p class="mot-def fragment">Un inventore chiede al re un premio: <b>un chicco</b> di riso sulla prima casella, <b>due</b> sulla seconda, <b>quattro</b> sulla terza&hellip; raddoppiando ogni volta.</p>
+  <p class="fragment" style="font-size:0.8em">Sulla casella $n$ ci sono $2^{\,n-1}$ chicchi. Sull'ultima:</p>
+  <p class="mot-result fragment">$$2^{63} \approx 9.2 \times 10^{18}$$</p>
+  <p class="fragment" style="font-size:0.72em">Più riso di quanto il mondo intero ne produca in secoli.</p>
+  <p class="mot-joke fragment">il re non aveva studiato le esponenziali</p>
+</section>
+
+<section>
+  <p class="mot-kicker">definizione</p>
+  <h2>La funzione <em>esponenziale</em></h2>
+  <p class="mot-result fragment">$$y = a^x \qquad (a>0,\; a\neq 1)$$</p>
+  <div class="mot-cols">
+    <div class="mot-col fragment" style="font-size:0.68em">
+      <p>se $a>1$ &rarr; la funzione <b>cresce</b></p>
+      <p>se $0<a<1$ &rarr; la funzione <b>decresce</b></p>
+      <p>passa sempre per $(0,1)$ e resta <b>positiva</b></p>
+    </div>
+    <div class="mot-col fragment">
+      <svg viewBox="0 0 460 290" style="width:100%;max-width:440px" role="img" aria-label="grafici esponenziali">
+        <line x1="60" y1="260" x2="440" y2="260" style="stroke:var(--mot-muted);stroke-width:1.5"/>
+        <line x1="60" y1="20" x2="60" y2="270" style="stroke:var(--mot-muted);stroke-width:1.5"/>
+        <path d="M60 235 C 180 225 280 190 340 118 C 388 62 414 42 434 28" style="fill:none;stroke:var(--mot-primary);stroke-width:3.5;stroke-linecap:round"/>
+        <path d="M60 235 C 150 246 250 256 340 258 C 380 259 410 259 434 259" style="fill:none;stroke:#3a6b8c;stroke-width:3;stroke-linecap:round"/>
+        <circle cx="60" cy="235" r="4.5" style="fill:var(--mot-primary)"/>
+        <text x="70" y="228" style="font-family:var(--mot-mono);font-size:13px;fill:var(--mot-muted)">(0,1)</text>
+        <text x="356" y="40" style="font-family:var(--mot-mono);font-size:14px;fill:var(--mot-primary)">a&gt;1</text>
+        <text x="360" y="248" style="font-family:var(--mot-mono);font-size:14px;fill:#3a6b8c">0&lt;a&lt;1</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+---
+
+<section class="mot-divider" data-transition="zoom">
+  <h1 class="r-fit-text">MODELLI</h1>
+  <p class="mot-tagline" style="font-family:'JetBrains Mono',monospace; font-size:0.5em">la crescita intorno a <em>noi</em></p>
+</section>
+
+<section>
+  <p class="mot-kicker">economia</p>
+  <h2>L'interesse <em>composto</em></h2>
+  <p class="mot-def fragment">Un capitale $C_0$ a tasso annuo $i$, dopo $t$ anni, diventa:</p>
+  <p class="mot-result fragment">$$C(t) = C_0\,(1+i)^{\,t}$$</p>
+  <p class="fragment" style="font-size:0.74em">A un tasso del $5\%$, un capitale <b>raddoppia</b> in circa $14$ anni: gli interessi generano interessi, ed è crescita esponenziale.</p>
+  <p class="mot-joke fragment">Einstein l'avrebbe chiamata l'ottava meraviglia del mondo</p>
+</section>
+
+<section>
+  <p class="mot-kicker">epidemiologia</p>
+  <h2>La curva del <em>contagio</em></h2>
+  <div class="mot-cols">
+    <div class="mot-col fragment" style="font-size:0.66em">
+      <p>All'inizio di un'epidemia ogni infetto ne contagia altri: i casi <b>raddoppiano</b> a intervalli regolari.</p>
+      <p class="mot-result" style="font-size:0.8em">$$I(t) = I_0\, R_0^{\,t}$$</p>
+      <p>$R_0$ = contagi per infetto. Se $R_0>1$ &rarr; esplosione esponenziale.</p>
+    </div>
+    <div class="mot-col fragment">
+      <svg viewBox="0 0 460 290" style="width:100%;max-width:440px" role="img" aria-label="curva del contagio">
+        <line x1="60" y1="260" x2="440" y2="260" style="stroke:var(--mot-muted);stroke-width:1.5"/>
+        <line x1="60" y1="20" x2="60" y2="270" style="stroke:var(--mot-muted);stroke-width:1.5"/>
+        <path d="M60 255 C 180 252 262 244 330 208 C 382 178 414 108 436 32" style="fill:none;stroke:var(--mot-primary);stroke-width:3.5;stroke-linecap:round"/>
+        <text x="24" y="40" style="font-family:var(--mot-mono);font-size:13px;fill:var(--mot-muted)" transform="rotate(-90 24 40)">casi</text>
+        <text x="390" y="278" style="font-family:var(--mot-mono);font-size:13px;fill:var(--mot-muted)">tempo</text>
+      </svg>
+    </div>
+  </div>
+  <p class="mot-joke fragment">&laquo;flatten the curve&raquo; era, letteralmente, addomesticare un'esponenziale</p>
+</section>
+
+<section>
+  <p class="mot-kicker">il modello SIR</p>
+  <h2>Sani, Infetti, <em>Rimossi</em></h2>
+  <svg viewBox="0 0 520 300" style="width:100%;max-width:640px;margin:0.2em auto 0;display:block" role="img" aria-label="diagramma del modello SIR">
+    <line x1="55" y1="262" x2="500" y2="262" style="stroke:var(--mot-muted);stroke-width:1.5"/>
+    <line x1="55" y1="20" x2="55" y2="272" style="stroke:var(--mot-muted);stroke-width:1.5"/>
+    <path d="M55 48 C 170 54 210 95 265 165 C 320 232 410 252 500 255" style="fill:none;stroke:#3a6b8c;stroke-width:3.5;stroke-linecap:round"/>
+    <path d="M55 256 C 160 254 205 92 250 92 C 295 92 340 254 500 256" style="fill:none;stroke:var(--mot-primary);stroke-width:3.5;stroke-linecap:round"/>
+    <path d="M55 257 C 200 253 262 214 322 132 C 380 55 432 46 500 44" style="fill:none;stroke:#4a7c59;stroke-width:3.5;stroke-linecap:round"/>
+    <text x="150" y="52" style="font-family:var(--mot-mono);font-size:15px;fill:#3a6b8c">S</text>
+    <text x="242" y="82" style="font-family:var(--mot-mono);font-size:15px;fill:var(--mot-primary)">I</text>
+    <text x="470" y="40" style="font-family:var(--mot-mono);font-size:15px;fill:#4a7c59">R</text>
+  </svg>
+  <dl class="mot-rows fragment" style="font-size:0.6em">
+    <dt style="color:#3a6b8c">S &mdash; Susceptible</dt><dd>chi può ancora ammalarsi</dd>
+    <dt style="color:var(--mot-primary)">I &mdash; Infected</dt><dd>chi è contagioso adesso: cresce e poi cala</dd>
+    <dt style="color:#4a7c59">R &mdash; Removed</dt><dd>guariti (immuni) o deceduti</dd>
+  </dl>
+</section>
+
+<section>
+  <p class="mot-kicker">fisica</p>
+  <h2>Il decadimento <em>radioattivo</em></h2>
+  <p class="mot-def fragment">Una sostanza radioattiva si dimezza a intervalli fissi &mdash; il <b>tempo di dimezzamento</b> $T$:</p>
+  <p class="mot-result fragment">$$N(t) = N_0 \left(\tfrac{1}{2}\right)^{t/T}$$</p>
+  <p class="fragment" style="font-size:0.74em">È la legge del <b>carbonio-14</b>, con cui si datano reperti e fossili: un'esponenziale <em>decrescente</em>.</p>
+  <p class="mot-joke fragment">il tempo, per un atomo, è solo questione di probabilità</p>
+</section>
+
+---
+
+<section class="mot-divider" data-transition="zoom">
+  <h1 class="r-fit-text">LOGARITMI</h1>
+</section>
+
+<section>
+  <p class="mot-kicker">l'idea</p>
+  <h2>La domanda <em>inversa</em></h2>
+  <p class="mot-def fragment">L'esponenziale chiede: &laquo;quanto vale $a^x$?&raquo;. Il logaritmo chiede il contrario: <b>&laquo;a quale esponente devo elevare $a$ per ottenere $x$?&raquo;</b></p>
+  <p class="mot-result fragment">$$\log_a x = y \iff a^y = x$$</p>
+  <p class="fragment" style="font-size:0.76em">Esempio: $\log_2 8 = 3$, perché $2^3 = 8$.</p>
+  <p class="mot-joke fragment">il logaritmo è l'esponenziale vista allo specchio</p>
+</section>
+
+<section>
+  <p class="mot-kicker">geometricamente</p>
+  <h2>Due funzioni allo <em>specchio</em></h2>
+  <div class="mot-cols">
+    <div class="mot-col fragment" style="font-size:0.68em">
+      <p>Il grafico di $y=\log_a x$ è il riflesso di $y=a^x$ rispetto alla retta $y=x$.</p>
+      <p>Sono <b>funzioni inverse</b>: una disfa ciò che l'altra fa.</p>
+    </div>
+    <div class="mot-col fragment">
+      <svg viewBox="0 0 320 320" style="width:100%;max-width:340px" role="img" aria-label="esponenziale e logaritmo riflessi">
+        <line x1="40" y1="280" x2="300" y2="280" style="stroke:var(--mot-muted);stroke-width:1.5"/>
+        <line x1="40" y1="20" x2="40" y2="290" style="stroke:var(--mot-muted);stroke-width:1.5"/>
+        <line x1="40" y1="280" x2="290" y2="30" style="stroke:var(--mot-muted);stroke-width:1.2;stroke-dasharray:5 5"/>
+        <path d="M40 232 C 78 210 108 150 138 78 C 150 50 160 36 172 26" style="fill:none;stroke:var(--mot-primary);stroke-width:3.5;stroke-linecap:round"/>
+        <path d="M88 280 C 110 242 170 212 242 182 C 270 170 284 164 294 160" style="fill:none;stroke:#3a6b8c;stroke-width:3.5;stroke-linecap:round"/>
+        <text x="150" y="34" style="font-family:var(--mot-mono);font-size:13px;fill:var(--mot-primary)">aˣ</text>
+        <text x="252" y="150" style="font-family:var(--mot-mono);font-size:13px;fill:#3a6b8c">logₐx</text>
+        <text x="250" y="60" style="font-family:var(--mot-mono);font-size:12px;fill:var(--mot-muted)">y=x</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="mot-kicker">a cosa servono</p>
+  <h2>Domare i <em>grandi numeri</em></h2>
+  <p class="mot-def fragment">Il logaritmo <b>comprime</b> scale enormi in numeri maneggevoli: trasforma i prodotti in somme e le potenze in prodotti.</p>
+  <p class="fragment" style="font-size:0.78em">Per questo molte scale scientifiche sono <b>logaritmiche</b>: ogni passo di $1$ significa moltiplicare per $10$.</p>
+</section>
+
+<section>
+  <p class="mot-kicker">geologia</p>
+  <h2>La scala <em>Richter</em></h2>
+  <p class="mot-def fragment">La magnitudo di un terremoto è il <b>logaritmo</b> dell'ampiezza delle onde sismiche.</p>
+  <p class="fragment" style="font-size:0.78em">Da magnitudo $5$ a $6$: l'ampiezza è <b>10 volte</b> maggiore, l'energia liberata circa <b>30 volte</b>.</p>
+  <p class="mot-joke fragment">un numero piccolo che nasconde un'energia enorme</p>
+</section>
+
+<section>
+  <p class="mot-kicker">chimica</p>
+  <h2>Il <em>pH</em></h2>
+  <p class="mot-result fragment">$$\mathrm{pH} = -\log_{10}[\mathrm{H}^+]$$</p>
+  <p class="fragment" style="font-size:0.78em">Ogni unità di pH in meno = acidità <b>10 volte</b> maggiore. Il caffè (pH $5$) è <b>cento volte</b> più acido dell'acqua pura (pH $7$).</p>
+</section>
+
+<section>
+  <p class="mot-kicker">acustica</p>
+  <h2>I <em>decibel</em></h2>
+  <p class="mot-def fragment">Il livello sonoro in decibel cresce come il logaritmo dell'energia del suono.</p>
+  <p class="fragment" style="font-size:0.78em">$+10$ dB significa energia $\times 10$. Un concerto ($110$ dB) non è &laquo;poco più&raquo; di una conversazione ($60$ dB): è $10^5$ volte più intenso.</p>
+  <p class="mot-joke fragment">ecco perché i tappi per le orecchie sono una buona idea</p>
+</section>
+
+---
+
+<section>
+  <p class="mot-kicker">il legame</p>
+  <h2>Due facce della <em>stessa medaglia</em></h2>
+  <div class="mot-cards">
+    <div class="mot-card fragment">
+      <h3>Esponenziale</h3>
+      <p>modella ciò che <b>cresce</b> o <b>decade</b> moltiplicandosi</p>
+      <p class="mono plain">$y=a^x$</p>
+    </div>
+    <div class="mot-card fragment">
+      <h3>Logaritmo</h3>
+      <p><b>misura</b> e comprime le scale enormi</p>
+      <p class="mono plain">$y=\log_a x$</p>
+    </div>
+  </div>
+  <p class="fragment" style="font-size:0.74em">Sono <b>inverse</b>: $\log_a(a^x)=x$ e $a^{\log_a x}=x$. Nella prossima lezione le studieremo a fondo.</p>
+</section>
+
+---
+
+<section class="mot-divider" data-transition="zoom">
+  <h1 class="r-fit-text">DOMANDE?</h1>
+  <p class="mot-joke fragment">crescono in modo esponenziale, si spera</p>
+</section>
+
+---
+
+<section class="mot-hero" data-transition="zoom">
+  <p class="mot-kicker">grazie dell'attenzione</p>
+  <h1>The <span class="math-word">Math</span> of <em>Things</em></h1>
+  <p class="mot-meta"><a href="https://mathofthings.netlify.app/" target="_blank" class="mono">mathofthings.netlify.app</a></p>
+</section>
