@@ -36,8 +36,8 @@ MathJax = {
   --text: #2c2520;
   --text-mid: #5a524a;
   --text-dim: #6e6760;
-  --accent: #2e6da4;
-  --accent-light: #e3edf7;
+  --accent: #c2185b;
+  --accent-light: #fce4ec;
   --blue: #3a6b8c;
   --blue-light: #e8f0f5;
   --green: #4a7c59;
@@ -87,8 +87,9 @@ body {
   background:none; border:none;
   font-family:'JetBrains Mono',monospace;
   font-size:.82rem; color:var(--text-dim);
-  padding:6px 14px; border-radius:20px;
+  padding:6px 14px; border-radius:0;
   cursor:pointer; white-space:nowrap; transition:all .2s;
+  border-bottom:2px solid transparent;
 }
 .nav-pill:hover{background:none;color:var(--text)}
 .nav-pill.active{background:none;color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
@@ -113,15 +114,11 @@ body {
 .hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:12px}
 .hero h1 em{font-style:italic;color:var(--accent)}
-.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7;text-align:justify}
 
 /* ── CONCEPT BOXES ── */
-.cb{background:rgba(193,24,91,.03);border:none;border-radius:0;padding:16px 0;margin:18px 0;box-shadow:none;position:relative;border-left:2px solid var(--accent)}
-.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;border-radius:var(--radius) 0 0 var(--radius)}
-.cb.tip::before{background:var(--blue)} .cb.warn::before{background:var(--gold)}
-.cb.danger::before{background:var(--danger)} .cb.success::before{background:var(--green)}
-.cb.method::before{background:var(--accent)} .cb.purple::before{background:var(--purple)}
-.cb.teal::before{background:var(--teal)}
+.cb{background:var(--surface-alt);border:none;border-radius:0;padding:16px 0 16px 18px;margin:18px 0;box-shadow:none;position:relative;border-left:2px solid var(--accent)}
+.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;display:none}
 .cb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600;color:var(--accent)}
 .cb.tip .cb-label{color:var(--blue)} .cb.warn .cb-label{color:var(--gold)}
 .cb.danger .cb-label{color:var(--danger)} .cb.success .cb-label{color:var(--green)}
@@ -139,7 +136,7 @@ body {
 }
 .math-block.dark { background: rgba(0,0,0,.04); }
 .math-block.hero-formula {
-  background: rgba(193,24,91,.05);
+  background: var(--surface-alt);
   border: none;
   padding: 16px 20px;
   text-align: center;
@@ -251,9 +248,9 @@ mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
 <body>
 
 <div class="topbar">
-  <a href="/" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-dim);text-decoration:none;margin-right:12px;cursor:pointer">← home</a>
   <div class="topbar-brand">Limiti</div>
   <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
 </div>
 <div class="container" id="app"></div>
 
@@ -288,37 +285,41 @@ function toggleAcc(el) {
 
 // Function with a hole at x=a, approaching L
 function svgLimite() {
-  const w=320, h=180, ox=40, oy=130, sx=50, sy=40;
-  const a=3, L=2;
-  const c='#2e6da4';
-  let ptsL=[], ptsR=[];
-  for(let i=0;i<=25;i++){
-    const x=0.5+i*2.3/25;
-    const y=(x*x-1)/(x+0.5)*0.7+0.3;
-    ptsL.push(`${ox+x*sx},${oy-y*sy}`);
-  }
-  for(let i=1;i<=25;i++){
-    const x=3.1+i*2.4/25;
-    const y=(x*x-1)/(x+0.5)*0.7+0.3;
-    ptsR.push(`${ox+x*sx},${oy-y*sy}`);
-  }
-  const hx=ox+a*sx, hy=oy-L*sy;
-  return `<div class="graph-box"><svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
-    <line x1="${ox}" y1="10" x2="${ox}" y2="${oy+15}" stroke="#e2dcd2" stroke-width="1"/>
-    <line x1="${ox-10}" y1="${oy}" x2="${w-10}" y2="${oy}" stroke="#e2dcd2" stroke-width="1"/>
-    <text x="${w-8}" y="${oy-4}" fill="#8a827a" font-size="11">x</text>
-    <text x="${ox+5}" y="16" fill="#8a827a" font-size="11">y</text>
-    <line x1="${hx}" y1="${oy-3}" x2="${hx}" y2="${oy+3}" stroke="#8a827a" stroke-width="1"/>
-    <text x="${hx}" y="${oy+16}" fill="#8a827a" font-size="10" text-anchor="middle">a</text>
-    <line x1="${ox-4}" y1="${hy}" x2="${ox+4}" y2="${hy}" stroke="#8a827a" stroke-width="1"/>
-    <text x="${ox-12}" y="${hy+4}" fill="#8a827a" font-size="10" text-anchor="end">L</text>
-    <line x1="${hx}" y1="${hy}" x2="${ox}" y2="${hy}" stroke="${c}" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
-    <line x1="${hx}" y1="${hy}" x2="${hx}" y2="${oy}" stroke="${c}" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
-    <polyline points="${ptsL.join(' ')}" fill="none" stroke="${c}" stroke-width="2.5"/>
-    <polyline points="${ptsR.join(' ')}" fill="none" stroke="${c}" stroke-width="2.5"/>
-    <circle cx="${hx}" cy="${hy}" r="5" fill="white" stroke="${c}" stroke-width="2"/>
-    <text x="${hx+8}" y="${hy-8}" fill="${c}" font-size="10" font-weight="600">buco</text>
-    <text x="${ox+20}" y="24" fill="${c}" font-size="11" font-weight="600">f(x)→L mentre x→a</text>
+  const w=360, h=212, ox=46, oy=176, sx=56, sy=52;
+  const c='#c2185b';
+  const g = x => 0.5 + 0.55*x - 0.05*x*x;   // curva liscia, sempre positiva nel range
+  const a = 2.6, L = g(a);                    // il buco cade ESATTAMENTE sulla curva
+  const xmin = 0.45, xmax = 5.25, gap = 0.09;
+  const X = x => (ox + x*sx).toFixed(1);
+  const Y = y => (oy - y*sy).toFixed(1);
+  const seg = (x0,x1,n=44) => { let p=[]; for(let i=0;i<=n;i++){ const x=x0+(x1-x0)*i/n; p.push(`${X(x)},${Y(g(x))}`);} return p.join(' '); };
+  const full = seg(xmin,xmax);
+  const hx=X(a), hy=Y(L);
+  const area = `M ${X(xmin)},${oy} L ${full.split(' ').join(' L ')} L ${X(xmax)},${oy} Z`;
+  return `<div class="graph-box"><svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img" aria-label="Funzione con un buco nel punto (a, L): il limite per x che tende ad a vale L">
+    <defs>
+      <linearGradient id="limGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="${c}" stop-opacity=".15"/>
+        <stop offset="1" stop-color="${c}" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <path d="${area}" fill="url(#limGrad)" stroke="none"/>
+    <line x1="${ox}" y1="18" x2="${ox}" y2="${oy+14}" stroke="#cfc7bb" stroke-width="1.2"/>
+    <line x1="${ox-12}" y1="${oy}" x2="${w-8}" y2="${oy}" stroke="#cfc7bb" stroke-width="1.2"/>
+    <polygon points="${ox},10 ${ox-4},20 ${ox+4},20" fill="#cfc7bb"/>
+    <polygon points="${w-4},${oy} ${w-14},${oy-4} ${w-14},${oy+4}" fill="#cfc7bb"/>
+    <text x="${ox-8}" y="16" fill="#8a827a" font-size="12" font-style="italic">y</text>
+    <text x="${w-6}" y="${oy+16}" fill="#8a827a" font-size="12" font-style="italic">x</text>
+    <line x1="${ox}" y1="${hy}" x2="${hx}" y2="${hy}" stroke="${c}" stroke-width="1.1" stroke-dasharray="3,3" opacity=".5"/>
+    <line x1="${hx}" y1="${oy}" x2="${hx}" y2="${hy}" stroke="${c}" stroke-width="1.1" stroke-dasharray="3,3" opacity=".5"/>
+    <line x1="${hx}" y1="${oy-3.5}" x2="${hx}" y2="${oy+3.5}" stroke="#8a827a" stroke-width="1.2"/>
+    <text x="${hx}" y="${oy+17}" fill="#8a827a" font-size="12" text-anchor="middle" font-style="italic">a</text>
+    <line x1="${ox-3.5}" y1="${hy}" x2="${ox+3.5}" y2="${hy}" stroke="#8a827a" stroke-width="1.2"/>
+    <text x="${ox-9}" y="${(+hy)+4}" fill="#8a827a" font-size="12" text-anchor="end" font-style="italic">L</text>
+    <polyline points="${seg(xmin, a-gap)}" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="${seg(a+gap, xmax)}" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${hx}" cy="${hy}" r="4.5" fill="var(--surface)" stroke="${c}" stroke-width="2"/>
+    <text x="${(+hx)+30}" y="30" fill="var(--text)" font-size="12" text-anchor="end" font-style="italic">f(x) → L per x → a</text>
   </svg></div>`;
 }
 
@@ -326,7 +327,7 @@ function svgLimite() {
 function svgSalto() {
   const w=260, h=160, ox=40, oy=120, sx=55, sy=35;
   const a=2.5;
-  const c1='#4a7c59', c2='#2e6da4';
+  const c1='#4a7c59', c2='#c2185b';
   let ptsL=[], ptsR=[];
   for(let i=0;i<=20;i++){
     const x=0.3+i*2.0/20;
