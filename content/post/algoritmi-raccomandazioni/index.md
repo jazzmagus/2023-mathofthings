@@ -8,7 +8,7 @@ tags:
   - algoritmi
   - probabilita
 categories: [tech]
-date: "2026-07-05T09:00:00Z"
+date: "2026-07-05"
 featured: false
 draft: false
 image:
