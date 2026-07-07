@@ -55,15 +55,15 @@ slides:
       <p>passa sempre per $(0,1)$ e resta <b>positiva</b></p>
     </div>
     <div class="mot-col fragment">
-      <svg viewBox="0 0 460 290" style="width:100%;max-width:440px" role="img" aria-label="grafici esponenziali">
-        <line x1="60" y1="260" x2="440" y2="260" style="stroke:var(--mot-muted);stroke-width:1.5"/>
-        <line x1="60" y1="20" x2="60" y2="270" style="stroke:var(--mot-muted);stroke-width:1.5"/>
-        <path d="M60 235 C 180 225 280 190 340 118 C 388 62 414 42 434 28" style="fill:none;stroke:var(--mot-primary);stroke-width:3.5;stroke-linecap:round"/>
-        <path d="M60 235 C 150 246 250 256 340 258 C 380 259 410 259 434 259" style="fill:none;stroke:#3a6b8c;stroke-width:3;stroke-linecap:round"/>
-        <circle cx="60" cy="235" r="4.5" style="fill:var(--mot-primary)"/>
-        <text x="70" y="228" style="font-family:var(--mot-mono);font-size:13px;fill:var(--mot-muted)">(0,1)</text>
-        <text x="356" y="40" style="font-family:var(--mot-mono);font-size:14px;fill:var(--mot-primary)">a&gt;1</text>
-        <text x="360" y="248" style="font-family:var(--mot-mono);font-size:14px;fill:#3a6b8c">0&lt;a&lt;1</text>
+      <svg viewBox="0 0 500 320" style="width:100%;max-width:540px" role="img" aria-label="funzioni esponenziali crescente e decrescente">
+        <line x1="210.0" y1="50.0" x2="210.0" y2="270.0" style="stroke:var(--mot-muted);stroke-width:1.5"/>
+        <line x1="50.0" y1="270.0" x2="450.0" y2="270.0" style="stroke:var(--mot-muted);stroke-width:1.5"/>
+        <path d="M50.0 263.1 L54.0 262.9 L58.1 262.6 L62.1 262.4 L66.2 262.1 L70.2 261.8 L74.2 261.5 L78.3 261.2 L82.3 260.9 L86.4 260.6 L90.4 260.2 L94.4 259.9 L98.5 259.5 L102.5 259.2 L106.6 258.8 L110.6 258.4 L114.6 258.0 L118.7 257.5 L122.7 257.1 L126.8 256.6 L130.8 256.2 L134.8 255.7 L138.9 255.1 L142.9 254.6 L147.0 254.1 L151.0 253.5 L155.1 252.9 L159.1 252.3 L163.1 251.7 L167.2 251.0 L171.2 250.3 L175.3 249.6 L179.3 248.9 L183.3 248.2 L187.4 247.4 L191.4 246.6 L195.5 245.8 L199.5 244.9 L203.5 244.0 L207.6 243.1 L211.6 242.1 L215.7 241.1 L219.7 240.1 L223.7 239.0 L227.8 237.9 L231.8 236.8 L235.9 235.6 L239.9 234.4 L243.9 233.1 L248.0 231.8 L252.0 230.4 L256.1 229.0 L260.1 227.6 L264.1 226.0 L268.2 224.5 L272.2 222.9 L276.3 221.2 L280.3 219.4 L284.3 217.6 L288.4 215.8 L292.4 213.8 L296.5 211.8 L300.5 209.8 L304.5 207.6 L308.6 205.4 L312.6 203.1 L316.7 200.7 L320.7 198.2 L324.7 195.7 L328.8 193.0 L332.8 190.3 L336.9 187.4 L340.9 184.5 L344.9 181.5 L349.0 178.3 L353.0 175.0 L357.1 171.7 L361.1 168.2 L365.2 164.5 L369.2 160.8 L373.2 156.9 L377.3 152.8 L381.3 148.7 L385.4 144.3 L389.4 139.9 L393.4 135.2 L397.5 130.4 L401.5 125.5 L405.6 120.3 L409.6 115.0 L413.6 109.5 L417.7 103.7 L421.7 97.8 L425.8 91.7 L429.8 85.3 L433.8 78.7 L437.9 71.9 L441.9 64.9 L446.0 57.6 L450.0 50.0" style="fill:none;stroke:var(--mot-primary);stroke-width:3.5;stroke-linecap:round"/>
+        <path d="M50.0 160.0 L54.0 163.8 L58.1 167.4 L62.1 171.0 L66.2 174.4 L70.2 177.7 L74.2 180.8 L78.3 183.9 L82.3 186.9 L86.4 189.7 L90.4 192.5 L94.4 195.2 L98.5 197.7 L102.5 200.2 L106.6 202.6 L110.6 204.9 L114.6 207.2 L118.7 209.3 L122.7 211.4 L126.8 213.4 L130.8 215.4 L134.8 217.3 L138.9 219.1 L142.9 220.8 L147.0 222.5 L151.0 224.2 L155.1 225.7 L159.1 227.3 L163.1 228.7 L167.2 230.1 L171.2 231.5 L175.3 232.8 L179.3 234.1 L183.3 235.4 L187.4 236.5 L191.4 237.7 L195.5 238.8 L199.5 239.9 L203.5 240.9 L207.6 241.9 L211.6 242.9 L215.7 243.8 L219.7 244.7 L223.7 245.6 L227.8 246.4 L231.8 247.2 L235.9 248.0 L239.9 248.8 L243.9 249.5 L248.0 250.2 L252.0 250.9 L256.1 251.5 L260.1 252.2 L264.1 252.8 L268.2 253.4 L272.2 254.0 L276.3 254.5 L280.3 255.0 L284.3 255.6 L288.4 256.1 L292.4 256.5 L296.5 257.0 L300.5 257.4 L304.5 257.9 L308.6 258.3 L312.6 258.7 L316.7 259.1 L320.7 259.5 L324.7 259.8 L328.8 260.2 L332.8 260.5 L336.9 260.8 L340.9 261.2 L344.9 261.5 L349.0 261.8 L353.0 262.0 L357.1 262.3 L361.1 262.6 L365.2 262.8 L369.2 263.1 L373.2 263.3 L377.3 263.5 L381.3 263.8 L385.4 264.0 L389.4 264.2 L393.4 264.4 L397.5 264.6 L401.5 264.8 L405.6 264.9 L409.6 265.1 L413.6 265.3 L417.7 265.5 L421.7 265.6 L425.8 265.8 L429.8 265.9 L433.8 266.0 L437.9 266.2 L441.9 266.3 L446.0 266.4 L450.0 266.6" style="fill:none;stroke:#3a6b8c;stroke-width:3;stroke-linecap:round"/>
+        <circle cx="210.0" cy="242.5" r="4.5" style="fill:var(--mot-primary)"/>
+        <text x="218.0" y="234.5" style="font-family:var(--mot-mono);font-size:13px;fill:var(--mot-muted)">(0,1)</text>
+        <text x="420.0" y="80.0" style="font-family:var(--mot-mono);font-size:14px;fill:var(--mot-primary)">a&gt;1</text>
+        <text x="420.0" y="290.0" style="font-family:var(--mot-mono);font-size:14px;fill:#3a6b8c">0&lt;a&lt;1</text>
       </svg>
     </div>
   </div>

@@ -22,7 +22,7 @@ projects: []
 
 > "I know that I am intelligent, because I know that I know nothing."
 >
-> Socrate
+> &mdash; Socrate
 
 Quante volte questa settimana un algoritmo ha deciso cosa mostrarti? Il tuo feed Instagram, la serie che Netflix ti ha consigliato, quel video su YouTube che "sembrava fatto apposta per te", le notizie che leggi. Non è caso. Non è magia. **È matematica.**
 
