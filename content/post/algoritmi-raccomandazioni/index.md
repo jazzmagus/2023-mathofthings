@@ -1,29 +1,28 @@
 ---
 title: "Algoritmi e _Raccomandazioni_"
 subtitle: "La Matematica Dietro lo Schermo"
-summary: "Come Netflix, YouTube e Spotify sanno cosa ti piace (e perché dovresti preoccuparti)"
+summary: "Come Netflix, YouTube e Spotify sanno cosa ti piace"
 authors:
-- diego fantinelli
-tags: [algoritmi, probabilita, applicazioni, tecnologia]
-categories: []
-date: "2026-07-07T09:00:00Z"
-featured: true
+  - diego fantinelli
+tags:
+  - algoritmi
+  - probabilita
+categories: [tech]
+date: "2026-07-06T09:00:00Z"
+featured: false
 draft: false
-
 image:
-  caption: "L'algoritmo decide cosa vedi, non il caso"
+  filename: featured.jpg
+  caption: ''
   focal_point: "Center"
   placement: 2
   preview_only: false
-
 projects: []
 ---
 
 > "I know that I am intelligent, because I know that I know nothing."
 >
 > Socrate
-
-## Hook iniziale
 
 Quante volte questa settimana un algoritmo ha deciso cosa mostrarti? Il tuo feed Instagram, la serie che Netflix ti ha consigliato, quel video su YouTube che "sembrava fatto apposta per te", le notizie che leggi. Non è caso. Non è magia. **È matematica.**
 
@@ -161,7 +160,7 @@ L'algoritmo sa:
 
 Non è un errore di sicurezza. È il **modello di business**. Tu non sei il cliente di Netflix — sei il prodotto. Il cliente è chi compra gli annunci (o chi paga per non vederli).
 
-Vuoi scoprire quanto sa Google di te? Vai su [myactivity.google.com](https://myactivity.google.com) e inizia a scorrere. Ci metterai ore.
+Vuoi scoprire quanto sa Google di te? Vai su myactivity.google.com e inizia a scorrere. Ci metterai ore.
 
 ---
 
@@ -195,7 +194,7 @@ Scegli una piattaforma (Netflix, YouTube, o il tuo social). **Disattiva i sugger
 
 Cosa noti?
 
-- Découvre meno cose nuove? (Sì, probabilmente.)
+- Scopri meno cose nuove? (Sì, probabilmente.)
 - Vedi più varietà? (Sì.)
 - Ti annoii di più? (Magari.)
 - Ti senti più libero di navigare? (Molti dicono di sì.)
@@ -227,12 +226,3 @@ Ecco perché capire questi algoritmi non è un esercizio di curiosità. È **un'
 Quindi la prossima volta che Netflix ti suggerisce qualcosa, ricordati: **non è magia. È matematica. E se conosci la matematica, puoi scegliere di seguire, o di ribellarti.**
 
 La bolla esiste. Ma puoi riuscire ad uscirne. Devi solo volerlo abbastanza da notare i confini.
-
----
-
-### Per approfondire
-
-- **Google My Activity** — Scopri cosa Google sa di te: https://myactivity.google.com
-- **Netflix's Recommendation Algorithm** — Come Netflix sceglie cosa mostrarti
-- **The Filter Bubble** — Libro di Eli Pariser su come gli algoritmi isolano il nostro pensiero
-- **Distanza coseno e similarità** — Un concetto centrale nel machine learning e nella ricerca di informazioni
