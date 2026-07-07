@@ -9,7 +9,7 @@ tags:
   - probabilita
 categories: [tech]
 date: "2026-07-07T09:00:00Z"
-featured: true
+featured: false
 draft: false
 image:
   filename: featured.jpg
