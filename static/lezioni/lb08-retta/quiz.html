@@ -849,8 +849,10 @@ function showQ() {
   });
 
   // Feedback nascosto
-  document.getElementById('q-feedback').style.display = 'none';
-  document.getElementById('btn-next').style.display = 'none';
+  document.getElementById('q-feedback').classList.remove('show');
+  document.getElementById('q-feedback').style.display = '';
+  document.getElementById('btn-next').classList.remove('show');
+  document.getElementById('btn-next').style.display = '';
 
   // Progresso
   document.getElementById('prog-frac').textContent = (currentQ + 1) + ' / 30';
