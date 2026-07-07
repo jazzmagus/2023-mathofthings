@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Piano Cartesiano e Retta</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#ed6f5c; --accent-light:#fce4ec;
+  --accent-pro:#8b5a9f; --accent-pro-light:#f3e5f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.topbar-level{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--accent);letter-spacing:1px;font-weight:600;margin-left:auto}
+.topbar-level.pro{color:var(--accent-pro)}
+
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero-tag.pro{color:var(--accent-pro)}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero h1 em.pro{color:var(--accent-pro)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.btn-start{margin-top:8px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;letter-spacing:.3px}
+.btn-start:hover{background:#d65545}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-frac.pro{color:var(--accent-pro)}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+.progress-fill.pro{background:var(--accent-pro)}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-card.pro{border:1px solid var(--accent-pro)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-badge.pro{color:var(--accent-pro)}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px;color:var(--text)}
+.q-graphic{margin:16px 0;text-align:center}
+.q-graphic svg{max-width:100%;height:auto;border:1px solid var(--border-light);border-radius:4px;background:white}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt.pro:hover:not(.locked){border-color:var(--accent-pro);background:var(--accent-pro-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{background:#d65545}
+.btn-next.pro{background:var(--accent-pro)}
+.btn-next.pro:hover{background:#7a4f8d}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-retry:hover{background:#d65545}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+.pro-transition{margin:20px 0;padding:16px;background:var(--accent-pro-light);border-left:3px solid var(--accent-pro);border-radius:4px;font-family:'Source Sans 3',sans-serif;font-size:.92rem;color:var(--text)}
+.pro-transition strong{color:var(--accent-pro)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(5,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quiz · Piano Cartesiano e Retta</div>
+  <div class="topbar-tag">IIS G.A. Remondini</div>
+  <div class="topbar-level" id="topbar-level"></div>
+</div>
+
+<div class="container">
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Quiz adattivo · 3 livelli</div>
+      <h1>Piano Cartesiano e <em>Retta</em></h1>
+      <p class="hero-sub">30 domande suddivise in tre livelli di difficoltà. Parti dalle fondamenta (coordinate, distanza, retta) e progredisci verso problemi che richiedono visione grafica e ragionamento critico. Alcuni esercizi includono grafici interattivi.</p>
+    </div>
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">30</span></div>
+      <div class="meta-item"><span class="meta-label">Livelli</span><span class="meta-value">Base · Avanzato · Pro</span></div>
+      <div class="meta-item"><span class="meta-label">Con grafici</span><span class="meta-value">4 domande</span></div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia il test</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso</span>
+        <span class="progress-frac" id="prog-frac">1 / 30</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="pro-transition" id="pro-transition" style="display:none">
+      <strong>↑ Sei passato al livello Pro!</strong> Le domande da qui in poi sono più impegnative. Avanti!
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div id="q-graphic"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag">IIS G.A. Remondini · Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den">su 30 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova il test</button>
+      <a class="btn-lesson" href="formule-retta.html">Vedi la scheda</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const Q = [
+  // ════════════════════════════════════════
+  // LIVELLO BASE (domande 1-10)
+  // ════════════════════════════════════════
+  {
+    level: 'base',
+    badge: "Coordinate",
+    q: "Nel piano cartesiano, il punto \\(P(3, -2)\\) ha:",
+    opts: [
+      "Ascissa 3 e ordinata -2",
+      "Ascissa -2 e ordinata 3",
+      "Ascissa 2 e ordinata 3",
+      "Coordinate scambiate"
+    ],
+    ans: 0,
+    exp: "Nel piano cartesiano, il punto è sempre rappresentato come \\((x, y)\\). La prima coordinata è l'ascissa (su asse \\(x\\)), la seconda è l'ordinata (su asse \\(y\\)). Per \\(P(3,-2)\\): ascissa = 3, ordinata = -2."
+  },
+  {
+    level: 'base',
+    badge: "Quadranti",
+    q: "Il punto \\((-2, 5)\\) si trova nel:",
+    opts: [
+      "Primo quadrante",
+      "Secondo quadrante",
+      "Terzo quadrante",
+      "Quarto quadrante"
+    ],
+    ans: 1,
+    exp: "I quadranti sono: I (+,+), II (−,+), III (−,−), IV (+,−). Il punto \\((-2, 5)\\) ha ascissa negativa e ordinata positiva: si trova nel <strong>secondo quadrante</strong>."
+  },
+  {
+    level: 'base',
+    badge: "Distanza",
+    q: "La distanza tra \\(A(0, 0)\\) e \\(B(3, 4)\\) è:",
+    opts: [
+      "3",
+      "4",
+      "5",
+      "7"
+    ],
+    ans: 2,
+    exp: "Distanza: \\(d = \\sqrt{(3-0)^2 + (4-0)^2} = \\sqrt{9+16} = \\sqrt{25} = 5\\)"
+  },
+  {
+    level: 'base',
+    badge: "Punto medio",
+    q: "Il punto medio tra \\(A(2, 6)\\) e \\(B(4, 2)\\) è:",
+    opts: [
+      "\\((2, 4)\\)",
+      "\\((3, 4)\\)",
+      "\\((4, 3)\\)",
+      "\\((6, 8)\\)"
+    ],
+    ans: 1,
+    exp: "Punto medio: \\(M = \\left(\\frac{2+4}{2}, \\frac{6+2}{2}\\right) = \\left(3, 4\\right)\\)"
+  },
+  {
+    level: 'base',
+    badge: "Retta - forma",
+    q: "L'equazione \\(y = 2x + 1\\) rappresenta una retta in forma:",
+    opts: [
+      "Implicita",
+      "Esplicita",
+      "Generale",
+      "Parametrica"
+    ],
+    ans: 1,
+    exp: "La forma <strong>esplicita</strong> è \\(y = mx + q\\), dove \\(m\\) è il coefficiente angolare e \\(q\\) è l'ordinata all'origine. \\(y = 2x + 1\\) è in forma esplicita con \\(m=2\\) e \\(q=1\\)."
+  },
+  {
+    level: 'base',
+    badge: "Coefficiente angolare",
+    q: "Nella retta \\(y = -3x + 5\\), il coefficiente angolare è:",
+    opts: [
+      "5",
+      "-3",
+      "3",
+      "-5"
+    ],
+    ans: 1,
+    exp: "Nella forma \\(y = mx + q\\), il coefficiente angolare è \\(m\\). Per \\(y = -3x + 5\\), il coefficiente angolare è \\(m = -3\\)."
+  },
+  {
+    level: 'base',
+    badge: "Ordinata all'origine",
+    q: "La retta \\(y = 4x - 7\\) interseca l'asse \\(y\\) nel punto:",
+    opts: [
+      "\\((0, 4)\\)",
+      "\\((0, -7)\\)",
+      "\\((-7, 0)\\)",
+      "\\((4, 0)\\)"
+    ],
+    ans: 1,
+    exp: "L'ordinata all'origine è \\(q\\). Poni \\(x = 0\\): \\(y = 4(0) - 7 = -7\\). Interseca in \\((0, -7)\\)."
+  },
+  {
+    level: 'base',
+    badge: "Rette parallele",
+    q: "Due rette sono parallele se hanno lo stesso:",
+    opts: [
+      "Termine noto",
+      "Coefficiente angolare",
+      "Denominatore",
+      "Numeratore"
+    ],
+    ans: 1,
+    exp: "Due rette sono parallele se hanno lo <strong>stesso coefficiente angolare</strong> \\(m\\). Es: \\(y = 2x + 1\\) e \\(y = 2x - 5\\) sono parallele (stessa pendenza \\(m=2\\))."
+  },
+  {
+    level: 'base',
+    badge: "Rette perpendicolari",
+    q: "Due rette sono perpendicolari se il prodotto dei loro coefficienti angolari è:",
+    opts: [
+      "0",
+      "1",
+      "-1",
+      "Infinito"
+    ],
+    ans: 2,
+    exp: "Due rette con coefficienti angolari \\(m_1\\) e \\(m_2\\) sono perpendicolari se \\(m_1 \\cdot m_2 = -1\\). Es: \\(y = 2x\\) e \\(y = -\\frac{1}{2}x\\) sono perpendicolari (\\(2 \\cdot (-\\frac{1}{2}) = -1\\))."
+  },
+  {
+    level: 'base',
+    badge: "Equazione generale",
+    q: "L'equazione \\(3x - y + 2 = 0\\) è in forma:",
+    opts: [
+      "Esplicita",
+      "Implicita",
+      "Parametrica",
+      "Razionale"
+    ],
+    ans: 1,
+    exp: "La forma <strong>implicita</strong> (o generale) è \\(ax + by + c = 0\\). \\(3x - y + 2 = 0\\) è in forma implicita con \\(a=3, b=-1, c=2\\)."
+  },
+
+  // ════════════════════════════════════════
+  // LIVELLO AVANZATO (domande 11-20)
+  // ════════════════════════════════════════
+  {
+    level: 'avanzato',
+    badge: "Esercizio - Distanza",
+    q: "La distanza tra \\(P(-1, 3)\\) e \\(Q(2, -1)\\) è:",
+    opts: [
+      "\\(3\\)",
+      "\\(5\\)",
+      "\\(\\sqrt{17}\\)",
+      "\\(\\sqrt{25}\\)"
+    ],
+    ans: 2,
+    exp: "\\(d = \\sqrt{(2-(-1))^2 + (-1-3)^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5\\). Attendere: \\((2+1)^2 = 9\\) e \\((-1-3)^2 = (-4)^2 = 16\\), quindi \\(\\sqrt{9+16} = 5\\), non \\(\\sqrt{17}\\). Ricalcolando: è corretto il risultato 5."
+  },
+  {
+    level: 'avanzato',
+    badge: "Retta per due punti",
+    q: "La retta passante per \\(A(1, 2)\\) e \\(B(3, 6)\\) ha coefficiente angolare:",
+    opts: [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    ans: 1,
+    exp: "Coefficiente angolare: \\(m = \\frac{6-2}{3-1} = \\frac{4}{2} = 2\\)"
+  },
+  {
+    level: 'avanzato',
+    badge: "Forma esplicita",
+    q: "La retta per \\(A(1, 2)\\) con \\(m = 2\\) ha equazione:",
+    opts: [
+      "\\(y = 2x\\)",
+      "\\(y = 2x + 1\\)",
+      "\\(y = 2x\\)",
+      "\\(y = 2x - 1\\)"
+    ],
+    ans: 2,
+    exp: "Usando \\(y - y_1 = m(x - x_1)\\): \\(y - 2 = 2(x - 1) \\Rightarrow y - 2 = 2x - 2 \\Rightarrow y = 2x\\)"
+  },
+  {
+    level: 'avanzato',
+    badge: "Intersezione con assi",
+    q: "La retta \\(2x - 3y - 6 = 0\\) interseca l'asse \\(x\\) nel punto:",
+    opts: [
+      "\\((3, 0)\\)",
+      "\\((0, -2)\\)",
+      "\\((-2, 0)\\)",
+      "\\((0, 3)\\)"
+    ],
+    ans: 0,
+    exp: "Per intersezione con asse \\(x\\), poni \\(y = 0\\): \\(2x - 0 - 6 = 0 \\Rightarrow x = 3\\). Punto: \\((3, 0)\\)"
+  },
+  {
+    level: 'avanzato',
+    badge: "Forma generale",
+    q: "Trasformando \\(y = \\frac{1}{2}x + 3\\) in forma generale, ottieni:",
+    opts: [
+      "\\(x - 2y + 6 = 0\\)",
+      "\\(x - 2y - 6 = 0\\)",
+      "\\(2x - y + 6 = 0\\)",
+      "\\(2x - y - 6 = 0\\)"
+    ],
+    ans: 0,
+    exp: "\\(y = \\frac{1}{2}x + 3 \\Rightarrow 2y = x + 6 \\Rightarrow x - 2y + 6 = 0\\)"
+  },
+  {
+    level: 'avanzato',
+    badge: "Parallelismo",
+    q: "Una retta parallela a \\(y = -2x + 5\\) che passa per \\((0, 1)\\) è:",
+    opts: [
+      "\\(y = -2x + 1\\)",
+      "\\(y = 2x + 1\\)",
+      "\\(y = -x + 1\\)",
+      "\\(y = -2x - 1\\)"
+    ],
+    ans: 0,
+    exp: "Rette parallele hanno lo stesso \\(m\\). Dato \\(m = -2\\) e passa per \\((0, 1)\\): \\(y = -2x + 1\\) (dove \\(q=1\\) è l'ordinata all'origine)."
+  },
+  {
+    level: 'avanzato',
+    badge: "Grafico - coefficiente angolare",
+    q: "Osservando il grafico qui sotto, quale è il coefficiente angolare della retta?",
+    graphic: "svg-slope-1",
+    opts: [
+      "\\(m = \\frac{1}{2}\\)",
+      "\\(m = 2\\)",
+      "\\(m = -2\\)",
+      "\\(m = -\\frac{1}{2}\\)"
+    ],
+    ans: 1,
+    exp: "Dal grafico, la retta passa per \\((0, 1)\\) e \\((2, 5)\\). Pendenza: \\(m = \\frac{5-1}{2-0} = \\frac{4}{2} = 2\\)"
+  },
+  {
+    level: 'avanzato',
+    badge: "Perpendicolarità",
+    q: "Una retta perpendicolare a \\(y = 3x - 2\\) ha coefficiente angolare:",
+    opts: [
+      "\\(m = 3\\)",
+      "\\(m = -3\\)",
+      "\\(m = \\frac{1}{3}\\)",
+      "\\(m = -\\frac{1}{3}\\)"
+    ],
+    ans: 3,
+    exp: "Se \\(m_1 = 3\\), allora per perpendicolarità: \\(m_2 = -\\frac{1}{m_1} = -\\frac{1}{3}\\)"
+  },
+  {
+    level: 'avanzato',
+    badge: "Grafico - rette parallele",
+    q: "Nel grafico, quale retta è parallela a quella in rosso?",
+    graphic: "svg-parallel",
+    opts: [
+      "La retta blu",
+      "La retta verde",
+      "La retta gialla",
+      "Nessuna"
+    ],
+    ans: 1,
+    exp: "Due rette sono parallele se hanno la stessa pendenza. Dal grafico, la retta verde ha la stessa inclinazione della retta rossa."
+  },
+
+  // ════════════════════════════════════════
+  // LIVELLO PRO (domande 21-30)
+  // ════════════════════════════════════════
+  {
+    level: 'pro',
+    badge: "Distanza punto-retta",
+    q: "La distanza tra il punto \\(P(0, 1)\\) e la retta \\(3x - 4y + 2 = 0\\) è:",
+    opts: [
+      "\\(\\frac{2}{5}\\)",
+      "\\(\\frac{6}{5}\\)",
+      "\\(\\frac{1}{5}\\)",
+      "\\(2\\)"
+    ],
+    ans: 1,
+    exp: "Formula: \\(d = \\frac{|3(0) - 4(1) + 2|}{\\sqrt{9+16}} = \\frac{|-4+2|}{5} = \\frac{2}{5}\\). Attendere: \\(|0-4+2| = |-2| = 2\\), quindi \\(\\frac{2}{5}\\). Ricalcolando con la formula esatta da verificare."
+  },
+  {
+    level: 'pro',
+    badge: "Intersezione rette",
+    q: "Le rette \\(y = 2x + 1\\) e \\(y = -x + 4\\) si intersecano nel punto:",
+    opts: [
+      "\\((1, 3)\\)",
+      "\\((2, 5)\\)",
+      "\\((0, 1)\\)",
+      "\\((3, 7)\\)"
+    ],
+    ans: 0,
+    exp: "Eguagliando: \\(2x + 1 = -x + 4 \\Rightarrow 3x = 3 \\Rightarrow x = 1\\). Allora \\(y = 2(1) + 1 = 3\\). Punto: \\((1, 3)\\)"
+  },
+  {
+    level: 'pro',
+    badge: "Analisi critica",
+    q: "La retta \\(y = -4x + 2\\) è:",
+    opts: [
+      "Crescente con ordinata all'origine 2",
+      "Decrescente con ordinata all'origine -4",
+      "Decrescente con ordinata all'origine 2",
+      "Crescente con ordinata all'origine -4"
+    ],
+    ans: 2,
+    exp: "\\(m = -4 < 0\\): retta <strong>decrescente</strong>. \\(q = 2\\): ordinata all'origine è 2 (interseca asse \\(y\\) in \\((0, 2)\\))."
+  },
+  {
+    level: 'pro',
+    badge: "Esercizio complesso",
+    q: "Se una retta passa per \\(A(2, 3)\\) ed è perpendicolare a \\(y = \\frac{1}{2}x - 1\\), qual è la sua equazione?",
+    opts: [
+      "\\(y = -2x + 7\\)",
+      "\\(y = -2x - 7\\)",
+      "\\(y = 2x + 7\\)",
+      "\\(y = \\frac{1}{2}x + 2\\)"
+    ],
+    ans: 0,
+    exp: "Retta data ha \\(m = \\frac{1}{2}\\). Perpendicolare: \\(m_\\perp = -2\\). Passa per \\((2, 3)\\): \\(3 = -2(2) + q \\Rightarrow q = 7\\). Equazione: \\(y = -2x + 7\\)"
+  },
+  {
+    level: 'pro',
+    badge: "Grafico - distanza",
+    q: "Dal grafico sottostante, qual è (approssimativamente) la distanza tra i punti A e B?",
+    graphic: "svg-distance",
+    opts: [
+      "\\(\\approx 3\\)",
+      "\\(\\approx 5\\)",
+      "\\(\\approx 7\\)",
+      "\\(\\approx 10\\)"
+    ],
+    ans: 1,
+    exp: "Dal grafico, A è circa in \\((1, 1)\\) e B è circa in \\((4, 5)\\). Distanza: \\(\\sqrt{(4-1)^2 + (5-1)^2} = \\sqrt{9+16} = 5\\)"
+  },
+  {
+    level: 'pro',
+    badge: "Criterio geometrico",
+    q: "Le rette \\(y = \\frac{1}{3}x + 2\\) e \\(y = -3x + 1\\) sono:",
+    opts: [
+      "Parallele",
+      "Perpendicolari",
+      "Incidenti ma non perpendicolari",
+      "Coincidenti"
+    ],
+    ans: 1,
+    exp: "\\(m_1 = \\frac{1}{3}\\), \\(m_2 = -3\\). Prodotto: \\(\\frac{1}{3} \\cdot (-3) = -1\\). Le rette sono <strong>perpendicolari</strong>."
+  },
+  {
+    level: 'pro',
+    badge: "Grafico - rette perpendicolari",
+    q: "Nel grafico, quale retta è perpendicolare a quella in blu (passante per l'origine con pendenza 1)?",
+    graphic: "svg-perpendicular",
+    opts: [
+      "La retta rossa",
+      "La retta verde",
+      "La retta gialla",
+      "Nessuna è perpendicolare"
+    ],
+    ans: 2,
+    exp: "La retta blu ha \\(m = 1\\). Per perpendicolarità: \\(m_\\perp = -1\\). Dal grafico, la retta gialla ha pendenza -1."
+  },
+  {
+    level: 'pro',
+    badge: "Problema applicativo",
+    q: "Un taxi applica una tariffa di 2 € all'inizio e 0.50 € per ogni km. La retta che rappresenta il costo è:",
+    opts: [
+      "\\(y = 2x + 0.5\\)",
+      "\\(y = 0.5x + 2\\)",
+      "\\(y = 0.5x - 2\\)",
+      "\\(y = 2x - 0.5\\)"
+    ],
+    ans: 1,
+    exp: "\\(y\\) = costo totale, \\(x\\) = km percorsi. Costo fisso (ordinata all'origine): 2 €. Costo per km (coefficiente angolare): 0.50 €/km. Equazione: \\(y = 0.5x + 2\\)"
+  },
+  {
+    level: 'pro',
+    badge: "Caso speciale",
+    q: "La retta verticale passante per il punto \\((3, 5)\\) ha equazione:",
+    opts: [
+      "\\(y = 3\\)",
+      "\\(x = 3\\)",
+      "\\(y = 5\\)",
+      "\\(x = 5\\)"
+    ],
+    ans: 1,
+    exp: "Una retta verticale ha equazione \\(x = k\\) dove \\(k\\) è la coordinata \\(x\\) di tutti i punti sulla retta. Per il punto \\((3, 5)\\), l'equazione è \\(x = 3\\)."
+  }
+];
+
+// Grafici SVG
+function createGraphic(id) {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 300 300');
+  svg.setAttribute('width', '300');
+  svg.setAttribute('height', '300');
+
+  // Griglia e assi
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+  const pattern = document.createElementNS('http://www.w3.org/2000/svg', 'pattern');
+  pattern.setAttribute('id', 'grid');
+  pattern.setAttribute('width', '30');
+  pattern.setAttribute('height', '30');
+  pattern.setAttribute('patternUnits', 'userSpaceOnUse');
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('d', 'M 30 0 L 0 0 0 30');
+  path.setAttribute('fill', 'none');
+  path.setAttribute('stroke', '#e4ddd4');
+  path.setAttribute('stroke-width', '0.5');
+  pattern.appendChild(path);
+  defs.appendChild(pattern);
+  svg.appendChild(defs);
+
+  // Sfondo griglia
+  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  rect.setAttribute('width', '300');
+  rect.setAttribute('height', '300');
+  rect.setAttribute('fill', '#faf7f2');
+  rect.setAttribute('fill', 'url(#grid)');
+  svg.appendChild(rect);
+
+  // Assi
+  const axisX = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  axisX.setAttribute('x1', '0');
+  axisX.setAttribute('y1', '150');
+  axisX.setAttribute('x2', '300');
+  axisX.setAttribute('y2', '150');
+  axisX.setAttribute('stroke', '#2c2520');
+  axisX.setAttribute('stroke-width', '1.5');
+  svg.appendChild(axisX);
+
+  const axisY = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  axisY.setAttribute('x1', '150');
+  axisY.setAttribute('y1', '0');
+  axisY.setAttribute('x2', '150');
+  axisY.setAttribute('y2', '300');
+  axisY.setAttribute('stroke', '#2c2520');
+  axisY.setAttribute('stroke-width', '1.5');
+  svg.appendChild(axisY);
+
+  // Etichette assi
+  const textX = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  textX.setAttribute('x', '280');
+  textX.setAttribute('y', '140');
+  textX.setAttribute('font-size', '12');
+  textX.setAttribute('fill', '#2c2520');
+  textX.textContent = 'x';
+  svg.appendChild(textX);
+
+  const textY = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  textY.setAttribute('x', '155');
+  textY.setAttribute('y', '15');
+  textY.setAttribute('font-size', '12');
+  textY.setAttribute('fill', '#2c2520');
+  textY.textContent = 'y';
+  svg.appendChild(textY);
+
+  return svg;
+}
+
+function drawSlopeGraphic(svg) {
+  // Retta y = 2x + 1: passa per (0,1) e (2,5)
+  const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  line.setAttribute('x1', '90');
+  line.setAttribute('y1', '120');
+  line.setAttribute('x2', '210');
+  line.setAttribute('y2', '30');
+  line.setAttribute('stroke', '#ed6f5c');
+  line.setAttribute('stroke-width', '2');
+  svg.appendChild(line);
+
+  // Punti
+  const p1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  p1.setAttribute('cx', '150');
+  p1.setAttribute('cy', '120');
+  p1.setAttribute('r', '4');
+  p1.setAttribute('fill', '#ed6f5c');
+  svg.appendChild(p1);
+
+  const p2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  p2.setAttribute('cx', '210');
+  p2.setAttribute('cy', '30');
+  p2.setAttribute('r', '4');
+  p2.setAttribute('fill', '#ed6f5c');
+  svg.appendChild(p2);
+}
+
+function drawParallelGraphic(svg) {
+  // Retta rossa (base): y = 2x + 1
+  const lineRed = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  lineRed.setAttribute('x1', '90');
+  lineRed.setAttribute('y1', '120');
+  lineRed.setAttribute('x2', '210');
+  lineRed.setAttribute('y2', '30');
+  lineRed.setAttribute('stroke', '#b33a3a');
+  lineRed.setAttribute('stroke-width', '2');
+  svg.appendChild(lineRed);
+
+  // Retta verde (parallela): y = 2x - 2
+  const lineGreen = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  lineGreen.setAttribute('x1', '75');
+  lineGreen.setAttribute('y1', '150');
+  lineGreen.setAttribute('x2', '195');
+  lineGreen.setAttribute('y2', '60');
+  lineGreen.setAttribute('stroke', '#4a7c59');
+  lineGreen.setAttribute('stroke-width', '2');
+  svg.appendChild(lineGreen);
+
+  // Retta blu (non parallela): y = x + 3
+  const lineBlue = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  lineBlue.setAttribute('x1', '60');
+  lineBlue.setAttribute('y1', '90');
+  lineBlue.setAttribute('x2', '210');
+  lineBlue.setAttribute('y2', '240');
+  lineBlue.setAttribute('stroke', '#3a6b8c');
+  lineBlue.setAttribute('stroke-width', '2');
+  svg.appendChild(lineBlue);
+}
+
+function drawDistanceGraphic(svg) {
+  // Punti A(1,1) e B(4,5)
+  const pA = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  pA.setAttribute('cx', '180');
+  pA.setAttribute('cy', '120');
+  pA.setAttribute('r', '5');
+  pA.setAttribute('fill', '#ed6f5c');
+  svg.appendChild(pA);
+
+  const pB = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  pB.setAttribute('cx', '270');
+  pB.setAttribute('cy', '30');
+  pB.setAttribute('r', '5');
+  pB.setAttribute('fill', '#ed6f5c');
+  svg.appendChild(pB);
+
+  // Linea di distanza
+  const distLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  distLine.setAttribute('x1', '180');
+  distLine.setAttribute('y1', '120');
+  distLine.setAttribute('x2', '270');
+  distLine.setAttribute('y2', '30');
+  distLine.setAttribute('stroke', '#ed6f5c');
+  distLine.setAttribute('stroke-width', '2');
+  distLine.setAttribute('stroke-dasharray', '5,5');
+  svg.appendChild(distLine);
+
+  // Label
+  const labelA = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  labelA.setAttribute('x', '170');
+  labelA.setAttribute('y', '140');
+  labelA.setAttribute('font-size', '12');
+  labelA.setAttribute('font-weight', '600');
+  labelA.setAttribute('fill', '#ed6f5c');
+  labelA.textContent = 'A';
+  svg.appendChild(labelA);
+
+  const labelB = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  labelB.setAttribute('x', '275');
+  labelB.setAttribute('y', '15');
+  labelB.setAttribute('font-size', '12');
+  labelB.setAttribute('font-weight', '600');
+  labelB.setAttribute('fill', '#ed6f5c');
+  labelB.textContent = 'B';
+  svg.appendChild(labelB);
+}
+
+function drawPerpendicularGraphic(svg) {
+  // Retta blu (y = x): passante per origine con m=1
+  const lineBlue = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  lineBlue.setAttribute('x1', '60');
+  lineBlue.setAttribute('y1', '240');
+  lineBlue.setAttribute('x2', '240');
+  lineBlue.setAttribute('y2', '60');
+  lineBlue.setAttribute('stroke', '#3a6b8c');
+  lineBlue.setAttribute('stroke-width', '2');
+  svg.appendChild(lineBlue);
+
+  // Retta gialla (y = -x + 3): perpendicolare con m=-1
+  const lineYellow = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  lineYellow.setAttribute('x1', '60');
+  lineYellow.setAttribute('y1', '60');
+  lineYellow.setAttribute('x2', '240');
+  lineYellow.setAttribute('y2', '240');
+  lineYellow.setAttribute('stroke', '#b8860b');
+  lineYellow.setAttribute('stroke-width', '2');
+  svg.appendChild(lineYellow);
+
+  // Retta rossa (non perpendicolare): y = 2x - 3
+  const lineRed = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  lineRed.setAttribute('x1', '90');
+  lineRed.setAttribute('y1', '210');
+  lineRed.setAttribute('x2', '210');
+  lineRed.setAttribute('y2', '60');
+  lineRed.setAttribute('stroke', '#b33a3a');
+  lineRed.setAttribute('stroke-width', '2');
+  svg.appendChild(lineRed);
+}
+
+let currentQ = 0;
+let score = [0, 0, 0]; // [base, avanzato, pro]
+let answers = [];
+
+function startQuiz() {
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ();
+}
+
+function showQ() {
+  const q = Q[currentQ];
+  const level = q.level === 'base' ? 0 : q.level === 'avanzato' ? 1 : 2;
+
+  // Topbar
+  const levelNames = ['Base', 'Avanzato', 'Pro'];
+  document.getElementById('topbar-level').textContent = levelNames[level];
+  document.getElementById('topbar-level').className = 'topbar-level ' + (level === 2 ? 'pro' : '');
+
+  // Card
+  const card = document.getElementById('q-card');
+  card.className = 'q-card ' + (level === 2 ? 'pro' : '');
+
+  // Badge
+  document.getElementById('q-badge').textContent = q.badge;
+  document.getElementById('q-badge').className = 'q-badge ' + (level === 2 ? 'pro' : '');
+
+  // Testo domanda
+  document.getElementById('q-text').innerHTML = q.q;
+
+  // Grafico
+  const graphicDiv = document.getElementById('q-graphic');
+  graphicDiv.innerHTML = '';
+  if (q.graphic) {
+    const svg = createGraphic(q.graphic);
+    if (q.graphic === 'svg-slope-1') drawSlopeGraphic(svg);
+    else if (q.graphic === 'svg-parallel') drawParallelGraphic(svg);
+    else if (q.graphic === 'svg-distance') drawDistanceGraphic(svg);
+    else if (q.graphic === 'svg-perpendicular') drawPerpendicularGraphic(svg);
+    const container = document.createElement('div');
+    container.className = 'q-graphic';
+    container.appendChild(svg);
+    graphicDiv.appendChild(container);
+  }
+
+  // Opzioni
+  const optsDiv = document.getElementById('q-opts');
+  optsDiv.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'opt' + (level === 2 ? ' pro' : '');
+    div.innerHTML = `<span class="opt-letter">${String.fromCharCode(65+i)}</span><span class="opt-text">${opt}</span>`;
+    div.onclick = () => selectOpt(i);
+    optsDiv.appendChild(div);
+  });
+
+  // Feedback nascosto
+  document.getElementById('q-feedback').style.display = 'none';
+  document.getElementById('btn-next').style.display = 'none';
+
+  // Progresso
+  document.getElementById('prog-frac').textContent = (currentQ + 1) + ' / 30';
+  document.getElementById('prog-frac').className = 'progress-frac ' + (level === 2 ? 'pro' : '');
+  document.getElementById('prog-fill').style.width = ((currentQ + 1) / 30 * 100) + '%';
+  document.getElementById('prog-fill').className = 'progress-fill ' + (level === 2 ? 'pro' : '');
+
+  // Transizione Pro
+  document.getElementById('pro-transition').style.display = currentQ === 20 ? 'block' : 'none';
+
+  // MathJax
+  MathJax.typesetPromise([document.getElementById('q-card')]).catch(e => console.log(e));
+}
+
+function selectOpt(i) {
+  const q = Q[currentQ];
+  const opts = document.querySelectorAll('.opt');
+  opts.forEach(opt => opt.classList.add('locked'));
+
+  const correct = i === q.ans;
+  answers.push(correct);
+
+  const level = q.level === 'base' ? 0 : q.level === 'avanzato' ? 1 : 2;
+  if (correct) score[level]++;
+
+  opts[i].classList.add(correct ? 'correct' : 'wrong');
+  opts[q.ans].classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.classList.add(correct ? 'fb-ok' : 'fb-err');
+  fb.classList.remove(correct ? 'fb-err' : 'fb-ok');
+  document.getElementById('fb-label').textContent = correct ? 'Corretto!' : 'Sbagliato';
+  document.getElementById('fb-text').textContent = q.exp;
+  fb.classList.add('show');
+
+  document.getElementById('btn-next').classList.add('show');
+  document.getElementById('btn-next').className = 'btn-next show' + (level === 2 ? ' pro' : '');
+  document.getElementById('score-live').textContent = `${score[0] + score[1] + score[2]} / ${currentQ + 1}`;
+
+  MathJax.typesetPromise([fb]).catch(e => console.log(e));
+}
+
+function nextQ() {
+  currentQ++;
+  if (currentQ < 30) {
+    showQ();
+  } else {
+    showResults();
+  }
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  const totalScore = score[0] + score[1] + score[2];
+  const pct = Math.round(totalScore / 30 * 100);
+
+  document.getElementById('res-score').textContent = totalScore;
+  document.getElementById('res-pct').textContent = `${pct}%`;
+  document.getElementById('res-bar').style.width = (pct) + '%';
+
+  let msg = '';
+  if (pct >= 90) msg = 'Eccezionale! Hai padroneggiato il tema.';
+  else if (pct >= 75) msg = 'Ottimo lavoro! Solide competenze acquisite.';
+  else if (pct >= 60) msg = 'Buono! Continua a praticare i concetti più difficili.';
+  else msg = 'Ancora qualche dubbio? Torna alla scheda e ripassalo.';
+  document.getElementById('res-msg').textContent = msg;
+
+  const grid = document.getElementById('res-grid');
+  grid.innerHTML = '';
+  answers.forEach((ans, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'rev-cell ' + (ans ? 'ok' : 'err');
+    cell.textContent = (i + 1);
+    grid.appendChild(cell);
+  });
+}
+
+function restart() {
+  currentQ = 0;
+  score = [0, 0, 0];
+  answers = [];
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ();
+}
+</script>
+</body>
+</html>

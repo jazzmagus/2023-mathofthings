@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Piano Cartesiano e Retta — Formule</title>
+<link href="https://fonts.googleapis.com/css2?family=Georgia:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.0 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#ed6f5c; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --purple:#6a1b9a; --purple-light:#f3e5f5;
+  --gold:#b8860b; --gold-light:#fdf8ed;
+  --teal:#4f6d7a; --teal-light:#e8eff2;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:6px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:Georgia,serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.55;
+  font-size:13px;
+  opacity:0;
+  transition:opacity .3s;
+}
+
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border-light);
+  height:48px; display:flex; align-items:center;
+  padding:0 clamp(12px,4vw,32px); gap:12px;
+}
+.topbar-brand { font-family:Georgia,serif; font-size:.9rem; font-weight:700; color:var(--text); }
+.topbar-tag { font-family:'JetBrains Mono',monospace; font-size:.62rem; color:var(--text-dim); letter-spacing:1px; }
+.btn-print {
+  margin-left:auto;
+  font-family:'JetBrains Mono',monospace; font-size:.62rem; letter-spacing:1px;
+  padding:5px 12px; border:1px solid var(--border); border-radius:16px;
+  background:var(--surface); color:var(--text-mid); cursor:pointer; transition:all .2s;
+}
+.btn-print:hover { border-color:var(--accent); color:var(--accent); }
+
+.page {
+  max-width:1100px;
+  margin:0 auto;
+  padding:48px 16px 32px;
+}
+
+.poster-header {
+  display:flex; justify-content:space-between; align-items:flex-end;
+  margin-bottom:12px; padding-bottom:8px;
+  border-bottom:2px solid var(--accent);
+}
+.poster-title { font-family:Georgia,serif; font-size:1.5rem; font-weight:800; line-height:1.1; }
+.poster-title em { color:var(--accent); font-style:italic; }
+.poster-meta { font-family:'JetBrains Mono',monospace; font-size:.6rem; color:var(--text-dim); letter-spacing:1px; text-align:right; line-height:1.6; }
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:6px;
+  align-items:start;
+}
+.col-span-2 { grid-column:span 2; }
+.col-span-3 { grid-column:span 3; }
+.col-span-4 { grid-column:span 4; }
+
+.box {
+  background:var(--surface);
+  border:1px solid var(--border-light);
+  border-radius:4px;
+  padding:6px 8px;
+  position:relative;
+  overflow:hidden;
+}
+.box::before {
+  content:''; position:absolute;
+  left:0; top:0; bottom:0; width:1.5px;
+}
+.box.accent::before  { background:var(--accent); }
+.box.blue::before    { background:var(--blue); }
+.box.green::before   { background:var(--green); }
+.box.purple::before  { background:var(--purple); }
+.box.gold::before    { background:var(--gold); }
+.box.teal::before    { background:var(--teal); }
+.box.danger::before  { background:var(--danger); }
+
+.box-label {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.55rem; letter-spacing:1.2px; text-transform:uppercase; font-weight:600;
+  margin-bottom:4px;
+}
+.box.accent .box-label  { color:var(--accent); }
+.box.blue   .box-label  { color:var(--blue); }
+.box.green  .box-label  { color:var(--green); }
+.box.purple .box-label  { color:var(--purple); }
+.box.gold   .box-label  { color:var(--gold); }
+.box.teal   .box-label  { color:var(--teal); }
+.box.danger .box-label  { color:var(--danger); }
+
+.box h3 {
+  font-family:Georgia,serif;
+  font-size:.85rem; font-weight:700; margin-bottom:4px;
+}
+.box p { margin:2px 0; font-size:.8rem; line-height:1.45; }
+.box strong { font-weight:600; }
+.box em { font-style:italic; }
+
+.formula {
+  background:transparent;
+  border:none;
+  border-radius:0;
+  padding:4px 0;
+  margin:4px 0;
+  text-align:center;
+  font-size:.88rem;
+  line-height:1.5;
+}
+.formula.big { font-size:.95rem; padding:6px 8px; }
+
+.steps { list-style:none; margin:3px 0; padding-left:0; }
+.steps li {
+  display:block; padding:2px 0 2px 20px;
+  font-size:.78rem; line-height:1.4;
+  position:relative;
+}
+.step-n {
+  font-family:'JetBrains Mono',monospace; font-size:.58rem; font-weight:700;
+  color:#fff; background:var(--accent); border-radius:50%;
+  width:14px; height:14px; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; position:absolute; left:0; top:2px; font-size:10px;
+}
+
+.ex {
+  background:transparent;
+  border-radius:0;
+  padding:4px 0;
+  margin:4px 0;
+  font-size:.78rem;
+}
+.ex-label {
+  font-family:'JetBrains Mono',monospace; font-size:.55rem; letter-spacing:.8px;
+  text-transform:uppercase; color:var(--text-dim); margin-bottom:2px;
+}
+.ex-line { margin:1px 0; line-height:1.4; }
+.ex-line.result { color:var(--green); font-weight:600; }
+.ex-line.comment { color:var(--text-dim); font-size:.75rem; font-style:italic; }
+
+.warn-tag, .ok-tag {
+  display:inline-block; font-family:'JetBrains Mono',monospace;
+  font-size:.52rem; letter-spacing:.8px; text-transform:uppercase;
+  padding:1px 4px; border-radius:2px; margin-right:3px; vertical-align:middle;
+}
+.warn-tag {
+  background:var(--danger-light); color:var(--danger); border:1px solid var(--danger);
+}
+.ok-tag {
+  background:var(--green-light); color:var(--green); border:1px solid var(--green);
+}
+
+.check-list { list-style:none; margin:3px 0; }
+.check-list li {
+  padding:2px 0 2px 18px; position:relative;
+  font-size:.78rem; line-height:1.35;
+}
+.check-list li::before {
+  content:'□'; position:absolute; left:2px; top:1px;
+  font-size:.8rem; color:var(--accent); line-height:1;
+}
+
+.poster-footer {
+  margin-top:8px; padding-top:6px; border-top:1px solid var(--border);
+  display:flex; justify-content:space-between;
+  font-family:'JetBrains Mono',monospace; font-size:.58rem; color:var(--text-dim);
+}
+
+@media print {
+  @page { size:A4; margin:10mm 8mm; }
+  .topbar { display:none; }
+  .btn-print { display:none; }
+  .page { padding:0; max-width:100%; }
+  body { font-size:8pt; background:#fff; opacity:1 !important; }
+  .box { break-inside:avoid; }
+  .grid { gap:4pt; }
+}
+
+@media(max-width:900px){
+  .grid { grid-template-columns:repeat(2,1fr); }
+  .col-span-3, .col-span-4 { grid-column:span 2; }
+}
+@media(max-width:600px){
+  .grid { grid-template-columns:1fr; }
+  .col-span-2, .col-span-3, .col-span-4 { grid-column:span 1; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Piano Cartesiano e Retta</div>
+  <div class="topbar-tag">Scheda formulario · IIS G.A. Remondini</div>
+  <button class="btn-print" onclick="window.print()">Stampa / PDF</button>
+</div>
+
+<div class="page">
+
+  <div class="poster-header">
+    <div class="poster-title">Piano Cartesiano e <em>Retta</em> — Formulario</div>
+    <div class="poster-meta">
+      prof. Diego Fantinelli<br>
+      <span id="anno-scolastico"></span>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!-- 1. PIANO CARTESIANO -->
+    <div class="box blue">
+      <div class="box-label">Base</div>
+      <h3>Piano cartesiano</h3>
+      <p><strong>Assi:</strong> \(x\) orizzontale, \(y\) verticale</p>
+      <p><strong>Origine:</strong> punto \(O(0,0)\)</p>
+      <p><strong>Punto:</strong> \(P(x,y)\) = \(x\) ascissa, \(y\) ordinata</p>
+      <p style="margin-top:4px;font-size:.75rem"><strong>Quadranti:</strong> I (+,+), II (−,+), III (−,−), IV (+,−)</p>
+    </div>
+
+    <!-- 2. DISTANZA TRA DUE PUNTI -->
+    <div class="box green">
+      <div class="box-label">Formula</div>
+      <h3>Distanza tra due punti</h3>
+      <div class="formula big">\[d = \sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}\]</div>
+      <div class="ex">
+        <div class="ex-label">Esempio: \(A(1,2)\), \(B(4,6)\)</div>
+        <div class="ex-line">\(d = \sqrt{(4-1)^2 + (6-2)^2} = \sqrt{9+16} = 5\)</div>
+      </div>
+    </div>
+
+    <!-- 3. PUNTO MEDIO -->
+    <div class="box purple">
+      <div class="box-label">Formula</div>
+      <h3>Punto medio</h3>
+      <div class="formula">\[M = \left(\frac{x_1+x_2}{2}, \frac{y_1+y_2}{2}\right)\]</div>
+      <div class="ex">
+        <div class="ex-label">Esempio: \(A(2,4)\), \(B(8,10)\)</div>
+        <div class="ex-line">\(M = \left(\frac{2+8}{2}, \frac{4+10}{2}\right) = (5, 7)\)</div>
+      </div>
+    </div>
+
+    <!-- 4. COEFFICIENTE ANGOLARE -->
+    <div class="box gold">
+      <div class="box-label">Pendenza</div>
+      <h3>Coefficiente angolare</h3>
+      <div class="formula">\[m = \frac{y_2-y_1}{x_2-x_1} = \frac{\Delta y}{\Delta x}\]</div>
+      <p style="margin-top:4px;font-size:.75rem"><strong>Significato:</strong> \(m > 0\) = retta crescente; \(m < 0\) = decrescente; \(m=0\) = orizzontale</p>
+    </div>
+
+    <!-- 5. FORMA ESPLICITA -->
+    <div class="box accent col-span-2">
+      <div class="box-label">Equazione della retta</div>
+      <h3>Forma esplicita: \(y = mx + q\)</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <div>
+          <p><strong>\(m\)</strong> = coefficiente angolare (pendenza)</p>
+          <p><strong>\(q\)</strong> = ordinata all'origine (dove taglia l'asse \(y\))</p>
+          <p style="margin-top:3px;font-size:.75rem">Se \(q=0\): retta per l'origine</p>
+        </div>
+        <div class="ex">
+          <div class="ex-label">Esempio</div>
+          <div class="ex-line">\(y = 2x - 3\)</div>
+          <div class="ex-line">\(m=2\) (cresce di 2 per ogni \(\Delta x = 1\))</div>
+          <div class="ex-line">\(q=-3\) (interseca asse \(y\) nel punto \((0,-3)\))</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. FORMA GENERALE -->
+    <div class="box teal col-span-2">
+      <div class="box-label">Forma generale</div>
+      <h3>Forma implicita: \(ax + by + c = 0\)</h3>
+      <p><strong>Da implicita a esplicita:</strong> \(y = -\frac{a}{b}x - \frac{c}{b}\) (se \(b \neq 0\))</p>
+      <p style="margin-top:3px;font-size:.75rem">Utile per: rette verticali (\(b=0\)), rette orizzontali (\(a=0\)), passanti per origine (\(c=0\))</p>
+    </div>
+
+    <!-- 7. INTERSEZIONE CON ASSI -->
+    <div class="box blue">
+      <div class="box-label">Punti speciali</div>
+      <h3>Intersezioni con gli assi</h3>
+      <p><strong>Con asse \(y\):</strong> poni \(x=0\) → punto \((0, q)\)</p>
+      <p><strong>Con asse \(x\):</strong> poni \(y=0\) → risolvi \(mx + q = 0\)</p>
+      <div class="ex">
+        <div class="ex-label">Esempio: \(y = 2x - 4\)</div>
+        <div class="ex-line">Asse \(y\): \((0, -4)\)</div>
+        <div class="ex-line">Asse \(x\): \(2x - 4 = 0 \Rightarrow (2, 0)\)</div>
+      </div>
+    </div>
+
+    <!-- 8. RETTE PARALLELE -->
+    <div class="box green">
+      <div class="box-label">Relazione</div>
+      <h3>Rette parallele</h3>
+      <p><strong>Condizione:</strong> stesso coefficiente angolare</p>
+      <div class="formula">\[m_1 = m_2\]</div>
+      <div class="ex">
+        <div class="ex-label">Esempio</div>
+        <div class="ex-line">\(y = 3x + 1\) e \(y = 3x - 5\) sono parallele (\(m=3\))</div>
+      </div>
+    </div>
+
+    <!-- 9. RETTE PERPENDICOLARI -->
+    <div class="box purple">
+      <div class="box-label">Relazione</div>
+      <h3>Rette perpendicolari</h3>
+      <p><strong>Condizione:</strong> pendenze reciproche e opposte</p>
+      <div class="formula">\[m_1 \cdot m_2 = -1\]</div>
+      <div class="ex">
+        <div class="ex-label">Esempio</div>
+        <div class="ex-line">\(y = 2x + 1\) e \(y = -\frac{1}{2}x + 3\) perpendic. (\(2 \cdot (-\frac{1}{2}) = -1\))</div>
+      </div>
+    </div>
+
+    <!-- 10. RETTA PER DUE PUNTI -->
+    <div class="box gold">
+      <div class="box-label">Costruzione</div>
+      <h3>Equazione per due punti</h3>
+      <p><strong>Step 1:</strong> calcola \(m = \frac{y_2-y_1}{x_2-x_1}\)</p>
+      <p><strong>Step 2:</strong> usa \(y - y_1 = m(x - x_1)\)</p>
+      <div class="ex">
+        <div class="ex-label">Esempio: \(A(1,2)\), \(B(3,6)\)</div>
+        <div class="ex-line">\(m = \frac{6-2}{3-1} = 2\)</div>
+        <div class="ex-line">\(y - 2 = 2(x - 1) \Rightarrow y = 2x\)</div>
+      </div>
+    </div>
+
+    <!-- 11. INTERSEZIONE DUE RETTE -->
+    <div class="box accent">
+      <div class="box-label">Sistema</div>
+      <h3>Intersezione di due rette</h3>
+      <p><strong>Metodo:</strong> risolvere il sistema \(\begin{cases} y=m_1x+q_1 \\ y=m_2x+q_2 \end{cases}\)</p>
+      <p style="margin-top:3px;font-size:.75rem"><strong>Parallele:</strong> nessuna soluzione; <strong>Coincidenti:</strong> infinite soluzioni</p>
+    </div>
+
+    <!-- 12. DISTANZA PUNTO-RETTA -->
+    <div class="box teal">
+      <div class="box-label">Formula</div>
+      <h3>Distanza punto-retta</h3>
+      <p><strong>Punto:</strong> \(P(x_0, y_0)\); <strong>Retta:</strong> \(ax + by + c = 0\)</p>
+      <div class="formula">\[d = \frac{|ax_0 + by_0 + c|}{\sqrt{a^2 + b^2}}\]</div>
+    </div>
+
+    <!-- 13. ERRORI COMUNI -->
+    <div class="box danger col-span-2">
+      <div class="box-label">Attenzione</div>
+      <h3>Errori frequenti</h3>
+      <div style="font-size:.76rem">
+        <p><span class="warn-tag">Errore 1</span> Confondere \(m\) con \(q\): \(m\) è la pendenza, \(q\) è l'ordinata all'origine</p>
+        <p style="margin-top:3px"><span class="warn-tag">Errore 2</span> Dimenticare che \(m_1 \cdot m_2 = -1\) per perpendicolarità (non \(m_1 = -m_2\))</p>
+        <p style="margin-top:3px"><span class="warn-tag">Errore 3</span> Dividere per 0: se \(x_2 = x_1\), la retta è verticale (\(x = x_1\))</p>
+        <p style="margin-top:3px"><span class="warn-tag">Errore 4</span> Interscambiare \(x\) e \(y\): il primo è sempre l'ascissa, il secondo l'ordinata</p>
+      </div>
+    </div>
+
+    <!-- 14. CHECKLIST -->
+    <div class="box green col-span-2">
+      <div class="box-label">Metodo</div>
+      <h3>Checklist — Esercizi sulla retta</h3>
+      <ul class="check-list">
+        <li><strong>Che cos'è dato?</strong> Due punti? Un punto e una pendenza? Un'equazione?</li>
+        <li><strong>Che cosa devo trovare?</strong> L'equazione? La pendenza? Un'intersezione?</li>
+        <li><strong>Quale forma usare?</strong> Esplicita (\(y=mx+q\)) o generale (\(ax+by+c=0\))?</li>
+        <li><strong>Verifica:</strong> sostituisci i punti nell'equazione finale</li>
+      </ul>
+    </div>
+
+  </div><!-- /grid -->
+
+  <div class="poster-footer">
+    <span>prof. Diego Fantinelli — IIS G.A. Remondini</span>
+    <span>Piano Cartesiano e Retta</span>
+    <span id="footer-year"></span>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+const y = new Date().getFullYear();
+const m = new Date().getMonth() + 1;
+const as = m >= 9 ? `${y}–${y+1}` : `${y-1}–${y}`;
+document.getElementById('anno-scolastico').textContent = 'a.s. ' + as;
+document.getElementById('footer-year').textContent = 'a.s. ' + as;
+</script>
+</body>
+</html>
