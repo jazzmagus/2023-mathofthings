@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Il Principio di Induzione — The Math of Things</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/serif.min.css" />
+    <link rel="stylesheet" href="theme.css" />
+
+    <style>
+      body { margin: 0; padding: 0; overflow: hidden; }
+
+      /* ── Animazione domino ── */
+      .domino-stage {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 34px;
+        height: 210px;
+        margin: 1.4em 0 0.6em;
+      }
+      .domino {
+        width: 48px;
+        height: 108px;
+        background: linear-gradient(160deg, #ffffff 0%, #ece7de 100%);
+        border: 1px solid rgba(44, 37, 32, 0.28);
+        border-radius: 7px;
+        display: flex;
+        flex-direction: column;
+        transform-origin: bottom left;
+        transition: transform 0.5s cubic-bezier(0.55, 0.06, 0.9, 0.35);
+        box-shadow: 2px 4px 10px rgba(44, 37, 32, 0.22);
+      }
+      .domino.no-anim { transition: none; }
+      .domino.down { transform: rotate(70deg); }
+      .domino .half {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        padding: 5px;
+      }
+      .domino .dv { height: 2px; background: rgba(44, 37, 32, 0.3); margin: 0 5px; }
+      .domino .pip {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #2c2520;
+        place-self: center;
+      }
+      .domino .half.three .pip:nth-child(1) { grid-area: 1 / 1; }
+      .domino .half.three .pip:nth-child(2) { grid-area: 2 / 2; }
+      .domino .half.three .pip:nth-child(3) { grid-area: 3 / 3; }
+      .domino .half.two .pip:nth-child(1) { grid-area: 1 / 3; }
+      .domino .half.two .pip:nth-child(2) { grid-area: 3 / 1; }
+
+      .step-badge {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7em;
+        font-weight: 600;
+        color: var(--primary);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="particles-canvas"></canvas>
+
+    <button
+      id="dark-mode-toggle"
+      style="position: fixed; top: 24px; right: 24px; z-index: 100; background: transparent; border: none; padding: 0; cursor: pointer; opacity: 0.5; transition: opacity 0.3s ease; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;"
+      onmouseover="this.style.opacity='0.8'"
+      onmouseout="this.style.opacity='0.5'"
+      onclick="toggleDarkMode()"
+      title="Toggle light/dark mode"
+    >
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none">
+        <circle cx="12" cy="12" r="10" fill="white" stroke="currentColor" stroke-width="1.5"></circle>
+        <circle cx="12" cy="12" r="10" fill="black" clip-path="polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%)"></circle>
+      </svg>
+    </button>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- TITOLO -->
+        <section class="title-slide">
+          <h1>Il Principio di <em>Induzione</em></h1>
+          <p class="subtitle">Come dimostrare infiniti casi con due sole mosse</p>
+          <p style="margin-top: 2.5em; display: flex; align-items: center; gap: 0.8em; font-family: 'JetBrains Mono', monospace; font-size: 0.7em; letter-spacing: 0.05em;">
+            <span style="color: var(--primary);">prof. Diego Fantinelli</span>
+            <span style="color: rgba(44, 37, 32, 0.35);">·</span>
+            <a class="math-of-things-link" href="https://mathofthings.netlify.app/" target="_blank" rel="noopener">The Math of Things</a>
+          </p>
+        </section>
+
+        <!-- MOTIVAZIONE -->
+        <section>
+          <h2>Un problema <em>infinito</em></h2>
+          <p>Come facciamo a dimostrare che una formula vale per <strong>tutti</strong> i numeri naturali?</p>
+          <div class="math">$$1 + 2 + 3 + \dots + n = \frac{n(n+1)}{2}$$</div>
+          <p>Non possiamo verificarla caso per caso: i numeri naturali sono <strong>infiniti</strong>. Servirebbe un tempo infinito.</p>
+          <div class="callout callout-warn">
+            <span class="callout-label">La domanda</span>
+            Esiste un modo per catturare l'infinito con una dimostrazione <em>finita</em>?
+          </div>
+          <aside class="notes">
+            <p>Il nodo concettuale: verificare tanti casi (anche mille) non è una dimostrazione. Basta un controesempio più in là a smontare tutto. Serve un argomento che copra TUTTI i casi in una volta.</p>
+          </aside>
+        </section>
+
+        <!-- DOMINO -->
+        <section>
+          <section>
+            <h2>L'effetto <em>domino</em></h2>
+            <div class="domino-stage" id="dominoStage">
+              <div class="domino"><div class="half three"><span class="pip"></span><span class="pip"></span><span class="pip"></span></div><div class="dv"></div><div class="half two"><span class="pip"></span><span class="pip"></span></div></div>
+              <div class="domino"><div class="half three"><span class="pip"></span><span class="pip"></span><span class="pip"></span></div><div class="dv"></div><div class="half two"><span class="pip"></span><span class="pip"></span></div></div>
+              <div class="domino"><div class="half three"><span class="pip"></span><span class="pip"></span><span class="pip"></span></div><div class="dv"></div><div class="half two"><span class="pip"></span><span class="pip"></span></div></div>
+              <div class="domino"><div class="half three"><span class="pip"></span><span class="pip"></span><span class="pip"></span></div><div class="dv"></div><div class="half two"><span class="pip"></span><span class="pip"></span></div></div>
+              <div class="domino"><div class="half three"><span class="pip"></span><span class="pip"></span><span class="pip"></span></div><div class="dv"></div><div class="half two"><span class="pip"></span><span class="pip"></span></div></div>
+              <div class="domino"><div class="half three"><span class="pip"></span><span class="pip"></span><span class="pip"></span></div><div class="dv"></div><div class="half two"><span class="pip"></span><span class="pip"></span></div></div>
+              <div class="domino"><div class="half three"><span class="pip"></span><span class="pip"></span><span class="pip"></span></div><div class="dv"></div><div class="half two"><span class="pip"></span><span class="pip"></span></div></div>
+            </div>
+            <aside class="notes">
+              <p>Metafora chiave. Non spingo ogni tessera una per una: garantisco due cose e la fila cade da sola. È esattamente l'induzione.</p>
+            </aside>
+          </section>
+
+          <section>
+            <h3>Due <em>garanzie</em>, infinite tessere</h3>
+            <div class="two-columns">
+              <div>
+                <div class="callout callout-warn">
+                  <span class="callout-label">1. La prima cade</span>
+                  Do una spinta alla prima tessera: si mette in moto.
+                </div>
+              </div>
+              <div>
+                <div class="callout callout-note">
+                  <span class="callout-label">2. Ognuna spinge la successiva</span>
+                  Ogni tessera, cadendo, fa cadere quella dopo di lei.
+                </div>
+              </div>
+            </div>
+            <p style="margin-top: 0.8em;">Se valgono <strong>entrambe</strong>, allora <strong>cadono tutte</strong> — anche se sono infinite. Non serve spingerle una per una.</p>
+            <aside class="notes">
+              <p>Insistere: la seconda condizione è un "SE cade una, ALLORA cade la successiva". È condizionale, vale per una tessera generica, e proprio per questo copre l'intera fila.</p>
+            </aside>
+          </section>
+        </section>
+
+        <!-- METODO -->
+        <section>
+          <section>
+            <h2>Il metodo, in <em>due passi</em></h2>
+            <p>Per dimostrare che una proprietà $P(n)$ vale per ogni naturale $n$ non la verifichiamo caso per caso: seguiamo la logica del domino.</p>
+            <p>Bastano <strong>due controlli</strong>: che la proprietà valga nel primo caso, e che da un caso qualsiasi si possa sempre passare al successivo. Vediamoli uno alla volta.</p>
+          </section>
+
+          <section>
+            <h3>Passo <em>base</em></h3>
+            <p class="step-badge">la prima tessera</p>
+            <div class="callout callout-warn">
+              <span class="callout-label">Base dell'induzione</span>
+              Si dimostra che la proprietà è vera per il primo valore, di solito $P(1)$.
+            </div>
+            <p>È il controllo diretto, spesso una semplice sostituzione. Senza questo passo tutta la costruzione crolla: se la prima tessera non cade, non cade nulla.</p>
+            <p style="font-size: 0.85em;">Il primo valore non è sempre $1$: in certe proprietà si parte da $n = 0$ o da un valore più grande. L'importante è dichiararlo con chiarezza.</p>
+          </section>
+
+          <section>
+            <h3>Passo <em>induttivo</em></h3>
+            <p class="step-badge">ogni tessera spinge la successiva</p>
+            <div class="callout callout-note">
+              <span class="callout-label">Ipotesi induttiva</span>
+              Si <strong>assume</strong> che la proprietà sia vera per un generico $n = k$: cioè $P(k)$.
+            </div>
+            <div class="callout callout-warn">
+              <span class="callout-label">Tesi</span>
+              Si <strong>dimostra</strong> che allora è vera anche per $n = k+1$: cioè $P(k+1)$.
+            </div>
+            <p style="font-size: 0.85em;">Verificati i due passi, per il principio di induzione $P(n)$ è vera per <strong>ogni</strong> $n$.</p>
+            <aside class="notes">
+              <p>Errore tipico degli studenti: pensare che assumere $P(k)$ sia "barare". No: non assumiamo la tesi, assumiamo un caso generico e ne deduciamo il successivo. È il meccanismo della tessera.</p>
+            </aside>
+          </section>
+        </section>
+
+        <!-- ESEMPIO 1 -->
+        <section>
+          <section>
+            <h2>Esempio 1 — somma dei primi $n$ <em>naturali</em></h2>
+            <p>Vogliamo dimostrare la celebre formula di Gauss: sommare i numeri da $1$ a $n$ equivale a calcolare</p>
+            <div class="math">$$1 + 2 + 3 + \dots + n = \frac{n(n+1)}{2}$$</div>
+            <p style="font-size: 0.85em;">La useremo come primo banco di prova del metodo: un passo base e un passo induttivo.</p>
+          </section>
+
+          <section>
+            <h3>Passo <em>base</em> ($n = 1$)</h3>
+            <p>Verifichiamo la formula per $n = 1$:</p>
+            <div class="math">$$1 = \frac{1 \cdot (1 + 1)}{2} = \frac{2}{2} = 1 \; \checkmark$$</div>
+            <p>La prima tessera cade: la formula è vera per $n = 1$.</p>
+          </section>
+
+          <section>
+            <h3>Passo <em>induttivo</em></h3>
+            <div class="two-columns">
+              <div>
+                <p class="step-badge">ipotesi — $P(k)$</p>
+                <div class="math">$$1 + \dots + k = \frac{k(k+1)}{2}$$</div>
+                <p class="step-badge" style="margin-top: 1em;">tesi — $P(k+1)$</p>
+                <div class="math">$$1 + \dots + (k+1) = \frac{(k+1)(k+2)}{2}$$</div>
+              </div>
+              <div>
+                <div class="callout callout-note">
+                  <span class="callout-label">Dimostrazione</span>
+                  Separo l'ultimo termine e uso l'ipotesi:
+                  <div class="math">$$\underbrace{1 + \dots + k}_{\text{ipotesi}} + (k+1)$$</div>
+                  <div class="math">$$= \frac{k(k+1)}{2} + (k+1)$$</div>
+                  <div class="math">$$= \frac{k(k+1) + 2(k+1)}{2} = \frac{(k+1)(k+2)}{2}$$</div>
+                </div>
+              </div>
+            </div>
+            <p style="font-size: 0.82em;">La tessera $k$ ha fatto cadere la $k+1$: la formula vale per <strong>ogni</strong> $n$.</p>
+            <aside class="notes">
+              <p>La mossa d'oro delle sommatorie: isolare $(k+1)$ e sostituire la parte precedente con l'ipotesi. Il resto è algebra: raccogliere $(k+1)$.</p>
+            </aside>
+          </section>
+        </section>
+
+        <!-- ESEMPIO 2 -->
+        <section>
+          <section>
+            <h2>Esempio 2 — somma dei primi $n$ <em>dispari</em></h2>
+            <div class="math">$$1 + 3 + 5 + \dots + (2n - 1) = n^2$$</div>
+            <p style="font-size: 0.85em;">Un risultato sorprendente: la somma dei primi dispari è sempre un quadrato perfetto. $1 = 1^2$, $1+3 = 2^2$, $1+3+5 = 3^2$… l'induzione ci dice che non è un caso, ma vale per ogni $n$.</p>
+          </section>
+
+          <section>
+            <h3>Passo <em>base</em> ($n = 1$)</h3>
+            <p>Il primo dispari è $1$, e deve coincidere con $1^2$:</p>
+            <div class="math">$$1 = 1^2 = 1 \; \checkmark$$</div>
+            <p>La prima tessera cade: la formula è vera per $n = 1$.</p>
+          </section>
+
+          <section>
+            <h3>Passo <em>induttivo</em></h3>
+            <div class="two-columns">
+              <div>
+                <p class="step-badge">ipotesi — $P(k)$</p>
+                <div class="math">$$1 + 3 + \dots + (2k-1) = k^2$$</div>
+                <p class="step-badge" style="margin-top: 1em;">tesi — $P(k+1)$</p>
+                <div class="math">$$\dots + (2k+1) = (k+1)^2$$</div>
+              </div>
+              <div>
+                <div class="callout callout-note">
+                  <span class="callout-label">Dimostrazione</span>
+                  Aggiungo il nuovo termine dispari $2k+1$:
+                  <div class="math">$$\underbrace{1 + \dots + (2k-1)}_{\text{ipotesi}} + (2k+1)$$</div>
+                  <div class="math">$$= k^2 + (2k + 1) = (k + 1)^2$$</div>
+                </div>
+              </div>
+            </div>
+            <p style="font-size: 0.82em;">Riconosci il quadrato perfetto: $k^2 + 2k + 1 = (k+1)^2$.</p>
+          </section>
+        </section>
+
+        <!-- STRATEGIA / CASSETTA DEGLI ATTREZZI -->
+        <section>
+          <section>
+            <h2>La cassetta degli <em>attrezzi</em></h2>
+            <p>Il passo base è quasi sempre immediato: la vera sfida è il passo induttivo. La buona notizia è che, a seconda del tipo di proprietà, esiste una mossa collaudata.</p>
+            <p>Vediamo i tre casi che incontrerai più spesso: <strong>somme</strong>, <strong>divisibilità</strong> e <strong>disuguaglianze</strong>.</p>
+          </section>
+
+          <section>
+            <h3>Somme e <em>sommatorie</em></h3>
+            <div class="callout callout-note">
+              <span class="callout-label">Strategia</span>
+              Separa sempre il nuovo termine $(k+1)$ e usa l'ipotesi per la parte precedente.
+            </div>
+            <p><strong>Esempio:</strong> somma dei quadrati</p>
+            <div class="math">$$\sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6}$$</div>
+            <p style="font-size: 0.85em;">Nel passo $k \to k+1$: isola $(k+1)^2$ e sostituisci la somma dei primi $k$ quadrati con la formula ipotizzata.</p>
+          </section>
+
+          <section>
+            <h3>Divisibilità</h3>
+            <div class="callout callout-note">
+              <span class="callout-label">Strategia</span>
+              Fattorizza facendo comparire il termine precedente (l'ipotesi induttiva).
+            </div>
+            <p><strong>Esempio:</strong> $4^n - 1$ è divisibile per $3$.</p>
+            <div class="math">$$4^{k+1} - 1 = 4 \cdot 4^{k} - 1 = 4\,(4^{k} - 1) + 3$$</div>
+            <p style="font-size: 0.85em;">$4^k - 1$ è divisibile per 3 per ipotesi, e $+3$ pure: la somma resta divisibile per 3.</p>
+          </section>
+
+          <section>
+            <h3>Disuguaglianze</h3>
+            <div class="callout callout-note">
+              <span class="callout-label">Strategia</span>
+              Parti dalla disuguaglianza dell'ipotesi e combinala con altre disuguaglianze note.
+            </div>
+            <p><strong>Esempio:</strong> $2^n > n^2$ per $n \geq 5$.</p>
+            <div class="math">$$2^{k+1} = 2 \cdot 2^{k} > 2 k^2$$</div>
+            <p style="font-size: 0.85em;">Poi basta mostrare che $2k^2 > (k+1)^2$ per $k \geq 5$, e la catena è chiusa.</p>
+            <aside class="notes">
+              <p>Nelle disuguaglianze il passo base non è sempre n=1: qui parte da n=5. Ricorda agli studenti di controllare da dove "parte" davvero la proprietà.</p>
+            </aside>
+          </section>
+        </section>
+
+        <!-- STRATEGIA GENERALE -->
+        <section>
+          <h2>Se ti <em>blocchi</em></h2>
+          <div class="callout callout-warn">
+            <span class="callout-label">Un metodo che funziona quasi sempre</span>
+          </div>
+          <ol style="font-size: 0.9em; line-height: 1.9;">
+            <li>Scrivi con chiarezza l'ipotesi $P(k)$ e la tesi $P(k+1)$, poi <strong>confrontale</strong>: cosa cambia?</li>
+            <li>Prova i primi 3-4 casi numericamente e osserva come si passa da uno all'altro.</li>
+            <li>Quella trasformazione ti suggerisce la mossa per il passo induttivo.</li>
+          </ol>
+          <div class="callout callout-note">
+            <span class="callout-label">Regola d'oro</span>
+            Il passo induttivo deve sempre far <em>comparire</em> l'ipotesi: è l'unico ponte tra $k$ e $k+1$.
+          </div>
+        </section>
+
+        <!-- CHIUSURA -->
+        <section>
+          <h2>E così <em>cadono tutte</em></h2>
+          <p style="font-size: 1.1em;">Due mosse — la prima tessera, e il legame tra una e la successiva — bastano a domare l'infinito.</p>
+          <a class="math-of-things-link" href="https://mathofthings.netlify.app/" target="_blank" rel="noopener">The Math of Things</a>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script src="particles.js"></script>
+    <script src="config.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        Reveal.initialize(revealConfig).catch((err) => {
+          console.error('Errore inizializzazione Reveal.js:', err);
+        });
+
+        startDominoLoop();
+      });
+
+      function startDominoLoop() {
+        const stage = document.getElementById('dominoStage');
+        if (!stage) return;
+        const tiles = Array.from(stage.querySelectorAll('.domino'));
+        let i = 0;
+
+        function fallNext() {
+          if (i < tiles.length) {
+            tiles[i].classList.add('down');
+            i++;
+            setTimeout(fallNext, 240);
+          } else {
+            setTimeout(reset, 1400);
+          }
+        }
+
+        function reset() {
+          tiles.forEach((t) => { t.classList.add('no-anim'); t.classList.remove('down'); });
+          void stage.offsetWidth; // forza il reflow: le tessere si rialzano senza animazione
+          tiles.forEach((t) => t.classList.remove('no-anim'));
+          i = 0;
+          setTimeout(fallNext, 900);
+        }
+
+        fallNext();
+      }
+    </script>
+
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']],
+        },
+        svg: {
+          fontCache: 'global',
+        },
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </body>
+</html>
