@@ -1,0 +1,743 @@
+/* reveal-slides custom theme
+   Minimalista, coerente con mathofthings design
+   Palette: #faf7f2 (background), #ed6f5c (coral), #2c2520 (text)
+   Font: Playfair Display (titoli), Georgia (corpo), JetBrains Mono (tecnico)
+*/
+
+:root {
+  --bg-light: #f5f0e8;
+  --bg-dark: #1a1a1a;
+  --primary: #ed6f5c;
+  --primary-dark: #c2185b;
+  --text-light: #2c2520;
+  --text-dark: #e0e0e0;
+  --border-light: rgba(44, 37, 32, 0.1);
+  --reveal-width: 100%;
+  --reveal-height: 100%;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Georgia:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap");
+
+/* Dark mode support */
+html.dark-mode {
+  color-scheme: dark;
+}
+
+html:not(.dark-mode) {
+  color-scheme: light;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   TEMA REVEAL.JS BASE
+   ───────────────────────────────────────────────────────────── */
+
+.reveal {
+  font-family: Georgia, serif;
+  font-size: 32px;
+  font-weight: normal;
+  color: var(--text-light);
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  text-transform: none;
+  word-wrap: break-word;
+  line-height: 1.2;
+}
+
+.reveal h1 { font-size: 3.4em; line-height: 1.1; }
+.reveal h2 { font-size: 2.4em; }
+.reveal h3 { font-size: 1.9em; }
+.reveal h4 { font-size: 1.4em; }
+.reveal h5 { font-size: 1.1em; }
+.reveal h6 { font-size: 0.88em; }
+
+/* Alternanza corsivo/normale nei titoli */
+.reveal h1 em,
+.reveal h2 em,
+.reveal h3 em,
+.reveal h4 em {
+  font-style: italic;
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.reveal p {
+  margin: 20px 0;
+  line-height: 1.7;
+}
+
+.reveal em {
+  font-style: italic;
+  color: var(--primary);
+}
+
+.reveal strong {
+  font-weight: 700;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   BACKGROUND — sfondo bianco con particles overlay
+   ───────────────────────────────────────────────────────────── */
+
+.reveal-viewport {
+  background: var(--bg-light);
+}
+
+#particles-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SLIDE STYLING
+   ───────────────────────────────────────────────────────────── */
+
+.reveal {
+  background: transparent;
+  padding: 0;
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal .slides > section {
+  box-sizing: border-box;
+  padding: 50px 90px;
+}
+
+.reveal .slides > section > section {
+  box-sizing: border-box;
+  padding: 50px 90px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SLIDE TITOLO (H1 isolato)
+   ───────────────────────────────────────────────────────────── */
+
+.reveal section.title-slide h1 {
+  font-size: 4em;
+  letter-spacing: -0.05em;
+  margin-bottom: 0.2em;
+}
+
+.reveal section.title-slide .subtitle {
+  font-size: 1.5em;
+  font-style: italic;
+  color: var(--primary);
+  margin-top: 0.3em;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   BLOCCHI DEFINIZIONE (colonna coral-left)
+   ───────────────────────────────────────────────────────────── */
+
+.definition-block {
+  border-left: 4px solid var(--primary);
+  padding-left: 24px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  margin: 24px 0;
+  background: rgba(237, 111, 92, 0.04);
+  font-size: 0.95em;
+}
+
+.definition-block .label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FORMULA MATEMATICA
+   ───────────────────────────────────────────────────────────── */
+
+.reveal .math {
+  font-family: Georgia, serif;
+  font-size: 1.1em;
+  margin: 16px 0;
+  padding: 12px 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CODICE
+   ───────────────────────────────────────────────────────────── */
+
+.reveal code {
+  font-family: "Fira Code", monospace;
+  font-size: 0.9em;
+  padding: 2px 6px;
+  background: rgba(44, 37, 32, 0.08);
+  border-radius: 3px;
+  color: var(--text-light);
+}
+
+.reveal pre {
+  width: 100%;
+  margin: 24px 0;
+  padding: 16px;
+  background: rgba(44, 37, 32, 0.06);
+  border-left: 3px solid var(--primary);
+  border-radius: 4px;
+  font-size: 0.75em;
+}
+
+.reveal pre code {
+  background: transparent;
+  padding: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   LISTE
+   ───────────────────────────────────────────────────────────── */
+
+.reveal ul,
+.reveal ol {
+  margin: 24px 0;
+  padding-left: 40px;
+}
+
+.reveal ul li,
+.reveal ol li {
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.reveal ul li::marker {
+  color: var(--primary);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   QUOTE
+   ───────────────────────────────────────────────────────────── */
+
+.reveal blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 24px;
+  margin: 24px 0;
+  font-style: italic;
+  background: rgba(237, 111, 92, 0.04);
+  font-size: 0.95em;
+}
+
+.reveal blockquote > p:first-child::before {
+  content: '"';
+  color: var(--primary);
+  font-size: 1.5em;
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   TABELLE
+   ───────────────────────────────────────────────────────────── */
+
+.reveal table {
+  margin: 24px auto;
+  border-collapse: collapse;
+  font-size: 0.85em;
+}
+
+.reveal table th {
+  border-bottom: 2px solid var(--primary);
+  padding: 12px 8px;
+  font-weight: 700;
+  text-align: left;
+  background: rgba(237, 111, 92, 0.06);
+}
+
+.reveal table td {
+  padding: 8px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   LINK
+   ───────────────────────────────────────────────────────────── */
+
+.reveal a {
+  color: var(--primary);
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.reveal a:hover {
+  color: var(--primary-dark);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   NOTA (sidebar leggero)
+   ───────────────────────────────────────────────────────────── */
+
+.note {
+  font-size: 0.75em;
+  font-style: italic;
+  color: rgba(44, 37, 32, 0.6);
+  padding: 12px 16px;
+  border-left: 2px solid rgba(237, 111, 92, 0.3);
+  margin: 16px 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CONTROLLI REVEAL
+   ───────────────────────────────────────────────────────────── */
+
+.reveal .controls {
+  color: var(--primary);
+}
+
+.reveal .progress {
+  background: rgba(237, 111, 92, 0.3);
+  color: var(--primary);
+}
+
+.reveal .progress bar {
+  background: var(--primary);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SPEAKER NOTES
+   ───────────────────────────────────────────────────────────── */
+
+.reveal .speaker-notes {
+  background: rgba(44, 37, 32, 0.06);
+  color: var(--text-light);
+  padding: 16px;
+  border-top: 1px solid var(--border-light);
+  font-size: 0.75em;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   LAYOUT DUE COLONNE
+   ───────────────────────────────────────────────────────────── */
+
+.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7em;
+  align-items: center;
+  font-size: 0.85em;
+}
+
+.two-columns.left-image {
+  grid-template-columns: 1fr 1.2fr;
+}
+
+.two-columns.right-image {
+  grid-template-columns: 1.2fr 1fr;
+}
+
+.two-columns img {
+  max-width: 100%;
+  height: auto;
+}
+
+.two-columns > div {
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+/* Descrizione metodo - testo non deborda */
+.reveal div[style*="margin-top: 1.5em"] {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 90%;
+  margin-right: 40px;
+}
+
+/* Colonna sinistra visibile, destra con fragment (animata) */
+.two-columns > div:first-child {
+  /* sempre visibile */
+}
+
+.two-columns > div:last-child {
+  /* animazione fragment */
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ESEMPI STILATI
+   ───────────────────────────────────────────────────────────── */
+
+.example-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75em;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 0.5em;
+  letter-spacing: 0.05em;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   DESCRIZIONE METODO
+   ───────────────────────────────────────────────────────────── */
+
+.method-description {
+  margin-top: 1.5em;
+  padding: 16px;
+  border: 1px solid rgba(237, 111, 92, 0.2);
+  border-radius: 4px;
+  background: rgba(245, 240, 232, 0.5);
+}
+
+.method-description-title {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.8em;
+}
+
+.method-description p {
+  font-family: Georgia, serif;
+  font-size: 0.95em;
+  line-height: 1.7;
+  color: var(--text-light);
+}
+
+@media (max-width: 768px) {
+  .two-columns {
+    grid-template-columns: 1fr;
+    gap: 1.5em;
+  }
+
+  .two-columns.left-image,
+  .two-columns.right-image {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   NUMERAZIONE SLIDE
+   ───────────────────────────────────────────────────────────── */
+
+.reveal .slide-number {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8em;
+  color: var(--text-light);
+  opacity: 0.5;
+  font-family: "JetBrains Mono", monospace;
+  z-index: 10;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   DARK MODE
+   ───────────────────────────────────────────────────────────── */
+
+html.dark-mode .reveal-viewport {
+  background: var(--bg-dark);
+}
+
+html.dark-mode .reveal {
+  color: var(--text-dark);
+}
+
+html.dark-mode .reveal code {
+  background: rgba(224, 224, 224, 0.15);
+  color: #e0e0e0;
+}
+
+html.dark-mode .reveal pre {
+  background: rgba(224, 224, 224, 0.06);
+  border-left-color: #f08e7c;
+}
+
+html.dark-mode .reveal h1,
+html.dark-mode .reveal h2,
+html.dark-mode .reveal h3,
+html.dark-mode .reveal h4,
+html.dark-mode .reveal h5,
+html.dark-mode .reveal h6 {
+  color: var(--text-dark);
+}
+
+html.dark-mode .reveal h1 em,
+html.dark-mode .reveal h2 em,
+html.dark-mode .reveal h3 em,
+html.dark-mode .reveal h4 em {
+  color: #f08e7c;
+}
+
+html.dark-mode .definition-block {
+  border-left-color: #f08e7c;
+  background: rgba(240, 142, 124, 0.06);
+}
+
+html.dark-mode .definition-block .label {
+  color: #f08e7c;
+}
+
+html.dark-mode .note {
+  color: rgba(224, 224, 224, 0.7);
+  border-left-color: rgba(240, 142, 124, 0.4);
+}
+
+html.dark-mode blockquote {
+  border-left-color: #f08e7c;
+  background: rgba(240, 142, 124, 0.06);
+}
+
+html.dark-mode .reveal a {
+  color: #f08e7c;
+}
+
+html.dark-mode .reveal a:hover {
+  color: #ffb0a0;
+}
+
+html.dark-mode .reveal table th {
+  border-bottom-color: #f08e7c;
+  background: rgba(240, 142, 124, 0.1);
+}
+
+html.dark-mode .reveal table td {
+  border-bottom-color: rgba(224, 224, 224, 0.2);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CALLOUT BOXES
+   ───────────────────────────────────────────────────────────── */
+
+.callout {
+  border-left: 3px solid var(--primary);
+  border-radius: 0 4px 4px 0;
+  padding: 10px 16px;
+  margin: 0.6em 0;
+  font-size: 0.82em;
+  line-height: 1.6;
+}
+
+.callout-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.85em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: block;
+  margin-bottom: 0.3em;
+}
+
+.callout-warn {
+  border-color: var(--primary);
+  background: rgba(237, 111, 92, 0.07);
+}
+.callout-warn .callout-label { color: var(--primary); }
+
+.callout-note {
+  border-color: #5a8a5a;
+  background: rgba(90, 138, 90, 0.07);
+}
+.callout-note .callout-label { color: #5a8a5a; }
+
+html.dark-mode .callout-note  { background: rgba(90, 138, 90, 0.13); }
+html.dark-mode .callout-warn  { background: rgba(237, 111, 92, 0.13); }
+html.dark-mode .callout-note .callout-label { color: #7fc47f; }
+
+/* ─────────────────────────────────────────────────────────────
+   TABELLA RIEPILOGO
+   ───────────────────────────────────────────────────────────── */
+
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8em;
+  margin-top: 0.6em;
+}
+
+.summary-table th {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 6px 14px;
+  border-bottom: 2px solid var(--primary);
+  text-align: left;
+}
+
+.summary-table td {
+  padding: 6px 14px;
+  border-bottom: 1px solid var(--border-light);
+  vertical-align: middle;
+}
+
+.summary-table tr:nth-child(even) td {
+  background: rgba(44, 37, 32, 0.03);
+}
+
+html.dark-mode .summary-table tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.04);
+}
+html.dark-mode .summary-table td {
+  border-bottom-color: rgba(224, 224, 224, 0.1);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SLIDE CITAZIONE (sfondo coral, testo bianco)
+   ───────────────────────────────────────────────────────────── */
+
+.reveal section.quote-slide {
+  color: #ffffff;
+}
+
+.reveal section.quote-slide h1,
+.reveal section.quote-slide h2,
+.reveal section.quote-slide h3,
+.reveal section.quote-slide p,
+.reveal section.quote-slide a {
+  color: #ffffff !important;
+}
+
+.reveal section.quote-slide .math-of-things-link {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.reveal section.quote-slide .math-of-things-link:hover {
+  color: #ffffff !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   TESTO ATTENUATO — usa variabile per dark mode
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --text-muted: rgba(44, 37, 32, 0.78);
+}
+
+html.dark-mode {
+  --text-muted: rgba(224, 224, 224, 0.72);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+/* Fix dark mode: override inline styles hardcoded con colori scuri */
+html.dark-mode .reveal section:not(.quote-slide) p {
+  color: var(--text-dark) !important;
+}
+
+html.dark-mode .reveal section:not(.quote-slide) span {
+  color: var(--text-dark) !important;
+}
+
+/* Ripristina colori speciali coral/verde */
+html.dark-mode .reveal .callout-warn .callout-label,
+html.dark-mode .reveal .example-label,
+html.dark-mode .reveal .definition-block .label,
+html.dark-mode .reveal section.title-slide .subtitle em,
+html.dark-mode .reveal h1 em,
+html.dark-mode .reveal h2 em,
+html.dark-mode .reveal h3 em {
+  color: var(--primary) !important;
+}
+
+html.dark-mode .reveal .callout-note .callout-label {
+  color: #7fc47f !important;
+}
+
+html.dark-mode .reveal .math-of-things-link {
+  color: var(--primary) !important;
+}
+
+html.dark-mode .reveal section.title-slide .subtitle {
+  color: var(--primary) !important;
+}
+
+html.dark-mode .reveal .controls {
+  color: #f08e7c;
+}
+
+html.dark-mode .reveal .progress {
+  background: rgba(240, 142, 124, 0.3);
+}
+
+html.dark-mode .reveal .progress bar {
+  background: #f08e7c;
+}
+
+html.dark-mode .title-slide > div[style*="margin-top: 2.5em"] {
+  color: #e0e0e0 !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   LINK THE MATH OF THINGS
+   ───────────────────────────────────────────────────────────── */
+
+.math-of-things-link {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: color 0.3s ease;
+}
+
+.math-of-things-link:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+html.dark-mode .math-of-things-link {
+  color: #f08e7c;
+}
+
+html.dark-mode .math-of-things-link:hover {
+  color: #ffb0a0;
+}
+
+/* Auto dark mode based on system preference */
+@media (prefers-color-scheme: dark) {
+  html:not(.light-mode) {
+    --bg-light: var(--bg-dark);
+    --text-light: var(--text-dark);
+    --primary: #f08e7c;
+  }
+
+  html:not(.light-mode) .reveal-viewport {
+    background: var(--bg-dark);
+  }
+
+  html:not(.light-mode) .reveal {
+    color: var(--text-dark);
+  }
+
+  html:not(.light-mode) .reveal code {
+    background: rgba(224, 224, 224, 0.15);
+    color: #e0e0e0;
+  }
+
+  html:not(.light-mode) .definition-block {
+    border-left-color: #f08e7c;
+    background: rgba(240, 142, 124, 0.06);
+  }
+
+  html:not(.light-mode) .definition-block .label {
+    color: #f08e7c;
+  }
+}

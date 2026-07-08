@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fattorizzazione Polinomiale — The Math of Things</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/serif.min.css" />
+    <link rel="stylesheet" href="theme.css" />
+
+    <style>
+      body { margin: 0; padding: 0; overflow: hidden; }
+      .speaker-note { font-size: 0.75em; font-style: italic; color: rgba(44, 37, 32, 0.6); margin-top: 1.5em; }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="particles-canvas"></canvas>
+
+    <button
+      id="dark-mode-toggle"
+      style="
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        z-index: 100;
+        background: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        opacity: 0.5;
+        transition: opacity 0.3s ease;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      "
+      onmouseover="this.style.opacity='0.8'"
+      onmouseout="this.style.opacity='0.5'"
+      onclick="toggleDarkMode()"
+      title="Toggle light/dark mode"
+    >
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none">
+        <circle cx="12" cy="12" r="10" fill="white" stroke="currentColor" stroke-width="1.5"></circle>
+        <circle cx="12" cy="12" r="10" fill="black" clip-path="polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%)"></circle>
+      </svg>
+    </button>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- SEZIONE TITOLO -->
+        <section class="title-slide">
+          <h1>Fattorizzazione <em>Polinomiale</em></h1>
+          <p class="subtitle">Come riconoscere i blocchi nascosti</p>
+          <p style="margin-top: 2.5em; font-family: 'JetBrains Mono', monospace; font-size: 0.7em; color: var(--primary); letter-spacing: 0.05em;">
+            prof. Diego Fantinelli
+          </p>
+          <a class="math-of-things-link" href="https://mathofthings.netlify.app/" target="_blank" rel="noopener">The Math of Things</a>
+        </section>
+
+        <!-- SEZIONE 1: INTRODUZIONE E MOTIVAZIONE (orizzontale) -->
+        <section>
+          <section>
+            <h2>Perché scomponiamo i <em>polinomi</em>?</h2>
+            <p>Un polinomio è come un'espressione "non ridotta" — contiene informazioni nascoste.</p>
+          </section>
+
+          <section>
+            <div class="two-columns">
+              <div>
+                <h3>L'<em>Analogia</em></h3>
+                <p><strong>Numero:</strong></p>
+                <div class="math">$$12 = 3 \times 4 = 2^2 \times 3$$</div>
+                <p style="margin-top: 1.5em;"><strong>Polinomio:</strong></p>
+                <div class="math">$$x^2 - 4 = (x-2)(x+2)$$</div>
+              </div>
+              <div>
+                <h4 style="color: var(--primary)">Informazioni <em>nascoste</em></h4>
+                <div style="border: 1px solid rgba(237, 111, 92, 0.3); border-radius: 4px; padding: 16px; margin-top: 1em;">
+                  <p><strong>Zeri del polinomio:</strong><br>$x = 2$ e $x = -2$</p>
+                  <p style="margin-top: 1em;"><strong>Forma fattorizzata</strong> ci permette di leggere tutto subito!</p>
+                </div>
+              </div>
+            </div>
+            <aside class="notes">
+              <p>Se vediamo $x^2 - 4$ non fattorizzato, è tipo guardare una scatola chiusa. Una volta fattorizzato? Boom, apriamo la scatola e vediamo gli zeri: $x=±2$. Caso reale: in fisica, le radici di un polinomio sono i punti di equilibrio di un sistema. Fattorizzare = trovare gli equilibri senza usare la calcolatrice grafica.</p>
+            </aside>
+          </section>
+
+          <section>
+            <h3><em>Definizione</em> Formale</h3>
+            <div style="border: 1px solid rgba(237, 111, 92, 0.3); border-radius: 4px; padding: 20px; margin-top: 1.5em;">
+              <p>Fattorizzare un polinomio $P(x)$ significa scriverlo come <strong>prodotto di polinomi di grado inferiore</strong>:</p>
+              <div class="math">$$P(x) = A(x) \cdot B(x) \cdot C(x) \cdots$$</div>
+              <p style="margin-top: 1em;">dove nessuno dei fattori può essere ulteriormente scomposto.</p>
+            </div>
+            <p style="margin-top: 2em;"><strong>Esempio:</strong></p>
+            <div class="math">$$2x^2 + 8x + 6 = 2(x^2 + 4x + 3) = 2(x+1)(x+3)$$</div>
+            <aside class="notes">
+              <p>La fattorizzazione non cambia il valore, solo la forma. È come dire "12 = 3×4" invece di "12". Stesso numero, informazioni diverse.</p>
+            </aside>
+          </section>
+
+          <section>
+            <h3>A che cosa <em>serve</em>?</h3>
+            <ul style="font-size: 0.95em; line-height: 2;">
+              <li><strong>Trovare gli zeri</strong> — Se $P(x) = (x-2)(x+1)$, allora gli zeri sono $x=2, -1$</li>
+              <li><strong>Semplificare frazioni</strong> — $\frac{x^2-4}{x+2} = \frac{(x-2)(x+2)}{x+2} = x-2$</li>
+              <li><strong>Studiare il segno</strong> — Capire dove è positivo/negativo</li>
+              <li><strong>Applicazioni reali</strong> — Fisica, economia, ingegneria</li>
+            </ul>
+            <div style="border: 1px solid rgba(237, 111, 92, 0.3); border-radius: 4px; padding: 12px; margin-top: 2em;">
+              <p style="font-size: 0.9em;">La fattorizzazione è uno <strong>strumento trasversale</strong> — la userai ovunque!</p>
+            </div>
+            <aside class="notes">
+              <p>Caso reale: un ingegnere studia una struttura (ponte, edificio). La forma fattorizzata gli dice dove il sistema va in "crisi" (gli zeri della funzione sforzo). Oppure: un'azienda modella i costi come $C(x) = x(x-5)(x-10)$. Fattorizzando capisci dove il costo è zero (non ha senso economico) e dove è positivo/negativo.</p>
+            </aside>
+          </section>
+        </section>
+
+        <!-- SEZIONE 2: METODO 1 — RACCOGLIMENTO TOTALE (orizzontale) -->
+        <section>
+          <section>
+            <h2>Metodo 1: <em>Raccoglimento</em> Totale</h2>
+            <p>Cercare un <strong>fattore comune</strong> a tutti i termini.</p>
+          </section>
+
+          <section>
+            <div class="two-columns">
+              <div>
+                <h4>Procedura</h4>
+                <ol style="font-size: 0.9em;">
+                  <li>MCD dei coefficienti</li>
+                  <li>Potenza minima di ogni variabile</li>
+                  <li>Raccogli il fattore</li>
+                </ol>
+              </div>
+              <div>
+                <h4 style="color: var(--primary)">Esempi</h4>
+                <div style="border: 1px solid rgba(237, 111, 92, 0.3); border-radius: 4px; padding: 12px;">
+                  <p><strong>Es. 1:</strong></p>
+                  <div class="math">$$3x^2 + 6x + 9 = 3(x^2 + 2x + 3)$$</div>
+                  <p style="margin-top: 1em;"><strong>Es. 2:</strong></p>
+                  <div class="math">$$4x^3y^2 - 8x^2y^3 + 12xy$$</div>
+                  <div class="math">$$ = 4xy(x^2y - 2xy^2 + 3)$$</div>
+                </div>
+              </div>
+            </div>
+            <aside class="notes">
+              <p>Il raccoglimento totale è il più facile, ma il più potente: sempre provalo PRIMA di qualsiasi altro metodo. Caso reale: in economia, $R(x) = 100x + 50x + 30x$ (diversi tipi di ricavo). Raccogliendo: $R(x) = 10x(10 + 5 + 3)$ — vedi subito che il ricavo totale cresce linearmente con $x$.</p>
+            </aside>
+          </section>
+        </section>
+
+        <!-- SEZIONE 3: METODO 2 — RACCOGLIMENTO PARZIALE (orizzontale) -->
+        <section>
+          <section>
+            <h2>Metodo 2: <em>Raccoglimento</em> Parziale</h2>
+            <p>Polinomi con 4+ termini, senza fattore comune totale.</p>
+            <p style="font-size: 0.85em;">L'idea è raggruppare i termini a due a due per far comparire un fattore comune tra le coppie.</p>
+          </section>
+
+          <section>
+            <div class="two-columns">
+              <div>
+                <h4>Strategia</h4>
+                <ol style="font-size: 0.9em;">
+                  <li>Raggruppa i termini in coppie</li>
+                  <li>Raccogli da ogni coppia</li>
+                  <li>Raccogli ancora il fattore comune</li>
+                </ol>
+              </div>
+              <div>
+                <h4 style="color: var(--primary)">Esempi</h4>
+                <div style="border: 1px solid rgba(237, 111, 92, 0.3); border-radius: 4px; padding: 12px;">
+                  <p><strong>Es. 1:</strong></p>
+                  <div class="math">$$ax + ay + bx + by = (a+b)(x+y)$$</div>
+                  <p style="margin-top: 1.5em;"><strong>Es. 2:</strong></p>
+                  <div class="math">$$2x^3 - 3x^2 + 8x - 12$$</div>
+                  <p style="font-size: 0.8em; margin: 0.4em 0;">Raggruppo: $x^2(2x-3) + 4(2x-3)$</p>
+                  <div class="math">$$ = (x^2+4)(2x-3)$$</div>
+                </div>
+              </div>
+            </div>
+            <aside class="notes">
+              <p>Il raccoglimento parziale è il "trucco nascosto" che fa sembrare uno studente intelligente. Caso reale: analizzare il budget di un'azienda per 4 trimestri. Se gruppi per semestri e riconosci il fattore... boom, vedi il trend nascosto. Attenzione: i fattori tra parentesi devono essere IDENTICI, altrimenti riprova con un raggruppamento diverso.</p>
+            </aside>
+          </section>
+        </section>
+
+        <!-- SEZIONE 4: METODO 3 — QUADRATI E CUBI (orizzontale) -->
+        <section>
+          <section>
+            <h2>Metodo 3: <em>Prodotti</em> Notevoli</h2>
+            <p>Differenza di quadrati, quadrati perfetti, e cubi.</p>
+          </section>
+
+          <section>
+            <h3>Differenza di <em>Quadrati</em></h3>
+            <div class="two-columns">
+              <div>
+                <div class="math">$$a^2 - b^2 = (a-b)(a+b)$$</div>
+                <p style="font-size: 0.8em;">Attenzione: vale solo per la <em>differenza</em>. La somma $a^2 + b^2$ non si scompone.</p>
+              </div>
+              <div>
+                <div style="border: 1px solid rgba(237, 111, 92, 0.3); border-radius: 4px; padding: 12px;">
+                  <p><strong>Es. 1:</strong> $x^2 - 9 = (x-3)(x+3)$</p>
+                  <p style="margin-top: 1em;"><strong>Es. 2:</strong> $4x^2 - 25 = (2x-5)(2x+5)$</p>
+                </div>
+              </div>
+            </div>
+            <aside class="notes">
+              <p>La differenza di quadrati è il "pattern" più veloce da riconoscere. Se vedi $x^2$ e un numero quadrato (4, 9, 16, 25), pensi subito: differenza di quadrati!</p>
+            </aside>
+          </section>
+
+          <section>
+            <h3>Quadrato <em>Perfetto</em></h3>
+            <div class="two-columns">
+              <div>
+                <div class="math">$$a^2 + 2ab + b^2 = (a+b)^2$$</div>
+                <div class="math">$$a^2 - 2ab + b^2 = (a-b)^2$$</div>
+              </div>
+              <div>
+                <div style="border: 1px solid rgba(237, 111, 92, 0.3); border-radius: 4px; padding: 12px;">
+                  <p><strong>Es. 1:</strong> $x^2 + 6x + 9 = (x+3)^2$</p>
+                  <p style="margin-top: 1em;"><strong>Es. 2:</strong> $x^2 - 8x + 16 = (x-4)^2$</p>
+                  <p style="margin-top: 1.5em; font-size: 0.85em;"><strong>Riconoscimento:</strong> Tre termini. Primo e terzo sono quadrati. Termine di mezzo = doppio prodotto delle basi.</p>
+                </div>
+              </div>
+            </div>
+            <aside class="notes">
+              <p>Il quadrato perfetto è il "gemello cattivo" della differenza di quadrati. Se vedi tre termini e il primo/terzo sono quadrati, controlla se il termine di mezzo è il doppio prodotto. Se sì, sei a casa.</p>
+            </aside>
+          </section>
+
+          <section>
+            <h3>Somma e Differenza di <em>Cubi</em></h3>
+            <div class="two-columns">
+              <div>
+                <div class="math">$$a^3 + b^3 = (a+b)(a^2 - ab + b^2)$$</div>
+                <div class="math" style="margin-top: 1.5em;">$$a^3 - b^3 = (a-b)(a^2 + ab + b^2)$$</div>
+                <p style="font-size: 0.78em; margin-top: 1em;">Il segno del binomio segue quello del cubo; il trinomio $a^2 \mp ab + b^2$ non si scompone oltre.</p>
+              </div>
+              <div>
+                <div style="border: 1px solid rgba(237, 111, 92, 0.3); border-radius: 4px; padding: 12px;">
+                  <p><strong>Es. 1:</strong></p>
+                  <div class="math">$$x^3 + 8 = (x+2)(x^2 - 2x + 4)$$</div>
+                  <p style="margin-top: 1.5em;"><strong>Es. 2:</strong></p>
+                  <div class="math">$$x^3 - 27 = (x-3)(x^2 + 3x + 9)$$</div>
+                </div>
+              </div>
+            </div>
+            <aside class="notes">
+              <p>I cubi sono "brutti" ma il pattern è meccanico: somma $\to$ primo fattore positivo; differenza $\to$ primo fattore negativo. Attenzione: i trinomi $a^2 \mp ab + b^2$ NON si scompongono ulteriormente (discriminante negativo).</p>
+            </aside>
+          </section>
+        </section>
+
+        <!-- SEZIONE 5: METODO 4 — TRINOMIO (orizzontale) -->
+        <section>
+          <section>
+            <h2>Metodo 4: <em>Trinomio</em> Scomponibile</h2>
+            <p>Forma $ax^2 + bx + c$</p>
+          </section>
+
+          <section>
+            <h3>Caso Semplice: $x^2 + bx + c$</h3>
+            <div class="two-columns">
+              <div>
+                <p><strong>Cerchiamo</strong> due numeri $m, n$ tali che:</p>
+                <ul style="font-size: 0.9em;">
+                  <li>$m + n = b$</li>
+                  <li>$m \times n = c$</li>
+                </ul>
+                <p style="margin-top: 1em;"><strong>Allora:</strong></p>
+                <div class="math">$$x^2 + bx + c = (x+m)(x+n)$$</div>
+              </div>
+              <div>
+                <div style="border: 1px solid rgba(237, 111, 92, 0.3); border-radius: 4px; padding: 12px;">
+                  <p><strong>Esempio:</strong></p>
+                  <div class="math">$$x^2 + 5x + 6$$</div>
+                  <p style="margin-top: 0.8em;"><strong>Numeri:</strong> $m=2, n=3$</p>
+                  <p style="margin-top: 0.5em;">$2+3=5$ ✓, $2\times 3=6$ ✓</p>
+                  <div class="math" style="margin-top: 1em;">$$= (x+2)(x+3)$$</div>
+                </div>
+              </div>
+            </div>
+            <aside class="notes">
+              <p>Il trucco è una "tabella mentale" dei divisori di $c$. Scrivi i divisori, controlla quale coppia ha somma $b$. Se ci sono molti divisori, la tabella diventa uno strumento salvavita.</p>
+            </aside>
+          </section>
+
+          <section>
+            <h3>Caso Generale: $ax^2 + bx + c$</h3>
+            <div class="two-columns">
+              <div>
+                <p><strong>Metodo:</strong></p>
+                <ol style="font-size: 0.9em;">
+                  <li>Moltiplica $a \times c$</li>
+                  <li>Applica il caso semplice</li>
+                  <li>Usa raccoglimento parziale</li>
+                </ol>
+                <p style="font-size: 0.8em; margin-top: 0.6em;">In pratica si spezza il termine centrale $bx$ in due parti che permettano il raccoglimento parziale.</p>
+              </div>
+              <div>
+                <div style="border: 1px solid rgba(237, 111, 92, 0.3); border-radius: 4px; padding: 12px;">
+                  <p><strong>Esempio:</strong> $2x^2 + 7x + 3$</p>
+                  <p style="margin-top: 0.8em;">$a \times c = 2 \times 3 = 6$</p>
+                  <p style="margin-top: 0.5em;">Numeri che sommano a 7 e moltiplicano per 6: $6, 1$</p>
+                  <div class="math" style="margin-top: 1em;">$$2x^2 + 6x + x + 3$$</div>
+                  <div class="math">$$ = 2x(x+3) + 1(x+3) = (2x+1)(x+3)$$</div>
+                </div>
+              </div>
+            </div>
+            <aside class="notes">
+              <p>Questo metodo è "il boss finale" per i trinomi. Una volta capito, fattorizzare diventa meccanico. Caso reale: un economista modella il profitto come $P(x) = 2x^2 - 7x + 3$. Fattorizzando trova dove il profitto è zero (punti di equilibrio).</p>
+            </aside>
+          </section>
+        </section>
+
+        <!-- SEZIONE 6: STRATEGIA (orizzontale) -->
+        <section>
+          <h2>Strategia di <em>Scomposizione</em></h2>
+          <div style="border: 1px solid rgba(237, 111, 92, 0.3); border-radius: 4px; padding: 16px; font-size: 0.85em; line-height: 1.8;">
+            <p><strong>1.</strong> Fattore comune totale? → Raccoglimento totale</p>
+            <p><strong>2.</strong> Sono 4+ termini? → Raggruppa e raccoglimento parziale</p>
+            <p><strong>3.</strong> Sono 3 termini? → Quadrato perfetto o trinomio</p>
+            <p><strong>4.</strong> Sono 2 termini? → Differenza di quadrati o somma/diff. cubi</p>
+            <p style="margin-top: 1.5em; font-weight: 700; color: var(--primary);">Regola d'oro: Sempre raccogliere un fattore comune PRIMA!</p>
+          </div>
+          <aside class="notes">
+            <p>Questa è la "mappa stradale" della fattorizzazione. Se la memorizzi, la scomposizione diventa un albero decisionale che segui step by step. Non è magia, è solo seguire le istruzioni.</p>
+          </aside>
+        </section>
+
+        <!-- SEZIONE 7: ESERCIZI (orizzontale) -->
+        <section>
+          <section>
+            <h2><em>Esercizi</em> Guidati</h2>
+            <p>Livelli crescenti di difficoltà.</p>
+          </section>
+
+          <section>
+            <h3>Livello 1 — <em>Raccoglimento</em></h3>
+            <div style="border: 1px solid rgba(237, 111, 92, 0.3); border-radius: 4px; padding: 16px;">
+              <p><strong>1.</strong> $5x^2 + 10x = ?$</p>
+              <p style="margin-top: 1em;"><strong>2.</strong> $3a^2b - 6ab^2 + 9ab = ?$</p>
+            </div>
+            <aside class="notes">
+              <p>Questi sono il riscaldamento. Se uno studente sbaglia qui, non è pronto per i metodi più avanzati.</p>
+            </aside>
+          </section>
+
+          <section>
+            <h3>Livello 2 — <em>Raccoglimento</em> Parziale</h3>
+            <div style="border: 1px solid rgba(237, 111, 92, 0.3); border-radius: 4px; padding: 16px;">
+              <p><strong>3.</strong> $x^2 + 2x + 3x + 6 = ?$</p>
+              <p style="margin-top: 1em;"><strong>4.</strong> $2xy + 3y + 2x + 3 = ?$</p>
+            </div>
+            <aside class="notes">
+              <p>Il raccoglimento parziale è dove i "bravi" studenti si distinguono dai "veterani".</p>
+            </aside>
+          </section>
+
+          <section>
+            <h3>Livello 3 — <em>Prodotti</em> Notevoli</h3>
+            <div style="border: 1px solid rgba(237, 111, 92, 0.3); border-radius: 4px; padding: 16px;">
+              <p><strong>5.</strong> $x^2 - 16 = ?$</p>
+              <p style="margin-top: 0.8em;"><strong>6.</strong> $x^2 + 10x + 25 = ?$</p>
+              <p style="margin-top: 0.8em;"><strong>7.</strong> $x^2 + 5x + 6 = ?$</p>
+            </div>
+            <aside class="notes">
+              <p>Qui il riconoscimento dei pattern diventa critico. Se vedi $x^2 - 16$, pensi: differenza di quadrati. Automatico.</p>
+            </aside>
+          </section>
+
+          <section>
+            <h3>Livello 4 — <em>Cubi</em></h3>
+            <div style="border: 1px solid rgba(237, 111, 92, 0.3); border-radius: 4px; padding: 16px;">
+              <p><strong>8.</strong> $8x^3 + 1 = ?$</p>
+              <p style="margin-top: 1em;"><strong>9.</strong> $x^3 - 64 = ?$</p>
+            </div>
+            <aside class="notes">
+              <p>Se arrivi qui e non sbagli, sei nella "top tier" della classe. I cubi sono il "final boss" per molti.</p>
+            </aside>
+          </section>
+        </section>
+
+        <!-- SEZIONE RIEPILOGO E CHIUSURA -->
+        <section>
+          <h2><em>Prossimi</em> Passi</h2>
+          <ul style="font-size: 0.95em; line-height: 2;">
+            <li><strong>Risoluzione di equazioni polinomiali</strong> — Fattorizzare per trovare le radici</li>
+            <li><strong>Studio del segno</strong> — Dove il polinomio è positivo/negativo</li>
+            <li><strong>Semplificazione di frazioni algebriche</strong> — Usare la fattorizzazione</li>
+            <li><strong>Applicazioni in fisica ed economia</strong> — Modelli reali</li>
+          </ul>
+          <div style="border: 1px solid rgba(237, 111, 92, 0.3); border-radius: 4px; padding: 12px; margin-top: 2em;">
+            <p style="color: var(--primary); font-weight: 700;">La fattorizzazione è il fondamento di tutto ciò che viene dopo!</p>
+          </div>
+          <aside class="notes">
+            <p>Ricorda ai ragazzi che quello che hanno imparato oggi non è una "skill isolata" — è il foundation per equazioni, disequazioni, grafici di funzioni, analisi. Ogni lezione futura userà la fattorizzazione.</p>
+          </aside>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script src="particles.js"></script>
+    <script src="config.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        Reveal.initialize(revealConfig).catch((err) => {
+          console.error('Errore inizializzazione Reveal.js:', err);
+        });
+      });
+    </script>
+
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']],
+        },
+        svg: {
+          fontCache: 'global',
+        },
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </body>
+</html>
