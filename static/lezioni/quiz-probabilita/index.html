@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Calcolo delle probabilità: fondamenti</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.level-legend{display:flex;gap:18px;flex-wrap:wrap;margin:20px 0 4px}
+.level-key{display:flex;align-items:center;gap:8px;font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-mid)}
+.level-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.btn-start{margin-top:16px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:filter .2s}
+.btn-start:hover{filter:brightness(.92)}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px;display:flex;align-items:center;gap:8px}
+.level-pill{font-family:'Fira Code',monospace;font-size:.62rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:2px 9px;border-radius:20px;background:var(--accent-light);color:var(--accent);border:1px solid var(--accent)}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease,background .3s ease}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:filter .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{filter:brightness(.92)}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.level-scores{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:22px 0 4px}
+.lscore{border:1px solid var(--border);border-radius:8px;padding:10px 18px;min-width:96px}
+.lscore-name{font-family:'Fira Code',monospace;font-size:.62rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.lscore-val{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:filter .2s}
+.btn-retry:hover{filter:brightness(.92)}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(6,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quiz · Probabilità</div>
+  <div class="topbar-tag">IIS G.A. Remondini</div>
+</div>
+
+<div class="container">
+
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Test di preparazione</div>
+      <h1>Calcolo delle probabilità — <em>fondamenti</em></h1>
+      <p class="hero-sub">30 domande a risposta multipla. Copre tutto il necessario: spazio campionario ed eventi, le tre definizioni di probabilità, regola della somma e del prodotto, probabilità condizionata, indipendenza e teorema di Bayes.</p>
+    </div>
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">30</span></div>
+      <div class="meta-item"><span class="meta-label">Tipo</span><span class="meta-value">Risposta multipla</span></div>
+      <div class="meta-item"><span class="meta-label">Feedback</span><span class="meta-value">Immediato</span></div>
+    </div>
+    <div class="level-legend">
+      <span class="level-key"><span class="level-dot" style="background:#c2185b"></span>Base · 1–10</span>
+      <span class="level-key"><span class="level-dot" style="background:#2e6da4"></span>Avanzato · 11–20</span>
+      <span class="level-key"><span class="level-dot" style="background:#7a3fa0"></span>Pro · 21–30</span>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia il test</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso <span class="level-pill" id="level-pill">Base</span></span>
+        <span class="progress-frac" id="prog-frac">1 / 30</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag">IIS G.A. Remondini · Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den">su 30 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+      <div class="level-scores" id="res-levels"></div>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova il test</button>
+      <a class="btn-lesson" href="../la08-calcolo-probabilita/lezione.html">Torna alla lezione</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const Q = [
+
+  // ══════════ BASE (1–10) ══════════
+  {
+    badge: "Definizione",
+    q: "La probabilità di un evento è sempre un numero:",
+    opts: [
+      "Compreso tra \\(0\\) e \\(1\\)",
+      "Maggiore di \\(1\\)",
+      "Compreso tra \\(-1\\) e \\(1\\)",
+      "Intero positivo"
+    ],
+    ans: 0,
+    exp: "La probabilità è un numero tra \\(0\\) (evento impossibile) e \\(1\\) (evento certo). Nessun evento può avere probabilità negativa o maggiore di \\(1\\)."
+  },
+  {
+    badge: "Spazio campionario",
+    q: "Lanciando un dado a sei facce, lo spazio campionario \\(\\Omega\\) è:",
+    opts: [
+      "\\(\\{1,2,3\\}\\)",
+      "\\(\\{1,2,3,4,5,6\\}\\)",
+      "\\(\\{2,4,6\\}\\)",
+      "\\(\\{0,1\\}\\)"
+    ],
+    ans: 1,
+    exp: "Lo spazio campionario è l'insieme di tutti gli esiti possibili: le sei facce \\(\\{1,2,3,4,5,6\\}\\)."
+  },
+  {
+    badge: "Definizione classica",
+    q: "Con un dado, qual è la probabilità di ottenere un numero pari?",
+    opts: [ "\\(\\dfrac{1}{6}\\)", "\\(\\dfrac{1}{3}\\)", "\\(\\dfrac{1}{2}\\)", "\\(\\dfrac{2}{3}\\)" ],
+    ans: 2,
+    exp: "I casi favorevoli sono \\(\\{2,4,6\\}\\), cioè 3 su 6: \\(P=\\dfrac{3}{6}=\\dfrac{1}{2}\\)."
+  },
+  {
+    badge: "Evento certo",
+    q: "Un evento che coincide con tutto lo spazio campionario \\(\\Omega\\) ha probabilità:",
+    opts: [ "\\(0\\)", "\\(0{,}5\\)", "\\(1\\)", "Dipende dai casi" ],
+    ans: 2,
+    exp: "L'evento certo si verifica sempre: per il secondo assioma \\(P(\\Omega)=1\\)."
+  },
+  {
+    badge: "Evento impossibile",
+    q: "Qual è la probabilità di ottenere un \\(7\\) lanciando un dado a sei facce?",
+    opts: [ "\\(0\\)", "\\(\\dfrac{1}{6}\\)", "\\(\\dfrac{1}{7}\\)", "\\(1\\)" ],
+    ans: 0,
+    exp: "Il \\(7\\) non appartiene allo spazio campionario: è un evento impossibile, quindi \\(P=0\\)."
+  },
+  {
+    badge: "Moneta",
+    q: "Lanciando una moneta equa, la probabilità di ottenere testa è:",
+    opts: [ "\\(\\dfrac{1}{3}\\)", "\\(\\dfrac{1}{2}\\)", "\\(1\\)", "\\(\\dfrac{1}{4}\\)" ],
+    ans: 1,
+    exp: "Due esiti equiprobabili, testa e croce: \\(P(\\text{testa})=\\dfrac{1}{2}\\)."
+  },
+  {
+    badge: "Evento complementare",
+    q: "Se \\(P(A)=0{,}3\\), quanto vale la probabilità dell'evento complementare \\(\\bar{A}\\)?",
+    opts: [ "\\(0{,}3\\)", "\\(0{,}7\\)", "\\(1{,}3\\)", "\\(0\\)" ],
+    ans: 1,
+    exp: "\\(P(\\bar{A})=1-P(A)=1-0{,}3=0{,}7\\)."
+  },
+  {
+    badge: "Carte",
+    q: "Da un mazzo di 40 carte, qual è la probabilità di estrarre una carta di denari?",
+    opts: [ "\\(\\dfrac{1}{40}\\)", "\\(\\dfrac{1}{10}\\)", "\\(\\dfrac{1}{4}\\)", "\\(\\dfrac{10}{4}\\)" ],
+    ans: 2,
+    exp: "I denari sono 10 su 40: \\(P=\\dfrac{10}{40}=\\dfrac{1}{4}\\)."
+  },
+  {
+    badge: "Eventi",
+    q: "Un evento formato da un solo esito si dice:",
+    opts: [ "Certo", "Elementare", "Impossibile", "Complementare" ],
+    ans: 1,
+    exp: "Un evento con un solo esito, ad esempio \\(\\{3\\}\\) nel lancio del dado, è un evento elementare."
+  },
+  {
+    badge: "Definizione classica",
+    q: "La formula \\(P(A)=\\dfrac{|A|}{|\\Omega|}\\) si può usare:",
+    opts: [
+      "Sempre, in ogni situazione",
+      "Solo se gli esiti sono equiprobabili",
+      "Solo con i dadi",
+      "Solo se \\(A\\) è impossibile"
+    ],
+    ans: 1,
+    exp: "La definizione classica (di Laplace) vale solo quando tutti gli esiti hanno la stessa probabilità. Con un dado truccato non si può usare."
+  },
+
+  // ══════════ AVANZATO (11–20) ══════════
+  {
+    badge: "Regola della somma",
+    q: "Per due eventi qualsiasi \\(A\\) e \\(B\\), \\(P(A\\cup B)\\) vale:",
+    opts: [
+      "\\(P(A)+P(B)\\)",
+      "\\(P(A)+P(B)-P(A\\cap B)\\)",
+      "\\(P(A)\\cdot P(B)\\)",
+      "\\(P(A)-P(B)\\)"
+    ],
+    ans: 1,
+    exp: "Nella regola della somma si sottrae l'intersezione per non contare due volte gli esiti comuni: \\(P(A\\cup B)=P(A)+P(B)-P(A\\cap B)\\)."
+  },
+  {
+    badge: "Eventi incompatibili",
+    q: "Se \\(A\\) e \\(B\\) sono incompatibili, allora \\(P(A\\cup B)\\) è:",
+    opts: [
+      "\\(P(A)\\cdot P(B)\\)",
+      "\\(P(A)+P(B)\\)",
+      "\\(P(A)+P(B)-1\\)",
+      "\\(0\\)"
+    ],
+    ans: 1,
+    exp: "Se \\(A\\cap B=\\varnothing\\) allora \\(P(A\\cap B)=0\\) e la regola della somma si riduce a \\(P(A)+P(B)\\)."
+  },
+  {
+    badge: "Regola del prodotto",
+    q: "Lanciando due dadi, la probabilità che il primo sia \\(2\\) e il secondo sia \\(5\\) è:",
+    opts: [ "\\(\\dfrac{1}{12}\\)", "\\(\\dfrac{1}{36}\\)", "\\(\\dfrac{2}{6}\\)", "\\(\\dfrac{1}{6}\\)" ],
+    ans: 1,
+    exp: "I due lanci sono indipendenti: \\(P=\\dfrac{1}{6}\\cdot\\dfrac{1}{6}=\\dfrac{1}{36}\\)."
+  },
+  {
+    badge: "Indipendenza",
+    q: "Due eventi \\(A\\) e \\(B\\) sono indipendenti se e solo se:",
+    opts: [
+      "\\(P(A\\cap B)=P(A)+P(B)\\)",
+      "\\(P(A\\cap B)=P(A)\\cdot P(B)\\)",
+      "\\(A\\cap B=\\varnothing\\)",
+      "\\(P(A)=P(B)\\)"
+    ],
+    ans: 1,
+    exp: "L'indipendenza equivale a \\(P(A\\cap B)=P(A)\\cdot P(B)\\), ovvero \\(P(B|A)=P(B)\\)."
+  },
+  {
+    badge: "Somma di due dadi",
+    q: "Lanciando due dadi, qual è la probabilità che la somma sia \\(7\\)?",
+    opts: [ "\\(\\dfrac{1}{6}\\)", "\\(\\dfrac{1}{12}\\)", "\\(\\dfrac{5}{36}\\)", "\\(\\dfrac{7}{36}\\)" ],
+    ans: 0,
+    exp: "Le coppie con somma \\(7\\) sono 6 su 36: \\(P=\\dfrac{6}{36}=\\dfrac{1}{6}\\)."
+  },
+  {
+    badge: "Urna senza rimessa",
+    q: "Un'urna ha 5 palline rosse e 3 nere. Estraendo due palline senza rimessa, la probabilità che siano entrambe rosse è:",
+    opts: [ "\\(\\dfrac{25}{64}\\)", "\\(\\dfrac{5}{14}\\)", "\\(\\dfrac{5}{8}\\)", "\\(\\dfrac{4}{7}\\)" ],
+    ans: 1,
+    exp: "\\(P=\\dfrac{5}{8}\\cdot\\dfrac{4}{7}=\\dfrac{20}{56}=\\dfrac{5}{14}\\). Alla seconda estrazione restano 4 rosse su 7."
+  },
+  {
+    badge: "Complementare",
+    q: "Lanciando due dadi, qual è la probabilità che la somma non sia \\(7\\)?",
+    opts: [ "\\(\\dfrac{1}{6}\\)", "\\(\\dfrac{5}{6}\\)", "\\(\\dfrac{7}{36}\\)", "\\(\\dfrac{29}{36}\\)" ],
+    ans: 1,
+    exp: "Usando il complementare: \\(1-\\dfrac{1}{6}=\\dfrac{5}{6}\\)."
+  },
+  {
+    badge: "Regola della somma",
+    q: "Da un mazzo di 40 carte, la probabilità di estrarre una figura oppure una carta di denari (le figure sono 12, i denari 10, le figure di denari 3) è:",
+    opts: [ "\\(\\dfrac{22}{40}\\)", "\\(\\dfrac{19}{40}\\)", "\\(\\dfrac{25}{40}\\)", "\\(\\dfrac{3}{40}\\)" ],
+    ans: 1,
+    exp: "\\(P=\\dfrac{12}{40}+\\dfrac{10}{40}-\\dfrac{3}{40}=\\dfrac{19}{40}\\)."
+  },
+  {
+    badge: "Probabilità condizionata",
+    q: "La probabilità condizionata \\(P(B|A)\\) è definita da:",
+    opts: [
+      "\\(P(A)\\cdot P(B)\\)",
+      "\\(\\dfrac{P(A\\cap B)}{P(A)}\\)",
+      "\\(\\dfrac{P(A)}{P(B)}\\)",
+      "\\(P(A\\cap B)\\)"
+    ],
+    ans: 1,
+    exp: "\\(P(B|A)=\\dfrac{P(A\\cap B)}{P(A)}\\), con \\(P(A)>0\\): si contano i casi di \\(B\\) restando dentro \\(A\\)."
+  },
+  {
+    badge: "Prove ripetute",
+    q: "Lanciando una moneta equa \\(3\\) volte, la probabilità di ottenere testa in tutti e tre i lanci è:",
+    opts: [ "\\(\\dfrac{1}{2}\\)", "\\(\\dfrac{1}{6}\\)", "\\(\\dfrac{1}{8}\\)", "\\(\\dfrac{3}{8}\\)" ],
+    ans: 2,
+    exp: "Lanci indipendenti: \\(P=\\left(\\dfrac{1}{2}\\right)^3=\\dfrac{1}{8}\\)."
+  },
+
+  // ══════════ PRO (21–30) ══════════
+  {
+    badge: "Condizionata",
+    q: "Estraendo una carta da un mazzo di 40 e sapendo che è una figura (12 figure, di cui 4 re), la probabilità che sia un re è:",
+    opts: [ "\\(\\dfrac{1}{10}\\)", "\\(\\dfrac{1}{3}\\)", "\\(\\dfrac{4}{40}\\)", "\\(\\dfrac{1}{4}\\)" ],
+    ans: 1,
+    exp: "Lo spazio si restringe alle 12 figure: \\(P(\\text{re}|\\text{figura})=\\dfrac{4}{12}=\\dfrac{1}{3}\\)."
+  },
+  {
+    badge: "Teorema di Bayes",
+    q: "Il teorema di Bayes permette di:",
+    opts: [
+      "Sommare probabilità di eventi incompatibili",
+      "Capovolgere il condizionamento, da \\(P(B|A)\\) a \\(P(A|B)\\)",
+      "Calcolare la media di una distribuzione",
+      "Verificare se due eventi sono incompatibili"
+    ],
+    ans: 1,
+    exp: "Bayes ricava \\(P(A|B)=\\dfrac{P(B|A)P(A)}{P(B)}\\): serve a risalire dalla conseguenza osservata alla causa."
+  },
+  {
+    badge: "Almeno una volta",
+    q: "Lanciando un dado \\(4\\) volte, la probabilità di ottenere almeno un \\(6\\) è:",
+    opts: [
+      "\\(\\dfrac{4}{6}\\)",
+      "\\(1-\\left(\\dfrac{5}{6}\\right)^4\\)",
+      "\\(\\left(\\dfrac{1}{6}\\right)^4\\)",
+      "\\(\\dfrac{1}{6}\\)"
+    ],
+    ans: 1,
+    exp: "Conviene il complementare: \\(P(\\text{almeno un }6)=1-P(\\text{nessun }6)=1-\\left(\\dfrac{5}{6}\\right)^4\\)."
+  },
+  {
+    badge: "Indipendenza vs incompatibilità",
+    q: "Due eventi con probabilità non nulla che sono incompatibili:",
+    opts: [
+      "Sono sempre indipendenti",
+      "Non sono mai indipendenti",
+      "Sono indipendenti solo se \\(P(A)=P(B)\\)",
+      "Sono l'evento certo"
+    ],
+    ans: 1,
+    exp: "Se sono incompatibili, sapere che è accaduto \\(A\\) dice con certezza che \\(B\\) non è accaduto: si influenzano, quindi non sono indipendenti."
+  },
+  {
+    badge: "Verifica indipendenza",
+    q: "Con un dado, siano \\(A=\\{2,4,6\\}\\) e \\(B=\\{4,5,6\\}\\). Sono indipendenti?",
+    opts: [
+      "Sì, perché \\(P(A\\cap B)=P(A)P(B)\\)",
+      "No, perché \\(P(A\\cap B)=\\dfrac{1}{3}\\neq\\dfrac{1}{4}\\)",
+      "Sì, perché hanno la stessa probabilità",
+      "No, perché sono incompatibili"
+    ],
+    ans: 1,
+    exp: "\\(P(A)=P(B)=\\dfrac{1}{2}\\), quindi il prodotto è \\(\\dfrac{1}{4}\\). Ma \\(A\\cap B=\\{4,6\\}\\) dà \\(P=\\dfrac{2}{6}=\\dfrac{1}{3}\\neq\\dfrac{1}{4}\\): non indipendenti."
+  },
+  {
+    badge: "Bayes (falsi positivi)",
+    q: "Un test per una malattia rara è molto affidabile, ma risulti positivo. Perché la probabilità di essere davvero malati può essere bassa?",
+    opts: [
+      "Perché il test è inutile",
+      "Perché, essendo la malattia rara, i falsi positivi superano i veri malati",
+      "Perché la probabilità a priori è \\(1\\)",
+      "Perché il test non è mai positivo"
+    ],
+    ans: 1,
+    exp: "Con una malattia molto rara, anche un piccolo tasso di falsi positivi genera molti più positivi sani che malati: è l'effetto della bassa probabilità a priori (base rate)."
+  },
+  {
+    badge: "Probabilità totali",
+    q: "La formula \\(P(B)=P(B|A)P(A)+P(B|\\bar{A})P(\\bar{A})\\) si chiama:",
+    opts: [
+      "Regola del prodotto",
+      "Formula delle probabilità totali",
+      "Teorema di Bayes",
+      "Definizione classica"
+    ],
+    ans: 1,
+    exp: "È la formula delle probabilità totali: scompone \\(P(B)\\) sui due casi \\(A\\) e \\(\\bar{A}\\). Spesso fornisce il denominatore di Bayes."
+  },
+  {
+    badge: "Bayes (due urne)",
+    q: "Due urne: la prima con 3 rosse e 1 bianca, la seconda con 1 rossa e 3 bianche. Scelta un'urna a caso, esce una rossa. La probabilità che venga dalla prima urna è:",
+    opts: [ "\\(\\dfrac{1}{2}\\)", "\\(\\dfrac{3}{4}\\)", "\\(\\dfrac{1}{4}\\)", "\\(\\dfrac{3}{8}\\)" ],
+    ans: 1,
+    exp: "\\(P(R)=\\dfrac{1}{2}\\cdot\\dfrac{3}{4}+\\dfrac{1}{2}\\cdot\\dfrac{1}{4}=\\dfrac{1}{2}\\). Bayes: \\(P(U_1|R)=\\dfrac{\\frac12\\cdot\\frac34}{\\frac12}=\\dfrac{3}{4}\\)."
+  },
+  {
+    badge: "Condizionata",
+    q: "Lanciando due dadi, sapendo che la somma è \\(\\geq 10\\) (6 casi), la probabilità che il primo dado valga \\(5\\) è:",
+    opts: [ "\\(\\dfrac{1}{6}\\)", "\\(\\dfrac{1}{3}\\)", "\\(\\dfrac{2}{36}\\)", "\\(\\dfrac{1}{2}\\)" ],
+    ans: 1,
+    exp: "I casi con somma \\(\\geq 10\\) sono 6; fra questi, con primo \\(=5\\) ci sono \\((5,5)\\) e \\((5,6)\\): \\(P=\\dfrac{2}{6}=\\dfrac{1}{3}\\)."
+  },
+  {
+    badge: "Almeno una",
+    q: "Da un'urna con 3 blu e 7 non blu si estraggono 2 palline senza rimessa. La probabilità di ottenere almeno una blu è:",
+    opts: [ "\\(\\dfrac{7}{15}\\)", "\\(\\dfrac{8}{15}\\)", "\\(\\dfrac{3}{10}\\)", "\\(\\dfrac{6}{10}\\)" ],
+    ans: 1,
+    exp: "Complementare \"nessuna blu\": \\(\\dfrac{7}{10}\\cdot\\dfrac{6}{9}=\\dfrac{7}{15}\\). Quindi almeno una blu: \\(1-\\dfrac{7}{15}=\\dfrac{8}{15}\\)."
+  }
+
+];
+
+// ── LIVELLI (colori per fascia) ──
+const LEVELS = [
+  { name:'Base',     a:'#c2185b', l:'#fce4ec' },
+  { name:'Avanzato', a:'#2e6da4', l:'#e3edf7' },
+  { name:'Pro',      a:'#7a3fa0', l:'#f1e8f7' }
+];
+function levelOf(idx) { return idx < 10 ? 0 : idx < 20 ? 1 : 2; }
+function applyAccent(lv) {
+  const L = LEVELS[lv];
+  document.documentElement.style.setProperty('--accent', L.a);
+  document.documentElement.style.setProperty('--accent-light', L.l);
+  return L;
+}
+
+// ── STATO ──
+let cur = 0, score = 0, answered = false, results = [], curAns = 0;
+
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ── LOGICA ──
+function startQuiz() {
+  cur = 0; score = 0; answered = false; results = [];
+  applyAccent(0);
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx], total = Q.length;
+  const L = applyAccent(levelOf(idx));
+  document.getElementById('level-pill').textContent = L.name;
+  document.getElementById('prog-frac').textContent = (idx+1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('q-badge').textContent = q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const letters = ['A','B','C','D'];
+  const order = shuffle(q.opts.map((_,i) => i));   // mescola le opzioni
+  curAns = order.indexOf(q.ans);                    // nuova posizione della corretta
+  document.getElementById('q-opts').innerHTML = order.map((orig,i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${q.opts[orig]}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === curAns;
+  if (isOk) score++;
+  results.push(isOk);
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('opt-' + i).classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) document.getElementById('opt-' + curAns).classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur+1);
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next show';
+  btn.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  applyAccent(0);
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+
+  const msgs = [
+    [27, "Eccellente! Padroneggi il calcolo delle probabilità. Vai alla verifica con fiducia."],
+    [22, "Molto bene. Un ripasso dei punti deboli e sei pronto."],
+    [16, "Buona base. Ricontrolla le domande sbagliate e riprova."],
+    [10, "C'è ancora del lavoro da fare. Rileggi la lezione con calma."],
+    [0,  "Non mollare. Riparti dalle definizioni e dalla regola della somma e del prodotto."]
+  ];
+  document.getElementById('res-msg').textContent = (msgs.find(m => score >= m[0]) || msgs[4])[1];
+
+  // punteggio per livello
+  const lv = [0,0,0];
+  results.forEach((ok,i) => { if (ok) lv[levelOf(i)]++; });
+  document.getElementById('res-levels').innerHTML = LEVELS.map((L,k) =>
+    `<div class="lscore" style="border-color:${L.a}">
+       <div class="lscore-name" style="color:${L.a}">${L.name}</div>
+       <div class="lscore-val" style="color:${L.a}">${lv[k]}<span style="font-size:.9rem;color:var(--text-dim)">/10</span></div>
+     </div>`
+  ).join('');
+
+  document.getElementById('res-grid').innerHTML = results.map((ok,i) =>
+    `<div class="rev-cell ${ok?'ok':'err'}" title="Domanda ${i+1}: ${ok?'corretta':'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) pick(parseInt(e.key)-1);
+  if ((e.key==='Enter'||e.key===' ') && answered) { e.preventDefault(); nextQ(); }
+});
+</script>
+</body>
+</html>

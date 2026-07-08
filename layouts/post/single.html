@@ -38,10 +38,11 @@
         {{ end }}
 
         <span class="meta-date" style="text-align: center; flex: 1;">
+          {{ $mesi := slice "" "gennaio" "febbraio" "marzo" "aprile" "maggio" "giugno" "luglio" "agosto" "settembre" "ottobre" "novembre" "dicembre" }}
           {{ if ne .Lastmod .Date }}
-            aggiornato: {{ .Lastmod.Format "2 gennaio 2006" }}
+            aggiornato: {{ .Lastmod.Day }} {{ index $mesi (int (.Lastmod.Format "1")) }} {{ .Lastmod.Year }}
           {{ else }}
-            {{ .Date.Format "2 gennaio 2006" }}
+            {{ .Date.Day }} {{ index $mesi (int (.Date.Format "1")) }} {{ .Date.Year }}
           {{ end }}
         </span>
 
