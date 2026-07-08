@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Equazioni e disequazioni fratte</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.level-legend{display:flex;gap:18px;flex-wrap:wrap;margin:20px 0 4px}
+.level-key{display:flex;align-items:center;gap:8px;font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-mid)}
+.level-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.btn-start{margin-top:16px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:filter .2s}
+.btn-start:hover{filter:brightness(.92)}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px;display:flex;align-items:center;gap:8px}
+.level-pill{font-family:'Fira Code',monospace;font-size:.62rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:2px 9px;border-radius:20px;background:var(--accent-light);color:var(--accent);border:1px solid var(--accent)}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease,background .3s ease}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:filter .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{filter:brightness(.92)}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.level-scores{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:22px 0 4px}
+.lscore{border:1px solid var(--border);border-radius:8px;padding:10px 18px;min-width:96px}
+.lscore-name{font-family:'Fira Code',monospace;font-size:.62rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.lscore-val{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:filter .2s}
+.btn-retry:hover{filter:brightness(.92)}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(6,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quiz · Frazioni fratte</div>
+  <div class="topbar-tag">IIS G.A. Remondini</div>
+</div>
+
+<div class="container">
+
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Test di preparazione</div>
+      <h1>Equazioni e disequazioni <em>fratte</em></h1>
+      <p class="hero-sub">30 domande a risposta multipla. Copre tutto il necessario: frazioni algebriche, condizioni di esistenza, semplificazione e operazioni, equazioni fratte e disequazioni fratte con lo studio del segno.</p>
+    </div>
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">30</span></div>
+      <div class="meta-item"><span class="meta-label">Tipo</span><span class="meta-value">Risposta multipla</span></div>
+      <div class="meta-item"><span class="meta-label">Feedback</span><span class="meta-value">Immediato</span></div>
+    </div>
+    <div class="level-legend">
+      <span class="level-key"><span class="level-dot" style="background:#c2185b"></span>Base · 1–10</span>
+      <span class="level-key"><span class="level-dot" style="background:#2e6da4"></span>Avanzato · 11–20</span>
+      <span class="level-key"><span class="level-dot" style="background:#7a3fa0"></span>Pro · 21–30</span>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia il test</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso <span class="level-pill" id="level-pill">Base</span></span>
+        <span class="progress-frac" id="prog-frac">1 / 30</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag">IIS G.A. Remondini · Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den">su 30 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+      <div class="level-scores" id="res-levels"></div>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova il test</button>
+      <a class="btn-lesson" href="../lb10-equazioni-disequazioni-fratte/lezione.html">Torna alla lezione</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const Q = [
+
+  // ══════════ BASE (1–10) ══════════
+  {
+    badge: "Definizione",
+    q: "Una frazione algebrica è:",
+    opts: [
+      "Una divisione tra due polinomi scritta in forma di frazione",
+      "Una qualsiasi frazione con numeri decimali",
+      "Un polinomio di grado due",
+      "Un'equazione con l'incognita"
+    ],
+    ans: 0,
+    exp: "È il quoziente di due polinomi, \\(\\dfrac{N(x)}{D(x)}\\): il numeratore è il dividendo, il denominatore il divisore."
+  },
+  {
+    badge: "Condizione di esistenza",
+    q: "Qual è la condizione indispensabile perché una frazione algebrica esista?",
+    opts: [
+      "Il numeratore deve essere diverso da zero",
+      "Il denominatore deve essere diverso da zero",
+      "Il grado del numeratore deve superare quello del denominatore",
+      "Numeratore e denominatore devono essere uguali"
+    ],
+    ans: 1,
+    exp: "Non si può dividere per zero: quindi \\(D(x) \\neq 0\\). Da qui nascono le condizioni di esistenza."
+  },
+  {
+    badge: "C.E.",
+    q: "Qual è la condizione di esistenza di \\(\\dfrac{1}{x-3}\\)?",
+    opts: [ "\\(x \\neq 0\\)", "\\(x \\neq 3\\)", "\\(x \\neq -3\\)", "\\(x \\neq 1\\)" ],
+    ans: 1,
+    exp: "Pongo \\(x - 3 \\neq 0\\), cioè \\(x \\neq 3\\)."
+  },
+  {
+    badge: "C.E.",
+    q: "Quali sono le condizioni di esistenza di \\(\\dfrac{x}{x^2-4}\\)?",
+    opts: [
+      "\\(x \\neq 2\\) e \\(x \\neq -2\\)",
+      "\\(x \\neq 4\\)",
+      "\\(x \\neq 0\\)",
+      "\\(x \\neq 2\\)"
+    ],
+    ans: 0,
+    exp: "\\(x^2 - 4 = (x-2)(x+2) = 0\\) per \\(x = 2\\) e \\(x = -2\\): entrambi vanno esclusi."
+  },
+  {
+    badge: "Errore da evitare",
+    q: "Nella frazione \\(\\dfrac{a+b}{b}\\) si può semplificare la \\(b\\)?",
+    opts: [
+      "Sì, si ottiene \\(a\\)",
+      "No, perché al numeratore \\(b\\) è un addendo, non un fattore",
+      "Sì, si ottiene \\(a+1\\)",
+      "Sì, ma solo se \\(a = 0\\)"
+    ],
+    ans: 1,
+    exp: "Si semplificano solo i fattori comuni. Al numeratore \\(b\\) è sommato ad \\(a\\): è un addendo, non si può cancellare."
+  },
+  {
+    badge: "Semplificazione",
+    q: "Semplifica \\(\\dfrac{x+1}{(x+1)(x-1)}\\).",
+    opts: [ "\\(\\dfrac{1}{x-1}\\)", "\\(x-1\\)", "\\(\\dfrac{1}{x+1}\\)", "\\(\\dfrac{x+1}{x-1}\\)" ],
+    ans: 0,
+    exp: "Il fattore \\((x+1)\\) è comune a numeratore e denominatore: si semplifica e resta \\(\\dfrac{1}{x-1}\\)."
+  },
+  {
+    badge: "Frazione nulla",
+    q: "Una frazione algebrica \\(\\dfrac{N(x)}{D(x)}\\) vale zero quando:",
+    opts: [
+      "Il denominatore è nullo",
+      "Il numeratore è nullo (con il denominatore diverso da zero)",
+      "Numeratore e denominatore sono uguali",
+      "Non è mai nulla"
+    ],
+    ans: 1,
+    exp: "Una frazione è nulla solo se il numeratore è zero, purché il denominatore non lo sia (rispettando le C.E.)."
+  },
+  {
+    badge: "C.E. con prodotto",
+    q: "Condizioni di esistenza di \\(\\dfrac{5}{(x-1)(x+2)}\\)?",
+    opts: [
+      "\\(x \\neq 1\\) e \\(x \\neq -2\\)",
+      "\\(x \\neq -1\\) e \\(x \\neq 2\\)",
+      "\\(x \\neq 5\\)",
+      "\\(x \\neq 0\\)"
+    ],
+    ans: 0,
+    exp: "Il prodotto si annulla se un fattore è nullo: \\(x = 1\\) o \\(x = -2\\). Entrambi esclusi."
+  },
+  {
+    badge: "Semplificazione",
+    q: "Semplifica \\(\\dfrac{3(x+5)}{(x+5)(x-5)}\\).",
+    opts: [ "\\(\\dfrac{3}{x-5}\\)", "\\(\\dfrac{3}{x+5}\\)", "\\(3(x-5)\\)", "\\(\\dfrac{1}{x-5}\\)" ],
+    ans: 0,
+    exp: "Si semplifica il fattore comune \\((x+5)\\), restando \\(\\dfrac{3}{x-5}\\)."
+  },
+  {
+    badge: "Numeri",
+    q: "Quanto vale \\(\\dfrac{3+5}{3}\\)?",
+    opts: [ "\\(5\\)", "\\(\\dfrac{8}{3}\\)", "\\(\\dfrac{5}{3}\\)", "\\(6\\)" ],
+    ans: 1,
+    exp: "Non si può cancellare il 3: \\(\\dfrac{3+5}{3} = \\dfrac{8}{3}\\). È l'analogo numerico dell'errore \\(\\dfrac{a+b}{b}\\)."
+  },
+
+  // ══════════ AVANZATO (11–20) ══════════
+  {
+    badge: "Somma",
+    q: "Per sommare due frazioni algebriche occorre anzitutto:",
+    opts: [
+      "Moltiplicare i numeratori",
+      "Ridurle allo stesso denominatore (il minimo comune denominatore)",
+      "Elevare al quadrato i denominatori",
+      "Semplificare il numeratore"
+    ],
+    ans: 1,
+    exp: "Come per le frazioni numeriche, serve uno stesso denominatore: il mcm dei denominatori fattorizzati."
+  },
+  {
+    badge: "Denominatore comune",
+    q: "Qual è il denominatore comune di \\(\\dfrac{1}{x+2}\\) e \\(\\dfrac{1}{x-2}\\)?",
+    opts: [ "\\(x^2-4\\)", "\\(x^2+4\\)", "\\(x-2\\)", "\\(4\\)" ],
+    ans: 0,
+    exp: "Il mcm è il prodotto \\((x+2)(x-2) = x^2 - 4\\)."
+  },
+  {
+    badge: "Quoziente",
+    q: "Come si calcola \\(\\dfrac{A}{B} : \\dfrac{C}{D}\\)?",
+    opts: [
+      "\\(\\dfrac{A}{B} \\cdot \\dfrac{C}{D}\\)",
+      "\\(\\dfrac{A}{B} \\cdot \\dfrac{D}{C}\\)",
+      "\\(\\dfrac{A\\,C}{B\\,D}\\)",
+      "\\(\\dfrac{A+C}{B+D}\\)"
+    ],
+    ans: 1,
+    exp: "Dividere significa moltiplicare per il reciproco: \\(\\dfrac{A}{B}\\cdot\\dfrac{D}{C}\\)."
+  },
+  {
+    badge: "Equazioni fratte",
+    q: "La prima cosa da fare per risolvere un'equazione fratta è:",
+    opts: [
+      "Moltiplicare tutto per il numeratore",
+      "Determinare le condizioni di esistenza",
+      "Elevare al quadrato",
+      "Cambiare segno a tutti i termini"
+    ],
+    ans: 1,
+    exp: "Sempre le C.E.: serviranno alla fine per accettare o scartare le soluzioni trovate."
+  },
+  {
+    badge: "Equazioni fratte",
+    q: "Risolvi \\(\\dfrac{x}{x-2} = \\dfrac{2}{x-2} + 3\\).",
+    opts: [
+      "\\(x = 2\\)",
+      "Impossibile: l'unica soluzione \\(x=2\\) viola le C.E.",
+      "\\(x = 0\\)",
+      "\\(x = -2\\)"
+    ],
+    ans: 1,
+    exp: "Si ottiene \\(x = 2\\), ma le C.E. impongono \\(x \\neq 2\\): va scartata. L'equazione è impossibile."
+  },
+  {
+    badge: "Equazioni fratte",
+    q: "Risolvi \\(\\dfrac{1}{x} + \\dfrac{1}{2} = \\dfrac{3}{x}\\).",
+    opts: [ "\\(x = 4\\)", "\\(x = 2\\)", "\\(x = -4\\)", "\\(x = 0\\)" ],
+    ans: 0,
+    exp: "C.E. \\(x \\neq 0\\). Denominatore comune \\(2x\\): \\(2 + x = 6 \\Rightarrow x = 4\\), accettabile."
+  },
+  {
+    badge: "Frazione nulla",
+    q: "Risolvi \\(\\dfrac{x^2 - 5x + 6}{x - 1} = 0\\).",
+    opts: [
+      "\\(x = 1\\)",
+      "\\(x = 2\\) oppure \\(x = 3\\)",
+      "\\(x = -2\\) oppure \\(x = -3\\)",
+      "Nessuna soluzione"
+    ],
+    ans: 1,
+    exp: "C.E. \\(x \\neq 1\\). La frazione è nulla se il numeratore lo è: \\((x-2)(x-3)=0\\), quindi \\(x=2\\) o \\(x=3\\)."
+  },
+  {
+    badge: "Prodotto",
+    q: "Calcola \\(\\dfrac{x^2-1}{x} \\cdot \\dfrac{3x}{x+1}\\).",
+    opts: [ "\\(3(x-1)\\)", "\\(3(x+1)\\)", "\\(\\dfrac{3}{x-1}\\)", "\\(x-1\\)" ],
+    ans: 0,
+    exp: "Fattorizzo: \\(\\dfrac{(x+1)(x-1)}{x}\\cdot\\dfrac{3x}{x+1}\\). Semplifico \\((x+1)\\) e \\(x\\): resta \\(3(x-1)\\)."
+  },
+  {
+    badge: "Equazioni fratte",
+    q: "Se una soluzione di un'equazione fratta coincide con un valore escluso dalle C.E., allora:",
+    opts: [
+      "Va accettata comunque",
+      "Va scartata perché non accettabile",
+      "Va contata due volte",
+      "Rende l'equazione sempre vera"
+    ],
+    ans: 1,
+    exp: "In quel valore la frazione non esiste: la soluzione non è accettabile e va scartata."
+  },
+  {
+    badge: "Denominatore comune",
+    q: "Qual è il denominatore comune di \\(\\dfrac{1}{x}\\) e \\(\\dfrac{1}{x^2 - x}\\)?",
+    opts: [ "\\(x(x-1)\\)", "\\(x^2\\)", "\\(x - 1\\)", "\\(x^3 - x\\)" ],
+    ans: 0,
+    exp: "Fattorizzo \\(x^2 - x = x(x-1)\\). Il mcm tra \\(x\\) e \\(x(x-1)\\) è \\(x(x-1)\\)."
+  },
+
+  // ══════════ PRO (21–30) ══════════
+  {
+    badge: "Disequazioni fratte",
+    q: "Il segno di una frazione \\(\\dfrac{N}{D}\\) dipende da:",
+    opts: [
+      "Solo dal segno del numeratore",
+      "Dai segni di \\(N\\) e \\(D\\), con la regola dei segni della divisione",
+      "Solo dal grado dei polinomi",
+      "Dalla somma \\(N + D\\)"
+    ],
+    ans: 1,
+    exp: "Il quoziente è positivo se \\(N\\) e \\(D\\) hanno lo stesso segno, negativo se hanno segni opposti."
+  },
+  {
+    badge: "Disequazioni fratte",
+    q: "Nella soluzione di una disequazione fratta, il valore che annulla il denominatore è:",
+    opts: [
+      "Sempre incluso",
+      "Sempre escluso",
+      "Incluso solo con il segno \\(\\geq\\)",
+      "Incluso solo con il segno \\(>\\)"
+    ],
+    ans: 1,
+    exp: "Dove il denominatore si annulla la frazione non esiste: quel valore è sempre escluso, qualunque sia il verso."
+  },
+  {
+    badge: "Disequazioni fratte",
+    q: "Risolvi \\(\\dfrac{x-1}{x+2} \\geq 0\\).",
+    opts: [
+      "\\(-2 < x \\leq 1\\)",
+      "\\(x < -2\\) oppure \\(x \\geq 1\\)",
+      "\\(x \\geq 1\\)",
+      "\\(x > -2\\)"
+    ],
+    ans: 1,
+    exp: "Il quoziente è positivo dove \\(N\\) e \\(D\\) hanno lo stesso segno: \\(x < -2\\) o \\(x \\geq 1\\). In \\(x=1\\) vale 0 (incluso), \\(x=-2\\) escluso."
+  },
+  {
+    badge: "Disequazioni fratte",
+    q: "Risolvi \\(\\dfrac{x+3}{x-1} < 0\\).",
+    opts: [ "\\(-3 < x < 1\\)", "\\(x < -3\\)", "\\(x > 1\\)", "\\(x < -3\\) oppure \\(x > 1\\)" ],
+    ans: 0,
+    exp: "Il quoziente è negativo dove \\(N\\) e \\(D\\) hanno segno opposto: \\(-3 < x < 1\\). Estremi esclusi."
+  },
+  {
+    badge: "Disequazioni fratte",
+    q: "Dove è verificata \\(\\dfrac{2x-6}{x} \\leq 0\\)?",
+    opts: [ "\\(0 < x \\leq 3\\)", "\\(x \\leq 3\\)", "\\(x < 0\\)", "\\(x \\geq 3\\)" ],
+    ans: 0,
+    exp: "\\(N = 2x-6 \\geq 0\\) per \\(x \\geq 3\\); \\(D = x > 0\\). Il quoziente è \\(\\leq 0\\) per \\(0 < x \\leq 3\\) (denominatore escluso, numeratore incluso)."
+  },
+  {
+    badge: "Estremi",
+    q: "Nella disequazione \\(\\dfrac{x-1}{x+2} \\geq 0\\), il valore \\(x = 1\\) è:",
+    opts: [
+      "Escluso, perché annulla il denominatore",
+      "Incluso, perché annulla il numeratore e vale il segno \\(\\geq\\)",
+      "Escluso sempre",
+      "Indifferente"
+    ],
+    ans: 1,
+    exp: "In \\(x = 1\\) il numeratore è zero, quindi la frazione vale 0: con \\(\\geq\\) è incluso."
+  },
+  {
+    badge: "Estremi",
+    q: "Nella stessa disequazione \\(\\dfrac{x-1}{x+2} \\geq 0\\), il valore \\(x = -2\\) è:",
+    opts: [
+      "Incluso perché annulla il denominatore",
+      "Escluso perché annulla il denominatore",
+      "Incluso perché il segno è \\(\\geq\\)",
+      "La soluzione dell'equazione"
+    ],
+    ans: 1,
+    exp: "In \\(x = -2\\) il denominatore si annulla: la frazione non esiste, quindi è escluso."
+  },
+  {
+    badge: "Regola dei segni",
+    q: "Una frazione \\(\\dfrac{N}{D}\\) è positiva quando:",
+    opts: [
+      "\\(N\\) e \\(D\\) hanno lo stesso segno",
+      "\\(N\\) e \\(D\\) hanno segni opposti",
+      "\\(N = D\\)",
+      "\\(N > D\\)"
+    ],
+    ans: 0,
+    exp: "Regola dei segni: stesso segno dà quoziente positivo, segni opposti dà quoziente negativo."
+  },
+  {
+    badge: "Metodo",
+    q: "Prima di studiare i segni in una disequazione fratta, bisogna:",
+    opts: [
+      "Moltiplicare per il denominatore (cambiando il verso)",
+      "Portare tutto a un solo membro, nella forma \\(\\dfrac{N}{D} \\gtrless 0\\)",
+      "Elevare al quadrato entrambi i membri",
+      "Scambiare numeratore e denominatore"
+    ],
+    ans: 1,
+    exp: "Non si moltiplica per il denominatore (segno incognito!): si porta tutto a un membro e si studia il segno del quoziente."
+  },
+  {
+    badge: "Disequazioni fratte",
+    q: "Dove è verificata \\(\\dfrac{1}{x-2} > 0\\)?",
+    opts: [ "\\(x > 2\\)", "\\(x < 2\\)", "\\(x \\neq 2\\)", "\\(x > 0\\)" ],
+    ans: 0,
+    exp: "Il numeratore è \\(1 > 0\\); il quoziente è positivo quando il denominatore è positivo: \\(x - 2 > 0\\), cioè \\(x > 2\\)."
+  }
+
+];
+
+// ── LIVELLI (colori per fascia) ──
+const LEVELS = [
+  { name:'Base',     a:'#c2185b', l:'#fce4ec' },
+  { name:'Avanzato', a:'#2e6da4', l:'#e3edf7' },
+  { name:'Pro',      a:'#7a3fa0', l:'#f1e8f7' }
+];
+function levelOf(idx) { return idx < 10 ? 0 : idx < 20 ? 1 : 2; }
+function applyAccent(lv) {
+  const L = LEVELS[lv];
+  document.documentElement.style.setProperty('--accent', L.a);
+  document.documentElement.style.setProperty('--accent-light', L.l);
+  return L;
+}
+
+// ── STATO ──
+let cur = 0, score = 0, answered = false, results = [], curAns = 0;
+
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ── LOGICA ──
+function startQuiz() {
+  cur = 0; score = 0; answered = false; results = [];
+  applyAccent(0);
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx], total = Q.length;
+  const L = applyAccent(levelOf(idx));
+  document.getElementById('level-pill').textContent = L.name;
+  document.getElementById('prog-frac').textContent = (idx+1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('q-badge').textContent = q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const letters = ['A','B','C','D'];
+  const order = shuffle(q.opts.map((_,i) => i));   // mescola le opzioni
+  curAns = order.indexOf(q.ans);                    // nuova posizione della corretta
+  document.getElementById('q-opts').innerHTML = order.map((orig,i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${q.opts[orig]}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === curAns;
+  if (isOk) score++;
+  results.push(isOk);
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('opt-' + i).classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) document.getElementById('opt-' + curAns).classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur+1);
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next show';
+  btn.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  applyAccent(0);
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+
+  const msgs = [
+    [27, "Eccellente! Padroneggi le frazioni algebriche e le equazioni fratte. Vai alla verifica con fiducia."],
+    [22, "Molto bene. Un ripasso dei punti deboli e sei pronto."],
+    [16, "Buona base. Ricontrolla le domande sbagliate e riprova."],
+    [10, "C'è ancora del lavoro da fare. Rileggi la lezione con calma."],
+    [0,  "Non mollare. Riparti dalle definizioni e dalla regola della somma e del prodotto."]
+  ];
+  document.getElementById('res-msg').textContent = (msgs.find(m => score >= m[0]) || msgs[4])[1];
+
+  // punteggio per livello
+  const lv = [0,0,0];
+  results.forEach((ok,i) => { if (ok) lv[levelOf(i)]++; });
+  document.getElementById('res-levels').innerHTML = LEVELS.map((L,k) =>
+    `<div class="lscore" style="border-color:${L.a}">
+       <div class="lscore-name" style="color:${L.a}">${L.name}</div>
+       <div class="lscore-val" style="color:${L.a}">${lv[k]}<span style="font-size:.9rem;color:var(--text-dim)">/10</span></div>
+     </div>`
+  ).join('');
+
+  document.getElementById('res-grid').innerHTML = results.map((ok,i) =>
+    `<div class="rev-cell ${ok?'ok':'err'}" title="Domanda ${i+1}: ${ok?'corretta':'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) pick(parseInt(e.key)-1);
+  if ((e.key==='Enter'||e.key===' ') && answered) { e.preventDefault(); nextQ(); }
+});
+</script>
+</body>
+</html>

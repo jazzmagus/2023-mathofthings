@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento — Equazioni e Disequazioni Fratte</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.ct.sign td { text-align:center; font-family:'JetBrains Mono',monospace; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Equazioni e Disequazioni Fratte</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+{
+  tag:"FONDAMENTI",
+  title:"Che cos'è una <em>frazione algebrica</em>",
+  nav:"Frazioni",
+  body:
+    '<p>Una <strong>frazione algebrica</strong> non è altro che una <strong>divisione tra due polinomi</strong>, scritta in forma di frazione.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione</div><div class="math-block hero-formula">\\[ \\frac{N(x)}{D(x)} \\qquad \\text{con } D(x) \\neq 0 \\]</div><p>Il polinomio in alto, \\(N(x)\\), è il <strong>numeratore</strong> (il dividendo); quello in basso, \\(D(x)\\), è il <strong>denominatore</strong> (il divisore).</p></div>' +
+    '<p>Ad esempio, la divisione \\((x+1) : (x^2-1)\\) diventa:</p>' +
+    '<div class="math-block hero-formula">\\[ \\frac{x+1}{x^2-1} \\]</div>' +
+    '<p>La differenza rispetto a una frazione numerica come \\(\\tfrac{3}{5}\\) è che qui compaiono delle <strong>lettere</strong>: il valore della frazione, e persino la sua stessa esistenza, dipendono dal valore di \\(x\\).</p>' +
+    '<div class="cb tip"><div class="cb-label">Prerequisiti</div><p>Per lavorare con le frazioni algebriche servono due strumenti già visti: la <a href="/lezioni/fattorizzazione/lezione.html"><strong>fattorizzazione dei polinomi</strong></a> (per semplificare) e il <strong>minimo comune multiplo</strong> tra polinomi (per il denominatore comune).</p></div>'
+},
+{
+  tag:"VINCOLI",
+  title:"Le condizioni di <em>esistenza</em>",
+  nav:"C.E.",
+  body:
+    '<p>C\'è una regola d\'oro, valida per ogni frazione: <strong>non si può dividere per zero</strong>. Per una frazione algebrica questo diventa un vincolo sui valori di \\(x\\).</p>' +
+    '<div class="cb danger"><div class="cb-label">Condizione di esistenza</div><div class="math-block hero-formula">\\[ \\frac{N(x)}{D(x)} \\quad\\text{esiste}\\quad \\Longleftrightarrow \\quad D(x) \\neq 0 \\]</div></div>' +
+    '<p>Per trovare le <strong>condizioni di esistenza</strong> (C.E.) si pone il denominatore <strong>uguale a zero</strong> e si escludono i valori trovati.</p>' +
+    '<h3>Esempio guidato</h3>' +
+    '<p>Data \\(\\dfrac{3x+15}{x^2-25}\\), poniamo il denominatore uguale a zero:</p>' +
+    '<div class="math-block">\\[ x^2 - 25 = 0 \\;\\Rightarrow\\; x = 5 \\ \\text{oppure}\\ x = -5 \\]</div>' +
+    '<div class="math-block result">\\[ \\text{C.E.:}\\quad x \\neq 5 \\ \\text{e}\\ x \\neq -5 \\]</div>' +
+    '<div class="cb tip"><div class="cb-label">Insieme di definizione</div><p>I valori ammessi formano l\'<strong>insieme di definizione</strong> (o <em>dominio</em>): \\(\\{\\,x \\in \\mathbb{R} : x \\neq 5,\\ x \\neq -5\\,\\}\\). Le C.E. sono la condizione; il dominio è l\'insieme che ne risulta.</p></div>' +
+    acc([
+      { t:"Esercizio svolto — C.E. con denominatore di primo grado", h:'<p>Trova le C.E. di \\(\\dfrac{x}{x+2}\\).</p><p>Pongo \\(x + 2 = 0 \\Rightarrow x = -2\\).</p><div class="math-block result">\\[ \\text{C.E.:}\\quad x \\neq -2 \\]</div>' },
+      { t:"Esercizio svolto — C.E. con prodotto al denominatore", h:'<p>Trova le C.E. di \\(\\dfrac{5}{(x-1)(2x-3)}\\).</p><p>Il prodotto si annulla se si annulla un fattore: \\(x-1=0\\) oppure \\(2x-3=0\\).</p><div class="math-block result">\\[ \\text{C.E.:}\\quad x \\neq 1 \\ \\text{e}\\ x \\neq \\tfrac{3}{2} \\]</div>' }
+    ])
+},
+{
+  tag:"SEMPLIFICARE",
+  title:"Semplificare senza <em>errori</em>",
+  nav:"Semplificare",
+  body:
+    '<p>Semplificare una frazione algebrica significa dividere numeratore e denominatore per un loro <strong>fattore comune</strong>. Il passo chiave è quindi <strong>fattorizzare</strong> entrambi.</p>' +
+    '<div class="cb"><div class="cb-label">Procedura</div><ol><li>Determina le C.E. (sul denominatore <em>originale</em>);</li><li>fattorizza numeratore e denominatore;</li><li>semplifica i fattori comuni.</li></ol></div>' +
+    '<h3>Esempio guidato</h3>' +
+    '<p>Semplifichiamo \\(\\dfrac{x+1}{x^2-1}\\). Prima le C.E.: \\(x^2-1=0 \\Rightarrow x \\neq 1,\\ x \\neq -1\\). Poi fattorizziamo:</p>' +
+    '<div class="math-block">\\[ \\frac{x+1}{x^2-1} = \\frac{x+1}{(x+1)(x-1)} = \\frac{1}{x-1} \\]</div>' +
+    '<div class="math-block result">\\[ \\frac{1}{x-1} \\quad\\text{con}\\quad x \\neq 1,\\ x \\neq -1 \\]</div>' +
+    '<div class="cb warn"><div class="cb-label">Le C.E. si scrivono prima</div><p>Nota: le condizioni si determinano sul denominatore <strong>di partenza</strong>. Anche se dopo la semplificazione \\(x=-1\\) sembra sparire, resta escluso: la frazione originale lì non esisteva.</p></div>' +
+    '<div class="cb danger"><div class="cb-label">Errore gravissimo</div><p>Si semplificano solo <strong>fattori</strong> (cose moltiplicate), <strong>mai addendi</strong> (cose sommate).</p><div class="math-block warning">\\[ \\frac{a+b}{b} \\neq a \\qquad \\frac{3+5}{3} \\neq \\frac{5}{1} \\]</div><p>Nella frazione \\(\\dfrac{a+b}{b}\\) la \\(b\\) al numeratore è un <em>addendo</em>: non si può cancellare.</p></div>' +
+    acc([
+      { t:"Esercizio svolto — Semplificazione con raccoglimento", h:'<p>Semplifica \\(\\dfrac{3x+15}{x^2-25}\\).</p><p>C.E.: \\(x \\neq \\pm 5\\). Fattorizzo: al numeratore raccolgo 3, al denominatore uso la differenza di quadrati.</p><div class="math-block">\\[ \\frac{3(x+5)}{(x+5)(x-5)} = \\frac{3}{x-5} \\]</div>' },
+      { t:"Errore da riconoscere", h:'<p>Perché \\(\\dfrac{2x^2 - 3y}{4x^4} \\neq \\dfrac{1 - 3y}{2x^2}\\)?</p><p>Perché al numeratore \\(2x^2\\) e \\(-3y\\) sono <strong>addendi</strong>: non c\'è un fattore comune da semplificare con \\(4x^4\\). Prima bisognerebbe raccogliere, se possibile.</p>' }
+    ])
+},
+{
+  tag:"OPERAZIONI",
+  title:"Operazioni tra <em>frazioni</em>",
+  nav:"Operazioni",
+  body:
+    '<p>Le regole sono le stesse delle frazioni numeriche — solo con i polinomi al posto dei numeri.</p>' +
+    '<h3>Somma e differenza</h3>' +
+    '<p>Servono lo <strong>stesso denominatore</strong>: si prende il <strong>minimo comune denominatore</strong> (il mcm dei denominatori fattorizzati), poi si sommano i numeratori.</p>' +
+    '<div class="math-block hero-formula">\\[ \\frac{A}{D} \\pm \\frac{B}{D} = \\frac{A \\pm B}{D} \\]</div>' +
+    '<h3>Prodotto e quoziente</h3>' +
+    '<p>Il prodotto si fa "in linea"; il quoziente si trasforma in prodotto per il <strong>reciproco</strong>:</p>' +
+    '<div class="math-block hero-formula">\\[ \\frac{A}{B} \\cdot \\frac{C}{D} = \\frac{A\\,C}{B\\,D} \\qquad \\frac{A}{B} : \\frac{C}{D} = \\frac{A}{B} \\cdot \\frac{D}{C} \\]</div>' +
+    '<div class="cb success"><div class="cb-label">Due regole d\'oro</div><p><strong>1. Fattorizza i denominatori</strong> — serve a trovare il minimo comune denominatore.<br><strong>2. Sviluppa i numeratori</strong> — serve a sommare i termini simili prima di semplificare.</p></div>' +
+    acc([
+      { t:"Esercizio svolto — Somma con denominatore comune", h:'<p>Calcola \\(\\dfrac{x}{x+2} - \\dfrac{8}{x^2-4} + \\dfrac{2}{x-2}\\).</p><p>Fattorizzo: \\(x^2-4 = (x+2)(x-2)\\). Il denominatore comune è \\((x+2)(x-2)\\). C.E.: \\(x \\neq \\pm 2\\).</p><div class="math-block">\\[ \\frac{x(x-2) - 8 + 2(x+2)}{(x+2)(x-2)} \\]</div><p>Sviluppo il numeratore: \\(x^2 - 2x - 8 + 2x + 4 = x^2 - 4\\).</p><div class="math-block result">\\[ \\frac{x^2-4}{(x+2)(x-2)} = 1 \\quad (x \\neq \\pm 2) \\]</div>' },
+      { t:"Esercizio svolto — Prodotto e semplificazione", h:'<p>Calcola \\(\\dfrac{x^2-1}{x} \\cdot \\dfrac{3x}{x+1}\\).</p><p>C.E.: \\(x \\neq 0,\\ x \\neq -1\\). Fattorizzo e semplifico:</p><div class="math-block">\\[ \\frac{(x+1)(x-1)}{x} \\cdot \\frac{3x}{x+1} = 3(x-1) \\]</div>' }
+    ])
+},
+{
+  tag:"EQUAZIONI",
+  title:"Equazioni <em>fratte</em>",
+  nav:"Equazioni",
+  body:
+    '<p>Un\'<strong>equazione fratta</strong> è un\'equazione in cui l\'incognita compare <strong>al denominatore</strong>. La novità rispetto alle equazioni intere è una sola, ma decisiva: bisogna sempre controllare le condizioni di esistenza.</p>' +
+    '<div class="cb"><div class="cb-label">Metodo in quattro passi</div><ol><li><strong>C.E.</strong>: poni i denominatori diversi da zero;</li><li>riduci allo <strong>stesso denominatore</strong> e passa all\'equazione tra i numeratori;</li><li><strong>risolvi</strong> l\'equazione intera ottenuta;</li><li><strong>confronta</strong> le soluzioni con le C.E.: scarta quelle non accettabili.</li></ol></div>' +
+    '<h3>Esempio guidato</h3>' +
+    '<p>Risolviamo \\(\\dfrac{x}{x-2} = \\dfrac{2}{x-2} + 3\\).</p>' +
+    '<p><strong>C.E.:</strong> \\(x - 2 \\neq 0 \\Rightarrow x \\neq 2\\).</p>' +
+    '<p>Denominatore comune \\(x-2\\); uguaglio i numeratori:</p>' +
+    '<div class="math-block">\\[ x = 2 + 3(x-2) \\;\\Rightarrow\\; x = 3x - 4 \\;\\Rightarrow\\; x = 2 \\]</div>' +
+    '<div class="cb danger"><div class="cb-label">Soluzione da scartare</div><p>La soluzione trovata è \\(x = 2\\), ma le C.E. impongono \\(x \\neq 2\\): va <strong>scartata</strong>. L\'equazione è <strong>impossibile</strong> (nessuna soluzione).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Legge di annullamento del prodotto</div><p>Quando l\'equazione si riduce a un prodotto uguale a zero, si usa la LAP: \\(P_1(x)\\cdot P_2(x) = 0\\) se e solo se \\(P_1(x)=0\\) oppure \\(P_2(x)=0\\).</p></div>' +
+    acc([
+      { t:"Esercizio svolto — Soluzione accettabile", h:'<p>Risolvi \\(\\dfrac{1}{x} + \\dfrac{1}{2} = \\dfrac{3}{x}\\).</p><p>C.E.: \\(x \\neq 0\\). Denominatore comune \\(2x\\):</p><div class="math-block">\\[ \\frac{2 + x}{2x} = \\frac{6}{2x} \\;\\Rightarrow\\; 2 + x = 6 \\;\\Rightarrow\\; x = 4 \\]</div><p>\\(x = 4\\) rispetta le C.E.:</p><div class="math-block result">\\[ x = 4 \\quad \\text{accettabile} \\]</div>' },
+      { t:"Esercizio svolto — Uso della LAP", h:'<p>Risolvi \\(\\dfrac{x^2 - 5x + 6}{x-1} = 0\\).</p><p>C.E.: \\(x \\neq 1\\). Una frazione è nulla quando il <strong>numeratore</strong> è nullo:</p><div class="math-block">\\[ x^2 - 5x + 6 = 0 \\;\\Rightarrow\\; (x-2)(x-3)=0 \\]</div><div class="math-block result">\\[ x = 2 \\ \\text{oppure}\\ x = 3 \\quad (\\text{entrambe} \\neq 1) \\]</div>' }
+    ])
+},
+{
+  tag:"DISEQUAZIONI",
+  title:"Disequazioni <em>fratte</em>",
+  nav:"Disequazioni",
+  body:
+    '<p>In una <strong>disequazione fratta</strong> ci chiediamo <em>quando</em> una frazione algebrica è positiva o negativa. La chiave è che il segno di \\(\\dfrac{N}{D}\\) dipende dai segni di \\(N\\) e \\(D\\), con la regola dei segni della divisione.</p>' +
+    '<div class="cb"><div class="cb-label">Metodo</div><ol><li>Porta tutto a un solo membro: \\(\\dfrac{N(x)}{D(x)} \\gtrless 0\\);</li><li>poni le <strong>C.E.</strong> (\\(D(x) \\neq 0\\));</li><li>studia separatamente il <strong>segno di \\(N(x)\\)</strong> e il <strong>segno di \\(D(x)\\)</strong>;</li><li>costruisci la <strong>tabella dei segni</strong> e ricava il segno del quoziente;</li><li>leggi la soluzione (il denominatore è <strong>sempre escluso</strong>).</li></ol></div>' +
+    '<h3>Esempio guidato</h3>' +
+    '<p>Risolviamo \\(\\dfrac{x-1}{x+2} \\geq 0\\). C.E.: \\(x \\neq -2\\).</p>' +
+    '<p>Studio i segni: \\(N = x-1 \\geq 0 \\Rightarrow x \\geq 1\\); \\(D = x+2 > 0 \\Rightarrow x > -2\\).</p>' +
+    '<table class="ct sign"><tr><th>&nbsp;</th><th>\\(x < -2\\)</th><th>\\(-2 < x < 1\\)</th><th>\\(x > 1\\)</th></tr>' +
+    '<tr><td>\\(N = x-1\\)</td><td>−</td><td>−</td><td>+</td></tr>' +
+    '<tr><td>\\(D = x+2\\)</td><td>−</td><td>+</td><td>+</td></tr>' +
+    '<tr><td>\\(N/D\\)</td><td>+</td><td>−</td><td>+</td></tr></table>' +
+    '<p>Vogliamo \\(\\dfrac{N}{D} \\geq 0\\), cioè dove il quoziente è positivo (o nullo):</p>' +
+    '<div class="math-block result">\\[ x < -2 \\quad \\text{oppure} \\quad x \\geq 1 \\]</div>' +
+    '<div class="cb warn"><div class="cb-label">Estremi: aperto o chiuso?</div><p>In \\(x = 1\\) il numeratore si annulla e la frazione vale \\(0\\): con \\(\\geq\\) è <strong>incluso</strong>. In \\(x = -2\\) il denominatore si annulla: è <strong>sempre escluso</strong>, qualunque sia il verso.</p></div>' +
+    acc([
+      { t:"Esercizio svolto — Disequazione con < 0", h:'<p>Risolvi \\(\\dfrac{x+3}{x-1} < 0\\). C.E.: \\(x \\neq 1\\).</p><p>Segni: \\(N = x+3 > 0 \\Rightarrow x > -3\\); \\(D = x-1 > 0 \\Rightarrow x > 1\\). Il quoziente è negativo dove \\(N\\) e \\(D\\) hanno <strong>segno opposto</strong>:</p><div class="math-block result">\\[ -3 < x < 1 \\]</div><p class="dim">Estremi esclusi: in \\(-3\\) la disuguaglianza è stretta, in \\(1\\) il denominatore si annulla.</p>' }
+    ])
+},
+{
+  tag:"PRATICA",
+  title:"Sintesi e <em>metodo</em>",
+  nav:"Sintesi",
+  body:
+    '<p>Ricapitoliamo il filo che tiene insieme tutta la lezione: qualunque cosa tu faccia con una frazione algebrica, parti sempre dalle condizioni di esistenza.</p>' +
+    acc([
+      { t:"Problema 1 — Espressione da semplificare", h:'<p>Semplifica \\(\\dfrac{x^2-9}{x^2+6x+9}\\).</p><p>C.E.: \\(x^2+6x+9 = (x+3)^2 = 0 \\Rightarrow x \\neq -3\\). Fattorizzo:</p><div class="math-block">\\[ \\frac{(x-3)(x+3)}{(x+3)^2} = \\frac{x-3}{x+3} \\quad (x \\neq -3) \\]</div>' },
+      { t:"Problema 2 — Equazione fratta", h:'<p>Risolvi \\(\\dfrac{2}{x-1} = \\dfrac{x}{x-1} - 1\\).</p><p>C.E.: \\(x \\neq 1\\). Denominatore comune \\(x-1\\):</p><div class="math-block">\\[ 2 = x - (x-1) \\;\\Rightarrow\\; 2 = 1 \\]</div><div class="math-block warning">\\[ \\text{uguaglianza falsa} \\Rightarrow \\text{equazione impossibile} \\]</div>' },
+      { t:"Problema 3 — Disequazione fratta", h:'<p>Risolvi \\(\\dfrac{2x-6}{x} \\leq 0\\). C.E.: \\(x \\neq 0\\).</p><p>Segni: \\(N = 2x-6 \\geq 0 \\Rightarrow x \\geq 3\\); \\(D = x > 0\\). Il quoziente è \\(\\leq 0\\) dove i segni sono opposti (numeratore incluso, denominatore escluso):</p><div class="math-block result">\\[ 0 < x \\leq 3 \\]</div>' }
+    ]) +
+    '<h3>La mappa del metodo</h3>' +
+    '<table class="ct"><tr><th>Se devi…</th><th>Fai così</th></tr>' +
+    '<tr><td>Semplificare</td><td>C.E. → fattorizza N e D → cancella i fattori comuni</td></tr>' +
+    '<tr><td>Sommare / sottrarre</td><td>fattorizza i denominatori → mcm → somma i numeratori</td></tr>' +
+    '<tr><td>Risolvere un\'equazione fratta</td><td>C.E. → denom. comune → risolvi → scarta le non accettabili</td></tr>' +
+    '<tr><td>Risolvere una disequazione fratta</td><td>C.E. → segno di N e D → tabella dei segni → leggi la soluzione</td></tr></table>' +
+    '<div class="cb danger"><div class="cb-label">La regola che non si dimentica</div><p>Il <strong>denominatore non è mai zero</strong>. Da qui nascono le condizioni di esistenza, ed è sempre da lì che devi partire — sia per semplificare, sia per risolvere.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Vai oltre</div><p>Vuoi allenarti? Prova il <a href="/lezioni/quiz-fratte/">quiz su equazioni e disequazioni fratte</a> e ripassa la <a href="/lezioni/fattorizzazione/lezione.html">fattorizzazione</a>, che qui è lo strumento di lavoro di ogni passaggio.</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>
