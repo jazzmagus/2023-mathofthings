@@ -3,6 +3,9 @@
 # Documentation: https://wowchemy.com/docs/
 # This file is formatted using YAML syntax - learn more at https://learnxinyminutes.com/docs/yaml/
 
+# Social sharing buttons (disabilitati: doppione con le icone social del footer)
+sharing: false
+
 # Appearance
 
 appearance:
