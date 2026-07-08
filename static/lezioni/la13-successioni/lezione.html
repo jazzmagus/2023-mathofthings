@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento — Successioni e Progressioni</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Successioni e Progressioni · avanzato</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+{
+  tag:"FONDAMENTI",
+  title:"Che cos'è una <em>successione</em>",
+  nav:"Successioni",
+  body:
+    '<p>Immagina una lista ordinata e infinita di numeri: il primo, il secondo, il terzo, e così via senza fine. Questo è, in sostanza, una <strong>successione</strong>.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione</div><p>Una successione è una <strong>funzione</strong> che a ogni numero naturale associa un numero reale:</p><div class="math-block hero-formula">\\[ a : \\mathbb{N} \\to \\mathbb{R}, \\qquad n \\mapsto a_n \\]</div></div>' +
+    '<p>Il numero \\(a_n\\) si chiama <strong>termine generale</strong> (o termine \\(n\\)-esimo) della successione, e \\(n\\) è il suo <strong>indice</strong>, cioè la sua posizione nella lista.</p>' +
+    '<p>A differenza di una funzione ordinaria, il dominio non è tutto \\(\\mathbb{R}\\) ma solo i numeri naturali: gli indici procedono a passi discreti \\(1, 2, 3, \\dots\\) (a volte si parte da \\(0\\)).</p>' +
+    '<h3>Un primo esempio</h3>' +
+    '<p>La successione dei quadrati ha termine generale \\(a_n = n^2\\):</p>' +
+    '<div class="math-block">\\[ a_1 = 1,\\quad a_2 = 4,\\quad a_3 = 9,\\quad a_4 = 16,\\quad \\dots \\]</div>' +
+    '<div class="cb tip"><div class="cb-label">Indice e valore</div><p>Non confondere l\'<strong>indice</strong> \\(n\\) (la posizione) con il <strong>termine</strong> \\(a_n\\) (il valore in quella posizione). Nel nostro esempio, alla posizione \\(n=3\\) corrisponde il valore \\(a_3 = 9\\).</p></div>' +
+    acc([
+      { t:"Esempio 1 — Successione dei pari e dei dispari", h:'<p>I numeri pari positivi hanno termine generale \\(a_n = 2n\\): danno \\(2, 4, 6, 8, \\dots\\)</p><p>I numeri dispari hanno termine generale \\(a_n = 2n - 1\\): danno \\(1, 3, 5, 7, \\dots\\)</p>' },
+      { t:"Esempio 2 — Una successione che oscilla", h:'<p>La successione \\(a_n = (-1)^n\\) alterna due valori:</p><div class="math-block">\\[ a_1 = -1,\\ a_2 = 1,\\ a_3 = -1,\\ a_4 = 1,\\ \\dots \\]</div><p>Non tutte le successioni crescono: alcune oscillano, altre si avvicinano a un valore.</p>' }
+    ])
+},
+{
+  tag:"RAPPRESENTAZIONI",
+  title:"Come si <em>descrive</em> una successione",
+  nav:"Rappresentare",
+  body:
+    '<p>Una stessa successione può essere presentata in modi diversi. Sapere passare dall\'uno all\'altro è metà del lavoro.</p>' +
+    '<h3>1. Per elencazione</h3>' +
+    '<p>Si scrivono i primi termini e si lascia intuire la regola:</p>' +
+    '<div class="math-block">\\[ 3,\\ 6,\\ 9,\\ 12,\\ 15,\\ \\dots \\]</div>' +
+    '<p>Comodo per farsi un\'idea, ma ambiguo: i puntini richiedono di indovinare la legge.</p>' +
+    '<h3>2. Per termine generale (formula esplicita)</h3>' +
+    '<p>Si dà la formula che calcola \\(a_n\\) direttamente dall\'indice \\(n\\):</p>' +
+    '<div class="math-block hero-formula">\\[ a_n = 3n \\]</div>' +
+    '<p>È la forma più potente: per conoscere il centesimo termine basta porre \\(n = 100\\), senza calcolare i precedenti. \\(a_{100} = 300\\).</p>' +
+    '<h3>3. Per ricorsione</h3>' +
+    '<p>Si dà il primo termine e una regola che costruisce ogni termine dal precedente. La vediamo in dettaglio nella prossima sezione.</p>' +
+    '<div class="cb warn"><div class="cb-label">Attenzione ai puntini</div><p>L\'elencazione \\(2, 4, 8, \\dots\\) potrebbe voler dire \\(a_n = 2^n\\) (potenze di 2) oppure \\("aggiungi\\ 2,\\ poi\\ 4"\\)... I puntini non bastano: la formula toglie ogni dubbio.</p></div>' +
+    acc([
+      { t:"Esercizio svolto — Dalla formula ai termini", h:'<p>Data \\(a_n = \\dfrac{n}{n+1}\\), scrivi i primi quattro termini.</p><div class="math-block result">\\[ a_1 = \\tfrac{1}{2},\\quad a_2 = \\tfrac{2}{3},\\quad a_3 = \\tfrac{3}{4},\\quad a_4 = \\tfrac{4}{5} \\]</div><p class="dim">I termini si avvicinano sempre di più a 1, senza mai raggiungerlo.</p>' },
+      { t:"Esercizio svolto — Dai termini alla formula", h:'<p>Trova il termine generale di \\(5, 8, 11, 14, \\dots\\)</p><p>Ogni termine supera il precedente di 3: si parte da 5 e si aggiunge \\(3(n-1)\\).</p><div class="math-block result">\\[ a_n = 5 + 3(n-1) = 3n + 2 \\]</div><p>Verifica: \\(a_1 = 5\\), \\(a_2 = 8\\).</p>' }
+    ])
+},
+{
+  tag:"COSTRUZIONE",
+  title:"Successioni per <em>ricorsione</em>",
+  nav:"Ricorsione",
+  body:
+    '<p>In una definizione <strong>ricorsiva</strong> non diamo una formula diretta: diamo il punto di partenza e la regola per fare un passo avanti.</p>' +
+    '<div class="cb"><div class="cb-label">Struttura ricorsiva</div><p>Servono due ingredienti:</p><ul><li>il <strong>primo termine</strong> (o i primi), ad esempio \\(a_1\\);</li><li>una <strong>relazione di ricorrenza</strong> che lega \\(a_{n+1}\\) ai termini precedenti.</li></ul></div>' +
+    '<h3>Esempio guidato</h3>' +
+    '<p>Consideriamo la successione definita da:</p>' +
+    '<div class="math-block hero-formula">\\[ a_1 = 2, \\qquad a_{n+1} = a_n + 3 \\]</div>' +
+    '<p>Costruiamola passo dopo passo: parto da 2 e aggiungo 3 ogni volta.</p>' +
+    '<div class="math-block">\\[ a_1 = 2,\\ a_2 = 5,\\ a_3 = 8,\\ a_4 = 11,\\ \\dots \\]</div>' +
+    '<div class="cb tip"><div class="cb-label">Ricorsiva vs esplicita</div><p>La stessa successione ha anche una forma esplicita: \\(a_n = 2 + 3(n-1)\\). La forma ricorsiva è naturale da scrivere; quella esplicita è più veloce da usare. Spesso l\'induzione serve proprio a dimostrare che le due coincidono.</p></div>' +
+    acc([
+      { t:"Esempio 1 — La successione di Fibonacci", h:'<p>La più celebre delle successioni ricorsive parte da due termini e somma i due precedenti:</p><div class="math-block">\\[ F_1 = 1,\\ F_2 = 1,\\qquad F_{n} = F_{n-1} + F_{n-2} \\]</div><p>Si ottiene \\(1, 1, 2, 3, 5, 8, 13, 21, \\dots\\) — i numeri che compaiono nella disposizione di petali, pigne e conchiglie.</p>' },
+      { t:"Esempio 2 — Il fattoriale", h:'<p>Il fattoriale \\(n!\\) è naturalmente ricorsivo:</p><div class="math-block">\\[ 1! = 1, \\qquad n! = n \\cdot (n-1)! \\]</div><p>Quindi \\(2! = 2,\\ 3! = 6,\\ 4! = 24,\\ 5! = 120\\). Ogni valore si appoggia al precedente.</p>' },
+      { t:"Esercizio svolto — Ricorsione moltiplicativa", h:'<p>Sia \\(a_1 = 3\\) e \\(a_{n+1} = 2\\,a_n\\). Scrivi i primi cinque termini.</p><div class="math-block result">\\[ 3,\\ 6,\\ 12,\\ 24,\\ 48 \\]</div><p class="dim">Qui non si aggiunge una costante: si moltiplica. È il seme delle progressioni geometriche.</p>' }
+    ])
+},
+{
+  tag:"DIMOSTRARE",
+  title:"Il principio di <em>induzione</em>",
+  nav:"Induzione",
+  body:
+    '<p>Molte proprietà delle successioni valgono per <strong>ogni</strong> naturale \\(n\\). Ma i naturali sono infiniti: come si dimostra qualcosa per tutti in una volta sola? Con il <strong>principio di induzione</strong>.</p>' +
+    '<div class="cb purple"><div class="cb-label">L\'effetto domino</div><p>Pensa a una fila infinita di tessere del domino. Cadono tutte se garantiamo due cose: che cada la <strong>prima</strong>, e che <strong>ogni</strong> tessera, cadendo, faccia cadere la successiva.</p></div>' +
+    '<p>Per dimostrare che una proprietà \\(P(n)\\) vale per ogni \\(n\\) servono due passi:</p>' +
+    '<div class="cb warn"><div class="cb-label">Passo base</div><p>Si verifica che \\(P(1)\\) è vera (la prima tessera cade).</p></div>' +
+    '<div class="cb success"><div class="cb-label">Passo induttivo</div><p>Si <strong>assume</strong> \\(P(k)\\) vera (ipotesi induttiva) e si <strong>dimostra</strong> che allora è vera anche \\(P(k+1)\\) (una tessera spinge la successiva).</p></div>' +
+    '<p>Verificati i due passi, la proprietà è dimostrata per <strong>ogni</strong> naturale.</p>' +
+    '<div class="cb tip"><div class="cb-label">Vai più a fondo</div><p>Per la trattazione completa, con animazione e altri esempi, vedi la <a href="/slides/principio-induzione/">presentazione dedicata al principio di induzione</a>.</p></div>' +
+    acc([
+      { t:"Esempio classico — Somma dei primi n naturali", h:'<p>Dimostriamo che \\(1 + 2 + \\dots + n = \\dfrac{n(n+1)}{2}\\).</p><p><strong>Base</strong> (\\(n=1\\)): \\(1 = \\dfrac{1 \\cdot 2}{2} = 1\\).</p><p><strong>Passo induttivo.</strong> Assumiamo vera \\(1 + \\dots + k = \\dfrac{k(k+1)}{2}\\). Aggiungiamo \\(k+1\\):</p><div class="math-block">\\[ \\frac{k(k+1)}{2} + (k+1) = \\frac{k(k+1) + 2(k+1)}{2} = \\frac{(k+1)(k+2)}{2} \\]</div><div class="math-block result">\\[ \\text{che è proprio } P(k+1). \\quad \\blacksquare \\]</div>' },
+      { t:"Esempio — Somma dei primi n dispari", h:'<p>Dimostriamo che \\(1 + 3 + \\dots + (2n-1) = n^2\\).</p><p><strong>Base</strong>: \\(1 = 1^2\\).</p><p><strong>Induttivo</strong>: assunto \\(1 + \\dots + (2k-1) = k^2\\), aggiungiamo il dispari successivo \\(2k+1\\):</p><div class="math-block result">\\[ k^2 + (2k+1) = (k+1)^2 \\]</div>' }
+    ])
+},
+{
+  tag:"PROGRESSIONI",
+  title:"Progressioni <em>aritmetiche</em>",
+  nav:"Aritmetiche",
+  body:
+    '<p>Una <strong>progressione aritmetica</strong> è una successione in cui ogni termine si ottiene dal precedente <strong>aggiungendo</strong> sempre lo stesso numero.</p>' +
+    '<div class="cb"><div class="cb-label">Ragione</div><p>La costante che si aggiunge si chiama <strong>ragione</strong> \\(d\\). Per ogni \\(n\\):</p><div class="math-block hero-formula">\\[ a_{n+1} - a_n = d \\]</div></div>' +
+    '<p>Esempio: \\(4, 7, 10, 13, \\dots\\) è aritmetica di ragione \\(d = 3\\).</p>' +
+    '<h3>Termine generale</h3>' +
+    '<p>Partendo da \\(a_1\\) e aggiungendo \\(d\\) per \\(n-1\\) volte:</p>' +
+    '<div class="math-block hero-formula">\\[ a_n = a_1 + (n-1)\\,d \\tag{A} \\]</div>' +
+    '<h3>Somma dei primi n termini</h3>' +
+    '<p>La somma \\(S_n = a_1 + a_2 + \\dots + a_n\\) si calcola con la formula di Gauss (media del primo e dell\'ultimo, per quanti sono):</p>' +
+    '<div class="math-block hero-formula">\\[ S_n = \\frac{(a_1 + a_n)\\,n}{2} \\tag{Sa} \\]</div>' +
+    '<div class="cb tip"><div class="cb-label">Perché funziona</div><p>Accoppiando il primo con l\'ultimo, il secondo col penultimo, ecc., ogni coppia dà la stessa somma \\(a_1 + a_n\\). È lo stesso trucco del piccolo Gauss con i numeri da 1 a 100.</p></div>' +
+    acc([
+      { t:"Esercizio svolto — Trovare un termine lontano", h:'<p>In una progressione aritmetica \\(a_1 = 5\\) e \\(d = 4\\). Quanto vale \\(a_{20}\\)?</p><p>Con la formula (A):</p><div class="math-block result">\\[ a_{20} = 5 + (20-1)\\cdot 4 = 5 + 76 = 81 \\]</div>' },
+      { t:"Esercizio svolto — Somma di una progressione", h:'<p>Calcola \\(2 + 5 + 8 + \\dots + 59\\) (ragione 3).</p><p>Prima troviamo quanti termini: da \\(a_n = 2 + 3(n-1) = 59\\) segue \\(n = 20\\).</p><div class="math-block">\\[ S_{20} = \\frac{(2 + 59)\\cdot 20}{2} = \\frac{61 \\cdot 20}{2} \\]</div><div class="math-block result">\\[ S_{20} = 610 \\]</div>' },
+      { t:"Applicazione — Il risparmio crescente", h:'<p>Metto da parte 10 € il primo mese e ogni mese 5 € in più del precedente. Quanto ho risparmiato dopo un anno?</p><p>È aritmetica: \\(a_1 = 10\\), \\(d = 5\\), \\(n = 12\\). L\'ultimo versamento è \\(a_{12} = 10 + 11\\cdot 5 = 65\\).</p><div class="math-block result">\\[ S_{12} = \\frac{(10 + 65)\\cdot 12}{2} = 450 \\text{ €} \\]</div>' }
+    ])
+},
+{
+  tag:"PROGRESSIONI",
+  title:"Progressioni <em>geometriche</em>",
+  nav:"Geometriche",
+  body:
+    '<p>In una <strong>progressione geometrica</strong> ogni termine si ottiene dal precedente <strong>moltiplicando</strong> sempre per lo stesso numero.</p>' +
+    '<div class="cb"><div class="cb-label">Ragione</div><p>Il fattore costante si chiama <strong>ragione</strong> \\(q\\) (con \\(q \\neq 0\\)). Per ogni \\(n\\):</p><div class="math-block hero-formula">\\[ \\frac{a_{n+1}}{a_n} = q \\]</div></div>' +
+    '<p>Esempio: \\(3, 6, 12, 24, \\dots\\) è geometrica di ragione \\(q = 2\\).</p>' +
+    '<h3>Termine generale</h3>' +
+    '<p>Partendo da \\(a_1\\) e moltiplicando per \\(q\\) per \\(n-1\\) volte:</p>' +
+    '<div class="math-block hero-formula">\\[ a_n = a_1 \\cdot q^{\\,n-1} \\tag{G} \\]</div>' +
+    '<h3>Somma dei primi n termini</h3>' +
+    '<p>Per \\(q \\neq 1\\), la somma \\(S_n = a_1 + a_2 + \\dots + a_n\\) vale:</p>' +
+    '<div class="math-block hero-formula">\\[ S_n = a_1 \\cdot \\frac{1 - q^{\\,n}}{1 - q} \\tag{Sg} \\]</div>' +
+    '<div class="cb warn"><div class="cb-label">Crescita esplosiva</div><p>Se \\(q > 1\\) i termini crescono in modo <strong>esponenziale</strong>, molto più rapido di una progressione aritmetica. È la matematica dietro l\'interesse composto e la leggenda dei chicchi di grano sulla scacchiera.</p></div>' +
+    acc([
+      { t:"Esercizio svolto — Un termine della progressione", h:'<p>In una progressione geometrica \\(a_1 = 2\\) e \\(q = 3\\). Quanto vale \\(a_6\\)?</p><div class="math-block result">\\[ a_6 = 2 \\cdot 3^{\\,5} = 2 \\cdot 243 = 486 \\]</div>' },
+      { t:"Esercizio svolto — Somma geometrica", h:'<p>Calcola \\(1 + 2 + 4 + 8 + \\dots + 256\\) (ragione 2).</p><p>I termini sono \\(2^0, 2^1, \\dots, 2^8\\): quindi \\(a_1 = 1\\), \\(q = 2\\), \\(n = 9\\).</p><div class="math-block">\\[ S_9 = 1 \\cdot \\frac{1 - 2^{9}}{1 - 2} = \\frac{1 - 512}{-1} \\]</div><div class="math-block result">\\[ S_9 = 511 \\]</div>' },
+      { t:"Applicazione — Interesse composto", h:'<p>Investo 1000 € a un tasso annuo del 5%. Il capitale ogni anno si moltiplica per \\(q = 1{,}05\\): è una progressione geometrica.</p><p>Dopo 10 anni (cioè al termine \\(a_{11}\\), partendo da \\(a_1 = 1000\\)):</p><div class="math-block result">\\[ a_{11} = 1000 \\cdot 1{,}05^{\\,10} \\approx 1629 \\text{ €} \\]</div><p class="dim">Il capitale non cresce in modo lineare, ma geometrico: è la forza dell\'interesse composto.</p>' }
+    ])
+},
+{
+  tag:"PRATICA",
+  title:"Esercizi e <em>sintesi</em>",
+  nav:"Esercizi",
+  body:
+    '<p>Mettiamo alla prova quanto visto. Prova a risolvere prima di aprire la soluzione.</p>' +
+    acc([
+      { t:"Problema 1 — Riconoscere il tipo", h:'<p>Di che tipo sono queste successioni?</p><ul><li>\\(7, 11, 15, 19, \\dots\\)</li><li>\\(5, 15, 45, 135, \\dots\\)</li></ul><p><strong>Soluzione:</strong> la prima è <strong>aritmetica</strong> (\\(d = 4\\)); la seconda è <strong>geometrica</strong> (\\(q = 3\\)). Regola pratica: se la <em>differenza</em> è costante è aritmetica, se lo è il <em>rapporto</em> è geometrica.</p>' },
+      { t:"Problema 2 — Termine generale e somma", h:'<p>Data la progressione aritmetica \\(3, 7, 11, \\dots\\), trova \\(a_{15}\\) e la somma dei primi 15 termini.</p><p>\\(a_1 = 3\\), \\(d = 4\\). Quindi \\(a_{15} = 3 + 14\\cdot 4 = 59\\).</p><div class="math-block result">\\[ S_{15} = \\frac{(3 + 59)\\cdot 15}{2} = 465 \\]</div>' },
+      { t:"Problema 3 — Ricorsione da esplicitare", h:'<p>La successione è \\(a_1 = 1\\), \\(a_{n+1} = a_n + 2n + 1\\). Riconosci i termini.</p><p>Calcoliamo: \\(a_1 = 1,\\ a_2 = 4,\\ a_3 = 9,\\ a_4 = 16\\).</p><div class="math-block result">\\[ a_n = n^2 \\]</div><p class="dim">Sono i quadrati: la relazione ricorsiva nasconde una formula esplicita elegante, dimostrabile per induzione.</p>' },
+      { t:"Problema 4 — Somma geometrica infinita (sguardo avanti)", h:'<p>Cosa succede sommando \\(\\tfrac{1}{2} + \\tfrac{1}{4} + \\tfrac{1}{8} + \\dots\\) all\'infinito?</p><p>È geometrica con \\(a_1 = \\tfrac12\\), \\(q = \\tfrac12\\). Poiché \\(|q| < 1\\), la somma si avvicina sempre più a un valore finito:</p><div class="math-block result">\\[ S = \\frac{a_1}{1 - q} = \\frac{1/2}{1/2} = 1 \\]</div><p class="dim">Un\'infinità di addendi che dà un risultato finito: è il ponte verso le serie, che studierai più avanti.</p>' }
+    ]) +
+    '<h3>Formule da ricordare</h3>' +
+    '<table class="ct"><tr><th>Concetto</th><th>Formula</th></tr>' +
+    '<tr><td>Termine generale (aritmetica)</td><td>\\(a_n = a_1 + (n-1)d\\)</td></tr>' +
+    '<tr><td>Somma (aritmetica)</td><td>\\(S_n = \\dfrac{(a_1 + a_n)\\,n}{2}\\)</td></tr>' +
+    '<tr><td>Termine generale (geometrica)</td><td>\\(a_n = a_1\\,q^{\\,n-1}\\)</td></tr>' +
+    '<tr><td>Somma (geometrica, \\(q \\neq 1\\))</td><td>\\(S_n = a_1\\dfrac{1 - q^{\\,n}}{1 - q}\\)</td></tr>' +
+    '<tr><td>Induzione</td><td>passo base + passo induttivo</td></tr></table>' +
+    '<div class="cb success"><div class="cb-label">Come orientarsi</div><p>Davanti a una successione, chiediti subito: la <strong>differenza</strong> tra termini consecutivi è costante? Allora è aritmetica. Il <strong>rapporto</strong> è costante? Allora è geometrica. Se serve dimostrare una formula per ogni \\(n\\), pensa all\'induzione.</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>
