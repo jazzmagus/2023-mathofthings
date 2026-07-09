@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento Pro — Equazioni Goniometriche</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.ct.sign td { text-align:center; font-family:'JetBrains Mono',monospace; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Pro · Equazioni Goniometriche</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+{
+  tag:"FONDAMENTI",
+  title:"Perché le soluzioni sono <em>infinite</em>",
+  nav:"Periodicità",
+  body:
+    '<p>Nella lezione base, la forma generale delle soluzioni di un\'equazione goniometrica elementare — \\(x = \\alpha + 2k\\pi\\), oppure \\(x = \\pm\\alpha + 2k\\pi\\) — viene presentata come una regola da applicare. Qui la vogliamo <strong>dimostrare</strong>, partendo da un\'unica proprietà: seno e coseno sono funzioni <strong>periodiche di periodo \\(2\\pi\\)</strong>, e non sono iniettive su \\(\\mathbb{R}\\).</p>' +
+    '<div class="cb"><div class="cb-label">Teorema — insieme delle soluzioni di \\(\\sin x = \\sin\\alpha\\)</div><p>Sul cerchio goniometrico, due angoli hanno lo stesso seno se e solo se corrispondono allo stesso punto in ordinata, cioè se sono uguali oppure simmetrici rispetto all\'asse \\(y\\):</p><div class="math-block hero-formula">\\[ \\sin x = \\sin\\alpha \\quad\\Longleftrightarrow\\quad x = \\alpha + 2k\\pi \\ \\lor\\ x = \\pi - \\alpha + 2k\\pi, \\quad k \\in \\mathbb{Z} \\]</div></div>' +
+    '<p><strong>Dimostrazione.</strong> Se \\(\\sin x = \\sin\\alpha\\), allora \\(\\sin x - \\sin\\alpha = 0\\). Con le formule di prostaferesi:</p>' +
+    '<div class="math-block">\\[ \\sin x - \\sin\\alpha = 2\\cos\\!\\Big(\\frac{x+\\alpha}{2}\\Big)\\sin\\!\\Big(\\frac{x-\\alpha}{2}\\Big) = 0 \\]</div>' +
+    '<p>Il prodotto è nullo se \\(\\cos\\!\\big(\\tfrac{x+\\alpha}{2}\\big)=0\\), da cui \\(x = \\pi - \\alpha + 2k\\pi\\); oppure se \\(\\sin\\!\\big(\\tfrac{x-\\alpha}{2}\\big)=0\\), da cui \\(x = \\alpha + 2k\\pi\\). Non ci sono altre possibilità: la dimostrazione è anche una verifica di <strong>completezza</strong> dell\'insieme delle soluzioni. \\(\\blacksquare\\)</p>' +
+    '<div class="cb tip"><div class="cb-label">Lo stesso schema per il coseno</div><p>Con lo stesso metodo (prostaferesi su \\(\\cos x - \\cos\\alpha\\)) si dimostra \\(\\cos x = \\cos\\alpha \\Leftrightarrow x = \\pm\\alpha + 2k\\pi\\). Per la tangente, che ha periodo \\(\\pi\\), si dimostra \\(\\tan x = \\tan\\alpha \\Leftrightarrow x = \\alpha + k\\pi\\) (con \\(x, \\alpha \\neq \\tfrac{\\pi}{2}+k\\pi\\)) usando l\'iniettività di \\(\\tan\\) su ogni intervallo di ampiezza \\(\\pi\\).</p></div>'
+},
+{
+  tag:"METODO",
+  title:"L'angolo <em>aggiunto</em>: dimostrazione",
+  nav:"Angolo aggiunto",
+  body:
+    '<p>Per risolvere equazioni lineari del tipo \\(a\\sin x + b\\cos x = c\\), il metodo pratico consiste nel riscrivere il primo membro come un\'unica funzione goniometrica. Vediamo perché funziona sempre, qualunque siano \\(a, b\\) non entrambi nulli.</p>' +
+    '<div class="cb"><div class="cb-label">Teorema — forma R-φ</div><div class="math-block hero-formula">\\[ a\\sin x + b\\cos x = R\\sin(x+\\varphi), \\qquad R = \\sqrt{a^2+b^2} \\]</div></div>' +
+    '<p><strong>Dimostrazione.</strong> Il punto \\((a,b) \\in \\mathbb{R}^2\\) ha modulo \\(R = \\sqrt{a^2+b^2}\\); se \\(R \\neq 0\\) possiamo scrivere \\(a = R\\cos\\varphi\\) e \\(b = R\\sin\\varphi\\) per un opportuno angolo \\(\\varphi\\) (l\'argomento del punto \\((a,b)\\) sul piano). Sostituendo:</p>' +
+    '<div class="math-block">\\[ a\\sin x + b\\cos x = R\\cos\\varphi\\sin x + R\\sin\\varphi\\cos x = R(\\sin x\\cos\\varphi + \\cos x \\sin\\varphi) = R\\sin(x+\\varphi) \\]</div>' +
+    '<p>dove l\'ultimo passaggio è la formula di addizione del seno, applicata a ritroso. \\(\\blacksquare\\)</p>' +
+    '<p>L\'equazione \\(a\\sin x + b\\cos x = c\\) diventa allora \\(R\\sin(x+\\varphi) = c\\): un\'equazione elementare, risolvibile con il teorema della sezione precedente, purché \\(|c| \\leq R\\) (altrimenti impossibile).</p>' +
+    acc([
+      { t:"Esempio — determinare φ esplicitamente", h:'<p>Per \\(\\sqrt{3}\\sin x + \\cos x = 1\\): \\(a=\\sqrt3,\\ b=1\\), quindi \\(R = \\sqrt{3+1}=2\\). Da \\(\\cos\\varphi = \\tfrac{\\sqrt3}{2},\\ \\sin\\varphi=\\tfrac12\\) si ricava \\(\\varphi = \\tfrac{\\pi}{6}\\). L\'equazione diventa \\(2\\sin(x+\\tfrac{\\pi}{6}) = 1 \\Rightarrow \\sin(x+\\tfrac{\\pi}{6}) = \\tfrac12\\), risolvibile con il teorema elementare.</p>' }
+    ])
+},
+{
+  tag:"OMOGENEE",
+  title:"Perché si <em>divide</em> per \\(\\cos^2 x\\)",
+  nav:"Omogenee",
+  body:
+    '<p>Le equazioni omogenee di secondo grado \\(a\\sin^2 x + b\\sin x\\cos x + c\\cos^2 x = 0\\) si risolvono dividendo per \\(\\cos^2 x\\) e riducendosi a un\'equazione in \\(\\tan x\\). Il passaggio, spesso applicato meccanicamente, richiede una giustificazione: si può dividere per \\(\\cos^2 x\\) solo se \\(\\cos x \\neq 0\\).</p>' +
+    '<div class="cb warn"><div class="cb-label">Il caso che si perde dividendo</div><p>Bisogna controllare <strong>separatamente</strong> se \\(\\cos x = 0\\) (cioè \\(x = \\tfrac{\\pi}{2}+k\\pi\\)) è soluzione. Sostituendo \\(\\cos x = 0\\) nell\'equazione originale resta \\(a\\sin^2 x = 0\\): se \\(a \\neq 0\\) e \\(\\sin x = \\pm 1\\) in quei punti, la condizione \\(a\\sin^2x=0\\) è falsa, quindi quei punti <strong>non</strong> sono soluzione (a meno che \\(a=0\\)).</p></div>' +
+    '<p>Assumendo dunque \\(\\cos x \\neq 0\\) (caso verificato), si divide:</p>' +
+    '<div class="math-block">\\[ a\\sin^2 x + b\\sin x\\cos x + c\\cos^2 x = 0 \\ \\Big/\\ \\cos^2 x \\;\\;\\Longrightarrow\\;\\; a\\tan^2 x + b\\tan x + c = 0 \\]</div>' +
+    '<p>che è un\'equazione di secondo grado nell\'incognita \\(t = \\tan x\\), risolvibile con le formule note. Ogni soluzione \\(t_i\\) dà poi \\(x = \\arctan(t_i) + k\\pi\\).</p>' +
+    acc([
+      { t:"Esempio — un caso in cui va controllato cos x = 0", h:'<p>Risolvi \\(\\sin^2 x - 3\\sin x\\cos x + 2\\cos^2 x = 0\\). Con \\(\\cos x=0\\): resta \\(\\sin^2 x = 0\\), ma se \\(\\cos x=0\\) allora \\(\\sin x=\\pm1\\ne0\\): il caso è escluso, si può dividere senza perdere soluzioni.</p><p>Dividendo: \\(\\tan^2x - 3\\tan x + 2 = 0 \\Rightarrow \\tan x = 1 \\ \\text{o}\\ \\tan x = 2\\).</p><div class="math-block result">\\[ x = \\tfrac{\\pi}{4}+k\\pi \\quad \\text{oppure} \\quad x = \\arctan 2 + k\\pi \\]</div>' }
+    ])
+},
+{
+  tag:"FORMULE PARAMETRICHE",
+  title:"La sostituzione <em>t = tan(x/2)</em>",
+  nav:"Parametriche",
+  body:
+    '<p>Un metodo più generale, che riconduce <strong>qualunque</strong> equazione razionale in \\(\\sin x\\) e \\(\\cos x\\) a un\'equazione algebrica, usa la sostituzione \\(t = \\tan(x/2)\\). Le cosiddette <strong>formule parametriche</strong> si dimostrano con le formule di duplicazione.</p>' +
+    '<div class="cb"><div class="cb-label">Dimostrazione delle formule parametriche</div><p>Ponendo \\(t = \\tan(x/2)\\), con \\(x \\neq \\pi + 2k\\pi\\):</p><div class="math-block">\\[ \\sin x = 2\\sin\\tfrac{x}{2}\\cos\\tfrac{x}{2} = \\frac{2\\sin\\tfrac{x}{2}\\cos\\tfrac{x}{2}}{\\sin^2\\tfrac{x}{2}+\\cos^2\\tfrac{x}{2}} = \\frac{2\\tan\\tfrac{x}{2}}{1+\\tan^2\\tfrac{x}{2}} = \\frac{2t}{1+t^2} \\]</div><p>dove si è diviso numeratore e denominatore per \\(\\cos^2\\tfrac{x}{2}\\) (lecito perché \\(\\cos\\tfrac x2 \\ne 0\\) per ipotesi) e usata l\'identità fondamentale al denominatore. Analogamente:</p><div class="math-block hero-formula">\\[ \\cos x = \\frac{1-t^2}{1+t^2} \\qquad \\tan x = \\frac{2t}{1-t^2} \\]</div></div>' +
+    '<div class="cb danger"><div class="cb-label">Il caso escluso da controllare sempre</div><p>La sostituzione richiede \\(\\cos\\tfrac{x}{2}\\ne0\\), cioè esclude \\(x = \\pi + 2k\\pi\\). Questo valore va <strong>verificato a parte</strong> nell\'equazione originale, prima di applicare la sostituzione.</p></div>' +
+    acc([
+      { t:"Esempio — equazione non riconducibile con altri metodi", h:'<p>Risolvi \\(3\\sin x - 4\\cos x = 4\\). Verifica \\(x=\\pi\\): \\(3\\cdot0 - 4\\cdot(-1) = 4\\) ✓, è soluzione. Per \\(x\\ne\\pi+2k\\pi\\), sostituendo \\(t=\\tan(x/2)\\):</p><div class="math-block">\\[ 3\\cdot\\frac{2t}{1+t^2} - 4\\cdot\\frac{1-t^2}{1+t^2} = 4 \\;\\Rightarrow\\; 6t - 4(1-t^2) = 4(1+t^2) \\;\\Rightarrow\\; 2t^2+6t-8=0 \\]</div><p>da cui \\(t=1\\) o \\(t=-4\\), cioè \\(x = \\tfrac{\\pi}{2}+2k\\pi\\) oppure \\(x = 2\\arctan(-4)+2k\\pi\\), oltre alla soluzione \\(x=\\pi+2k\\pi\\) trovata a parte.</p>' }
+    ])
+},
+{
+  tag:"DISCUSSIONE",
+  title:"Equazioni <em>parametriche</em>",
+  nav:"Parametro",
+  body:
+    '<p>Quando l\'equazione contiene un parametro \\(k\\), il problema cambia natura: non si cercano più le soluzioni \\(x\\), ma si <strong>discute</strong> per quali valori di \\(k\\) l\'equazione ammette soluzioni, e quante.</p>' +
+    '<h3>Esempio guidato</h3>' +
+    '<p>Discutere, al variare di \\(k \\in \\mathbb{R}\\), l\'equazione \\(\\sin x = k - 1\\).</p>' +
+    '<p>Poiché \\(\\sin x \\in [-1,1]\\) per ogni \\(x\\), l\'equazione ha soluzione se e solo se \\(k-1 \\in [-1,1]\\):</p>' +
+    '<div class="math-block result">\\[ 0 \\leq k \\leq 2 \\quad\\Longrightarrow\\quad \\text{esistono soluzioni } x = \\arcsin(k-1) + 2n\\pi \\ \\lor\\ x = \\pi-\\arcsin(k-1)+2n\\pi, \\ \\ n\\in\\mathbb{Z} \\]</div>' +
+    '<p>Per \\(k<0\\) o \\(k>2\\), l\'equazione è impossibile per qualunque \\(x\\).</p>' +
+    '<div class="cb purple"><div class="cb-label">Il ruolo della limitatezza</div><p>La discussione sfrutta un fatto strutturale: seno e coseno sono <strong>limitati</strong> in \\([-1,1]\\). Questo tipo di ragionamento — usare le proprietà globali della funzione invece di risolvere equazione per equazione — è lo stesso che si userà, l\'anno prossimo, discutendo l\'esistenza di soluzioni per equazioni con funzioni esponenziali o logaritmiche.</p></div>'
+},
+{
+  tag:"SINTESI",
+  title:"Mappa dei <em>metodi</em>",
+  nav:"Sintesi",
+  body:
+    '<p>Ogni equazione goniometrica non elementare si riconduce, con uno dei metodi visti, a un\'equazione elementare o algebrica. La tabella riassume quando conviene ciascun metodo.</p>' +
+    '<table class="ct"><tr><th>Tipo di equazione</th><th>Metodo</th><th>Attenzione a…</th></tr>' +
+    '<tr><td>Elementare \\(\\sin x=\\sin\\alpha\\) (e simili)</td><td>Formula generale delle soluzioni</td><td>—</td></tr>' +
+    '<tr><td>Lineare \\(a\\sin x+b\\cos x=c\\)</td><td>Angolo aggiunto (forma \\(R\\sin(x+\\varphi)\\))</td><td>Condizione \\(|c|\\le R\\)</td></tr>' +
+    '<tr><td>Omogenea di 2° grado</td><td>Divisione per \\(\\cos^2 x\\)</td><td>Verificare a parte \\(\\cos x = 0\\)</td></tr>' +
+    '<tr><td>Razionale generale in \\(\\sin x,\\cos x\\)</td><td>Formule parametriche \\(t=\\tan(x/2)\\)</td><td>Verificare a parte \\(x=\\pi+2k\\pi\\)</td></tr>' +
+    '<tr><td>Con parametro</td><td>Discussione via limitatezza/segno</td><td>Distinguere \\(k\\) per cui non esistono soluzioni</td></tr></table>' +
+    acc([
+      { t:"Problema 1 — dimostrazione richiesta", h:'<p>Dimostra che \\(\\cos x = \\cos\\alpha \\Leftrightarrow x=\\pm\\alpha+2k\\pi\\), usando le formule di prostaferesi su \\(\\cos x - \\cos\\alpha\\).</p><p><em>Traccia:</em> \\(\\cos x - \\cos\\alpha = -2\\sin\\big(\\tfrac{x+\\alpha}{2}\\big)\\sin\\big(\\tfrac{x-\\alpha}{2}\\big)\\); annulla ciascun fattore separatamente.</p>' },
+      { t:"Problema 2 — omogenea con verifica del caso escluso", h:'<p>Risolvi \\(2\\sin^2 x + \\sin x\\cos x - \\cos^2 x = 0\\), verificando esplicitamente se \\(\\cos x=0\\) è soluzione prima di dividere.</p>' },
+      { t:"Problema 3 — discussione parametrica", h:'<p>Discuti al variare di \\(k\\) l\'equazione \\(2\\cos x = k+1\\), indicando per quali valori di \\(k\\) l\'equazione è impossibile.</p><div class="math-block result">\\[ \\text{Soluzioni se e solo se} \\quad -3 \\le k \\le 1 \\]</div>' }
+    ]) +
+    '<div class="cb tip"><div class="cb-label">Torna alla base</div><p>Questa lezione presuppone la <a href="/lezioni/equazioni-goniometriche/lezione.html">lezione base sulle equazioni goniometriche</a>: se un passaggio non è chiaro, è lì che vale la pena tornare prima di proseguire.</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>

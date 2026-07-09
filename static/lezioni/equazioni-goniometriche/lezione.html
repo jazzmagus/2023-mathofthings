@@ -11,491 +11,253 @@ MathJax = {
     inlineMath: [['\\(','\\)']],
     displayMath: [['\\[','\\]']],
   },
-  svg: { fontCache: 'global', scale: 1.05 },
-  startup: {
-    ready: () => {
-      MathJax.startup.defaultReady();
-      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
-    }
-  }
+  svg: {fontCache: 'global'}
 };
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
 <style>
 :root {
-  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
-  --border:#e4ddd4; --border-light:#ece7de;
-  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
-  --accent:#c2185b; --accent-light:#fce4ec;
-  --blue:#3a6b8c; --blue-light:#e8f0f5;
-  --green:#4a7c59; --green-light:#eaf5ed;
-  --purple:#6a1b9a; --purple-light:#f3e5f5;
-  --gold:#b8860b; --gold-light:#fdf8ed;
-  --teal:#4f6d7a; --teal-light:#e8eff2;
-  --danger:#b33a3a;
-  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
 }
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
-
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
 .topbar {
   position:fixed; top:0; left:0; right:0; z-index:100;
-  background:rgba(250,247,242,.96);
-  backdrop-filter:blur(8px);
-  border-bottom:1px solid var(--border-light);
-  height:52px; display:flex; align-items:center;
-  padding:0 clamp(16px,4vw,40px); gap:16px;
-  justify-content: space-between;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
 }
-.topbar-brand {
-  font-family:'Playfair Display',serif;
-  font-size:1.05rem; font-weight:700;
-  color:var(--text); white-space:nowrap;
-}
-.topbar-center {
-  display:flex; gap:3px; overflow-x:auto;
-  scrollbar-width:none; flex:1;
-}
-.topbar-center::-webkit-scrollbar{display:none}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
 .nav-pill {
-  background:none; border:none;
-  font-family:'JetBrains Mono',monospace;
-  font-size:.82rem; color:var(--text-dim);
-  padding:6px 14px; border-radius:20px; cursor:pointer;
-  white-space:nowrap; transition:all .2s;
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
 }
-.nav-pill:hover{background:none;color:var(--text)}
-.nav-pill.active{background:none;color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
 .topbar-home {
-  font-family:'JetBrains Mono',monospace;
-  font-size:0.75rem; color:var(--text-dim);
-  text-decoration:none; cursor:pointer;
-  white-space:nowrap;
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
 }
-.topbar-home:hover{color:var(--accent)}
-
-.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 60px}
-.section{display:none;animation:appear .4s ease}
-.section.active{display:block}
-@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-
-.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-light)}
-.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
-.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:12px}
-.hero h1 em{font-style:italic;color:var(--accent)}
-.hero-sub{font-size:1.02rem;color:var(--text-mid);max-width:580px;line-height:1.7}
-
-.cb{background:rgba(193,24,91,.03);border:none;border-radius:0;padding:16px 0;margin:18px 0;box-shadow:none;position:relative;border-left:2px solid var(--accent)}
-.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;border-radius:var(--radius) 0 0 var(--radius)}
-.cb.tip::before{background:var(--blue)}
-.cb.warn::before{background:var(--gold)}
-.cb.danger::before{background:var(--danger)}
-.cb.success::before{background:var(--green)}
-.cb.method::before{background:var(--accent)}
-.cb.purple::before{background:var(--purple)}
-.cb.teal::before{background:var(--teal)}
-.cb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600;color:var(--accent)}
-.cb.tip .cb-label{color:var(--blue)}
-.cb.warn .cb-label{color:var(--gold)}
-.cb.danger .cb-label{color:var(--danger)}
-.cb.success .cb-label{color:var(--green)}
-.cb.method .cb-label{color:var(--accent)}
-.cb.purple .cb-label{color:var(--purple)}
-.cb.teal .cb-label{color:var(--teal)}
-
-.math-block{background:rgba(0,0,0,.02);border:none;border-radius:0;padding:12px 16px;margin:10px 0;overflow-x:auto}
-.math-block.dark{background:var(--surface-alt)}
-.math-block.result{border-left:2px solid var(--green);background:rgba(74,124,89,.04);font-weight:400;text-align:left;padding:12px 16px;margin:10px 0}
-
-h2{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3.5vw,1.95rem);font-weight:800;line-height:1.15;margin:32px 0 20px;color:var(--text)}
-h3{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;line-height:1.2;margin:24px 0 14px;color:var(--text)}
-
-.step-math{margin:12px 0;padding:8px 12px;background:var(--surface-alt);border-radius:4px;border-left:3px solid var(--accent)}
-.step-math .label{display:inline-block;font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;margin-right:8px;padding:2px 8px;border-radius:3px;font-weight:600;background:var(--accent);color:#fff}
-.step-math .label.green{background:var(--green)}
-.step-math p{margin:4px 0;font-size:.95rem}
-
-.dim{color:var(--text-dim);font-size:.92rem;font-style:italic}
-
-ul,ol{margin:16px 0 16px 24px}
-li{margin-bottom:8px;line-height:1.7}
-
-.section-intro{font-family:'Georgia',serif;font-size:0.95rem;color:var(--text-mid);margin:16px 0 24px;line-height:1.6;max-width:800px;text-align:left}
-
-.checklist-grid{margin:16px 0}
-.checklist-group{margin-bottom:0;padding-bottom:12px;border-bottom:0.5px solid var(--accent)}
-.checklist-group:last-child{border-bottom:none}
-.checklist-group h4{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text);margin:16px 0 12px;padding-top:0}
-.checklist-group ul{list-style:none;margin:0;padding:0}
-.checklist-group li{position:relative;padding:6px 0 6px 26px;font-size:0.96rem;font-family:'JetBrains Mono',monospace;color:var(--text-mid);line-height:1.3;cursor:pointer;transition:all .2s}
-.checklist-group li::before{content:'☐';position:absolute;left:0;top:5px;font-size:0.95rem;color:var(--accent);font-weight:400;transition:all .2s}
-.checklist-group li.checked{color:var(--text-dim);text-decoration:line-through}
-.checklist-group li.checked::before{content:'☑';color:var(--accent)}
-
-.accordion{margin:16px 0;border:none;box-shadow:none;overflow:visible}
-.acc-item{margin-bottom:0;border-bottom:1px solid rgba(0,0,0,.08)}
-.acc-header{background:none;border:none;padding:14px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-radius:0;transition:all .2s;user-select:none}
-.acc-header:hover{background:none}
-.acc-header.active{background:var(--accent-light);border-color:var(--accent)}
-.acc-body{display:none;background:none;border:none;border-top:none;padding:8px 0 16px 26px;border-radius:0}
-.acc-body.active{display:block}
-.acc-arrow{transition:transform .3s;font-size:.85rem}
-.acc-header.active .acc-arrow{transform:rotate(180deg)}
-
-.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:52px;padding-top:26px;border-top:1px solid var(--border-light)}
-.bb{font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:0;border:none;background:none;color:var(--text);transition:all .2s;cursor:pointer;text-decoration:none}
-.bb:hover{color:var(--accent);text-decoration:underline}
-.bb.primary{background:none;color:var(--text);border:none;font-weight:400}
-.bb.primary:hover{color:var(--accent);text-decoration:underline;background:none}
-
-@media(max-width:600px){
-  body{font-size:16px}
-  h2{font-size:1.5rem}
-  .container{padding:70px 16px 60px}
-}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.step-math { margin:12px 0; padding:8px 12px; background:var(--surface-alt); border-radius:4px; border-left:3px solid var(--accent); }
+.step-math .label { display:inline-block; font-family:'Fira Code',monospace; font-size:.7rem; letter-spacing:1.5px; text-transform:uppercase; margin-right:8px; padding:2px 8px; border-radius:3px; font-weight:600; background:var(--accent); color:#fff; }
+.step-math p { margin:4px 0; font-size:.95rem; }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <span class="topbar-brand">Equazioni Goniometriche</span>
-  <div class="topbar-center" id="topNav"></div>
+  <div class="topbar-brand">Equazioni Goniometriche</div>
+  <div class="topbar-nav" id="topNav"></div>
   <a href="/" class="topbar-home">← home</a>
 </div>
-
 <div class="container" id="app"></div>
 
 <script>
-const sections = [
-  {
-    tag: 'FONDAMENTI',
-    title: 'Definizione ed <em>equazioni elementari</em>',
-    nav: 'Fondamenti',
-    body: `
-      <p class="section-intro">
-        Un'<strong>equazione goniometrica</strong> è un'equazione in cui l'incognita compare come argomento di funzioni trigonometriche. A differenza delle equazioni algebriche ordinarie, hanno infinite soluzioni a causa della periodicità. Risolvere significa trovare tutti i valori di \\(x\\) in forma parametrica. Negli utilizzi pratici, modellano fenomeni ciclici: moti oscillatori, onde (suono, luce, radio), segnali (telecomunicazioni, acustica), circuiti AC, vibrazioni strutturali e moto rotazionale. Apprenderai a risolvere quattro tipi: elementari, riconducibili per sostituzione, lineari, e omogenee di secondo grado.
-      </p>
-
-      <div class="cb method">
-        <div class="cb-label">Definizione</div>
-        <p>Un'equazione si dice <strong>goniometrica</strong> se l'incognita compare nell'<strong>argomento</strong> di una funzione goniometrica.</p>
-        <p style="margin-top:12px;"><strong>Equazioni elementari:</strong></p>
-        <div class="math-block">
-          \\[\\sin x = p, \\quad \\cos x = q, \\quad \\tan x = h, \\quad \\text{con } p, q, h \\in \\mathbb{R}\\]
-        </div>
-      </div>
-
-      <h3>Formule di risoluzione</h3>
-
-      <div class="cb tip">
-        <div class="cb-label">Per seno</div>
-        <div class="math-block">
-          \\[\\sin x = m \\quad \\Rightarrow \\quad \\begin{cases} x = \\alpha + 2k\\pi \\\\ x = \\pi - \\alpha + 2k\\pi \\end{cases}, \\quad k \\in \\mathbb{Z}\\]
-        </div>
-        <p style="margin-top:12px;"><strong>Nota:</strong> \\(\\alpha\\) è il minore angolo positivo il cui seno vale \\(m\\).</p>
-      </div>
-
-      <div class="cb tip">
-        <div class="cb-label">Per coseno</div>
-        <div class="math-block">
-          \\[\\cos x = m \\quad \\Rightarrow \\quad x = \\pm \\alpha + 2k\\pi, \\quad k \\in \\mathbb{Z}\\]
-        </div>
-      </div>
-
-      <div class="cb tip">
-        <div class="cb-label">Per tangente</div>
-        <div class="math-block">
-          \\[\\tan x = m \\quad \\Rightarrow \\quad x = \\alpha + k\\pi, \\quad k \\in \\mathbb{Z}\\]
-        </div>
-        <p style="margin-top:12px;"><strong>Nota:</strong> Il periodo è \\(\\pi\\), non \\(2\\pi\\)!</p>
-      </div>
-
-      <div class="cb success">
-        <div class="cb-label">Esempio 1</div>
-        <p><strong>Equazione:</strong></p>
-        <div class="math-block">\\[\\cos x = \\frac{\\sqrt{3}}{2}\\]</div>
-        <p style="margin-top:12px;"><strong>Risoluzione:</strong> L'angolo il cui coseno vale \\(\\dfrac{\\sqrt{3}}{2}\\) è \\(\\alpha = \\dfrac{\\pi}{6}\\).</p>
-        <div class="math-block result">\\[x = \\pm \\frac{\\pi}{6} + 2k\\pi, \\quad k \\in \\mathbb{Z}\\]</div>
-      </div>
-
-      <div class="cb success">
-        <div class="cb-label">Esempio 2</div>
-        <p><strong>Equazione:</strong></p>
-        <div class="math-block">\\[\\sin x = \\frac{1}{2}\\]</div>
-        <p style="margin-top:12px;"><strong>Risoluzione:</strong> L'angolo il cui seno vale \\(\\dfrac{1}{2}\\) è \\(\\alpha = \\dfrac{\\pi}{6}\\).</p>
-        <div class="math-block result">\\[\\begin{cases} x = \\dfrac{\\pi}{6} + 2k\\pi \\\\ x = \\pi - \\dfrac{\\pi}{6} + 2k\\pi = \\dfrac{5\\pi}{6} + 2k\\pi \\end{cases}, \\quad k \\in \\mathbb{Z}\\]</div>
-      </div>
-    `
-  },
-
-  {
-    tag: 'CASO FREQUENTE',
-    title: 'Equazioni <em>riconducibili</em> a elementari',
-    nav: 'Riconducibili',
-    body: `
-      <p class="section-intro">Nella pratica raramente incontri equazioni già elementari. Imparerai a riconoscere le strategie per trasformarne di complesse in semplici: sono le stesse tecniche algebriche che usi per le equazioni polinomiali, solo applicate alle funzioni goniometriche.</p>
-
-      <h3>Strategia: sostituzione</h3>
-
-      <p>Se compare <strong>una sola funzione goniometrica</strong> con lo stesso argomento, usiamo una sostituzione.</p>
-
-      <div class="cb success">
-        <div class="cb-label">Esempio 1: Equazione di 2° grado in coseno</div>
-        <p><strong>Equazione:</strong></p>
-        <div class="math-block">\\[2\\cos^2 x - 3\\cos x + 1 = 0\\]</div>
-
-        <div class="step-math"><div class="label">Passo 1</div>Poniamo \\(t = \\cos x\\)</div>
-        <div class="math-block">\\[2t^2 - 3t + 1 = 0\\]</div>
-
-        <div class="step-math"><div class="label">Passo 2</div>Risolviamo l'equazione di secondo grado</div>
-        <div class="math-block">
-          \\[t = \\frac{3 \\pm \\sqrt{9 - 8}}{4} = \\frac{3 \\pm 1}{4}\\]
-        </div>
-        <div class="math-block">\\[t_1 = 1, \\quad t_2 = \\frac{1}{2}\\]</div>
-
-        <div class="step-math"><div class="label">Passo 3</div>Torniamo alla variabile \\(x\\)</div>
-        <div class="math-block">
-          \\[\\begin{cases}
-            \\cos x = 1 \\Rightarrow x = 2k\\pi \\\\
-            \\cos x = \\dfrac{1}{2} \\Rightarrow x = \\pm \\dfrac{\\pi}{3} + 2k\\pi
-          \\end{cases}\\]
-        </div>
-      </div>
-
-      <div class="cb success">
-        <div class="cb-label">Esempio 2: Semplificazione con formule</div>
-        <p><strong>Equazione:</strong></p>
-        <div class="math-block">\\[2\\sin^2 x + \\sin(\\pi + x) - 1 = 0\\]</div>
-
-        <div class="step-math"><div class="label">Passo 1</div>Usiamo la formula \\(\\sin(\\pi + x) = -\\sin x\\)</div>
-        <div class="math-block">\\[2\\sin^2 x - \\sin x - 1 = 0\\]</div>
-
-        <div class="step-math"><div class="label">Passo 2</div>Poniamo \\(t = \\sin x\\)</div>
-        <div class="math-block">\\[2t^2 - t - 1 = 0 \\quad \\Rightarrow \\quad t_1 = 1, \\quad t_2 = -\\frac{1}{2}\\]</div>
-
-        <div class="step-math"><div class="label">Passo 3</div>Torniamo alla variabile</div>
-        <div class="math-block">
-          \\[\\begin{cases}
-            \\sin x = 1 \\Rightarrow x = \\dfrac{\\pi}{2} + 2k\\pi \\\\
-            \\sin x = -\\dfrac{1}{2} \\Rightarrow x = -\\dfrac{\\pi}{6} + 2k\\pi \\text{ o } x = \\pi + \\dfrac{\\pi}{6} + 2k\\pi = \\dfrac{7\\pi}{6} + 2k\\pi
-          \\end{cases}\\]
-        </div>
-      </div>
-    `
-  },
-
-  {
-    tag: 'APPROFONDIMENTO',
-    title: 'Equazioni <em>lineari</em> in seno e coseno',
-    nav: 'Lineari',
-    body: `
-      <p class="section-intro">Questo è il tipo di equazione che più frequentemente incontrerai in problemi reali. Il metodo dell'angolo aggiunto è una tecnica potentissima usata in telecomunicazioni, acustica e nelle analisi di circuiti AC.</p>
-
-      <div class="cb method">
-        <div class="cb-label">Forma generale</div>
-        <div class="math-block">\\[a\\sin x + b\\cos x + c = 0 \\quad (a \\neq 0, \\, b \\neq 0)\\]</div>
-      </div>
-
-      <h3>Metodo dell'angolo aggiunto</h3>
-      <p>La chiave è trasformare la combinazione lineare in una sola funzione.</p>
-
-      <div class="cb tip">
-        <div class="cb-label">Trasformazione</div>
-        <div class="math-block">\\[a\\sin x + b\\cos x = A\\sin(x + \\varphi)\\]</div>
-        <p style="margin-top:12px;">dove:</p>
-        <ul>
-          <li>\\(A = \\sqrt{a^2 + b^2}\\) (ampiezza)</li>
-          <li>\\(\\sin \\varphi = \\dfrac{b}{A}\\) e \\(\\cos \\varphi = \\dfrac{a}{A}\\) (angolo di sfasamento)</li>
-        </ul>
-      </div>
-
-      <div class="cb success">
-        <div class="cb-label">Esempio 1</div>
-        <p><strong>Equazione:</strong></p>
-        <div class="math-block">\\[\\sqrt{3}\\sin x - \\cos x - 1 = 0\\]</div>
-
-        <div class="step-math"><div class="label">Passo 1</div>Calcoliamo \\(A\\) e \\(\\varphi\\)</div>
-        <div class="math-block">
-          \\[A = \\sqrt{(\\sqrt{3})^2 + (-1)^2} = \\sqrt{3 + 1} = 2\\]
-        </div>
-        <div class="math-block">
-          \\[\\sin \\varphi = \\frac{-1}{2}, \\quad \\cos \\varphi = \\frac{\\sqrt{3}}{2} \\quad \\Rightarrow \\quad \\varphi = -\\frac{\\pi}{6}\\]
-        </div>
-
-        <div class="step-math"><div class="label">Passo 2</div>Riscriviamo l'equazione</div>
-        <div class="math-block">
-          \\[2\\sin\\left(x - \\frac{\\pi}{6}\\right) - 1 = 0 \\quad \\Rightarrow \\quad \\sin\\left(x - \\frac{\\pi}{6}\\right) = \\frac{1}{2}\\]
-        </div>
-
-        <div class="step-math"><div class="label">Passo 3</div>Risolviamo come equazione elementare</div>
-        <div class="math-block">
-          \\[\\begin{cases}
-            x - \\dfrac{\\pi}{6} = \\dfrac{\\pi}{6} + 2k\\pi \\Rightarrow x = \\dfrac{\\pi}{3} + 2k\\pi \\\\
-            x - \\dfrac{\\pi}{6} = \\pi - \\dfrac{\\pi}{6} + 2k\\pi \\Rightarrow x = \\pi + 2k\\pi
-          \\end{cases}\\]
-        </div>
-      </div>
-    `
-  },
-
-  {
-    tag: 'AVANZATO',
-    title: 'Equazioni <em>omogenee</em> di 2° grado',
-    nav: 'Omogenee',
-    body: `
-      <p class="section-intro">Qui affrontiamo il livello più astratto, ma con una struttura elegante: niente termini noti, solo combinazioni di seno e coseno. La chiave è dividere per cos²x e trasformare tutto in tangente. Usato in ottimizzazione e in alcuni problemi di geometria.</p>
-
-      <div class="cb method">
-        <div class="cb-label">Forma generale</div>
-        <div class="math-block">\\[a\\sin^2 x + b\\sin x \\cos x + c\\cos^2 x = 0\\]</div>
-      </div>
-
-      <h3>Metodo di risoluzione</h3>
-      <p>Se \\(\\cos x \\neq 0\\), dividiamo l'intera equazione per \\(\\cos^2 x\\) e otteniamo un'equazione di 2° grado in \\(\\tan x\\).</p>
-
-      <div class="cb warn">
-        <div class="cb-label">Attenzione</div>
-        <p>Bisogna verificare a parte se \\(\\cos x = 0\\) (cioè \\(x = \\dfrac{\\pi}{2} + k\\pi\\)) è soluzione dell'equazione originale.</p>
-      </div>
-
-      <div class="cb success">
-        <div class="cb-label">Esempio 1</div>
-        <p><strong>Equazione:</strong></p>
-        <div class="math-block">\\[\\sin^2 x - 3\\sqrt{3}\\sin x \\cos x + 6\\cos^2 x = 0\\]</div>
-
-        <div class="step-math"><div class="label">Passo 1</div>Verifichiamo se \\(\\cos x = 0\\) è soluzione</div>
-        <p>Se \\(\\cos x = 0\\), allora \\(\\sin x = \\pm 1\\), quindi \\(\\sin^2 x = 1\\):</p>
-        <div class="math-block">\\[1 - 0 + 0 = 1 \\neq 0\\]</div>
-        <p>Non è soluzione.</p>
-
-        <div class="step-math"><div class="label">Passo 2</div>Dividiamo per \\(\\cos^2 x\\)</div>
-        <div class="math-block">\\[\\tan^2 x - 3\\sqrt{3}\\tan x + 6 = 0\\]</div>
-
-        <div class="step-math"><div class="label">Passo 3</div>Risolviamo l'equazione di 2° grado</div>
-        <div class="math-block">
-          \\[\\tan x = \\frac{3\\sqrt{3} \\pm \\sqrt{27 - 24}}{2} = \\frac{3\\sqrt{3} \\pm \\sqrt{3}}{2}\\]
-        </div>
-        <div class="math-block">
-          \\[\\tan x = \\sqrt{3} \\quad \\text{oppure} \\quad \\tan x = 2\\sqrt{3}\\]
-        </div>
-
-        <div class="step-math"><div class="label">Passo 4</div>Ricaviamo le soluzioni</div>
-        <div class="math-block">
-          \\[\\begin{cases}
-            \\tan x = \\sqrt{3} \\Rightarrow x = \\dfrac{\\pi}{3} + k\\pi \\\\
-            \\tan x = 2\\sqrt{3} \\Rightarrow x = \\arctan(2\\sqrt{3}) + k\\pi
-          \\end{cases}\\]
-        </div>
-      </div>
-    `
-  },
-
-  {
-    tag: 'VERIFICA',
-    title: 'Checklist di <em>autocontrollo</em>',
-    nav: 'Checklist',
-    body: `
-      <p class="section-intro">Completa gli item mentre studi. Non è uno sprint: ogni checkmark significa che hai compreso davvero quel concetto.</p>
-
-      <div class="checklist-grid">
-        <div class="checklist-group">
-          <h4>Fondamenti</h4>
-          <ul>
-            <li>Definizione di equazione goniometrica</li>
-            <li>Tre formule risolutive (seno, coseno, tangente)</li>
-            <li>Risolvere \\(\\sin x = p\\) per qualsiasi \\(p\\)</li>
-            <li>Risolvere \\(\\cos x = q\\) per qualsiasi \\(q\\)</li>
-            <li>Risolvere \\(\\tan x = h\\) per qualsiasi \\(h\\)</li>
-          </ul>
-        </div>
-
-        <div class="checklist-group">
-          <h4>Riconducibili</h4>
-          <ul>
-            <li>Sostituzione \\(t = \\sin x\\) o \\(t = \\cos x\\)</li>
-            <li>Riconoscere quando usare una formula</li>
-            <li>Tornare alla variabile originale \\(x\\)</li>
-            <li>Verificare le soluzioni trovate</li>
-          </ul>
-        </div>
-
-        <div class="checklist-group">
-          <h4>Lineari</h4>
-          <ul>
-            <li>Metodo dell'angolo aggiunto</li>
-            <li>Calcolare \\(A = \\sqrt{a^2 + b^2}\\)</li>
-            <li>Trovare l'angolo \\(\\varphi\\)</li>
-            <li>Trasformare in \\(A\\sin(x + \\varphi)\\)</li>
-          </ul>
-        </div>
-
-        <div class="checklist-group">
-          <h4>Omogenee</h4>
-          <ul>
-            <li>Riconoscere equazione omogenea di 2°</li>
-            <li>Verificare se \\(\\cos x = 0\\) è soluzione</li>
-            <li>Dividere per \\(\\cos^2 x\\)</li>
-            <li>Risolvere l'equazione in \\(\\tan x\\)</li>
-          </ul>
-        </div>
-      </div>
-    `
-  }
-];
-
-const topNav = document.getElementById('topNav');
-const app = document.getElementById('app');
-let currentSection = 0;
-
-sections.forEach((sec, i) => {
-  const btn = document.createElement('button');
-  btn.className = 'nav-pill' + (i === 0 ? ' active' : '');
-  btn.textContent = sec.nav;
-  btn.onclick = () => showSection(i);
-  topNav.appendChild(btn);
-});
-
-function showSection(i) {
-  currentSection = i;
-  const sec = sections[i];
-
-  app.innerHTML = `
-    <section class="section active">
-      <div class="hero">
-        <div class="hero-tag">${sec.tag}</div>
-        <h1>${sec.title}</h1>
-      </div>
-      ${sec.body}
-    </section>
-  `;
-
-  document.querySelectorAll('.nav-pill').forEach((p, idx) => {
-    p.classList.toggle('active', idx === i);
-  });
-
-  document.querySelectorAll('.acc-header').forEach(h => {
-    h.onclick = function() {
-      this.classList.toggle('active');
-      this.nextElementSibling.classList.toggle('active');
-    };
-  });
-
-  // Checklist interattiva
-  document.querySelectorAll('.checklist-group li').forEach(li => {
-    li.onclick = function(e) {
-      e.stopPropagation();
-      this.classList.toggle('checked');
-    };
-  });
-
-  MathJax.typesetPromise().catch(err => console.log(err));
-  window.scrollTo(0, 0);
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
 }
 
-showSection(0);
-document.body.style.opacity = '1';
-</script>
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
 
+const S = [
+{
+  tag:"FONDAMENTI",
+  title:"Definizione ed <em>equazioni elementari</em>",
+  nav:"Fondamenti",
+  body:
+    '<p>Un\'<strong>equazione goniometrica</strong> è un\'equazione in cui l\'incognita compare come argomento di funzioni trigonometriche. A differenza delle equazioni algebriche ordinarie, ha <strong>infinite soluzioni</strong>, a causa della periodicità. Risolvere significa trovare tutti i valori di \\(x\\) in forma parametrica.</p>' +
+    '<p>Nei problemi reali modellano fenomeni ciclici: moti oscillatori, onde (suono, luce, radio), segnali, circuiti AC, vibrazioni strutturali, moto rotazionale.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione</div><p>Un\'equazione si dice <strong>goniometrica</strong> se l\'incognita compare nell\'<strong>argomento</strong> di una funzione goniometrica.</p><p style="margin-top:12px;"><strong>Equazioni elementari:</strong></p><div class="math-block hero-formula">\\[ \\sin x = p, \\quad \\cos x = q, \\quad \\tan x = h, \\quad \\text{con } p, q, h \\in \\mathbb{R} \\]</div></div>' +
+    '<h3>Formule di risoluzione</h3>' +
+    '<div class="cb tip"><div class="cb-label">Per seno</div><div class="math-block">\\[ \\sin x = m \\ \\Rightarrow\\ \\begin{cases} x = \\alpha + 2k\\pi \\\\ x = \\pi - \\alpha + 2k\\pi \\end{cases}, \\quad k \\in \\mathbb{Z} \\]</div><p style="margin-top:12px;"><strong>Nota:</strong> \\(\\alpha\\) è il minore angolo positivo il cui seno vale \\(m\\).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Per coseno</div><div class="math-block">\\[ \\cos x = m \\ \\Rightarrow\\ x = \\pm\\alpha + 2k\\pi, \\quad k \\in \\mathbb{Z} \\]</div></div>' +
+    '<div class="cb tip"><div class="cb-label">Per tangente</div><div class="math-block">\\[ \\tan x = m \\ \\Rightarrow\\ x = \\alpha + k\\pi, \\quad k \\in \\mathbb{Z} \\]</div><p style="margin-top:12px;"><strong>Nota:</strong> il periodo è \\(\\pi\\), non \\(2\\pi\\)!</p></div>' +
+    acc([
+      { t:"Esempio 1 — cos x = √3/2", h:'<p>L\'angolo il cui coseno vale \\(\\dfrac{\\sqrt3}{2}\\) è \\(\\alpha = \\dfrac{\\pi}{6}\\).</p><div class="math-block result">\\[ x = \\pm\\frac{\\pi}{6} + 2k\\pi, \\quad k \\in \\mathbb{Z} \\]</div>' },
+      { t:"Esempio 2 — sin x = 1/2", h:'<p>L\'angolo il cui seno vale \\(\\dfrac12\\) è \\(\\alpha=\\dfrac{\\pi}{6}\\).</p><div class="math-block result">\\[ \\begin{cases} x = \\dfrac{\\pi}{6}+2k\\pi \\\\ x = \\pi - \\dfrac{\\pi}{6}+2k\\pi = \\dfrac{5\\pi}{6}+2k\\pi \\end{cases}, \\quad k\\in\\mathbb{Z} \\]</div>' }
+    ])
+},
+{
+  tag:"CASO FREQUENTE",
+  title:"Equazioni <em>riconducibili</em> a elementari",
+  nav:"Riconducibili",
+  body:
+    '<p>Nella pratica raramente si incontrano equazioni già elementari. Le strategie per trasformarne di complesse in semplici sono le stesse tecniche algebriche usate per le equazioni polinomiali, applicate alle funzioni goniometriche.</p>' +
+    '<h3>Strategia: sostituzione</h3>' +
+    '<p>Se compare <strong>una sola funzione goniometrica</strong> con lo stesso argomento, si usa una sostituzione.</p>' +
+    acc([
+      { t:"Esempio 1 — equazione di 2° grado in coseno", h:
+        '<p><strong>Equazione:</strong></p><div class="math-block">\\[ 2\\cos^2 x - 3\\cos x + 1 = 0 \\]</div>' +
+        '<div class="step-math"><div class="label">Passo 1</div>Poniamo \\(t=\\cos x\\)</div><div class="math-block">\\[ 2t^2-3t+1=0 \\]</div>' +
+        '<div class="step-math"><div class="label">Passo 2</div>Risolviamo l\'equazione di secondo grado</div><div class="math-block">\\[ t = \\frac{3\\pm\\sqrt{9-8}}{4} = \\frac{3\\pm1}{4} \\quad\\Rightarrow\\quad t_1=1,\\ t_2=\\frac12 \\]</div>' +
+        '<div class="step-math"><div class="label">Passo 3</div>Torniamo alla variabile \\(x\\)</div><div class="math-block result">\\[ \\begin{cases} \\cos x = 1 \\Rightarrow x=2k\\pi \\\\ \\cos x = \\dfrac12 \\Rightarrow x = \\pm\\dfrac{\\pi}{3}+2k\\pi \\end{cases} \\]</div>' },
+      { t:"Esempio 2 — semplificazione con formule", h:
+        '<p><strong>Equazione:</strong></p><div class="math-block">\\[ 2\\sin^2 x + \\sin(\\pi+x) - 1 = 0 \\]</div>' +
+        '<div class="step-math"><div class="label">Passo 1</div>Usiamo \\(\\sin(\\pi+x) = -\\sin x\\)</div><div class="math-block">\\[ 2\\sin^2 x - \\sin x - 1 = 0 \\]</div>' +
+        '<div class="step-math"><div class="label">Passo 2</div>Poniamo \\(t=\\sin x\\)</div><div class="math-block">\\[ 2t^2-t-1=0 \\quad\\Rightarrow\\quad t_1=1,\\ t_2=-\\frac12 \\]</div>' +
+        '<div class="step-math"><div class="label">Passo 3</div>Torniamo alla variabile</div><div class="math-block result">\\[ \\begin{cases} \\sin x = 1 \\Rightarrow x=\\dfrac{\\pi}{2}+2k\\pi \\\\ \\sin x = -\\dfrac12 \\Rightarrow x=-\\dfrac{\\pi}{6}+2k\\pi \\ \\text{o}\\ x=\\dfrac{7\\pi}{6}+2k\\pi \\end{cases} \\]</div>' }
+    ])
+},
+{
+  tag:"APPROFONDIMENTO",
+  title:"Equazioni <em>lineari</em> in seno e coseno",
+  nav:"Lineari",
+  body:
+    '<p>Questo è il tipo di equazione più frequente nei problemi reali. Il metodo dell\'<strong>angolo aggiunto</strong> è una tecnica usata in telecomunicazioni, acustica e nell\'analisi di circuiti AC.</p>' +
+    '<div class="cb"><div class="cb-label">Forma generale</div><div class="math-block hero-formula">\\[ a\\sin x + b\\cos x + c = 0 \\quad (a\\neq0,\\ b\\neq0) \\]</div></div>' +
+    '<h3>Metodo dell\'angolo aggiunto</h3>' +
+    '<p>La chiave è trasformare la combinazione lineare in una sola funzione.</p>' +
+    '<div class="cb tip"><div class="cb-label">Trasformazione</div><div class="math-block">\\[ a\\sin x + b\\cos x = A\\sin(x+\\varphi) \\]</div><p style="margin-top:12px;">dove:</p><ul><li>\\(A = \\sqrt{a^2+b^2}\\) (ampiezza)</li><li>\\(\\sin\\varphi = \\dfrac{b}{A}\\) e \\(\\cos\\varphi = \\dfrac{a}{A}\\) (angolo di sfasamento)</li></ul></div>' +
+    acc([
+      { t:"Esempio — √3 sin x − cos x − 1 = 0", h:
+        '<div class="step-math"><div class="label">Passo 1</div>Calcoliamo \\(A\\) e \\(\\varphi\\)</div><div class="math-block">\\[ A = \\sqrt{(\\sqrt3)^2+(-1)^2} = \\sqrt{3+1}=2 \\]</div><div class="math-block">\\[ \\sin\\varphi = \\frac{-1}{2}, \\quad \\cos\\varphi = \\frac{\\sqrt3}{2} \\quad\\Rightarrow\\quad \\varphi = -\\frac{\\pi}{6} \\]</div>' +
+        '<div class="step-math"><div class="label">Passo 2</div>Riscriviamo l\'equazione</div><div class="math-block">\\[ 2\\sin\\!\\left(x-\\frac{\\pi}{6}\\right) - 1 = 0 \\quad\\Rightarrow\\quad \\sin\\!\\left(x-\\frac{\\pi}{6}\\right) = \\frac12 \\]</div>' +
+        '<div class="step-math"><div class="label">Passo 3</div>Risolviamo come equazione elementare</div><div class="math-block result">\\[ \\begin{cases} x-\\dfrac{\\pi}{6} = \\dfrac{\\pi}{6}+2k\\pi \\Rightarrow x=\\dfrac{\\pi}{3}+2k\\pi \\\\ x-\\dfrac{\\pi}{6} = \\pi-\\dfrac{\\pi}{6}+2k\\pi \\Rightarrow x=\\pi+2k\\pi \\end{cases} \\]</div>' }
+    ])
+},
+{
+  tag:"AVANZATO",
+  title:"Equazioni <em>omogenee</em> di 2° grado",
+  nav:"Omogenee",
+  body:
+    '<p>Qui il livello si alza, ma la struttura resta elegante: niente termini noti, solo combinazioni di seno e coseno. La chiave è dividere per \\(\\cos^2 x\\) e trasformare tutto in tangente. Usato in ottimizzazione e in alcuni problemi di geometria.</p>' +
+    '<div class="cb"><div class="cb-label">Forma generale</div><div class="math-block hero-formula">\\[ a\\sin^2 x + b\\sin x\\cos x + c\\cos^2 x = 0 \\]</div></div>' +
+    '<h3>Metodo di risoluzione</h3>' +
+    '<p>Se \\(\\cos x \\neq 0\\), si divide l\'intera equazione per \\(\\cos^2 x\\) e si ottiene un\'equazione di 2° grado in \\(\\tan x\\).</p>' +
+    '<div class="cb warn"><div class="cb-label">Attenzione</div><p>Bisogna verificare a parte se \\(\\cos x = 0\\) (cioè \\(x=\\tfrac{\\pi}{2}+k\\pi\\)) è soluzione dell\'equazione originale.</p></div>' +
+    acc([
+      { t:"Esempio — sin²x − 3√3 sin x cos x + 6cos²x = 0", h:
+        '<div class="step-math"><div class="label">Passo 1</div>Verifichiamo se \\(\\cos x=0\\) è soluzione</div><p>Se \\(\\cos x=0\\), allora \\(\\sin x=\\pm1\\), quindi \\(\\sin^2x=1\\):</p><div class="math-block">\\[ 1-0+0=1\\neq0 \\]</div><p>Non è soluzione.</p>' +
+        '<div class="step-math"><div class="label">Passo 2</div>Dividiamo per \\(\\cos^2 x\\)</div><div class="math-block">\\[ \\tan^2 x - 3\\sqrt3\\tan x + 6 = 0 \\]</div>' +
+        '<div class="step-math"><div class="label">Passo 3</div>Risolviamo l\'equazione di 2° grado</div><div class="math-block">\\[ \\tan x = \\frac{3\\sqrt3\\pm\\sqrt{27-24}}{2} = \\frac{3\\sqrt3\\pm\\sqrt3}{2} \\quad\\Rightarrow\\quad \\tan x = \\sqrt3 \\ \\text{oppure}\\ \\tan x = 2\\sqrt3 \\]</div>' +
+        '<div class="step-math"><div class="label">Passo 4</div>Ricaviamo le soluzioni</div><div class="math-block result">\\[ \\begin{cases} \\tan x=\\sqrt3 \\Rightarrow x=\\dfrac{\\pi}{3}+k\\pi \\\\ \\tan x=2\\sqrt3 \\Rightarrow x=\\arctan(2\\sqrt3)+k\\pi \\end{cases} \\]</div>' }
+    ])
+},
+{
+  tag:"SINTESI",
+  title:"Mappa dei <em>metodi</em>",
+  nav:"Sintesi",
+  body:
+    '<p>Ogni equazione goniometrica non elementare si riconduce, con uno dei metodi visti, a un\'equazione elementare o algebrica. La tabella riassume quando conviene ciascun metodo.</p>' +
+    '<table class="ct"><tr><th>Tipo di equazione</th><th>Strategia</th></tr>' +
+    '<tr><td>Elementare (\\(\\sin x=m\\), \\(\\cos x=m\\), \\(\\tan x=m\\))</td><td>Formule risolutive dirette</td></tr>' +
+    '<tr><td>Un\'unica funzione, gradi superiori al primo</td><td>Sostituzione \\(t=\\sin x\\) o \\(t=\\cos x\\)</td></tr>' +
+    '<tr><td>Lineare \\(a\\sin x+b\\cos x+c=0\\)</td><td>Angolo aggiunto \\(A\\sin(x+\\varphi)\\)</td></tr>' +
+    '<tr><td>Omogenea di 2° grado</td><td>Divisione per \\(\\cos^2 x\\), verificando prima \\(\\cos x=0\\)</td></tr></table>' +
+    acc([
+      { t:"Problema 1 — equazione elementare", h:'<p>Risolvi \\(\\tan x = -1\\).</p><div class="math-block result">\\[ x = -\\frac{\\pi}{4}+k\\pi, \\quad k\\in\\mathbb{Z} \\]</div>' },
+      { t:"Problema 2 — riconducibile per sostituzione", h:'<p>Risolvi \\(2\\sin^2x + \\sin x - 1 = 0\\).</p><p>Ponendo \\(t=\\sin x\\): \\(2t^2+t-1=0 \\Rightarrow t=\\tfrac12\\) o \\(t=-1\\).</p><div class="math-block result">\\[ x = \\dfrac{\\pi}{6}+2k\\pi \\ \\lor\\ x=\\dfrac{5\\pi}{6}+2k\\pi \\ \\lor\\ x = \\dfrac{3\\pi}{2}+2k\\pi \\]</div>' },
+      { t:"Problema 3 — omogenea", h:'<p>Risolvi \\(\\sin^2x - \\sin x\\cos x = 0\\).</p><p>Raccogliendo \\(\\sin x\\): \\(\\sin x(\\sin x - \\cos x)=0\\).</p><div class="math-block result">\\[ \\sin x = 0 \\Rightarrow x=k\\pi \\qquad \\text{oppure} \\qquad \\tan x = 1 \\Rightarrow x=\\dfrac{\\pi}{4}+k\\pi \\]</div>' }
+    ]) +
+    '<div class="cb purple"><div class="cb-label">Vai oltre</div><p>Per le dimostrazioni rigorose dietro questi metodi — perché le soluzioni hanno proprio quella forma, da dove viene la formula dell\'angolo aggiunto, le formule parametriche — c\'è l\'<a href="/lezioni/lp13-equazioni-goniometriche/lezione.html">approfondimento Pro</a>.</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
 </body>
 </html>
