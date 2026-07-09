@@ -16,7 +16,7 @@ slides:
   <p class="mot-kicker">quinto anno — corso pro</p>
   <h1>I Numeri <span class="math-word">Complessi</span></h1>
   <p class="mot-tagline">dalla necessit&agrave; algebrica alla struttura <em>geometrica</em></p>
-  <p class="mot-meta">prof. Diego Fantinelli &mdash; The Math of Things</p>
+  <p class="mot-meta">prof. Diego Fantinelli &mdash; <a href="https://mathofthings.netlify.app/" target="_blank" class="mono">The Math of Things</a></p>
 </section>
 
 ---

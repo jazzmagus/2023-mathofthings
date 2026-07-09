@@ -252,6 +252,161 @@ body.slides-mot .reveal .mot-card h3 {
   margin-bottom: 0.5em;
 }
 
+/* 8. Quiz: card cliccabile con esito colorato */
+body.slides-mot .reveal .mot-quiz-card {
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.15s, border-color 0.15s, background 0.15s;
+}
+
+body.slides-mot .reveal .mot-quiz-card:hover {
+  border-color: rgba(237, 111, 92, 0.4);
+  transform: translateY(-2px);
+}
+
+body.slides-mot .reveal .mot-quiz-card .mot-quiz-letter {
+  font-family: var(--mot-mono);
+  font-size: 0.9em;
+  font-weight: 600;
+  color: var(--mot-primary);
+  margin-right: 0.4em;
+}
+
+body.slides-mot .reveal .mot-quiz-card.picked[data-correct="true"] {
+  border-color: #2e7d32;
+  background: rgba(46, 125, 50, 0.1);
+}
+
+body.slides-mot .reveal .mot-quiz-card.picked[data-correct="false"] {
+  border-color: #c62828;
+  background: rgba(198, 40, 40, 0.1);
+}
+
+body.slides-mot .reveal .mot-quiz-card.picked[data-correct="true"] .mot-quiz-letter::after,
+body.slides-mot .reveal .mot-quiz-card.picked[data-correct="false"] .mot-quiz-letter::after {
+  content: "";
+  display: inline-block;
+  width: 0.7em;
+  height: 0.7em;
+  margin-left: 0.3em;
+  vertical-align: -0.05em;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+body.slides-mot .reveal .mot-quiz-card.picked[data-correct="true"] .mot-quiz-letter::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232e7d32' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 12 9 18 20 6'/%3E%3C/svg%3E");
+}
+
+body.slides-mot .reveal .mot-quiz-card.picked[data-correct="false"] .mot-quiz-letter::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c62828' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3C/svg%3E");
+}
+
+body.slides-mot .reveal .mot-quiz-card.picked:not(:hover) {
+  transform: none;
+}
+
+/* Domanda: testo narrativo separato dall'espressione matematica */
+body.slides-mot .reveal .mot-quiz-q {
+  font-size: 0.75em;
+  line-height: 1.5;
+  margin-bottom: 0.7em;
+}
+
+body.slides-mot .reveal .mot-quiz-expr {
+  color: var(--mot-primary);
+  font-size: 1.15em;
+  line-height: 1.7;
+  margin: 0.5em 0 1.1em;
+}
+
+/* Spiegazione sotto le card, mostrata dopo il click */
+body.slides-mot .reveal .mot-quiz-explain {
+  display: none;
+  text-align: left;
+  font-size: 0.5em;
+  line-height: 1.5;
+  font-style: italic;
+  border-left: 3px solid var(--mot-muted);
+  padding: 0.3em 0 0.3em 0.9em;
+  margin: 1em auto 0;
+  max-width: 92%;
+}
+
+body.slides-mot .reveal .mot-quiz-explain.show { display: block; }
+
+body.slides-mot .reveal .mot-quiz-explain.ok {
+  border-color: #2e7d32;
+  color: #2e7d32;
+}
+
+body.slides-mot .reveal .mot-quiz-explain.bad {
+  border-color: #c62828;
+  color: #c62828;
+}
+
+/* Accento colore per livello (quiz a 3 sezioni: base / avanzato / pro) */
+body.slides-mot .reveal .mot-level-base h1 { color: #2e7d32; opacity: 0.82; }
+body.slides-mot .reveal .mot-level-avanzato h1 { color: var(--mot-primary); opacity: 0.82; }
+body.slides-mot .reveal .mot-level-pro h1 { color: #6a1b9a; opacity: 0.82; }
+
+/* Grafici SVG minimalisti per il quiz (parabola, segno, vertice) */
+body.slides-mot .reveal .mot-quiz-graph {
+  margin: 0.4em auto 0.6em;
+  padding: 0.5em;
+  max-width: 420px;
+  border: 1px solid var(--mot-border);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+body.slides-mot.dark .reveal .mot-quiz-graph {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+body.slides-mot .reveal .mot-quiz-graph svg {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  height: auto;
+}
+
+body.slides-mot .reveal .mot-quiz-graph .axis {
+  stroke: var(--mot-muted);
+  stroke-width: 1.2;
+}
+
+body.slides-mot .reveal .mot-quiz-graph .curve {
+  stroke: var(--mot-primary);
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+}
+
+body.slides-mot .reveal .mot-quiz-graph .solution {
+  stroke: var(--mot-primary);
+  stroke-width: 5;
+  opacity: 0.45;
+  stroke-linecap: round;
+}
+
+body.slides-mot .reveal .mot-quiz-graph .point {
+  fill: var(--mot-primary);
+}
+
+body.slides-mot .reveal .mot-quiz-graph .point-open {
+  fill: var(--r-background-color);
+  stroke: var(--mot-primary);
+  stroke-width: 2.2;
+}
+
+body.slides-mot .reveal .mot-quiz-graph .glabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  fill: var(--mot-muted);
+  text-anchor: middle;
+}
+
 /* Battuta a margine, stile commento di codice */
 body.slides-mot .reveal .mot-joke {
   font-family: var(--mot-mono);

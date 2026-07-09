@@ -16,7 +16,7 @@ slides:
   <p class="mot-kicker">matematica per il biennio</p>
   <h1>Relazioni e <span class="math-word">Funzioni</span></h1>
   <p class="mot-tagline">di variabile <em>reale</em></p>
-  <p class="mot-meta">prof. Diego Fantinelli &mdash; The Math of Things</p>
+  <p class="mot-meta">prof. Diego Fantinelli &mdash; <a href="https://mathofthings.netlify.app/" target="_blank" class="mono">The Math of Things</a></p>
 </section>
 
 ---

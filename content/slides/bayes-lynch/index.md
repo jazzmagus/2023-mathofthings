@@ -17,7 +17,7 @@ slides:
   <p class="mot-kicker" style="color: white; position: relative; z-index: 10;">matematica e vita reale</p>
   <h1 style="color: white; position: relative; z-index: 10;">Il <span class="math-word" style="color: white; font-style: italic;">Bayesian</span></h1>
   <p class="mot-tagline" style="font-family: 'Georgia', serif; color: rgba(255,255,255,0.95); font-size: 1.3em; position: relative; z-index: 10;">un <em style="font-style: italic; color: white;">teorema</em>, una <em style="font-style: italic; color: white;">fortuna</em>, un <em style="font-style: italic; color: white;">naufragio</em></p>
-  <p class="mot-meta" style="color: rgba(255,255,255,0.9); position: relative; z-index: 10;">prof. Diego Fantinelli &mdash; The Math of Things</p>
+  <p class="mot-meta" style="color: rgba(255,255,255,0.9); position: relative; z-index: 10;">prof. Diego Fantinelli &mdash; <a href="https://mathofthings.netlify.app/" target="_blank" class="mono">The Math of Things</a></p>
 </section>
 
 ---
@@ -125,7 +125,7 @@ slides:
   <div id="particles-bl-finale" class="bg-particles" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
   <h1 style="font-size: 2.3em; color: white; position: relative; z-index: 10;">Non dimenticare mai<br>la <em style="color: white; font-style: italic;">coda</em></h1>
   <p style="font-size: 1.2em; margin-top: 1.5rem; color: white; position: relative; z-index: 10;">Il piccolo numero che non arriva mai a zero.</p>
-  <p class="mot-meta" style="color: rgba(255,255,255,0.95); margin-top: 2rem; position: relative; z-index: 10;">The Math of Things</p>
+  <p class="mot-meta" style="color: rgba(255,255,255,0.95); margin-top: 2rem; position: relative; z-index: 10;"><a href="https://mathofthings.netlify.app/" target="_blank" style="color:inherit" class="mono">The Math of Things</a></p>
 </section>
 
 <style>

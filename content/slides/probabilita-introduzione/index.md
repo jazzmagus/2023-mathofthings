@@ -17,7 +17,7 @@ slides:
   <p class="mot-kicker" style="color: white; position: relative; z-index: 10;">matematica per il triennio</p>
   <h1 style="color: white; position: relative; z-index: 10;">Calcolo delle <span class="math-word" style="color: white; font-style: italic;">Probabilità</span></h1>
   <p class="mot-tagline" style="color: rgba(255,255,255,0.95); font-size: 1.3em; position: relative; z-index: 10;">quando la <em style="font-style: italic; color: white;">fortuna</em><br>incontra la <em style="font-style: italic; color: white;">matematica</em></p>
-  <p class="mot-meta" style="color: rgba(255,255,255,0.9); position: relative; z-index: 10;">prof. Diego Fantinelli &mdash; The Math of Things</p>
+  <p class="mot-meta" style="color: rgba(255,255,255,0.9); position: relative; z-index: 10;">prof. Diego Fantinelli &mdash; <a href="https://mathofthings.netlify.app/" target="_blank" class="mono">The Math of Things</a></p>
 </section>
 
 ---

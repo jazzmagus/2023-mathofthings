@@ -16,7 +16,7 @@ slides:
   <p class="mot-kicker">matematica per il triennio</p>
   <h1>Esponenziali e <span class="math-word">Logaritmi</span></h1>
   <p class="mot-tagline">la matematica che <em>cresce</em> e quella che <em>misura</em></p>
-  <p class="mot-meta">prof. Diego Fantinelli &mdash; The Math of Things</p>
+  <p class="mot-meta">prof. Diego Fantinelli &mdash; <a href="https://mathofthings.netlify.app/" target="_blank" class="mono">The Math of Things</a></p>
 </section>
 
 ---
