@@ -20,10 +20,21 @@
       .fn-curve { fill: none; stroke: var(--primary); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
       .axis-label { font-family: 'JetBrains Mono', monospace; font-size: 15px; fill: rgba(44, 37, 32, 0.55); }
       html.dark-mode .axis-label { fill: rgba(224, 224, 224, 0.55); }
+      .circle-label { font-family: Georgia, serif; font-size: 19px; fill: rgba(44, 37, 32, 0.75); }
+      html.dark-mode .circle-label { fill: rgba(224, 224, 224, 0.75); }
       html.dark-mode .axis-line { stroke: rgba(224, 224, 224, 0.35); }
       html.dark-mode .grid-line { stroke: rgba(224, 224, 224, 0.1); }
 
       .fact-list { font-size: 0.85em; }
+
+      .notable-angles-table { width: 100%; margin: 1.2em auto 0; font-size: 1em; }
+      .notable-angles-table th { font-family: 'Playfair Display', serif; font-size: 0.8em; }
+      .notable-angles-table td { text-align: center; padding: 14px 18px; font-size: 1.05em; }
+      .notable-angles-table td:nth-child(1), .notable-angles-table td:nth-child(3) { font-family: 'JetBrains Mono', monospace; color: var(--text-light); }
+      html.dark-mode .notable-angles-table td:nth-child(1), html.dark-mode .notable-angles-table td:nth-child(3) { color: var(--text-dark); }
+      .notable-angles-table td:nth-child(2), .notable-angles-table td:nth-child(4) { font-weight: 700; color: var(--primary); }
+      .notable-angles-table tr:nth-child(odd):not(:first-child) { background: rgba(237, 111, 92, 0.04); }
+      html.dark-mode .notable-angles-table tr:nth-child(odd):not(:first-child) { background: rgba(237, 111, 92, 0.08); }
       .fact-list li { margin-bottom: 0.5em; }
     </style>
   </head>
@@ -151,7 +162,23 @@
           <section>
             <h3>Gli angoli <em>notevoli</em></h3>
             <div class="graph-wrap"><svg id="unitCircle" viewBox="0 0 900 660"></svg></div>
-            <p style="font-size: 0.8em;">Alcuni angoli ricorrono così spesso che vale la pena memorizzarne subito le coordinate: sono quelli legati ai triangoli notevoli (metà del quadrato, metà del triangolo equilatero). Nel primo quadrante sono evidenziate le coppie \((\cos x, \sin x)\); gli altri punti mostrano solo l'angolo, ma si ottengono per simmetria.</p>
+            <p style="font-size: 0.8em;">Alcuni angoli ricorrono così spesso che vale la pena riconoscerli subito sulla circonferenza: sono quelli legati ai triangoli notevoli (metà del quadrato, metà del triangolo equilatero), disposti ogni 30° o 45°.</p>
+          </section>
+
+          <section>
+            <h3>Tabella degli angoli <em>notevoli</em></h3>
+            <table class="notable-angles-table">
+              <tr><th>Gradi</th><th>Radianti</th><th>Gradi</th><th>Radianti</th></tr>
+              <tr><td>0°</td><td>\(0\)</td><td>180°</td><td>\(\pi\)</td></tr>
+              <tr><td>30°</td><td>\(\dfrac{\pi}{6}\)</td><td>210°</td><td>\(\dfrac{7\pi}{6}\)</td></tr>
+              <tr><td>45°</td><td>\(\dfrac{\pi}{4}\)</td><td>225°</td><td>\(\dfrac{5\pi}{4}\)</td></tr>
+              <tr><td>60°</td><td>\(\dfrac{\pi}{3}\)</td><td>240°</td><td>\(\dfrac{4\pi}{3}\)</td></tr>
+              <tr><td>90°</td><td>\(\dfrac{\pi}{2}\)</td><td>270°</td><td>\(\dfrac{3\pi}{2}\)</td></tr>
+              <tr><td>120°</td><td>\(\dfrac{2\pi}{3}\)</td><td>300°</td><td>\(\dfrac{5\pi}{3}\)</td></tr>
+              <tr><td>135°</td><td>\(\dfrac{3\pi}{4}\)</td><td>315°</td><td>\(\dfrac{7\pi}{4}\)</td></tr>
+              <tr><td>150°</td><td>\(\dfrac{5\pi}{6}\)</td><td>330°</td><td>\(\dfrac{11\pi}{6}\)</td></tr>
+            </table>
+            <p style="font-size: 0.78em; margin-top: 1em;">Vale la pena impararla quasi a memoria: da qui in avanti la useremo in continuazione, in ogni equazione e disequazione goniometrica.</p>
           </section>
         </section>
 
@@ -341,22 +368,22 @@
         svg.appendChild(svgEl('circle', { cx, cy, r: R, fill: 'none', stroke: 'var(--primary)', 'stroke-width': 2.5 }));
 
         const angles = [
-          { deg: 0, label: '0', frac: false },
-          { deg: 30, label: 'π/6', frac: true, coord: '(√3⁄2, 1⁄2)' },
-          { deg: 45, label: 'π/4', frac: true, coord: '(√2⁄2, √2⁄2)' },
-          { deg: 60, label: 'π/3', frac: true, coord: '(1⁄2, √3⁄2)' },
-          { deg: 90, label: 'π/2', frac: true, coord: '(0, 1)' },
-          { deg: 120, label: '2π/3', frac: true },
-          { deg: 135, label: '3π/4', frac: true },
-          { deg: 150, label: '5π/6', frac: true },
-          { deg: 180, label: 'π', frac: true },
-          { deg: 210, label: '7π/6', frac: true },
-          { deg: 225, label: '5π/4', frac: true },
-          { deg: 240, label: '4π/3', frac: true },
-          { deg: 270, label: '3π/2', frac: true },
-          { deg: 300, label: '5π/3', frac: true },
-          { deg: 315, label: '7π/4', frac: true },
-          { deg: 330, label: '11π/6', frac: true },
+          { deg: 0, label: '0' },
+          { deg: 30, label: 'π/6' },
+          { deg: 45, label: 'π/4' },
+          { deg: 60, label: 'π/3' },
+          { deg: 90, label: 'π/2' },
+          { deg: 120, label: '2π/3' },
+          { deg: 135, label: '3π/4' },
+          { deg: 150, label: '5π/6' },
+          { deg: 180, label: 'π' },
+          { deg: 210, label: '7π/6' },
+          { deg: 225, label: '5π/4' },
+          { deg: 240, label: '4π/3' },
+          { deg: 270, label: '3π/2' },
+          { deg: 300, label: '5π/3' },
+          { deg: 315, label: '7π/4' },
+          { deg: 330, label: '11π/6' },
         ];
 
         angles.forEach((a) => {
@@ -371,31 +398,20 @@
           }));
           svg.appendChild(svgEl('circle', { cx: px, cy: py, r: firstQuadrant ? 6 : 4.5, fill: 'var(--primary)' }));
 
-          const [lx, ly] = toXY(rad).map((v, i) => v); // punto base
-          const [ox, oy] = [cx + (R + 32) * Math.cos(rad), cy - (R + 32) * Math.sin(rad)];
-          const lbl = svgEl('text', { class: 'axis-label', x: ox, y: oy + 5, 'text-anchor': 'middle', 'font-size': '17' });
+          const [ox, oy] = [cx + (R + 34) * Math.cos(rad), cy - (R + 34) * Math.sin(rad)];
+          const lbl = svgEl('text', { class: 'circle-label', x: ox, y: oy + 6, 'text-anchor': 'middle' });
           lbl.textContent = a.label;
           svg.appendChild(lbl);
-
-          if (a.coord) {
-            const [tx, ty] = [cx + (R + 65) * Math.cos(rad), cy - (R + 65) * Math.sin(rad)];
-            const clbl = svgEl('text', {
-              class: 'axis-label', x: tx, y: ty + 5, 'text-anchor': 'middle', 'font-size': '15',
-              fill: 'var(--primary)',
-            });
-            clbl.textContent = a.coord;
-            svg.appendChild(clbl);
-          }
         });
 
         // etichette assi
         const axLbl = (x, y, t, anchor) => {
-          const el = svgEl('text', { class: 'axis-label', x, y, 'text-anchor': anchor || 'middle', 'font-size': '16' });
+          const el = svgEl('text', { class: 'circle-label', x, y, 'text-anchor': anchor || 'middle' });
           el.textContent = t;
           svg.appendChild(el);
         };
-        axLbl(cx + R + 68, cy + 5, 'x');
-        axLbl(cx - 12, cy - R - 62, 'y');
+        axLbl(cx + R + 68, cy + 6, 'x');
+        axLbl(cx - 12, cy - R - 58, 'y');
       }
 
       function drawAllGraphs() {
