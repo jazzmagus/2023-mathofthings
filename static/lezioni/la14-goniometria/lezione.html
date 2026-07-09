@@ -57,17 +57,25 @@ body {
 .hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
 .hero h1 em { font-style:italic; color:var(--accent); }
 .hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
-.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb { background:transparent; padding:12px 0 12px 16px; margin:18px 0; border-left:2px solid var(--accent); }
 .cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
 .cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
 .cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
 .cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
 .cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
 .cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
-.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
-.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
-.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
-.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+.math-block { background:transparent; padding:12px 0; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { text-align:center; }
+.math-block.result { border-left:2px solid var(--green); padding:12px 0 12px 16px; background:transparent; }
+.math-block.warning { border-left:2px solid var(--danger); padding:12px 0 12px 16px; background:transparent; }
+.graph-wrap { display:flex; justify-content:center; margin:1rem 0; }
+.graph-wrap svg { width:100%; max-width:640px; height:auto; }
+.axis-line { stroke:rgba(44,37,32,.35); stroke-width:1.3; }
+.grid-line { stroke:rgba(44,37,32,.1); stroke-width:1; }
+.graph-asymptote { stroke:var(--danger); stroke-width:1; stroke-dasharray:5 4; opacity:.6; }
+.fn-curve { fill:none; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+.graph-label { font-family:'JetBrains Mono',monospace; font-size:12px; fill:var(--text-dim); }
+.graph-legend { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600; }
 p { margin:6px 0; }
 ul, ol { margin:8px 0 8px 20px; }
 li { margin:2px 0; }
@@ -130,6 +138,94 @@ function toggleAcc(el) {
   }
 }
 
+/* ── Grafici delle funzioni goniometriche ── */
+const PI = Math.PI;
+
+function svgEl(tag, attrs) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (const k in attrs) el.setAttribute(k, attrs[k]);
+  return el;
+}
+
+function drawFnCurve(svg, fn, xMin, xMax, yMin, yMax, xs, ys, color) {
+  const steps = 800;
+  let d = '';
+  let started = false;
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + ((xMax - xMin) * i) / steps;
+    const y = fn(x);
+    if (!isFinite(y) || Math.abs(y) > yMax * 1.25) { started = false; continue; }
+    const px = xs(x).toFixed(1), py = ys(y).toFixed(1);
+    d += (started ? 'L' : 'M') + px + ' ' + py + ' ';
+    started = true;
+  }
+  svg.appendChild(svgEl('path', { class: 'fn-curve', stroke: color, d }));
+}
+
+function drawGrid(svg, xMin, xMax, yMin, yMax, xs, ys, xTicks) {
+  const L = xs(xMin), R = xs(xMax), T = ys(yMax), B = ys(yMin);
+  xTicks.forEach((t) => {
+    svg.appendChild(svgEl('line', { class: 'grid-line', x1: xs(t.v), y1: T, x2: xs(t.v), y2: B }));
+    const lbl = svgEl('text', { class: 'graph-label', x: xs(t.v), y: ys(0) + 22, 'text-anchor': 'middle' });
+    lbl.textContent = t.label;
+    svg.appendChild(lbl);
+  });
+  svg.appendChild(svgEl('line', { class: 'axis-line', x1: L, y1: ys(0), x2: R, y2: ys(0) }));
+  svg.appendChild(svgEl('line', { class: 'axis-line', x1: xs(0), y1: T, x2: xs(0), y2: B }));
+}
+
+function drawSinCosGraph(svgId) {
+  const svg = document.getElementById(svgId);
+  if (!svg) return;
+  svg.innerHTML = '';
+  const xMin = -2 * PI, xMax = 2 * PI, yMin = -1.4, yMax = 1.4;
+  const L = 55, R = 845, T = 25, B = 340;
+  const xs = (v) => L + ((v - xMin) / (xMax - xMin)) * (R - L);
+  const ys = (v) => B - ((v - yMin) / (yMax - yMin)) * (B - T);
+  const xTicks = [
+    { v: -2 * PI, label: '-2π' }, { v: -PI, label: '-π' }, { v: 0, label: '0' },
+    { v: PI, label: 'π' }, { v: 2 * PI, label: '2π' },
+  ];
+  drawGrid(svg, xMin, xMax, yMin, yMax, xs, ys, xTicks);
+  [-1, 1].forEach((v) => {
+    const lbl = svgEl('text', { class: 'graph-label', x: xs(xMin) - 6, y: ys(v) + 4, 'text-anchor': 'end' });
+    lbl.textContent = v;
+    svg.appendChild(lbl);
+  });
+  drawFnCurve(svg, Math.sin, xMin, xMax, yMin, yMax, xs, ys, 'var(--accent)');
+  drawFnCurve(svg, Math.cos, xMin, xMax, yMin, yMax, xs, ys, 'var(--blue)');
+  const leg1 = svgEl('text', { class: 'graph-legend', x: R - 90, y: T + 16, fill: 'var(--accent)' });
+  leg1.textContent = 'sin x';
+  svg.appendChild(leg1);
+  const leg2 = svgEl('text', { class: 'graph-legend', x: R - 30, y: T + 16, fill: 'var(--blue)' });
+  leg2.textContent = 'cos x';
+  svg.appendChild(leg2);
+}
+
+function drawTanGraph(svgId) {
+  const svg = document.getElementById(svgId);
+  if (!svg) return;
+  svg.innerHTML = '';
+  const xMin = -1.5 * PI, xMax = 1.5 * PI, yMin = -4, yMax = 4;
+  const L = 55, R = 845, T = 25, B = 340;
+  const xs = (v) => L + ((v - xMin) / (xMax - xMin)) * (R - L);
+  const ys = (v) => B - ((v - yMin) / (yMax - yMin)) * (B - T);
+  const xTicks = [
+    { v: -PI, label: '-π' }, { v: -0.5 * PI, label: '-π/2' }, { v: 0, label: '0' },
+    { v: 0.5 * PI, label: 'π/2' }, { v: PI, label: 'π' },
+  ];
+  drawGrid(svg, xMin, xMax, yMin, yMax, xs, ys, xTicks);
+  [-1.5 * PI, -0.5 * PI, 0.5 * PI, 1.5 * PI].forEach((a) => {
+    svg.appendChild(svgEl('line', { class: 'graph-asymptote', x1: xs(a), y1: T, x2: xs(a), y2: B }));
+  });
+  drawFnCurve(svg, Math.tan, xMin, xMax, yMin, yMax, xs, ys, 'var(--accent)');
+}
+
+function drawLessonGraphs() {
+  drawSinCosGraph('laGraphSinCos');
+  drawTanGraph('laGraphTan');
+}
+
 const S = [
 {
   tag:"FONDAMENTI",
@@ -157,8 +253,12 @@ const S = [
     '<tr><td>\\(\\sin x\\)</td><td>\\(\\mathbb{R}\\)</td><td>\\([-1,1]\\)</td><td>\\(2\\pi\\)</td></tr>' +
     '<tr><td>\\(\\cos x\\)</td><td>\\(\\mathbb{R}\\)</td><td>\\([-1,1]\\)</td><td>\\(2\\pi\\)</td></tr>' +
     '<tr><td>\\(\\tan x\\)</td><td>\\(\\mathbb{R}\\setminus\\{\\frac{\\pi}{2}+k\\pi\\}\\)</td><td>\\(\\mathbb{R}\\)</td><td>\\(\\pi\\)</td></tr></table>' +
+    '<div class="graph-wrap"><svg id="laGraphSinCos" viewBox="0 0 900 400"></svg></div>' +
+    '<p style="font-size:.85rem;" class="dim">In rosa \\(\\sin x\\), in blu \\(\\cos x\\): stessa forma, sfasate di \\(\\pi/2\\).</p>' +
     '<div class="cb warn"><div class="cb-label">Identità fondamentale — dimostrazione</div><p>Poiché \\(P=(\\cos x,\\sin x)\\) appartiene sempre alla circonferenza \\(x^2+y^2=1\\), sostituendo le coordinate di \\(P\\) nell\'equazione della circonferenza si ottiene, per ogni \\(x\\):</p><div class="math-block result">\\[ \\sin^2 x + \\cos^2 x = 1 \\]</div><p>Non è un\'osservazione empirica: è una conseguenza diretta della definizione, valida sempre.</p></div>' +
-    '<div class="cb tip"><div class="cb-label">Parità</div><p>Dalla simmetria della circonferenza rispetto all\'asse \\(x\\): \\(\\cos(-x)=\\cos x\\) (funzione <strong>pari</strong>), \\(\\sin(-x)=-\\sin x\\) e \\(\\tan(-x)=-\\tan x\\) (funzioni <strong>dispari</strong>).</p></div>'
+    '<div class="cb tip"><div class="cb-label">Parità</div><p>Dalla simmetria della circonferenza rispetto all\'asse \\(x\\): \\(\\cos(-x)=\\cos x\\) (funzione <strong>pari</strong>), \\(\\sin(-x)=-\\sin x\\) e \\(\\tan(-x)=-\\tan x\\) (funzioni <strong>dispari</strong>).</p></div>' +
+    '<p>La tangente, con il suo periodo dimezzato e i suoi asintoti, ha un grafico ben diverso:</p>' +
+    '<div class="graph-wrap"><svg id="laGraphTan" viewBox="0 0 900 400"></svg></div>'
 },
 {
   tag:"ANGOLI NOTEVOLI",
@@ -263,6 +363,7 @@ function render() {
     '</div>';
 
   document.getElementById('app').innerHTML = html;
+  drawLessonGraphs();
 
   const pills = S.map((s, i) =>
     '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
