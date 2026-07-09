@@ -35,6 +35,16 @@
       .notable-angles-table td:nth-child(2), .notable-angles-table td:nth-child(4) { font-weight: 700; color: var(--primary); }
       .notable-angles-table tr:nth-child(odd):not(:first-child) { background: rgba(237, 111, 92, 0.04); }
       html.dark-mode .notable-angles-table tr:nth-child(odd):not(:first-child) { background: rgba(237, 111, 92, 0.08); }
+
+      .notable-values-table { width: 100%; margin: 1em auto 0; }
+      .notable-values-table th { font-family: 'JetBrains Mono', monospace; font-size: 0.75em; text-align: center; }
+      .notable-values-table td { text-align: center; padding: 12px 10px; font-size: 0.95em; }
+      .notable-values-table td:first-child { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--text-light); text-align: left; }
+      html.dark-mode .notable-values-table td:first-child { color: var(--text-dark); }
+      .notable-values-table tr:nth-child(2) td:not(:first-child) { color: var(--primary); font-weight: 700; }
+      .notable-values-table tr:nth-child(4) td:not(:first-child) { font-size: 0.85em; }
+      .notable-values-table tr:not(:first-child):nth-child(odd) { background: rgba(237, 111, 92, 0.04); }
+      html.dark-mode .notable-values-table tr:not(:first-child):nth-child(odd) { background: rgba(237, 111, 92, 0.08); }
       .fact-list li { margin-bottom: 0.5em; }
     </style>
   </head>
@@ -253,6 +263,18 @@
             <h3>Il grafico della <em>tangente</em></h3>
             <div class="graph-wrap"><svg id="graphTan" viewBox="0 0 900 400"></svg></div>
             <p style="font-size: 0.85em;">Le linee tratteggiate sono gli asintoti verticali, in corrispondenza dei punti esclusi dal dominio. Fra un asintoto e il successivo, la funzione attraversa tutti i valori reali: da \(-\infty\) a \(+\infty\).</p>
+          </section>
+
+          <section>
+            <h3>Valori <em>notevoli</em></h3>
+            <p style="font-size: 0.85em;">Ora che seno, coseno e tangente sono state definite, possiamo mettere insieme i loro valori esatti negli angoli del primo quadrante — quelli che useremo più spesso, da imparare a memoria.</p>
+            <table class="notable-values-table">
+              <tr><th>\(x\)</th><th>\(0\)</th><th>\(\dfrac{\pi}{6}\)</th><th>\(\dfrac{\pi}{4}\)</th><th>\(\dfrac{\pi}{3}\)</th><th>\(\dfrac{\pi}{2}\)</th><th>\(\pi\)</th><th>\(2\pi\)</th></tr>
+              <tr><td>\(\sin x\)</td><td>\(0\)</td><td>\(\dfrac{1}{2}\)</td><td>\(\dfrac{\sqrt2}{2}\)</td><td>\(\dfrac{\sqrt3}{2}\)</td><td>\(1\)</td><td>\(0\)</td><td>\(0\)</td></tr>
+              <tr><td>\(\cos x\)</td><td>\(1\)</td><td>\(\dfrac{\sqrt3}{2}\)</td><td>\(\dfrac{\sqrt2}{2}\)</td><td>\(\dfrac{1}{2}\)</td><td>\(0\)</td><td>\(-1\)</td><td>\(1\)</td></tr>
+              <tr><td>\(\tan x\)</td><td>\(0\)</td><td>\(\dfrac{\sqrt3}{3}\)</td><td>\(1\)</td><td>\(\sqrt3\)</td><td>non esiste</td><td>\(0\)</td><td>\(0\)</td></tr>
+            </table>
+            <p style="font-size: 0.78em; margin-top: 1em;">Nota il pattern nel seno, da \(0\) a \(\frac{\pi}{2}\): \(\sqrt{0}/2,\ \sqrt{1}/2,\ \sqrt{2}/2,\ \sqrt{3}/2,\ \sqrt{4}/2\) — un trucco mnemonico comodo, oltre a essere geometricamente vero.</p>
           </section>
         </section>
 
