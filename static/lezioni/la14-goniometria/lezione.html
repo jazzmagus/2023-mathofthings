@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento — Goniometria: Funzioni e Formule</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.ct.center td { text-align:center; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Goniometria: Funzioni e Formule</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+{
+  tag:"FONDAMENTI",
+  title:"Radianti e <em>circonferenza goniometrica</em>",
+  nav:"Fondamenti",
+  body:
+    '<p>Un angolo si può misurare in gradi, ma in matematica conviene una misura legata direttamente alla geometria della circonferenza: il <strong>radiante</strong>.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione — radiante</div><p>Un angolo misura \\(1\\) radiante quando l\'arco di circonferenza che sottende ha lunghezza uguale al raggio.</p></div>' +
+    '<p>Poiché la lunghezza di una circonferenza di raggio \\(r\\) è \\(2\\pi r\\), l\'angolo giro misura \\(2\\pi\\) radianti indipendentemente da \\(r\\): il radiante è un rapporto tra lunghezze, quindi un numero puro.</p>' +
+    '<div class="math-block hero-formula">\\[ 180^\\circ = \\pi \\ \\text{rad} \\qquad\\Longrightarrow\\qquad x_{\\text{rad}} = x_{\\text{gradi}}\\cdot\\frac{\\pi}{180} \\]</div>' +
+    '<div class="cb tip"><div class="cb-label">Circonferenza goniometrica</div><p>È la circonferenza di raggio \\(1\\) centrata nell\'origine: \\(x^2+y^2=1\\). Dato un angolo \\(x\\), si individua un unico punto \\(P\\) percorrendo la circonferenza a partire da \\((1,0)\\) (antiorario se \\(x>0\\)). Ma più angoli — che differiscono per multipli di \\(2\\pi\\) — danno lo stesso punto \\(P\\): è la radice della periodicità.</p></div>' +
+    acc([
+      { t:"Esercizio — conversione gradi/radianti", h:'<p>Converti \\(150^\\circ\\) in radianti e \\(\\dfrac{5\\pi}{4}\\) in gradi.</p><div class="math-block result">\\[ 150^\\circ \\cdot \\frac{\\pi}{180} = \\frac{5\\pi}{6} \\ \\text{rad} \\qquad\\qquad \\frac{5\\pi}{4}\\cdot\\frac{180}{\\pi} = 225^\\circ \\]</div>' }
+    ])
+},
+{
+  tag:"DEFINIZIONI",
+  title:"Seno, coseno e <em>tangente</em>",
+  nav:"Definizioni",
+  body:
+    '<p>Dato l\'angolo \\(x\\) e il punto \\(P=(x_P,y_P)\\) corrispondente sulla circonferenza goniometrica, si definisce:</p>' +
+    '<div class="cb"><div class="cb-label">Definizione</div><div class="math-block hero-formula">\\[ \\cos x = x_P \\qquad \\sin x = y_P \\qquad \\tan x = \\frac{\\sin x}{\\cos x}\\ \\ (\\cos x\\neq 0) \\]</div></div>' +
+    '<p>Questa definizione, a differenza di quella "cateto su ipotenusa" del triangolo rettangolo, funziona per <strong>qualunque</strong> angolo reale, e permette di trattare seno e coseno come vere funzioni definite su tutto \\(\\mathbb{R}\\).</p>' +
+    '<table class="ct center"><tr><th></th><th>Dominio</th><th>Codominio</th><th>Periodo</th></tr>' +
+    '<tr><td>\\(\\sin x\\)</td><td>\\(\\mathbb{R}\\)</td><td>\\([-1,1]\\)</td><td>\\(2\\pi\\)</td></tr>' +
+    '<tr><td>\\(\\cos x\\)</td><td>\\(\\mathbb{R}\\)</td><td>\\([-1,1]\\)</td><td>\\(2\\pi\\)</td></tr>' +
+    '<tr><td>\\(\\tan x\\)</td><td>\\(\\mathbb{R}\\setminus\\{\\frac{\\pi}{2}+k\\pi\\}\\)</td><td>\\(\\mathbb{R}\\)</td><td>\\(\\pi\\)</td></tr></table>' +
+    '<div class="cb warn"><div class="cb-label">Identità fondamentale — dimostrazione</div><p>Poiché \\(P=(\\cos x,\\sin x)\\) appartiene sempre alla circonferenza \\(x^2+y^2=1\\), sostituendo le coordinate di \\(P\\) nell\'equazione della circonferenza si ottiene, per ogni \\(x\\):</p><div class="math-block result">\\[ \\sin^2 x + \\cos^2 x = 1 \\]</div><p>Non è un\'osservazione empirica: è una conseguenza diretta della definizione, valida sempre.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Parità</div><p>Dalla simmetria della circonferenza rispetto all\'asse \\(x\\): \\(\\cos(-x)=\\cos x\\) (funzione <strong>pari</strong>), \\(\\sin(-x)=-\\sin x\\) e \\(\\tan(-x)=-\\tan x\\) (funzioni <strong>dispari</strong>).</p></div>'
+},
+{
+  tag:"ANGOLI NOTEVOLI",
+  title:"Da dove vengono i valori <em>esatti</em>",
+  nav:"Angoli notevoli",
+  body:
+    '<p>I valori di seno e coseno per \\(30^\\circ\\), \\(45^\\circ\\), \\(60^\\circ\\) non sono arbitrari: si ricavano dalla geometria di due triangoli notevoli.</p>' +
+    '<h3>45° — la diagonale del quadrato</h3>' +
+    '<p>Nel triangolo rettangolo isoscele con cateti \\(1\\), l\'ipotenusa è \\(\\sqrt{1^2+1^2}=\\sqrt2\\) (Pitagora). Gli angoli alla base sono entrambi \\(45^\\circ\\). Il rapporto cateto/ipotenusa dà:</p>' +
+    '<div class="math-block result">\\[ \\sin\\frac{\\pi}{4} = \\cos\\frac{\\pi}{4} = \\frac{1}{\\sqrt2} = \\frac{\\sqrt2}{2} \\]</div>' +
+    '<h3>60° e 30° — l\'altezza del triangolo equilatero</h3>' +
+    '<p>In un triangolo equilatero di lato \\(2\\), l\'altezza lo divide in due triangoli rettangoli con ipotenusa \\(2\\), un cateto \\(1\\) (metà lato) e angoli \\(60^\\circ\\)-\\(30^\\circ\\). L\'altro cateto, per Pitagora, è \\(\\sqrt{4-1}=\\sqrt3\\):</p>' +
+    '<div class="math-block result">\\[ \\sin\\frac{\\pi}{3}=\\cos\\frac{\\pi}{6}=\\frac{\\sqrt3}{2} \\qquad \\sin\\frac{\\pi}{6}=\\cos\\frac{\\pi}{3}=\\frac{1}{2} \\]</div>' +
+    '<p>Da questi valori, con \\(\\tan x = \\sin x/\\cos x\\), si ricavano subito anche le tangenti.</p>' +
+    '<table class="ct center"><tr><th>\\(x\\)</th><th>\\(0\\)</th><th>\\(\\pi/6\\)</th><th>\\(\\pi/4\\)</th><th>\\(\\pi/3\\)</th><th>\\(\\pi/2\\)</th></tr>' +
+    '<tr><td>\\(\\sin x\\)</td><td>\\(0\\)</td><td>\\(\\frac12\\)</td><td>\\(\\frac{\\sqrt2}{2}\\)</td><td>\\(\\frac{\\sqrt3}{2}\\)</td><td>\\(1\\)</td></tr>' +
+    '<tr><td>\\(\\cos x\\)</td><td>\\(1\\)</td><td>\\(\\frac{\\sqrt3}{2}\\)</td><td>\\(\\frac{\\sqrt2}{2}\\)</td><td>\\(\\frac12\\)</td><td>\\(0\\)</td></tr>' +
+    '<tr><td>\\(\\tan x\\)</td><td>\\(0\\)</td><td>\\(\\frac{\\sqrt3}{3}\\)</td><td>\\(1\\)</td><td>\\(\\sqrt3\\)</td><td>n.e.</td></tr></table>' +
+    '<p style="font-size:.85rem;" class="dim">Gli angoli del secondo, terzo e quarto quadrante si ottengono da questi per simmetria sulla circonferenza (angoli associati), senza bisogno di nuovi calcoli.</p>'
+},
+{
+  tag:"DIMOSTRAZIONE",
+  title:"Le formule di <em>addizione</em>",
+  nav:"Addizione",
+  body:
+    '<p>Le formule più importanti della goniometria permettono di calcolare \\(\\sin(\\alpha\\pm\\beta)\\) e \\(\\cos(\\alpha\\pm\\beta)\\) a partire dai valori di \\(\\alpha\\) e \\(\\beta\\) separatamente. Le dimostriamo con la geometria della circonferenza goniometrica.</p>' +
+    '<div class="cb"><div class="cb-label">Dimostrazione di cos(α−β)</div><p>Sulla circonferenza goniometrica, siano \\(A=(\\cos\\alpha,\\sin\\alpha)\\) e \\(B=(\\cos\\beta,\\sin\\beta)\\). La distanza \\(AB\\) si calcola in due modi.</p>' +
+    '<p><strong>Modo 1 — formula della distanza:</strong></p><div class="math-block">\\[ AB^2 = (\\cos\\alpha-\\cos\\beta)^2 + (\\sin\\alpha-\\sin\\beta)^2 \\]</div>' +
+    '<p>Sviluppando e usando \\(\\sin^2+\\cos^2=1\\) per \\(\\alpha\\) e per \\(\\beta\\):</p>' +
+    '<div class="math-block">\\[ AB^2 = 2 - 2(\\cos\\alpha\\cos\\beta+\\sin\\alpha\\sin\\beta) \\]</div>' +
+    '<p><strong>Modo 2 — teorema del coseno</strong> nel triangolo \\(OAB\\), con \\(OA=OB=1\\) e angolo al centro \\(\\alpha-\\beta\\):</p>' +
+    '<div class="math-block">\\[ AB^2 = 1+1-2\\cos(\\alpha-\\beta) = 2-2\\cos(\\alpha-\\beta) \\]</div>' +
+    '<p>Uguagliando le due espressioni di \\(AB^2\\):</p>' +
+    '<div class="math-block result">\\[ \\cos(\\alpha-\\beta) = \\cos\\alpha\\cos\\beta+\\sin\\alpha\\sin\\beta \\]</div></div>' +
+    '<div class="cb tip"><div class="cb-label">Le altre si ricavano da questa</div><p>Da \\(\\cos(\\alpha-\\beta)\\), sostituendo \\(\\beta \\to -\\beta\\) (e usando parità/disparità), si ottiene \\(\\cos(\\alpha+\\beta)\\). Da \\(\\sin x = \\cos(\\frac{\\pi}{2}-x)\\) si ricavano poi le formule per il seno.</p></div>' +
+    '<table class="ct"><tr><th>Formula</th></tr>' +
+    '<tr><td>\\(\\cos(\\alpha\\pm\\beta) = \\cos\\alpha\\cos\\beta \\mp \\sin\\alpha\\sin\\beta\\)</td></tr>' +
+    '<tr><td>\\(\\sin(\\alpha\\pm\\beta) = \\sin\\alpha\\cos\\beta \\pm \\cos\\alpha\\sin\\beta\\)</td></tr>' +
+    '<tr><td>\\(\\tan(\\alpha\\pm\\beta) = \\dfrac{\\tan\\alpha \\pm \\tan\\beta}{1 \\mp \\tan\\alpha\\tan\\beta}\\)</td></tr></table>' +
+    acc([
+      { t:"Esercizio — calcolare sin(75°) esattamente", h:'<p>Scrivi \\(75^\\circ = 45^\\circ + 30^\\circ\\) e applica la formula di addizione:</p><div class="math-block">\\[ \\sin75^\\circ = \\sin45^\\circ\\cos30^\\circ + \\cos45^\\circ\\sin30^\\circ = \\frac{\\sqrt2}{2}\\cdot\\frac{\\sqrt3}{2} + \\frac{\\sqrt2}{2}\\cdot\\frac12 \\]</div><div class="math-block result">\\[ \\sin75^\\circ = \\frac{\\sqrt6+\\sqrt2}{4} \\]</div>' }
+    ])
+},
+{
+  tag:"DIMOSTRAZIONE",
+  title:"Duplicazione e <em>bisezione</em>",
+  nav:"Duplicazione",
+  body:
+    '<p>Le formule di duplicazione sono un caso particolare delle formule di addizione: basta porre \\(\\beta=\\alpha\\).</p>' +
+    '<div class="cb"><div class="cb-label">Dimostrazione — duplicazione</div><p>Da \\(\\sin(\\alpha+\\beta)=\\sin\\alpha\\cos\\beta+\\cos\\alpha\\sin\\beta\\), ponendo \\(\\beta=\\alpha\\):</p><div class="math-block result">\\[ \\sin(2\\alpha) = 2\\sin\\alpha\\cos\\alpha \\]</div><p>Analogamente da \\(\\cos(\\alpha+\\beta)=\\cos\\alpha\\cos\\beta-\\sin\\alpha\\sin\\beta\\):</p><div class="math-block result">\\[ \\cos(2\\alpha) = \\cos^2\\alpha - \\sin^2\\alpha \\]</div><p>Usando \\(\\sin^2\\alpha=1-\\cos^2\\alpha\\) (o viceversa), si ottengono le due forme equivalenti:</p><div class="math-block">\\[ \\cos(2\\alpha) = 2\\cos^2\\alpha - 1 = 1-2\\sin^2\\alpha \\]</div></div>' +
+    '<h3>Bisezione: il percorso inverso</h3>' +
+    '<p>Dalle due forme di \\(\\cos(2\\alpha)\\) appena viste, ricavando rispettivamente \\(\\sin^2\\alpha\\) e \\(\\cos^2\\alpha\\), e ponendo \\(\\alpha = x/2\\):</p>' +
+    '<div class="cb"><div class="cb-label">Dimostrazione — bisezione</div><p>Da \\(\\cos x = 1-2\\sin^2\\frac{x}{2}\\):</p><div class="math-block">\\[ \\sin^2\\frac{x}{2} = \\frac{1-\\cos x}{2} \\quad\\Longrightarrow\\quad \\sin\\frac{x}{2} = \\pm\\sqrt{\\frac{1-\\cos x}{2}} \\]</div><p>Da \\(\\cos x = 2\\cos^2\\frac{x}{2}-1\\):</p><div class="math-block result">\\[ \\cos\\frac{x}{2} = \\pm\\sqrt{\\frac{1+\\cos x}{2}} \\]</div></div>' +
+    '<div class="cb warn"><div class="cb-label">Il segno va scelto</div><p>Il segno \\(\\pm\\) non è ambiguità della formula: dipende dal <strong>quadrante</strong> in cui si trova \\(x/2\\), e va determinato caso per caso guardando dove cade l\'angolo dimezzato.</p></div>' +
+    acc([
+      { t:"Esercizio — cos(15°) con la bisezione", h:'<p>Scrivi \\(15^\\circ = \\dfrac{30^\\circ}{2}\\) e usa \\(\\cos30^\\circ=\\frac{\\sqrt3}{2}\\). Poiché \\(15^\\circ\\) è nel primo quadrante, il coseno è positivo:</p><div class="math-block result">\\[ \\cos15^\\circ = \\sqrt{\\frac{1+\\frac{\\sqrt3}{2}}{2}} = \\sqrt{\\frac{2+\\sqrt3}{4}} = \\frac{\\sqrt{2+\\sqrt3}}{2} \\]</div>' }
+    ])
+},
+{
+  tag:"OLTRE",
+  title:"Le formule <em>parametriche</em>",
+  nav:"Parametriche",
+  body:
+    '<p>Un\'ultima famiglia di formule esprime seno, coseno e tangente di \\(x\\) in funzione di un\'unica variabile \\(t = \\tan(x/2)\\): tornano utili per risolvere equazioni goniometriche che non rientrano negli schemi elementari.</p>' +
+    '<div class="cb"><div class="cb-label">Dimostrazione</div><p>Partendo da \\(\\sin x = 2\\sin\\frac{x}{2}\\cos\\frac{x}{2}\\) (duplicazione) e dividendo numeratore e denominatore per \\(\\cos^2\\frac{x}{2}\\) (lecito se \\(\\cos\\frac x2\\neq0\\)):</p><div class="math-block">\\[ \\sin x = \\frac{2\\sin\\frac{x}{2}\\cos\\frac{x}{2}}{\\sin^2\\frac{x}{2}+\\cos^2\\frac{x}{2}} = \\frac{2\\tan\\frac{x}{2}}{1+\\tan^2\\frac{x}{2}} = \\frac{2t}{1+t^2} \\]</div><p>Con lo stesso procedimento su \\(\\cos x = \\cos^2\\frac x2 - \\sin^2\\frac x2\\):</p><div class="math-block result">\\[ \\cos x = \\frac{1-t^2}{1+t^2} \\qquad \\tan x = \\frac{2t}{1-t^2} \\]</div></div>' +
+    '<div class="cb danger"><div class="cb-label">Attenzione al caso escluso</div><p>La sostituzione richiede \\(\\cos\\frac x2 \\neq 0\\), cioè esclude \\(x=\\pi+2k\\pi\\): quel valore va sempre controllato a parte quando si usano queste formule per risolvere un\'equazione.</p></div>'
+},
+{
+  tag:"SINTESI",
+  title:"Tutte le formule <em>insieme</em>",
+  nav:"Sintesi",
+  body:
+    '<p>Ecco il quadro completo costruito in questa lezione: ogni formula discende dalla precedente, in una catena di dimostrazioni che parte dalla sola definizione di seno e coseno sulla circonferenza goniometrica.</p>' +
+    '<table class="ct"><tr><th>Famiglia</th><th>Formula</th></tr>' +
+    '<tr><td>Fondamentale</td><td>\\(\\sin^2x+\\cos^2x=1\\)</td></tr>' +
+    '<tr><td>Addizione</td><td>\\(\\cos(\\alpha\\pm\\beta)=\\cos\\alpha\\cos\\beta\\mp\\sin\\alpha\\sin\\beta\\)</td></tr>' +
+    '<tr><td></td><td>\\(\\sin(\\alpha\\pm\\beta)=\\sin\\alpha\\cos\\beta\\pm\\cos\\alpha\\sin\\beta\\)</td></tr>' +
+    '<tr><td>Duplicazione</td><td>\\(\\sin2\\alpha=2\\sin\\alpha\\cos\\alpha,\\quad \\cos2\\alpha=\\cos^2\\alpha-\\sin^2\\alpha\\)</td></tr>' +
+    '<tr><td>Bisezione</td><td>\\(\\sin\\frac x2=\\pm\\sqrt{\\frac{1-\\cos x}{2}},\\quad \\cos\\frac x2=\\pm\\sqrt{\\frac{1+\\cos x}{2}}\\)</td></tr>' +
+    '<tr><td>Parametriche</td><td>\\(\\sin x=\\frac{2t}{1+t^2},\\quad \\cos x=\\frac{1-t^2}{1+t^2}\\ \\ (t=\\tan\\frac x2)\\)</td></tr></table>' +
+    acc([
+      { t:"Problema 1 — identità da dimostrare", h:'<p>Dimostra che \\(\\dfrac{\\sin2\\alpha}{1+\\cos2\\alpha} = \\tan\\alpha\\).</p><p><em>Traccia:</em> sostituisci \\(\\sin2\\alpha=2\\sin\\alpha\\cos\\alpha\\) e \\(1+\\cos2\\alpha=2\\cos^2\\alpha\\), poi semplifica.</p>' },
+      { t:"Problema 2 — valore esatto con addizione", h:'<p>Calcola \\(\\cos105^\\circ\\) scrivendo \\(105^\\circ=60^\\circ+45^\\circ\\).</p><div class="math-block result">\\[ \\cos105^\\circ = \\frac{\\sqrt2-\\sqrt6}{4} \\]</div>' },
+      { t:"Problema 3 — bisezione con scelta del segno", h:'<p>Calcola \\(\\sin\\dfrac{\\pi}{8}\\) sapendo che \\(\\dfrac{\\pi}{8}\\) è nel primo quadrante e \\(\\cos\\dfrac{\\pi}{4}=\\dfrac{\\sqrt2}{2}\\).</p><div class="math-block result">\\[ \\sin\\frac{\\pi}{8} = \\sqrt{\\frac{1-\\frac{\\sqrt2}{2}}{2}} = \\frac{\\sqrt{2-\\sqrt2}}{2} \\]</div>' }
+    ]) +
+    '<div class="cb purple"><div class="cb-label">Vai avanti</div><p>Con queste formule sei pronto per le <a href="/lezioni/equazioni-goniometriche/lezione.html">equazioni goniometriche</a> (LA15) — dove il metodo dell\'angolo aggiunto e le equazioni omogenee usano esattamente le formule dimostrate qui.</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>
