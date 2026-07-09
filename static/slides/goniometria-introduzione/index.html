@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introduzione alla Goniometria — The Math of Things</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/serif.min.css" />
+    <link rel="stylesheet" href="theme.css" />
+
+    <style>
+      body { margin: 0; padding: 0; overflow: hidden; }
+
+      .graph-wrap { display: flex; justify-content: center; margin: 0.8em 0; }
+      .graph-wrap svg { width: 100%; max-width: 780px; height: auto; }
+      .axis-line { stroke: rgba(44, 37, 32, 0.35); stroke-width: 1.5; }
+      .grid-line { stroke: rgba(44, 37, 32, 0.1); stroke-width: 1; }
+      .asymptote { stroke: var(--primary); stroke-width: 1.2; stroke-dasharray: 6 5; opacity: 0.55; }
+      .fn-curve { fill: none; stroke: var(--primary); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+      .axis-label { font-family: 'JetBrains Mono', monospace; font-size: 15px; fill: rgba(44, 37, 32, 0.55); }
+      html.dark-mode .axis-label { fill: rgba(224, 224, 224, 0.55); }
+      html.dark-mode .axis-line { stroke: rgba(224, 224, 224, 0.35); }
+      html.dark-mode .grid-line { stroke: rgba(224, 224, 224, 0.1); }
+
+      .fact-list { font-size: 0.85em; }
+      .fact-list li { margin-bottom: 0.5em; }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="particles-canvas"></canvas>
+
+    <button
+      id="dark-mode-toggle"
+      style="position: fixed; top: 24px; right: 24px; z-index: 100; background: transparent; border: none; padding: 0; cursor: pointer; opacity: 0.5; transition: opacity 0.3s ease; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;"
+      onmouseover="this.style.opacity='0.8'"
+      onmouseout="this.style.opacity='0.5'"
+      onclick="toggleDarkMode()"
+      title="Toggle light/dark mode"
+    >
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none">
+        <circle cx="12" cy="12" r="10" fill="white" stroke="currentColor" stroke-width="1.5"></circle>
+        <circle cx="12" cy="12" r="10" fill="black" clip-path="polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%)"></circle>
+      </svg>
+    </button>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- TITOLO -->
+        <section class="title-slide">
+          <h1>Il mondo che <em>si ripete</em></h1>
+          <p class="subtitle">Introduzione alla goniometria: seno, coseno e tangente</p>
+          <p style="margin-top: 2.5em; display: flex; align-items: center; gap: 0.8em; font-family: 'JetBrains Mono', monospace; font-size: 0.7em; letter-spacing: 0.05em;">
+            <span style="color: var(--primary);">prof. Diego Fantinelli</span>
+            <span style="color: rgba(44, 37, 32, 0.35);">·</span>
+            <a class="math-of-things-link" href="https://mathofthings.netlify.app/" target="_blank" rel="noopener">The Math of Things</a>
+          </p>
+        </section>
+
+        <!-- MOTIVAZIONE -->
+        <section>
+          <section>
+            <h2>Qualcosa di <em>nuovo</em></h2>
+            <p>Fino a oggi, in matematica, hai lavorato quasi sempre con funzioni che "vanno da qualche parte": una retta sale o scende, una parabola apre verso l'alto o verso il basso, un'esponenziale cresce sempre più in fretta. Tutte queste funzioni, prima o poi, escono da ogni fascia di valori: non tornano mai indietro.</p>
+            <p>Oggi incontri un tipo di funzione completamente diverso: una funzione che <strong>si ripete</strong>, all'infinito, sempre uguale a se stessa. Non cresce, non decresce: <em>oscilla</em>.</p>
+            <div class="callout callout-warn">
+              <span class="callout-label">La domanda di oggi</span>
+              Esistono fenomeni della realtà che si ripetono nel tempo, sempre uguali. Come si descrivono con una funzione?
+            </div>
+          </section>
+
+          <section>
+            <h3>Fenomeni che si <em>ripetono</em></h3>
+            <p>Guardati intorno: il mondo è pieno di cose cicliche, che tornano sempre al punto di partenza per poi ricominciare.</p>
+            <ul class="fact-list">
+              <li><strong>Il giorno e la notte</strong> — l'altezza del Sole sull'orizzonte sale e scende ogni 24 ore, sempre con lo stesso andamento.</li>
+              <li><strong>Le stagioni</strong> — la temperatura media oscilla tra un massimo estivo e un minimo invernale, anno dopo anno.</li>
+              <li><strong>Le maree</strong> — il livello del mare sale e scende con un ritmo quasi perfettamente regolare.</li>
+              <li><strong>Il suono</strong> — ogni nota musicale è un'onda di pressione dell'aria che oscilla a una frequenza precisa.</li>
+              <li><strong>La corrente elettrica di casa</strong> — la tensione della rete elettrica (in Italia, 230V) non è costante: oscilla 50 volte al secondo.</li>
+              <li><strong>Il battito cardiaco</strong>, <strong>il pendolo di un orologio</strong>, <strong>una ruota panoramica</strong>: tutti esempi di moto che si ripete.</li>
+            </ul>
+            <p style="font-size: 0.85em; margin-top: 1em;">Nessuna delle funzioni che conosci — rette, parabole, esponenziali — riesce a descrivere un comportamento così. Serve uno strumento nuovo: le <strong>funzioni goniometriche</strong>.</p>
+            <aside class="notes">
+              <p>Insistere sul fatto che è un salto concettuale: da funzioni "monotòne o quasi" a funzioni periodiche. Collegare subito a fisica (onde, corrente alternata) se la classe le ha già viste.</p>
+            </aside>
+          </section>
+        </section>
+
+        <!-- ANGOLI -->
+        <section>
+          <section>
+            <h2>Ripartire dagli <em>angoli</em></h2>
+            <p>Le funzioni goniometriche nascono per mettere in relazione gli <strong>angoli</strong> con i <strong>numeri</strong>. Ma prima serve un modo più comodo di misurare gli angoli rispetto ai gradi che usi da anni.</p>
+            <ul class="fact-list">
+              <li>I <strong>gradi</strong> sono una convenzione: un angolo giro vale 360°, un valore scelto migliaia di anni fa (probabilmente legato al calendario babilonese, vicino ai giorni dell'anno).</li>
+              <li>In matematica conviene una misura più "naturale", legata direttamente alla circonferenza stessa: il <strong>radiante</strong>.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Il <em>radiante</em></h3>
+            <div class="definition-block">
+              <div class="label">Definizione</div>
+              Un angolo misura <strong>1 radiante</strong> quando l'arco di circonferenza che sottende ha lunghezza uguale al raggio della circonferenza stessa.
+            </div>
+            <p>Il vantaggio è che il radiante non dipende da una convenzione arbitraria: è definito dal rapporto tra due lunghezze (arco e raggio), quindi è un numero puro, senza unità di misura.</p>
+            <p>Poiché l'intera circonferenza ha lunghezza \(2\pi r\), l'angolo giro misura esattamente \(2\pi\) radianti.</p>
+            <div class="math">$$180^\circ = \pi \ \text{rad} \qquad\Longrightarrow\qquad x_{\text{rad}} = x_{\text{gradi}} \cdot \frac{\pi}{180}$$</div>
+          </section>
+
+          <section>
+            <h3>Angoli che tornano <em>spesso</em></h3>
+            <p>Alcuni angoli compaiono così frequentemente che conviene impararne subito la conversione, senza doverla ricalcolare ogni volta.</p>
+            <table>
+              <tr><th>Gradi</th><th>0°</th><th>30°</th><th>45°</th><th>60°</th><th>90°</th><th>180°</th><th>270°</th><th>360°</th></tr>
+              <tr><td>Radianti</td><td>\(0\)</td><td>\(\frac{\pi}{6}\)</td><td>\(\frac{\pi}{4}\)</td><td>\(\frac{\pi}{3}\)</td><td>\(\frac{\pi}{2}\)</td><td>\(\pi\)</td><td>\(\frac{3\pi}{2}\)</td><td>\(2\pi\)</td></tr>
+            </table>
+            <p style="font-size: 0.85em; margin-top: 1em;">Da qui in avanti useremo quasi sempre i radianti: sono lo standard in tutta la matematica superiore e nella fisica.</p>
+          </section>
+        </section>
+
+        <!-- CIRCONFERENZA GONIOMETRICA -->
+        <section>
+          <section>
+            <h2>La circonferenza <em>goniometrica</em></h2>
+            <p>Per costruire le funzioni goniometriche serve un ambiente di lavoro standard, sempre uguale, indipendente dal problema specifico: la <strong>circonferenza goniometrica</strong>.</p>
+            <div class="definition-block">
+              <div class="label">Definizione</div>
+              È la circonferenza di <strong>raggio 1</strong>, centrata nell'origine di un piano cartesiano.
+            </div>
+            <div class="math">$$x^2 + y^2 = 1$$</div>
+          </section>
+
+          <section>
+            <h3>Come si <em>usa</em></h3>
+            <p>Prendiamo un angolo \(x\) (in radianti) e lo "srotoliamo" a partire dal punto \((1,0)\), percorrendo la circonferenza in senso antiorario (se \(x>0\)) o orario (se \(x<0\)).</p>
+            <ul class="fact-list">
+              <li>Il punto di arrivo si chiama <strong>\(P\)</strong>, ed è univocamente determinato dall'angolo \(x\).</li>
+              <li>Ogni angolo \(x\) corrisponde a <strong>un solo</strong> punto \(P\) sulla circonferenza.</li>
+              <li>Ma attenzione: <strong>più angoli</strong> possono corrispondere allo <strong>stesso</strong> punto \(P\) — basta fare un giro completo in più (\(x\) e \(x + 2\pi\) danno lo stesso punto). È proprio questa la radice della <strong>periodicità</strong> che stiamo per definire.</li>
+            </ul>
+            <div class="callout callout-note">
+              <span class="callout-label">L'idea chiave</span>
+              Le coordinate del punto \(P\) sono, per definizione, il coseno e il seno dell'angolo \(x\).
+            </div>
+          </section>
+
+          <section>
+            <h3>Gli angoli <em>notevoli</em></h3>
+            <div class="graph-wrap"><svg id="unitCircle" viewBox="0 0 900 660"></svg></div>
+            <p style="font-size: 0.8em;">Alcuni angoli ricorrono così spesso che vale la pena memorizzarne subito le coordinate: sono quelli legati ai triangoli notevoli (metà del quadrato, metà del triangolo equilatero). Nel primo quadrante sono evidenziate le coppie \((\cos x, \sin x)\); gli altri punti mostrano solo l'angolo, ma si ottengono per simmetria.</p>
+          </section>
+        </section>
+
+        <!-- SENO E COSENO -->
+        <section>
+          <section>
+            <h2>Seno e <em>coseno</em></h2>
+            <div class="definition-block">
+              <div class="label">Definizione</div>
+              Dato un angolo \(x\) e il punto \(P = (x_P, y_P)\) corrispondente sulla circonferenza goniometrica:
+              <div class="math">$$\cos x = x_P \qquad \sin x = y_P$$</div>
+            </div>
+            <p>In altre parole: il <strong>coseno</strong> è l'ascissa del punto, il <strong>seno</strong> è la sua ordinata. Non c'è nient'altro dietro: sono, letteralmente, delle coordinate.</p>
+          </section>
+
+          <section>
+            <h3>Cosa cambia rispetto a <em>prima</em></h3>
+            <p>Alle medie hai probabilmente incontrato seno e coseno come rapporti tra i lati di un triangolo rettangolo (cateto opposto su ipotenusa, e simili). Quella definizione funziona solo per angoli tra 0° e 90°.</p>
+            <p>La definizione con la circonferenza goniometrica è più generale: funziona per <strong>qualunque</strong> angolo, anche negativo, anche più grande di 360°. È questo che ci permette di trattare seno e coseno come vere <strong>funzioni</strong>, definite su tutto \(\mathbb{R}\), e non solo come rapporti geometrici in un caso particolare.</p>
+            <ul class="fact-list">
+              <li><strong>Dominio</strong>: tutto \(\mathbb{R}\) — per ogni numero reale esiste seno e coseno.</li>
+              <li><strong>Codominio</strong>: l'intervallo \([-1, 1]\) — un punto sulla circonferenza di raggio 1 non può avere coordinate più grandi di 1 in valore assoluto.</li>
+              <li><strong>Periodicità</strong>: \(\sin(x+2\pi)=\sin x\) e \(\cos(x+2\pi)=\cos x\) — dopo un giro completo, tutto si ripete identico.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Il grafico del <em>seno</em></h3>
+            <div class="graph-wrap"><svg id="graphSin" viewBox="0 0 900 400"></svg></div>
+            <p style="font-size: 0.85em;">La curva "a onda" del seno è così caratteristica che il suo nome, <strong>sinusoide</strong>, è diventato sinonimo di qualunque fenomeno oscillante — anche fuori dalla matematica.</p>
+          </section>
+
+          <section>
+            <h3>Il grafico del <em>coseno</em></h3>
+            <div class="graph-wrap"><svg id="graphCos" viewBox="0 0 900 400"></svg></div>
+            <p style="font-size: 0.85em;">Stessa identica forma del seno, solo <strong>spostata</strong>: il coseno è il seno "anticipato" di un quarto di giro, \(\frac{\pi}{2}\). Non è un caso: \(\cos x = \sin\!\left(x+\frac{\pi}{2}\right)\).</p>
+          </section>
+
+          <section>
+            <h3>Una relazione che <em>non cambia mai</em></h3>
+            <p>Poiché \(P=(\cos x, \sin x)\) è sempre un punto della circonferenza \(x^2+y^2=1\), seno e coseno dello stesso angolo sono sempre legati da un'unica relazione, valida per <strong>ogni</strong> \(x\):</p>
+            <div class="callout callout-warn">
+              <span class="callout-label">Identità fondamentale della goniometria</span>
+              <div class="math">$$\sin^2 x + \cos^2 x = 1$$</div>
+            </div>
+            <p style="font-size: 0.85em;">È semplicemente il teorema di Pitagora applicato al triangolo rettangolo con ipotenusa 1 (il raggio) e cateti \(|\cos x|\) e \(|\sin x|\). La userai continuamente: per semplificare espressioni, ricavare un valore dall'altro, dimostrare identità.</p>
+          </section>
+        </section>
+
+        <!-- TANGENTE -->
+        <section>
+          <section>
+            <h2>La <em>tangente</em></h2>
+            <div class="definition-block">
+              <div class="label">Definizione</div>
+              <div class="math">$$\tan x = \frac{\sin x}{\cos x}, \qquad \text{con } \cos x \neq 0$$</div>
+            </div>
+            <p>A differenza di seno e coseno, la tangente <strong>non</strong> è definita ovunque: dove il coseno si annulla (cioè per \(x = \frac{\pi}{2}+k\pi\)), il rapporto perde significato, perché non si può dividere per zero.</p>
+          </section>
+
+          <section>
+            <h3>Un comportamento <em>diverso</em></h3>
+            <ul class="fact-list">
+              <li><strong>Dominio</strong>: tutto \(\mathbb{R}\) tranne i punti \(x = \frac{\pi}{2}+k\pi\).</li>
+              <li><strong>Codominio</strong>: tutto \(\mathbb{R}\) — a differenza di seno e coseno, la tangente non è limitata: può assumere qualunque valore, anche grandissimo.</li>
+              <li><strong>Periodicità</strong>: \(\tan(x+\pi) = \tan x\) — il periodo è \(\pi\), la <strong>metà</strong> di quello di seno e coseno.</li>
+              <li>Vicino ai punti esclusi dal dominio, la funzione "esplode": si parla di <strong>asintoti verticali</strong>.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Il grafico della <em>tangente</em></h3>
+            <div class="graph-wrap"><svg id="graphTan" viewBox="0 0 900 400"></svg></div>
+            <p style="font-size: 0.85em;">Le linee tratteggiate sono gli asintoti verticali, in corrispondenza dei punti esclusi dal dominio. Fra un asintoto e il successivo, la funzione attraversa tutti i valori reali: da \(-\infty\) a \(+\infty\).</p>
+          </section>
+        </section>
+
+        <!-- RIEPILOGO -->
+        <section>
+          <h2>Tre funzioni, un'unica <em>origine</em></h2>
+          <p>Seno, coseno e tangente non sono tre oggetti scollegati: nascono tutti dallo stesso punto \(P\) sulla circonferenza goniometrica. Prima di proseguire, fissiamo le proprietà principali in un'unica tabella.</p>
+          <table style="font-size: 0.75em;">
+            <tr><th></th><th>Dominio</th><th>Codominio</th><th>Periodo</th></tr>
+            <tr><td>\(\sin x\)</td><td>\(\mathbb{R}\)</td><td>\([-1,1]\)</td><td>\(2\pi\)</td></tr>
+            <tr><td>\(\cos x\)</td><td>\(\mathbb{R}\)</td><td>\([-1,1]\)</td><td>\(2\pi\)</td></tr>
+            <tr><td>\(\tan x\)</td><td>\(\mathbb{R}\setminus\{\frac{\pi}{2}+k\pi\}\)</td><td>\(\mathbb{R}\)</td><td>\(\pi\)</td></tr>
+          </table>
+          <p style="font-size: 0.85em; margin-top: 1.2em;">Con queste tre funzioni possiamo finalmente scrivere equazioni in cui l'incognita compare come argomento di seno, coseno o tangente — le <strong>equazioni goniometriche</strong>: l'argomento della prossima lezione.</p>
+        </section>
+
+        <!-- CHIUSURA -->
+        <section>
+          <h2>Il ritmo <em>nascosto</em></h2>
+          <p style="font-size: 1.05em;">Ogni volta che qualcosa nel mondo si ripete — un'onda, una stagione, un battito — c'è quasi sempre una sinusoide che lo descrive. Oggi hai imparato a leggerla.</p>
+          <a class="math-of-things-link" href="https://mathofthings.netlify.app/" target="_blank" rel="noopener">The Math of Things</a>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script src="particles.js"></script>
+    <script src="config.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        Reveal.initialize(revealConfig).catch((err) => {
+          console.error('Errore inizializzazione Reveal.js:', err);
+        });
+        drawAllGraphs();
+      });
+
+      /* ── Grafici delle funzioni goniometriche (SVG generato via JS) ── */
+      const PI = Math.PI;
+
+      function svgEl(tag, attrs) {
+        const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+        for (const k in attrs) el.setAttribute(k, attrs[k]);
+        return el;
+      }
+
+      function drawGraph(svgId, fn, opts) {
+        const svg = document.getElementById(svgId);
+        if (!svg) return;
+        const { xMin, xMax, yMin, yMax, xTicks, asymptotes } = opts;
+        const L = 60, R = 860, T = 25, B = 355;
+        const xs = (v) => L + ((v - xMin) / (xMax - xMin)) * (R - L);
+        const ys = (v) => B - ((v - yMin) / (yMax - yMin)) * (B - T);
+
+        // grid verticali sui multipli notevoli
+        xTicks.forEach((t) => {
+          svg.appendChild(svgEl('line', { class: 'grid-line', x1: xs(t.v), y1: T, x2: xs(t.v), y2: B }));
+          const lbl = svgEl('text', { class: 'axis-label', x: xs(t.v), y: ys(yMin) + 22, 'text-anchor': 'middle' });
+          lbl.textContent = t.label;
+          svg.appendChild(lbl);
+        });
+
+        // asintoti (tangente)
+        if (asymptotes) {
+          asymptotes.forEach((a) => {
+            svg.appendChild(svgEl('line', { class: 'asymptote', x1: xs(a), y1: T, x2: xs(a), y2: B }));
+          });
+        }
+
+        // assi
+        svg.appendChild(svgEl('line', { class: 'axis-line', x1: L, y1: ys(0), x2: R, y2: ys(0) }));
+        svg.appendChild(svgEl('line', { class: 'axis-line', x1: xs(0), y1: T, x2: xs(0), y2: B }));
+
+        // etichette y (solo per seno/coseno, -1 e 1)
+        if (yMax <= 1.5) {
+          [-1, 1].forEach((v) => {
+            const lbl = svgEl('text', { class: 'axis-label', x: xs(xMin) - 6, y: ys(v) + 5, 'text-anchor': 'end' });
+            lbl.textContent = v;
+            svg.appendChild(lbl);
+          });
+        }
+
+        // curva, spezzata sulle discontinuità
+        const steps = 1000;
+        let d = '';
+        let started = false;
+        for (let i = 0; i <= steps; i++) {
+          const x = xMin + ((xMax - xMin) * i) / steps;
+          const y = fn(x);
+          if (!isFinite(y) || Math.abs(y) > yMax * 1.25) {
+            started = false;
+            continue;
+          }
+          const px = xs(x).toFixed(1), py = ys(y).toFixed(1);
+          d += (started ? 'L' : 'M') + px + ' ' + py + ' ';
+          started = true;
+        }
+        svg.appendChild(svgEl('path', { class: 'fn-curve', d }));
+      }
+
+      function drawUnitCircle(svgId) {
+        const svg = document.getElementById(svgId);
+        if (!svg) return;
+        const cx = 450, cy = 340, R = 225;
+        const toXY = (a) => [cx + R * Math.cos(a), cy - R * Math.sin(a)];
+
+        // assi
+        svg.appendChild(svgEl('line', { class: 'axis-line', x1: cx - R - 50, y1: cy, x2: cx + R + 50, y2: cy }));
+        svg.appendChild(svgEl('line', { class: 'axis-line', x1: cx, y1: cy - R - 50, x2: cx, y2: cy + R + 50 }));
+
+        // circonferenza
+        svg.appendChild(svgEl('circle', { cx, cy, r: R, fill: 'none', stroke: 'var(--primary)', 'stroke-width': 2.5 }));
+
+        const angles = [
+          { deg: 0, label: '0', frac: false },
+          { deg: 30, label: 'π/6', frac: true, coord: '(√3⁄2, 1⁄2)' },
+          { deg: 45, label: 'π/4', frac: true, coord: '(√2⁄2, √2⁄2)' },
+          { deg: 60, label: 'π/3', frac: true, coord: '(1⁄2, √3⁄2)' },
+          { deg: 90, label: 'π/2', frac: true, coord: '(0, 1)' },
+          { deg: 120, label: '2π/3', frac: true },
+          { deg: 135, label: '3π/4', frac: true },
+          { deg: 150, label: '5π/6', frac: true },
+          { deg: 180, label: 'π', frac: true },
+          { deg: 210, label: '7π/6', frac: true },
+          { deg: 225, label: '5π/4', frac: true },
+          { deg: 240, label: '4π/3', frac: true },
+          { deg: 270, label: '3π/2', frac: true },
+          { deg: 300, label: '5π/3', frac: true },
+          { deg: 315, label: '7π/4', frac: true },
+          { deg: 330, label: '11π/6', frac: true },
+        ];
+
+        angles.forEach((a) => {
+          const rad = (a.deg * Math.PI) / 180;
+          const [px, py] = toXY(rad);
+          const firstQuadrant = a.deg <= 90;
+
+          svg.appendChild(svgEl('line', {
+            class: 'grid-line', x1: cx, y1: cy, x2: px, y2: py,
+            stroke: firstQuadrant ? 'var(--primary)' : 'rgba(44,37,32,0.18)',
+            'stroke-width': firstQuadrant ? 1.5 : 1,
+          }));
+          svg.appendChild(svgEl('circle', { cx: px, cy: py, r: firstQuadrant ? 6 : 4.5, fill: 'var(--primary)' }));
+
+          const [lx, ly] = toXY(rad).map((v, i) => v); // punto base
+          const [ox, oy] = [cx + (R + 32) * Math.cos(rad), cy - (R + 32) * Math.sin(rad)];
+          const lbl = svgEl('text', { class: 'axis-label', x: ox, y: oy + 5, 'text-anchor': 'middle', 'font-size': '17' });
+          lbl.textContent = a.label;
+          svg.appendChild(lbl);
+
+          if (a.coord) {
+            const [tx, ty] = [cx + (R + 65) * Math.cos(rad), cy - (R + 65) * Math.sin(rad)];
+            const clbl = svgEl('text', {
+              class: 'axis-label', x: tx, y: ty + 5, 'text-anchor': 'middle', 'font-size': '15',
+              fill: 'var(--primary)',
+            });
+            clbl.textContent = a.coord;
+            svg.appendChild(clbl);
+          }
+        });
+
+        // etichette assi
+        const axLbl = (x, y, t, anchor) => {
+          const el = svgEl('text', { class: 'axis-label', x, y, 'text-anchor': anchor || 'middle', 'font-size': '16' });
+          el.textContent = t;
+          svg.appendChild(el);
+        };
+        axLbl(cx + R + 68, cy + 5, 'x');
+        axLbl(cx - 12, cy - R - 62, 'y');
+      }
+
+      function drawAllGraphs() {
+        drawUnitCircle('unitCircle');
+        const piTicks = [
+          { v: -2 * PI, label: '-2π' },
+          { v: -1.5 * PI, label: '-3π/2' },
+          { v: -PI, label: '-π' },
+          { v: -0.5 * PI, label: '-π/2' },
+          { v: 0, label: '0' },
+          { v: 0.5 * PI, label: 'π/2' },
+          { v: PI, label: 'π' },
+          { v: 1.5 * PI, label: '3π/2' },
+          { v: 2 * PI, label: '2π' },
+        ];
+
+        drawGraph('graphSin', Math.sin, { xMin: -2 * PI, xMax: 2 * PI, yMin: -1.4, yMax: 1.4, xTicks: piTicks });
+        drawGraph('graphCos', Math.cos, { xMin: -2 * PI, xMax: 2 * PI, yMin: -1.4, yMax: 1.4, xTicks: piTicks });
+        drawGraph('graphTan', Math.tan, {
+          xMin: -1.5 * PI, xMax: 1.5 * PI, yMin: -4, yMax: 4,
+          xTicks: [
+            { v: -1.5 * PI, label: '-3π/2' }, { v: -PI, label: '-π' }, { v: -0.5 * PI, label: '-π/2' },
+            { v: 0, label: '0' }, { v: 0.5 * PI, label: 'π/2' }, { v: PI, label: 'π' }, { v: 1.5 * PI, label: '3π/2' },
+          ],
+          asymptotes: [-1.5 * PI, -0.5 * PI, 0.5 * PI, 1.5 * PI],
+        });
+      }
+    </script>
+
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['\\(', '\\)']],
+          displayMath: [['$$', '$$']],
+        },
+        svg: {
+          fontCache: 'global',
+        },
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </body>
+</html>
