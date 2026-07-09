@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento — Teoria dei Giochi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.ct.sign td { text-align:center; font-family:'JetBrains Mono',monospace; }
+.ct.payoff td, .ct.payoff th { text-align:center; }
+.ct.payoff td:first-child, .ct.payoff th:first-child { text-align:left; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Teoria dei Giochi</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+{
+  tag:"FONDAMENTI",
+  title:"Che cos'è un <em>gioco</em>",
+  nav:"Forma normale",
+  body:
+    '<p>In teoria dei giochi, un <strong>gioco</strong> non è necessariamente qualcosa di divertente: è qualunque situazione in cui il risultato per una persona dipende non solo dalle proprie scelte, ma anche dalle scelte di altri. Due negozi che fissano un prezzo, due Paesi che negoziano un trattato, due specie animali che competono per una risorsa — sono tutti giochi in questo senso.</p>' +
+    '<p>Il modo più semplice per rappresentare un gioco è la <strong>forma normale</strong> (o forma strategica), definita da tre ingredienti:</p>' +
+    '<div class="cb"><div class="cb-label">Definizione — forma normale</div><ol><li>un insieme di <strong>giocatori</strong> \\( \\{1, 2, \\dots, n\\} \\);</li><li>per ciascun giocatore \\(i\\), un insieme di <strong>strategie</strong> possibili \\(S_i\\);</li><li>una <strong>funzione di payoff</strong> \\(u_i : S_1 \\times S_2 \\times \\dots \\times S_n \\to \\mathbb{R}\\), che assegna a ogni combinazione di strategie il guadagno (o l\'utilità) del giocatore \\(i\\).</li></ol></div>' +
+    '<p>Per due giocatori con un numero finito di strategie, la forma normale si rappresenta comodamente con una <strong>matrice dei payoff</strong>: righe e colonne sono le strategie dei due giocatori, e in ogni cella si scrive la coppia di guadagni \\((u_1, u_2)\\).</p>' +
+    '<div class="cb tip"><div class="cb-label">Perché non basta l\'intuizione</div><p>Nella scena del bar di <em>A Beautiful Mind</em> l\'intuizione basta a farci capire che "tutti sulla bionda" è una cattiva idea. Ma per confrontare strategie in modo rigoroso, prevedere il comportamento razionale e dimostrare risultati generali, serve un formalismo preciso: è quello che costruiamo in questa lezione.</p></div>'
+},
+{
+  tag:"ESEMPIO CLASSICO",
+  title:"Il <em>dilemma del prigioniero</em>",
+  nav:"Dilemma",
+  body:
+    '<p>Il gioco più citato nella storia della disciplina. Due sospettati, A e B, vengono interrogati separatamente. Ciascuno può <strong>tacere</strong> (cooperare con il complice) o <strong>confessare</strong> (tradire). Le pene, in anni di carcere, dipendono dalla combinazione delle due scelte.</p>' +
+    '<table class="ct payoff"><tr><th>&nbsp;</th><th>B tace</th><th>B confessa</th></tr>' +
+    '<tr><td>A tace</td><td>(1, 1)</td><td>(5, 0)</td></tr>' +
+    '<tr><td>A confessa</td><td>(0, 5)</td><td>(3, 3)</td></tr></table>' +
+    '<p class="dim">Convenzione: i payoff qui rappresentano anni di pena, quindi <strong>più basso è meglio</strong> per il giocatore. Nella cella (A tace, B confessa) il payoff è (5, 0): A prende 5 anni, B è libero.</p>' +
+    '<div class="cb"><div class="cb-label">Il ragionamento di A</div><p>A si mette nei panni di B e ragiona per casi. "Se B tace, a me conviene confessare (0 anni invece di 1). Se B confessa, a me conviene comunque confessare (3 anni invece di 5)." In entrambi i casi, <strong>confessare è la scelta migliore per A</strong>, indipendentemente da cosa fa B.</p></div>' +
+    '<p>Lo stesso ragionamento vale per B, per simmetria. Il risultato: <strong>entrambi confessano</strong>, ed entrambi finiscono con 3 anni — peggio del risultato (1, 1) che avrebbero ottenuto tacendo entrambi. Questo è il cuore del "dilemma": la razionalità individuale porta a un esito collettivamente peggiore.</p>' +
+    acc([
+      { t:"Perché \"tacere entrambi\" non regge", h:'<p>Anche se A e B si accordassero prima di tacere, l\'accordo non è <strong>stabile</strong>: una volta separati, ciascuno ha convenienza a tradire l\'altro, a prescindere da cosa l\'altro ha promesso. Vedremo nella prossima sezione perché questo si chiama avere una <strong>strategia dominante</strong>.</p>' }
+    ])
+},
+{
+  tag:"DOMINANZA",
+  title:"Strategie <em>dominanti</em>",
+  nav:"Dominanza",
+  body:
+    '<p>Il ragionamento fatto da A nel dilemma del prigioniero ha un nome preciso.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione — strategia strettamente dominante</div><p>Una strategia \\(s_i^*\\) è <strong>strettamente dominante</strong> per il giocatore \\(i\\) se, qualunque siano le strategie scelte dagli altri giocatori, \\(s_i^*\\) dà a \\(i\\) un payoff strettamente migliore di ogni altra sua strategia possibile.</p></div>' +
+    '<p>Nel dilemma del prigioniero, <strong>confessare</strong> è strategia dominante per entrambi i giocatori: da qui l\'unicità della previsione. Quando ogni giocatore ha una strategia dominante, il gioco si risolve "in un colpo solo", senza bisogno di ipotesi ulteriori.</p>' +
+    '<h3>Eliminazione iterata delle strategie dominate</h3>' +
+    '<p>Molti giochi non hanno una strategia dominante per ogni giocatore, ma si possono comunque semplificare eliminando, un passo alla volta, le strategie <strong>dominate</strong> (quelle mai convenienti, qualunque cosa faccia l\'avversario). Se dopo aver eliminato le strategie dominate di un giocatore emergono nuove strategie dominate per l\'altro, si eliminano anche quelle, e così via.</p>' +
+    '<div class="cb warn"><div class="cb-label">Un limite importante</div><p>Non tutti i giochi si risolvono per dominanza: in molti casi, dopo aver eliminato tutto ciò che si può eliminare, restano più strategie in gioco. Serve un concetto più generale — l\'equilibrio di Nash.</p></div>'
+},
+{
+  tag:"IL RISULTATO",
+  title:"L'equilibrio di <em>Nash</em>",
+  nav:"Equilibrio",
+  body:
+    '<p>Nel 1950 John Nash, allora dottorando a Princeton, generalizzò l\'idea di "esito stabile" a qualunque gioco a più giocatori, andando oltre i casi in cui esiste una strategia dominante.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione — equilibrio di Nash</div><p>Un profilo di strategie \\((s_1^*, s_2^*, \\dots, s_n^*)\\) è un <strong>equilibrio di Nash</strong> se, per ogni giocatore \\(i\\), \\(s_i^*\\) è la scelta migliore <em>data</em> la strategia \\(s_{-i}^*\\) scelta da tutti gli altri:</p><div class="math-block hero-formula">\\[ u_i(s_i^*,\\, s_{-i}^*) \\;\\geq\\; u_i(s_i,\\, s_{-i}^*) \\quad \\text{per ogni strategia alternativa } s_i \\]</div></div>' +
+    '<p>In parole: in un equilibrio di Nash, <strong>nessun giocatore ha convenienza a cambiare strategia da solo</strong>, supponendo che tutti gli altri restino fermi sulla propria. Non è detto che sia il miglior esito per il gruppo — nel dilemma del prigioniero, l\'unico equilibrio di Nash è (confessa, confessa), che è peggio per entrambi rispetto a (tace, tace).</p>' +
+    '<h3>Un gioco con più equilibri: la battaglia dei sessi</h3>' +
+    '<p>Due persone vogliono passare la serata insieme, ma hanno preferenze diverse su cosa fare: A preferisce il cinema, B preferisce il teatro. Entrambi preferiscono comunque stare insieme piuttosto che andare ciascuno per conto suo.</p>' +
+    '<table class="ct payoff"><tr><th>&nbsp;</th><th>B: cinema</th><th>B: teatro</th></tr>' +
+    '<tr><td>A: cinema</td><td>(2, 1)</td><td>(0, 0)</td></tr>' +
+    '<tr><td>A: teatro</td><td>(0, 0)</td><td>(1, 2)</td></tr></table>' +
+    '<p>Qui i payoff crescono con la soddisfazione. Si può verificare che <strong>ci sono due equilibri di Nash</strong>: (cinema, cinema) e (teatro, teatro). In entrambi, nessuno dei due ha convenienza a cambiare da solo — ma i due esiti sono molto diversi tra loro, e nulla nel gioco stesso indica quale dei due si realizzerà.</p>' +
+    '<div class="cb success"><div class="cb-label">Il teorema di esistenza</div><p>Nash dimostrò, nella sua tesi del 1950, che <strong>ogni gioco finito ammette almeno un equilibrio</strong>, a patto di ammettere anche le <strong>strategie miste</strong> (scegliere una strategia pura con una certa probabilità invece che con certezza). La dimostrazione usa il teorema del punto fisso di Kakutani — un risultato di topologia che va oltre lo scopo di questa lezione, ma vale la pena sapere che esiste.</p></div>' +
+    acc([
+      { t:"Verifica: perché (confessa, confessa) è l\'unico equilibrio nel dilemma", h:'<p>Basta controllare le tre alternative. In (tace, tace): A guadagnerebbe passando a confessare (da 1 a 0 anni) — non è equilibrio. In (tace, confessa) e (confessa, tace): il giocatore che tace ha convenienza a confessare — non sono equilibri. Resta solo (confessa, confessa): nessuno dei due, cambiando da solo, migliora la propria posizione (passerebbe da 3 a 5 anni).</p>' }
+    ])
+},
+{
+  tag:"APPLICAZIONI",
+  title:"Dove si <em>usa</em> davvero",
+  nav:"Applicazioni",
+  body:
+    '<p>La teoria dei giochi è oggi uno strumento standard in diversi campi, ben oltre i libri di testo.</p>' +
+    '<h3>Oligopolio</h3>' +
+    '<p>Quando pochi produttori dominano un mercato (un <strong>oligopolio</strong>), le loro scelte di prezzo o quantità prodotta si influenzano a vicenda esattamente come in un gioco. I modelli di <strong>Cournot</strong> (concorrenza sulle quantità prodotte) e <strong>Bertrand</strong> (concorrenza sui prezzi) sono applicazioni dirette della ricerca dell\'equilibrio di Nash, e spiegano fenomeni osservabili come le guerre di prezzo tra compagnie aeree o operatori telefonici.</p>' +
+    '<h3>Design delle aste</h3>' +
+    '<p>Le grandi aste per beni pubblici — dalle frequenze radiotelevisive alle inserzioni pubblicitarie sui motori di ricerca — vengono progettate applicando la teoria dei giochi, per garantire che dire la verità sul proprio valore percepito sia la strategia più conveniente per ciascun partecipante (una proprietà chiamata <strong>incentive compatibility</strong>).</p>' +
+    '<h3>Biologia evolutiva</h3>' +
+    '<p>John Maynard Smith adattò l\'equilibrio di Nash alla biologia con il concetto di <strong>strategia evolutivamente stabile</strong> (ESS): una strategia comportamentale che, una volta diffusa in una popolazione, non può essere soppiantata da una strategia alternativa rara. Spiega, ad esempio, perché in molte specie animali i conflitti territoriali si risolvono con segnali ritualizzati piuttosto che con scontri sempre letali.</p>' +
+    '<div class="cb purple"><div class="cb-label">Un filo comune</div><p>In tutti questi casi non serve che i "giocatori" ragionino consapevolmente: aziende, animali, algoritmi d\'asta raggiungono equilibri di Nash anche solo per selezione o tentativi ripetuti. È uno dei motivi per cui la teoria si applica così bene anche fuori dal contesto umano.</p></div>'
+},
+{
+  tag:"SINTESI",
+  title:"Radici storiche e <em>metodo</em>",
+  nav:"Sintesi",
+  body:
+    '<p>La teoria dei giochi non nasce con Nash. Le sue fondamenta sono nel libro <em>Theory of Games and Economic Behavior</em> (1944) di <strong>John von Neumann</strong> e <strong>Oskar Morgenstern</strong>, che formalizzò per primo i giochi a somma zero (dove il guadagno di uno è esattamente la perdita dell\'altro) e dimostrò per quel caso un teorema di esistenza dell\'equilibrio (il <strong>minimax</strong>).</p>' +
+    '<p>Il contributo di Nash, sei anni dopo, fu estendere il risultato ai giochi a <strong>somma non nulla</strong> — dove i giocatori possono anche cooperare, e non tutto ciò che uno guadagna l\'altro lo perde. È l\'estensione che rende la teoria applicabile alla stragrande maggioranza delle situazioni reali, dal dilemma del prigioniero all\'oligopolio.</p>' +
+    '<table class="ct"><tr><th>Concetto</th><th>Idea chiave</th></tr>' +
+    '<tr><td>Forma normale</td><td>giocatori, strategie, funzione di payoff</td></tr>' +
+    '<tr><td>Strategia dominante</td><td>sempre la scelta migliore, qualunque cosa faccia l\'avversario</td></tr>' +
+    '<tr><td>Equilibrio di Nash</td><td>nessuno migliora cambiando strategia da solo</td></tr>' +
+    '<tr><td>Esistenza (Nash, 1950)</td><td>ogni gioco finito ha almeno un equilibrio in strategie miste</td></tr></table>' +
+    '<div class="cb danger"><div class="cb-label">L\'errore da non fare</div><p>Equilibrio di Nash <strong>non significa</strong> "il miglior esito possibile per tutti". Il dilemma del prigioniero è la controprova più netta: l\'unico equilibrio è peggiore, per entrambi i giocatori, di un esito che il gioco stesso rende disponibile ma che la razionalità individuale non riesce a raggiungere.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Per chi vuole continuare</div><p>Nash pubblicò la sua dimostrazione di esistenza in un articolo di appena una pagina (<em>Equilibrium Points in N-person Games</em>, 1950). Vale la pena leggerlo, anche solo per vedere quanto un risultato enorme possa stare in così poco spazio.</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>
