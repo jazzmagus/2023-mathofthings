@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento Pro — Numeri Complessi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.ct.sign td { text-align:center; font-family:'JetBrains Mono',monospace; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.graph-wrap { margin:18px 0; text-align:center; }
+.graph-wrap svg { width:100%; max-width:340px; height:auto; }
+.graph-wrap.wide svg { max-width:500px; }
+.axis-line { stroke:var(--text-dim); stroke-width:1; }
+.grid-circle { fill:none; stroke:var(--border-light); stroke-width:1; stroke-dasharray:2 3; }
+.plot-point { fill:var(--accent); }
+.plot-label { font-family:'JetBrains Mono',monospace; font-size:11px; fill:var(--text); }
+.plot-vec { stroke:var(--accent); stroke-width:1.6; }
+.plot-arc { fill:none; stroke:var(--blue); stroke-width:1.4; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Pro · Numeri Complessi</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+function argandSvg() {
+  return '<div class="graph-wrap"><svg viewBox="0 0 300 300">' +
+    '<circle class="grid-circle" cx="150" cy="150" r="110"/>' +
+    '<line class="axis-line" x1="20" y1="150" x2="280" y2="150"/>' +
+    '<line class="axis-line" x1="150" y1="20" x2="150" y2="280"/>' +
+    '<text class="plot-label" x="270" y="144">Re</text>' +
+    '<text class="plot-label" x="158" y="30">Im</text>' +
+    '<line class="plot-vec" x1="150" y1="150" x2="230" y2="70"/>' +
+    '<circle class="plot-point" cx="230" cy="70" r="4"/>' +
+    '<text class="plot-label" x="238" y="66">P(a, b)</text>' +
+    '<path class="plot-arc" d="M 190 150 A 40 40 0 0 0 172 108"/>' +
+    '<text class="plot-label" x="196" y="128">θ</text>' +
+    '<line x1="150" y1="150" x2="230" y2="150" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="3 3"/>' +
+    '<line x1="230" y1="150" x2="230" y2="70" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="3 3"/>' +
+    '<text class="plot-label" x="186" y="164">a</text>' +
+    '<text class="plot-label" x="236" y="112">b</text>' +
+    '</svg></div>';
+}
+
+function rootsSvg(n) {
+  const R = 100, cx = 150, cy = 150;
+  let pts = '', labels = '';
+  for (let k = 0; k < n; k++) {
+    const ang = 2 * Math.PI * k / n;
+    const x = cx + R * Math.cos(ang), y = cy - R * Math.sin(ang);
+    pts += (k === 0 ? 'M ' : 'L ') + x.toFixed(1) + ' ' + y.toFixed(1) + ' ';
+    labels += '<circle class="plot-point" cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="4"/>' +
+      '<text class="plot-label" x="' + (x + (x > cx ? 8 : (x < cx ? -22 : -6))).toFixed(1) + '" y="' + (y + (y > cy ? 16 : -8)).toFixed(1) + '">z' + k + '</text>';
+  }
+  pts += 'Z';
+  return '<div class="graph-wrap"><svg viewBox="0 0 300 300">' +
+    '<circle class="grid-circle" cx="150" cy="150" r="100"/>' +
+    '<line class="axis-line" x1="20" y1="150" x2="280" y2="150"/>' +
+    '<line class="axis-line" x1="150" y1="20" x2="150" y2="280"/>' +
+    '<path d="' + pts + '" fill="rgba(194,24,91,0.06)" stroke="var(--accent)" stroke-width="1.4"/>' +
+    labels +
+    '</svg></div>';
+}
+
+const S = [
+{
+  tag:"FONDAMENTI",
+  title:"Perché servono i numeri <em>complessi</em>",
+  nav:"Perché C",
+  body:
+    '<p>L\'equazione \\(x^2+1=0\\) non ha soluzioni reali: nessun quadrato è negativo. Nella lezione base ci si è fermati qui. In questo approfondimento, invece, costruiamo <strong>rigorosamente</strong> un nuovo insieme numerico che risolve il problema, e ne verifichiamo tutte le proprietà da zero.</p>' +
+    '<div class="cb"><div class="cb-label">Costruzione — l\'insieme C</div><p>Si definisce l\'insieme \\(\\mathbb{C} = \\mathbb{R}^2\\), le cui coppie ordinate \\((a,b)\\) sono dotate di due operazioni:</p><div class="math-block hero-formula">\\[ (a,b)+(c,d) = (a+c,\\ b+d) \\qquad (a,b)\\cdot(c,d) = (ac-bd,\\ ad+bc) \\]</div></div>' +
+    '<p>Questa non è una definizione arbitraria: si verifica che \\((\\mathbb{C}, +, \\cdot)\\) soddisfa tutti gli assiomi di <strong>campo</strong> (chiusura, associatività, elemento neutro, opposto, reciproco, distributività) — esattamente come \\(\\mathbb{Q}\\) e \\(\\mathbb{R}\\).</p>' +
+    '<div class="cb tip"><div class="cb-label">Il punto cruciale</div><p>Nel campo \\(\\mathbb{C}\\) esiste un elemento che risolve il problema iniziale: \\((0,1)\\cdot(0,1) = (0\\cdot0-1\\cdot1,\\ 0\\cdot1+1\\cdot0) = (-1,0)\\). Ponendo \\(i=(0,1)\\), si ha dunque \\(i^2=-1\\): esattamente ciò che serviva per risolvere \\(x^2+1=0\\).</p></div>' +
+    acc([
+      { t:"Un po\' di storia: da Cardano a Gauss", h:'<p>Il problema è antico quanto le equazioni di secondo grado, ma diventa urgente nel Cinquecento con la <strong>formula risolutiva delle cubiche</strong> (Dal Ferro, Tartaglia, Cardano): in certi casi la formula richiede radici di numeri negativi anche quando la soluzione finale è reale. <strong>Bombelli</strong> (1572) è il primo a trattare questi oggetti con regole di calcolo coerenti. Solo con <strong>Gauss</strong>, a cavallo tra Settecento e Ottocento, l\'insieme \\(\\mathbb{C}\\) viene assiomatizzato e legittimato come struttura numerica a pieno titolo.</p>' }
+    ])
+},
+{
+  tag:"FORMA ALGEBRICA",
+  title:"Unità immaginaria e forma <em>algebrica</em>",
+  nav:"Forma algebrica",
+  body:
+    '<p>Identificando i numeri del tipo \\((a,0)\\) con i numeri reali \\(a\\), e osservando che \\((0,b) = (0,1)\\cdot(b,0) = ib\\), ogni numero complesso si scrive nella sua <strong>forma algebrica</strong>:</p>' +
+    '<div class="cb"><div class="cb-label">Definizione — forma algebrica</div><div class="math-block hero-formula">\\[ z = a+bi, \\qquad a=\\operatorname{Re}(z) \\ \\text{(parte reale)}, \\quad b=\\operatorname{Im}(z) \\ \\text{(parte immaginaria)} \\]</div></div>' +
+    '<p>Le operazioni definite su \\(\\mathbb{R}^2\\) si traducono, in questa notazione, in regole di calcolo del tutto simili a quelle dei polinomi, imponendo \\(i^2=-1\\) ogni volta che compare:</p>' +
+    '<div class="math-block">\\[ (a+bi)+(c+di)=(a+c)+(b+d)i \\qquad (a+bi)(c+di)=(ac-bd)+(ad+bc)i \\]</div>' +
+    '<div class="cb warn"><div class="cb-label">Potenze di i</div><p>Le potenze di \\(i\\) sono <strong>cicliche di periodo 4</strong>: \\(i^0=1,\\ i^1=i,\\ i^2=-1,\\ i^3=-i,\\ i^4=1,\\dots\\) Per calcolare \\(i^n\\) con \\(n\\) grande basta il resto della divisione di \\(n\\) per 4: \\(i^n=i^{n \\bmod 4}\\).</p></div>' +
+    acc([
+      { t:"Esempio — somma e prodotto", h:'<p>Dati \\(z=3-2i\\) e \\(w=-1+4i\\): \\(z+w=2+2i\\); \\(z\\cdot w=(3)(-1)-(-2)(4) + [(3)(4)+(-2)(-1)]i = -3+8+(12+2)i=5+14i\\).</p>' },
+      { t:"Esempio — potenze di i", h:'<p>Calcolare \\(i^{37}\\): \\(37 = 4\\cdot9+1\\), quindi \\(i^{37}=i^1=i\\). Calcolare \\(i^{102}\\): \\(102=4\\cdot25+2\\), quindi \\(i^{102}=i^2=-1\\).</p>' },
+      { t:"Esercizio — espressione", h:'<p>Semplifica \\((2+i)^2 - i^3\\cdot(1-i)\\).</p><div class="math-block result">\\[ (2+i)^2 = 4-1+4i = 3+4i; \\quad i^3(1-i) = -i(1-i) = -i+i^2\\cdot(-1)\\!\\cdot\\!(-1)\\ldots \\]</div><p>Svolgendo con attenzione: \\(-i(1-i) = -i + i^2 = -1-i\\). Il risultato è \\((3+4i)-(-1-i) = 4+5i\\).</p>' }
+    ])
+},
+{
+  tag:"CONIUGATO E MODULO",
+  title:"Coniugato, <em>modulo</em> e reciproco",
+  nav:"Coniugato",
+  body:
+    '<p>Due strumenti algebrici permettono di trattare i numeri complessi con la stessa naturalezza dei reali: il <strong>coniugato</strong> e il <strong>modulo</strong>.</p>' +
+    '<div class="cb"><div class="cb-label">Definizioni</div><p>Dato \\(z=a+bi\\), il suo <strong>coniugato</strong> è \\(\\bar z = a-bi\\); il suo <strong>modulo</strong> è \\(|z|=\\sqrt{a^2+b^2}\\).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Proprietà fondamentale</div><p>Il prodotto di un numero per il suo coniugato è sempre un numero <strong>reale non negativo</strong>, ed è legato al modulo:</p><div class="math-block hero-formula">\\[ z\\cdot\\bar z = (a+bi)(a-bi) = a^2+b^2 = |z|^2 \\]</div><p><strong>Dimostrazione.</strong> Basta applicare la definizione di prodotto: \\((a+bi)(a-bi)=a^2-abi+abi-b^2i^2=a^2+b^2\\), poiché i termini misti si elidono e \\(-b^2i^2=b^2\\). \\(\\blacksquare\\)</p></div>' +
+    '<p>Questa proprietà è la chiave del <strong>reciproco</strong>: per \\(z\\ne0\\),</p>' +
+    '<div class="math-block hero-formula">\\[ \\frac{1}{z} = \\frac{\\bar z}{z\\bar z} = \\frac{\\bar z}{|z|^2} \\]</div>' +
+    '<p>e quindi della <strong>divisione</strong> tra due complessi, ottenuta moltiplicando numeratore e denominatore per il coniugato del denominatore (esattamente come la razionalizzazione di un\'irrazionale):</p>' +
+    '<div class="math-block">\\[ \\frac{z}{w} = \\frac{z\\bar w}{w\\bar w} = \\frac{z\\bar w}{|w|^2} \\]</div>' +
+    acc([
+      { t:"Esempio — reciproco", h:'<p>Reciproco di \\(z=5-6i\\): \\(\\bar z=5+6i\\), \\(|z|^2=25+36=61\\), quindi \\(\\dfrac1z=\\dfrac{5+6i}{61}=\\dfrac{5}{61}+\\dfrac{6}{61}i\\).</p>' },
+      { t:"Esempio — divisione", h:'<p>Calcolare \\(\\dfrac{3-2i}{4+i}\\): si moltiplica per \\(\\dfrac{4-i}{4-i}\\), ottenendo \\(\\dfrac{(3-2i)(4-i)}{16+1}=\\dfrac{12-3i-8i+2i^2}{17}=\\dfrac{10-11i}{17}=\\dfrac{10}{17}-\\dfrac{11}{17}i\\).</p>' },
+      { t:"Proprietà del coniugato (da dimostrare)", h:'<p>Verifica che \\(\\overline{z+w}=\\bar z+\\bar w\\) e \\(\\overline{z\\cdot w}=\\bar z\\cdot\\bar w\\), scrivendo \\(z=a+bi\\), \\(w=c+di\\) e confrontando parte reale e immaginaria di entrambi i membri.</p>' }
+    ])
+},
+{
+  tag:"PIANO DI ARGAND-GAUSS",
+  title:"La rappresentazione <em>geometrica</em>",
+  nav:"Piano complesso",
+  body:
+    '<p>Ogni numero complesso \\(z=a+bi\\) corrisponde in modo biunivoco al punto \\(P(a,b)\\) del piano — o al vettore \\(\\overrightarrow{OP}\\). Questa identificazione, dovuta a <strong>Gauss</strong> (e indipendentemente a Argand e Wessel), rende <em>visibile</em> ciò che prima era solo algebra.</p>' +
+    argandSvg() +
+    '<div class="cb"><div class="cb-label">Dizionario algebra ↔ geometria</div><table class="ct"><tr><th>Concetto algebrico</th><th>Interpretazione geometrica</th></tr>' +
+    '<tr><td>\\(|z|=\\sqrt{a^2+b^2}\\)</td><td>distanza di \\(P\\) dall\'origine</td></tr>' +
+    '<tr><td>\\(\\bar z=a-bi\\)</td><td>simmetrico di \\(P\\) rispetto all\'asse reale</td></tr>' +
+    '<tr><td>\\(-z=-a-bi\\)</td><td>simmetrico di \\(P\\) rispetto all\'origine</td></tr>' +
+    '<tr><td>\\(z+w\\)</td><td>somma vettoriale (regola del parallelogramma)</td></tr>' +
+    '<tr><td>\\(|z-w|\\)</td><td>distanza tra i punti \\(P_z\\) e \\(P_w\\)</td></tr></table></div>' +
+    '<div class="cb purple"><div class="cb-label">Disuguaglianza triangolare</div><p>Per ogni \\(z,w\\in\\mathbb{C}\\): \\(|z+w|\\le|z|+|w|\\). Geometricamente: in un triangolo (eventualmente degenere) di lati \\(|z|\\), \\(|w|\\), \\(|z+w|\\), un lato non supera mai la somma degli altri due.</p></div>' +
+    acc([
+      { t:"Esempio — luogo geometrico", h:'<p>L\'equazione \\(|z-(2+i)|=3\\) rappresenta l\'insieme dei punti a distanza 3 dal punto \\((2,1)\\): è la <strong>circonferenza</strong> di centro \\((2,1)\\) e raggio 3. In generale \\(|z-z_0|=r\\) è sempre una circonferenza di centro \\(z_0\\) e raggio \\(r\\).</p>' },
+      { t:"Esempio — asse di un segmento", h:'<p>L\'equazione \\(|z-1|=|z+i|\\) rappresenta i punti equidistanti da \\(1\\) e da \\(-i\\): è l\'<strong>asse del segmento</strong> che congiunge \\((1,0)\\) e \\((0,-1)\\), cioè la retta \\(y=-x\\).</p>' }
+    ])
+},
+{
+  tag:"FORMA TRIGONOMETRICA",
+  title:"Coordinate <em>polari</em> e forma trigonometrica",
+  nav:"Forma trig.",
+  body:
+    '<p>Nel piano di Argand-Gauss, un punto può essere individuato anche da <strong>coordinate polari</strong> \\((\\rho,\\theta)\\): la distanza dall\'origine e l\'angolo rispetto all\'asse reale positivo.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione — forma trigonometrica</div><p>Da \\(a=\\rho\\cos\\theta\\) e \\(b=\\rho\\sin\\theta\\):</p><div class="math-block hero-formula">\\[ z=a+bi=\\rho(\\cos\\theta+i\\sin\\theta), \\qquad \\rho=|z|=\\sqrt{a^2+b^2}, \\quad \\theta=\\arg(z) \\]</div></div>' +
+    '<p>L\'argomento \\(\\theta\\) va calcolato tenendo conto del quadrante in cui si trova il punto (la funzione \\(\\arctan\\) da sola restituisce solo valori tra \\(-\\pi/2\\) e \\(\\pi/2\\)):</p>' +
+    '<table class="ct"><tr><th>Quadrante</th><th>Segno di (a, b)</th><th>Argomento θ</th></tr>' +
+    '<tr><td>I</td><td>\\(a>0, b>0\\)</td><td>\\(\\arctan(b/a)\\)</td></tr>' +
+    '<tr><td>II, III</td><td>\\(a<0\\)</td><td>\\(\\pi+\\arctan(b/a)\\)</td></tr>' +
+    '<tr><td>IV</td><td>\\(a>0, b<0\\)</td><td>\\(2\\pi+\\arctan(b/a)\\)</td></tr></table>' +
+    '<div class="cb tip"><div class="cb-label">Prodotto e quoziente in forma trigonometrica</div><p>Dati \\(z=\\rho_1(\\cos\\theta_1+i\\sin\\theta_1)\\) e \\(w=\\rho_2(\\cos\\theta_2+i\\sin\\theta_2)\\):</p><div class="math-block">\\[ z\\cdot w=\\rho_1\\rho_2\\big[\\cos(\\theta_1+\\theta_2)+i\\sin(\\theta_1+\\theta_2)\\big] \\qquad \\frac{z}{w}=\\frac{\\rho_1}{\\rho_2}\\big[\\cos(\\theta_1-\\theta_2)+i\\sin(\\theta_1-\\theta_2)\\big] \\]</div><p><strong>Dimostrazione (prodotto).</strong> Si sviluppa il prodotto e si usano le formule di addizione di seno e coseno: \\(\\rho_1\\rho_2(\\cos\\theta_1\\cos\\theta_2-\\sin\\theta_1\\sin\\theta_2) + i\\rho_1\\rho_2(\\sin\\theta_1\\cos\\theta_2+\\cos\\theta_1\\sin\\theta_2)\\), che è esattamente \\(\\rho_1\\rho_2[\\cos(\\theta_1+\\theta_2)+i\\sin(\\theta_1+\\theta_2)]\\). \\(\\blacksquare\\)</p></div>' +
+    acc([
+      { t:"Esempio — da algebrica a trigonometrica", h:'<p>Scrivi in forma trigonometrica \\(z=2-2i\\): \\(\\rho=\\sqrt{4+4}=2\\sqrt2\\); il punto è nel IV quadrante, quindi \\(\\theta=2\\pi+\\arctan(-1)=2\\pi-\\tfrac{\\pi}{4}=\\tfrac{7}{4}\\pi\\). Dunque \\(z=2\\sqrt2\\big(\\cos\\tfrac74\\pi+i\\sin\\tfrac74\\pi\\big)\\).</p>' },
+      { t:"Esempio — prodotto in forma trigonometrica", h:'<p>\\(\\sqrt2(\\cos\\tfrac{\\pi}{6}+i\\sin\\tfrac{\\pi}{6})\\cdot2\\sqrt2(\\cos\\tfrac{\\pi}{3}+i\\sin\\tfrac{\\pi}{3}) = 4\\big(\\cos\\tfrac{\\pi}{2}+i\\sin\\tfrac{\\pi}{2}\\big)=4i\\).</p>' }
+    ])
+},
+{
+  tag:"DE MOIVRE E RADICI",
+  title:"Formula di De Moivre e radici <em>n-esime</em>",
+  nav:"De Moivre",
+  body:
+    '<p>Applicando ripetutamente la formula del prodotto a \\(z\\) moltiplicato per sé stesso \\(n\\) volte, si ottiene un risultato che semplifica enormemente il calcolo delle potenze.</p>' +
+    '<div class="cb"><div class="cb-label">Teorema — formula di De Moivre</div><div class="math-block hero-formula">\\[ z^n=\\big[\\rho(\\cos\\theta+i\\sin\\theta)\\big]^n=\\rho^n\\big[\\cos(n\\theta)+i\\sin(n\\theta)\\big] \\]</div><p><strong>Dimostrazione (per induzione).</strong> Per \\(n=1\\) è banale. Supposta vera per \\(n=k\\), per \\(n=k+1\\): \\(z^{k+1}=z^k\\cdot z=\\rho^k[\\cos(k\\theta)+i\\sin(k\\theta)]\\cdot\\rho(\\cos\\theta+i\\sin\\theta)\\), che per la formula del prodotto è \\(\\rho^{k+1}[\\cos((k+1)\\theta)+i\\sin((k+1)\\theta)]\\). \\(\\blacksquare\\)</p></div>' +
+    '<p>Invertendo il problema — cercare \\(w\\) tale che \\(w^n=z\\) — si arriva al teorema più sorprendente di questa lezione: un numero complesso ha esattamente <strong>\\(n\\) radici \\(n\\)-esime distinte</strong>, non una sola come nei reali.</p>' +
+    '<div class="cb purple"><div class="cb-label">Teorema — radici n-esime</div><p>Se \\(z=\\rho(\\cos\\theta+i\\sin\\theta)\\ne0\\), le sue \\(n\\) radici \\(n\\)-esime sono:</p><div class="math-block hero-formula">\\[ z_k=\\sqrt[n]{\\rho}\\left(\\cos\\frac{\\theta+2k\\pi}{n}+i\\sin\\frac{\\theta+2k\\pi}{n}\\right), \\qquad k=0,1,\\dots,n-1 \\]</div><p>Sono tutte alla stessa distanza \\(\\sqrt[n]\\rho\\) dall\'origine, e i loro argomenti differiscono di \\(2\\pi/n\\): geometricamente formano i vertici di un <strong>poligono regolare di \\(n\\) lati</strong> inscritto in una circonferenza di raggio \\(\\sqrt[n]\\rho\\).</p></div>' +
+    '<div class="graph-wrap wide"><div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;">' +
+    '<div>' + rootsSvg(4) + '<p class="dim" style="text-align:center;font-size:.8rem;">Radici quarte di 1 — quadrato</p></div>' +
+    '<div>' + rootsSvg(6) + '<p class="dim" style="text-align:center;font-size:.8rem;">Radici seste di 1 — esagono</p></div>' +
+    '</div></div>' +
+    acc([
+      { t:"Esempio guidato — radici cubiche di -8", h:'<p>Scriviamo \\(z=-8\\) in forma trigonometrica: \\(\\rho=8\\), \\(\\theta=\\pi\\). Le radici cubiche hanno modulo \\(\\sqrt[3]8=2\\) e argomenti \\(\\varphi_k=\\dfrac{\\pi+2k\\pi}{3}\\) per \\(k=0,1,2\\): \\(\\varphi_0=\\tfrac{\\pi}{3}\\), \\(\\varphi_1=\\pi\\), \\(\\varphi_2=\\tfrac{5}{3}\\pi\\).</p><div class="math-block result">\\[ z_0=2\\Big(\\cos\\tfrac{\\pi}{3}+i\\sin\\tfrac{\\pi}{3}\\Big)=1+\\sqrt3 i,\\quad z_1=-2,\\quad z_2=1-\\sqrt3 i \\]</div>' },
+      { t:"Esercizio — radici quinte dell\'unità", h:'<p>Determina le 5 radici quinte di \\(z=1\\) e verifica che la loro somma è nulla (proprietà generale delle radici \\(n\\)-esime dell\'unità, per \\(n\\ge2\\): sono i vertici di un poligono regolare centrato nell\'origine).</p>' }
+    ])
+},
+{
+  tag:"FORMA ESPONENZIALE",
+  title:"Formula ed identità di <em>Eulero</em>",
+  nav:"Eulero",
+  body:
+    '<p>La <strong>prima formula di Eulero</strong> collega la funzione esponenziale, apparentemente estranea alla trigonometria, alle funzioni seno e coseno tramite l\'unità immaginaria:</p>' +
+    '<div class="cb"><div class="cb-label">Prima formula di Eulero</div><div class="math-block hero-formula">\\[ e^{i\\theta}=\\cos\\theta+i\\sin\\theta \\]</div><p style="font-size:.85rem;" class="dim">Si giustifica confrontando gli sviluppi in serie di Taylor di \\(e^x\\), \\(\\cos x\\) e \\(\\sin x\\), sostituendo \\(x=i\\theta\\) e usando \\(i^2=-1,\\ i^3=-i,\\ i^4=1,\\dots\\): i termini con potenze pari di \\(i\\) ricostruiscono \\(\\cos\\theta\\), quelli con potenze dispari (moltiplicati per \\(i\\)) ricostruiscono \\(i\\sin\\theta\\).</p></div>' +
+    '<p>Ogni numero complesso si scrive dunque anche in <strong>forma esponenziale</strong>: \\(z=\\rho(\\cos\\theta+i\\sin\\theta)=\\rho e^{i\\theta}\\). In questa notazione, prodotto, quoziente e potenza diventano manipolazioni di esponenti, come per i numeri reali:</p>' +
+    '<div class="math-block">\\[ z\\cdot w=\\rho_1\\rho_2\\,e^{i(\\theta_1+\\theta_2)} \\qquad \\frac{z}{w}=\\frac{\\rho_1}{\\rho_2}\\,e^{i(\\theta_1-\\theta_2)} \\qquad z^n=\\rho^n\\,e^{in\\theta} \\]</div>' +
+    '<div class="cb success"><div class="cb-label">L\'identità di Eulero</div><p>Ponendo \\(\\theta=\\pi\\) nella formula di Eulero: \\(e^{i\\pi}=\\cos\\pi+i\\sin\\pi=-1\\), cioè:</p><div class="math-block hero-formula">\\[ e^{i\\pi}+1=0 \\]</div><p>Spesso definita "la formula più bella della matematica": lega in un\'unica uguaglianza le cinque costanti fondamentali \\(e,\\ i,\\ \\pi,\\ 1,\\ 0\\) e le tre operazioni di somma, prodotto e potenza.</p></div>' +
+    acc([
+      { t:"Esempio — operazioni in forma esponenziale", h:'<p>\\(\\big(5e^{i\\pi/2}\\big)\\cdot\\big(\\tfrac25 e^{i\\pi/3}\\big)=2\\,e^{i(\\pi/2+\\pi/3)}=2\\,e^{i5\\pi/6}\\).</p><p>\\(\\big(2e^{i2\\pi/5}\\big)^{10}=2^{10}e^{i4\\pi}=1024\\,e^{i0}=1024\\) (poiché \\(e^{i4\\pi}=\\cos4\\pi+i\\sin4\\pi=1\\)).</p>' },
+      { t:"Esercizio — scrivi in forma esponenziale", h:'<p>Scrivi \\(z=3-\\sqrt3 i\\) in forma esponenziale. <em>Traccia</em>: \\(\\rho=\\sqrt{9+3}=2\\sqrt3\\); il punto è nel IV quadrante, \\(\\theta=2\\pi-\\tfrac{\\pi}{6}=\\tfrac{11}{6}\\pi\\). Risultato: \\(z=2\\sqrt3\\,e^{i\\,11\\pi/6}\\).</p>' }
+    ])
+},
+{
+  tag:"EQUAZIONI",
+  title:"Equazioni in campo <em>complesso</em>",
+  nav:"Equazioni",
+  body:
+    '<p>Nel campo \\(\\mathbb{C}\\), a differenza di \\(\\mathbb{R}\\), <strong>ogni</strong> equazione di secondo grado ammette soluzione — anche quando il discriminante è negativo.</p>' +
+    '<div class="cb"><div class="cb-label">Equazioni di secondo grado, Δ &lt; 0</div><p>Data \\(ax^2+bx+c=0\\) con \\(\\Delta=b^2-4ac<0\\), scrivendo \\(\\Delta=-|\\Delta|\\) e osservando che \\(\\sqrt{-|\\Delta|}=\\sqrt{|\\Delta|}\\,i\\) (perché \\((\\sqrt{|\\Delta|}\\,i)^2=|\\Delta|\\cdot i^2=-|\\Delta|=\\Delta\\)), la formula risolutiva si estende naturalmente:</p><div class="math-block hero-formula">\\[ x_{1,2}=\\frac{-b\\pm i\\sqrt{|\\Delta|}}{2a} \\]</div><p>Le due soluzioni sono numeri complessi coniugati: questo non è un caso, ma un fatto generale per equazioni a coefficienti reali.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Perché sempre coniugate</div><p>Se \\(z\\) è radice di un polinomio a coefficienti reali, coniugando l\'intera equazione (e usando che il coniugato di una somma/prodotto è la somma/prodotto dei coniugati) si trova che anche \\(\\bar z\\) è radice. Le radici complesse non reali compaiono sempre <strong>in coppie coniugate</strong>.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Teorema fondamentale dell\'algebra (cenno)</div><p>Ogni polinomio di grado \\(n\\ge1\\) a coefficienti complessi ha esattamente \\(n\\) radici in \\(\\mathbb{C}\\), contate con la loro molteplicità. È il motivo per cui \\(\\mathbb{C}\\) si dice <strong>algebricamente chiuso</strong>: a differenza di \\(\\mathbb{R}\\), non serve ampliarlo ulteriormente per risolvere equazioni polinomiali.</p></div>' +
+    acc([
+      { t:"Esempio — equazione di secondo grado", h:'<p>Risolvi \\(x^2-4x+13=0\\): \\(\\Delta=16-52=-36\\). Quindi \\(x_{1,2}=\\dfrac{4\\pm\\sqrt{-36}}{2}=\\dfrac{4\\pm6i}{2}=2\\pm3i\\). Verifica: le due radici sono coniugate, come previsto.</p>' },
+      { t:"Esempio — equazione binomia di grado superiore", h:'<p>Risolvi \\(x^4=-16\\) (equazione binomia): equivale a trovare le radici quarte di \\(z=-16=16(\\cos\\pi+i\\sin\\pi)\\). Modulo \\(\\sqrt[4]{16}=2\\), argomenti \\(\\varphi_k=\\dfrac{\\pi+2k\\pi}{4}\\), \\(k=0,1,2,3\\): si ottengono 4 soluzioni distinte, a due a due coniugate.</p>' }
+    ])
+},
+{
+  tag:"APPLICAZIONI E SINTESI",
+  title:"Dove vivono i numeri <em>complessi</em>",
+  nav:"Applicazioni",
+  body:
+    '<p>I numeri complessi non restano confinati all\'algebra: sono lo strumento naturale in diversi campi della scienza e della tecnologia.</p>' +
+    '<div class="cb"><div class="cb-label">Elettrotecnica — corrente alternata</div><p>Tensione e corrente sinusoidali si rappresentano come \\(V(t)=V_0e^{i\\omega t}\\): moltiplicare per un\'<strong>impedenza complessa</strong> \\(Z=R+iX\\) codifica insieme ampiezza e sfasamento, trasformando equazioni differenziali in semplice algebra.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Meccanica quantistica</div><p>La funzione d\'onda \\(\\psi(x,t)\\) che descrive lo stato di una particella è, per costruzione, a valori complessi: la probabilità di trovare la particella in una regione si ottiene da \\(|\\psi|^2\\), il modulo quadro.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Frattali</div><p>L\'insieme di Mandelbrot nasce iterando \\(z_{n+1}=z_n^2+c\\) nel piano complesso: la semplicità della formula (una sola moltiplicazione e una somma di numeri complessi) genera una delle figure più intricate della matematica.</p></div>' +
+    '<h3>Mappa dei metodi</h3>' +
+    '<table class="ct"><tr><th>Forma</th><th>Utile per</th></tr>' +
+    '<tr><td>Algebrica \\(a+bi\\)</td><td>somma, sottrazione</td></tr>' +
+    '<tr><td>Trigonometrica \\(\\rho(\\cos\\theta+i\\sin\\theta)\\)</td><td>prodotto, quoziente, potenza (De Moivre)</td></tr>' +
+    '<tr><td>Esponenziale \\(\\rho e^{i\\theta}\\)</td><td>stesse operazioni, notazione più compatta</td></tr></table>' +
+    acc([
+      { t:"Problema 1 — dalla trigonometrica alle radici", h:'<p>Determina le radici cubiche di \\(z=8i\\) e rappresentale nel piano di Argand-Gauss: sono i vertici di quale poligono?</p>' },
+      { t:"Problema 2 — equazione di secondo grado", h:'<p>Risolvi in \\(\\mathbb{C}\\) l\'equazione \\(2x^2+2x+1=0\\) e verifica che le soluzioni sono coniugate.</p>' },
+      { t:"Problema 3 — dimostrazione", h:'<p>Dimostra che, per ogni \\(z\\in\\mathbb{C}\\), \\(z+\\bar z=2\\operatorname{Re}(z)\\) e \\(z-\\bar z=2i\\operatorname{Im}(z)\\).</p>' }
+    ])
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>
