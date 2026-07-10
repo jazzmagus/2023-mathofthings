@@ -17,8 +17,8 @@ image:
   preview_only: false
 ---
 
-> `fas:QuoteLeft` There are three kinds of lies: lies, damned lies, and statistics.
-> — <cite>attribuita a Mark Twain / Benjamin Disraeli</cite>
+><i class="fa-solid fa-quote-left"></i> There are three kinds of lies: lies, damned lies, and statistics. <i class="fa-solid fa-quote-right"></i>
+><br>&mdash; <cite>attribuita a Mark Twain / Benjamin Disraeli</cite>
 
 ## Il marketing scommette che tu non controlli i conti
 
