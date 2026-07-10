@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento — Il Calcolo Integrale</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Il Calcolo Integrale · avanzato</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+{
+  tag:"FONDAMENTI",
+  title:"Cos'è una <em>primitiva</em>",
+  nav:"Primitive",
+  body:
+    '<p>Finora abbiamo imparato a partire da una funzione \\(f(x)\\) e a trovarne la <strong>derivata</strong> \\(f\'(x)\\). L\'integrale nasce dalla domanda opposta: data una funzione \\(f(x)\\), esiste una funzione \\(F(x)\\) la cui derivata sia proprio \\(f(x)\\)?</p>' +
+    '<div class="cb"><div class="cb-label">Definizione</div><p>Una funzione \\(F(x)\\) si dice <strong>primitiva</strong> (o antiderivata) di \\(f(x)\\) su un intervallo se, per ogni \\(x\\) dell\'intervallo:</p><div class="math-block hero-formula">\\[ F\'(x) = f(x) \\]</div></div>' +
+    '<h3>Un esempio</h3>' +
+    '<p>Se \\(f(x) = 2x\\), allora \\(F(x) = x^2\\) è una primitiva, perché \\((x^2)\' = 2x\\). Ma non è l\'unica: anche \\(x^2 + 5\\) e \\(x^2 - 100\\) vanno bene, perché la derivata di una costante è zero.</p>' +
+    '<div class="cb warn"><div class="cb-label">Infinite primitive</div><p>Se \\(F(x)\\) è una primitiva di \\(f(x)\\), allora <strong>ogni</strong> funzione della forma \\(F(x) + c\\), con \\(c \\in \\mathbb{R}\\) costante, è anch\'essa una primitiva. Si dimostra che non ce ne sono altre: tutte le primitive di \\(f\\) differiscono per una costante.</p></div>' +
+    '<p>Geometricamente, i grafici di tutte le primitive di una stessa funzione sono <strong>traslazioni verticali</strong> l\'uno dell\'altro: hanno, punto per punto, la stessa pendenza.</p>' +
+    acc([
+      { t:"Esempio 1 — Verificare una primitiva", h:'<p>Verifica che \\(F(x) = \\dfrac{x^3}{3}\\) è una primitiva di \\(f(x) = x^2\\).</p><p>Basta derivare \\(F\\):</p><div class="math-block result">\\[ F\'(x) = \\frac{3x^2}{3} = x^2 = f(x) \\quad \\checkmark \\]</div>' },
+      { t:"Esempio 2 — Famiglia di primitive", h:'<p>Trova tutte le primitive di \\(f(x) = \\cos x\\).</p><p>Sappiamo che \\((\\sin x)\' = \\cos x\\), quindi:</p><div class="math-block result">\\[ F(x) = \\sin x + c, \\qquad c \\in \\mathbb{R} \\]</div><p class="dim">Una famiglia infinita di curve, tutte "parallele" tra loro.</p>' }
+    ])
+},
+{
+  tag:"NOTAZIONE",
+  title:"L'integrale <em>indefinito</em>",
+  nav:"Indefinito",
+  body:
+    '<p>L\'insieme di <strong>tutte</strong> le primitive di \\(f(x)\\) si chiama <strong>integrale indefinito</strong> di \\(f\\), e si indica con il simbolo \\(\\int\\) (una "S" allungata, dovuta a Leibniz, che ricorda una somma).</p>' +
+    '<div class="cb"><div class="cb-label">Notazione</div><div class="math-block hero-formula">\\[ \\int f(x)\\, dx = F(x) + c \\]</div><p>dove \\(F\'(x) = f(x)\\) e \\(c\\) è detta <strong>costante di integrazione</strong>. Il simbolo \\(dx\\) indica rispetto a quale variabile stiamo integrando.</p></div>' +
+    '<h3>Linearità dell\'integrale</h3>' +
+    '<p>L\'operazione di integrazione, come la derivazione, è <strong>lineare</strong>:</p>' +
+    '<div class="math-block hero-formula">\\[ \\int \\big[a\\,f(x) + b\\,g(x)\\big]\\, dx = a\\int f(x)\\,dx + b\\int g(x)\\,dx \\tag{L} \\]</div>' +
+    '<p>Questo significa che possiamo integrare "termine a termine" una somma, e portare fuori dall\'integrale le costanti moltiplicative — esattamente come per le derivate.</p>' +
+    '<div class="cb tip"><div class="cb-label">Integrazione come operazione inversa</div><p>Integrare e derivare sono operazioni <strong>inverse</strong> l\'una dell\'altra: \\(\\dfrac{d}{dx}\\displaystyle\\int f(x)\\,dx = f(x)\\). È per questo che, per ogni regola di derivazione, esiste una corrispondente "regola letta al contrario" per l\'integrazione.</p></div>' +
+    acc([
+      { t:"Esempio svolto — Applicare la linearità", h:'<p>Calcola \\(\\displaystyle\\int (3x^2 - 4\\sin x)\\,dx\\).</p><p>Per la linearità (L), integriamo separatamente:</p><div class="math-block result">\\[ \\int 3x^2\\,dx - 4\\int \\sin x\\,dx = x^3 + 4\\cos x + c \\]</div>' }
+    ])
+},
+{
+  tag:"TABELLE",
+  title:"Integrali <em>immediati</em>",
+  nav:"Immediati",
+  body:
+    '<p>Rovesciando le regole di derivazione delle funzioni elementari, otteniamo una tabella di <strong>integrali immediati</strong> — da imparare a riconoscere a colpo d\'occhio.</p>' +
+    '<table class="ct"><tr><th>Funzione</th><th>Integrale</th></tr>' +
+    '<tr><td>\\(x^n\\) (\\(n \\neq -1\\))</td><td>\\(\\dfrac{x^{n+1}}{n+1} + c\\)</td></tr>' +
+    '<tr><td>\\(\\dfrac{1}{x}\\)</td><td>\\(\\ln|x| + c\\)</td></tr>' +
+    '<tr><td>\\(e^x\\)</td><td>\\(e^x + c\\)</td></tr>' +
+    '<tr><td>\\(a^x\\) (\\(a>0,\\ a\\neq1\\))</td><td>\\(\\dfrac{a^x}{\\ln a} + c\\)</td></tr>' +
+    '<tr><td>\\(\\sin x\\)</td><td>\\(-\\cos x + c\\)</td></tr>' +
+    '<tr><td>\\(\\cos x\\)</td><td>\\(\\sin x + c\\)</td></tr>' +
+    '<tr><td>\\(\\dfrac{1}{\\cos^2 x}\\)</td><td>\\(\\tan x + c\\)</td></tr>' +
+    '<tr><td>\\(\\dfrac{1}{1+x^2}\\)</td><td>\\(\\arctan x + c\\)</td></tr>' +
+    '<tr><td>\\(\\dfrac{1}{\\sqrt{1-x^2}}\\)</td><td>\\(\\arcsin x + c\\)</td></tr></table>' +
+    '<div class="cb warn"><div class="cb-label">Il caso n = −1</div><p>La regola della potenza \\(\\int x^n dx = \\frac{x^{n+1}}{n+1}+c\\) <strong>non funziona</strong> per \\(n=-1\\), perché si dividerebbe per zero. È proprio questo il caso "mancante" che introduce il logaritmo: \\(\\int \\frac1x dx = \\ln|x|+c\\).</p></div>' +
+    '<h3>Integrali quasi immediati</h3>' +
+    '<p>Molte funzioni composte si integrano riconoscendo che compare la derivata di una funzione interna:</p>' +
+    '<div class="math-block hero-formula">\\[ \\int f\'(x) \\cdot \\big[f(x)\\big]^n \\, dx = \\frac{[f(x)]^{n+1}}{n+1} + c \\qquad \\int \\frac{f\'(x)}{f(x)}\\,dx = \\ln|f(x)| + c \\]</div>' +
+    acc([
+      { t:"Esempio 1 — Regola della potenza", h:'<p>Calcola \\(\\displaystyle\\int x^4\\,dx\\).</p><div class="math-block result">\\[ \\int x^4\\,dx = \\frac{x^5}{5} + c \\]</div>' },
+      { t:"Esempio 2 — Riconoscere una derivata interna", h:'<p>Calcola \\(\\displaystyle\\int \\frac{2x}{x^2+1}\\,dx\\).</p><p>Notiamo che \\(2x\\) è proprio la derivata di \\(x^2+1\\): siamo nel caso \\(\\int \\frac{f\'(x)}{f(x)}dx\\).</p><div class="math-block result">\\[ \\int \\frac{2x}{x^2+1}\\,dx = \\ln|x^2+1| + c \\]</div>' },
+      { t:"Esempio 3 — Radicali come potenze", h:'<p>Calcola \\(\\displaystyle\\int \\sqrt{x}\\,dx\\).</p><p>Riscriviamo \\(\\sqrt{x} = x^{1/2}\\):</p><div class="math-block result">\\[ \\int x^{1/2}\\,dx = \\frac{x^{3/2}}{3/2} + c = \\frac{2}{3}x\\sqrt{x} + c \\]</div>' }
+    ])
+},
+{
+  tag:"METODI",
+  title:"Integrazione per <em>sostituzione</em>",
+  nav:"Sostituzione",
+  body:
+    '<p>Quando l\'integrando è una funzione composta, spesso conviene <strong>cambiare variabile</strong>: si introduce \\(t = g(x)\\) per trasformare l\'integrale in uno più semplice, immediato nella nuova variabile.</p>' +
+    '<div class="cb"><div class="cb-label">Il metodo</div><p>Posto \\(t = g(x)\\), si ha \\(dt = g\'(x)\\,dx\\), e quindi:</p><div class="math-block hero-formula">\\[ \\int f(g(x))\\cdot g\'(x)\\, dx = \\int f(t)\\, dt \\tag{Sub} \\]</div></div>' +
+    '<p>Dopo aver integrato in \\(t\\), si <strong>ritorna alla variabile originale</strong> \\(x\\) sostituendo \\(t = g(x)\\) nel risultato.</p>' +
+    '<div class="cb tip"><div class="cb-label">Quando conviene</div><p>Il metodo funziona bene quando riconosci una funzione "interna" \\(g(x)\\) e la sua derivata \\(g\'(x)\\) (a meno di costanti moltiplicative) compare nell\'integrando.</p></div>' +
+    acc([
+      { t:"Esempio svolto 1", h:'<p>Calcola \\(\\displaystyle\\int (3x+1)^5\\,dx\\).</p><p>Poniamo \\(t = 3x+1\\), da cui \\(dt = 3\\,dx\\), cioè \\(dx = \\dfrac{dt}{3}\\):</p><div class="math-block">\\[ \\int t^5 \\cdot \\frac{dt}{3} = \\frac13 \\cdot \\frac{t^6}{6} + c = \\frac{t^6}{18} + c \\]</div><p>Tornando a \\(x\\):</p><div class="math-block result">\\[ \\int (3x+1)^5\\,dx = \\frac{(3x+1)^6}{18} + c \\]</div>' },
+      { t:"Esempio svolto 2", h:'<p>Calcola \\(\\displaystyle\\int x\\, e^{x^2}\\,dx\\).</p><p>Poniamo \\(t = x^2\\), da cui \\(dt = 2x\\,dx\\), cioè \\(x\\,dx = \\dfrac{dt}{2}\\):</p><div class="math-block">\\[ \\int e^{t}\\cdot \\frac{dt}{2} = \\frac12 e^{t} + c \\]</div><div class="math-block result">\\[ \\int x\\,e^{x^2}\\,dx = \\frac12 e^{x^2} + c \\]</div>' }
+    ])
+},
+{
+  tag:"METODI",
+  title:"Integrazione per <em>parti</em>",
+  nav:"Per parti",
+  body:
+    '<p>Quando l\'integrando è il <strong>prodotto</strong> di due funzioni di natura diversa (per esempio un polinomio e un esponenziale), il metodo di sostituzione spesso non basta. Serve l\'<strong>integrazione per parti</strong>, che discende dalla regola di derivazione del prodotto.</p>' +
+    '<div class="cb"><div class="cb-label">Da dove viene</div><p>Dalla regola \\((uv)\' = u\'v + uv\'\\), integrando entrambi i membri e riordinando, si ottiene:</p><div class="math-block hero-formula">\\[ \\int f(x)\\,g\'(x)\\,dx = f(x)\\,g(x) - \\int f\'(x)\\,g(x)\\,dx \\tag{P} \\]</div></div>' +
+    '<p>L\'idea è scegliere quale fattore chiamare \\(f(x)\\) (il "fattore finito", da derivare) e quale \\(g\'(x)\\) (il "fattore differenziale", da integrare), in modo che il nuovo integrale a destra sia <strong>più semplice</strong> di quello di partenza.</p>' +
+    '<div class="cb warn"><div class="cb-label">Come scegliere f e g\'</div><p>Una guida pratica (non infallibile) è l\'acronimo <strong>LIATE</strong>: preferisci come \\(f(x)\\) (da derivare) le funzioni nell\'ordine <strong>L</strong>ogaritmiche, <strong>I</strong>nverse trigonometriche, <strong>A</strong>lgebriche (polinomi), <strong>T</strong>rigonometriche, <strong>E</strong>sponenziali — perché derivandole spesso si semplificano.</p></div>' +
+    acc([
+      { t:"Esempio svolto 1 — Polinomio per esponenziale", h:'<p>Calcola \\(\\displaystyle\\int x\\,e^x\\,dx\\).</p><p>Scegliamo \\(f(x)=x\\) (si semplifica derivando) e \\(g\'(x) = e^x\\):</p><p>\\(f\'(x) = 1\\), \\(g(x) = e^x\\).</p><div class="math-block">\\[ \\int x\\,e^x\\,dx = x\\,e^x - \\int 1 \\cdot e^x\\,dx = x\\,e^x - e^x + c \\]</div><div class="math-block result">\\[ \\int x\\,e^x\\,dx = (x-1)e^x + c \\]</div>' },
+      { t:"Esempio svolto 2 — Il logaritmo", h:'<p>Calcola \\(\\displaystyle\\int \\ln x\\,dx\\).</p><p>Trucco classico: scriviamo \\(\\ln x = 1 \\cdot \\ln x\\), con \\(f(x) = \\ln x\\) e \\(g\'(x) = 1\\).</p><p>\\(f\'(x) = \\frac1x\\), \\(g(x) = x\\).</p><div class="math-block">\\[ \\int \\ln x\\,dx = x\\ln x - \\int x \\cdot \\frac1x\\,dx = x\\ln x - \\int 1\\,dx \\]</div><div class="math-block result">\\[ \\int \\ln x\\,dx = x\\ln x - x + c \\]</div>' }
+    ])
+},
+{
+  tag:"METODI",
+  title:"Funzioni razionali <em>fratte</em>",
+  nav:"Fratte",
+  body:
+    '<p>Un\'altra famiglia importante sono gli integrali di funzioni razionali fratte, del tipo \\(\\dfrac{N(x)}{D(x)}\\), con \\(N\\) e \\(D\\) polinomi.</p>' +
+    '<div class="cb"><div class="cb-label">Passo 1 — controllare i gradi</div><p>Se il grado di \\(N(x)\\) è <strong>maggiore o uguale</strong> al grado di \\(D(x)\\), si esegue prima la <strong>divisione polinomiale</strong>, ottenendo un quoziente più un resto di grado inferiore al denominatore.</p></div>' +
+    '<h3>Denominatore di secondo grado: i tre casi</h3>' +
+    '<p>Per \\(\\displaystyle\\int \\frac{N(x)}{ax^2+bx+c}\\,dx\\), tutto dipende dal segno del discriminante \\(\\Delta\\) del denominatore:</p>' +
+    '<table class="ct"><tr><th>Discriminante</th><th>Denominatore</th><th>Strategia</th></tr>' +
+    '<tr><td>\\(\\Delta > 0\\)</td><td>due radici reali \\(x_1, x_2\\)</td><td>si scompone in fratti semplici: \\(\\dfrac{A}{x-x_1} + \\dfrac{B}{x-x_2}\\)</td></tr>' +
+    '<tr><td>\\(\\Delta = 0\\)</td><td>radice doppia \\(x_0\\)</td><td>si scompone come \\(\\dfrac{A}{x-x_0} + \\dfrac{B}{(x-x_0)^2}\\)</td></tr>' +
+    '<tr><td>\\(\\Delta < 0\\)</td><td>nessuna radice reale</td><td>si riconduce alla forma dell\'arcotangente, completando il quadrato</td></tr></table>' +
+    '<div class="cb tip"><div class="cb-label">Fratti semplici</div><p>Trovare le costanti \\(A\\), \\(B\\) (dette <strong>residui</strong>) si fa imponendo che la somma delle frazioni semplici ricostruisca, dopo aver fatto il denominatore comune, il numeratore \\(N(x)\\) di partenza — un sistema lineare nelle incognite \\(A, B\\).</p></div>' +
+    acc([
+      { t:"Esempio svolto — Δ > 0, radici reali distinte", h:'<p>Calcola \\(\\displaystyle\\int \\frac{1}{x^2-1}\\,dx\\).</p><p>Il denominatore si scompone: \\(x^2-1=(x-1)(x+1)\\). Cerchiamo \\(A,B\\) tali che:</p><div class="math-block">\\[ \\frac{1}{(x-1)(x+1)} = \\frac{A}{x-1}+\\frac{B}{x+1} \\]</div><p>Si trova \\(A=\\frac12\\), \\(B=-\\frac12\\). Quindi:</p><div class="math-block result">\\[ \\int \\frac{1}{x^2-1}\\,dx = \\frac12\\ln|x-1| - \\frac12\\ln|x+1| + c \\]</div>' },
+      { t:"Esempio svolto — Δ < 0, forma arcotangente", h:'<p>Calcola \\(\\displaystyle\\int \\frac{1}{x^2+4}\\,dx\\).</p><p>Il denominatore non ha radici reali. Riconduciamoci alla forma nota raccogliendo 4:</p><div class="math-block">\\[ \\int \\frac{1}{4\\left(\\frac{x^2}{4}+1\\right)}dx = \\frac14\\int \\frac{1}{\\left(\\frac{x}{2}\\right)^2+1}dx \\]</div><p>Con la sostituzione \\(t=x/2\\):</p><div class="math-block result">\\[ \\int \\frac{1}{x^2+4}\\,dx = \\frac12\\arctan\\!\\left(\\frac{x}{2}\\right) + c \\]</div>' }
+    ])
+},
+{
+  tag:"DEFINITO",
+  title:"L'integrale <em>definito</em>",
+  nav:"Definito",
+  body:
+    '<p>Cambiamo completamente prospettiva. Vogliamo calcolare l\'<strong>area</strong> della regione di piano compresa tra il grafico di \\(f(x) \\geq 0\\), l\'asse \\(x\\), e le rette verticali \\(x=a\\) e \\(x=b\\).</p>' +
+    '<div class="cb"><div class="cb-label">L\'idea di Riemann</div><p>Dividiamo l\'intervallo \\([a,b]\\) in \\(n\\) sottointervalli e approssimiamo l\'area con la somma delle aree di tanti <strong>rettangolini</strong>, di base \\(\\Delta x = \\frac{b-a}{n}\\) e altezza pari al valore della funzione:</p><div class="math-block hero-formula">\\[ S_n = \\sum_{i=1}^{n} f(x_i)\\,\\Delta x \\]</div></div>' +
+    '<p>Al crescere di \\(n\\) i rettangoli si affinano, l\'approssimazione migliora, e la somma tende a un valore limite: è questo il significato dell\'<strong>integrale definito</strong>.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione</div><div class="math-block hero-formula">\\[ \\int_a^b f(x)\\,dx = \\lim_{n \\to \\infty} S_n \\]</div><p>Si legge: "integrale da \\(a\\) a \\(b\\) di \\(f(x)\\) in \\(dx\\)". I numeri \\(a\\) e \\(b\\) si dicono <strong>estremi di integrazione</strong>.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Area con segno</div><p>Se \\(f(x) < 0\\) in una parte dell\'intervallo, i rettangoli in quella zona contribuiscono <strong>negativamente</strong> alla somma. L\'integrale definito misura quindi un\'<strong>area con segno</strong>: positiva sopra l\'asse \\(x\\), negativa sotto.</p></div>' +
+    '<h3>Proprietà principali</h3>' +
+    '<table class="ct"><tr><th>Proprietà</th><th>Formula</th></tr>' +
+    '<tr><td>Inversione degli estremi</td><td>\\(\\int_a^b f\\,dx = -\\int_b^a f\\,dx\\)</td></tr>' +
+    '<tr><td>Estremi coincidenti</td><td>\\(\\int_a^a f\\,dx = 0\\)</td></tr>' +
+    '<tr><td>Additività</td><td>\\(\\int_a^b f\\,dx = \\int_a^c f\\,dx + \\int_c^b f\\,dx\\)</td></tr>' +
+    '<tr><td>Linearità</td><td>\\(\\int_a^b [\\alpha f + \\beta g]\\,dx = \\alpha\\int_a^b f\\,dx + \\beta \\int_a^b g\\,dx\\)</td></tr></table>' +
+    acc([
+      { t:"Osservazione — Perché il simbolo ∫", h:'<p>Il simbolo \\(\\int\\) è, storicamente, una <strong>S allungata</strong>: ricorda che l\'integrale è, nella sua origine, una <strong>somma</strong> (Sum) — la somma delle infinite aree infinitesime dei rettangolini, quando \\(n \\to \\infty\\) e \\(\\Delta x \\to 0\\).</p>' }
+    ])
+},
+{
+  tag:"TEOREMA",
+  title:"Il teorema <em>fondamentale</em> del calcolo",
+  nav:"TFC",
+  body:
+    '<p>Calcolare direttamente il limite delle somme di Riemann è, in generale, molto laborioso. Il <strong>teorema fondamentale del calcolo integrale</strong> collega l\'integrale definito alle primitive, trasformando un problema di limiti in un semplice calcolo algebrico.</p>' +
+    '<div class="cb success"><div class="cb-label">Teorema fondamentale del calcolo (Torricelli–Barrow)</div><p>Se \\(f(x)\\) è continua su \\([a,b]\\) e \\(F(x)\\) è una sua primitiva qualunque, allora:</p><div class="math-block hero-formula">\\[ \\int_a^b f(x)\\,dx = F(b) - F(a) \\tag{TFC} \\]</div></div>' +
+    '<p>La quantità \\(F(b)-F(a)\\) si indica spesso con la notazione \\(\\big[F(x)\\big]_a^b\\).</p>' +
+    '<div class="cb tip"><div class="cb-label">Perché è "fondamentale"</div><p>Questo teorema è il ponte che unisce le due grandi idee dell\'analisi: la <strong>derivata</strong> (variazione istantanea, il problema della tangente) e l\'<strong>integrale</strong> (area, il problema della somma). Sono, in un senso preciso, operazioni <strong>inverse</strong> l\'una dell\'altra.</p></div>' +
+    '<div class="cb"><div class="cb-label">Perché la costante c non conta</div><p>Se al posto di \\(F(x)\\) usassimo \\(F(x)+c\\), otterremmo \\(\\big[F(b)+c\\big] - \\big[F(a)+c\\big] = F(b)-F(a)\\): la costante <strong>si cancella sempre</strong>. Per questo, nel calcolo di un integrale definito, si può scegliere \\(c=0\\) e usare una primitiva qualsiasi.</p></div>' +
+    acc([
+      { t:"Esempio svolto 1", h:'<p>Calcola \\(\\displaystyle\\int_0^2 x^2\\,dx\\).</p><p>Una primitiva di \\(x^2\\) è \\(F(x)=\\dfrac{x^3}{3}\\). Applichiamo il TFC:</p><div class="math-block">\\[ \\int_0^2 x^2\\,dx = \\left[\\frac{x^3}{3}\\right]_0^2 = \\frac{8}{3} - 0 \\]</div><div class="math-block result">\\[ \\int_0^2 x^2\\,dx = \\frac83 \\]</div>' },
+      { t:"Esempio svolto 2 — Area con segno", h:'<p>Calcola \\(\\displaystyle\\int_0^{2\\pi} \\sin x\\,dx\\).</p><p>Una primitiva è \\(F(x)=-\\cos x\\):</p><div class="math-block">\\[ \\big[-\\cos x\\big]_0^{2\\pi} = -\\cos(2\\pi) - (-\\cos 0) = -1-(-1) \\]</div><div class="math-block result">\\[ \\int_0^{2\\pi} \\sin x\\,dx = 0 \\]</div><p class="dim">Il risultato è zero perché l\'area "positiva" sopra l\'asse (primo semiperiodo) è uguale e opposta all\'area "negativa" sotto l\'asse (secondo semiperiodo): si compensano esattamente.</p>' }
+    ])
+},
+{
+  tag:"APPLICAZIONI",
+  title:"Aree e <em>volumi</em>",
+  nav:"Applicazioni",
+  body:
+    '<p>Il calcolo integrale è uno strumento potentissimo per misurare grandezze geometriche che, con la sola geometria elementare, sarebbero fuori portata.</p>' +
+    '<h3>Area tra due curve</h3>' +
+    '<p>Se \\(f(x) \\geq g(x)\\) su \\([a,b]\\), l\'area della regione compresa tra i due grafici è:</p>' +
+    '<div class="math-block hero-formula">\\[ A = \\int_a^b \\big[f(x) - g(x)\\big]\\,dx \\tag{Area} \\]</div>' +
+    '<div class="cb warn"><div class="cb-label">Se le curve si incrociano</div><p>Se \\(f(x)-g(x)\\) cambia segno nell\'intervallo, bisogna <strong>spezzare l\'integrale</strong> nei punti di intersezione e sommare i valori assoluti delle singole aree — altrimenti le parti si cancellerebbero a vicenda.</p></div>' +
+    '<h3>Volumi di solidi di rotazione</h3>' +
+    '<p>Facendo ruotare di \\(360°\\) attorno all\'asse \\(x\\) la regione sottesa al grafico di \\(f(x) \\geq 0\\) su \\([a,b]\\), si genera un solido. Il suo volume si ottiene sommando infiniti dischi sottili di raggio \\(f(x)\\):</p>' +
+    '<div class="cb"><div class="cb-label">Metodo dei dischi</div><div class="math-block hero-formula">\\[ V = \\pi \\int_a^b \\big[f(x)\\big]^2\\, dx \\tag{Vol} \\]</div><p>Ogni "fetta" del solido, di spessore infinitesimo \\(dx\\), è un cilindro di raggio \\(f(x)\\) e area di base \\(\\pi[f(x)]^2\\): il volume è la somma (integrale) di tutte queste fettine.</p></div>' +
+    acc([
+      { t:"Esempio svolto — Area tra due parabole", h:'<p>Calcola l\'area tra \\(f(x)=4-x^2\\) e \\(g(x)=x^2-4\\).</p><p>Le curve si intersecano dove \\(4-x^2 = x^2-4\\), cioè \\(x=\\pm\\sqrt4=\\pm2\\). Su \\([-2,2]\\), \\(f(x)\\geq g(x)\\):</p><div class="math-block">\\[ A = \\int_{-2}^{2} \\big[(4-x^2)-(x^2-4)\\big]dx = \\int_{-2}^{2} (8-2x^2)\\,dx \\]</div><div class="math-block">\\[ = \\left[8x - \\frac{2x^3}{3}\\right]_{-2}^{2} = \\left(16-\\frac{16}{3}\\right)-\\left(-16+\\frac{16}{3}\\right) \\]</div><div class="math-block result">\\[ A = \\frac{64}{3} \\]</div>' },
+      { t:"Esempio svolto — Volume di una semisfera", h:'<p>Ruotando attorno all\'asse \\(x\\) il quarto di cerchio \\(f(x)=\\sqrt{r^2-x^2}\\) su \\([0,r]\\) si ottiene una semisfera di raggio \\(r\\). Verifichiamo la formula nota del volume della sfera.</p><div class="math-block">\\[ V = \\pi\\int_0^r (r^2-x^2)\\,dx = \\pi\\left[r^2 x - \\frac{x^3}{3}\\right]_0^r = \\pi\\left(r^3-\\frac{r^3}{3}\\right) \\]</div><div class="math-block result">\\[ V_{\\text{semisfera}} = \\frac{2}{3}\\pi r^3 \\quad\\Rightarrow\\quad V_{\\text{sfera}} = \\frac{4}{3}\\pi r^3 \\]</div><p class="dim">La celebre formula del volume della sfera, dimostrata rigorosamente con il calcolo integrale — non più solo "ricordata a memoria".</p>' }
+    ])
+},
+{
+  tag:"PRATICA",
+  title:"Esercizi e <em>sintesi</em>",
+  nav:"Esercizi",
+  body:
+    '<p>Mettiamo alla prova quanto visto. Prova a risolvere prima di aprire la soluzione.</p>' +
+    acc([
+      { t:"Problema 1 — Integrale immediato", h:'<p>Calcola \\(\\displaystyle\\int \\left(4x^3 - \\frac{1}{x} + e^x\\right)dx\\).</p><div class="math-block result">\\[ x^4 - \\ln|x| + e^x + c \\]</div>' },
+      { t:"Problema 2 — Sostituzione", h:'<p>Calcola \\(\\displaystyle\\int \\cos(5x)\\,dx\\).</p><p>Con \\(t=5x\\), \\(dt=5\\,dx\\):</p><div class="math-block result">\\[ \\int \\cos(5x)\\,dx = \\frac{1}{5}\\sin(5x) + c \\]</div>' },
+      { t:"Problema 3 — Per parti", h:'<p>Calcola \\(\\displaystyle\\int x^2\\,e^x\\,dx\\) (richiede due applicazioni successive del metodo per parti).</p><p>Prima applicazione (\\(f=x^2\\), \\(g\'=e^x\\)): \\(x^2e^x - 2\\displaystyle\\int x\\,e^x\\,dx\\).</p><p>Riusando il risultato già noto \\(\\int xe^x dx = (x-1)e^x+c\\):</p><div class="math-block result">\\[ \\int x^2 e^x\\,dx = (x^2-2x+2)e^x + c \\]</div>' },
+      { t:"Problema 4 — Integrale definito e area", h:'<p>Calcola l\'area sottesa a \\(f(x)=3x^2+1\\) tra \\(x=0\\) e \\(x=2\\).</p><div class="math-block">\\[ \\int_0^2 (3x^2+1)\\,dx = \\big[x^3+x\\big]_0^2 = (8+2)-0 \\]</div><div class="math-block result">\\[ A = 10 \\]</div>' },
+      { t:"Problema 5 — Sguardo avanti: integrali impropri", h:'<p>Cosa succede se uno degli estremi di integrazione è infinito, come in \\(\\displaystyle\\int_1^{+\\infty} \\frac{1}{x^2}\\,dx\\)?</p><p>Si definisce come limite: \\(\\displaystyle\\lim_{t\\to+\\infty}\\int_1^t \\frac{1}{x^2}dx = \\lim_{t\\to+\\infty}\\left[-\\frac1x\\right]_1^t = \\lim_{t\\to+\\infty}\\left(1-\\frac1t\\right)\\).</p><div class="math-block result">\\[ \\int_1^{+\\infty} \\frac{1}{x^2}\\,dx = 1 \\]</div><p class="dim">Un\'area infinitamente estesa, ma di misura <strong>finita</strong>: il ponte verso gli integrali impropri, che approfondirai all\'università.</p>' }
+    ]) +
+    '<h3>Formule da ricordare</h3>' +
+    '<table class="ct"><tr><th>Concetto</th><th>Formula</th></tr>' +
+    '<tr><td>Integrale indefinito</td><td>\\(\\int f(x)\\,dx = F(x)+c\\)</td></tr>' +
+    '<tr><td>Sostituzione</td><td>\\(\\int f(g(x))g\'(x)\\,dx = \\int f(t)\\,dt\\)</td></tr>' +
+    '<tr><td>Per parti</td><td>\\(\\int f\\,g\'\\,dx = fg - \\int f\'\\,g\\,dx\\)</td></tr>' +
+    '<tr><td>Teorema fondamentale</td><td>\\(\\int_a^b f\\,dx = F(b)-F(a)\\)</td></tr>' +
+    '<tr><td>Area tra due curve</td><td>\\(A = \\int_a^b [f-g]\\,dx\\)</td></tr>' +
+    '<tr><td>Volume di rotazione</td><td>\\(V = \\pi\\int_a^b [f(x)]^2\\,dx\\)</td></tr></table>' +
+    '<div class="cb success"><div class="cb-label">Come orientarsi</div><p>Davanti a un integrale, chiediti: è <strong>immediato</strong> o quasi (tabella)? È un <strong>prodotto</strong> di funzioni di natura diversa (per parti)? C\'è una funzione composta con la sua derivata "nascosta" (sostituzione)? È una <strong>frazione di polinomi</strong> (scomposizione in fratti semplici)? Se è definito, ricorda: prima trovi la primitiva, poi applichi il TFC.</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>
