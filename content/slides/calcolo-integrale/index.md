@@ -138,9 +138,9 @@ slides:
 <section>
   <p class="mot-kicker">la somma diventa un limite</p>
   <h2>Le somme di <em>Riemann</em></h2>
-  <p class="mot-def fragment">Divido \([a,b]\) in \(n\) parti uguali, base \(\Delta x\), e sommo le aree dei rettangoli:</p>
-  <p class="mot-result fragment">$$S_n = \sum_{i=1}^{n} f(x_i)\,\Delta x \quad\longrightarrow\quad \int_a^b f(x)\,dx$$</p>
-  <p class="mot-joke fragment">un'infinità di rettangoli infinitamente sottili — la matematica non ha paura dell'infinito</p>
+  <p class="mot-def fragment" style="font-size:0.7em">Divido \([a,b]\) in \(n\) parti uguali, base \(\Delta x\), e sommo le aree dei rettangoli:</p>
+  <img class="mot-frame fragment" src="riemann.png" alt="Somma di Riemann: rettangoli che approssimano l'area sotto la curva" style="max-height:15vh; margin:0.2em auto; display:block;">
+  <p class="mot-result fragment" style="font-size:0.7em">$$S_n = \sum_{i=1}^{n} f(x_i)\,\Delta x \quad\longrightarrow\quad \int_a^b f(x)\,dx$$</p>
 </section>
 
 <section>
@@ -159,9 +159,9 @@ slides:
 <section>
   <p class="mot-kicker">il ponte tra due mondi</p>
   <h2>Derivata e <em>integrale</em>: operazioni inverse</h2>
-  <p class="mot-def fragment">Il teorema fondamentale del calcolo collega l'integrale definito alle primitive.</p>
-  <p class="mot-result fragment">$$\int_a^b f(x)\,dx = F(b)-F(a)$$</p>
-  <p class="fragment" style="font-size:0.74em">Un limite di somme infinite, ridotto a una semplice sottrazione tra due valori di una primitiva.</p>
+  <p class="mot-def fragment" style="font-size:0.7em">Il teorema fondamentale del calcolo collega l'integrale definito alle primitive.</p>
+  <img class="mot-frame fragment" src="tfc.png" alt="Area sotto la curva tra a e b, pari a F(b) meno F(a)" style="max-height:15vh; margin:0.2em auto; display:block;">
+  <p class="mot-result fragment" style="font-size:0.68em">$$\int_a^b f(x)\,dx = F(b)-F(a)$$</p>
 </section>
 
 <section>
