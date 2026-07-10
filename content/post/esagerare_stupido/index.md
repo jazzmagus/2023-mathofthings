@@ -1,7 +1,7 @@
 ---
 title: Esagerare è stupido
 subtitle: _esagerazioni e stupidità_
-summary: Esagerazioni e stupidità
+summary: "Da 750.000 spettatori dichiarati a 48.538 contati: quando i numeri gonfiati diventano un caso di studio su come non fidarsi mai delle stime a occhio."
 authors:
 - diego fantinelli
 tags: [itis, lesson, 2022]

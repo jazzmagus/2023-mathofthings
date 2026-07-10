@@ -1,7 +1,7 @@
 ---
 title: "Il concetto di _Modello Matematico_"
 subtitle: _da Newton ad Heisemberg_
-summary: Modello Matematico
+summary: "Da Laplace a Heisenberg: come è cambiata l'idea stessa di modello matematico, e perché la probabilità non è più solo un rimedio alla nostra ignoranza."
 authors:
 - diego fantinelli
 tags: [itis, lesson, 2022]

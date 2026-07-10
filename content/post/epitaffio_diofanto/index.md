@@ -1,7 +1,7 @@
 ---
 title: "Epitaffio di _Diòfanto_"
 subtitle: _equazioni lineari intere di primo grado_
-summary: Diòfanto d'Alessandria
+summary: "L'unico indizio sulla vita di Diofanto è un indovinello scritto sulla sua tomba: un'equazione di primo grado che ne rivela l'intera biografia."
 authors:
 - diego fantinelli
 tags: [itis, lesson, 2021]

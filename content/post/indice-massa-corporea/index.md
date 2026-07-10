@@ -1,7 +1,7 @@
 ---
 title: "BMI — Indice di Massa Corporea"
 subtitle: matematica e salute
-summary: brain food
+summary: "Da un rapporto ottocentesco tra peso e altezza, uno strumento diagnostico usato ancora oggi: storia, formula e limiti del BMI."
 authors:
 - diego fantinelli
 tags: [itis, lesson, 2022]

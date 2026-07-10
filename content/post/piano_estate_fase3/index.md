@@ -1,7 +1,7 @@
 ---
 title: "_Piano Estate_ - fase 3"
 subtitle: Ripasso di matematica per le classi Seconde
-summary: some maths
+summary: "Materiali di ripasso sulla fattorizzazione polinomiale per il recupero estivo delle classi Seconde."
 authors:
 - diego fantinelli
 tags: [itis, lesson, 2021]

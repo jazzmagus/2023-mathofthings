@@ -1,7 +1,7 @@
 ---
 title: "Effetto _Dunning Kruger_"
 subtitle: _Convinzione Vs Conoscenza_
-summary: brain food
+summary: "Un rapinatore convinto che il succo di limone lo rendesse invisibile alle telecamere: la storia vera dietro il bias cognitivo più citato (e più frainteso) di internet."
 authors:
 - diego fantinelli
 tags: [itis, lesson, 2021]

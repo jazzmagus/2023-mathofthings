@@ -1,7 +1,7 @@
 ---
 title: "Il _Metodo_ di studio Cornell"
 subtitle: Un metodo per lo studio e la revisione degli appunti
-summary: Imparare a studiare... la Matematica
+summary: "Un metodo di presa d'appunti nato a Cornell negli anni '50, adattato allo studio della matematica: struttura, esempi e perché funziona meglio del semplice trascrivere."
 authors:
 - diego fantinelli
 tags: [itis, lesson, 2021]

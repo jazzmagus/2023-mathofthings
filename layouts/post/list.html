@@ -31,7 +31,7 @@
       {{ $items = $items | append (dict
           "date" .Date
           "title" .Title
-          "url" .RelPermalink
+          "url" (.Params.link_override | default .RelPermalink)
           "summary" (.Params.summary | default .Summary)
           "img" $img
       ) }}

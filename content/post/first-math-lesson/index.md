@@ -1,7 +1,7 @@
 ---
 title: "La prima _lezione_ di matematica!"
 subtitle: _"La matematica non è imparare formule a memoria, ma collegare concetti..."_
-summary: Inizio a.s. 2021-22
+summary: "Regole del gioco, materiali e organizzazione del primo giorno di matematica: la versione testuale della presentazione interattiva."
 authors:
 - diego fantinelli
 tags: [itis, lesson, 2021]
@@ -9,6 +9,7 @@ categories: []
 date: "2021-09-08T00:00:00Z"
 featured: true
 draft: true
+link_override: /slides/prima-lezione-matematica/
 
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder.
@@ -105,7 +106,7 @@ projects: []
 
 1. **`verifica scritta`**:
 
-> - [esempio verifica](./first-math-lesson.pdf)
+> - [guarda la presentazione](/slides/prima-lezione-matematica/)
 
 - verrà effettuata una verifica per ogni modulo/argomento
 

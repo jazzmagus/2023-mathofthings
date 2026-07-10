@@ -1,7 +1,7 @@
 ---
 title: "Il _dilemma_ di Monty Hall"
 subtitle: introduzione al calcolo delle probabilità
-summary: brain food
+summary: "Cambiare porta conviene davvero? Il quesito che ha diviso matematici e lettori di un giornale americano, e che ribalta l'intuizione sulla probabilità condizionata."
 authors:
 - diego fantinelli
 tags: [itis, lesson, 2022]
