@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento — Esponenziali e Logaritmi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Esponenziali e Logaritmi · avanzato</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+{
+  tag:"FONDAMENTI",
+  title:"La funzione <em>esponenziale</em>",
+  nav:"Esponenziale",
+  body:
+    '<p>Finora hai incontrato le potenze \\(a^n\\) con esponente naturale o intero. Ora l\'esponente diventa la <strong>variabile</strong>: nasce così la funzione esponenziale.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione</div><p>Fissata una base \\(a > 0\\), \\(a \\neq 1\\), la funzione esponenziale è:</p><div class="math-block hero-formula">\\[ f(x) = a^x, \\qquad x \\in \\mathbb{R} \\]</div></div>' +
+    '<p>Perché queste condizioni sulla base? Se \\(a \\leq 0\\) espressioni come \\(a^{1/2}\\) non avrebbero senso in \\(\\mathbb{R}\\); se \\(a = 1\\) la funzione sarebbe costante (\\(1^x = 1\\) sempre), perdendo ogni interesse.</p>' +
+    '<h3>Due comportamenti opposti</h3>' +
+    '<p>Il segno di \\(a-1\\) decide tutto:</p>' +
+    '<ul><li>se \\(a > 1\\): la funzione è <strong>crescente</strong> (esempio: \\(2^x\\));</li>' +
+    '<li>se \\(0 < a < 1\\): la funzione è <strong>decrescente</strong> (esempio: \\((\\tfrac12)^x\\)).</li></ul>' +
+    '<div class="cb tip"><div class="cb-label">Proprietà comuni a ogni base</div><p>Qualunque sia \\(a\\) (con \\(a>0\\), \\(a\\neq1\\)):</p><ul><li>il dominio è tutto \\(\\mathbb{R}\\);</li><li>il codominio è \\((0, +\\infty)\\): una potenza a base positiva non è mai né nulla né negativa;</li><li>il grafico passa sempre per il punto \\((0,1)\\), perché \\(a^0 = 1\\);</li><li>l\'asse \\(x\\) è un <strong>asintoto orizzontale</strong>: la curva si avvicina a 0 ma non lo tocca mai.</li></ul></div>' +
+    '<h3>Le proprietà delle potenze, ripassate</h3>' +
+    '<p>Tutto il calcolo con gli esponenziali si appoggia su queste regole, già note ma qui decisive:</p>' +
+    '<div class="math-block">\\[ a^x \\cdot a^y = a^{x+y}, \\qquad \\frac{a^x}{a^y} = a^{x-y}, \\qquad (a^x)^y = a^{xy}, \\qquad a^{-x} = \\frac{1}{a^x} \\]</div>' +
+    acc([
+      { t:"Esempio 1 — Crescita di 2^x", h:'<p>Per \\(f(x) = 2^x\\): \\(f(-2) = \\tfrac14\\), \\(f(0) = 1\\), \\(f(1) = 2\\), \\(f(3) = 8\\), \\(f(10) = 1024\\). Man mano che \\(x\\) cresce, \\(f(x)\\) esplode; per \\(x \\to -\\infty\\), \\(f(x) \\to 0^+\\).</p>' },
+      { t:"Esempio 2 — Decrescita di (1/2)^x", h:'<p>Per \\(g(x) = (\\tfrac12)^x\\): \\(g(-2) = 4\\), \\(g(0)=1\\), \\(g(2) = \\tfrac14\\). Nota che \\(g(x) = 2^{-x}\\): è il grafico di \\(2^x\\) ribaltato rispetto all\'asse \\(y\\).</p>' },
+      { t:"Applicazione — Decadimento radioattivo", h:'<p>Una sostanza radioattiva dimezza la sua massa ogni ora: se \\(m_0\\) è la massa iniziale, dopo \\(x\\) ore resta:</p><div class="math-block result">\\[ m(x) = m_0 \\cdot \\left(\\frac12\\right)^{x} \\]</div><p class="dim">Base minore di 1: la quantità decresce esponenzialmente verso 0, senza mai annullarsi del tutto (in teoria).</p>' }
+    ])
+},
+{
+  tag:"INVERSA",
+  title:"Il <em>logaritmo</em> come funzione inversa",
+  nav:"Logaritmo",
+  body:
+    '<p>La funzione esponenziale \\(f(x)=a^x\\) è <strong>iniettiva</strong> (crescente o decrescente in modo stretto), quindi invertibile. La sua inversa è il <strong>logaritmo</strong>.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione</div><p>Dati \\(a>0\\), \\(a\\neq1\\), e \\(x>0\\), il logaritmo in base \\(a\\) di \\(x\\) è l\'esponente a cui elevare \\(a\\) per ottenere \\(x\\):</p><div class="math-block hero-formula">\\[ y = \\log_a x \\quad \\Longleftrightarrow \\quad a^y = x \\]</div></div>' +
+    '<p>Le due scritture sono due modi di dire la stessa cosa. Ad esempio \\(\\log_2 8 = 3\\) perché \\(2^3 = 8\\).</p>' +
+    '<div class="cb warn"><div class="cb-label">Condizione di esistenza</div><p>Il logaritmo \\(\\log_a x\\) esiste solo se <strong>l\'argomento \\(x\\) è strettamente positivo</strong>: coerente col fatto che \\(a^y > 0\\) per ogni \\(y\\), quindi non esiste alcun esponente che dia un numero negativo o nullo.</p></div>' +
+    '<h3>Grafico come specchio dell\'esponenziale</h3>' +
+    '<p>Essendo funzione inversa, il grafico di \\(\\log_a x\\) è il simmetrico di \\(a^x\\) rispetto alla bisettrice \\(y=x\\). Conseguenze dirette:</p>' +
+    '<ul><li>dominio \\((0,+\\infty)\\), codominio \\(\\mathbb{R}\\) (invertiti rispetto all\'esponenziale);</li>' +
+    '<li>il grafico passa per \\((1,0)\\), perché \\(a^0=1\\);</li>' +
+    '<li>l\'asse \\(y\\) è asintoto verticale;</li>' +
+    '<li>crescente se \\(a>1\\), decrescente se \\(0\\lt a\\lt 1\\).</li></ul>' +
+    '<h3>Le proprietà dei logaritmi</h3>' +
+    '<p>Ogni proprietà delle potenze diventa, tramite il logaritmo, una proprietà "che abbassa il livello": prodotto → somma, potenza → moltiplicazione.</p>' +
+    '<div class="math-block hero-formula">\\[ \\log_a(xy) = \\log_a x + \\log_a y \\tag{P} \\]</div>' +
+    '<div class="math-block hero-formula">\\[ \\log_a \\frac{x}{y} = \\log_a x - \\log_a y \\tag{Q} \\]</div>' +
+    '<div class="math-block hero-formula">\\[ \\log_a x^k = k \\log_a x \\tag{R} \\]</div>' +
+    '<div class="cb tip"><div class="cb-label">Cambiamento di base</div><p>Per calcolare un logaritmo in una base non disponibile sulla calcolatrice (che ha solo \\(\\log_{10}\\) e \\(\\ln = \\log_e\\)):</p><div class="math-block hero-formula">\\[ \\log_a x = \\frac{\\log_b x}{\\log_b a} \\]</div></div>' +
+    acc([
+      { t:"Esempio 1 — Calcolo diretto", h:'<p>\\(\\log_3 81 = 4\\) perché \\(3^4 = 81\\). \\(\\log_5 \\tfrac{1}{25} = -2\\) perché \\(5^{-2} = \\tfrac{1}{25}\\).</p>' },
+      { t:"Esempio 2 — Applicare le proprietà", h:'<p>Semplifica \\(\\log_2 48 - \\log_2 3\\).</p><p>Per (Q): \\(\\log_2 48 - \\log_2 3 = \\log_2 \\tfrac{48}{3} = \\log_2 16 = 4\\).</p>' },
+      { t:"Esempio 3 — Cambiamento di base", h:'<p>Calcola \\(\\log_2 10\\) usando i logaritmi in base 10.</p><div class="math-block result">\\[ \\log_2 10 = \\frac{\\log_{10} 10}{\\log_{10} 2} = \\frac{1}{\\log_{10} 2} \\approx \\frac{1}{0{,}301} \\approx 3{,}32 \\]</div>' },
+      { t:"Applicazione — La scala Richter", h:'<p>La magnitudo di un terremoto è \\(M = \\log_{10}(A/A_0)\\), dove \\(A\\) è l\'ampiezza registrata. Un terremoto di magnitudo 6 ha ampiezza <strong>10 volte</strong> quella di uno di magnitudo 5: il logaritmo comprime scale enormi in numeri piccoli e leggibili.</p>' }
+    ])
+},
+{
+  tag:"EQUAZIONI",
+  title:"Equazioni <em>esponenziali</em>",
+  nav:"Eq. esponenziali",
+  body:
+    '<p>Un\'equazione esponenziale ha l\'incognita all\'esponente. La strategia dipende da come si presenta.</p>' +
+    '<h3>1. Stesse basi</h3>' +
+    '<p>Se i due membri si scrivono come potenze della <strong>stessa base</strong>, l\'iniettività dell\'esponenziale permette di uguagliare gli esponenti:</p>' +
+    '<div class="cb"><div class="cb-label">Principio</div><div class="math-block hero-formula">\\[ a^{f(x)} = a^{g(x)} \\quad\\Longleftrightarrow\\quad f(x) = g(x) \\qquad (a>0,\\ a\\neq1) \\]</div></div>' +
+    '<p>Esempio: \\(2^{x+1} = 2^{5}\\) diventa semplicemente \\(x+1 = 5\\), cioè \\(x = 4\\).</p>' +
+    '<h3>2. Basi diverse riconducibili</h3>' +
+    '<p>Spesso le basi sono diverse ma <strong>potenze di uno stesso numero</strong>: si riscrive tutto con quella base comune.</p>' +
+    '<div class="cb tip"><div class="cb-label">Esempio guidato</div><p>Risolvi \\(4^{x} = 8^{x-1}\\). Scriviamo \\(4 = 2^2\\) e \\(8 = 2^3\\):</p><div class="math-block">\\[ (2^2)^x = (2^3)^{x-1} \\ \\Longrightarrow\\ 2^{2x} = 2^{3x-3} \\]</div><p>Uguagliando gli esponenti: \\(2x = 3x - 3\\), da cui \\(x = 3\\).</p></div>' +
+    '<h3>3. Nessuna base comune: si usano i logaritmi</h3>' +
+    '<p>Quando non è possibile ricondursi alla stessa base (es. \\(3^x = 20\\)), si applica il logaritmo a entrambi i membri, sfruttando la proprietà (R) per portare giù l\'esponente:</p>' +
+    '<div class="math-block hero-formula">\\[ 3^x = 20 \\ \\Longrightarrow\\ \\log 3^x = \\log 20 \\ \\Longrightarrow\\ x \\log 3 = \\log 20 \\ \\Longrightarrow\\ x = \\frac{\\log 20}{\\log 3} \\]</div>' +
+    '<h3>4. Equazioni riconducibili con sostituzione</h3>' +
+    '<p>Se compare \\(a^{2x}\\) insieme ad \\(a^x\\), conviene porre \\(t = a^x\\) (con \\(t>0\\)) e ottenere un\'equazione algebrica in \\(t\\).</p>' +
+    acc([
+      { t:"Esercizio svolto — Basi riconducibili", h:'<p>Risolvi \\(9^{x} = 27^{x-2}\\). Con \\(9 = 3^2\\), \\(27 = 3^3\\):</p><div class="math-block">\\[ 3^{2x} = 3^{3x-6} \\ \\Longrightarrow\\ 2x = 3x - 6 \\]</div><div class="math-block result">\\[ x = 6 \\]</div>' },
+      { t:"Esercizio svolto — Con i logaritmi", h:'<p>Risolvi \\(5^{x} = 12\\).</p><div class="math-block result">\\[ x = \\log_5 12 = \\frac{\\log 12}{\\log 5} \\approx 1{,}54 \\]</div>' },
+      { t:"Esercizio svolto — Sostituzione", h:'<p>Risolvi \\(4^{x} - 5 \\cdot 2^{x} + 4 = 0\\).</p><p>Poiché \\(4^x = (2^x)^2\\), poniamo \\(t = 2^x\\) (con \\(t>0\\)):</p><div class="math-block">\\[ t^2 - 5t + 4 = 0 \\ \\Longrightarrow\\ t = 1 \\ \\text{ oppure } \\ t = 4 \\]</div><p>Tornando all\'incognita: \\(2^x = 1 \\Rightarrow x=0\\); \\(2^x = 4 \\Rightarrow x=2\\).</p><div class="math-block result">\\[ x = 0 \\ \\lor \\ x = 2 \\]</div>' }
+    ])
+},
+{
+  tag:"EQUAZIONI",
+  title:"Equazioni <em>logaritmiche</em>",
+  nav:"Eq. logaritmiche",
+  body:
+    '<p>Nelle equazioni logaritmiche l\'incognita compare dentro un argomento di logaritmo (o alla sua base). Il punto critico, sempre, è la <strong>condizione di esistenza</strong>.</p>' +
+    '<div class="cb danger"><div class="cb-label">Prima regola, senza eccezioni</div><p>Prima di risolvere, imponi che <strong>ogni argomento</strong> sia strettamente positivo. Le soluzioni trovate vanno poi confrontate con queste condizioni: quelle che non le rispettano vanno <strong>scartate</strong>.</p></div>' +
+    '<h3>1. Stessa base: uguagliare gli argomenti</h3>' +
+    '<p>Per l\'iniettività del logaritmo, se le basi coincidono:</p>' +
+    '<div class="cb"><div class="cb-label">Principio</div><div class="math-block hero-formula">\\[ \\log_a f(x) = \\log_a g(x) \\quad\\Longleftrightarrow\\quad f(x) = g(x), \\quad \\text{con } f(x)>0,\\ g(x)>0 \\]</div></div>' +
+    '<h3>2. Raccogliere in un unico logaritmo</h3>' +
+    '<p>Se compaiono più logaritmi nella stessa base, si usano le proprietà (P), (Q), (R) per comprimerli in uno solo, e poi si applica il punto 1.</p>' +
+    '<h3>3. Definizione di logaritmo</h3>' +
+    '<p>Un\'equazione come \\(\\log_a f(x) = k\\) si risolve tornando alla definizione: \\(f(x) = a^k\\).</p>' +
+    acc([
+      { t:"Esercizio svolto — Stessa base, con condizioni", h:'<p>Risolvi \\(\\log_2(x+3) = \\log_2(2x-1)\\).</p><p><strong>Condizioni</strong>: \\(x+3>0\\) e \\(2x-1>0\\), cioè \\(x>-3\\) e \\(x>\\tfrac12\\): insieme, \\(x>\\tfrac12\\).</p><p><strong>Equazione</strong>: \\(x+3 = 2x-1 \\Rightarrow x = 4\\). Verifica: \\(4 > \\tfrac12\\) ✓.</p><div class="math-block result">\\[ x = 4 \\]</div>' },
+      { t:"Esercizio svolto — Raccogliere i logaritmi", h:'<p>Risolvi \\(\\log_3 x + \\log_3(x-2) = 1\\).</p><p><strong>Condizioni</strong>: \\(x>0\\) e \\(x>2\\), quindi \\(x>2\\).</p><p>Per (P): \\(\\log_3[x(x-2)] = 1 \\Rightarrow x(x-2) = 3^1 = 3\\).</p><div class="math-block">\\[ x^2 - 2x - 3 = 0 \\ \\Longrightarrow\\ x = 3 \\ \\lor\\ x = -1 \\]</div><p>Solo \\(x=3\\) rispetta \\(x>2\\): \\(x=-1\\) va <strong>scartata</strong>.</p><div class="math-block result">\\[ x = 3 \\]</div>' },
+      { t:"Esercizio svolto — Definizione di logaritmo", h:'<p>Risolvi \\(\\log_2(3x-1) = 3\\).</p><p><strong>Condizione</strong>: \\(3x-1>0 \\Rightarrow x>\\tfrac13\\).</p><p>Per definizione: \\(3x-1 = 2^3 = 8 \\Rightarrow x=3\\), accettabile.</p><div class="math-block result">\\[ x = 3 \\]</div>' }
+    ])
+},
+{
+  tag:"DISEQUAZIONI",
+  title:"Disequazioni <em>esponenziali</em> e <em>logaritmiche</em>",
+  nav:"Disequazioni",
+  body:
+    '<p>La differenza rispetto alle equazioni è una sola, ma decisiva: bisogna guardare se la funzione è <strong>crescente o decrescente</strong>, perché questo decide se il verso della disuguaglianza si conserva o si <strong>inverte</strong>.</p>' +
+    '<div class="cb warn"><div class="cb-label">La regola d\'oro</div><ul><li>Se la base \\(a > 1\\): la funzione (esponenziale o logaritmica) è <strong>crescente</strong> → il verso della disuguaglianza <strong>si mantiene</strong>.</li><li>Se \\(0 < a < 1\\): la funzione è <strong>decrescente</strong> → il verso <strong>si inverte</strong>.</li></ul></div>' +
+    '<h3>Disequazioni esponenziali, stessa base</h3>' +
+    '<div class="math-block hero-formula">\\[ a^{f(x)} > a^{g(x)} \\quad\\Longleftrightarrow\\quad \\begin{cases} f(x) > g(x) & \\text{se } a>1 \\\\ f(x) < g(x) & \\text{se } 0\\lt a\\lt 1 \\end{cases} \\]</div>' +
+    '<h3>Disequazioni logaritmiche, stessa base</h3>' +
+    '<p>Stessa logica, con l\'aggravante che vanno sempre imposte le <strong>condizioni di esistenza</strong> sugli argomenti, come nelle equazioni.</p>' +
+    '<div class="math-block hero-formula">\\[ \\log_a f(x) > \\log_a g(x) \\quad\\Longleftrightarrow\\quad \\begin{cases} f(x) > g(x) & \\text{se } a>1 \\\\ f(x) < g(x) & \\text{se } 0\\lt a\\lt 1 \\end{cases}, \\quad f(x)>0,\\ g(x)>0 \\]</div>' +
+    '<div class="cb danger"><div class="cb-label">Errore frequente</div><p>Dimenticare di invertire il verso quando \\(0\\lt a\\lt 1\\), oppure dimenticare le condizioni di esistenza nel caso logaritmico: la soluzione finale è sempre l\'<strong>intersezione</strong> tra il risultato della disequazione e le condizioni.</p></div>' +
+    acc([
+      { t:"Esercizio svolto — Esponenziale, base > 1", h:'<p>Risolvi \\(2^{x-1} \\geq 2^{5}\\).</p><p>Base \\(2>1\\): il verso si mantiene.</p><div class="math-block result">\\[ x - 1 \\geq 5 \\ \\Longrightarrow\\ x \\geq 6 \\]</div>' },
+      { t:"Esercizio svolto — Esponenziale, base tra 0 e 1", h:'<p>Risolvi \\(\\left(\\tfrac13\\right)^{x} < \\left(\\tfrac13\\right)^{2}\\).</p><p>Base \\(\\tfrac13 \\in (0,1)\\): il verso si <strong>inverte</strong>.</p><div class="math-block result">\\[ x > 2 \\]</div>' },
+      { t:"Esercizio svolto — Logaritmica con condizioni", h:'<p>Risolvi \\(\\log_2(x-1) \\leq 3\\).</p><p><strong>Condizione</strong>: \\(x-1>0 \\Rightarrow x>1\\).</p><p>Base \\(2>1\\), verso mantenuto: \\(x - 1 \\leq 2^3 = 8 \\Rightarrow x \\leq 9\\).</p><p>Intersecando con la condizione:</p><div class="math-block result">\\[ 1 < x \\leq 9 \\]</div>' },
+      { t:"Esercizio svolto — Logaritmica, base tra 0 e 1", h:'<p>Risolvi \\(\\log_{1/2}(x+2) \\geq -1\\).</p><p><strong>Condizione</strong>: \\(x+2>0 \\Rightarrow x>-2\\).</p><p>Base \\(\\tfrac12 \\in (0,1)\\), verso invertito: \\(x+2 \\leq \\left(\\tfrac12\\right)^{-1} = 2 \\Rightarrow x \\leq 0\\).</p><p>Intersecando con la condizione:</p><div class="math-block result">\\[ -2 < x \\leq 0 \\]</div>' }
+    ])
+},
+{
+  tag:"PRATICA",
+  title:"Esercizi e <em>sintesi</em>",
+  nav:"Esercizi",
+  body:
+    '<p>Mettiamo alla prova quanto visto. Prova a risolvere prima di aprire la soluzione.</p>' +
+    acc([
+      { t:"Problema 1 — Equazione esponenziale mista", h:'<p>Risolvi \\(25^{x} = 5^{x+3}\\).</p><p>Con \\(25 = 5^2\\): \\(5^{2x} = 5^{x+3} \\Rightarrow 2x = x+3\\).</p><div class="math-block result">\\[ x = 3 \\]</div>' },
+      { t:"Problema 2 — Equazione logaritmica con condizioni", h:'<p>Risolvi \\(\\log_5(2x-3) = \\log_5(x+4)\\).</p><p><strong>Condizioni</strong>: \\(x>\\tfrac32\\) e \\(x>-4\\), quindi \\(x>\\tfrac32\\).</p><p>\\(2x-3 = x+4 \\Rightarrow x = 7\\), accettabile.</p><div class="math-block result">\\[ x = 7 \\]</div>' },
+      { t:"Problema 3 — Disequazione con sostituzione", h:'<p>Risolvi \\(9^{x} - 4 \\cdot 3^{x} + 3 \\leq 0\\).</p><p>Ponendo \\(t = 3^x > 0\\): \\(t^2 - 4t + 3 \\leq 0 \\Rightarrow 1 \\leq t \\leq 3\\).</p><p>Tornando a \\(x\\): \\(3^0 \\leq 3^x \\leq 3^1\\), e poiché la base 3 è crescente:</p><div class="math-block result">\\[ 0 \\leq x \\leq 1 \\]</div>' },
+      { t:"Problema 4 — Modello reale: crescita batterica", h:'<p>Una coltura batterica raddoppia ogni 2 ore, partendo da 100 batteri: \\(N(t) = 100 \\cdot 2^{t/2}\\). Dopo quante ore si superano 12 800 batteri?</p><p>Impostiamo \\(100 \\cdot 2^{t/2} > 12800 \\Rightarrow 2^{t/2} > 128 = 2^7\\).</p><p>Base \\(2>1\\), verso mantenuto: \\(\\tfrac{t}{2} > 7\\).</p><div class="math-block result">\\[ t > 14 \\text{ ore} \\]</div>' }
+    ]) +
+    '<h3>Formule da ricordare</h3>' +
+    '<table class="ct"><tr><th>Concetto</th><th>Formula / regola</th></tr>' +
+    '<tr><td>Definizione di logaritmo</td><td>\\(y=\\log_a x \\Leftrightarrow a^y=x\\)</td></tr>' +
+    '<tr><td>Condizione di esistenza</td><td>argomento \\(> 0\\)</td></tr>' +
+    '<tr><td>Prodotto</td><td>\\(\\log_a(xy) = \\log_a x + \\log_a y\\)</td></tr>' +
+    '<tr><td>Quoziente</td><td>\\(\\log_a\\frac{x}{y} = \\log_a x - \\log_a y\\)</td></tr>' +
+    '<tr><td>Potenza</td><td>\\(\\log_a x^k = k\\log_a x\\)</td></tr>' +
+    '<tr><td>Cambiamento di base</td><td>\\(\\log_a x = \\dfrac{\\log_b x}{\\log_b a}\\)</td></tr>' +
+    '<tr><td>Equazioni/disequazioni, stessa base</td><td>uguaglia (o confronta) gli esponenti/argomenti; inverti il verso se \\(0\\lt a\\lt 1\\)</td></tr></table>' +
+    '<div class="cb success"><div class="cb-label">Come orientarsi</div><p>Davanti a un esponenziale o un logaritmo, chiediti sempre: la base è maggiore o minore di 1? E, se è un logaritmo, l\'argomento è positivo? Rispondere a queste due domande risolve la maggior parte degli errori tipici.</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>

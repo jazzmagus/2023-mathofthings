@@ -5,6 +5,7 @@ summary: "Analisi completa del principio di conservazione dell'energia, dalle fo
 authors: [diego fantinelli]
 tags: [fisica, energia, lavoro, conservazione, dinamica]
 categories: [physics]
+hidden_from_index: true
 date: "2026-06-16T09:00:00Z"
 publishDate: "2026-06-16T09:00:00Z"
 featured: false

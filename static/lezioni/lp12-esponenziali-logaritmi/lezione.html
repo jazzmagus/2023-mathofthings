@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento Pro — Esponenziali e Logaritmi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.graph-wrap { margin:18px 0; text-align:center; }
+.graph-wrap svg { width:100%; max-width:400px; height:auto; background:var(--surface); border:1px solid var(--border-light); border-radius:6px; }
+.graph-wrap.wide svg { max-width:560px; }
+.graph-row { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin:18px 0; }
+.graph-row .graph-wrap { margin:0; flex:1 1 260px; max-width:320px; }
+.graph-caption { font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--text-dim); margin-top:6px; text-align:center; }
+.legend { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--text-mid); margin-top:8px; }
+.legend span { display:inline-flex; align-items:center; gap:5px; }
+.legend i { width:14px; height:2px; display:inline-block; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Pro · Esponenziali e Logaritmi</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+/* Motore di plotting: campiona funzioni reali e costruisce un SVG preciso. */
+function plotFn(opts) {
+  const W = opts.w || 320, H = opts.h || 320;
+  const xmin = opts.xmin, xmax = opts.xmax, ymin = opts.ymin, ymax = opts.ymax;
+  const sx = x => (x - xmin) / (xmax - xmin) * W;
+  const sy = y => H - (y - ymin) / (ymax - ymin) * H;
+  let g = '';
+
+  (opts.grid || []).forEach(v => {
+    const x = sx(v);
+    if (x >= 0 && x <= W) g += '<line x1="' + x + '" y1="0" x2="' + x + '" y2="' + H + '" stroke="var(--border-light)" stroke-width="1"/>';
+  });
+  (opts.gridY || []).forEach(v => {
+    const y = sy(v);
+    if (y >= 0 && y <= H) g += '<line x1="0" y1="' + y + '" x2="' + W + '" y2="' + y + '" stroke="var(--border-light)" stroke-width="1"/>';
+  });
+
+  (opts.asymptotes || []).forEach(a => {
+    if (a.type === 'h') {
+      const y = sy(a.at);
+      g += '<line x1="0" y1="' + y + '" x2="' + W + '" y2="' + y + '" stroke="' + (a.color || '#b8860b') + '" stroke-width="1.3" stroke-dasharray="5 4"/>';
+    } else {
+      const x = sx(a.at);
+      g += '<line x1="' + x + '" y1="0" x2="' + x + '" y2="' + H + '" stroke="' + (a.color || '#b8860b') + '" stroke-width="1.3" stroke-dasharray="5 4"/>';
+    }
+  });
+
+  const x0 = sx(0), y0 = sy(0);
+  if (x0 >= 0 && x0 <= W) g += '<line x1="' + x0 + '" y1="0" x2="' + x0 + '" y2="' + H + '" stroke="var(--text-dim)" stroke-width="1.2"/>';
+  if (y0 >= 0 && y0 <= H) g += '<line x1="0" y1="' + y0 + '" x2="' + W + '" y2="' + y0 + '" stroke="var(--text-dim)" stroke-width="1.2"/>';
+
+  (opts.fns || []).forEach(fn => {
+    const N = 260;
+    let d = '', started = false;
+    for (let i = 0; i <= N; i++) {
+      const x = xmin + (xmax - xmin) * i / N;
+      let y;
+      try { y = fn.f(x); } catch (e) { y = NaN; }
+      if (!isFinite(y) || y < ymin - (ymax - ymin) * 0.6 || y > ymax + (ymax - ymin) * 0.6) {
+        started = false;
+        continue;
+      }
+      const X = sx(x), Y = sy(y);
+      d += (started ? 'L' : 'M') + X.toFixed(1) + ' ' + Y.toFixed(1) + ' ';
+      started = true;
+    }
+    g += '<path d="' + d + '" fill="none" stroke="' + fn.color + '" stroke-width="2.2" stroke-linecap="round"/>';
+  });
+
+  (opts.points || []).forEach(p => {
+    const X = sx(p.x), Y = sy(p.y);
+    g += '<circle cx="' + X + '" cy="' + Y + '" r="' + (p.r || 3.2) + '" fill="' + (p.color || 'var(--accent)') + '"/>';
+    if (p.label) g += '<text x="' + (X + 6) + '" y="' + (Y - 6) + '" class="plot-label" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--text)">' + p.label + '</text>';
+  });
+
+  return '<div class="graph-wrap' + (opts.wide ? ' wide' : '') + '"><svg viewBox="0 0 ' + W + ' ' + H + '">' + g + '</svg>' +
+    (opts.caption ? '<div class="graph-caption">' + opts.caption + '</div>' : '') +
+    (opts.legend ? '<div class="legend">' + opts.legend.map(l => '<span><i style="background:' + l.color + '"></i>' + l.label + '</span>').join('') + '</div>' : '') +
+    '</div>';
+}
+
+const graphEsponenziali = plotFn({
+  xmin: -4, xmax: 4, ymin: -1, ymax: 9, w: 320, h: 320,
+  grid: [-4,-3,-2,-1,0,1,2,3,4], gridY: [0,2,4,6,8],
+  asymptotes: [{ type: 'h', at: 0 }],
+  fns: [
+    { f: x => Math.pow(2, x), color: '#c2185b' },
+    { f: x => Math.pow(0.5, x), color: '#3a6b8c' },
+    { f: x => 1, color: '#6e6760' }
+  ],
+  points: [{ x: 0, y: 1, label: '(0,1)' }],
+  caption: 'Confronto tra a = 2, a = 1/2 e il caso degenere a = 1.',
+  legend: [{ color: '#c2185b', label: 'y = 2ˣ' }, { color: '#3a6b8c', label: 'y = (1/2)ˣ' }, { color: '#6e6760', label: 'y = 1ˣ' }]
+});
+
+const graphSuccessioneE = (function () {
+  const pts = [];
+  for (let n = 1; n <= 40; n++) pts.push({ x: n, y: Math.pow(1 + 1 / n, n), r: 2.2, color: '#c2185b' });
+  return plotFn({
+    xmin: 0, xmax: 42, ymin: 1.6, ymax: 3, w: 320, h: 320,
+    gridY: [1.8, 2, 2.2, 2.4, 2.6, 2.8],
+    asymptotes: [{ type: 'h', at: Math.E, color: '#4a7c59' }],
+    fns: [],
+    points: pts,
+    caption: 'La successione aₙ = (1 + 1/n)ⁿ, crescente e limitata, tende a e ≈ 2,71828…',
+    legend: [{ color: '#c2185b', label: 'aₙ = (1+1/n)ⁿ' }, { color: '#4a7c59', label: 'y = e' }]
+  });
+})();
+
+const graphExpLog = plotFn({
+  xmin: -3, xmax: 6, ymin: -3, ymax: 6, w: 320, h: 320,
+  grid: [-3,-2,-1,0,1,2,3,4,5,6], gridY: [-3,-2,-1,0,1,2,3,4,5,6],
+  asymptotes: [{ type: 'h', at: 0 }, { type: 'v', at: 0, color: '#7a5197' }],
+  fns: [
+    { f: x => Math.exp(x), color: '#c2185b' },
+    { f: x => Math.log(x), color: '#3a6b8c' },
+    { f: x => x, color: '#b8860b' }
+  ],
+  points: [{ x: 1, y: 0, label: '(1,0)' }, { x: 0, y: 1, label: '(0,1)' }],
+  caption: 'exp e ln sono simmetriche rispetto alla bisettrice y = x.',
+  legend: [{ color: '#c2185b', label: 'y = eˣ' }, { color: '#3a6b8c', label: 'y = ln x' }, { color: '#b8860b', label: 'y = x' }]
+});
+
+const graphTangente = plotFn({
+  xmin: -3, xmax: 3, ymin: -1, ymax: 8, w: 320, h: 320,
+  grid: [-3,-2,-1,0,1,2,3], gridY: [0,2,4,6,8],
+  asymptotes: [{ type: 'h', at: 0 }],
+  fns: [
+    { f: x => Math.exp(x), color: '#c2185b' },
+    { f: x => 1 + x, color: '#4a7c59' }
+  ],
+  points: [{ x: 0, y: 1, label: '(0,1)' }],
+  caption: 'La tangente a y = eˣ in x = 0 è y = 1 + x, con pendenza esattamente 1.',
+  legend: [{ color: '#c2185b', label: 'y = eˣ' }, { color: '#4a7c59', label: 'tangente y = 1+x' }]
+});
+
+const graphIntersezione = plotFn({
+  xmin: -4, xmax: 4, ymin: -1, ymax: 10, w: 320, h: 320,
+  grid: [-4,-3,-2,-1,0,1,2,3,4], gridY: [0,2,4,6,8,10],
+  fns: [
+    { f: x => Math.pow(2, x), color: '#c2185b' },
+    { f: x => x + 3, color: '#b8860b' }
+  ],
+  caption: 'Le intersezioni tra y = 2ˣ e y = x+3 non si trovano con metodi algebrici elementari: si stimano graficamente o per via numerica.',
+  legend: [{ color: '#c2185b', label: 'y = 2ˣ' }, { color: '#b8860b', label: 'y = x+3' }]
+});
+
+const S = [
+{
+  tag:"FONDAMENTI",
+  title:"La potenza con esponente <em>reale</em>",
+  nav:"Costruzione",
+  body:
+    '<p>Nel corso base hai imparato a calcolare \\(a^x\\) per \\(x\\) intero o razionale. Ma cosa significa, rigorosamente, \\(2^{\\sqrt{2}}\\)? L\'esponente non è più un numero "che si può contare": è un numero reale qualunque, possibilmente irrazionale. Serve una costruzione più fine.</p>' +
+    '<div class="cb"><div class="cb-label">Punto di partenza</div><p>Per \\(a>0\\) e \\(q = \\tfrac{m}{n} \\in \\mathbb{Q}\\) (con \\(n>0\\)), sai già che:</p><div class="math-block hero-formula">\\[ a^{q} = \\sqrt[n]{a^{m}} \\]</div><p>Questa definizione è ben posta: si dimostra che il valore non dipende dalla particolare frazione scelta per rappresentare \\(q\\).</p></div>' +
+    '<h3>Il problema dell\'esponente irrazionale</h3>' +
+    '<p>Se \\(x \\in \\mathbb{R} \\setminus \\mathbb{Q}\\), non esiste una frazione \\(m/n\\) uguale a \\(x\\): la formula sopra non si applica direttamente. La via d\'uscita sfrutta un fatto cruciale: <strong>i razionali sono densi in \\(\\mathbb{R}\\)</strong>, cioè ogni numero reale è approssimabile a piacere da razionali.</p>' +
+    '<div class="cb purple"><div class="cb-label">Definizione (per densità)</div><p>Sia \\(a > 1\\) e \\(x \\in \\mathbb{R}\\). Si definisce:</p><div class="math-block hero-formula">\\[ a^{x} \\;=\\; \\sup\\{\\, a^{q} : q \\in \\mathbb{Q},\\ q \\leq x \\,\\} \\]</div><p>L\'insieme \\(\\{a^q : q \\leq x\\}\\) è non vuoto e limitato superiormente (da \\(a^{n}\\) per un intero \\(n>x\\)), quindi il suo estremo superiore esiste per l\'<strong>assioma di completezza</strong> di \\(\\mathbb{R}\\). Per \\(0\\lt a\\lt 1\\) si definisce in modo analogo con un estremo inferiore, oppure si pone \\(a^x = (1/a)^{-x}\\).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Perché funziona</div><p>Se \\(x = q_0\\) è già razionale, l\'estremo superiore dell\'insieme coincide proprio con \\(a^{q_0}\\) (perché la funzione \\(q \\mapsto a^q\\) è crescente sui razionali, per \\(a>1\\)): la nuova definizione <strong>estende</strong> quella vecchia senza contraddirla.</p></div>' +
+    '<h3>Le proprietà si conservano</h3>' +
+    '<p>Si dimostra (passando al limite sulle approssimazioni razionali) che tutte le proprietà algebriche note restano valide per esponenti reali qualsiasi:</p>' +
+    '<div class="math-block">\\[ a^{x+y} = a^x a^y, \\qquad a^{x-y} = \\frac{a^x}{a^y}, \\qquad (a^x)^y = a^{xy}, \\qquad (ab)^x = a^x b^x \\]</div>' +
+    acc([
+      { t:"Teorema — Monotonia stretta", h:'<p><strong>Enunciato.</strong> Se \\(a>1\\), la funzione \\(x \\mapsto a^x\\) è strettamente crescente su \\(\\mathbb{R}\\).</p><p><strong>Dimostrazione (schema).</strong> Siano \\(x_1 < x_2\\). Per densità esistono razionali \\(q_1, q_2\\) con \\(x_1 < q_1 < q_2 < x_2\\). Dalla definizione per estremo superiore e dalla monotonia già nota sui razionali (dimostrabile per potenze e radici), si ottiene \\(a^{x_1} \\leq a^{q_1} < a^{q_2} \\leq a^{x_2}\\), da cui \\(a^{x_1} < a^{x_2}\\). \\(\\blacksquare\\)</p><p class="dim">Per \\(0\\lt a\\lt 1\\) l\'argomento è speculare e dà stretta decrescenza.</p>' },
+      { t:"Osservazione — Continuità (cenno)", h:'<p>Si dimostra, con una stima simile, che \\(x \\mapsto a^x\\) è <strong>continua</strong> su tutto \\(\\mathbb{R}\\): non ha salti né buchi. Questo è essenziale per il prossimo passo, l\'esistenza della funzione inversa continua.</p>' }
+    ])
+},
+{
+  tag:"IL NUMERO e",
+  title:"Il numero <em>e</em> e i limiti notevoli",
+  nav:"Il numero e",
+  body:
+    '<p>Tra tutte le basi possibili, una è privilegiata in analisi: il numero di Nepero \\(e\\). Non è definito da una formula chiusa, ma come <strong>limite di una successione</strong>.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione</div><div class="math-block hero-formula">\\[ e \\;=\\; \\lim_{n \\to +\\infty} \\left(1 + \\frac{1}{n}\\right)^{n} \\;\\approx\\; 2{,}718281828\\ldots \\]</div></div>' +
+    '<p>Perché questo limite esiste? Bisogna dimostrarlo: non è ovvio a priori che una successione del genere converga.</p>' +
+    '<div class="cb success"><div class="cb-label">Teorema (esistenza del limite)</div><p>La successione \\(a_n = \\left(1+\\tfrac1n\\right)^n\\) è <strong>strettamente crescente</strong> e <strong>limitata superiormente</strong> (ad esempio da 3). Per il <strong>teorema di monotonia delle successioni</strong>, ogni successione crescente e limitata converge: dunque \\(\\lim a_n\\) esiste finito. Lo si chiama \\(e\\).</p></div>' +
+    graphSuccessioneE +
+    '<div class="cb tip"><div class="cb-label">Idea della dimostrazione (crescenza)</div><p>Sviluppando col binomio di Newton:</p><div class="math-block">\\[ a_n = \\sum_{k=0}^{n} \\binom{n}{k}\\frac{1}{n^k} = \\sum_{k=0}^n \\frac{1}{k!}\\prod_{i=0}^{k-1}\\left(1-\\frac{i}{n}\\right) \\]</div><p>Ogni fattore \\(\\left(1-\\tfrac{i}{n}\\right)\\) cresce (si avvicina a 1) quando \\(n\\) cresce, e in \\(a_{n+1}\\) compare un addendo in più: dunque \\(a_n < a_{n+1}\\).</p></div>' +
+    '<h3>Limiti notevoli collegati</h3>' +
+    '<p>Da questa definizione discendono, con sostituzioni opportune, i limiti che useremo costantemente:</p>' +
+    '<div class="math-block hero-formula">\\[ \\lim_{n\\to\\infty}\\left(1+\\frac{x}{n}\\right)^n = e^x \\qquad\\qquad \\lim_{h \\to 0} \\frac{e^h - 1}{h} = 1 \\qquad\\qquad \\lim_{h\\to 0}\\frac{\\ln(1+h)}{h}=1 \\]</div>' +
+    '<div class="cb warn"><div class="cb-label">Perché è così importante</div><p>Il secondo limite dice che, vicino a \\(x=0\\), la curva \\(e^x\\) cresce con <strong>pendenza esattamente 1</strong>. È il fatto che rende \\(e^x\\) l\'unica funzione esponenziale che coincide con la propria derivata — lo vedremo tra due sezioni.</p></div>' +
+    acc([
+      { t:"Esercizio — Limitatezza di aₙ", h:'<p>Si mostra che \\(a_n < 3\\) per ogni \\(n\\), confrontando la serie con una geometrica di ragione \\(\\tfrac12\\):</p><div class="math-block">\\[ a_n < \\sum_{k=0}^{n} \\frac{1}{k!} \\leq 1 + \\sum_{k=1}^n \\frac{1}{2^{k-1}} < 1 + 2 = 3 \\]</div><p class="dim">Successione crescente e limitata da 3: il limite esiste ed è compreso tra 2 e 3.</p>' },
+      { t:"Applicazione — Interesse composto continuo", h:'<p>Se un capitale si compone \\(n\\) volte l\'anno a tasso nominale \\(x\\), dopo un anno vale \\(C_0\\left(1+\\tfrac{x}{n}\\right)^n\\). Nel limite di composizione <strong>continua</strong> (\\(n \\to \\infty\\)):</p><div class="math-block result">\\[ C(1) = C_0\\, e^{x} \\]</div><p class="dim">È l\'origine del modello di crescita esponenziale continua usato in finanza, biologia e fisica.</p>' }
+    ])
+},
+{
+  tag:"INVERSA",
+  title:"Il logaritmo come <em>funzione inversa</em>: rigore",
+  nav:"Inversa",
+  body:
+    '<p>Nel corso avanzato abbiamo definito \\(\\log_a x\\) come l\'esponente che risolve \\(a^y=x\\). Qui vogliamo <strong>giustificare rigorosamente</strong> perché questa funzione esiste, è unica ed è continua.</p>' +
+    '<div class="cb"><div class="cb-label">Teorema della funzione inversa (per funzioni monotone continue)</div><p>Sia \\(f: I \\to \\mathbb{R}\\) continua e <strong>strettamente monotona</strong> su un intervallo \\(I\\). Allora:</p><ul><li>\\(f\\) è <strong>iniettiva</strong> (per la stretta monotonia);</li><li>\\(J = f(I)\\) è un intervallo (per il <strong>teorema dei valori intermedi</strong>, conseguenza della continuità);</li><li>esiste l\'inversa \\(f^{-1}: J \\to I\\), ed è anch\'essa continua e strettamente monotona, con lo stesso verso di \\(f\\).</li></ul></div>' +
+    '<p>Applichiamolo a \\(f(x) = a^x\\), con \\(a>1\\): abbiamo dimostrato nella prima sezione che è continua e strettamente crescente su \\(I = \\mathbb{R}\\), con immagine \\(J = (0,+\\infty)\\). Il teorema garantisce dunque l\'esistenza di un\'inversa:</p>' +
+    '<div class="math-block hero-formula">\\[ \\log_a : (0,+\\infty) \\to \\mathbb{R}, \\qquad \\log_a x = y \\iff a^y = x \\]</div>' +
+    graphExpLog +
+    '<div class="cb tip"><div class="cb-label">Perché il grafico è speculare</div><p>Se \\((x_0, y_0)\\) appartiene al grafico di \\(f\\), allora \\((y_0,x_0)\\) appartiene al grafico di \\(f^{-1}\\): geometricamente, scambiare le coordinate corrisponde a riflettere rispetto alla retta \\(y=x\\). È un fatto generale per ogni funzione invertibile, non solo per esponenziale e logaritmo.</p></div>' +
+    '<h3>Le proprietà dei logaritmi, dimostrate</h3>' +
+    '<p>Ogni proprietà del logaritmo discende da una proprietà delle potenze, tradotta tramite l\'inversa.</p>' +
+    '<div class="cb success"><div class="cb-label">Dimostrazione di log(xy) = log x + log y</div><p>Poniamo \\(u = \\log_a x\\) e \\(v = \\log_a y\\), cioè \\(a^u = x\\) e \\(a^v = y\\). Allora:</p><div class="math-block">\\[ xy = a^{u} \\cdot a^{v} = a^{u+v} \\]</div><p>Per definizione di logaritmo, questo significa esattamente \\(\\log_a(xy) = u+v = \\log_a x + \\log_a y\\). \\(\\blacksquare\\)</p></div>' +
+    '<p>Con lo stesso schema (partendo da \\((a^u)^k = a^{uk}\\)) si dimostra \\(\\log_a x^k = k \\log_a x\\), e da \\(a^u/a^v = a^{u-v}\\) si ricava la proprietà del quoziente.</p>' +
+    acc([
+      { t:"Dimostrazione — Cambiamento di base", h:'<p>Vogliamo \\(\\log_a x\\) in termini di logaritmi in base \\(b\\). Poniamo \\(y = \\log_a x\\), cioè \\(a^y = x\\). Applichiamo \\(\\log_b\\) a entrambi i membri, usando la proprietà della potenza appena dimostrata:</p><div class="math-block">\\[ \\log_b(a^y) = \\log_b x \\ \\Longrightarrow\\ y \\log_b a = \\log_b x \\ \\Longrightarrow\\ y = \\frac{\\log_b x}{\\log_b a} \\]</div><div class="math-block result">\\[ \\log_a x = \\frac{\\log_b x}{\\log_b a} \\]</div>' },
+      { t:"Osservazione — Perché il dominio è (0,+∞)", h:'<p>Il logaritmo è l\'inversa di una funzione con <strong>codominio</strong> \\((0,+\\infty)\\) (l\'esponenziale non assume mai valori nulli o negativi). Per una funzione inversa, dominio e codominio si scambiano: ecco perché il logaritmo è definito solo per argomenti positivi. Non è un vincolo arbitrario, ma una conseguenza diretta della struttura di \\(a^x\\).</p>' }
+    ])
+},
+{
+  tag:"ANALISI",
+  title:"Derivate: <em>e^x</em> e <em>ln x</em>",
+  nav:"Derivate",
+  body:
+    '<p>Qui alziamo il livello: colleghiamo esponenziali e logaritmi al calcolo differenziale, con dimostrazioni complete a partire dalla definizione di derivata.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione di derivata</div><div class="math-block hero-formula">\\[ f\'(x_0) = \\lim_{h \\to 0} \\frac{f(x_0+h) - f(x_0)}{h} \\]</div></div>' +
+    '<div class="cb success"><div class="cb-label">Teorema — La derivata di eˣ</div><p><strong>Enunciato.</strong> La funzione \\(f(x) = e^x\\) è derivabile su \\(\\mathbb{R}\\) e \\(f\'(x) = e^x\\).</p><p><strong>Dimostrazione.</strong> Dalla definizione:</p><div class="math-block">\\[ f\'(x) = \\lim_{h\\to 0} \\frac{e^{x+h}-e^{x}}{h} = \\lim_{h\\to 0} e^{x}\\cdot\\frac{e^{h}-1}{h} = e^{x} \\cdot \\lim_{h\\to 0}\\frac{e^h-1}{h} \\]</div><p>Il limite notevole visto nella sezione precedente vale esattamente 1, quindi:</p><div class="math-block result">\\[ f\'(x) = e^{x} \\cdot 1 = e^{x} \\]</div><p>La funzione \\(e^x\\) è l\'unica (a meno di costante moltiplicativa) che coincide con la propria derivata. \\(\\blacksquare\\)</p></div>' +
+    graphTangente +
+    '<div class="cb tip"><div class="cb-label">Teorema — Derivata della funzione inversa</div><p>Se \\(f\\) è derivabile e invertibile con \\(f\'(f^{-1}(y)) \\neq 0\\), allora:</p><div class="math-block hero-formula">\\[ (f^{-1})\'(y) = \\frac{1}{f\'(f^{-1}(y))} \\]</div><p>Geometricamente: la tangente al grafico dell\'inversa, nel punto simmetrico, è la riflessa della tangente originale rispetto a \\(y=x\\), e una riflessione scambia i coefficienti angolari con i loro reciproci.</p></div>' +
+    '<div class="cb success"><div class="cb-label">Teorema — La derivata di ln x</div><p>Applichiamo il teorema precedente a \\(f(x)=e^x\\), \\(f^{-1}(y) = \\ln y\\). Poiché \\(f\'(x) = e^x\\) e \\(f^{-1}(y) = \\ln y\\) implica \\(f(f^{-1}(y)) = y\\), cioè \\(e^{\\ln y} = y\\):</p><div class="math-block">\\[ (\\ln)\'(y) = \\frac{1}{f\'(\\ln y)} = \\frac{1}{e^{\\ln y}} = \\frac{1}{y} \\]</div><div class="math-block result">\\[ \\frac{d}{dx}\\ln x = \\frac{1}{x}, \\qquad x > 0 \\]</div></div>' +
+    '<h3>Le basi generiche, per completezza</h3>' +
+    '<p>Scrivendo \\(a^x = e^{x \\ln a}\\) (dalla definizione di logaritmo) e derivando con la regola della catena:</p>' +
+    '<div class="math-block hero-formula">\\[ \\frac{d}{dx} a^x = a^x \\ln a \\qquad\\qquad \\frac{d}{dx}\\log_a x = \\frac{1}{x \\ln a} \\]</div>' +
+    acc([
+      { t:"Esercizio svolto — Derivata di una composizione", h:'<p>Deriva \\(f(x) = e^{3x^2+1}\\).</p><p>Regola della catena: derivata dell\'esterno per derivata dell\'interno.</p><div class="math-block result">\\[ f\'(x) = e^{3x^2+1} \\cdot 6x \\]</div>' },
+      { t:"Esercizio svolto — Derivata logaritmica", h:'<p>Deriva \\(g(x) = \\ln(x^2+1)\\).</p><div class="math-block result">\\[ g\'(x) = \\frac{2x}{x^2+1} \\]</div>' },
+      { t:"Applicazione — Studio di un massimo", h:'<p>Trova il massimo di \\(h(x) = \\dfrac{\\ln x}{x}\\) per \\(x>0\\).</p><p>\\(h\'(x) = \\dfrac{1 - \\ln x}{x^2}\\), che si annulla per \\(\\ln x = 1\\), cioè \\(x=e\\). Per \\(x\\lt e\\) è positiva, per \\(x>e\\) negativa: è un massimo.</p><div class="math-block result">\\[ h(e) = \\frac{1}{e} \\ \\text{ è il valore massimo} \\]</div>' }
+    ])
+},
+{
+  tag:"EQUAZIONI",
+  title:"Fondazione rigorosa di equazioni e disequazioni",
+  nav:"Rigore",
+  body:
+    '<p>Nel corso avanzato hai usato regole come "se le basi coincidono, uguaglia gli esponenti". Qui dimostriamo <strong>perché</strong> quelle regole sono corrette, sfruttando la monotonia stretta già dimostrata.</p>' +
+    '<div class="cb success"><div class="cb-label">Dimostrazione — Iniettività risolve le equazioni</div><p>Poiché \\(x \\mapsto a^x\\) è <strong>strettamente monotona</strong> (crescente se \\(a>1\\), decrescente se \\(0\\lt a\\lt 1\\)), è in particolare <strong>iniettiva</strong>: valori diversi dell\'argomento danno sempre immagini diverse. Dunque:</p><div class="math-block hero-formula">\\[ a^{f(x)} = a^{g(x)} \\ \\Longleftrightarrow\\ f(x) = g(x) \\]</div><p>Non è una convenzione: è conseguenza diretta dell\'iniettività, dimostrata rigorosamente nella prima sezione.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Perché il verso si inverte nelle disequazioni</div><p>Se \\(a>1\\), \\(x\\mapsto a^x\\) è crescente: \\(x_1 < x_2 \\Rightarrow a^{x_1} < a^{x_2}\\), il verso si conserva. Se \\(0\\lt a\\lt 1\\), la funzione è <strong>decrescente</strong>: \\(x_1 < x_2 \\Rightarrow a^{x_1} > a^{x_2}\\), il verso si <strong>inverte</strong>. È lo stesso fenomeno che avviene moltiplicando una disuguaglianza per un numero negativo: qui il "numero negativo" è la pendenza della funzione.</p></div>' +
+    '<h3>Quando l\'algebra non basta</h3>' +
+    '<p>Non tutte le equazioni esponenziali si risolvono con manipolazioni algebriche. Consideriamo \\(2^{x} = x + 3\\): a sinistra una funzione convessa a crescita sempre più rapida, a destra una retta.</p>' +
+    graphIntersezione +
+    '<div class="cb tip"><div class="cb-label">Esistenza delle soluzioni — teorema dei valori intermedi</div><p>Sia \\(\\varphi(x) = 2^x - x - 3\\), continua su \\(\\mathbb{R}\\). Si calcola \\(\\varphi(-2) = \\tfrac14+2-3 <0\\) mentre \\(\\varphi(2) = 4-2-3=-1<0\\) ma \\(\\varphi(3)=8-3-3=2>0\\): cambiando segno tra \\(x=2\\) e \\(x=3\\), il <strong>teorema degli zeri</strong> (Bolzano) garantisce almeno una soluzione in \\((2,3)\\). Analogamente si trova un\'altra soluzione vicino a \\(x=-3\\). Un metodo numerico (bisezione, Newton) restituisce i valori approssimati con la precisione voluta.</p></div>' +
+    acc([
+      { t:"Esercizio svolto — Disequazione, base minore di 1", h:'<p>Risolvi \\(\\left(\\tfrac13\\right)^{2x-1} \\geq \\left(\\tfrac13\\right)^{x+4}\\).</p><p>Base \\(\\tfrac13 \\in (0,1)\\): funzione decrescente, il verso si inverte.</p><div class="math-block result">\\[ 2x-1 \\leq x+4 \\ \\Longrightarrow\\ x \\leq 5 \\]</div>' },
+      { t:"Esercizio svolto — Localizzare uno zero", h:'<p>Mostra che \\(\\ln x = x - 2\\) ha una soluzione in \\((0,1)\\) e una in \\((3,4)\\).</p><p>Poni \\(\\psi(x) = \\ln x - x + 2\\): \\(\\psi(1) = -1+2=1>0\\), \\(\\psi(0.1) = \\ln(0.1) - 0.1+2 \\approx -2{,}3+1{,}9<0\\): cambio di segno in \\((0.1,1)\\). Analogamente \\(\\psi(3) = \\ln 3 -1 \\approx 0{,}1>0\\), \\(\\psi(4)=\\ln4-2\\approx-0{,}6<0\\): cambio di segno in \\((3,4)\\). Per Bolzano, in ciascun intervallo c\'è almeno uno zero.</p>' }
+    ])
+},
+{
+  tag:"PRATICA",
+  title:"Dimostrazioni, disuguaglianze e <em>sintesi</em>",
+  nav:"Sintesi",
+  body:
+    '<p>Chiudiamo con alcune dimostrazioni classiche che ricorrono spesso nel primo anno di analisi universitaria, e una tabella riassuntiva.</p>' +
+    acc([
+      { t:"Teorema — La disuguaglianza fondamentale eˣ ≥ 1+x", h:'<p><strong>Enunciato.</strong> Per ogni \\(x \\in \\mathbb{R}\\), \\(e^x \\geq 1+x\\), con uguaglianza solo per \\(x=0\\).</p><p><strong>Dimostrazione.</strong> Sia \\(g(x) = e^x - 1 - x\\). Allora \\(g(0)=0\\) e \\(g\'(x) = e^x - 1\\). Per \\(x>0\\), \\(e^x>1\\) quindi \\(g\'(x)>0\\) (g cresce); per \\(x<0\\), \\(e^x<1\\) quindi \\(g\'(x)<0\\) (g decresce). Dunque \\(x=0\\) è un <strong>minimo assoluto</strong> di \\(g\\), con \\(g(0)=0\\): perciò \\(g(x) \\geq 0\\) per ogni \\(x\\), cioè la tesi. \\(\\blacksquare\\)</p><p class="dim">Questa disuguaglianza è alla base di molte stime in analisi, calcolo delle probabilità e teoria dell\'informazione.</p>' },
+      { t:"Teorema — Concavità del logaritmo", h:'<p><strong>Enunciato.</strong> \\(\\ln x\\) è strettamente concava su \\((0,+\\infty)\\).</p><p><strong>Dimostrazione.</strong> \\((\\ln x)\' = \\tfrac1x\\), quindi \\((\\ln x)\'\' = -\\tfrac1{x^2} < 0\\) per ogni \\(x>0\\): la derivata seconda negativa è, per definizione, il criterio di concavità stretta. \\(\\blacksquare\\)</p><p class="dim">Conseguenza: la disuguaglianza di Jensen applicata a \\(\\ln\\) è la base della disuguaglianza tra media aritmetica e media geometrica (AM-GM).</p>' },
+      { t:"Teorema — Il logaritmo cresce più lentamente di ogni potenza", h:'<p><strong>Enunciato.</strong> Per ogni \\(\\alpha>0\\), \\(\\displaystyle\\lim_{x\\to+\\infty}\\frac{\\ln x}{x^{\\alpha}} = 0\\).</p><p><strong>Idea della dimostrazione.</strong> Si applica la disuguaglianza \\(\\ln t \\leq t - 1\\) (conseguenza della sezione precedente) a \\(t = x^{\\alpha/2}\\), ottenendo una maggiorazione di \\(\\ln x\\) che, divisa per \\(x^\\alpha\\), tende a 0 per confronto.</p><p class="dim">È il motivo per cui, in informatica, un algoritmo con complessità \\(O(\\log n)\\) è considerato "quasi gratuito" rispetto a qualunque potenza di \\(n\\).</p>' },
+      { t:"Problema applicativo — Tempo di dimezzamento", h:'<p>Una sostanza decade secondo \\(m(t) = m_0 e^{-kt}\\). Sapendo che dopo 10 anni resta il 60% della massa, trova la costante \\(k\\) e il tempo di dimezzamento.</p><p>Da \\(0{,}6 = e^{-10k}\\): \\(k = -\\dfrac{\\ln 0{,}6}{10} \\approx 0{,}0511\\).</p><p>Il tempo di dimezzamento \\(t_{1/2}\\) risolve \\(e^{-kt_{1/2}} = \\tfrac12\\):</p><div class="math-block result">\\[ t_{1/2} = \\frac{\\ln 2}{k} \\approx 13{,}6 \\text{ anni} \\]</div>' }
+    ]) +
+    '<h3>Formule e teoremi da ricordare</h3>' +
+    '<table class="ct"><tr><th>Risultato</th><th>Enunciato / formula</th></tr>' +
+    '<tr><td>Costruzione di \\(a^x\\), \\(x\\) reale</td><td>estremo superiore su approssimazioni razionali</td></tr>' +
+    '<tr><td>Monotonia stretta</td><td>crescente se \\(a>1\\), decrescente se \\(0\\lt a\\lt 1\\)</td></tr>' +
+    '<tr><td>Numero \\(e\\)</td><td>\\(e=\\lim(1+1/n)^n\\), successione crescente e limitata</td></tr>' +
+    '<tr><td>Limite notevole</td><td>\\(\\lim_{h\\to0}(e^h-1)/h = 1\\)</td></tr>' +
+    '<tr><td>Teorema funzione inversa</td><td>continua + monotona stretta ⟹ inversa continua monotona</td></tr>' +
+    '<tr><td>Derivata di \\(e^x\\)</td><td>\\((e^x)\' = e^x\\)</td></tr>' +
+    '<tr><td>Derivata di \\(\\ln x\\)</td><td>\\((\\ln x)\' = 1/x\\)</td></tr>' +
+    '<tr><td>Disuguaglianza fondamentale</td><td>\\(e^x \\geq 1+x\\)</td></tr>' +
+    '<tr><td>Concavità di \\(\\ln\\)</td><td>\\((\\ln x)\'\' = -1/x^2 < 0\\)</td></tr></table>' +
+    '<div class="cb success"><div class="cb-label">Sguardo d\'insieme</div><p>Il filo conduttore di questo approfondimento è un\'idea che ritroverai in ogni corso di analisi: <strong>la continuità e la monotonia stretta bastano a garantire l\'esistenza e la buona forma di una funzione inversa</strong>. Esponenziale e logaritmo sono l\'esempio più naturale — e più utile — di questo principio.</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>

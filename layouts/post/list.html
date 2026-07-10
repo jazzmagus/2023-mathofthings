@@ -25,6 +25,7 @@
     {{ $items := slice }}
 
     {{ range .Pages }}
+      {{ if .Params.hidden_from_index }}{{ continue }}{{ end }}
       {{ $img := "" }}
       {{ with .Resources.GetMatch "featured*" }}{{ $img = .RelPermalink }}{{ end }}
       {{ $items = $items | append (dict

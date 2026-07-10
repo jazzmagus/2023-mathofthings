@@ -156,6 +156,8 @@ body.slides-mot .reveal .mot-divider h2 {
   font-weight: 400;
   letter-spacing: 0.02em;
   line-height: 1;
+  color: var(--mot-primary);
+  opacity: 0.75;
 }
 
 /* 3. Due colonne */

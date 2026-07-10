@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio di Funzione — Dall'Espressione al Grafico</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.ct.sign td { text-align:center; font-family:'JetBrains Mono',monospace; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.graph-wrap { margin:18px 0; text-align:center; }
+.graph-wrap svg { width:100%; max-width:400px; height:auto; background:var(--surface); border:1px solid var(--border-light); border-radius:6px; }
+.graph-wrap.wide svg { max-width:560px; }
+.graph-caption { font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--text-dim); margin-top:6px; text-align:center; }
+.legend { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--text-mid); margin-top:8px; }
+.legend span { display:inline-flex; align-items:center; gap:5px; }
+.legend i { width:14px; height:2px; display:inline-block; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Studio di Funzione · dall'espressione al grafico</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+function plotFn(opts) {
+  const W = opts.w || 320, H = opts.h || 320;
+  const xmin = opts.xmin, xmax = opts.xmax, ymin = opts.ymin, ymax = opts.ymax;
+  const sx = x => (x - xmin) / (xmax - xmin) * W;
+  const sy = y => H - (y - ymin) / (ymax - ymin) * H;
+  let g = '';
+
+  (opts.grid || []).forEach(v => {
+    const x = sx(v);
+    if (x >= 0 && x <= W) g += '<line x1="' + x + '" y1="0" x2="' + x + '" y2="' + H + '" stroke="var(--border-light)" stroke-width="1"/>';
+  });
+  (opts.gridY || []).forEach(v => {
+    const y = sy(v);
+    if (y >= 0 && y <= H) g += '<line x1="0" y1="' + y + '" x2="' + W + '" y2="' + y + '" stroke="var(--border-light)" stroke-width="1"/>';
+  });
+
+  (opts.asymptotes || []).forEach(a => {
+    if (a.type === 'h') {
+      const y = sy(a.at);
+      g += '<line x1="0" y1="' + y + '" x2="' + W + '" y2="' + y + '" stroke="' + (a.color || '#b8860b') + '" stroke-width="1.3" stroke-dasharray="5 4"/>';
+    } else {
+      const x = sx(a.at);
+      g += '<line x1="' + x + '" y1="0" x2="' + x + '" y2="' + H + '" stroke="' + (a.color || '#b8860b') + '" stroke-width="1.3" stroke-dasharray="5 4"/>';
+    }
+  });
+
+  const x0 = sx(0), y0 = sy(0);
+  if (x0 >= 0 && x0 <= W) g += '<line x1="' + x0 + '" y1="0" x2="' + x0 + '" y2="' + H + '" stroke="var(--text-dim)" stroke-width="1.2"/>';
+  if (y0 >= 0 && y0 <= H) g += '<line x1="0" y1="' + y0 + '" x2="' + W + '" y2="' + y0 + '" stroke="var(--text-dim)" stroke-width="1.2"/>';
+
+  (opts.fns || []).forEach(fn => {
+    const N = 300;
+    let d = '', started = false;
+    for (let i = 0; i <= N; i++) {
+      const x = xmin + (xmax - xmin) * i / N;
+      if (fn.exclude && Math.abs(x - fn.exclude) < (xmax - xmin) / N * 1.5) { started = false; continue; }
+      let y;
+      try { y = fn.f(x); } catch (e) { y = NaN; }
+      if (!isFinite(y) || y < ymin - (ymax - ymin) * 0.6 || y > ymax + (ymax - ymin) * 0.6) {
+        started = false;
+        continue;
+      }
+      const X = sx(x), Y = sy(y);
+      d += (started ? 'L' : 'M') + X.toFixed(1) + ' ' + Y.toFixed(1) + ' ';
+      started = true;
+    }
+    g += '<path d="' + d + '" fill="none" stroke="' + fn.color + '" stroke-width="2.2" stroke-linecap="round"/>';
+  });
+
+  (opts.points || []).forEach(p => {
+    const X = sx(p.x), Y = sy(p.y);
+    g += '<circle cx="' + X + '" cy="' + Y + '" r="' + (p.r || 3.2) + '" fill="' + (p.color || 'var(--accent)') + '"/>';
+    if (p.label) g += '<text x="' + (X + 6) + '" y="' + (Y - 6) + '" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--text)">' + p.label + '</text>';
+  });
+
+  return '<div class="graph-wrap' + (opts.wide ? ' wide' : '') + '"><svg viewBox="0 0 ' + W + ' ' + H + '">' + g + '</svg>' +
+    (opts.caption ? '<div class="graph-caption">' + opts.caption + '</div>' : '') +
+    (opts.legend ? '<div class="legend">' + opts.legend.map(l => '<span><i style="background:' + l.color + '"></i>' + l.label + '</span>').join('') + '</div>' : '') +
+    '</div>';
+}
+
+const graphCubica = plotFn({
+  xmin: -3.2, xmax: 3.2, ymin: -6, ymax: 6, w: 320, h: 320,
+  grid: [-3,-2,-1,0,1,2,3], gridY: [-6,-4,-2,0,2,4,6],
+  fns: [{ f: x => x*x*x - 4*x, color: '#c2185b' }],
+  points: [{ x: -2, y: 0, label: '(-2,0)' }, { x: 0, y: 0, label: '(0,0)' }, { x: 2, y: 0, label: '(2,0)' }],
+  caption: 'Grafico probabile di f(x) = x³ − 4x: dispari, tre zeri, segno alternato.',
+  legend: [{ color: '#c2185b', label: 'y = x³ − 4x' }]
+});
+
+const graphRazionale = plotFn({
+  xmin: -8, xmax: 6, ymin: -6, ymax: 6, w: 320, h: 320,
+  grid: [-8,-6,-4,-2,0,2,4,6], gridY: [-6,-4,-2,0,2,4,6],
+  asymptotes: [{ type: 'v', at: -2, color: '#7a5197' }],
+  fns: [{ f: x => (x-1)/(x+2), color: '#3a6b8c', exclude: -2 }],
+  points: [{ x: 1, y: 0, label: '(1,0)' }, { x: 0, y: -0.5, label: '(0,-1/2)' }],
+  caption: 'Grafico probabile di f(x) = (x−1)/(x+2): il ramo vicino a x=−2 verrà precisato con i limiti.',
+  legend: [{ color: '#3a6b8c', label: 'y = (x−1)/(x+2)' }, { color: '#7a5197', label: 'x = −2 (escluso dal dominio)' }]
+});
+
+const S = [
+{
+  tag:"L'OBIETTIVO",
+  title:"Da un'espressione al suo <em>grafico</em>",
+  nav:"Obiettivo",
+  body:
+    '<p>Immagina di ricevere solo una scrittura algebrica, per esempio \\(f(x) = \\dfrac{x-1}{x+2}\\). Non è ancora un disegno: è una <strong>regola di calcolo</strong>. Lo <strong>studio di funzione</strong> è il percorso che trasforma questa regola in un\'immagine — il grafico — che si può guardare e leggere a colpo d\'occhio.</p>' +
+    '<div class="cb"><div class="cb-label">L\'idea centrale</div><p>Ogni funzione reale collega due mondi:</p><ul><li>il mondo <strong>algebrico</strong>: un\'espressione con cui si calcola;</li><li>il mondo <strong>visivo</strong>: un grafico nel piano cartesiano che si può osservare.</li></ul><p>Lo studio di funzione costruisce il <strong>ponte</strong> dal primo al secondo. E, una volta costruito, lo stesso ponte si percorre anche <strong>al contrario</strong>: da un grafico si possono leggere dominio, segno, simmetrie, senza fare un solo calcolo.</p></div>' +
+    '<h3>Il percorso di questa lezione</h3>' +
+    '<p>Per arrivare al grafico non si procede a caso: si raccolgono informazioni via via più precise, un pezzo alla volta, come un identikit.</p>' +
+    '<ol><li><strong>Dominio</strong> — dove la funzione esiste;</li><li><strong>Simmetrie</strong> — se il grafico si ripete a specchio;</li><li><strong>Intersezioni con gli assi</strong> — i punti in cui il grafico attraversa gli assi;</li><li><strong>Segno</strong> — dove il grafico sta sopra o sotto l\'asse \\(x\\);</li><li><strong>Grafico probabile</strong> — l\'immagine che riassume tutto quanto raccolto.</li></ol>' +
+    '<div class="cb warn"><div class="cb-label">Un traguardo intermedio, non finale</div><p>A questo livello ci si ferma a un grafico <strong>intuitivo</strong>, plausibile: sappiamo dove la curva sta sopra o sotto l\'asse, dove passa per zero, se è simmetrica — ma non sappiamo ancora <strong>con precisione</strong> cosa succede vicino ai punti esclusi dal dominio o quando \\(x\\) cresce indefinitamente. Quel livello di dettaglio arriverà con i <strong>limiti</strong>, nella prossima lezione: lì il grafico probabile diventerà un grafico rigoroso.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">E il percorso inverso?</div><p>Una volta allenato l\'occhio, funziona anche al contrario: guardando un grafico già disegnato, sai dire subito il dominio (dove è tracciata la curva), il segno (sopra o sotto l\'asse), le simmetrie (si sovrappone a sé stessa specchiata?). Le due direzioni — <em>dall\'espressione al grafico</em> e <em>dal grafico alle proprietà</em> — sono le due facce della stessa competenza.</p></div>'
+},
+{
+  tag:"1 · DOMINIO",
+  title:"Il <em>dominio</em>: dove la funzione esiste",
+  nav:"Dominio",
+  body:
+    '<p>Il <strong>dominio</strong> (o campo di esistenza) è l\'insieme dei valori di \\(x\\) per cui l\'espressione ha effettivamente senso. È la primissima informazione: se non sappiamo dove la funzione vive, non possiamo disegnarne il grafico.</p>' +
+    '<div class="cb"><div class="cb-label">Le tre condizioni classiche</div><p>Nello studio delle funzioni algebriche, il dominio si restringe in tre casi tipici:</p><table class="ct"><tr><th>Tipo di funzione</th><th>Condizione</th></tr><tr><td>Razionale intera (polinomio)</td><td>nessuna condizione — dominio \\(\\mathbb{R}\\)</td></tr><tr><td>Razionale fratta</td><td>denominatore \\(\\neq 0\\)</td></tr><tr><td>Irrazionale, indice pari</td><td>radicando \\(\\geq 0\\)</td></tr></table></div>' +
+    '<p>Se nella stessa funzione compaiono più condizioni, il dominio è l\'<strong>intersezione</strong> di tutte quante — devono valere simultaneamente.</p>' +
+    acc([
+      { t:"Esempio 1 — Funzione fratta", h:'<p>\\(f(x) = \\dfrac{x-1}{x+2}\\). Condizione: \\(x+2 \\neq 0\\).</p><div class="math-block result">\\[ D = \\mathbb{R} \\setminus \\{-2\\} \\]</div>' },
+      { t:"Esempio 2 — Funzione irrazionale", h:'<p>\\(f(x) = \\sqrt{x-3}\\). Condizione: \\(x - 3 \\geq 0\\).</p><div class="math-block result">\\[ D = [3, +\\infty) \\]</div>' },
+      { t:"Esempio 3 — Condizioni combinate", h:'<p>\\(f(x) = \\dfrac{\\sqrt{x+1}}{x-2}\\). Servono <strong>entrambe</strong> le condizioni: \\(x+1 \\geq 0\\) e \\(x - 2 \\neq 0\\).</p><div class="math-block result">\\[ D = [-1, 2) \\cup (2, +\\infty) \\]</div>' }
+    ]) +
+    '<div class="cb success"><div class="cb-label">Cosa significa per il grafico</div><p>I punti fuori dal dominio sono <strong>buchi obbligati</strong>: lì il grafico non può esistere, qualunque cosa succeda altrove. Escludere subito questi punti è il primo passo per capire la forma della curva.</p></div>'
+},
+{
+  tag:"2 · SIMMETRIE",
+  title:"<em>Simmetrie</em>: funzioni pari e dispari",
+  nav:"Simmetrie",
+  body:
+    '<p>Prima di calcolare punto per punto, conviene chiedersi: il grafico ha una <strong>simmetria</strong> che permette di dimezzare il lavoro? Bastano due test algebrici, entrambi sul segno di \\(f(-x)\\).</p>' +
+    '<div class="cb"><div class="cb-label">Funzione pari</div><p>Se \\(f(-x) = f(x)\\) per ogni \\(x\\) del dominio, il grafico è <strong>simmetrico rispetto all\'asse \\(y\\)</strong>: la metà sinistra è lo specchio della metà destra.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Funzione dispari</div><p>Se \\(f(-x) = -f(x)\\) per ogni \\(x\\) del dominio, il grafico è <strong>simmetrico rispetto all\'origine</strong>: ruotandolo di 180° attorno a \\((0,0)\\) si sovrappone a sé stesso.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Il caso più comune</div><p>La maggior parte delle funzioni non è né pari né dispari: niente panico, è normale. Il test si fa comunque, perché quando la simmetria c\'è, fa risparmiare metà del lavoro di analisi.</p></div>' +
+    acc([
+      { t:"Esempio 1 — Funzione pari", h:'<p>\\(f(x) = x^2 - 4\\). Calcolo \\(f(-x) = (-x)^2 - 4 = x^2 - 4 = f(x)\\).</p><div class="math-block result">\\[ \\text{funzione pari, simmetrica rispetto a } y \\]</div>' },
+      { t:"Esempio 2 — Funzione dispari", h:'<p>\\(f(x) = x^3 - 4x\\). Calcolo \\(f(-x) = -x^3+4x = -(x^3-4x) = -f(x)\\).</p><div class="math-block result">\\[ \\text{funzione dispari, simmetrica rispetto all\'origine} \\]</div>' },
+      { t:"Esempio 3 — Né pari né dispari", h:'<p>\\(f(x) = x^2 + x\\). Calcolo \\(f(-x) = x^2 - x\\), che non è uguale né a \\(f(x)\\) né a \\(-f(x)\\).</p><p class="dim">Nessuna simmetria: si prosegue senza questa scorciatoia.</p>' }
+    ])
+},
+{
+  tag:"3 · INTERSEZIONI",
+  title:"<em>Intersezioni</em> con gli assi",
+  nav:"Intersezioni",
+  body:
+    '<p>Le intersezioni con gli assi sono i primi punti <strong>certi</strong> del grafico: coordinate esatte, non approssimazioni.</p>' +
+    '<div class="cb"><div class="cb-label">Con l\'asse y</div><p>Si pone \\(x=0\\) (solo se \\(0\\) appartiene al dominio) e si calcola \\(f(0)\\): un unico punto \\((0, f(0))\\), perché una funzione assegna un solo valore a ogni \\(x\\).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Con l\'asse x</div><p>Si risolve l\'equazione \\(f(x) = 0\\): ogni soluzione è un punto \\((x_0, 0)\\). Qui possono essercene <strong>più di uno</strong>, uno solo, o nessuno.</p></div>' +
+    acc([
+      { t:"Esempio svolto completo", h:'<p>\\(f(x) = \\dfrac{x-1}{x+2}\\) (dominio \\(x \\neq -2\\)).</p><p><strong>Asse y</strong>: \\(f(0) = \\dfrac{-1}{2}\\), quindi il punto \\(\\left(0, -\\tfrac12\\right)\\).</p><p><strong>Asse x</strong>: \\(\\dfrac{x-1}{x+2}=0 \\Rightarrow x-1=0 \\Rightarrow x=1\\) (accettabile, diverso da \\(-2\\)), quindi il punto \\((1,0)\\).</p>' },
+      { t:"Attenzione — Una funzione fratta può non avere zeri", h:'<p>Una frazione è nulla solo se il <strong>numeratore</strong> è nullo (e il denominatore no). Se il numeratore non si annulla mai, la funzione non incontra mai l\'asse \\(x\\): capita spesso e va semplicemente registrato come dato.</p>' }
+    ])
+},
+{
+  tag:"4 · SEGNO",
+  title:"Lo studio del <em>segno</em>",
+  nav:"Segno",
+  body:
+    '<p>Qui arriviamo al passo più ricco di informazione: sapere <strong>dove</strong> il grafico sta sopra l\'asse \\(x\\) (funzione positiva) e dove sta sotto (funzione negativa) restringe moltissimo le forme possibili del grafico.</p>' +
+    '<div class="cb"><div class="cb-label">Il procedimento</div><p>Si risolve la disequazione \\(f(x) > 0\\) (o \\(\\geq 0\\) se si vuole includere gli zeri) con gli stessi metodi già visti per le disequazioni: si scompone, si studiano i singoli fattori, si combinano i segni.</p></div>' +
+    '<h3>Il caso delle funzioni fratte</h3>' +
+    '<p>Per \\(f(x) = \\dfrac{N(x)}{D(x)} > 0\\), si studia il segno di numeratore e denominatore <strong>separatamente</strong>, poi si applica la regola dei segni del prodotto (uguali → positivo, diversi → negativo) con una tabella.</p>' +
+    acc([
+      { t:"Esempio svolto — Segno di una funzione fratta", h:'<p>Studia il segno di \\(f(x) = \\dfrac{x-1}{x+2}\\).</p><p>Numeratore: \\(x - 1 > 0 \\Leftrightarrow x > 1\\). Denominatore: \\(x+2 > 0 \\Leftrightarrow x > -2\\).</p>' +
+        '<table class="ct sign"><tr><th>Intervallo</th><th>x &lt; −2</th><th>−2 &lt; x &lt; 1</th><th>x &gt; 1</th></tr>' +
+        '<tr><td>N: x−1</td><td>−</td><td>−</td><td>+</td></tr>' +
+        '<tr><td>D: x+2</td><td>−</td><td>+</td><td>+</td></tr>' +
+        '<tr><td>f(x)</td><td>+</td><td>−</td><td>+</td></tr></table>' +
+        '<div class="math-block result">\\[ f(x) > 0 \\ \\text{ per } x < -2 \\ \\lor\\ x > 1, \\qquad f(x) < 0 \\ \\text{ per } -2 < x < 1 \\]</div>' },
+      { t:"Esempio svolto — Segno di una cubica", h:'<p>Studia il segno di \\(f(x) = x^3 - 4x = x(x-2)(x+2)\\).</p><table class="ct sign"><tr><th>Intervallo</th><th>x &lt; −2</th><th>−2 &lt; x &lt; 0</th><th>0 &lt; x &lt; 2</th><th>x &gt; 2</th></tr>' +
+        '<tr><td>f(x)</td><td>−</td><td>+</td><td>−</td><td>+</td></tr></table>' +
+        '<p class="dim">Tre zeri semplici alternano il segno a ogni passaggio: è la stessa logica delle disequazioni scomposte in fattori.</p>' }
+    ]) +
+    '<div class="cb success"><div class="cb-label">Cosa significa per il grafico</div><p>Ogni intervallo con segno "+" è una zona in cui il grafico è <strong>obbligato a stare sopra</strong> l\'asse \\(x\\); ogni intervallo con segno "−" lo obbliga a stare <strong>sotto</strong>. Combinato con gli zeri già trovati, il grafico è ormai quasi vincolato.</p></div>'
+},
+{
+  tag:"5 · SINTESI",
+  title:"Il <em>grafico probabile</em>",
+  nav:"Grafico",
+  body:
+    '<p>È il momento in cui tutte le informazioni raccolte si fondono in un\'unica immagine. Non un disegno esatto punto per punto, ma un grafico <strong>plausibile</strong>, coerente con tutti i vincoli trovati.</p>' +
+    '<div class="cb"><div class="cb-label">Come si assembla</div><ol><li>Si traccia il dominio sull\'asse \\(x\\) (escludendo i punti non ammessi);</li><li>si segnano i punti di intersezione con gli assi;</li><li>si colorano (mentalmente) le zone sopra/sotto l\'asse secondo il segno;</li><li>se c\'è simmetria, si disegna solo metà curva e si riflette;</li><li>si uniscono i punti con una linea plausibile, rispettando segno e simmetria.</li></ol></div>' +
+    '<h3>Esempio completo 1 — Una funzione dispari</h3>' +
+    '<p>Riprendiamo \\(f(x) = x^3 - 4x\\): dominio \\(\\mathbb{R}\\), dispari (simmetrica rispetto all\'origine), zeri in \\(x=-2,0,2\\), segno \\(-,+,-,+\\) come visto sopra.</p>' +
+    graphCubica +
+    '<div class="cb tip"><div class="cb-label">Lettura del grafico</div><p>Nota come il grafico rispetta <strong>tutti</strong> i vincoli: passa esattamente per i tre zeri, sta sopra l\'asse dove il segno è positivo, sotto dove è negativo, ed è simmetrico rispetto all\'origine (ruotandolo di 180° si sovrappone a sé stesso).</p></div>' +
+    '<h3>Esempio completo 2 — Una funzione fratta</h3>' +
+    '<p>Riprendiamo \\(f(x) = \\dfrac{x-1}{x+2}\\): dominio \\(\\mathbb{R}\\setminus\\{-2\\}\\), non simmetrica, intersezioni \\((0,-\\tfrac12)\\) e \\((1,0)\\), segno positivo per \\(x<-2\\) o \\(x>1\\), negativo nel mezzo.</p>' +
+    graphRazionale +
+    '<div class="cb warn"><div class="cb-label">Cosa manca ancora</div><p>Vicino a \\(x=-2\\) (escluso dal dominio) il grafico si comporta in un modo che qui possiamo solo intuire: sale o scende indefinitamente? E cosa fa la curva quando \\(x\\) diventa molto grande, in positivo o in negativo? Queste domande hanno una risposta <strong>precisa</strong> solo con lo strumento dei <strong>limiti</strong>: è esattamente il prossimo argomento del corso.</p></div>' +
+    acc([
+      { t:"Esercizio guidato — Assembla tu il grafico", h:'<p>\\(f(x) = x^2 - 4\\). Dominio \\(\\mathbb{R}\\), pari, zeri in \\(x=\\pm2\\), \\(f(0)=-4\\).</p><p>Segno: \\((x-2)(x+2) > 0\\) per \\(x<-2\\) o \\(x>2\\); negativo tra \\(-2\\) e \\(2\\).</p><p class="dim">Prova a immaginare (o disegnare su carta) una parabola simmetrica rispetto all\'asse y, che tocca l\'asse x in \\(\\pm2\\) e sta sotto l\'asse tra questi due punti: è esattamente il grafico probabile di questa funzione.</p>' }
+    ]) +
+    '<h3>Tabella riassuntiva del metodo</h3>' +
+    '<table class="ct"><tr><th>Passo</th><th>Cosa dà al grafico</th></tr>' +
+    '<tr><td>Dominio</td><td>dove il grafico può esistere (esclude punti/zone)</td></tr>' +
+    '<tr><td>Simmetrie</td><td>dimezza il lavoro (specchio rispetto a y o all\'origine)</td></tr>' +
+    '<tr><td>Intersezioni con gli assi</td><td>punti esatti per cui la curva passa</td></tr>' +
+    '<tr><td>Segno</td><td>zone obbligate sopra/sotto l\'asse x</td></tr>' +
+    '<tr><td>Grafico probabile</td><td>sintesi visiva coerente con tutti i vincoli</td></tr>' +
+    '<tr><td>Limiti (prossima lezione)</td><td>precisano il comportamento agli estremi del dominio</td></tr></table>' +
+    '<div class="cb success"><div class="cb-label">Il filo conduttore</div><p>Da un\'espressione algebrica siamo arrivati, passo dopo passo, a un\'immagine. È esattamente l\'obiettivo dichiarato all\'inizio: <strong>vedere</strong> la funzione, non solo calcolarla. E ora che l\'occhio è allenato, la stessa lettura funziona anche a ritroso: da un grafico già tracciato, saprai ricavare dominio, segno e simmetrie senza fare un solo calcolo.</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>
