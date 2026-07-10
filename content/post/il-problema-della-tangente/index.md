@@ -61,6 +61,8 @@ Però notiamo qualcosa di cruciale:
 > 2. Nel momento in cui i due punti coincideranno esisterà un'unica retta passante per quel punto e quella retta non potrà che essere la **tangente** alla curva nel punto $P$. La sua inclinazione $m$ — il coefficiente angolare — è proprio quello che cerchiamo.
 > 3. La **secante** si trasforma in **tangente** al limite!
 
+<video src="derivata-secante-tangente.webm" autoplay loop muted playsinline controls style="width:100%; max-width:640px; display:block; margin:1.5rem auto; border-radius:8px;"></video>
+
 ### La formula della retta secante
 
 La retta passante per $P$ e $Q$ ha equazione:

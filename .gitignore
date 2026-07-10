@@ -11,3 +11,8 @@ jsconfig.json
 node_modules/
 go.sum
 .hugo_build.lock
+
+# Manim
+.manim-venv/
+manim/**/media/
+manim/**/__pycache__/
