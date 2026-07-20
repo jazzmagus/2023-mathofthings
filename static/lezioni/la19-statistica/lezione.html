@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento — Elementi di Statistica</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Elementi di Statistica · avanzato</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+{
+  tag:"FONDAMENTI",
+  title:"Popolazione, campione e <em>distribuzioni</em>",
+  nav:"Fondamenti",
+  body:
+    '<p>La statistica studia come <strong>raccogliere, organizzare e interpretare</strong> dati raccolti su un insieme di unità — persone, oggetti, misurazioni. L\'insieme completo di queste unità si chiama <strong>popolazione</strong>; quando è troppo grande per essere osservata tutta, si osserva un suo sottoinsieme, detto <strong>campione</strong>.</p>' +
+    '<div class="cb"><div class="cb-label">Variabili statistiche</div><p>Il carattere che osserviamo su ogni unità si chiama <strong>variabile statistica</strong>, e può essere:</p><ul><li><strong>qualitativa</strong>: esprime una qualità non numerica (colore degli occhi, materia preferita);</li><li><strong>quantitativa discreta</strong>: numero di valori numerabile (numero di fratelli, voti da 1 a 10);</li><li><strong>quantitativa continua</strong>: può assumere, in linea di principio, ogni valore in un intervallo (altezza, tempo).</li></ul></div>' +
+    '<h3>Distribuzioni di frequenza</h3>' +
+    '<p>Il primo passo per leggere un insieme di dati è organizzarli in una <strong>distribuzione di frequenza</strong>: una tabella che associa a ogni valore (o classe di valori) il numero di volte che compare.</p>' +
+    '<table class="ct"><tr><th>Tipo di frequenza</th><th>Definizione</th></tr>' +
+    '<tr><td>Frequenza assoluta \\(n_i\\)</td><td>numero di unità che presentano il valore/classe \\(i\\)</td></tr>' +
+    '<tr><td>Frequenza relativa \\(f_i\\)</td><td>\\(f_i = \\dfrac{n_i}{N}\\), dove \\(N\\) è il numero totale di unità (\\(0 \\leq f_i \\leq 1\\))</td></tr>' +
+    '<tr><td>Frequenza percentuale</td><td>\\(f_i \\times 100\\), espressa in %</td></tr>' +
+    '<tr><td>Frequenza cumulata</td><td>somma delle frequenze di tutti i valori fino a quello considerato</td></tr></table>' +
+    '<div class="cb tip"><div class="cb-label">Rappresentazioni grafiche</div><p>Le distribuzioni si rappresentano tipicamente con <strong>istogrammi</strong> o <strong>diagrammi a barre</strong> (variabili quantitative/qualitative), con l\'<strong>areogramma</strong> (a torta, per confrontare le parti di un totale) o con il <strong>poligono di frequenza</strong> (per osservare l\'andamento).</p></div>' +
+    acc([
+      { t:"Esempio — Distribuzione di frequenza", h:'<p>In una classe di 20 studenti, il voto dell\'ultima verifica è: 6 (×4), 7 (×6), 8 (×5), 9 (×3), 10 (×2).</p><table class="ct"><tr><th>Voto</th><th>\\(n_i\\)</th><th>\\(f_i\\)</th><th>%</th></tr><tr><td>6</td><td>4</td><td>0.20</td><td>20%</td></tr><tr><td>7</td><td>6</td><td>0.30</td><td>30%</td></tr><tr><td>8</td><td>5</td><td>0.25</td><td>25%</td></tr><tr><td>9</td><td>3</td><td>0.15</td><td>15%</td></tr><tr><td>10</td><td>2</td><td>0.10</td><td>10%</td></tr></table><p class="dim">Le frequenze relative sommano sempre a 1 (100%): è una buona verifica di correttezza.</p>' }
+    ])
+},
+{
+  tag:"POSIZIONE",
+  title:"Indici di <em>posizione</em>",
+  nav:"Posizione",
+  body:
+    '<p>Un indice di posizione (o di tendenza centrale) è un singolo numero che riassume "dove si trova, in media" un insieme di dati.</p>' +
+    '<div class="cb"><div class="cb-label">Media aritmetica</div><p>Per dati \\(x_1, \\dots, x_N\\):</p><div class="math-block hero-formula">\\[ \\bar{x} = \\frac{1}{N}\\sum_{i=1}^{N} x_i \\]</div><p>Se i dati sono raggruppati in classi con frequenza \\(n_i\\), la media si calcola pesando ogni valore per la sua frequenza: \\(\\bar x = \\dfrac{1}{N}\\sum_i x_i\\, n_i\\).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Mediana</div><p>Ordinati i dati in modo crescente, la <strong>mediana</strong> è il valore centrale: se \\(N\\) è dispari, è il dato in posizione \\(\\frac{N+1}{2}\\); se \\(N\\) è pari, è la media dei due dati centrali. A differenza della media, la mediana è <strong>robusta</strong>: non è influenzata da valori estremi (outlier).</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Moda</div><p>La <strong>moda</strong> è il valore (o la classe) con la frequenza più alta. È l\'unico indice di posizione utilizzabile anche per variabili <strong>qualitative</strong>, e una distribuzione può avere più di una moda (bimodale, multimodale).</p></div>' +
+    '<h3>Quale indice scegliere?</h3>' +
+    '<p>La scelta dipende dai dati e da cosa vogliamo evidenziare: la media usa tutte le informazioni ma è sensibile ai valori estremi; la mediana è più robusta; la moda è utile per capire il valore più "tipico" o frequente.</p>' +
+    acc([
+      { t:"Esempio — Effetto di un outlier", h:'<p>Gli stipendi mensili (in migliaia di euro) di 5 persone sono: 1.2, 1.3, 1.4, 1.5, 12.</p><div class="math-block">\\[ \\bar{x} = \\frac{1.2+1.3+1.4+1.5+12}{5} = \\frac{17.4}{5} = 3.48 \\]</div><p>La media (3.480 €) non rappresenta bene "il tipico" stipendio, distorta dal valore anomalo. La mediana, invece:</p><div class="math-block result">\\[ \\text{Mediana} = 1.4 \\ (\\text{valore centrale}) \\]</div><p class="dim">Descrive molto meglio la situazione tipica: è per questo che, per esempio, i redditi si riportano spesso in termini di mediana, non di media.</p>' }
+    ])
+},
+{
+  tag:"VARIABILITÀ",
+  title:"Indici di <em>variabilità</em>",
+  nav:"Variabilità",
+  body:
+    '<p>Due insiemi di dati possono avere la stessa media ma essere molto diversi: uno concentrato attorno al valore centrale, l\'altro molto disperso. Gli indici di <strong>variabilità</strong> (o dispersione) misurano proprio questo.</p>' +
+    '<div class="cb"><div class="cb-label">Campo di variazione</div><p>Il più semplice: la differenza tra il valore massimo e il valore minimo dei dati. \\(R = x_{max} - x_{min}\\). Semplice da calcolare, ma molto sensibile agli outlier (dipende solo da due valori).</p></div>' +
+    '<div class="cb success"><div class="cb-label">Varianza</div><p>Misura la dispersione media dei dati rispetto alla media, elevando al quadrato gli scostamenti (per evitare che si compensino tra positivi e negativi):</p><div class="math-block hero-formula">\\[ \\sigma^2 = \\frac{1}{N}\\sum_{i=1}^N (x_i - \\bar x)^2 \\tag{Var} \\]</div></div>' +
+    '<div class="cb tip"><div class="cb-label">Deviazione standard</div><p>La varianza si misura in "unità al quadrato" (ad esempio metri²), il che la rende poco intuitiva. Per tornare all\'unità originale, si prende la radice quadrata: \\(\\sigma = \\sqrt{\\sigma^2}\\). La deviazione standard è l\'indice di variabilità più usato in pratica.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Perché il quadrato e non il valore assoluto</div><p>Si potrebbe pensare di usare \\(\\frac1N\\sum|x_i-\\bar x|\\) (scarto medio assoluto) invece del quadrato. Si usa il quadrato perché ha proprietà algebriche più maneggevoli (derivabilità, additività della varianza per variabili indipendenti) che si sfruttano nell\'inferenza statistica più avanzata.</p></div>' +
+    acc([
+      { t:"Esempio — Calcolo della varianza", h:'<p>Calcola varianza e deviazione standard di \\(2, 4, 4, 6\\).</p><p>Media: \\(\\bar x = \\dfrac{2+4+4+6}{4}=4\\).</p><div class="math-block">\\[ \\sigma^2 = \\frac{(2-4)^2+(4-4)^2+(4-4)^2+(6-4)^2}{4} = \\frac{4+0+0+4}{4} = 2 \\]</div><div class="math-block result">\\[ \\sigma^2 = 2, \\qquad \\sigma = \\sqrt2 \\approx 1.41 \\]</div>' }
+    ])
+},
+{
+  tag:"CORRELAZIONE",
+  title:"Cenni di <em>correlazione</em>",
+  nav:"Correlazione",
+  body:
+    '<p>Finora abbiamo osservato <strong>una</strong> variabile alla volta. Spesso, però, siamo interessati a capire se due variabili sono <strong>legate</strong> tra loro: ad esempio, ore di studio e voto ottenuto.</p>' +
+    '<div class="cb"><div class="cb-label">Diagramma a dispersione</div><p>Il primo strumento, puramente visivo, è il <strong>diagramma a dispersione</strong> (scatter plot): ogni unità statistica diventa un punto \\((x_i, y_i)\\) nel piano cartesiano. Se i punti seguono, all\'incirca, una retta, si parla di <strong>correlazione lineare</strong>.</p></div>' +
+    '<table class="ct"><tr><th>Andamento dei punti</th><th>Interpretazione</th></tr>' +
+    '<tr><td>retta con pendenza positiva</td><td>correlazione positiva: quando \\(x\\) cresce, tende a crescere anche \\(y\\)</td></tr>' +
+    '<tr><td>retta con pendenza negativa</td><td>correlazione negativa: quando \\(x\\) cresce, \\(y\\) tende a diminuire</td></tr>' +
+    '<tr><td>nube di punti senza direzione</td><td>correlazione (lineare) debole o assente</td></tr></table>' +
+    '<div class="cb success"><div class="cb-label">Coefficiente di correlazione</div><p>Per misurare numericamente la forza del legame lineare si usa il <strong>coefficiente di correlazione</strong> \\(r\\), che vale sempre tra \\(-1\\) e \\(1\\):</p><ul><li>\\(r\\) vicino a \\(+1\\): forte correlazione positiva;</li><li>\\(r\\) vicino a \\(-1\\): forte correlazione negativa;</li><li>\\(r\\) vicino a \\(0\\): nessuna correlazione lineare evidente.</li></ul></div>' +
+    '<div class="cb danger"><div class="cb-label">Correlazione non è causazione</div><p>Un valore di \\(r\\) elevato indica solo un <strong>legame statistico</strong>, non che una variabile <strong>causi</strong> l\'altra. Un classico esempio: nei mesi estivi crescono sia le vendite di gelati sia gli annegamenti in mare — ma non è che i gelati causino gli annegamenti: entrambi dipendono da una terza variabile, la temperatura.</p></div>' +
+    '<p class="dim">Il calcolo esplicito della formula di \\(r\\) e la retta di regressione — lo strumento con cui si "traccia" numericamente la tendenza vista nel grafico — sono argomenti che affronterai in modo rigoroso nel corso pro.</p>' +
+    acc([
+      { t:"Esempio — Lettura di un diagramma", h:'<p>In un\'indagine su 10 studenti si osservano ore di studio settimanali e voto medio: chi studia più ore tende ad avere un voto più alto, e il diagramma a dispersione mostra punti abbastanza vicini a una retta crescente.</p><p>Questo suggerisce un coefficiente \\(r\\) positivo e non troppo lontano da 1 — ma per quantificarlo con precisione serve la formula di \\(r\\), che vedremo nel corso pro.</p>' }
+    ])
+},
+{
+  tag:"PRATICA",
+  title:"Esercizi e <em>sintesi</em>",
+  nav:"Esercizi",
+  body:
+    '<p>Prova a risolvere ogni esercizio prima di aprire la soluzione.</p>' +
+    acc([
+      { t:"Problema 1 — Frequenze", h:'<p>In un sondaggio su 50 persone, 20 preferiscono il mare, 15 la montagna, 15 la città. Calcola le frequenze relative.</p><div class="math-block result">\\[ f_{mare}=\\frac{20}{50}=0.40, \\quad f_{montagna}=\\frac{15}{50}=0.30, \\quad f_{citta}=\\frac{15}{50}=0.30 \\]</div>' },
+      { t:"Problema 2 — Media e mediana", h:'<p>Calcola media e mediana di: 3, 7, 7, 9, 14.</p><div class="math-block">\\[ \\bar x = \\frac{3+7+7+9+14}{5} = \\frac{40}{5}=8 \\]</div><div class="math-block result">\\[ \\bar x = 8, \\qquad \\text{Mediana} = 7 \\ (\\text{valore centrale}) \\]</div>' },
+      { t:"Problema 3 — Moda", h:'<p>I colori preferiti in una classe: rosso (5), blu (9), verde (4), giallo (2). Qual è la moda?</p><div class="math-block result">\\[ \\text{Moda} = \\text{blu} \\ (\\text{9 preferenze, la frequenza più alta}) \\]</div>' },
+      { t:"Problema 4 — Varianza", h:'<p>Calcola la varianza dei dati: 5, 5, 5, 5 (tutti identici). Cosa ti aspetti, prima di calcolare?</p><p>Tutti gli scarti dalla media sono nulli:</p><div class="math-block result">\\[ \\sigma^2 = 0 \\]</div><p class="dim">Varianza zero significa nessuna dispersione: è il caso limite di massima "concentrazione" dei dati.</p>' },
+      { t:"Problema 5 — Interpretare una correlazione", h:'<p>Un\'indagine trova una forte correlazione positiva tra il numero di pompieri presenti su un incendio e i danni causati dall\'incendio stesso. Possiamo concludere che i pompieri causano i danni?</p><div class="math-block result">\\[ \\text{No: entrambe le variabili dipendono dalla gravità dell\'incendio (variabile confondente).} \\]</div>' }
+    ]) +
+    '<h3>Formule da ricordare</h3>' +
+    '<table class="ct"><tr><th>Concetto</th><th>Formula</th></tr>' +
+    '<tr><td>Frequenza relativa</td><td>\\(f_i = n_i/N\\)</td></tr>' +
+    '<tr><td>Media aritmetica</td><td>\\(\\bar x = \\frac1N\\sum x_i\\)</td></tr>' +
+    '<tr><td>Varianza</td><td>\\(\\sigma^2 = \\frac1N\\sum(x_i-\\bar x)^2\\)</td></tr>' +
+    '<tr><td>Deviazione standard</td><td>\\(\\sigma = \\sqrt{\\sigma^2}\\)</td></tr>' +
+    '<tr><td>Coefficiente di correlazione</td><td>\\(-1 \\leq r \\leq 1\\)</td></tr></table>' +
+    '<div class="cb success"><div class="cb-label">Come orientarsi</div><p>Davanti a un insieme di dati, chiediti: che tipo di variabile è (qualitativa o quantitativa)? Qual è il valore "tipico" (media, mediana, moda — quale ha più senso)? Quanto sono dispersi i dati attorno a quel valore (varianza, deviazione standard)? Se ho due variabili, sembrano legate tra loro (diagramma a dispersione, correlazione)? E, soprattutto: una correlazione osservata implica davvero una causa?</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>

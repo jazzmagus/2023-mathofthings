@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento — Statistica: Correlazione, Regressione, Inferenza</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Statistica: Correlazione, Regressione, Inferenza · pro</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+{
+  tag:"RICHIAMI RIGOROSI",
+  title:"Indici di posizione e variabilità: <em>proprietà</em>",
+  nav:"Richiami",
+  body:
+    '<p>Riprendiamo media, varianza e deviazione standard — già incontrate nel percorso avanzato — ma questa volta dimostrandone le proprietà più importanti, quelle su cui si fonda tutta la statistica inferenziale.</p>' +
+    '<div class="cb success"><div class="cb-label">Teorema — La media minimizza la somma dei quadrati degli scarti</div><p>Tra tutti i numeri reali \\(c\\), la media aritmetica \\(\\bar x\\) è quello che minimizza la funzione \\(S(c) = \\sum_{i=1}^N (x_i-c)^2\\).</p><p><strong>Dimostrazione.</strong> Deriviamo \\(S(c)\\) rispetto a \\(c\\) e imponiamo che si annulli:</p><div class="math-block">\\[ S\'(c) = -2\\sum_{i=1}^N (x_i-c) = 0 \\quad\\Rightarrow\\quad \\sum_{i=1}^N x_i = Nc \\quad\\Rightarrow\\quad c = \\frac1N\\sum_{i=1}^N x_i = \\bar x \\]</div><p>Poiché \\(S\'\'(c)=2N>0\\), si tratta di un minimo. \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Perché conta</div><p>Questo teorema è la ragione profonda per cui la varianza si definisce con gli scarti dalla <strong>media</strong> (e non da un altro valore): è la scelta che rende la dispersione "più piccola possibile" nel senso dei quadrati. È anche il seme concettuale del metodo dei minimi quadrati, che vedremo per la retta di regressione.</p></div>' +
+    '<div class="cb"><div class="cb-label">Formula di calcolo alternativa per la varianza</div><p>Espandendo il quadrato in \\(\\sigma^2=\\frac1N\\sum(x_i-\\bar x)^2\\), si ottiene una formula spesso più comoda per il calcolo a mano:</p><div class="math-block hero-formula">\\[ \\sigma^2 = \\frac1N\\sum_{i=1}^N x_i^2 - \\bar x^2 \\tag{V} \\]</div><p><strong>Dimostrazione.</strong> \\(\\sum(x_i-\\bar x)^2 = \\sum x_i^2 - 2\\bar x\\sum x_i + N\\bar x^2 = \\sum x_i^2 - 2\\bar x(N\\bar x) + N\\bar x^2 = \\sum x_i^2 - N\\bar x^2\\). Dividendo per \\(N\\) si ottiene la (V). \\(\\blacksquare\\)</p></div>' +
+    acc([
+      { t:"Esempio — Formula alternativa della varianza", h:'<p>Ricalcola la varianza di \\(2,4,4,6\\) con la formula (V).</p><p>\\(\\bar x=4\\), e \\(\\frac1N\\sum x_i^2 = \\frac{4+16+16+36}{4}=\\frac{72}{4}=18\\).</p><div class="math-block result">\\[ \\sigma^2 = 18 - 4^2 = 18-16 = 2 \\]</div><p class="dim">Stesso risultato di prima, ottenuto con un\'unica somma invece di calcolare ogni scarto singolarmente.</p>' }
+    ])
+},
+{
+  tag:"COVARIANZA",
+  title:"Covarianza, correlazione e <em>Pearson</em>",
+  nav:"Covarianza",
+  body:
+    '<p>Per formalizzare il legame tra due variabili \\(x\\) e \\(y\\), osservate sulle stesse \\(N\\) unità, introduciamo la <strong>covarianza</strong>.</p>' +
+    '<div class="cb"><div class="cb-label">Covarianza</div><div class="math-block hero-formula">\\[ \\sigma_{xy} = \\frac1N \\sum_{i=1}^N (x_i-\\bar x)(y_i-\\bar y) \\tag{Cov} \\]</div><p>Il segno di \\(\\sigma_{xy}\\) indica il tipo di legame: <strong>positivo</strong> se, in media, quando \\(x_i\\) è sopra la sua media anche \\(y_i\\) tende a essere sopra la sua (e viceversa); <strong>negativo</strong> nel caso opposto.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Il problema di scala</div><p>La covarianza dipende dall\'<strong>unità di misura</strong> delle variabili: se misuriamo \\(x\\) in metri invece che in centimetri, \\(\\sigma_{xy}\\) cambia di un fattore 100, pur non essendo cambiato il legame "reale" tra le due grandezze. Serve un indice che sia <strong>indipendente dalla scala</strong>.</p></div>' +
+    '<div class="cb success"><div class="cb-label">Coefficiente di correlazione di Pearson</div><p>Si normalizza la covarianza dividendo per le deviazioni standard delle due variabili:</p><div class="math-block hero-formula">\\[ r = \\frac{\\sigma_{xy}}{\\sigma_x\\,\\sigma_y} \\tag{P} \\]</div></div>' +
+    '<h3>Dimostrazione: perché −1 ≤ r ≤ 1</h3>' +
+    '<div class="cb purple"><div class="cb-label">Disuguaglianza di Cauchy-Schwarz</div><p>Consideriamo i vettori degli scarti \\(u_i = x_i-\\bar x\\) e \\(v_i = y_i - \\bar y\\). La disuguaglianza di Cauchy-Schwarz afferma che, per vettori qualunque:</p><div class="math-block">\\[ \\left(\\sum_i u_i v_i\\right)^2 \\leq \\left(\\sum_i u_i^2\\right)\\left(\\sum_i v_i^2\\right) \\]</div><p>Dividendo entrambi i membri per \\(N^2\\), il primo membro diventa \\(\\sigma_{xy}^2\\) e il secondo \\(\\sigma_x^2\\sigma_y^2\\):</p><div class="math-block">\\[ \\sigma_{xy}^2 \\leq \\sigma_x^2\\,\\sigma_y^2 \\quad\\Rightarrow\\quad \\left(\\frac{\\sigma_{xy}}{\\sigma_x\\sigma_y}\\right)^2 \\leq 1 \\quad\\Rightarrow\\quad -1 \\leq r \\leq 1 \\]</div><p>\\(\\blacksquare\\)</p></div>' +
+    '<div class="cb tip"><div class="cb-label">I casi estremi</div><p>\\(r=\\pm1\\) si verifica se e solo se i punti \\((x_i,y_i)\\) sono <strong>esattamente allineati</strong> su una retta (uguaglianza in Cauchy-Schwarz \\(\\Leftrightarrow\\) i vettori \\(u\\) e \\(v\\) sono proporzionali). Più i punti si allontanano da una retta, più \\(|r|\\) si allontana da 1.</p></div>' +
+    acc([
+      { t:"Esempio svolto — Calcolo di r", h:'<p>Dati \\((1,2), (2,4), (3,5), (4,8)\\), calcola \\(r\\).</p><p>\\(\\bar x = 2.5\\), \\(\\bar y = 4.75\\). Scarti \\(u_i\\): \\(-1.5,-0.5,0.5,1.5\\); scarti \\(v_i\\): \\(-2.75,-0.75,0.25,3.25\\).</p><div class="math-block">\\[ \\sigma_{xy} = \\frac{(-1.5)(-2.75)+(-0.5)(-0.75)+(0.5)(0.25)+(1.5)(3.25)}{4} = \\frac{4.125+0.375+0.125+4.875}{4} = 2.375 \\]</div><p>\\(\\sigma_x^2 = \\frac{1.5^2+0.5^2+0.5^2+1.5^2}{4}=1.25\\), \\(\\sigma_y^2 = \\frac{2.75^2+0.75^2+0.25^2+3.25^2}{4} \\approx 4.69\\).</p><div class="math-block result">\\[ r = \\frac{2.375}{\\sqrt{1.25}\\cdot\\sqrt{4.69}} \\approx \\frac{2.375}{2.42} \\approx 0.98 \\]</div><p class="dim">Correlazione lineare molto forte: i punti sono quasi allineati.</p>' }
+    ])
+},
+{
+  tag:"REGRESSIONE",
+  title:"La retta dei <em>minimi quadrati</em>",
+  nav:"Regressione",
+  body:
+    '<p>Se due variabili sono correlate linearmente, vogliamo trovare la retta \\(y = a + bx\\) che meglio "riassume" la nuvola di punti: la <strong>retta di regressione</strong>.</p>' +
+    '<div class="cb"><div class="cb-label">Il criterio dei minimi quadrati</div><p>Per ogni punto \\((x_i,y_i)\\), il <strong>residuo</strong> è la differenza \\(e_i = y_i - (a+bx_i)\\) tra il valore osservato e quello previsto dalla retta. Cerchiamo la retta che minimizza la somma dei quadrati dei residui:</p><div class="math-block hero-formula">\\[ Q(a,b) = \\sum_{i=1}^N \\big[y_i-(a+bx_i)\\big]^2 \\]</div></div>' +
+    '<h3>Derivazione dei coefficienti</h3>' +
+    '<div class="cb purple"><div class="cb-label">Minimizzazione</div><p>Poniamo a zero le derivate parziali di \\(Q\\) rispetto ad \\(a\\) e \\(b\\):</p><div class="math-block">\\[ \\frac{\\partial Q}{\\partial a} = -2\\sum_i \\big[y_i-(a+bx_i)\\big] = 0 \\]</div><div class="math-block">\\[ \\frac{\\partial Q}{\\partial b} = -2\\sum_i x_i\\big[y_i-(a+bx_i)\\big] = 0 \\]</div><p>La prima equazione, divisa per \\(-2N\\), dà \\(\\bar y = a + b\\bar x\\), cioè:</p><div class="math-block">\\[ a = \\bar y - b\\bar x \\]</div><p>Sostituendo nella seconda equazione e risolvendo per \\(b\\) (dopo qualche passaggio algebrico che sfrutta le definizioni di covarianza e varianza), si ottiene:</p><div class="math-block hero-formula">\\[ b = \\frac{\\sigma_{xy}}{\\sigma_x^2} \\tag{R} \\]</div></div>' +
+    '<div class="cb success"><div class="cb-label">La retta di regressione</div><div class="math-block hero-formula">\\[ y = \\bar y + \\frac{\\sigma_{xy}}{\\sigma_x^2}(x-\\bar x) \\]</div><p>Passa sempre per il <strong>baricentro</strong> dei dati \\((\\bar x, \\bar y)\\): è una conseguenza immediata di \\(a=\\bar y - b\\bar x\\).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Legame con il coefficiente di correlazione</div><p>Si può mostrare che la pendenza \\(b\\) e il coefficiente \\(r\\) sono legati da \\(b = r\\,\\dfrac{\\sigma_y}{\\sigma_x}\\): la pendenza della retta "eredita" il segno di \\(r\\), e la sua grandezza dipende anche dal rapporto tra le variabilità delle due grandezze.</p></div>' +
+    acc([
+      { t:"Esempio svolto — Retta di regressione", h:'<p>Usando i dati dell\'esempio precedente (\\(\\bar x=2.5\\), \\(\\bar y=4.75\\), \\(\\sigma_{xy}=2.375\\), \\(\\sigma_x^2=1.25\\)):</p><div class="math-block">\\[ b = \\frac{2.375}{1.25} = 1.9, \\qquad a = 4.75 - 1.9\\cdot2.5 = 4.75-4.75 = 0 \\]</div><div class="math-block result">\\[ y = 1.9\\,x \\]</div><p class="dim">Verifica: per \\(x=4\\), la retta prevede \\(y=7.6\\), vicino al valore osservato \\(y=8\\) — un residuo piccolo, coerente con l\'\\(r\\approx0.98\\) trovato prima.</p>' }
+    ])
+},
+{
+  tag:"INFERENZA",
+  title:"Campionamento e <em>stima</em>",
+  nav:"Inferenza",
+  body:
+    '<p>Finora abbiamo <strong>descritto</strong> dati già raccolti (statistica descrittiva). L\'<strong>inferenza statistica</strong> affronta il problema opposto: usare un campione per trarre conclusioni sull\'intera popolazione, che nella pratica è quasi sempre troppo grande o costosa da osservare per intero.</p>' +
+    '<div class="cb"><div class="cb-label">Campionamento casuale semplice</div><p>Un <strong>campione casuale semplice</strong> di dimensione \\(n\\) è un sottoinsieme della popolazione scelto in modo che ogni unità abbia la stessa probabilità di essere selezionata, e le selezioni siano indipendenti tra loro. È l\'ipotesi di base su cui si fonda la teoria che segue.</p></div>' +
+    '<h3>Media campionaria come stimatore</h3>' +
+    '<p>Se vogliamo stimare la media \\(\\mu\\) di una popolazione, lo strumento naturale è la <strong>media campionaria</strong> \\(\\bar X = \\frac1n\\sum_{i=1}^n X_i\\), calcolata sul campione osservato.</p>' +
+    '<div class="cb success"><div class="cb-label">Uno stimatore non distorto</div><p>Si dice che \\(\\bar X\\) è uno stimatore <strong>corretto</strong> (o non distorto, "unbiased") di \\(\\mu\\) perché il suo <strong>valore atteso</strong> coincide esattamente con il parametro che vogliamo stimare:</p><div class="math-block hero-formula">\\[ E[\\bar X] = \\mu \\]</div><p>In altre parole: pur variando da campione a campione, la media campionaria non è sistematicamente né più alta né più bassa del vero valore \\(\\mu\\) — "in media", lo colpisce esattamente.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Un\'insidia: la varianza campionaria</div><p>Se si vuole stimare la varianza della popolazione a partire da un campione, dividere per \\(n\\) (come nella (Var) descrittiva) produce uno stimatore leggermente <strong>distorto</strong> (sottostima sistematicamente). Si corregge dividendo per \\(n-1\\) invece che per \\(n\\) — la cosiddetta <strong>varianza campionaria corretta</strong>:</p><div class="math-block hero-formula">\\[ s^2 = \\frac{1}{n-1}\\sum_{i=1}^n (X_i - \\bar X)^2 \\]</div><p>Il motivo intuitivo: la media campionaria \\(\\bar X\\), essendo calcolata dagli stessi dati, è "più vicina" ai dati del campione rispetto alla vera media incognita \\(\\mu\\), e questo fa sottostimare sistematicamente la dispersione se non si corregge il denominatore.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Uno sguardo oltre il programma</div><p>Il passo successivo — che approfondirai all\'università — è quantificare <strong>quanto</strong> ci si può fidare di una stima, costruendo un <strong>intervallo di confidenza</strong> attorno a \\(\\bar X\\) (basato sul teorema del limite centrale) invece di fornire un singolo numero. L\'idea di fondo: più il campione è grande, più la stima \\(\\bar X\\) si concentra attorno al vero valore \\(\\mu\\).</p></div>' +
+    acc([
+      { t:"Esempio — Stima puntuale", h:'<p>Un campione casuale di 5 studenti su un liceo di 800 riporta i seguenti tempi di studio settimanale (ore): 8, 10, 12, 9, 11.</p><div class="math-block">\\[ \\bar X = \\frac{8+10+12+9+11}{5} = \\frac{50}{5} = 10 \\]</div><div class="math-block result">\\[ \\text{Stima puntuale di } \\mu: \\quad \\hat\\mu = 10 \\text{ ore} \\]</div><p class="dim">È solo una stima, basata su 5 studenti su 800: non possiamo dire che la media reale sia esattamente 10, ma è la nostra migliore stima puntuale con i dati a disposizione.</p>' }
+    ])
+},
+{
+  tag:"PRATICA",
+  title:"Esercizi e <em>sintesi</em>",
+  nav:"Esercizi",
+  body:
+    '<p>Prova a risolvere ogni esercizio prima di aprire la soluzione.</p>' +
+    acc([
+      { t:"Problema 1 — Formula alternativa della varianza", h:'<p>Usa la formula (V) per calcolare la varianza di \\(1,3,5,7\\).</p><p>\\(\\bar x = 4\\), \\(\\frac1N\\sum x_i^2 = \\frac{1+9+25+49}{4} = \\frac{84}{4}=21\\).</p><div class="math-block result">\\[ \\sigma^2 = 21-16 = 5 \\]</div>' },
+      { t:"Problema 2 — Segno della covarianza", h:'<p>Se, in un insieme di dati, all\'aumentare di \\(x\\) la variabile \\(y\\) tende sempre a diminuire, che segno ha \\(\\sigma_{xy}\\)? E il coefficiente \\(r\\)?</p><div class="math-block result">\\[ \\sigma_{xy} < 0, \\qquad r < 0 \\]</div>' },
+      { t:"Problema 3 — Retta di regressione", h:'<p>Sapendo che \\(\\bar x=10\\), \\(\\bar y=50\\), \\(\\sigma_{xy}=15\\), \\(\\sigma_x^2=5\\), scrivi l\'equazione della retta di regressione.</p><div class="math-block">\\[ b = \\frac{15}{5}=3, \\qquad a = 50-3\\cdot10 = 20 \\]</div><div class="math-block result">\\[ y = 20+3x \\]</div>' },
+      { t:"Problema 4 — Dimostrazione", h:'<p>Dimostra che se tutti i punti \\((x_i,y_i)\\) sono allineati su una retta crescente, allora \\(r=1\\) esattamente.</p><p>Se \\(y_i = a+bx_i\\) con \\(b>0\\), allora \\(y_i-\\bar y = b(x_i-\\bar x)\\). Sostituendo nella (Cov):</p><div class="math-block">\\[ \\sigma_{xy} = \\frac1N\\sum (x_i-\\bar x)\\cdot b(x_i-\\bar x) = b\\,\\sigma_x^2 \\]</div><p>E \\(\\sigma_y^2 = b^2\\sigma_x^2\\), quindi \\(\\sigma_y = |b|\\sigma_x = b\\sigma_x\\) (essendo \\(b>0\\)).</p><div class="math-block result">\\[ r = \\frac{b\\sigma_x^2}{\\sigma_x \\cdot b\\sigma_x} = \\frac{b\\sigma_x^2}{b\\sigma_x^2} = 1 \\]</div>' },
+      { t:"Problema 5 — Stimatore corretto", h:'<p>Un campione di \\(n=4\\) osservazioni ha scarti quadratici dalla media campionaria pari a \\(2,3,1,4\\) (somma = 10). Calcola sia la varianza descrittiva (÷n) sia quella campionaria corretta (÷(n−1)).</p><div class="math-block result">\\[ \\sigma^2 = \\frac{10}{4}=2.5, \\qquad s^2 = \\frac{10}{3}\\approx3.33 \\]</div><p class="dim">La correzione ÷(n−1) dà sempre un valore maggiore: compensa la sottostima sistematica di cui si parlava nella lezione.</p>' }
+    ]) +
+    '<h3>Formule da ricordare</h3>' +
+    '<table class="ct"><tr><th>Concetto</th><th>Formula</th></tr>' +
+    '<tr><td>Varianza (formula alternativa)</td><td>\\(\\sigma^2 = \\frac1N\\sum x_i^2 - \\bar x^2\\)</td></tr>' +
+    '<tr><td>Covarianza</td><td>\\(\\sigma_{xy} = \\frac1N\\sum(x_i-\\bar x)(y_i-\\bar y)\\)</td></tr>' +
+    '<tr><td>Correlazione di Pearson</td><td>\\(r = \\dfrac{\\sigma_{xy}}{\\sigma_x\\sigma_y}\\), \\(-1\\leq r\\leq1\\)</td></tr>' +
+    '<tr><td>Pendenza retta di regressione</td><td>\\(b = \\dfrac{\\sigma_{xy}}{\\sigma_x^2}\\)</td></tr>' +
+    '<tr><td>Media campionaria (stimatore)</td><td>\\(E[\\bar X] = \\mu\\)</td></tr>' +
+    '<tr><td>Varianza campionaria corretta</td><td>\\(s^2 = \\dfrac{1}{n-1}\\sum(X_i-\\bar X)^2\\)</td></tr></table>' +
+    '<div class="cb success"><div class="cb-label">Come orientarsi</div><p>Davanti a un problema di statistica avanzata, chiediti: sto <strong>descrivendo</strong> dati già raccolti, o sto cercando di <strong>inferire</strong> qualcosa su una popolazione da un campione? Ho due variabili: è utile un coefficiente di correlazione, o serve la retta che le collega? Se sto stimando un parametro, il mio stimatore è corretto — cioè il suo valore atteso coincide col parametro vero?</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>
