@@ -42,7 +42,7 @@
 
   <!-- THREE MAIN SECTIONS AS CARDS -->
   <section class="sections-grid">
-    {{ $courses := (site.GetPage "courses").Sections.ByWeight }}
+    {{ $courses := slice (site.GetPage "materiali-corso-base") (site.GetPage "materiali-corso-avanzato") (site.GetPage "materiali-corso-pro") }}
     {{ $posts := (site.GetPage "post").RegularPages.ByDate.Reverse }}
     {{ $talks := (site.GetPage "event").RegularPages.ByDate.Reverse }}
 
