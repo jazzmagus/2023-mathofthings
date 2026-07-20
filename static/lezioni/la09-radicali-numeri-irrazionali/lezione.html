@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento — Radicali e Numeri Irrazionali</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Radicali e Numeri Irrazionali · avanzato</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+{
+  tag:"FONDAMENTI",
+  title:"Dai numeri razionali ai numeri <em>irrazionali</em>",
+  nav:"Irrazionali",
+  body:
+    '<p>Un numero razionale è, per definizione, un numero che si può scrivere come frazione \\(\\dfrac{p}{q}\\), con \\(p, q \\in \\mathbb{Z}\\) e \\(q \\neq 0\\). Sembra un insieme enorme — e infatti contiene tutti gli interi, tutte le frazioni, tutti i numeri decimali finiti o periodici. Eppure, già i matematici greci si accorsero che <strong>non basta</strong> a misurare tutte le lunghezze che si incontrano in geometria.</p>' +
+    '<div class="cb"><div class="cb-label">Il problema della diagonale</div><p>Considera un quadrato di lato 1. Per il teorema di Pitagora, la diagonale \\(d\\) soddisfa \\(d^2 = 1^2+1^2 = 2\\), cioè \\(d=\\sqrt2\\). Una lunghezza concretissima, costruibile con riga e compasso — ma, come vedremo, <strong>non esprimibile</strong> come frazione di interi.</p></div>' +
+    '<h3>La dimostrazione dell\'irrazionalità di √2</h3>' +
+    '<p>Si tratta di uno dei più celebri argomenti per <strong>assurdo</strong> della storia della matematica, attribuito alla scuola pitagorica.</p>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione per assurdo</div><p>Supponiamo, per assurdo, che \\(\\sqrt2\\) sia razionale: \\(\\sqrt2 = \\dfrac{p}{q}\\), con \\(p,q\\) interi <strong>senza fattori comuni</strong> (frazione ridotta ai minimi termini). Elevando al quadrato:</p><div class="math-block">\\[ 2 = \\frac{p^2}{q^2} \\quad\\Rightarrow\\quad p^2 = 2q^2 \\]</div><p>Quindi \\(p^2\\) è pari, e allora anche \\(p\\) deve essere pari (il quadrato di un dispari è dispari). Scriviamo \\(p=2k\\):</p><div class="math-block">\\[ (2k)^2 = 2q^2 \\quad\\Rightarrow\\quad 4k^2 = 2q^2 \\quad\\Rightarrow\\quad q^2 = 2k^2 \\]</div><p>Ma allora anche \\(q^2\\), e quindi \\(q\\), è pari. Assurdo: avevamo supposto che \\(p\\) e \\(q\\) non avessero fattori comuni, e invece sono <strong>entrambi pari</strong>.</p></div>' +
+    '<p>L\'assurdo dimostra che l\'ipotesi di partenza è falsa: \\(\\sqrt2\\) <strong>non</strong> può essere scritto come frazione di interi. È un numero <strong>irrazionale</strong>: la sua rappresentazione decimale è infinita e non periodica.</p>' +
+    '<div class="cb tip"><div class="cb-label">Non è un caso isolato</div><p>Lo stesso argomento (con piccole varianti) dimostra che \\(\\sqrt{p}\\) è irrazionale per ogni numero primo \\(p\\). L\'insieme dei numeri irrazionali, unito a quello dei razionali, forma l\'insieme dei <strong>numeri reali</strong> \\(\\mathbb{R}\\).</p></div>' +
+    acc([
+      { t:"Curiosità storica", h:'<p>La leggenda vuole che la scoperta dell\'irrazionalità di \\(\\sqrt2\\) abbia gettato nello sconforto la scuola pitagorica, fondata sulla convinzione che "tutto è numero" (intendendo numero razionale). Il matematico che l\'avrebbe rivelata, Ippaso di Metaponto, sarebbe stato — secondo alcune fonti leggendarie — annegato in mare per punizione. Al di là del mito, resta il fatto storico: fu una crisi concettuale profonda per la matematica greca.</p>' }
+    ])
+},
+{
+  tag:"DEFINIZIONE",
+  title:"La radice <em>n-esima</em>",
+  nav:"Definizione",
+  body:
+    '<p>I radicali sono lo strumento che useremo per lavorare con questi numeri. Diamo una definizione rigorosa.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione</div><p>Dato un numero reale \\(a\\) e un intero \\(n \\geq 2\\), la <strong>radice n-esima</strong> di \\(a\\), indicata con \\(\\sqrt[n]{a}\\), è il numero reale \\(b\\) (quando esiste ed è unico secondo le regole seguenti) tale che:</p><div class="math-block hero-formula">\\[ b^n = a \\]</div><p>\\(n\\) si chiama <strong>indice</strong> della radice, \\(a\\) si chiama <strong>radicando</strong>.</p></div>' +
+    '<p>L\'esistenza e l\'unicità di questo numero \\(b\\) dipendono in modo cruciale dal <strong>segno del radicando</strong> e dalla <strong>parità dell\'indice</strong>.</p>' +
+    '<table class="ct"><tr><th>Radicando</th><th>Indice pari</th><th>Indice dispari</th></tr>' +
+    '<tr><td>\\(a > 0\\)</td><td>esistono due numeri reali \\(b\\) con \\(b^n=a\\) (uno positivo, uno negativo); si definisce \\(\\sqrt[n]{a}\\) come <strong>l\'unico valore positivo</strong></td><td>esiste un unico \\(b\\) reale, dello stesso segno di \\(a\\)</td></tr>' +
+    '<tr><td>\\(a = 0\\)</td><td>\\(\\sqrt[n]{0}=0\\)</td><td>\\(\\sqrt[n]{0}=0\\)</td></tr>' +
+    '<tr><td>\\(a < 0\\)</td><td><strong>non esiste</strong> in \\(\\mathbb{R}\\) (nessun numero reale elevato a potenza pari dà un risultato negativo)</td><td>esiste un unico \\(b\\) reale negativo</td></tr></table>' +
+    '<div class="cb warn"><div class="cb-label">Attenzione: √(x²) ≠ x, in generale</div><p>Un errore frequentissimo è scrivere \\(\\sqrt{x^2} = x\\). È <strong>falso</strong> se \\(x\\) è negativo: ad esempio \\(\\sqrt{(-3)^2} = \\sqrt9 = 3 \\neq -3\\). La formula corretta, valida per ogni \\(x\\) reale, è:</p><div class="math-block hero-formula">\\[ \\sqrt{x^2} = |x| \\]</div></div>' +
+    '<h3>Radicali aritmetici</h3>' +
+    '<p>Per evitare le complicazioni dei segni, in questa lezione lavoriamo con i <strong>radicali aritmetici</strong>: radicandi sempre \\(\\geq 0\\) (con indice qualunque) oppure indice dispari (con radicando di segno qualsiasi). In questo contesto tutte le proprietà che seguono valgono senza eccezioni.</p>' +
+    acc([
+      { t:"Esempio 1 — Indice pari, radicando positivo", h:'<p>\\(\\sqrt[4]{16} = 2\\), perché \\(2^4=16\\) e 2 è l\'unico valore <strong>positivo</strong> con questa proprietà (anche \\((-2)^4=16\\), ma per convenzione la radice aritmetica è quella non negativa).</p>' },
+      { t:"Esempio 2 — Indice dispari, radicando negativo", h:'<p>\\(\\sqrt[3]{-8} = -2\\), perché \\((-2)^3=-8\\). Con indice dispari non ci sono ambiguità di segno: esiste sempre un\'unica radice reale.</p>' },
+      { t:"Esempio 3 — Indice pari, radicando negativo", h:'<p>\\(\\sqrt{-4}\\) <strong>non esiste</strong> in \\(\\mathbb{R}\\): nessun numero reale al quadrato dà \\(-4\\). (Esiste nel campo dei numeri complessi, che studierai più avanti: \\(\\sqrt{-4}=2i\\).)</p>' }
+    ])
+},
+{
+  tag:"PROPRIETÀ",
+  title:"Proprietà <em>invariantiva</em> e semplificazione",
+  nav:"Proprietà",
+  body:
+    '<p>La proprietà più importante per manipolare i radicali è la cosiddetta <strong>proprietà invariantiva</strong>.</p>' +
+    '<div class="cb success"><div class="cb-label">Proprietà invariantiva</div><p>Se moltiplichi (o dividi) sia l\'indice della radice sia l\'esponente del radicando per lo stesso numero naturale \\(k \\neq 0\\), il valore del radicale <strong>non cambia</strong>:</p><div class="math-block hero-formula">\\[ \\sqrt[n]{a^m} = \\sqrt[n \\cdot k]{a^{m \\cdot k}} \\tag{I} \\]</div></div>' +
+    '<p>Questa proprietà è l\'analogo, per i radicali, della regola con cui si semplificano le frazioni: proprio come \\(\\dfrac{6}{8}=\\dfrac{3}{4}\\) dividendo numeratore e denominatore per lo stesso numero, un radicale si può <strong>semplificare</strong> dividendo indice ed esponente per il loro MCD.</p>' +
+    '<div class="cb tip"><div class="cb-label">Perché funziona</div><p>Intuizione: scrivendo il radicale come potenza con esponente frazionario (lo vedremo formalmente più avanti), \\(\\sqrt[n]{a^m}=a^{m/n}\\), la proprietà invariantiva è semplicemente l\'uguaglianza di frazioni equivalenti \\(\\dfrac{m}{n}=\\dfrac{mk}{nk}\\).</p></div>' +
+    '<h3>Come si semplifica un radicale</h3>' +
+    '<p>Per portare un radicale alla sua forma più semplice, si scompone il radicando in fattori primi e si applica la proprietà invariantiva dividendo indice ed esponenti per il loro massimo comun divisore.</p>' +
+    acc([
+      { t:"Esempio 1 — Semplificazione diretta", h:'<p>Semplifica \\(\\sqrt[6]{4}\\).</p><p>Scriviamo \\(4=2^2\\): \\(\\sqrt[6]{2^2}\\). Indice e esponente hanno MCD 2, quindi dividiamo entrambi per 2:</p><div class="math-block result">\\[ \\sqrt[6]{2^2} = \\sqrt[3]{2} \\]</div>' },
+      { t:"Esempio 2 — Scomposizione in fattori primi", h:'<p>Semplifica \\(\\sqrt{72}\\).</p><p>Scomponiamo: \\(72 = 2^3 \\cdot 3^2\\). Separiamo le potenze con esponente pari (che "escono" dalla radice) da quelle con esponente dispari:</p><div class="math-block">\\[ \\sqrt{2^3\\cdot 3^2} = \\sqrt{2^2 \\cdot 2 \\cdot 3^2} = \\sqrt{2^2}\\cdot\\sqrt{3^2}\\cdot\\sqrt2 \\]</div><div class="math-block result">\\[ \\sqrt{72} = 2 \\cdot 3 \\cdot \\sqrt2 = 6\\sqrt2 \\]</div>' },
+      { t:"Esempio 3 — Radicali simili", h:'<p>Due radicali si dicono <strong>simili</strong> se, dopo la semplificazione, hanno lo stesso indice e lo stesso radicando: si possono allora sommare come i monomi simili. Semplifica e somma \\(\\sqrt{8} + \\sqrt{50}\\).</p><div class="math-block">\\[ \\sqrt{8}=\\sqrt{2^2\\cdot2}=2\\sqrt2, \\qquad \\sqrt{50}=\\sqrt{5^2\\cdot2}=5\\sqrt2 \\]</div><div class="math-block result">\\[ \\sqrt8+\\sqrt{50} = 2\\sqrt2+5\\sqrt2 = 7\\sqrt2 \\]</div>' }
+    ])
+},
+{
+  tag:"OPERAZIONI",
+  title:"Moltiplicazione e <em>divisione</em> di radicali",
+  nav:"Operazioni",
+  body:
+    '<p>Le proprietà che seguono si dimostrano tutte a partire dalla definizione di radicale e dalle proprietà delle potenze.</p>' +
+    '<div class="cb"><div class="cb-label">Radicali con lo stesso indice</div><p>Il prodotto (o il quoziente) di due radicali con lo <strong>stesso indice</strong> è il radicale, con lo stesso indice, del prodotto (o quoziente) dei radicandi:</p><div class="math-block hero-formula">\\[ \\sqrt[n]{a}\\cdot\\sqrt[n]{b} = \\sqrt[n]{a\\cdot b} \\qquad\\qquad \\frac{\\sqrt[n]{a}}{\\sqrt[n]{b}} = \\sqrt[n]{\\frac{a}{b}} \\ \\ (b\\neq0) \\tag{M} \\]</div></div>' +
+    '<div class="cb purple"><div class="cb-label">Perché vale la regola del prodotto</div><p>Verifichiamo elevando entrambi i membri alla potenza \\(n\\): \\(\\left(\\sqrt[n]{a}\\cdot\\sqrt[n]{b}\\right)^n = (\\sqrt[n]a)^n \\cdot (\\sqrt[n]b)^n = a\\cdot b\\), e anche \\(\\left(\\sqrt[n]{ab}\\right)^n = ab\\). Due numeri (non negativi) con la stessa potenza n-esima coincidono, da cui l\'uguaglianza.</p></div>' +
+    '<h3>Radicali con indice diverso</h3>' +
+    '<p>Se gli indici sono diversi, prima di moltiplicare o dividere occorre <strong>ridurli allo stesso indice</strong>, cioè al minimo comune multiplo degli indici, usando la proprietà invariantiva (I) al contrario.</p>' +
+    acc([
+      { t:"Esempio 1 — Stesso indice", h:'<p>Calcola \\(\\sqrt3 \\cdot \\sqrt{12}\\).</p><div class="math-block">\\[ \\sqrt3\\cdot\\sqrt{12} = \\sqrt{3\\cdot12} = \\sqrt{36} \\]</div><div class="math-block result">\\[ \\sqrt3\\cdot\\sqrt{12} = 6 \\]</div>' },
+      { t:"Esempio 2 — Indici diversi", h:'<p>Calcola \\(\\sqrt2 \\cdot \\sqrt[3]{4}\\).</p><p>Il mcm tra gli indici 2 e 3 è 6. Riduciamo entrambi i radicali all\'indice 6, usando la proprietà invariantiva:</p><div class="math-block">\\[ \\sqrt2 = \\sqrt[6]{2^3} = \\sqrt[6]{8}, \\qquad \\sqrt[3]{4} = \\sqrt[6]{4^2} = \\sqrt[6]{16} \\]</div><p>Ora possiamo moltiplicare, avendo lo stesso indice:</p><div class="math-block result">\\[ \\sqrt[6]{8}\\cdot\\sqrt[6]{16} = \\sqrt[6]{128} = \\sqrt[6]{2^7} = 2\\sqrt[6]{2} \\]</div>' },
+      { t:"Esempio 3 — Radice di radice", h:'<p>Un caso particolare utile: la radice di una radice si calcola moltiplicando gli indici.</p><div class="math-block hero-formula">\\[ \\sqrt[m]{\\sqrt[n]{a}} = \\sqrt[m\\cdot n]{a} \\]</div><p>Ad esempio \\(\\sqrt{\\sqrt[3]{64}} = \\sqrt[6]{64} = \\sqrt[6]{2^6} = 2\\).</p>' }
+    ])
+},
+{
+  tag:"TRASPORTO",
+  title:"Trasporto di un <em>fattore</em>",
+  nav:"Trasporto",
+  body:
+    '<p>Spesso è utile spostare un fattore dentro o fuori dal segno di radice, senza alterare il valore dell\'espressione. Sono operazioni <strong>equivalenti</strong> alla semplificazione vista prima, ma applicate in modo mirato.</p>' +
+    '<div class="cb"><div class="cb-label">Trasporto fuori dalla radice</div><p>Se il radicando si può scrivere come prodotto \\(a^n \\cdot b\\) (con \\(a \\geq 0\\)), il fattore \\(a\\) "esce" dalla radice, restando elevato a potenza 1:</p><div class="math-block hero-formula">\\[ \\sqrt[n]{a^n \\cdot b} = a \\cdot \\sqrt[n]{b} \\tag{T1} \\]</div></div>' +
+    '<div class="cb tip"><div class="cb-label">Trasporto dentro la radice</div><p>Viceversa, un fattore \\(a \\geq 0\\) che moltiplica una radice di indice \\(n\\) può "entrare" nel radicando, elevato alla potenza \\(n\\):</p><div class="math-block hero-formula">\\[ a\\cdot\\sqrt[n]{b} = \\sqrt[n]{a^n \\cdot b} \\tag{T2} \\]</div></div>' +
+    '<div class="cb warn"><div class="cb-label">Attenzione al segno con indice pari</div><p>Se \\(a < 0\\) e l\'indice \\(n\\) è pari, per far entrare \\(a\\) nella radice occorre prima riscriverlo come \\(-|a|\\), e portare dentro solo il valore assoluto: \\(a\\sqrt[n]{b} = -|a|\\sqrt[n]{b} = -\\sqrt[n]{a^n b}\\) con \\(a^n=|a|^n\\). Il segno "meno" resta sempre fuori dalla radice.</p></div>' +
+    acc([
+      { t:"Esempio 1 — Fattore che esce", h:'<p>Semplifica \\(\\sqrt{45}\\) trasportando un fattore fuori.</p><p>Scomponi: \\(45 = 9\\cdot5 = 3^2\\cdot5\\).</p><div class="math-block result">\\[ \\sqrt{45} = \\sqrt{3^2\\cdot5} = 3\\sqrt5 \\]</div>' },
+      { t:"Esempio 2 — Fattore che entra", h:'<p>Scrivi \\(4\\sqrt3\\) come un unico radicale.</p><p>Il fattore fuori è \\(4\\), l\'indice è 2: eleviamo 4 al quadrato e lo portiamo dentro.</p><div class="math-block result">\\[ 4\\sqrt3 = \\sqrt{4^2 \\cdot 3} = \\sqrt{48} \\]</div>' },
+      { t:"Esempio 3 — Confronto tra radicali", h:'<p>Il trasporto dentro la radice è utile per <strong>confrontare</strong> due radicali con lo stesso indice: basta confrontare i radicandi. Confronta \\(3\\sqrt2\\) e \\(2\\sqrt5\\).</p><div class="math-block">\\[ 3\\sqrt2 = \\sqrt{9\\cdot2}=\\sqrt{18}, \\qquad 2\\sqrt5 = \\sqrt{4\\cdot5}=\\sqrt{20} \\]</div><div class="math-block result">\\[ \\sqrt{18} < \\sqrt{20} \\quad\\Rightarrow\\quad 3\\sqrt2 < 2\\sqrt5 \\]</div>' }
+    ])
+},
+{
+  tag:"METODI",
+  title:"Razionalizzazione del <em>denominatore</em>",
+  nav:"Razionalizzazione",
+  body:
+    '<p><strong>Razionalizzare</strong> una frazione con radicali al denominatore significa trasformarla in una frazione equivalente che ha un denominatore <strong>senza radicali</strong>. È una convenzione di scrittura — non un obbligo matematico — ma è lo standard con cui si esprimono i risultati.</p>' +
+    '<h3>Caso 1 — Denominatore monomio</h3>' +
+    '<p>Se il denominatore è un singolo radicale \\(\\sqrt[n]{a^m}\\) (con \\(m<n\\)), si moltiplicano numeratore e denominatore per il fattore che completa l\'esponente del radicando fino a \\(n\\):</p>' +
+    '<div class="cb"><div class="cb-label">Fattore razionalizzante (caso monomio)</div><div class="math-block hero-formula">\\[ \\frac{1}{\\sqrt[n]{a^m}} = \\frac{\\sqrt[n]{a^{n-m}}}{\\sqrt[n]{a^m}\\cdot\\sqrt[n]{a^{n-m}}} = \\frac{\\sqrt[n]{a^{n-m}}}{\\sqrt[n]{a^{n}}} = \\frac{\\sqrt[n]{a^{n-m}}}{a} \\]</div></div>' +
+    '<h3>Caso 2 — Denominatore binomio (differenza di quadrati)</h3>' +
+    '<p>Se il denominatore è una somma o differenza con radicali quadratici, come \\(a+\\sqrt{b}\\), si moltiplica per il suo <strong>conjugato</strong> \\(a-\\sqrt{b}\\), sfruttando il prodotto notevole \\((x+y)(x-y)=x^2-y^2\\), che elimina la radice:</p>' +
+    '<div class="cb success"><div class="cb-label">Fattore razionalizzante (caso binomio)</div><div class="math-block hero-formula">\\[ \\frac{1}{a+\\sqrt b} = \\frac{a-\\sqrt b}{(a+\\sqrt b)(a-\\sqrt b)} = \\frac{a-\\sqrt b}{a^2-b} \\]</div></div>' +
+    '<div class="cb warn"><div class="cb-label">Attenzione: solo indice 2</div><p>Il trucco del conjugato funziona perché \\((\\sqrt b)^2=b\\) è senza radice: è specifico dei <strong>radicali quadratici</strong>. Con indici diversi da 2 (per esempio \\(\\sqrt[3]{a}\\) al denominatore) servono altri prodotti notevoli — tipicamente basati su \\(x^3\\pm y^3\\) — che approfondirai eventualmente all\'università.</p></div>' +
+    acc([
+      { t:"Esempio 1 — Caso monomio", h:'<p>Razionalizza \\(\\dfrac{3}{\\sqrt5}\\).</p><p>Moltiplichiamo numeratore e denominatore per \\(\\sqrt5\\):</p><div class="math-block">\\[ \\frac{3}{\\sqrt5}\\cdot\\frac{\\sqrt5}{\\sqrt5} = \\frac{3\\sqrt5}{5} \\]</div><div class="math-block result">\\[ \\frac{3}{\\sqrt5} = \\frac{3\\sqrt5}{5} \\]</div>' },
+      { t:"Esempio 2 — Radicale con indice 3", h:'<p>Razionalizza \\(\\dfrac{1}{\\sqrt[3]{4}}\\).</p><p>Scriviamo \\(4=2^2\\): il radicando ha esponente 2, e serve arrivare a esponente 3, quindi moltiplichiamo per \\(\\sqrt[3]{2}\\):</p><div class="math-block">\\[ \\frac{1}{\\sqrt[3]{2^2}}\\cdot\\frac{\\sqrt[3]{2}}{\\sqrt[3]{2}} = \\frac{\\sqrt[3]{2}}{\\sqrt[3]{2^3}} = \\frac{\\sqrt[3]2}{2} \\]</div>' },
+      { t:"Esempio 3 — Caso binomio (conjugato)", h:'<p>Razionalizza \\(\\dfrac{2}{3-\\sqrt2}\\).</p><p>Moltiplichiamo per il conjugato \\(3+\\sqrt2\\):</p><div class="math-block">\\[ \\frac{2}{3-\\sqrt2}\\cdot\\frac{3+\\sqrt2}{3+\\sqrt2} = \\frac{2(3+\\sqrt2)}{9-2} = \\frac{2(3+\\sqrt2)}{7} \\]</div><div class="math-block result">\\[ \\frac{2}{3-\\sqrt2} = \\frac{6+2\\sqrt2}{7} \\]</div>' }
+    ])
+},
+{
+  tag:"ESPONENTI",
+  title:"Potenze con esponente <em>razionale</em>",
+  nav:"Esponenti",
+  body:
+    '<p>Concludiamo collegando i radicali a un\'idea più generale: le potenze con esponente <strong>frazionario</strong>, non solo intero.</p>' +
+    '<div class="cb success"><div class="cb-label">Definizione</div><p>Per \\(a > 0\\) e \\(m,n\\) interi con \\(n>0\\), si definisce:</p><div class="math-block hero-formula">\\[ a^{\\frac{m}{n}} = \\sqrt[n]{a^m} \\tag{E} \\]</div></div>' +
+    '<div class="cb tip"><div class="cb-label">Perché questa definizione è "obbligata"</div><p>Vogliamo che le proprietà delle potenze (già note per esponenti interi) restino valide anche per esponenti frazionari. In particolare, la regola \\((a^p)^q = a^{pq}\\) applicata a \\(\\left(a^{1/n}\\right)^n = a^{(1/n)\\cdot n} = a^1 = a\\) ci dice che \\(a^{1/n}\\) deve essere, per forza, quel numero che elevato a \\(n\\) dà \\(a\\) — cioè esattamente \\(\\sqrt[n]{a}\\). Non è una scelta arbitraria: è l\'<strong>unica</strong> definizione compatibile con le regole delle potenze.</p></div>' +
+    '<p>Con questa notazione, tutte le proprietà dei radicali viste finora diventano casi particolari delle familiari <strong>proprietà delle potenze</strong>:</p>' +
+    '<table class="ct"><tr><th>Proprietà delle potenze</th><th>Riscritta con i radicali</th></tr>' +
+    '<tr><td>\\(a^p \\cdot a^q = a^{p+q}\\)</td><td>\\(\\sqrt[n]{a}\\cdot\\sqrt[m]{a} = a^{\\frac1n+\\frac1m}\\)</td></tr>' +
+    '<tr><td>\\((a^p)^q = a^{pq}\\)</td><td>\\(\\sqrt[m]{\\sqrt[n]{a}} = a^{\\frac{1}{mn}} = \\sqrt[mn]{a}\\)</td></tr>' +
+    '<tr><td>\\(a^{-p} = \\dfrac{1}{a^p}\\)</td><td>\\(a^{-\\frac1n} = \\dfrac{1}{\\sqrt[n]{a}}\\)</td></tr></table>' +
+    '<div class="cb warn"><div class="cb-label">Perché a > 0 nella definizione (E)</div><p>Se il radicando fosse negativo e l\'indice pari, il radicale non esisterebbe in \\(\\mathbb{R}\\); per evitare ambiguità, la potenza con esponente razionale si definisce solo per basi <strong>positive</strong> (a differenza dei radicali con indice dispari, che ammettono anche basi negative).</p></div>' +
+    acc([
+      { t:"Esempio 1 — Da radicale a potenza", h:'<p>Scrivi \\(\\sqrt[5]{x^3}\\) come potenza.</p><div class="math-block result">\\[ \\sqrt[5]{x^3} = x^{\\frac35} \\]</div>' },
+      { t:"Esempio 2 — Semplificare con le potenze", h:'<p>Calcola \\(\\sqrt[3]{2}\\cdot\\sqrt2\\) usando la notazione con esponenti razionali.</p><div class="math-block">\\[ 2^{\\frac13}\\cdot2^{\\frac12} = 2^{\\frac13+\\frac12} = 2^{\\frac{2}{6}+\\frac{3}{6}} = 2^{\\frac56} \\]</div><div class="math-block result">\\[ \\sqrt[3]2\\cdot\\sqrt2 = \\sqrt[6]{2^5} \\]</div><p class="dim">Lo stesso risultato che avremmo ottenuto riducendo i due radicali al minimo comune indice 6 — ma la via delle potenze è spesso più rapida.</p>' },
+      { t:"Esempio 3 — Potenza negativa e razionale insieme", h:'<p>Calcola \\(8^{-\\frac23}\\).</p><div class="math-block">\\[ 8^{-\\frac23} = \\frac{1}{8^{\\frac23}} = \\frac{1}{\\sqrt[3]{8^2}} = \\frac{1}{\\sqrt[3]{64}} = \\frac14 \\]</div>' }
+    ])
+},
+{
+  tag:"PRATICA",
+  title:"Esercizi e <em>sintesi</em>",
+  nav:"Esercizi",
+  body:
+    '<p>Prova a risolvere ogni esercizio prima di aprire la soluzione.</p>' +
+    acc([
+      { t:"Problema 1 — Semplificazione", h:'<p>Semplifica \\(\\sqrt[4]{80}\\).</p><p>Scomponi: \\(80 = 2^4\\cdot5\\).</p><div class="math-block result">\\[ \\sqrt[4]{80} = \\sqrt[4]{2^4\\cdot5} = 2\\sqrt[4]{5} \\]</div>' },
+      { t:"Problema 2 — Somma di radicali", h:'<p>Calcola \\(3\\sqrt{12} - \\sqrt{27} + \\sqrt{75}\\).</p><p>Semplifica ciascun termine: \\(\\sqrt{12}=2\\sqrt3\\), \\(\\sqrt{27}=3\\sqrt3\\), \\(\\sqrt{75}=5\\sqrt3\\).</p><div class="math-block">\\[ 3(2\\sqrt3) - 3\\sqrt3 + 5\\sqrt3 = 6\\sqrt3-3\\sqrt3+5\\sqrt3 \\]</div><div class="math-block result">\\[ 3\\sqrt{12}-\\sqrt{27}+\\sqrt{75} = 8\\sqrt3 \\]</div>' },
+      { t:"Problema 3 — Prodotto con indici diversi", h:'<p>Calcola \\(\\sqrt[3]{9}\\cdot\\sqrt[6]{27}\\).</p><p>Con le potenze: \\(9^{1/3}\\cdot27^{1/6} = (3^2)^{1/3}\\cdot(3^3)^{1/6} = 3^{2/3}\\cdot3^{1/2} = 3^{2/3+1/2}\\).</p><div class="math-block">\\[ 3^{\\frac{4}{6}+\\frac{3}{6}} = 3^{\\frac76} \\]</div><div class="math-block result">\\[ \\sqrt[3]9\\cdot\\sqrt[6]{27} = \\sqrt[6]{3^7} = 3\\sqrt[6]{3} \\]</div>' },
+      { t:"Problema 4 — Razionalizzazione con conjugato", h:'<p>Razionalizza \\(\\dfrac{1}{\\sqrt5+\\sqrt3}\\).</p><p>Moltiplica per il conjugato \\(\\sqrt5-\\sqrt3\\):</p><div class="math-block">\\[ \\frac{\\sqrt5-\\sqrt3}{(\\sqrt5+\\sqrt3)(\\sqrt5-\\sqrt3)} = \\frac{\\sqrt5-\\sqrt3}{5-3} \\]</div><div class="math-block result">\\[ \\frac{1}{\\sqrt5+\\sqrt3} = \\frac{\\sqrt5-\\sqrt3}{2} \\]</div>' },
+      { t:"Problema 5 — Dimostrare un\'irrazionalità", h:'<p>Dimostra, adattando l\'argomento visto per \\(\\sqrt2\\), che \\(\\sqrt3\\) è irrazionale.</p><p>Per assurdo, \\(\\sqrt3=\\frac pq\\) ridotta ai minimi termini: \\(p^2=3q^2\\), quindi \\(p^2\\) (e perciò \\(p\\)) è multiplo di 3. Scrivi \\(p=3k\\): \\(9k^2=3q^2 \\Rightarrow q^2=3k^2\\), quindi anche \\(q\\) è multiplo di 3.</p><div class="math-block result">\\[ \\text{Assurdo: } p \\text{ e } q \\text{ avrebbero il fattore comune } 3. \\]</div><p class="dim">Lo stesso schema funziona per la radice quadrata di qualunque numero primo.</p>' }
+    ]) +
+    '<h3>Formule da ricordare</h3>' +
+    '<table class="ct"><tr><th>Concetto</th><th>Formula</th></tr>' +
+    '<tr><td>Proprietà invariantiva</td><td>\\(\\sqrt[n]{a^m} = \\sqrt[nk]{a^{mk}}\\)</td></tr>' +
+    '<tr><td>Prodotto (stesso indice)</td><td>\\(\\sqrt[n]{a}\\cdot\\sqrt[n]{b} = \\sqrt[n]{ab}\\)</td></tr>' +
+    '<tr><td>Radice di radice</td><td>\\(\\sqrt[m]{\\sqrt[n]{a}} = \\sqrt[mn]{a}\\)</td></tr>' +
+    '<tr><td>Trasporto fuori</td><td>\\(\\sqrt[n]{a^n b} = a\\sqrt[n]{b}\\)</td></tr>' +
+    '<tr><td>Razionalizzazione (binomio)</td><td>\\(\\dfrac{1}{a+\\sqrt b} = \\dfrac{a-\\sqrt b}{a^2-b}\\)</td></tr>' +
+    '<tr><td>Potenza a esponente razionale</td><td>\\(a^{m/n} = \\sqrt[n]{a^m}\\)</td></tr></table>' +
+    '<div class="cb success"><div class="cb-label">Come orientarsi</div><p>Davanti a un\'espressione con radicali, chiediti: posso <strong>semplificare</strong> scomponendo in fattori primi? Gli indici sono <strong>diversi</strong> (mcm)? C\'è un radicale al <strong>denominatore</strong> (razionalizzazione)? Conviene passare alla notazione con <strong>esponente razionale</strong> per usare le proprietà delle potenze? Spesso più strade portano allo stesso risultato: scegli quella più rapida caso per caso.</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>
