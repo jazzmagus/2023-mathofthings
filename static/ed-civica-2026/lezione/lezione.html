@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduzione alla Statistica — Ed. Civica</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Introduzione alla Statistica · ed. civica</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="../presentazione.html" class="topbar-home">← presentazione</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+{
+  tag:"PERCHÉ SERVE",
+  title:"I numeri che vi <em>bombardano</em> ogni giorno",
+  nav:"Perché",
+  body:
+    '<p>Ogni giorno vi arrivano numeri da tutte le parti: il telegiornale, una pubblicità, un post sui social, un sondaggio politico, un\'etichetta al supermercato. Nessuno vi ha mai insegnato, a scuola, come leggerli con occhio critico — perché la statistica, di solito, si studia solo all\'università o in corsi molto specifici.</p>' +
+    '<div class="cb"><div class="cb-label">Non serve diventare matematici</div><p>Questa lezione non vi insegna a <em>calcolare</em> statistiche complicate. Vi dà pochi concetti — quattro, in tutto — che bastano per capire quando un numero vi sta dicendo la verità, e quando vi sta prendendo in giro.</p></div>' +
+    '<p>Sono gli stessi concetti che userete tra poco per smontare una statistica reale che avete visto voi (una pubblicità, un titolo, un post): questa lezione vi dà gli strumenti per farlo con cognizione di causa, non a intuito.</p>' +
+    acc([
+      { t:"Perché proprio questi quattro concetti", h:'<p>Non sono scelti a caso: sono quelli che, da soli, spiegano la maggior parte dei modi in cui una statistica può ingannare — un valore anomalo che sposta la media, un campione poco rappresentativo, una percentuale confusa con un\'altra, due situazioni che sembrano uguali "in media" ma non lo sono affatto.</p>' }
+    ])
+},
+{
+  tag:"FONDAMENTI",
+  title:"Popolazione e <em>campione</em>",
+  nav:"Campione",
+  body:
+    '<p>Quando si parla di "quello che pensano gli italiani" o del "reddito medio delle famiglie", nessuno ha davvero intervistato o misurato <strong>tutti</strong>. È fisicamente impossibile: costerebbe troppo, ci vorrebbe troppo tempo.</p>' +
+    '<div class="cb"><div class="cb-label">Due parole chiave</div><p><strong>Popolazione</strong>: l\'insieme completo di tutte le persone (o cose) su cui vorremmo sapere qualcosa — ad esempio, tutti gli elettori italiani.</p><p><strong>Campione</strong>: il piccolo sottoinsieme che viene effettivamente osservato o intervistato, e da cui si prova a "indovinare" cosa succede in tutta la popolazione.</p></div>' +
+    '<p>L\'idea alla base è ragionevole: se il campione è scelto bene — abbastanza grande, e rappresentativo di tutte le fasce della popolazione — le sue caratteristiche assomigliano a quelle della popolazione intera. Il problema è che, spesso, il campione <strong>non</strong> è scelto bene.</p>' +
+    '<div class="cb warn"><div class="cb-label">Le domande da farsi sempre</div><ul><li>Quante persone sono state intervistate? (10? 100? 10.000?)</li><li>Come sono state scelte? A caso, o solo tra chi era disponibile a rispondere?</li><li>Rappresentano davvero "tutti", o solo un gruppo particolare (età, zona geografica, chi segue una certa pagina social)?</li></ul></div>' +
+    acc([
+      { t:"Esempio — Il sondaggio online", h:'<p>Un sito di cucina fa un sondaggio tra i suoi lettori: "Preferite la pizza margherita o quella ai quattro formaggi?" Il 70% risponde margherita. Possiamo dire che "il 70% degli italiani preferisce la margherita"?</p><p>No: il campione è composto solo da persone che leggono quel sito — un gruppo che potrebbe avere gusti molto diversi dalla popolazione generale. Non è rappresentativo di "tutti gli italiani".</p>' },
+      { t:"Esempio — Quanti bastano?", h:'<p>Un sondaggio politico nazionale serio intervista di solito circa 1.000-2.000 persone, scelte con criteri statistici precisi (età, regione, genere, ecc. in proporzione alla popolazione reale). Con questi accorgimenti, un campione anche "piccolo" può dare una stima abbastanza affidabile — ma solo se è stato costruito con cura, non a caso.</p>' }
+    ])
+},
+{
+  tag:"FONDAMENTI",
+  title:"Media e <em>mediana</em>",
+  nav:"Media/Mediana",
+  body:
+    '<p>Quando si parla di "un valore tipico" per descrivere un insieme di dati, il primo strumento a cui si pensa è la <strong>media</strong>. Ma la media può essere ingannevole — ed esiste un\'alternativa, la <strong>mediana</strong>, che spesso descrive meglio la realtà.</p>' +
+    '<div class="cb"><div class="cb-label">Media aritmetica</div><p>Si somma tutti i valori e si divide per quanti sono:</p><div class="math-block hero-formula">\\[ \\text{media} = \\frac{\\text{somma di tutti i valori}}{\\text{numero di valori}} \\]</div></div>' +
+    '<div class="cb tip"><div class="cb-label">Mediana</div><p>Si ordinano tutti i valori dal più piccolo al più grande, e si prende <strong>quello che sta esattamente nel mezzo</strong>. Metà dei valori sono più piccoli di lui, metà più grandi.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Il problema della media: un solo valore la stravolge</div><p>Immaginate 5 persone in una stanza, con questi stipendi mensili: 1.300 €, 1.400 €, 1.500 €, 1.600 €, e poi arriva il titolare dell\'azienda con 20.000 €.</p><div class="math-block">\\[ \\text{media} = \\frac{1300+1400+1500+1600+20000}{5} = \\frac{25800}{5} = 5160\\text{ €} \\]</div><p>La "media" degli stipendi nella stanza è 5.160 €. Ma <strong>nessuno</strong> di quei 5 guadagna una cifra vicina a 5.160 €: quattro guadagnano circa 1.400-1.600 €, e uno 20.000 €. La media, qui, non descrive bene "la situazione tipica".</p></div>' +
+    '<div class="cb success"><div class="cb-label">La mediana, nello stesso esempio</div><p>Ordinati i valori — 1.300, 1.400, 1.500, 1.600, 20.000 — quello centrale è <strong>1.500 €</strong>. Questo numero rappresenta molto meglio "lo stipendio tipico" in quella stanza: non si lascia influenzare dal valore fuori scala.</p></div>' +
+    '<h3>Quando usare l\'una o l\'altra</h3>' +
+    '<p>La media è utile quando i dati sono abbastanza omogenei, senza valori estremi. La mediana è più affidabile quando ci sono valori molto lontani dagli altri (i cosiddetti <strong>outlier</strong>) — è per questo che, per esempio, si parla quasi sempre di "reddito <strong>mediano</strong>" delle famiglie italiane, non di reddito medio: pochi redditi altissimi alzerebbero troppo la media, dando un\'idea sbagliata della situazione della maggioranza.</p>' +
+    acc([
+      { t:"Esempio — Calcolate voi la mediana", h:'<p>Voti a una verifica: 5, 6, 6, 7, 9. Qual è la mediana?</p><p>Sono già in ordine crescente, 5 valori: quello centrale (il terzo) è <strong>6</strong>.</p>' },
+      { t:"Esempio — Quando media e mediana coincidono quasi", h:'<p>Altezze di 5 amici: 168, 172, 175, 178, 180 cm. Media: \\((168+172+175+178+180)/5 = 173{,}6\\) cm. Mediana: 175 cm. Sono vicine: nessun valore "fuori scala" a distorcere la media.</p>' }
+    ])
+},
+{
+  tag:"FONDAMENTI",
+  title:"Percentuale e <em>punto percentuale</em>",
+  nav:"Percentuali",
+  body:
+    '<p>Questa è probabilmente la confusione più diffusa — e più sfruttata nei titoli di giornale — tra tutte quelle che vedremo.</p>' +
+    '<div class="cb"><div class="cb-label">Il caso concreto</div><p>Immaginate che la disoccupazione passi dal <strong>10% al 15%</strong>. Come si racconta questo cambiamento? Ci sono due modi, entrambi corretti, ma con un effetto molto diverso su chi legge:</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Modo 1 — Punti percentuali</div><p>"La disoccupazione è aumentata di <strong>5 punti percentuali</strong>" (perché \\(15-10=5\\)). Sembra un aumento moderato.</p></div>' +
+    '<div class="cb danger"><div class="cb-label">Modo 2 — Percentuale relativa</div><p>"La disoccupazione è aumentata del <strong>50%</strong>" (perché è cresciuta della metà del suo valore iniziale: \\(5/10 = 0{,}5 = 50\\%\\)). Sembra un aumento enorme.</p></div>' +
+    '<div class="cb success"><div class="cb-label">Sono la stessa cosa, raccontata diversamente</div><p>Entrambe le affermazioni sono <strong>matematicamente corrette</strong>. Ma "+50%" suona molto più allarmante di "+5 punti", e non è un caso se i titoli scelgono spesso la versione più a effetto — indipendentemente da quale delle due sia più onesta nel contesto.</p></div>' +
+    '<p class="dim">Un trucco per riconoscere la confusione: se un titolo dice "+50%" ma non specifica mai da quale numero si è partiti (dal 10%? dallo 0,1%?), è un segnale che vale la pena controllare la fonte originale.</p>' +
+    acc([
+      { t:"Esempio — Rischio raddoppiato", h:'<p>"Il rischio di un evento raro raddoppia": suona spaventoso. Ma se il rischio di partenza era dello 0,001% (1 caso su 100.000), raddoppiare significa arrivare allo 0,002% (2 casi su 100.000): un aumento in termini assoluti quasi impercettibile, anche se in percentuale relativa è "+100%".</p>' },
+      { t:"Esempio — Provate voi", h:'<p>Un tasso di interesse passa dal 2% al 3%. Quanti punti percentuali? E quanto vale l\'aumento percentuale relativo?</p><div class="math-block result">\\[ \\text{punti percentuali: } 3-2=1 \\qquad\\qquad \\text{aumento relativo: } \\frac{1}{2}=0{,}5=50\\% \\]</div><p class="dim">"+1 punto" e "+50%" descrivono esattamente lo stesso fatto.</p>' }
+    ])
+},
+{
+  tag:"FONDAMENTI",
+  title:"Due gruppi, stessa <em>media</em>, storie diverse",
+  nav:"Variabilità",
+  body:
+    '<p>L\'ultimo concetto è forse il più sottile: due insiemi di dati possono avere <strong>esattamente la stessa media</strong>, eppure raccontare situazioni molto diverse.</p>' +
+    '<div class="cb"><div class="cb-label">Un esempio concreto: temperature</div><p>Due città hanno la stessa temperatura media annua di 15°C.</p><ul><li><strong>Città A</strong> (clima "oceanico"): quasi tutti i giorni tra 12°C e 18°C — mite e stabile tutto l\'anno.</li><li><strong>Città B</strong> (clima "continentale"): -5°C in inverno, 35°C in estate — la media è ancora 15°C, ma la vita quotidiana è completamente diversa.</li></ul></div>' +
+    '<div class="cb tip"><div class="cb-label">Il concetto: variabilità (o dispersione)</div><p>Non basta chiedersi "qual è il valore medio?": bisogna chiedersi anche <strong>quanto i dati sono sparsi</strong> attorno a quella media. Un dato è tanto più affidabile quanto più i valori si assomigliano tra loro; se sono molto dispersi, la media da sola nasconde informazioni importanti.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Dove si nasconde nella vita reale</div><p>"Lo stipendio medio in azienda è di 2.000 €" non vi dice se <strong>tutti</strong> guadagnano circa 2.000 €, oppure se metà guadagna 1.000 € e l\'altra metà 3.000 €. Stessa media, situazioni completamente diverse per chi ci lavora davvero.</p></div>' +
+    '<p class="dim">Non serve calcolare nulla: basta abituarsi a chiedersi, ogni volta che vedete una media, "sì, ma quanto sono simili tra loro i dati che la compongono?"</p>' +
+    acc([
+      { t:"Esempio — Due classi a confronto", h:'<p>Classe A: voti 6, 6, 7, 7, 7 (media 6,6). Classe B: voti 3, 5, 7, 9, 9 (media anch\'essa 6,6). Stessa media esatta — ma la Classe A è omogenea, la Classe B ha grandi differenze tra chi va bene e chi va male. Un\'unica media, da sola, nasconde questa differenza importante.</p>' }
+    ])
+},
+{
+  tag:"VERSO IL PROGETTO",
+  title:"Ora tocca a <em>voi</em>",
+  nav:"Sintesi",
+  body:
+    '<p>Con questi quattro concetti avete già gli strumenti per riconoscere buona parte degli allarmi del kit che userete nel progetto:</p>' +
+    '<table class="ct"><tr><th>Concetto di oggi</th><th>Allarme del kit collegato</th></tr>' +
+    '<tr><td>Media e mediana</td><td>Allarme 1 — Media vs Mediana</td></tr>' +
+    '<tr><td>Percentuale e punto percentuale</td><td>Allarme 2 — Percentuale vs punto percentuale</td></tr>' +
+    '<tr><td>Popolazione e campione</td><td>Allarme 3 — Campione vs popolazione, Allarme 7 — Bias di selezione</td></tr>' +
+    '<tr><td>Variabilità/dispersione</td><td>Aiuta a capire perché una "media" da sola non basta mai</td></tr></table>' +
+    '<div class="cb success"><div class="cb-label">Il resto del kit</div><p>Gli altri allarmi (correlazione/causazione, scala truccata, relativo/assoluto, margine d\'errore, cherry-picking del periodo) non richiedono altro che buon senso critico: li vedrete direttamente nella presentazione del progetto, con esempi concreti.</p></div>' +
+    '<p>Ora siete pronti per la parte pratica: trovare una statistica reale che avete visto voi, e smontarla con questi strumenti.</p>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>
