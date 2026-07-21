@@ -8,25 +8,75 @@
 
     <link rel="stylesheet" href="dist/reset.css">
     <link rel="stylesheet" href="dist/reveal.css">
-    <link rel="stylesheet" href="dist/theme/night.css">
+    <link rel="stylesheet" href="dist/theme/white.css">
     <link rel="stylesheet" href="dist/plugin/highlight/monokai.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap">
+    <style>
+      .reveal p.definizione {
+        text-align: justify;
+        text-align-last: left;
+      }
+      .reveal p.approfondimento {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.4em;
+        line-height: 1.5;
+        color: #ed6f5c;
+        text-align: justify;
+        text-align-last: center;
+        max-width: 70%;
+        margin: 1.2em auto 0;
+      }
+    </style>
 
   </head>
 
   <body>
+    <div id="particles-ed-civica" class="bg-particles" aria-hidden="true"></div>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <script>
+      (function () {
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion || typeof tsParticles === 'undefined') return;
+
+        tsParticles.load('particles-ed-civica', {
+          fpsLimit: 60,
+          particles: {
+            number: { value: 80, density: { enable: true, area: 800 } },
+            color: { value: '#ed6f5c' },
+            opacity: { value: 0.5 },
+            size: { value: { min: 1, max: 3 } },
+            links: { enable: true, distance: 150, color: '#ed6f5c', opacity: 0.3, width: 1 },
+            move: { enable: true, speed: { min: 0.5, max: 1.5 }, direction: 'none', random: true, straight: false, outModes: { default: 'out' } }
+          },
+          interactivity: {
+            events: {
+              onHover: { enable: true, mode: 'grab' },
+              onClick: { enable: true, mode: 'push' },
+              resize: true
+            },
+            modes: {
+              grab: { distance: 180, links: { opacity: 0.6 } },
+              push: { quantity: 3 }
+            }
+          },
+          detectRetina: true
+        });
+      })();
+    </script>
     <div class="reveal">
       <div class="slides">
 
         <!-- TITOLO -->
-        <section data-background-image="images/bg-data-lines.jpg" data-background-opacity="0.18" data-background-color="#111">
-          <h4>IIS G.A. Remondini — Bassano del Grappa</h4>
-          <h4>Progetto Ed. Civica 2026/27</h4>
-          <p><em>prof. Diego Fantinelli — MATEMATICA</em></p>
-          <h3 class="r-fit-text">I numeri che ci ingannano ogni giorno</h3>
+        <section>
+          <h1 style="font-size:3.4em; line-height:1.15;">I numeri che<br>ci ingannano ogni giorno</h1>
+          <p style="margin-top:1.2em; font-size:0.7em;">Progetto di Educazione Civica 2026-2027</p>
+          <p style="margin-top:0.6em; font-size:0.4em; opacity:0.75;">Prof. Diego Fantinelli — Matematica &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IIS G.A. Remondini — Bassano del Grappa</p>
         </section>
 
         <!-- CITAZIONE APERTURA -->
-        <section data-background-image="images/bg-data-lines.jpg" data-background-opacity="0.18" data-background-color="#111">
+        <section>
           <section>
             <h2 class="r-fit-text">"Ci sono tre tipi di bugie:</h2>
             <h2 class="fragment r-fit-text">le bugie, le maledette bugie</h2>
@@ -41,60 +91,69 @@
         </section>
 
         <!-- OBIETTIVO -->
-        <section data-background-image="images/bg-data-lines.jpg" data-background-opacity="0.18" data-background-color="#111">
+        <section>
           <h2>Obiettivo del progetto</h2>
           <p class="fragment">Non fare i matematici. Fare i <strong>cittadini che non si fanno fregare dai numeri</strong>.</p>
           <p class="fragment">Imparare a riconoscere quando una statistica vi sta dicendo la verità, quando vi sta ingannando, e quando semplicemente non dice quello che sembra dire.</p>
         </section>
 
         <!-- IL KIT — intro -->
-        <section data-background-image="images/bg-data-lines.jpg" data-background-opacity="0.18" data-background-color="#111">
+        <section>
           <h2>Il kit: 9 allarmi statistici</h2>
           <p>Nove trucchi (o errori) che si nascondono spesso dietro un numero. Non servono formule: serve solo saperli riconoscere.</p>
         </section>
 
         <!-- IL KIT — concetti (verticali) -->
-        <section data-background-image="images/bg-data-lines.jpg" data-background-opacity="0.18" data-background-color="#111">
+        <section>
           <section>
             <h3>1 — Media vs Mediana</h3>
-            <p class="fragment">Un solo valore molto alto (o molto basso) può "gonfiare" la media senza che la situazione "tipica" sia cambiata.</p>
+            <p class="fragment definizione">Un solo valore molto alto (o molto basso) può "gonfiare" la media senza che la situazione "tipica" sia cambiata.</p>
+            <p class="fragment approfondimento">approfondimento: in un ufficio di 9 persone con stipendio 1500€ e 1 capo con stipendio 15000€, la media è 2850€ — un numero che nessuno guadagna davvero. La mediana (il valore centrale, qui 1500€) racconta molto meglio la situazione "tipica". Occhio a "stipendio medio", "prezzo medio": chiedersi sempre se c'è un valore estremo che sta tirando la media da una parte.</p>
           </section>
           <section>
             <h3>2 — Percentuale vs punto percentuale</h3>
-            <p class="fragment">"+50% di crescita" non è la stessa cosa di "+50 punti percentuali". Confonderle cambia completamente il messaggio.</p>
+            <p class="fragment definizione">"+50% di crescita" non è la stessa cosa di "+50 punti percentuali". Confonderle cambia completamente il messaggio.</p>
+            <p class="fragment approfondimento">approfondimento: se la disoccupazione passa dal 10% al 15%, è "+5 punti percentuali", ma in termini relativi è un "+50%" (perché 5 è la metà di 10). I due modi di dirlo descrivono lo stesso fatto, ma il secondo suona molto più drammatico. Titoli e pubblicità scelgono spesso la versione che fa più effetto.</p>
           </section>
           <section>
             <h3>3 — Campione vs popolazione</h3>
-            <p class="fragment">Chi hanno intervistato? Quanti erano? Sono rappresentativi di tutti, o solo di chi era disposto a rispondere?</p>
+            <p class="fragment definizione">Chi hanno intervistato? Quanti erano? Sono rappresentativi di tutti, o solo di chi era disposto a rispondere?</p>
+            <p class="fragment approfondimento">approfondimento: "il 90% degli studenti preferisce la pizza" non vale nulla se il sondaggio è stato fatto su 10 amici in mensa. Un campione piccolo o scelto a caso (non a caso davvero, ma con un criterio) non rappresenta l'intera popolazione. Domande utili: quante persone? come sono state scelte? assomigliano al gruppo di cui si parla?</p>
           </section>
           <section>
             <h3>4 — Correlazione vs causazione</h3>
-            <p class="fragment">Due fenomeni che crescono insieme non significa che uno causi l'altro. Potrebbe esserci una terza causa comune — o solo un caso.</p>
+            <p class="fragment definizione">Due fenomeni che crescono insieme non significa che uno causi l'altro. Potrebbe esserci una terza causa comune — o solo un caso.</p>
+            <p class="fragment approfondimento">approfondimento: le vendite di gelati e gli affogamenti in mare crescono insieme d'estate. Il gelato non causa gli affogamenti: c'è una terza variabile (il caldo, che porta sia a mangiare gelato sia ad andare in spiaggia). Prima di dire "A causa B", bisogna chiedersi se non ci sia un fattore comune, o se non sia semplice coincidenza.</p>
           </section>
           <section>
             <h3>5 — La scala truccata</h3>
-            <p class="fragment">Un grafico il cui asse verticale parte da 95 invece che da 0 fa sembrare enorme una differenza minima.</p>
+            <p class="fragment definizione">Un grafico il cui asse verticale parte da 95 invece che da 0 fa sembrare enorme una differenza minima.</p>
+            <p class="fragment approfondimento">approfondimento: due barre che vanno da 96 a 98 (asse che parte da 95) sembrano raddoppiate rispetto a due barre che vanno da 96 a 98 su un asse che parte da 0. Stessa differenza reale (2 punti), impressione visiva completamente diversa. Prima regola per leggere un grafico: guardare sempre da dove parte l'asse verticale.</p>
           </section>
           <section>
             <h3>6 — Relativo vs assoluto</h3>
-            <p class="fragment">"Il rischio raddoppia" suona spaventoso. Ma raddoppiare da 1 caso su un milione a 2 casi su un milione resta un rischio bassissimo.</p>
+            <p class="fragment definizione">"Il rischio raddoppia" suona spaventoso. Ma raddoppiare da 1 caso su un milione a 2 casi su un milione resta un rischio bassissimo.</p>
+            <p class="fragment approfondimento">approfondimento: "questo farmaco raddoppia il rischio di un effetto collaterale" è vero e allarmante — finché non si scopre che il rischio passa da 1 su 1.000.000 a 2 su 1.000.000. In termini assoluti la differenza è trascurabile. Chiedere sempre: raddoppia rispetto a cosa? Qual è il numero di partenza?</p>
           </section>
           <section>
             <h3>7 — Bias di selezione</h3>
-            <p class="fragment">Un sondaggio online, fatto solo da chi ha voglia di rispondere, non rappresenta "tutti": rappresenta solo chi ha risposto.</p>
+            <p class="fragment definizione">Un sondaggio online, fatto solo da chi ha voglia di rispondere, non rappresenta "tutti": rappresenta solo chi ha risposto.</p>
+            <p class="fragment approfondimento">approfondimento: un sondaggio pubblicato sotto un post su un tema divisivo raccoglie soprattutto le opinioni di chi si sente coinvolto (spesso le posizioni più estreme). Chi è indifferente semplicemente non risponde. Il risultato non fotografa "cosa pensa la gente", ma "cosa pensa chi ha scelto di rispondere" — un gruppo diverso, non neutro.</p>
           </section>
           <section>
             <h3>8 — Il margine d'errore</h3>
-            <p class="fragment">I sondaggi politici hanno sempre un "±" che quasi nessuno riporta nei titoli. Una differenza di 2 punti spesso non significa nulla.</p>
+            <p class="fragment definizione">I sondaggi politici hanno sempre un "±" che quasi nessuno riporta nei titoli. Una differenza di 2 punti spesso non significa nulla.</p>
+            <p class="fragment approfondimento">approfondimento: se un sondaggio dà il Partito A al 34% e il Partito B al 33%, con un margine d'errore di ±3 punti, i due dati sono statisticamente indistinguibili: il "vantaggio" potrebbe non esistere affatto. Il margine d'errore dipende dalla dimensione del campione ed è quasi sempre omesso dai titoli, che parlano di "sorpasso".</p>
           </section>
           <section>
             <h3>9 — Cherry-picking del periodo</h3>
-            <p class="fragment">Scegliere ad arte l'intervallo di tempo (o il confronto) che fa sembrare vera la tesi che si vuole sostenere.</p>
+            <p class="fragment definizione">Scegliere ad arte l'intervallo di tempo (o il confronto) che fa sembrare vera la tesi che si vuole sostenere.</p>
+            <p class="fragment approfondimento">approfondimento: "le temperature sono scese dal 1998 al 2008" era un'affermazione vera, usata per negare il riscaldamento globale — ma nasceva dallo scegliere ad arte un anno di partenza particolarmente caldo. Guardando un periodo più lungo, il trend è chiaramente in salita. Ogni volta che un grafico parte da un anno "strano", chiedersi: perché proprio da lì?</p>
           </section>
         </section>
 
         <!-- COSA DOVETE FARE -->
-        <section data-background-image="images/bg-data-lines.jpg" data-background-opacity="0.18" data-background-color="#111">
+        <section>
           <h2>Cosa dovete fare</h2>
           <ul>
             <li class="fragment">Trovate <strong>una statistica reale</strong> che avete visto voi, con i vostri occhi: una pubblicità, un titolo, un post social, un dato citato in un dibattito.</li>
@@ -104,53 +163,49 @@
           </ul>
         </section>
 
-        <!-- CONSEGNA — TERZA -->
-        <section data-background-image="images/bg-data-lines.jpg" data-background-opacity="0.18" data-background-color="#111">
-          <h2>Consegna — Classi Terze</h2>
-          <ul>
-            <li class="fragment">Lavoro <strong>a gruppi di 2-3</strong></li>
-            <li class="fragment">1 statistica reale, con fonte e data</li>
-            <li class="fragment">Individuate <strong>almeno 1 allarme</strong> del kit</li>
-            <li class="fragment">Spiegate con parole vostre cosa dice davvero il dato</li>
-            <li class="fragment">Solo consegna <strong>scritta</strong></li>
-          </ul>
-        </section>
-
-        <!-- CONSEGNA — QUARTA -->
-        <section data-background-image="images/bg-data-lines.jpg" data-background-opacity="0.18" data-background-color="#111">
-          <h2>Consegna — Classi Quarte</h2>
-          <ul>
-            <li class="fragment">Lavoro <strong>a gruppi di 2-3</strong></li>
-            <li class="fragment">1 statistica reale, con fonte e data</li>
-            <li class="fragment">Individuate <strong>almeno 2 allarmi</strong> del kit</li>
-            <li class="fragment">Spiegate la differenza tra cosa <em>sembra dire</em> e cosa <em>dice davvero</em></li>
-            <li class="fragment">Proponete un modo <strong>più corretto</strong> di presentare lo stesso dato</li>
-            <li class="fragment">Solo consegna <strong>scritta</strong></li>
-          </ul>
-        </section>
-
-        <!-- CONSEGNA — QUINTA -->
-        <section data-background-image="images/bg-data-lines.jpg" data-background-opacity="0.18" data-background-color="#111">
-          <h2>Consegna — Classi Quinte</h2>
-          <ul>
-            <li class="fragment">Lavoro <strong>a gruppi di 2-3</strong></li>
-            <li class="fragment">1 statistica reale, con fonte e data</li>
-            <li class="fragment">Individuate <strong>almeno 3 allarmi</strong> del kit</li>
-            <li class="fragment">Verificate l'<strong>affidabilità della fonte</strong> originale</li>
-            <li class="fragment">Proponete una presentazione alternativa e corretta del dato</li>
-            <li class="fragment">Consegna scritta <strong>+ esposizione orale</strong> (3 minuti, con domande)</li>
-          </ul>
-        </section>
-
-        <!-- PERCHÉ L'ORALE ALLE QUINTE -->
-        <section data-background-image="images/bg-data-lines.jpg" data-background-opacity="0.18" data-background-color="#111">
-          <h2>Perché l'orale, in quinta</h2>
-          <p class="fragment">Perché all'Esame di Stato dovrete <strong>sapere quello che avete scritto</strong>, e saperlo raccontare a voce, rispondendo a domande non previste.</p>
-          <p class="fragment">È un allenamento per il colloquio, non solo un compito di educazione civica.</p>
+        <!-- CONSEGNE (verticale: terza / quarta / quinta) -->
+        <section>
+          <section>
+            <h2>Consegna — Classi Terze</h2>
+            <ul>
+              <li class="fragment">Lavoro <strong>a gruppi di 2-3</strong></li>
+              <li class="fragment">1 statistica reale, con fonte e data</li>
+              <li class="fragment">Individuate <strong>almeno 1 allarme</strong> del kit</li>
+              <li class="fragment">Spiegate con parole vostre cosa dice davvero il dato</li>
+              <li class="fragment">Solo consegna <strong>scritta</strong></li>
+            </ul>
+          </section>
+          <section>
+            <h2>Consegna — Classi Quarte</h2>
+            <ul>
+              <li class="fragment">Lavoro <strong>a gruppi di 2-3</strong></li>
+              <li class="fragment">1 statistica reale, con fonte e data</li>
+              <li class="fragment">Individuate <strong>almeno 2 allarmi</strong> del kit</li>
+              <li class="fragment">Spiegate la differenza tra cosa <em>sembra dire</em> e cosa <em>dice davvero</em></li>
+              <li class="fragment">Proponete un modo <strong>più corretto</strong> di presentare lo stesso dato</li>
+              <li class="fragment">Solo consegna <strong>scritta</strong></li>
+            </ul>
+          </section>
+          <section>
+            <h2>Consegna — Classi Quinte</h2>
+            <ul>
+              <li class="fragment">Lavoro <strong>a gruppi di 2-3</strong></li>
+              <li class="fragment">1 statistica reale, con fonte e data</li>
+              <li class="fragment">Individuate <strong>almeno 3 allarmi</strong> del kit</li>
+              <li class="fragment">Verificate l'<strong>affidabilità della fonte</strong> originale</li>
+              <li class="fragment">Proponete una presentazione alternativa e corretta del dato</li>
+              <li class="fragment">Consegna scritta <strong>+ esposizione orale</strong> (3 minuti, con domande)</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Perché l'orale, in quinta</h2>
+            <p class="fragment">Perché all'Esame di Stato dovrete <strong>sapere quello che avete scritto</strong>, e saperlo raccontare a voce, rispondendo a domande non previste.</p>
+            <p class="fragment">È un allenamento per il colloquio, non solo un compito di educazione civica.</p>
+          </section>
         </section>
 
         <!-- IL DOCUMENTO FINALE -->
-        <section data-background-image="images/bg-data-lines.jpg" data-background-opacity="0.18" data-background-color="#111">
+        <section>
           <h2>Il documento finale</h2>
           <ul>
             <li class="fragment">PDF: presentazione (3-5 slide) oppure scheda breve (max 2 pagine)</li>
@@ -162,7 +217,7 @@
         </section>
 
         <!-- GLI STRUMENTI -->
-        <section data-background-image="images/bg-data-lines.jpg" data-background-opacity="0.18" data-background-color="#111">
+        <section>
           <h2>Gli strumenti</h2>
           <p class="fragment">Potete usare qualsiasi fonte affidabile, e anche l'IA per organizzare le idee o verificare un dato.</p>
           <p class="fragment"><strong>Ma la statistica di partenza dovete averla vista voi.</strong></p>
@@ -170,7 +225,7 @@
         </section>
 
         <!-- VALUTAZIONE -->
-        <section data-background-image="images/bg-data-lines.jpg" data-background-opacity="0.18" data-background-color="#111">
+        <section>
           <h2>Come valuto</h2>
           <ul>
             <li class="fragment">La statistica scelta è <strong>reale e verificabile</strong> (fonte, data)?</li>
@@ -181,14 +236,14 @@
         </section>
 
         <!-- DOMANDA GUIDA -->
-        <section data-background-image="images/bg-data-lines.jpg" data-background-opacity="0.18" data-background-color="#111">
+        <section>
           <h1 class="r-fit-text">Domanda guida</h1>
           <h3 class="fragment">Questo numero mi sta dicendo la verità,</h3>
           <h3 class="fragment">o solo la parte di verità che fa comodo a chi lo racconta?</h3>
         </section>
 
         <!-- CHIUSURA -->
-        <section data-background-image="images/bg-data-lines.jpg" data-background-opacity="0.18" data-background-color="#111">
+        <section>
           <h1 class="big">Buon lavoro</h1>
         </section>
 
