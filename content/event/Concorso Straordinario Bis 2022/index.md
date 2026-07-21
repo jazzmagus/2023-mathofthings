@@ -12,8 +12,10 @@ address:
   postcode: '32100'
   country: Italy
 
-summary: Concorso Straordinario Bis 2022
+summary: Concorso Straordinario Bis 2022 — accesso con password
 abstract: 'Prova orale del Concorso Straordinario Bis 2022 - A026'
+external_link: /concorso-2022-bis/
+is_reserved: true
 
 # Talk start and end times.
 #   End time can optionally be hidden by prefixing the line with `#`.
@@ -50,7 +52,7 @@ url_video: ''
 #   Simply enter your slide deck's filename without extension.
 #   E.g. `slides = "example-slides"` references `content/slides/example-slides.md`.
 #   Otherwise, set `slides = ""`.
-slides: prog_ad
+slides: ''
 
 # Projects (optional).
 #   Associate this post with one or more of your projects.
@@ -63,4 +65,4 @@ projects:
 
 Materiali relativi alla prova orale del Concorso Straordinario Bis 2022 per la classe di concorso A026 (Matematica).
 
-Usa il pulsante **Slides** qui sopra per aprire la presentazione.
+Accesso protetto: usa la password fornita per visualizzare la presentazione.

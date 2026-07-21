@@ -10,6 +10,10 @@ authors: [diego fantinelli]
 tags: [riservato]
 is_reserved: true
 pinned_last: true
+image:
+  filename: featured.jpg
+  caption: ''
+  focal_point: Center
 ---
 
 Accedi ai materiali riservati della scuola. Usa la password fornita per visualizzare i documenti.

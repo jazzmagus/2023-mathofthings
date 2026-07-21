@@ -34,6 +34,8 @@
           "url" (.Params.link_override | default .RelPermalink)
           "summary" (.Params.summary | default .Summary)
           "img" $img
+          "relatedLink" .Params.related_link
+          "relatedLabel" .Params.related_link_label
       ) }}
     {{ end }}
 
@@ -54,6 +56,24 @@
 
     {{ range sort $items "date" "desc" }}
       {{ $alt := .title | $.RenderString | plainify }}
+      {{ if .relatedLink }}
+      <div class="article-item-link">
+        <div class="article-content">
+          <h3 class="article-title"><a href="{{ .url }}">{{ $.RenderString .title }}</a></h3>
+          <p class="article-meta">
+            <span class="article-summary">{{ .summary }}</span>
+            <a href="{{ .relatedLink }}" class="article-related-link">{{ .relatedLabel }} →</a>
+            <span class="article-date">{{ .date.Day }} {{ index $mesi (printf "%d" .date.Month | int) }} {{ .date.Year }}</span>
+          </p>
+        </div>
+        <a href="{{ .url }}" class="article-visual">
+          {{ with .img }}
+            <img src="{{ . }}" alt="{{ $alt }}" class="article-thumbnail">
+          {{ end }}
+          <span class="article-icon" aria-hidden="true">→</span>
+        </a>
+      </div>
+      {{ else }}
       <a href="{{ .url }}" class="article-item-link">
         <div class="article-content">
           <h3 class="article-title">{{ $.RenderString .title }}</h3>
@@ -69,6 +89,7 @@
           <span class="article-icon" aria-hidden="true">→</span>
         </div>
       </a>
+      {{ end }}
     {{ end }}
   </div>
 

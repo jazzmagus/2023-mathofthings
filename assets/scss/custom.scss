@@ -1247,12 +1247,13 @@ html:has(body.dark) {
   cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' fill='%23ed6f5c'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4' stroke='%23ed6f5c' stroke-width='2.2' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='12' cy='16' r='1.5' fill='white'/%3E%3C/svg%3E") 11 11, not-allowed;
 }
 
-// Label "password" per articoli riservati
-.reserved-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  font-weight: normal;
+// Lucchetto fisso nel titolo delle card riservate
+.reserved-lock {
   color: $primary;
+  vertical-align: -1px;
+  margin-left: 2px;
+  fill: none !important;
+  stroke: currentColor !important;
 }
 
 // Module section heading on materials pages
@@ -1530,6 +1531,11 @@ html:has(body.dark) {
       font-weight: 700;
       margin-top: 0;
       margin-bottom: 0.3rem;
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
     }
 
     .article-meta {
@@ -1548,6 +1554,19 @@ html:has(body.dark) {
         margin-bottom: 0.15rem;
       }
 
+      .article-related-link {
+        display: block;
+        color: $primary;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.78rem;
+        text-decoration: none;
+        margin-bottom: 0.15rem;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
       .article-date {
         display: block;
         color: #1a1a1a;
@@ -1563,6 +1582,8 @@ html:has(body.dark) {
       align-items: center;
       gap: 0.75rem;
       flex-shrink: 0;
+      text-decoration: none;
+      color: inherit;
 
       .article-thumbnail {
         width: 60px;

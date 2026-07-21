@@ -7,6 +7,8 @@ tags: [matematica, teoria dei giochi, nash, divulgazione]
 categories: [math]
 date: "2026-07-09T07:00:00Z"
 publishDate: "2026-07-09T07:00:00Z"
+related_link: "/lezioni/teoria-dei-giochi/lezione.html"
+related_link_label: "Lezione di approfondimento"
 featured: false
 draft: false
 image:

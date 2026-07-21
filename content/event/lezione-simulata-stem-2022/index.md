@@ -12,8 +12,10 @@ address:
   postcode: '32100'
   country: Italy
 
-summary: Lezione simulata - prova scritta STEM, A026
+summary: Lezione simulata - prova scritta STEM, A026 — accesso con password
 abstract: 'Lezione simulata di matematica per la prova scritta digitale (STEM) del Concorso Straordinario Bis 2022 - A026, su un Istituto Tecnico Industriale ad indirizzo Meccatronica.'
+external_link: /lezione-simulata-2022/
+is_reserved: true
 
 date: '2022-02-05T00:00:00Z'
 all_day: true
@@ -35,12 +37,12 @@ url_pdf: ''
 url_slides: ''
 url_video: ''
 
-slides: stem_2022
+slides: ''
 
 projects:
   - uda
 ---
 
 <!-- callout -->
-Click on the **Slides** button above to view the simulated lesson.
+Accesso protetto: usa la password fornita per visualizzare la presentazione.
 <!-- /callout -->

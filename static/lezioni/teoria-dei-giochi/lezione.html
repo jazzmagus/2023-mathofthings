@@ -57,6 +57,7 @@ body {
 .hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
 .hero h1 em { font-style:italic; color:var(--accent); }
 .hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.section-img { width:100%; max-width:100%; height:auto; margin:0 0 24px; display:block; border:1px solid var(--border-light); }
 .cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
 .cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
 .cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
@@ -149,6 +150,7 @@ const S = [
   title:"Il <em>dilemma del prigioniero</em>",
   nav:"Dilemma",
   body:
+    '<img class="section-img" src="/lezioni/teoria-dei-giochi/images/dilemma01.png" alt="Due sospettati interrogati separatamente da un ufficiale">' +
     '<p>Il gioco più citato nella storia della disciplina. Due sospettati, A e B, vengono interrogati separatamente. Ciascuno può <strong>tacere</strong> (cooperare con il complice) o <strong>confessare</strong> (tradire). Le pene, in anni di carcere, dipendono dalla combinazione delle due scelte.</p>' +
     '<table class="ct payoff"><tr><th>&nbsp;</th><th>B tace</th><th>B confessa</th></tr>' +
     '<tr><td>A tace</td><td>(1, 1)</td><td>(5, 0)</td></tr>' +
