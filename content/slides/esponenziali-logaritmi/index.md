@@ -228,6 +228,163 @@ slides:
 
 ---
 
+<section>
+  <p class="mot-kicker">una storia vera (quasi)</p>
+  <h2>Il problema dei <em>conigli</em></h2>
+  <style>.fib-rabbits-img{display:block;margin:-1.2rem auto -0.3rem !important;max-width:448px !important;width:448px !important;height:auto !important;}
+  body.dark .fib-rabbits-img{filter:invert(1);}</style>
+  <img class="fib-rabbits-img" src="/img/fibonacci-rabbits/conigli-fibonacci.png" alt="Conigli">
+  <p class="mot-def fragment" style="font-size:0.7em;margin-top:0">Nel 1202, nel <i>Liber Abaci</i>, Leonardo Pisano (Fibonacci) pone un problema: una coppia di conigli genera ogni mese una nuova coppia, che diventa fertile dopo un mese. Quante coppie ci sono dopo un anno?</p>
+  <p class="fragment" style="font-size:0.65em">Contando mese per mese si ottiene $1, 1, 2, 3, 5, 8, 13, 21, \dots$ — ogni numero è la <b>somma dei due precedenti</b>.</p>
+  <p class="mot-joke fragment" style="margin-top:0.4em">nella prossima animazione semplifichiamo un po': la popolazione raddoppia a ogni generazione</p>
+</section>
+
+---
+
+<section>
+  <p class="mot-kicker">un caso reale</p>
+  <h2>I <em>conigli</em> di Fibonacci</h2>
+  <p class="mot-def">Ogni generazione, la popolazione <b>raddoppia</b>. Guarda cosa succede.</p>
+  <canvas id="rabbit-dots" width="640" height="150" style="display:block;margin:0.8rem auto 0;max-width:100%;background:rgba(0,0,0,0.03);border-radius:8px;"></canvas>
+  <canvas id="rabbit-chart" width="640" height="180" style="display:block;margin:0.4rem auto 0;max-width:100%;"></canvas>
+  <p id="rabbit-status" style="font-family:'JetBrains Mono',monospace;font-size:0.8em;text-align:center;margin-top:0.4rem;color:var(--mot-primary);font-weight:600;">generazione 0 — popolazione 1</p>
+  <button id="rabbit-play-btn" style="margin-top:0.5rem;padding:0.35rem 0.9rem;font-size:0.72em;font-family:'JetBrains Mono',monospace;background:var(--mot-primary);color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;">&#9654; Avvia l'animazione</button>
+</section>
+
+<script>
+(function () {
+  var GENERATIONS = 8; // popolazione: 1,2,4,...,256
+  var STEP_MS = 700;
+  var dotsCanvas = document.getElementById('rabbit-dots');
+  var chartCanvas = document.getElementById('rabbit-chart');
+  var statusEl = document.getElementById('rabbit-status');
+  var btn = document.getElementById('rabbit-play-btn');
+  if (!dotsCanvas || !chartCanvas) return;
+
+  var dctx = dotsCanvas.getContext('2d');
+  var cctx = chartCanvas.getContext('2d');
+  var W = dotsCanvas.width, H = dotsCanvas.height;
+  var CW = chartCanvas.width, CH = chartCanvas.height;
+  var PAD = 30;
+  var maxPop = Math.pow(2, GENERATIONS);
+  var primary = '#ed6f5c';
+
+  // posizioni pre-calcolate (jitter su griglia) per i puntini, in ordine di apparizione
+  var cols = 26, rows = 10, cellW = W / cols, cellH = H / rows;
+  var slots = [];
+  for (var r = 0; r < rows; r++) {
+    for (var c = 0; c < cols; c++) {
+      slots.push({
+        x: c * cellW + cellW / 2 + (Math.random() - 0.5) * cellW * 0.5,
+        y: r * cellH + cellH / 2 + (Math.random() - 0.5) * cellH * 0.5
+      });
+    }
+  }
+  // ordine casuale di apparizione
+  for (var i = slots.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = slots[i]; slots[i] = slots[j]; slots[j] = tmp;
+  }
+
+  function drawAxes() {
+    cctx.clearRect(0, 0, CW, CH);
+    cctx.strokeStyle = 'rgba(0,0,0,0.25)';
+    cctx.lineWidth = 1;
+    cctx.beginPath();
+    cctx.moveTo(PAD, 10);
+    cctx.lineTo(PAD, CH - PAD);
+    cctx.lineTo(CW - 10, CH - PAD);
+    cctx.stroke();
+    cctx.fillStyle = 'rgba(0,0,0,0.5)';
+    cctx.font = '11px JetBrains Mono, monospace';
+    cctx.fillText('generazione', CW - 90, CH - 8);
+    cctx.save();
+    cctx.translate(12, 60);
+    cctx.rotate(-Math.PI / 2);
+    cctx.fillText('popolazione', 0, 0);
+    cctx.restore();
+  }
+
+  function chartPoint(gen, pop) {
+    var x = PAD + (gen / GENERATIONS) * (CW - PAD - 20);
+    var y = (CH - PAD) - (pop / maxPop) * (CH - PAD - 20);
+    return { x: x, y: y };
+  }
+
+  function resetVisual() {
+    dctx.clearRect(0, 0, W, H);
+    drawAxes();
+    statusEl.textContent = 'generazione 0 — popolazione 1';
+  }
+
+  function drawDotsUpTo(count) {
+    dctx.clearRect(0, 0, W, H);
+    dctx.fillStyle = primary;
+    for (var k = 0; k < count && k < slots.length; k++) {
+      dctx.beginPath();
+      dctx.arc(slots[k].x, slots[k].y, 3.2, 0, Math.PI * 2);
+      dctx.fill();
+    }
+  }
+
+  function drawCurveUpTo(gen, points) {
+    drawAxes();
+    cctx.strokeStyle = primary;
+    cctx.lineWidth = 2.5;
+    cctx.beginPath();
+    for (var k = 0; k <= gen; k++) {
+      var p = points[k];
+      if (k === 0) cctx.moveTo(p.x, p.y); else cctx.lineTo(p.x, p.y);
+    }
+    cctx.stroke();
+    cctx.fillStyle = primary;
+    for (var k2 = 0; k2 <= gen; k2++) {
+      cctx.beginPath();
+      cctx.arc(points[k2].x, points[k2].y, 3, 0, Math.PI * 2);
+      cctx.fill();
+    }
+  }
+
+  var playing = false;
+  function play() {
+    if (playing) return;
+    playing = true;
+    btn.disabled = true;
+    btn.style.opacity = '0.6';
+
+    var points = [];
+    for (var g = 0; g <= GENERATIONS; g++) {
+      points.push(chartPoint(g, Math.pow(2, g)));
+    }
+
+    var gen = 0;
+    resetVisual();
+    drawCurveUpTo(0, points);
+    drawDotsUpTo(1);
+
+    var timer = setInterval(function () {
+      gen++;
+      var pop = Math.pow(2, gen);
+      drawDotsUpTo(pop);
+      drawCurveUpTo(gen, points);
+      statusEl.textContent = 'generazione ' + gen + ' — popolazione ' + pop;
+      if (gen >= GENERATIONS) {
+        clearInterval(timer);
+        playing = false;
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.textContent = '↻ Riavvia l\'animazione';
+      }
+    }, STEP_MS);
+  }
+
+  resetVisual();
+  btn.addEventListener('click', play);
+})();
+</script>
+
+---
+
 <section class="mot-divider" data-transition="zoom">
   <h1 class="r-fit-text">DOMANDE?</h1>
   <p class="mot-joke fragment">crescono in modo esponenziale, si spera</p>

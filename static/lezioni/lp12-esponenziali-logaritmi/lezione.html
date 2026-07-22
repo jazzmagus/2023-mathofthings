@@ -267,6 +267,19 @@ const graphIntersezione = plotFn({
 
 const S = [
 {
+  tag:"STORIA",
+  title:"I conigli di <em>Fibonacci</em>",
+  nav:"Fibonacci",
+  body:
+    '<img src="/img/fibonacci-rabbits/conigli-fibonacci.png" alt="Conigli" style="display:block;margin:0.4rem auto 1rem;max-width:360px;width:100%;height:auto;"/>' +
+    '<p>Nel 1202 Leonardo Pisano, detto <strong>Fibonacci</strong>, pubblica il <i>Liber Abaci</i>, un manuale di aritmetica che introduce in Europa le cifre indo-arabiche. Tra i tanti problemi ne propone uno, quasi per gioco, che diventerà celebre.</p>' +
+    '<div class="cb"><div class="cb-label">Il problema dei conigli</div><p>Una coppia di conigli appena nata diventa fertile dopo un mese. Da quel momento, ogni coppia adulta genera esattamente una nuova coppia al mese. Supponendo che nessun coniglio muoia, quante coppie ci sono dopo un anno?</p></div>' +
+    '<p>Contando mese per mese si ottiene la successione:</p>' +
+    '<div class="math-block hero-formula">\\[ 1,\\ 1,\\ 2,\\ 3,\\ 5,\\ 8,\\ 13,\\ 21,\\ 34,\\ 55,\\ 89,\\ 144,\\ \\dots \\]</div>' +
+    '<p>dove ogni termine, a partire dal terzo, è la <strong>somma dei due precedenti</strong>: \\(F_n = F_{n-1} + F_{n-2}\\). È la celebre <strong>successione di Fibonacci</strong>, che ricompare in natura (spirali dei semi di girasole, conchiglie, ramificazioni delle piante) e ha un legame profondo con il rapporto aureo.</p>' +
+    '<div class="cb tip"><div class="cb-label">Dal conteggio alla funzione esponenziale</div><p>Il problema originale ha una crescita un po\' più intricata (quella di Fibonacci, non esattamente esponenziale in senso stretto). Per introdurre la funzione esponenziale useremo una versione semplificata: una popolazione che <strong>raddoppia</strong> a ogni generazione. È lo stesso spirito — crescita che si autoalimenta — ma con una legge più semplice da trattare: \\(P(n) = P_0 \\cdot 2^n\\).</p></div>'
+},
+{
   tag:"FONDAMENTI",
   title:"La potenza con esponente <em>reale</em>",
   nav:"Costruzione",
