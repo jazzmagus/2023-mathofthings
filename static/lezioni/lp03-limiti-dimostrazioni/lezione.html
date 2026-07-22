@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dispensa — Limiti: Dimostrazioni e Teoremi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+svg.diagram { display:block; margin:14px auto; max-width:100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Limiti: Dimostrazioni e Teoremi · pro</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+
+{
+  tag:"INTRODUZIONE",
+  title:"Dal <em>calcolo</em> alla <em>dimostrazione</em>",
+  nav:"Introduzione",
+  body:
+    '<p>Nel percorso avanzato hai imparato a <strong>usare</strong> i teoremi sui limiti: l’algebra dei limiti, il teorema del confronto, la continuità. In questa dispensa li riprendiamo per <strong>dimostrarli</strong>, partendo dalla definizione \\(\\varepsilon\\)-\\(\\delta\\).</p>' +
+    '<div class="cb"><div class="cb-label">Perché dimostrare ciò che già "funziona"</div><p>Un teorema usato senza dimostrazione è una ricetta: funziona, ma non sai perché, e non sai riconoscere quando smette di funzionare (cioè quali ipotesi sono davvero necessarie). Le dimostrazioni rivelano esattamente <em>dove</em> si usa ogni ipotesi — ed è lì che si nascondono i controesempi istruttivi.</p></div>' +
+    '<p>Il filo conduttore di questa dispensa: unicità del limite, teorema del confronto, algebra dei limiti, teoremi di continuità (Weierstrass, Bolzano) e, a chiusura, il teorema del punto fisso di Banach — un risultato che esce dai limiti in senso stretto ma ne condivide lo spirito: <em>esistenza garantita da un argomento di approssimazione successiva</em>.</p>' +
+    '<div class="cb tip"><div class="cb-label">Convenzione notazionale</div><p>In tutta la dispensa, salvo avviso contrario, \\(c\\) e \\(\\ell\\) sono numeri reali finiti, e le funzioni sono definite in un intorno di \\(c\\) (escluso al più \\(c\\) stesso).</p></div>'
+},
+{
+  tag:"UNICITÀ",
+  title:"Unicità del <em>limite</em>",
+  nav:"Unicità",
+  body:
+    '<div class="cb"><div class="cb-label">Teorema (Unicità del limite)</div><p>Se \\(\\displaystyle\\lim_{x\\to c} f(x) = \\ell_1\\) e \\(\\displaystyle\\lim_{x\\to c} f(x) = \\ell_2\\), allora \\(\\ell_1 = \\ell_2\\).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione</div>' +
+    '<p>Supponiamo per assurdo \\(\\ell_1 \\neq \\ell_2\\). Poniamo \\(\\varepsilon = \\dfrac{|\\ell_1-\\ell_2|}{2} > 0\\).</p>' +
+    '<p>Per definizione di limite, applicata a \\(\\ell_1\\): esiste \\(\\delta_1>0\\) tale che \\(0<|x-c|<\\delta_1 \\Rightarrow |f(x)-\\ell_1|<\\varepsilon\\).</p>' +
+    '<p>Applicata a \\(\\ell_2\\): esiste \\(\\delta_2>0\\) tale che \\(0<|x-c|<\\delta_2 \\Rightarrow |f(x)-\\ell_2|<\\varepsilon\\).</p>' +
+    '<p>Scegliamo \\(\\delta = \\min(\\delta_1,\\delta_2)\\) e un qualsiasi \\(x\\) con \\(0<|x-c|<\\delta\\) (esiste sempre, per esempio \\(x = c + \\delta/2\\)). Per tale \\(x\\) valgono entrambe le disuguaglianze, quindi per la disuguaglianza triangolare:</p>' +
+    '<div class="math-block">\\[ |\\ell_1-\\ell_2| \\le |\\ell_1-f(x)| + |f(x)-\\ell_2| < \\varepsilon + \\varepsilon = |\\ell_1-\\ell_2| \\]</div>' +
+    '<p>Otteniamo \\(|\\ell_1-\\ell_2| < |\\ell_1-\\ell_2|\\): assurdo. Dunque \\(\\ell_1=\\ell_2\\). \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Dove si usa ogni ipotesi</div><p>Il passaggio cruciale è la scelta di \\(\\varepsilon\\) come <strong>metà</strong> della distanza tra \\(\\ell_1\\) e \\(\\ell_2\\): è ciò che rende le due stime "troppo strette" per essere entrambe vere, generando l’assurdo. Con un \\(\\varepsilon\\) più grande la dimostrazione non funzionerebbe.</p></div>'
+},
+{
+  tag:"CONFRONTO",
+  title:"Teorema del <em>confronto</em>",
+  nav:"Confronto",
+  body:
+    '<div class="cb"><div class="cb-label">Teorema (del confronto, o "dei due carabinieri")</div><p>Siano \\(g,f,h\\) funzioni tali che \\(g(x) \\le f(x) \\le h(x)\\) per ogni \\(x\\) in un intorno di \\(c\\) (escluso al più \\(c\\)). Se</p><div class="math-block">\\[ \\lim_{x\\to c} g(x) = \\lim_{x\\to c} h(x) = \\ell \\]</div><p>allora anche \\(\\displaystyle\\lim_{x\\to c} f(x) = \\ell\\).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione</div>' +
+    '<p>Fissiamo \\(\\varepsilon>0\\). Per ipotesi su \\(g\\): esiste \\(\\delta_1>0\\) tale che \\(0<|x-c|<\\delta_1 \\Rightarrow \\ell-\\varepsilon < g(x) < \\ell+\\varepsilon\\).</p>' +
+    '<p>Per ipotesi su \\(h\\): esiste \\(\\delta_2>0\\) tale che \\(0<|x-c|<\\delta_2 \\Rightarrow \\ell-\\varepsilon < h(x) < \\ell+\\varepsilon\\).</p>' +
+    '<p>Sia \\(\\delta_3>0\\) il raggio dell’intorno in cui vale \\(g(x)\\le f(x)\\le h(x)\\). Poniamo \\(\\delta = \\min(\\delta_1,\\delta_2,\\delta_3)\\).</p>' +
+    '<p>Per \\(0<|x-c|<\\delta\\) valgono tutte e tre le condizioni insieme, quindi:</p>' +
+    '<div class="math-block">\\[ \\ell - \\varepsilon < g(x) \\le f(x) \\le h(x) < \\ell + \\varepsilon \\]</div>' +
+    '<p>da cui \\(\\ell-\\varepsilon < f(x) < \\ell+\\varepsilon\\), cioè \\(|f(x)-\\ell|<\\varepsilon\\). Essendo \\(\\varepsilon\\) arbitrario, \\(\\displaystyle\\lim_{x\\to c}f(x)=\\ell\\). \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Applicazione classica</div><p>Da \\(-1\\le\\sin\\tfrac1x\\le1\\) segue \\(-x^2 \\le x^2\\sin\\tfrac1x \\le x^2\\); poiché \\(\\displaystyle\\lim_{x\\to0}(\\pm x^2)=0\\), il teorema dà \\(\\displaystyle\\lim_{x\\to0}x^2\\sin\\tfrac1x = 0\\), senza dover mai "calcolare" il seno di un argomento che oscilla senza sosta.</p></div>'
+},
+{
+  tag:"ALGEBRA",
+  title:"L'algebra dei limiti: <em>dimostrazioni</em> complete",
+  nav:"Algebra",
+  body:
+    '<div class="cb"><div class="cb-label">Teorema (limite di una somma)</div><p>Se \\(\\displaystyle\\lim_{x\\to c}f(x)=\\ell_1\\) e \\(\\displaystyle\\lim_{x\\to c}g(x)=\\ell_2\\), allora \\(\\displaystyle\\lim_{x\\to c}[f(x)+g(x)]=\\ell_1+\\ell_2\\).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione</div>' +
+    '<p>Fissato \\(\\varepsilon>0\\), scegliamo \\(\\varepsilon’ = \\varepsilon/2\\). Per ipotesi esistono \\(\\delta_1,\\delta_2>0\\) tali che \\(0<|x-c|<\\delta_1 \\Rightarrow |f(x)-\\ell_1|<\\varepsilon’\\) e \\(0<|x-c|<\\delta_2 \\Rightarrow |g(x)-\\ell_2|<\\varepsilon’\\).</p>' +
+    '<p>Con \\(\\delta=\\min(\\delta_1,\\delta_2)\\), per \\(0<|x-c|<\\delta\\), la disuguaglianza triangolare dà:</p>' +
+    '<div class="math-block">\\[ |(f(x)+g(x))-(\\ell_1+\\ell_2)| \\le |f(x)-\\ell_1| + |g(x)-\\ell_2| < \\varepsilon’ + \\varepsilon’ = \\varepsilon \\]</div>' +
+    '<p>Questo dimostra la tesi. \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema (limite di un prodotto)</div><p>Sotto le stesse ipotesi, \\(\\displaystyle\\lim_{x\\to c}[f(x)g(x)]=\\ell_1\\ell_2\\).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione (idea chiave)</div><p>Si usa il "trucco di sommare e sottrarre":</p><div class="math-block">\\[ f(x)g(x)-\\ell_1\\ell_2 = f(x)\\big(g(x)-\\ell_2\\big) + \\ell_2\\big(f(x)-\\ell_1\\big) \\]</div><p>Per il teorema di limitatezza locale, \\(|f(x)|\\) è limitato (da una costante \\(M\\)) in un intorno di \\(c\\); scegliendo \\(\\delta\\) abbastanza piccolo si rende ciascuno dei due addendi minore di \\(\\varepsilon/2\\) in valore assoluto, e la disuguaglianza triangolare conclude come sopra.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Perché serve la limitatezza locale di f</div><p>Senza sapere che \\(f\\) è limitata vicino a \\(c\\), il termine \\(f(x)(g(x)-\\ell_2)\\) potrebbe non essere reso piccolo: è un fattore "incontrollato" che moltiplica una quantità piccola. La limitatezza locale (conseguenza diretta dell’esistenza del limite di \\(f\\)) è l’ingrediente che tiene tutto sotto controllo.</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema (limite di un quoziente)</div><p>Se inoltre \\(\\ell_2 \\neq 0\\), allora \\(\\displaystyle\\lim_{x\\to c}\\dfrac{f(x)}{g(x)}=\\dfrac{\\ell_1}{\\ell_2}\\).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione (schema)</div><p>Si dimostra prima il caso particolare \\(\\displaystyle\\lim_{x\\to c}\\dfrac1{g(x)}=\\dfrac1{\\ell_2}\\), usando il teorema di permanenza del segno per garantire che \\(g(x)\\) non si annulli vicino a \\(c\\) e resti "lontano da zero" quanto basta; poi si applica il teorema del prodotto a \\(f(x)\\cdot\\dfrac1{g(x)}\\).</p></div>'
+},
+{
+  tag:"CONTINUITÀ",
+  title:"Teoremi di <em>continuità</em> e loro conseguenze",
+  nav:"Continuità",
+  body:
+    '<div class="cb"><div class="cb-label">Continuità come conseguenza dell’algebra dei limiti</div><p>Poiché somma, prodotto e quoziente (con denominatore non nullo) di funzioni continue restano continui — diretta conseguenza dei teoremi appena dimostrati, applicati con \\(\\ell_1=f(c)\\), \\(\\ell_2=g(c)\\) — ogni funzione costruita da funzioni elementari continue tramite queste operazioni è automaticamente continua nel suo dominio.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Teorema di permanenza del segno per funzioni continue</div><p>Se \\(f\\) è continua in \\(c\\) e \\(f(c) \\neq 0\\), allora esiste un intorno di \\(c\\) in cui \\(f\\) ha lo stesso segno di \\(f(c)\\). È il teorema di permanenza del segno, applicato al caso \\(\\ell = f(c)\\).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Continuità della funzione composta</div><p>Se \\(g\\) è continua in \\(c\\) e \\(f\\) è continua in \\(g(c)\\), allora \\(f\\circ g\\) è continua in \\(c\\). Idea di dimostrazione: dato \\(\\varepsilon\\), la continuità di \\(f\\) in \\(g(c)\\) fornisce un \\(\\eta>0\\); la continuità di \\(g\\) in \\(c\\), applicata con tolleranza \\(\\eta\\), fornisce il \\(\\delta\\) cercato.</p></div>' +
+    '<p>Questi risultati preparano il terreno ai due teoremi cardine dell’analisi su intervalli chiusi e limitati, che vediamo nelle prossime due sezioni: <strong>Weierstrass</strong> (esistenza di massimo e minimo) e <strong>Bolzano</strong> (esistenza degli zeri).</p>'
+},
+{
+  tag:"WEIERSTRASS",
+  title:"Il teorema di <em>Weierstrass</em>",
+  nav:"Weierstrass",
+  body:
+    '<div class="cb"><div class="cb-label">Teorema di Weierstrass</div><p>Se \\(f\\) è continua su un intervallo chiuso e limitato \\([a,b]\\), allora \\(f\\) ammette (almeno) un punto di <strong>massimo assoluto</strong> e un punto di <strong>minimo assoluto</strong> in \\([a,b]\\).</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Le ipotesi sono tutte necessarie</div><p>Senza <em>chiusura</em>: \\(f(x)=x\\) su \\((0,1)\\) non ha massimo né minimo. Senza <em>limitatezza</em>: \\(f(x)=x\\) su \\([0,+\\infty)\\) non ha massimo. Senza <em>continuità</em>: una funzione con un salto può "sfuggire" al proprio estremo superiore senza raggiungerlo.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Schema della dimostrazione (per successioni)</div>' +
+    '<p><strong>Passo 1 — \\(f\\) è limitata su \\([a,b]\\).</strong> Se non lo fosse, esisterebbe una successione \\((x_n)\\) in \\([a,b]\\) con \\(f(x_n) \\to +\\infty\\). Per il teorema di Bolzano-Weierstrass sulle successioni, \\((x_n)\\) ammette una sottosuccessione convergente \\(x_{n_k}\\to x_0 \\in [a,b]\\) (qui si usa che \\([a,b]\\) è chiuso e limitato, cioè <strong>compatto</strong>). Per continuità, \\(f(x_{n_k})\\to f(x_0)\\), un numero finito: contraddice \\(f(x_{n_k})\\to+\\infty\\).</p>' +
+    '<p><strong>Passo 2 — l’estremo superiore è raggiunto.</strong> Sia \\(M=\\sup_{[a,b]} f\\) (esiste finito per il Passo 1). Esiste una successione \\(x_n\\) con \\(f(x_n)\\to M\\). Di nuovo per compattezza, una sottosuccessione converge a un punto \\(x_0\\in[a,b]\\), e per continuità \\(f(x_0)=M\\): il massimo è raggiunto in \\(x_0\\). Lo stesso argomento, con \\(\\inf\\) al posto di \\(\\sup\\), dà il minimo. \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Il concetto chiave: compattezza</div><p>L’ingrediente che rende possibile "estrarre" una sottosuccessione convergente è la <strong>compattezza</strong> di \\([a,b]\\) (chiuso + limitato in \\(\\mathbb{R}\\)). Approfondiremo questa nozione, in termini più generali, nella dispensa LP04.</p></div>'
+},
+{
+  tag:"BOLZANO",
+  title:"Il teorema di <em>Bolzano</em> (esistenza degli zeri)",
+  nav:"Bolzano",
+  body:
+    '<div class="cb"><div class="cb-label">Teorema di Bolzano (o degli zeri)</div><p>Se \\(f\\) è continua su \\([a,b]\\) e \\(f(a)\\cdot f(b) < 0\\) (cioè \\(f(a)\\) e \\(f(b)\\) hanno segno opposto), allora esiste almeno un punto \\(c \\in (a,b)\\) tale che \\(f(c) = 0\\).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione per bisezione</div>' +
+    '<p>Supponiamo \\(f(a)<0<f(b)\\) (l’altro caso è analogo). Costruiamo per ricorrenza due successioni \\(a_n, b_n\\) con \\(a_0=a\\), \\(b_0=b\\):</p>' +
+    '<p>Sia \\(m_n = \\dfrac{a_n+b_n}{2}\\) il punto medio. Se \\(f(m_n)=0\\) abbiamo finito. Se \\(f(m_n)>0\\), poniamo \\(a_{n+1}=a_n\\), \\(b_{n+1}=m_n\\). Se \\(f(m_n)<0\\), poniamo \\(a_{n+1}=m_n\\), \\(b_{n+1}=b_n\\). In ogni caso manteniamo \\(f(a_n)<0<f(b_n)\\).</p>' +
+    '<p>La lunghezza dell’intervallo dimezza a ogni passo: \\(b_n-a_n=\\dfrac{b-a}{2^n}\\to0\\). La successione \\(a_n\\) è monotona crescente e limitata (quindi converge, per il teorema sulle successioni monotone) a un valore \\(c\\); poiché \\(b_n-a_n\\to0\\), anche \\(b_n\\to c\\), con \\(c\\in[a,b]\\).</p>' +
+    '<p>Per continuità, \\(f(a_n)\\to f(c)\\) e \\(f(b_n)\\to f(c)\\). Ma \\(f(a_n)<0\\) per ogni \\(n\\), quindi \\(f(c)\\le0\\); e \\(f(b_n)>0\\) per ogni \\(n\\), quindi \\(f(c)\\ge0\\). Dunque \\(f(c)=0\\). \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Un algoritmo, non solo un teorema</div><p>La dimostrazione per bisezione è anche un <strong>metodo numerico</strong>: a ogni passo dimezza l’incertezza sulla posizione dello zero. È così che si approssimano al calcolatore le soluzioni di equazioni che non si risolvono algebricamente.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Controesempio se manca la continuità</div><p>\\(f(x) = -1\\) per \\(x<0\\), \\(f(x)=1\\) per \\(x\\ge0\\), su \\([-1,1]\\): cambia segno ma non si annulla mai. La discontinuità in \\(0\\) "salta" oltre lo zero.</p></div>'
+},
+{
+  tag:"BANACH",
+  title:"Il teorema del <em>punto fisso</em> di Banach",
+  nav:"Punto fisso",
+  body:
+    '<p>Concludiamo con un teorema che condivide con Bolzano l’idea di <strong>esistenza per approssimazioni successive</strong>, ma con un ingrediente nuovo: la garanzia di <strong>unicità</strong>, ottenuta richiedendo che la funzione "contragga le distanze".</p>' +
+    '<div class="cb"><div class="cb-label">Definizione — contrazione</div><p>Una funzione \\(f:[a,b]\\to[a,b]\\) è una <strong>contrazione</strong> se esiste \\(k\\) con \\(0\\le k<1\\) tale che, per ogni \\(x,y\\in[a,b]\\):</p><div class="math-block hero-formula">\\[ |f(x)-f(y)| \\le k\\,|x-y| \\]</div></div>' +
+    '<div class="cb"><div class="cb-label">Teorema del punto fisso di Banach (versione su un intervallo)</div><p>Se \\(f:[a,b]\\to[a,b]\\) è una contrazione, allora esiste <strong>uno e un solo</strong> punto \\(x^*\\in[a,b]\\) tale che \\(f(x^*)=x^*\\) (un <strong>punto fisso</strong>). Inoltre, partendo da un qualunque \\(x_0\\in[a,b]\\), la successione \\(x_{n+1}=f(x_n)\\) converge a \\(x^*\\).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione (schema)</div>' +
+    '<p><strong>Esistenza.</strong> Si mostra che \\((x_n)\\) è una successione di Cauchy: \\(|x_{n+1}-x_n|\\le k|x_n-x_{n-1}|\\le \\dots \\le k^n|x_1-x_0|\\), e per la disuguaglianza triangolare \\(|x_{n+p}-x_n| \\le |x_1-x_0|\\dfrac{k^n}{1-k}\\to0\\). Ogni successione di Cauchy in \\(\\mathbb{R}\\) converge (completezza di \\(\\mathbb{R}\\)) a un punto \\(x^*\\); per continuità di \\(f\\) (le contrazioni sono continue: la definizione stessa è una condizione di continuità uniforme), \\(f(x^*)=\\lim f(x_n)=\\lim x_{n+1}=x^*\\).</p>' +
+    '<p><strong>Unicità.</strong> Se \\(x^*\\) e \\(y^*\\) sono entrambi punti fissi, \\(|x^*-y^*|=|f(x^*)-f(y^*)|\\le k|x^*-y^*|\\). Poiché \\(k<1\\), l’unica possibilità è \\(|x^*-y^*|=0\\), cioè \\(x^*=y^*\\). \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Perché interessa qui</div><p>Il teorema del punto fisso è il cugino "costruttivo" di Bolzano: invece di dimostrare solo che una soluzione esiste, fornisce un algoritmo (le iterazioni \\(x_{n+1}=f(x_n)\\)) per costruirla con precisione arbitraria — la stessa idea di "restringere l’incertezza passo dopo passo" della bisezione.</p></div>' +
+    acc([
+      { t:"Esercizio di dimostrazione 1", h:'<p>Dimostra, usando la definizione \\(\\varepsilon\\)-\\(\\delta\\), che se \\(\\displaystyle\\lim_{x\\to c}f(x)=\\ell>0\\), allora esiste un intorno di \\(c\\) in cui \\(f(x)>0\\) (caso particolare del teorema di permanenza del segno).</p><p><strong>Traccia</strong>: scegli \\(\\varepsilon = \\ell/2\\) nella definizione di limite: si ottiene \\(f(x) > \\ell - \\varepsilon = \\ell/2 > 0\\) nell’intorno corrispondente.</p>' },
+      { t:"Esercizio di dimostrazione 2", h:'<p>Dimostra che una contrazione \\(f:[a,b]\\to[a,b]\\) è (uniformemente) continua.</p><p><strong>Traccia</strong>: dato \\(\\varepsilon>0\\), scegli \\(\\delta=\\varepsilon\\) (o anche \\(\\delta = \\varepsilon/k\\) se \\(k>0\\)): la condizione di contrazione \\(|f(x)-f(y)|\\le k|x-y|\\) rende immediata la verifica, con lo stesso \\(\\delta\\) per ogni punto — è proprio questo che si intende per continuità <em>uniforme</em>.</p>' },
+      { t:"Esercizio di dimostrazione 3 — Un’applicazione di Bolzano", h:'<p>Dimostra che l’equazione \\(x^3 - 3x + 1 = 0\\) ha almeno una soluzione in \\([0,1]\\).</p><p><strong>Traccia</strong>: sia \\(f(x)=x^3-3x+1\\), continua su \\([0,1]\\) (polinomio). \\(f(0)=1>0\\), \\(f(1)=1-3+1=-1<0\\). Per il teorema di Bolzano, esiste \\(c\\in(0,1)\\) con \\(f(c)=0\\).</p>' }
+    ])
+}
+
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>

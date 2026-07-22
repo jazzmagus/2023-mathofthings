@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dispensa — Continuità e Teoremi Fondamentali: Dimostrazioni</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+svg.diagram { display:block; margin:14px auto; max-width:100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Continuità: Dimostrazioni e Topologia · pro</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+
+{
+  tag:"MOTIVAZIONE",
+  title:"Dalla retta agli <em>spazi</em>: perché la topologia",
+  nav:"Motivazione",
+  body:
+    '<p>Nella dispensa LP03 abbiamo dimostrato Weierstrass e Bolzano lavorando dentro \\(\\mathbb{R}\\), usando successioni e l’argomento di bisezione. In questa dispensa cambiamo prospettiva: invece di trattare \\([a,b]\\subset\\mathbb{R}\\) come caso isolato, introduciamo il linguaggio della <strong>topologia</strong>, che rivela cosa rende \\([a,b]\\) "speciale" — e permette di enunciare gli stessi teoremi in contesti molto più generali (piano, spazio, spazi di funzioni).</p>' +
+    '<div class="cb"><div class="cb-label">L’idea guida</div><p>La proprietà cruciale di \\([a,b]\\) non è "essere un intervallo": è essere <strong>compatto</strong>. Una volta isolata questa nozione, Weierstrass diventa un caso particolare di un fatto molto più generale: <em>una funzione continua su un compatto ammette massimo e minimo</em>.</p></div>' +
+    '<p>Il percorso: definizione \\(\\varepsilon\\)-\\(\\delta\\) di continuità (con le sue dimostrazioni dirette), poi Weierstrass e Bolzano rivisti in chiave più strutturale, poi la continuità <strong>uniforme</strong> (più forte della continuità puntuale), e infine gli elementi di topologia — aperti, chiusi, compattezza — che permettono di dire, in un colpo solo, <em>cosa significa</em> "funzione continua" in totale generalità.</p>'
+},
+{
+  tag:"CONTINUITÀ",
+  title:"La definizione <em>\\(\\varepsilon\\)-\\(\\delta\\)</em> di continuità, dimostrata",
+  nav:"Epsilon-delta",
+  body:
+    '<div class="cb"><div class="cb-label">Definizione</div><p>\\(f\\) è continua in \\(c\\) se:</p><div class="math-block hero-formula">\\[ \\forall \\varepsilon>0\\ \\exists \\delta>0:\\ |x-c|<\\delta \\Rightarrow |f(x)-f(c)|<\\varepsilon \\]</div><p class="dim">Rispetto alla definizione di limite, qui non si esclude \\(x=c\\): infatti per \\(x=c\\) la condizione è banalmente vera.</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema — continuità della somma</div><p>Se \\(f,g\\) sono continue in \\(c\\), anche \\(f+g\\) lo è.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione</div><p>È il teorema sul limite di una somma (LP03), applicato al caso particolare \\(\\ell_1=f(c)\\), \\(\\ell_2=g(c)\\): dato \\(\\varepsilon>0\\), si trovano \\(\\delta_1,\\delta_2\\) come nella dimostrazione già vista, si prende \\(\\delta=\\min(\\delta_1,\\delta_2)\\), e la disuguaglianza triangolare conclude. \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema — continuità della funzione composta</div><p>Se \\(g\\) è continua in \\(c\\) e \\(f\\) è continua in \\(g(c)\\), allora \\(f\\circ g\\) è continua in \\(c\\).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione</div><p>Fissato \\(\\varepsilon>0\\), la continuità di \\(f\\) in \\(g(c)\\) fornisce \\(\\eta>0\\) tale che \\(|y-g(c)|<\\eta \\Rightarrow |f(y)-f(g(c))|<\\varepsilon\\). La continuità di \\(g\\) in \\(c\\), applicata con tolleranza \\(\\eta\\) al posto di \\(\\varepsilon\\), fornisce \\(\\delta>0\\) tale che \\(|x-c|<\\delta \\Rightarrow |g(x)-g(c)|<\\eta\\). Combinando: \\(|x-c|<\\delta \\Rightarrow |g(x)-g(c)|<\\eta \\Rightarrow |f(g(x))-f(g(c))|<\\varepsilon\\). \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Nota sul "cambio di tolleranza"</div><p>Il passaggio decisivo è usare l’\\(\\eta\\) prodotto dalla continuità <em>esterna</em> (di \\(f\\)) come tolleranza da richiedere alla continuità <em>interna</em> (di \\(g\\)): è una tecnica che ricorre in molte dimostrazioni di composizione.</p></div>'
+},
+{
+  tag:"WEIERSTRASS",
+  title:"<em>Weierstrass</em>, rivisitato",
+  nav:"Weierstrass",
+  body:
+    '<p>Riprendiamo il teorema già dimostrato in LP03 per evidenziarne la struttura in vista della generalizzazione topologica.</p>' +
+    '<div class="cb"><div class="cb-label">Teorema di Weierstrass</div><p>Una funzione continua su un insieme compatto (in \\(\\mathbb{R}\\): chiuso e limitato) ammette massimo e minimo assoluti.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">La struttura della dimostrazione, in due proprietà</div>' +
+    '<p><strong>Proprietà A (compattezza per successioni)</strong>: ogni successione a valori in \\([a,b]\\) ammette una sottosuccessione convergente a un punto di \\([a,b]\\). Questa è precisamente la nozione di <strong>compattezza sequenziale</strong>, ed è vera in \\(\\mathbb{R}^n\\) esattamente per gli insiemi chiusi e limitati (teorema di Bolzano-Weierstrass per successioni + Heine-Borel).</p>' +
+    '<p><strong>Proprietà B (continuità e successioni)</strong>: se \\(x_n\\to x_0\\) e \\(f\\) è continua in \\(x_0\\), allora \\(f(x_n)\\to f(x_0)\\).</p>' +
+    '<p>Combinando A e B come nella dimostrazione di LP03: si estrae dalla successione massimizzante una sottosuccessione convergente (A), e si porta il limite dentro \\(f\\) (B), ottenendo che il sup è raggiunto.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Perché generalizza</div><p>Il teorema di Weierstrass vale, parola per parola, ogni volta che il dominio è compatto (in qualunque spazio in cui "compatto" abbia senso) e la funzione a valori reali è continua. Non serve più che il dominio sia un intervallo di \\(\\mathbb{R}\\): può essere un disco chiuso nel piano, una sfera nello spazio, o un insieme più astratto.</p></div>'
+},
+{
+  tag:"BOLZANO",
+  title:"<em>Bolzano</em>, rivisitato: il ruolo della connessione",
+  nav:"Bolzano",
+  body:
+    '<p>Il teorema di Bolzano dipende da una proprietà diversa da quella di Weierstrass: non la compattezza, ma la <strong>connessione</strong> di \\([a,b]\\) — l’idea che l’intervallo "non ha buchi" e non si può separare in due pezzi disgiunti e aperti.</p>' +
+    '<div class="cb"><div class="cb-label">Fatto topologico chiave</div><p>Gli intervalli sono esattamente i sottoinsiemi <strong>connessi</strong> di \\(\\mathbb{R}\\): non esistono due aperti disgiunti e non vuoti \\(U,V\\) con \\((U\\cup V)\\supseteq[a,b]\\) e \\(U,V\\) che intersecano entrambi \\([a,b]\\) ricoprendolo senza sovrapporsi.</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema (generalizzazione)</div><p>L’immagine continua di un insieme connesso è connessa. Di conseguenza, se \\(f\\) è continua su un connesso \\(A\\) e assume sia valori positivi sia negativi, la sua immagine \\(f(A)\\) (essendo connessa in \\(\\mathbb{R}\\), cioè un intervallo) deve contenere anche lo \\(0\\): è il teorema dei valori intermedi, di cui Bolzano è il caso particolare "esiste uno zero".</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Perché la dimostrazione per bisezione "funziona solo" su un intervallo</div><p>Il metodo di bisezione di LP03 usa in modo essenziale che si può sempre dividere \\([a_n,b_n]\\) a metà restando dentro un intervallo: è una costruzione intrinsecamente legata alla struttura ordinata di \\(\\mathbb{R}\\). La versione generale (connessione + immagine continua) è più astratta ma copre casi dove "bisecare" non ha senso.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Compattezza vs. connessione: due ipotesi indipendenti</div><p>Weierstrass ha bisogno di compattezza (chiuso + limitato), non di connessione: \\([0,1]\\cup[2,3]\\) è compatto ma sconnesso, e una funzione continua su di esso ha comunque massimo e minimo. Bolzano ha bisogno di connessione, non di compattezza: \\((0,1)\\) è connesso ma non compatto, e il teorema dei valori intermedi vale lo stesso al suo interno (pur non garantendo l’esistenza di massimo/minimo).</p></div>'
+},
+{
+  tag:"UNIFORME",
+  title:"Continuità <em>uniforme</em> e teorema di Heine-Cantor",
+  nav:"Uniforme",
+  body:
+    '<div class="cb"><div class="cb-label">Continuità puntuale vs. continuità uniforme</div><p>Nella continuità (puntuale) in \\(c\\), il \\(\\delta\\) può dipendere sia da \\(\\varepsilon\\) <strong>sia da \\(c\\)</strong>. Nella continuità <strong>uniforme</strong> su un insieme \\(A\\), si richiede che lo stesso \\(\\delta\\) vada bene per <em>tutti</em> i punti di \\(A\\) contemporaneamente:</p><div class="math-block hero-formula">\\[ \\forall \\varepsilon>0\\ \\exists \\delta>0\\ \\text{ tale che } \\ \\forall x,y\\in A:\\ |x-y|<\\delta \\Rightarrow |f(x)-f(y)|<\\varepsilon \\]</div></div>' +
+    '<div class="cb warn"><div class="cb-label">Un controesempio istruttivo</div><p>\\(f(x)=\\dfrac1x\\) su \\((0,1)\\) è continua in ogni punto, ma non uniformemente: vicino a \\(0\\) la funzione "cambia troppo in fretta", e il \\(\\delta\\) necessario per un dato \\(\\varepsilon\\) deve rimpicciolirsi senza limite man mano che \\(c\\to0^+\\). Non esiste un \\(\\delta\\) unico che vada bene ovunque nell’intervallo.</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema di Heine-Cantor</div><p>Se \\(f\\) è continua su un insieme <strong>compatto</strong> \\(K\\), allora \\(f\\) è uniformemente continua su \\(K\\).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione (per assurdo, con compattezza sequenziale)</div>' +
+    '<p>Supponiamo che \\(f\\) non sia uniformemente continua: esiste \\(\\varepsilon>0\\) tale che, per ogni \\(\\delta=1/n\\), esistono \\(x_n,y_n\\in K\\) con \\(|x_n-y_n|<1/n\\) ma \\(|f(x_n)-f(y_n)|\\ge\\varepsilon\\).</p>' +
+    '<p>Per compattezza (sequenziale) di \\(K\\), \\((x_n)\\) ammette una sottosuccessione \\(x_{n_k}\\to x_0\\in K\\). Poiché \\(|x_{n_k}-y_{n_k}|<1/n_k\\to0\\), anche \\(y_{n_k}\\to x_0\\).</p>' +
+    '<p>Per continuità di \\(f\\) in \\(x_0\\): \\(f(x_{n_k})\\to f(x_0)\\) e \\(f(y_{n_k})\\to f(x_0)\\), quindi \\(|f(x_{n_k})-f(y_{n_k})|\\to0\\). Ma per costruzione \\(|f(x_{n_k})-f(y_{n_k})|\\ge\\varepsilon\\) per ogni \\(k\\): assurdo. \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Il ruolo decisivo della compattezza</div><p>\\((0,1)\\) non è compatto (non è chiuso): è proprio per questo che \\(1/x\\) può essere continua senza essere uniformemente continua. Su un compatto, invece, "continua" e "uniformemente continua" coincidono sempre.</p></div>'
+},
+{
+  tag:"TOPOLOGIA",
+  title:"Elementi di <em>topologia</em> della retta reale",
+  nav:"Topologia",
+  body:
+    '<p>Formalizziamo ora il linguaggio usato nelle sezioni precedenti: aperti, chiusi, compattezza.</p>' +
+    '<div class="cb"><div class="cb-label">Insieme aperto</div><p>\\(U\\subseteq\\mathbb{R}\\) è <strong>aperto</strong> se per ogni \\(x\\in U\\) esiste \\(r>0\\) tale che l’intervallo \\((x-r,x+r)\\) è interamente contenuto in \\(U\\). Intuitivamente: ogni punto ha "spazio di manovra" attorno a sé, tutto dentro \\(U\\).</p></div>' +
+    '<div class="cb"><div class="cb-label">Insieme chiuso</div><p>\\(C\\subseteq\\mathbb{R}\\) è <strong>chiuso</strong> se il suo complementare \\(\\mathbb{R}\\setminus C\\) è aperto. Equivalentemente: \\(C\\) contiene tutti i suoi punti di accumulazione (nessuna successione a valori in \\(C\\) può convergere "appena fuori" da \\(C\\)).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Esempi</div><p>\\((a,b)\\) è aperto; \\([a,b]\\) è chiuso; \\([a,b)\\) non è né aperto né chiuso; \\(\\mathbb{R}\\) e \\(\\emptyset\\) sono sia aperti sia chiusi.</p></div>' +
+    '<div class="cb"><div class="cb-label">Ricoprimento aperto e compattezza (definizione topologica)</div><p>Un <strong>ricoprimento aperto</strong> di \\(K\\) è una famiglia di aperti \\(\\{U_i\\}_{i\\in I}\\) con \\(K\\subseteq\\bigcup_i U_i\\). \\(K\\) è <strong>compatto</strong> se da <em>ogni</em> ricoprimento aperto si può estrarre un <strong>sottoricoprimento finito</strong>: bastano sempre finitamente tanti \\(U_{i_1},\\dots,U_{i_n}\\) per ricoprire \\(K\\).</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema di Heine-Borel</div><p>In \\(\\mathbb{R}^n\\), un insieme è compatto (nel senso dei ricoprimenti) se e solo se è <strong>chiuso e limitato</strong>. In particolare, in \\(\\mathbb{R}\\), i compatti sono esattamente le unioni finite di intervalli chiusi e limitati.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Perché due definizioni di compattezza (sequenziale e per ricoprimenti)?</div><p>Nei corsi introduttivi si usa la compattezza sequenziale (ogni successione ha una sottosuccessione convergente nell’insieme) perché è più intuitiva e sufficiente per le applicazioni ai limiti. La definizione per ricoprimenti è quella che si generalizza a spazi topologici astratti dove "successione convergente" può non bastare a catturare tutta l’informazione; in \\(\\mathbb{R}^n\\) le due nozioni coincidono.</p></div>'
+},
+{
+  tag:"CONTINUITÀ TOPOLOGICA",
+  title:"Funzioni continue fra <em>spazi topologici</em>",
+  nav:"Funzioni continue",
+  body:
+    '<p>Con il linguaggio degli aperti, la continuità si riformula senza più bisogno di \\(\\varepsilon\\) e \\(\\delta\\) espliciti — una definizione che si applica identica a qualunque spazio topologico.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione topologica di continuità</div><p>Una funzione \\(f:X\\to Y\\) tra spazi topologici è <strong>continua</strong> se la controimmagine di ogni aperto di \\(Y\\) è un aperto di \\(X\\):</p><div class="math-block hero-formula">\\[ U \\text{ aperto in } Y \\ \\Longrightarrow \\ f^{-1}(U) \\text{ aperto in } X \\]</div></div>' +
+    '<div class="cb purple"><div class="cb-label">Coerenza con la definizione \\(\\varepsilon\\)-\\(\\delta\\) in \\(\\mathbb{R}\\)</div><p>Se \\(f:\\mathbb{R}\\to\\mathbb{R}\\) soddisfa la definizione \\(\\varepsilon\\)-\\(\\delta\\) in ogni punto, allora per ogni aperto \\(U\\subseteq\\mathbb{R}\\) e ogni \\(c\\in f^{-1}(U)\\): essendo \\(U\\) aperto, esiste \\(\\varepsilon>0\\) con \\((f(c)-\\varepsilon,f(c)+\\varepsilon)\\subseteq U\\); la continuità in \\(c\\) fornisce \\(\\delta>0\\) tale che \\(f\\big((c-\\delta,c+\\delta)\\big)\\subseteq(f(c)-\\varepsilon,f(c)+\\varepsilon)\\subseteq U\\), quindi \\((c-\\delta,c+\\delta)\\subseteq f^{-1}(U)\\): ogni punto di \\(f^{-1}(U)\\) ha un intorno tutto dentro \\(f^{-1}(U)\\), cioè \\(f^{-1}(U)\\) è aperto. Il viceversa si dimostra allo stesso modo, a ritroso.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Perché conviene questa definizione</div><p>Non richiede una nozione di "distanza": funziona in spazi dove non esiste un valore assoluto o una metrica, purché siano definiti gli aperti. È il livello di generalità in cui si formulano i teoremi di Weierstrass e Bolzano nella loro versione più ampia (compattezza e connessione, rispettivamente, sono nozioni puramente topologiche).</p></div>' +
+    acc([
+      { t:"Esercizio di dimostrazione 1", h:'<p>Dimostra che \\(f(x)=x^2\\) è uniformemente continua su \\([0,10]\\) ma non lo è su \\([0,+\\infty)\\).</p><p><strong>Traccia</strong>: su \\([0,10]\\) applica Heine-Cantor (compatto + continua). Su \\([0,+\\infty)\\), mostra che per \\(x_n=n\\), \\(y_n=n+1/n\\): \\(|x_n-y_n|\\to0\\) ma \\(|f(x_n)-f(y_n)| = |2/n\\cdot n + 1/n^2\\cdot n|\\to 2\\), non tende a \\(0\\): niente \\(\\delta\\) uniforme può funzionare per ogni \\(n\\).</p>' },
+      { t:"Esercizio di dimostrazione 2", h:'<p>Dimostra, usando la definizione topologica, che la funzione identità \\(f(x)=x\\) è continua su \\(\\mathbb{R}\\).</p><p><strong>Traccia</strong>: per ogni aperto \\(U\\subseteq\\mathbb{R}\\), \\(f^{-1}(U)=U\\) stesso (poiché \\(f\\) è l’identità), che è aperto per ipotesi. Quindi la condizione è automaticamente soddisfatta.</p>' },
+      { t:"Esercizio di dimostrazione 3", h:'<p>Mostra con un esempio che l’unione di due chiusi disgiunti può sconnettere il teorema di Bolzano: trova una funzione continua su \\([0,1]\\cup[2,3]\\) che cambia segno agli estremi ma non si annulla mai.</p><p><strong>Traccia</strong>: sia \\(f(x)=-1\\) su \\([0,1]\\) e \\(f(x)=1\\) su \\([2,3]\\): è continua su ciascun pezzo (che sono aperti l’uno rispetto all’altro nel sottospazio), cambia segno tra i due "capi", ma il dominio non è connesso, quindi Bolzano non si applica e infatti non c’è alcuno zero.</p>' }
+    ]) +
+    '<h3>Quadro riassuntivo</h3>' +
+    '<table class="ct"><tr><th>Teorema</th><th>Ipotesi topologica chiave</th></tr>' +
+    '<tr><td>Weierstrass (max/min)</td><td>Dominio <strong>compatto</strong></td></tr>' +
+    '<tr><td>Bolzano (valori intermedi)</td><td>Dominio <strong>connesso</strong></td></tr>' +
+    '<tr><td>Heine-Cantor (continuità uniforme)</td><td>Dominio <strong>compatto</strong></td></tr>' +
+    '<tr><td>Punto fisso di Banach</td><td>Dominio <strong>completo</strong> (successioni di Cauchy convergenti) + contrazione</td></tr></table>' +
+    '<div class="cb success"><div class="cb-label">Il filo che lega tutto</div><p>Ogni teorema "di esistenza" incontrato in queste due dispense (Weierstrass, Bolzano, Banach) si appoggia su una singola proprietà strutturale dell’insieme di partenza — compattezza, connessione, completezza — più la continuità della funzione. Riconoscere quale proprietà è in gioco è la chiave per capire perché un teorema funziona, e per intuire se può estendersi a contesti nuovi.</p></div>'
+}
+
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>
