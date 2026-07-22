@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento — Limiti: Trattamento Rigoroso</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+svg.diagram { display:block; margin:14px auto; max-width:100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Limiti: Trattamento Rigoroso · avanzato</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+{
+  tag:"MOTIVAZIONE",
+  title:"Perché non basta l'idea <em>intuitiva</em>",
+  nav:"Motivazione",
+  body:
+    '<p>Nel corso base hai imparato a "sentire" il limite: \\(f(x) \\to \\ell\\) quando \\(x \\to c\\) significa che i valori di \\(f\\) si avvicinano sempre più a \\(\\ell\\) man mano che \\(x\\) si avvicina a \\(c\\). Questa idea funziona benissimo per calcolare, ma nasconde un problema: <strong>cosa significa esattamente "avvicinarsi"?</strong> Quanto vicino è vicino?</p>' +
+    '<div class="cb warn"><div class="cb-label">Il punto debole dell\'intuizione</div><p>Espressioni come "\\(x\\) si avvicina a \\(c\\)" o "\\(f(x)\\) diventa arbitrariamente vicino a \\(\\ell\\)" sono immagini efficaci ma non sono <strong>matematica</strong>: non permettono di dimostrare nulla in modo inequivocabile, né di distinguere con certezza un limite che esiste da uno che non esiste.</p></div>' +
+    '<p>Nell\'Ottocento, matematici come Cauchy e soprattutto <strong>Weierstrass</strong> risolsero il problema traducendo "vicino quanto si vuole" in un linguaggio di <strong>disuguaglianze</strong>, con due lettere greche che da allora accompagnano ogni corso di analisi: \\(\\varepsilon\\) (epsilon) ed \\(\\delta\\) (delta).</p>' +
+    '<h3>L\'idea in una frase</h3>' +
+    '<div class="cb"><div class="cb-label">Traduzione informale</div><p>"Per ogni margine di errore \\(\\varepsilon\\) che l\'avversario mi propone su \\(f(x)\\), io sono in grado di trovare un margine \\(\\delta\\) su \\(x\\) che lo garantisce."</p></div>' +
+    '<p>È un gioco tra due giocatori: uno (lo scettico) sceglie quanto essere esigente sul valore di \\(f(x)\\) (l\'\\(\\varepsilon\\)); l\'altro (chi dimostra il limite) deve rispondere con un intervallo attorno a \\(c\\) (il \\(\\delta\\)) che soddisfi quella richiesta, qualunque essa sia. Se questo è sempre possibile, il limite esiste ed è \\(\\ell\\).</p>'
+},
+{
+  tag:"DEFINIZIONE",
+  title:"La definizione <em>\\(\\varepsilon\\)-\\(\\delta\\)</em>",
+  nav:"Epsilon-delta",
+  body:
+    '<div class="cb"><div class="cb-label">Definizione (limite finito per x che tende a un valore finito)</div><p>Si dice che \\(\\lim_{x \\to c} f(x) = \\ell\\) se:</p><div class="math-block hero-formula">\\[ \\forall \\varepsilon > 0 \\ \\ \\exists \\delta > 0 \\ \\text{ tale che } \\ 0 < |x-c| < \\delta \\ \\Rightarrow \\ |f(x)-\\ell| < \\varepsilon \\]</div></div>' +
+    '<p>Leggiamola pezzo per pezzo:</p>' +
+    '<ul>' +
+    '<li>\\(\\forall \\varepsilon > 0\\): comunque piccolo sia il margine di errore <em>tollerato</em> su \\(f(x)\\)...</li>' +
+    '<li>\\(\\exists \\delta > 0\\): ...esiste un margine di errore su \\(x\\)...</li>' +
+    '<li>\\(0 < |x-c| < \\delta\\): ...tale che per ogni \\(x\\) diverso da \\(c\\) ma abbastanza vicino a \\(c\\) (a distanza minore di \\(\\delta\\))...</li>' +
+    '<li>\\(\\Rightarrow |f(x)-\\ell| < \\varepsilon\\): ...il valore \\(f(x)\\) disti da \\(\\ell\\) meno di \\(\\varepsilon\\).</li>' +
+    '</ul>' +
+    '<div class="cb tip"><div class="cb-label">Perché \\(0 < |x-c|\\) e non semplicemente \\(|x-c| < \\delta\\)?</div><p>La condizione \\(0 < |x-c|\\) esclude \\(x = c\\): il limite descrive il comportamento di \\(f\\) <strong>attorno</strong> a \\(c\\), non necessariamente il valore di \\(f\\) <em>in</em> \\(c\\) (che potrebbe anche non essere definito, come in \\(\\frac{\\sin x}{x}\\) per \\(x=0\\)).</p></div>' +
+    '<svg class="diagram" viewBox="0 0 460 260" width="420" height="237">' +
+      '<line x1="30" y1="220" x2="440" y2="220" stroke="#2c2520" stroke-width="1.5"/>' +
+      '<line x1="60" y1="230" x2="60" y2="20" stroke="#2c2520" stroke-width="1.5"/>' +
+      '<rect x="140" y="20" width="70" height="200" fill="#c2185b" opacity="0.08"/>' +
+      '<rect x="60" y="95" width="380" height="50" fill="#3a6b8c" opacity="0.08"/>' +
+      '<line x1="175" y1="220" x2="175" y2="20" stroke="#6e6760" stroke-width="1" stroke-dasharray="4 3"/>' +
+      '<line x1="140" y1="220" x2="140" y2="20" stroke="#c2185b" stroke-width="1.2" stroke-dasharray="2 2"/>' +
+      '<line x1="210" y1="220" x2="210" y2="20" stroke="#c2185b" stroke-width="1.2" stroke-dasharray="2 2"/>' +
+      '<line x1="60" y1="120" x2="440" y2="120" stroke="#6e6760" stroke-width="1" stroke-dasharray="4 3"/>' +
+      '<line x1="60" y1="95" x2="440" y2="95" stroke="#3a6b8c" stroke-width="1.2" stroke-dasharray="2 2"/>' +
+      '<line x1="60" y1="145" x2="440" y2="145" stroke="#3a6b8c" stroke-width="1.2" stroke-dasharray="2 2"/>' +
+      '<path d="M65 210 C 130 205, 160 130, 175 120 C 190 110, 230 40, 300 35 C 360 31, 400 45, 435 55" fill="none" stroke="#2c2520" stroke-width="2.2"/>' +
+      '<circle cx="175" cy="120" r="4" fill="#faf7f2" stroke="#2c2520" stroke-width="2"/>' +
+      '<text x="175" y="245" text-anchor="middle" font-size="15" font-style="italic" fill="#2c2520">c</text>' +
+      '<text x="140" y="245" text-anchor="middle" font-size="12" fill="#c2185b">c−δ</text>' +
+      '<text x="210" y="245" text-anchor="middle" font-size="12" fill="#c2185b">c+δ</text>' +
+      '<text x="44" y="124" text-anchor="end" font-size="15" font-style="italic" fill="#2c2520">ℓ</text>' +
+      '<text x="44" y="99" text-anchor="end" font-size="12" fill="#3a6b8c">ℓ+ε</text>' +
+      '<text x="44" y="149" text-anchor="end" font-size="12" fill="#3a6b8c">ℓ−ε</text>' +
+    '</svg>' +
+    '<p class="dim" style="text-align:center;font-size:.85em;margin-top:-6px">La striscia orizzontale (blu) è l\'errore tollerato \\(\\varepsilon\\) su \\(f(x)\\); la striscia verticale (coral) è l\'intervallo \\(\\delta\\) su \\(x\\) che la garantisce.</p>' +
+    acc([
+      { t:"Esempio guidato — Verifica di lim (2x+1) = 5 per x → 2", h:'<p>Vogliamo dimostrare che, fissato un qualunque \\(\\varepsilon > 0\\), esiste \\(\\delta > 0\\) tale che \\(0 < |x-2| < \\delta \\Rightarrow |(2x+1)-5| < \\varepsilon\\).</p><p>Lavoriamo "a ritroso" sulla tesi: \\(|(2x+1)-5| = |2x-4| = 2|x-2|\\). Vogliamo che questo sia \\(<\\varepsilon\\), cioè \\(|x-2| < \\tfrac{\\varepsilon}{2}\\).</p><div class="math-block result">Basta scegliere \\(\\delta = \\dfrac{\\varepsilon}{2}\\).</div><p>Verifica: se \\(0 < |x-2| < \\delta = \\tfrac{\\varepsilon}{2}\\), allora \\(|(2x+1)-5| = 2|x-2| < 2\\cdot\\tfrac{\\varepsilon}{2} = \\varepsilon\\). ✓ La definizione è soddisfatta per ogni \\(\\varepsilon\\), quindi il limite è confermato.</p>' },
+      { t:"Esempio — Un limite quadratico, lim x² = 4 per x → 2", h:'<p>Tesi: \\(|x^2-4| < \\varepsilon\\). Scomponiamo: \\(|x^2-4| = |x-2|\\,|x+2|\\).</p><p>Il fattore \\(|x+2|\\) non è costante come prima: dobbiamo <strong>limitarlo</strong>. Restringendo la ricerca a \\(|x-2|<1\\) (cioè \\(1<x<3\\)), si ha \\(|x+2|<5\\).</p><p>Allora \\(|x^2-4| = |x-2||x+2| < 5|x-2|\\). Vogliamo \\(5|x-2|<\\varepsilon\\), cioè \\(|x-2|<\\tfrac{\\varepsilon}{5}\\).</p><div class="math-block result">Scegliendo \\(\\delta = \\min\\left(1, \\tfrac{\\varepsilon}{5}\\right)\\) la definizione è soddisfatta.</div><p class="dim">Tecnica standard: quando compare un fattore non costante, lo si "intrappola" in un intervallo iniziale (qui \\(\\delta \\le 1\\)) e poi si sceglie il \\(\\delta\\) più piccolo tra i due vincoli.</p>' }
+    ])
+},
+{
+  tag:"LATERALI",
+  title:"Limiti <em>laterali</em> e unicità del limite",
+  nav:"Unicità",
+  body:
+    '<p>A volte una funzione si comporta diversamente a seconda che ci si avvicini a \\(c\\) da sinistra o da destra: pensa alla funzione segno, o a un grafico con un "gradino".</p>' +
+    '<div class="cb"><div class="cb-label">Limite destro e limite sinistro</div>' +
+    '<p>\\(\\displaystyle\\lim_{x \\to c^+} f(x) = \\ell\\): la definizione \\(\\varepsilon\\)-\\(\\delta\\) vale solo per \\(c < x < c+\\delta\\).</p>' +
+    '<p>\\(\\displaystyle\\lim_{x \\to c^-} f(x) = \\ell\\): la definizione vale solo per \\(c-\\delta < x < c\\).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Teorema di collegamento</div><div class="math-block hero-formula">\\[ \\lim_{x \\to c} f(x) = \\ell \\quad \\Longleftrightarrow \\quad \\lim_{x \\to c^-} f(x) = \\lim_{x \\to c^+} f(x) = \\ell \\]</div><p>Il limite (bilatero) esiste se e solo se esistono <strong>entrambi</strong> i limiti laterali e coincidono.</p></div>' +
+    '<h3>Il teorema di unicità del limite</h3>' +
+    '<p>Un fatto che usiamo continuamente senza pensarci: <strong>se il limite esiste, è unico</strong>. Non può accadere che una funzione tenda "un po\'" a 3 e "un po\'" a 5 nello stesso punto.</p>' +
+    '<div class="cb purple"><div class="cb-label">Idea della dimostrazione (per assurdo)</div><p>Supponiamo per assurdo che \\(f(x) \\to \\ell_1\\) e \\(f(x) \\to \\ell_2\\) con \\(\\ell_1 \\neq \\ell_2\\). Scegliendo \\(\\varepsilon = \\tfrac{|\\ell_1-\\ell_2|}{2}\\), gli intorni di raggio \\(\\varepsilon\\) attorno a \\(\\ell_1\\) e a \\(\\ell_2\\) sono <strong>disgiunti</strong>. Ma per \\(x\\) abbastanza vicino a \\(c\\), \\(f(x)\\) dovrebbe stare in entrambi gli intorni contemporaneamente: assurdo. Dunque \\(\\ell_1 = \\ell_2\\).</p></div>' +
+    acc([
+      { t:"Esempio — Funzione segno", h:'<p>Per \\(f(x) = \\text{sgn}(x)\\): \\(\\displaystyle\\lim_{x\\to0^-} f(x) = -1\\), \\(\\displaystyle\\lim_{x\\to0^+} f(x)=1\\). Essendo diversi, \\(\\displaystyle\\lim_{x\\to0} f(x)\\) <strong>non esiste</strong>.</p>' },
+      { t:"Esempio — Funzione definita a tratti", h:'<p>Sia \\(f(x) = x+1\\) per \\(x<1\\) e \\(f(x)=3-x\\) per \\(x\\ge 1\\). Allora \\(\\displaystyle\\lim_{x\\to1^-} f(x) = 2\\) e \\(\\displaystyle\\lim_{x\\to1^+} f(x) = 2\\): coincidono, quindi \\(\\displaystyle\\lim_{x\\to1} f(x) = 2\\), anche se la funzione potrebbe avere in \\(x=1\\) un valore diverso o non essere continua.</p>' }
+    ])
+},
+{
+  tag:"CALCOLO",
+  title:"L'<em>algebra</em> dei limiti",
+  nav:"Algebra",
+  body:
+    '<p>Calcolare un limite dalla definizione ogni volta sarebbe estenuante. Per fortuna, se due funzioni hanno limite finito, le operazioni su di esse "passano al limite".</p>' +
+    '<div class="cb"><div class="cb-label">Teoremi sul calcolo dei limiti</div><p>Se \\(\\displaystyle\\lim_{x\\to c} f(x) = \\ell_1\\) e \\(\\displaystyle\\lim_{x\\to c} g(x) = \\ell_2\\), con \\(\\ell_1,\\ell_2 \\in \\mathbb{R}\\), allora:</p>' +
+    '<div class="math-block">\\[ \\lim_{x\\to c}\\big[f(x)\\pm g(x)\\big] = \\ell_1 \\pm \\ell_2 \\qquad \\lim_{x\\to c}\\big[f(x)\\cdot g(x)\\big] = \\ell_1 \\cdot \\ell_2 \\]</div>' +
+    '<div class="math-block">\\[ \\lim_{x\\to c}\\frac{f(x)}{g(x)} = \\frac{\\ell_1}{\\ell_2} \\quad (\\text{se } \\ell_2 \\neq 0) \\qquad \\lim_{x\\to c}\\big[f(x)\\big]^{g(x)} = \\ell_1^{\\,\\ell_2} \\quad (\\text{se ha senso})\\]</div></div>' +
+    '<p>Questi teoremi sono ciò che rende il calcolo dei limiti "meccanico" per le funzioni elementari (polinomi, radici, esponenziali...): basta sostituire, se non si incontrano forme critiche.</p>' +
+    '<div class="cb tip"><div class="cb-label">Limiti che coinvolgono l\'infinito</div><p>Quando \\(\\ell_1\\) o \\(\\ell_2\\) sono \\(+\\infty\\) o \\(-\\infty\\), molte regole si estendono con una tabella dei segni, ma <strong>non tutte</strong>: nascono le forme indeterminate, protagoniste della prossima sezione.</p></div>' +
+    '<table class="ct"><tr><th>Operazione</th><th>Risultato</th></tr>' +
+    '<tr><td>\\(\\ell + \\infty\\)</td><td>\\(+\\infty\\)</td></tr>' +
+    '<tr><td>\\(+\\infty + \\infty\\)</td><td>\\(+\\infty\\)</td></tr>' +
+    '<tr><td>\\(\\ell \\cdot (+\\infty)\\), \\(\\ell>0\\)</td><td>\\(+\\infty\\)</td></tr>' +
+    '<tr><td>\\(\\ell \\cdot (+\\infty)\\), \\(\\ell<0\\)</td><td>\\(-\\infty\\)</td></tr>' +
+    '<tr><td>\\(\\dfrac{\\ell}{\\pm\\infty}\\)</td><td>\\(0\\)</td></tr>' +
+    '<tr><td>\\(\\dfrac{\\ell}{0^+}\\), \\(\\ell>0\\)</td><td>\\(+\\infty\\)</td></tr></table>' +
+    acc([
+      { t:"Esempio 1 — Limite di un polinomio", h:'<p>\\(\\displaystyle\\lim_{x\\to 3}(2x^2 - 5x + 1)\\): per continuità dei polinomi, si sostituisce direttamente.</p><div class="math-block result">\\[ 2(9) - 15 + 1 = 4 \\]</div>' },
+      { t:"Esempio 2 — Limite di un quoziente senza criticità", h:'<p>\\(\\displaystyle\\lim_{x\\to 1}\\frac{x^2+1}{x+3}\\): il denominatore tende a 4, non nullo, quindi si sostituisce.</p><div class="math-block result">\\[ \\frac{1+1}{1+3} = \\frac12 \\]</div>' },
+      { t:"Esempio 3 — Somma con infinito", h:'<p>\\(\\displaystyle\\lim_{x\\to +\\infty}\\left(x^3 - 7\\right)\\): \\(x^3 \\to +\\infty\\) e \\(-7\\) è un numero finito, quindi per le regole della tabella:</p><div class="math-block result">\\[ +\\infty - 7 = +\\infty \\]</div>' }
+    ])
+},
+{
+  tag:"INDETERMINAZIONE",
+  title:"Le forme <em>indeterminate</em>",
+  nav:"Indeterminate",
+  body:
+    '<p>Ci sono combinazioni in cui l\'algebra dei limiti non basta a dare una risposta univoca, perché il risultato dipende da <strong>come</strong> le due quantità tendono ai loro limiti, non solo dal fatto che ci tendano.</p>' +
+    '<div class="cb warn"><div class="cb-label">Le sette forme indeterminate</div><div class="math-block hero-formula">\\[ \\frac{0}{0}, \\quad \\frac{\\infty}{\\infty}, \\quad \\infty - \\infty, \\quad 0 \\cdot \\infty, \\quad 1^{\\infty}, \\quad 0^0, \\quad \\infty^0 \\]</div><p>In questi casi bisogna <strong>manipolare</strong> l\'espressione (scomporre, razionalizzare, raccogliere il termine dominante) prima di poter applicare l\'algebra dei limiti.</p></div>' +
+    '<h3>Strategie per sciogliere l\'indeterminazione</h3>' +
+    '<div class="cb"><div class="cb-label">Forma 0/0 — scomposizione o razionalizzazione</div><p>Se numeratore e denominatore si annullano nello stesso punto, spesso condividono un fattore \\((x-c)\\): scomponendo, quel fattore si semplifica. Se sono presenti radici, si moltiplica per il "coniugato" per razionalizzare.</p></div>' +
+    '<div class="cb"><div class="cb-label">Forma \\(\\infty/\\infty\\) — raccoglimento del termine dominante</div><p>Si raccoglie a numeratore e denominatore la potenza di \\(x\\) più alta: il limite si riduce al rapporto dei coefficienti (o a \\(0\\), o a \\(\\pm\\infty\\)) a seconda dei gradi.</p></div>' +
+    '<div class="cb"><div class="cb-label">Forma \\(\\infty - \\infty\\) — raccoglimento o razionalizzazione</div><p>Si raccoglie un fattore comune oppure, in presenza di radici, si moltiplica e divide per la somma/differenza coniugata per trasformarla in una forma \\(0/0\\) o \\(\\infty/\\infty\\).</p></div>' +
+    acc([
+      { t:"Esempio 1 — Forma 0/0 per scomposizione", h:'<p>\\(\\displaystyle\\lim_{x\\to 2}\\frac{x^2-4}{x-2}\\): sostituendo si ottiene \\(\\tfrac{0}{0}\\). Scomponiamo il numeratore: \\(x^2-4 = (x-2)(x+2)\\).</p><div class="math-block">\\[ \\lim_{x\\to 2}\\frac{(x-2)(x+2)}{x-2} = \\lim_{x\\to2}(x+2) \\]</div><div class="math-block result">\\[ = 4 \\]</div>' },
+      { t:"Esempio 2 — Forma 0/0 per razionalizzazione", h:'<p>\\(\\displaystyle\\lim_{x\\to 0}\\frac{\\sqrt{x+1}-1}{x}\\): forma \\(\\tfrac00\\). Moltiplichiamo numeratore e denominatore per il coniugato \\(\\sqrt{x+1}+1\\):</p><div class="math-block">\\[ \\frac{(\\sqrt{x+1}-1)(\\sqrt{x+1}+1)}{x(\\sqrt{x+1}+1)} = \\frac{x}{x(\\sqrt{x+1}+1)} = \\frac{1}{\\sqrt{x+1}+1} \\]</div><div class="math-block result">\\[ \\lim_{x\\to0}\\frac{1}{\\sqrt{x+1}+1} = \\frac12 \\]</div>' },
+      { t:"Esempio 3 — Forma ∞/∞ con gradi diversi", h:'<p>\\(\\displaystyle\\lim_{x\\to+\\infty}\\frac{3x^2+x}{5x^3-2}\\): raccogliamo il termine dominante sopra e sotto:</p><div class="math-block">\\[ \\frac{x^2(3+\\tfrac1x)}{x^3(5-\\tfrac{2}{x^3})} = \\frac{1}{x}\\cdot\\frac{3+\\tfrac1x}{5-\\tfrac2{x^3}} \\]</div><div class="math-block result">\\[ \\to \\ 0 \\cdot \\frac35 = 0 \\]</div><p class="dim">Regola pratica: se il grado del denominatore è maggiore, il limite è 0; se è minore, è \\(\\pm\\infty\\); se è uguale, è il rapporto dei coefficienti direttori.</p>' },
+      { t:"Esempio 4 — Forma ∞−∞", h:'<p>\\(\\displaystyle\\lim_{x\\to+\\infty}\\left(\\sqrt{x^2+x}-x\\right)\\): forma \\(\\infty-\\infty\\). Razionalizziamo:</p><div class="math-block">\\[ \\frac{(\\sqrt{x^2+x}-x)(\\sqrt{x^2+x}+x)}{\\sqrt{x^2+x}+x} = \\frac{x}{\\sqrt{x^2+x}+x} \\]</div><p>Raccogliendo \\(x\\) sotto radice (con \\(x>0\\)): \\(= \\dfrac{x}{x\\left(\\sqrt{1+\\tfrac1x}+1\\right)} = \\dfrac{1}{\\sqrt{1+\\tfrac1x}+1}\\).</p><div class="math-block result">\\[ \\to \\ \\frac{1}{1+1} = \\frac12 \\]</div>' }
+    ])
+},
+{
+  tag:"GRAFICI",
+  title:"<em>Asintoti</em>: verticali, orizzontali, obliqui",
+  nav:"Asintoti",
+  body:
+    '<p>Gli asintoti sono rette a cui il grafico di una funzione si avvicina indefinitamente: tradurre i limiti in una descrizione geometrica del grafico è uno degli usi più potenti di ciò che abbiamo costruito finora.</p>' +
+    '<div class="cb"><div class="cb-label">Asintoto verticale</div><p>La retta \\(x=c\\) è un asintoto verticale se almeno uno dei limiti laterali in \\(c\\) è infinito:</p><div class="math-block">\\[ \\lim_{x\\to c^-} f(x) = \\pm\\infty \\quad \\text{oppure} \\quad \\lim_{x\\to c^+} f(x) = \\pm\\infty \\]</div><p class="dim">Si cerca tipicamente nei punti esclusi dal dominio (per esempio gli zeri di un denominatore).</p></div>' +
+    '<div class="cb"><div class="cb-label">Asintoto orizzontale</div><p>La retta \\(y=\\ell\\) è un asintoto orizzontale (a destra e/o a sinistra) se:</p><div class="math-block">\\[ \\lim_{x\\to +\\infty} f(x) = \\ell \\quad \\text{e/o} \\quad \\lim_{x\\to -\\infty} f(x) = \\ell, \\qquad \\ell \\in \\mathbb{R} \\]</div></div>' +
+    '<div class="cb"><div class="cb-label">Asintoto obliquo</div><p>Se \\(\\displaystyle\\lim_{x\\to\\pm\\infty} f(x) = \\pm\\infty\\) (niente asintoto orizzontale), può esistere una retta \\(y = mx+q\\) a cui il grafico si avvicina, con:</p>' +
+    '<div class="math-block hero-formula">\\[ m = \\lim_{x\\to\\pm\\infty}\\frac{f(x)}{x}, \\qquad q = \\lim_{x\\to\\pm\\infty}\\big[f(x)-mx\\big] \\]</div><p>(esiste solo se entrambi i limiti sono finiti e \\(m \\neq 0\\); se \\(m=0\\) si ricade nel caso orizzontale).</p></div>' +
+    '<svg class="diagram" viewBox="0 0 460 240" width="420" height="219">' +
+      '<line x1="20" y1="200" x2="440" y2="200" stroke="#2c2520" stroke-width="1.2"/>' +
+      '<line x1="230" y1="230" x2="230" y2="10" stroke="#2c2520" stroke-width="1.2"/>' +
+      '<line x1="150" y1="230" x2="150" y2="10" stroke="#c2185b" stroke-width="1.6" stroke-dasharray="5 4"/>' +
+      '<line x1="60" y1="60" x2="440" y2="60" stroke="#3a6b8c" stroke-width="1.6" stroke-dasharray="5 4"/>' +
+      '<path d="M60 40 C 100 45, 135 90, 148 195" fill="none" stroke="#2c2520" stroke-width="2"/>' +
+      '<path d="M152 195 C 168 95, 210 62, 440 60" fill="none" stroke="#2c2520" stroke-width="2"/>' +
+      '<text x="150" y="235" text-anchor="middle" font-size="12" fill="#c2185b">x = c (verticale)</text>' +
+      '<text x="420" y="50" text-anchor="end" font-size="12" fill="#3a6b8c">y = ℓ (orizzontale)</text>' +
+    '</svg>' +
+    acc([
+      { t:"Esempio 1 — Asintoto verticale", h:'<p>\\(f(x) = \\dfrac{1}{x-2}\\): il dominio esclude \\(x=2\\). Studiamo i limiti laterali:</p><div class="math-block">\\[ \\lim_{x\\to2^-}\\frac{1}{x-2} = -\\infty, \\qquad \\lim_{x\\to2^+}\\frac{1}{x-2} = +\\infty \\]</div><div class="math-block result">La retta \\(x=2\\) è asintoto verticale.</div>' },
+      { t:"Esempio 2 — Asintoto orizzontale", h:'<p>\\(f(x) = \\dfrac{2x+1}{x-3}\\): grado numeratore = grado denominatore, quindi:</p><div class="math-block">\\[ \\lim_{x\\to\\pm\\infty}\\frac{2x+1}{x-3} = 2 \\]</div><div class="math-block result">La retta \\(y=2\\) è asintoto orizzontale (sia a destra sia a sinistra).</div>' },
+      { t:"Esempio 3 — Asintoto obliquo", h:'<p>\\(f(x) = \\dfrac{x^2-1}{x}\\): il grado del numeratore supera di 1 quello del denominatore, indizio di un possibile asintoto obliquo.</p><div class="math-block">\\[ m = \\lim_{x\\to\\pm\\infty}\\frac{f(x)}{x} = \\lim_{x\\to\\pm\\infty}\\frac{x^2-1}{x^2} = 1 \\]</div><div class="math-block">\\[ q = \\lim_{x\\to\\pm\\infty}\\left[\\frac{x^2-1}{x}-x\\right] = \\lim_{x\\to\\pm\\infty}\\frac{-1}{x} = 0 \\]</div><div class="math-block result">Asintoto obliquo: \\(y = x\\).</div>' }
+    ])
+},
+{
+  tag:"TEOREMI",
+  title:"Continuità e <em>teoremi</em> sui limiti",
+  nav:"Teoremi",
+  body:
+    '<div class="cb"><div class="cb-label">Definizione di continuità</div><p>Una funzione \\(f\\) è continua in \\(c\\) se sono verificate tre condizioni: \\(f(c)\\) esiste, \\(\\displaystyle\\lim_{x\\to c}f(x)\\) esiste, e i due valori coincidono:</p><div class="math-block hero-formula">\\[ \\lim_{x\\to c} f(x) = f(c) \\]</div><p class="dim">In altre parole: per le funzioni continue, calcolare il limite equivale a sostituire.</p></div>' +
+    '<h3>Tre teoremi fondamentali</h3>' +
+    '<div class="cb tip"><div class="cb-label">Teorema della permanenza del segno</div><p>Se \\(\\displaystyle\\lim_{x\\to c} f(x) = \\ell\\) con \\(\\ell \\neq 0\\), allora esiste un intorno di \\(c\\) in cui \\(f(x)\\) ha lo <strong>stesso segno</strong> di \\(\\ell\\) (esclusa al più \\(x=c\\)).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Teorema del confronto (dei due carabinieri)</div><p>Se \\(g(x) \\le f(x) \\le h(x)\\) in un intorno di \\(c\\) (escluso al più \\(c\\)) e \\(\\displaystyle\\lim_{x\\to c} g(x) = \\lim_{x\\to c} h(x) = \\ell\\), allora anche \\(\\displaystyle\\lim_{x\\to c} f(x) = \\ell\\).</p><p class="dim">È lo strumento decisivo per limiti che non si scompongono algebricamente, come \\(\\displaystyle\\lim_{x\\to0} x^2\\sin\\tfrac1x\\).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Teorema di limitatezza locale</div><p>Se \\(f\\) ha limite finito in \\(c\\), allora \\(f\\) è <strong>limitata</strong> in un intorno di \\(c\\): non può "esplodere" vicino a un punto in cui il suo limite è un numero finito.</p></div>' +
+    acc([
+      { t:"Esempio — Teorema del confronto", h:'<p>Calcoliamo \\(\\displaystyle\\lim_{x\\to0} x^2\\sin\\frac1x\\). Non possiamo sostituire (\\(\\sin\\tfrac1x\\) oscilla senza limite in \\(0\\)), ma sappiamo che \\(-1 \\le \\sin\\tfrac1x \\le 1\\) per ogni \\(x\\neq0\\), quindi:</p><div class="math-block">\\[ -x^2 \\le x^2\\sin\\frac1x \\le x^2 \\]</div><p>Poiché \\(\\displaystyle\\lim_{x\\to0}(-x^2) = \\lim_{x\\to0} x^2 = 0\\), per il teorema del confronto:</p><div class="math-block result">\\[ \\lim_{x\\to0} x^2\\sin\\frac1x = 0 \\]</div>' },
+      { t:"Esempio — Discontinuità", h:'<p>\\(f(x) = \\dfrac{|x|}{x}\\) per \\(x\\neq0\\): \\(\\displaystyle\\lim_{x\\to0^-}f(x)=-1\\), \\(\\displaystyle\\lim_{x\\to0^+}f(x)=1\\). Il limite bilatero non esiste, quindi \\(f\\) presenta in \\(x=0\\) una <strong>discontinuità di prima specie</strong> (salto).</p>' }
+    ])
+},
+{
+  tag:"SINTESI",
+  title:"Esercizi e <em>sintesi</em>",
+  nav:"Esercizi",
+  body:
+    '<p>Un percorso completo, dalla definizione rigorosa alla lettura geometrica del grafico. Prova questi problemi prima di guardare la soluzione.</p>' +
+    acc([
+      { t:"Problema 1 — Verifica ε-δ", h:'<p>Dimostra con la definizione che \\(\\displaystyle\\lim_{x\\to1}(3x-2) = 1\\).</p><p>\\(|(3x-2)-1| = |3x-3| = 3|x-1|\\). Vogliamo \\(3|x-1|<\\varepsilon\\), cioè \\(|x-1|<\\tfrac{\\varepsilon}{3}\\).</p><div class="math-block result">\\[ \\delta = \\frac{\\varepsilon}{3} \\]</div>' },
+      { t:"Problema 2 — Forma indeterminata 0/0", h:'<p>Calcola \\(\\displaystyle\\lim_{x\\to -1}\\frac{x^2-1}{x^2+3x+2}\\).</p><p>Scomponendo: \\(x^2-1=(x-1)(x+1)\\), \\(x^2+3x+2=(x+1)(x+2)\\).</p><div class="math-block">\\[ \\lim_{x\\to-1}\\frac{(x-1)(x+1)}{(x+1)(x+2)} = \\lim_{x\\to-1}\\frac{x-1}{x+2} \\]</div><div class="math-block result">\\[ = \\frac{-2}{1} = -2 \\]</div>' },
+      { t:"Problema 3 — Asintoti completi", h:'<p>Determina gli asintoti di \\(f(x) = \\dfrac{x^2+1}{x-1}\\).</p><p><strong>Verticale</strong>: \\(x=1\\) esclude il dominio; \\(\\displaystyle\\lim_{x\\to1^\\pm} f(x) = \\pm\\infty\\) → asintoto verticale \\(x=1\\).</p><p><strong>Obliquo</strong> (grado numeratore = grado denominatore + 1): \\(m=\\displaystyle\\lim_{x\\to\\pm\\infty}\\frac{f(x)}{x}=1\\); \\(q=\\displaystyle\\lim_{x\\to\\pm\\infty}\\left[\\frac{x^2+1}{x-1}-x\\right]=1\\).</p><div class="math-block result">Asintoto obliquo: \\(y=x+1\\). Nessun asintoto orizzontale.</div>' },
+      { t:"Problema 4 — Modello reale: farmaco nel sangue", h:'<p>La concentrazione di un farmaco nel sangue è modellata da \\(C(t) = \\dfrac{10t}{t^2+1}\\) (mg/L, \\(t\\) in ore). Qual è il comportamento a lungo termine?</p><p>\\(\\displaystyle\\lim_{t\\to+\\infty}\\frac{10t}{t^2+1}\\): grado denominatore maggiore, raccogliendo \\(t^2\\):</p><div class="math-block result">\\[ \\lim_{t\\to+\\infty} C(t) = 0 \\]</div><p class="dim">La retta \\(C=0\\) è asintoto orizzontale: coerente con l\'idea che il farmaco viene smaltito nel tempo.</p>' }
+    ]) +
+    '<h3>Formule da ricordare</h3>' +
+    '<table class="ct"><tr><th>Concetto</th><th>Formula / criterio</th></tr>' +
+    '<tr><td>Definizione ε-δ</td><td>\\(\\forall\\varepsilon>0\\ \\exists\\delta>0:\\ 0<|x-c|<\\delta \\Rightarrow |f(x)-\\ell|<\\varepsilon\\)</td></tr>' +
+    '<tr><td>Esistenza del limite</td><td>limite sinistro = limite destro</td></tr>' +
+    '<tr><td>Forme indeterminate</td><td>\\(\\tfrac00,\\ \\tfrac{\\infty}{\\infty},\\ \\infty-\\infty,\\ 0\\cdot\\infty,\\ 1^\\infty,\\ 0^0,\\ \\infty^0\\)</td></tr>' +
+    '<tr><td>Asintoto verticale</td><td>\\(\\displaystyle\\lim_{x\\to c^\\pm} f(x) = \\pm\\infty\\)</td></tr>' +
+    '<tr><td>Asintoto orizzontale</td><td>\\(\\displaystyle\\lim_{x\\to\\pm\\infty} f(x) = \\ell \\in \\mathbb{R}\\)</td></tr>' +
+    '<tr><td>Asintoto obliquo</td><td>\\(m=\\displaystyle\\lim\\frac{f(x)}{x},\\ q=\\displaystyle\\lim[f(x)-mx]\\), con \\(m\\) finito e \\(\\neq0\\)</td></tr>' +
+    '<tr><td>Teorema del confronto</td><td>\\(g\\le f\\le h\\) e \\(g,h\\to\\ell\\) \\(\\Rightarrow\\) \\(f\\to\\ell\\)</td></tr></table>' +
+    '<div class="cb success"><div class="cb-label">Come orientarsi</div><p>Davanti a un limite: prova prima la sostituzione diretta. Se ottieni una forma indeterminata, riconosci quale delle sette è, e applica la tecnica giusta (scomposizione, razionalizzazione, raccoglimento). Se il limite riguarda \\(x\\to\\pm\\infty\\) o un punto escluso dal dominio, chiediti se stai descrivendo un asintoto.</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>
