@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Le forme indeterminate nei limiti</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.btn-start{margin-top:8px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-start:hover{background:#a8144e}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{background:#a8144e}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-retry:hover{background:#a8144e}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(6,1fr)}
+}
+</style>
+</head>
+
+<script>
+const Q = [
+
+  {
+    badge: "Riconoscere le forme",
+    q: "Quali tra queste sono forme indeterminate?",
+    opts: [
+      "Solo \\(\\frac{0}{0}\\)",
+      "\\(\\frac{0}{0}\\), \\(\\frac{\\infty}{\\infty}\\), \\(\\infty-\\infty\\), \\(0\\cdot\\infty\\), \\(1^\\infty\\), \\(0^0\\), \\(\\infty^0\\)",
+      "\\(\\frac{\\ell}{0}\\) con \\(\\ell\\neq0\\)",
+      "\\(\\ell+\\infty\\) con \\(\\ell\\) finito"
+    ],
+    ans: 1,
+    exp: "Sono esattamente sette le forme indeterminate classiche. Le altre combinazioni (come \\(\\frac{\\ell}{0}\\) o \\(\\ell+\\infty\\)) hanno un esito determinato dalle regole standard."
+  },
+  {
+    badge: "Riconoscere le forme",
+    q: "\\(\\displaystyle\\lim_{x\\to+\\infty}\\frac{5}{x^2}\\) è una forma indeterminata?",
+    opts: [
+      "Sì, è \\(\\frac{\\infty}{\\infty}\\)",
+      "No: numeratore costante, denominatore \\(\\to\\infty\\), quindi il limite è \\(0\\) senza ambiguità",
+      "Sì, è \\(0\\cdot\\infty\\)",
+      "No, il limite non esiste"
+    ],
+    ans: 1,
+    exp: "\\(\\frac{\\ell}{\\infty}\\) con \\(\\ell\\) finito non è indeterminata: il risultato è sempre \\(0\\), qualunque sia il valore finito \\(\\ell\\)."
+  },
+  {
+    badge: "0/0 per scomposizione",
+    q: "Per calcolare \\(\\displaystyle\\lim_{x\\to2}\\frac{x^2-4}{x-2}\\), la strategia corretta è:",
+    opts: [
+      "Sostituire direttamente \\(x=2\\)",
+      "Scomporre il numeratore come \\((x-2)(x+2)\\) e semplificare",
+      "Applicare subito la tabella dei segni dell'infinito",
+      "Concludere che il limite non esiste"
+    ],
+    ans: 1,
+    exp: "\\(x^2-4=(x-2)(x+2)\\): semplificando il fattore comune \\((x-2)\\) si elimina l'indeterminazione, ottenendo \\(\\lim_{x\\to2}(x+2)=4\\)."
+  },
+  {
+    badge: "0/0 per scomposizione",
+    q: "Quanto vale \\(\\displaystyle\\lim_{x\\to2}\\frac{x^2-4}{x-2}\\)?",
+    opts: ["\\(0\\)", "\\(2\\)", "\\(4\\)", "Non esiste"],
+    ans: 2,
+    exp: "Dopo la semplificazione, \\(\\lim_{x\\to2}(x+2)=2+2=4\\)."
+  },
+  {
+    badge: "0/0 per razionalizzazione",
+    q: "Per calcolare \\(\\displaystyle\\lim_{x\\to0}\\frac{\\sqrt{x+1}-1}{x}\\), quale tecnica è più efficace?",
+    opts: [
+      "Scomposizione in fattori",
+      "Moltiplicare per il coniugato \\(\\sqrt{x+1}+1\\)",
+      "Sostituzione diretta",
+      "Il teorema del confronto"
+    ],
+    ans: 1,
+    exp: "In presenza di radici in una forma \\(\\frac00\\), moltiplicare numeratore e denominatore per il coniugato elimina la radice al numeratore e permette di semplificare."
+  },
+  {
+    badge: "0/0 per razionalizzazione",
+    q: "Quanto vale \\(\\displaystyle\\lim_{x\\to0}\\frac{\\sqrt{x+1}-1}{x}\\)?",
+    opts: ["\\(0\\)", "\\(1\\)", "\\(\\dfrac12\\)", "\\(+\\infty\\)"],
+    ans: 2,
+    exp: "Razionalizzando si ottiene \\(\\frac{1}{\\sqrt{x+1}+1}\\), che per \\(x\\to0\\) vale \\(\\frac{1}{1+1}=\\frac12\\)."
+  },
+  {
+    badge: "∞/∞ e confronto di gradi",
+    q: "Per \\(\\displaystyle\\lim_{x\\to+\\infty}\\frac{3x^2+x}{5x^3-2}\\), qual è il metodo corretto?",
+    opts: [
+      "Sostituire \\(x=+\\infty\\) direttamente nella frazione",
+      "Raccogliere la potenza di grado massimo a numeratore e denominatore",
+      "Scomporre entrambi i polinomi in fattori di primo grado",
+      "Applicare la definizione epsilon-delta"
+    ],
+    ans: 1,
+    exp: "Raccogliendo \\(x^2\\) al numeratore e \\(x^3\\) al denominatore si isola il rapporto tra i gradi, che determina il comportamento all'infinito."
+  },
+  {
+    badge: "∞/∞ e confronto di gradi",
+    q: "Se il grado del denominatore è maggiore di quello del numeratore, il limite per \\(x\\to\\pm\\infty\\) di un rapporto di polinomi è:",
+    opts: ["\\(\\pm\\infty\\)", "Il rapporto dei coefficienti direttori", "\\(0\\)", "Non esiste mai"],
+    ans: 2,
+    exp: "Quando il denominatore «cresce più in fretta», la frazione tende a \\(0\\), indipendentemente dai coefficienti."
+  },
+  {
+    badge: "∞/∞ e confronto di gradi",
+    q: "Se numeratore e denominatore hanno lo stesso grado, il limite all'infinito è:",
+    opts: [
+      "Sempre \\(0\\)",
+      "Sempre \\(+\\infty\\)",
+      "Il rapporto tra i coefficienti dei termini di grado massimo",
+      "Non è mai determinabile"
+    ],
+    ans: 2,
+    exp: "A gradi uguali, raccogliendo la potenza massima essa si semplifica, lasciando il rapporto dei coefficienti direttori come limite."
+  },
+  {
+    badge: "∞ − ∞",
+    q: "Per risolvere una forma \\(\\infty-\\infty\\) con radici, come \\(\\displaystyle\\lim_{x\\to+\\infty}(\\sqrt{x^2+x}-x)\\), si procede:",
+    opts: [
+      "Sostituendo direttamente",
+      "Moltiplicando e dividendo per la somma coniugata \\(\\sqrt{x^2+x}+x\\)",
+      "Applicando subito la tabella dei segni",
+      "Scomponendo in fattori primi"
+    ],
+    ans: 1,
+    exp: "La razionalizzazione trasforma la differenza di radici in una frazione, riconducendo la forma \\(\\infty-\\infty\\) a una forma \\(\\frac{\\infty}{\\infty}\\) o \\(\\frac00\\) gestibile."
+  },
+  {
+    badge: "∞ − ∞",
+    q: "Quanto vale \\(\\displaystyle\\lim_{x\\to+\\infty}\\left(\\sqrt{x^2+x}-x\\right)\\)?",
+    opts: ["\\(0\\)", "\\(\\dfrac12\\)", "\\(1\\)", "\\(+\\infty\\)"],
+    ans: 1,
+    exp: "Razionalizzando si ottiene \\(\\frac{x}{\\sqrt{x^2+x}+x}\\), che raccogliendo \\(x\\) sotto radice diventa \\(\\frac{1}{\\sqrt{1+\\frac1x}+1}\\to\\frac12\\)."
+  },
+  {
+    badge: "0 · ∞",
+    q: "Una forma \\(0\\cdot\\infty\\) si può ricondurre a una forma più familiare:",
+    opts: [
+      "Non è mai possibile risolverla",
+      "Riscrivendo il fattore \\(0\\) come \\(\\frac{1}{\\infty}\\), ottenendo una forma \\(\\frac{\\infty}{\\infty}\\) (o viceversa \\(\\frac00\\))",
+      "Applicando sempre e solo il teorema di unicità",
+      "Solo se compaiono funzioni trigonometriche"
+    ],
+    ans: 1,
+    exp: "Trasformare uno dei due fattori in un reciproco converte \\(0\\cdot\\infty\\) in un quoziente, riconducendola a \\(\\frac00\\) o \\(\\frac{\\infty}{\\infty}\\)."
+  },
+  {
+    badge: "Teorema del confronto",
+    q: "Per calcolare \\(\\displaystyle\\lim_{x\\to0}x^2\\sin\\frac1x\\), il metodo più efficace è:",
+    opts: [
+      "Scomposizione in fattori",
+      "Il teorema del confronto (dei due carabinieri), usando \\(-1\\le\\sin\\frac1x\\le1\\)",
+      "Razionalizzazione",
+      "Sostituzione diretta di \\(x=0\\)"
+    ],
+    ans: 1,
+    exp: "Poiché \\(\\sin\\frac1x\\) oscilla senza limite, non si può sostituire; ma limitandolo tra \\(-1\\) e \\(1\\) e moltiplicando per \\(x^2\\), il teorema del confronto forza il limite a \\(0\\)."
+  },
+  {
+    badge: "Teorema del confronto",
+    q: "Quanto vale \\(\\displaystyle\\lim_{x\\to0}x^2\\sin\\frac1x\\)?",
+    opts: ["Non esiste", "\\(1\\)", "\\(0\\)", "\\(+\\infty\\)"],
+    ans: 2,
+    exp: "Da \\(-x^2\\le x^2\\sin\\frac1x\\le x^2\\) e \\(\\lim_{x\\to0}(\\pm x^2)=0\\), il teorema del confronto dà limite \\(0\\)."
+  },
+  {
+    badge: "Sintesi",
+    q: "Qual è il primo passo corretto davanti a un limite qualsiasi?",
+    opts: [
+      "Applicare subito la razionalizzazione, sempre",
+      "Provare la sostituzione diretta e riconoscere se emerge una forma indeterminata",
+      "Assumere che il limite non esista",
+      "Calcolare la derivata della funzione"
+    ],
+    ans: 1,
+    exp: "Conviene sempre iniziare sostituendo: se il risultato è determinato, il limite è calcolato; se emerge una delle sette forme indeterminate, si sceglie la tecnica adeguata."
+  }
+
+];
+
+// ── STATO ──
+let cur = 0, score = 0, answered = false, results = [];
+
+// ── LOGICA ──
+function startQuiz() {
+  cur = 0; score = 0; answered = false; results = [];
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx], total = Q.length;
+  document.getElementById('prog-frac').textContent = (idx+1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('q-badge').textContent = q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const letters = ['A','B','C','D'];
+  document.getElementById('q-opts').innerHTML = q.opts.map((o,i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${o}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === q.ans;
+  if (isOk) score++;
+  results.push(isOk);
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('opt-' + i).classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) document.getElementById('opt-' + q.ans).classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur+1);
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next show';
+  btn.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+
+  const msgs = [
+
+    [14, "Eccellente! Riconosci e risolvi ogni forma indeterminata con sicurezza."],
+    [11, "Molto bene. Padroneggi le tecniche principali."],
+    [8,  "Buona base: ripassa razionalizzazione e confronto di gradi."],
+    [4,  "Le forme indeterminate vanno ripassate con più esempi."],
+    [0,  "Riparti dal riconoscimento delle sette forme e riprova."]
+
+  ];
+  document.getElementById('res-msg').textContent = (msgs.find(m => score >= m[0]) || msgs[msgs.length-1])[1];
+
+  document.getElementById('res-grid').innerHTML = results.map((ok,i) =>
+    `<div class="rev-cell ${ok?'ok':'err'}" title="Domanda ${i+1}: ${ok?'corretta':'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) pick(parseInt(e.key)-1);
+  if ((e.key==='Enter'||e.key===' ') && answered) { e.preventDefault(); nextQ(); }
+});
+</script>
+</body>
+</html>

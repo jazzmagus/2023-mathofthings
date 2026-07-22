@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — La definizione epsilon-delta di limite</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.btn-start{margin-top:8px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-start:hover{background:#a8144e}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{background:#a8144e}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-retry:hover{background:#a8144e}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(6,1fr)}
+}
+</style>
+</head>
+
+<script>
+const Q = [
+
+  {
+    badge: "Il senso della definizione",
+    q: "Nella definizione \\(\\forall \\varepsilon>0\\ \\exists \\delta>0:\\ 0<|x-c|<\\delta \\Rightarrow |f(x)-\\ell|<\\varepsilon\\), chi \\(\\text{sceglie}\\) per primo?",
+    opts: [
+      "Chi dimostra il limite, sceglie \\(\\delta\\)",
+      "Lo scettico, sceglie \\(\\varepsilon\\)",
+      "Si scelgono insieme",
+      "Nessuno dei due: sono fissati a priori"
+    ],
+    ans: 1,
+    exp: "L'ordine dei quantificatori è decisivo: prima \\(\\forall \\varepsilon\\) (lo scettico propone un margine di errore su \\(f(x)\\)), poi \\(\\exists \\delta\\) (chi dimostra il limite risponde con un margine su \\(x\\) che lo garantisce)."
+  },
+  {
+    badge: "Il senso della definizione",
+    q: "Cosa rappresenta \\(\\varepsilon\\) nella definizione di limite?",
+    opts: [
+      "Un margine di tolleranza sulla variabile \\(x\\)",
+      "Un margine di tolleranza sul valore \\(f(x)\\)",
+      "La distanza tra due punti del dominio",
+      "Il valore del limite stesso"
+    ],
+    ans: 1,
+    exp: "\\(\\varepsilon\\) è l'errore massimo tollerato sul valore della funzione: vogliamo che \\(f(x)\\) disti da \\(\\ell\\) meno di \\(\\varepsilon\\)."
+  },
+  {
+    badge: "Il senso della definizione",
+    q: "Cosa rappresenta \\(\\delta\\) nella definizione di limite?",
+    opts: [
+      "Un margine di tolleranza sul valore \\(f(x)\\)",
+      "Il valore del limite \\(\\ell\\)",
+      "Un margine di tolleranza sulla variabile \\(x\\), attorno a \\(c\\)",
+      "Il numero di iterazioni necessarie"
+    ],
+    ans: 2,
+    exp: "\\(\\delta\\) delimita un intorno di \\(c\\) sull'asse \\(x\\): se \\(x\\) sta in quell'intorno (escluso \\(c\\)), la vicinanza di \\(f(x)\\) a \\(\\ell\\) è garantita."
+  },
+  {
+    badge: "Perché escludere x = c",
+    q: "Perché nella definizione si richiede \\(0 < |x-c|\\) e non semplicemente \\(|x-c| < \\delta\\)?",
+    opts: [
+      "Per evitare divisioni per zero in ogni caso",
+      "Perché il limite descrive il comportamento attorno a \\(c\\), indipendentemente dal valore (o dall'esistenza) di \\(f(c)\\)",
+      "È solo una convenzione stilistica, senza motivo reale",
+      "Perché altrimenti \\(\\delta\\) non esisterebbe mai"
+    ],
+    ans: 1,
+    exp: "Il limite non si occupa del valore di \\(f\\) esattamente in \\(c\\): la funzione potrebbe non essere nemmeno definita lì (come \\(\\frac{\\sin x}{x}\\) in \\(x=0\\)), ma il limite può comunque esistere."
+  },
+  {
+    badge: "Verifica guidata",
+    q: "Per dimostrare \\(\\displaystyle\\lim_{x\\to3}(4x-1)=11\\) con la definizione, a cosa è uguale \\(|f(x)-\\ell|\\)?",
+    opts: [
+      "\\(|4x-1-11| = 4|x-3|\\)",
+      "\\(|4x-1-11| = |x-3|\\)",
+      "\\(4|x-11|\\)",
+      "\\(|4x-12|\\) senza ulteriori semplificazioni possibili"
+    ],
+    ans: 0,
+    exp: "\\(|(4x-1)-11| = |4x-12| = 4|x-3|\\). Riconoscere questo fattore costante è il passo chiave per trovare \\(\\delta\\)."
+  },
+  {
+    badge: "Verifica guidata",
+    q: "Continuando l'esempio precedente (\\(|4x-12|=4|x-3|\\)), quale \\(\\delta\\) garantisce \\(|f(x)-11|<\\varepsilon\\)?",
+    opts: [
+      "\\(\\delta = \\varepsilon\\)",
+      "\\(\\delta = 4\\varepsilon\\)",
+      "\\(\\delta = \\dfrac{\\varepsilon}{4}\\)",
+      "\\(\\delta = \\varepsilon^2\\)"
+    ],
+    ans: 2,
+    exp: "Vogliamo \\(4|x-3|<\\varepsilon\\), cioè \\(|x-3|<\\frac{\\varepsilon}{4}\\). Basta scegliere \\(\\delta=\\frac{\\varepsilon}{4}\\): se \\(|x-3|<\\delta\\), allora \\(4|x-3|<4\\delta=\\varepsilon\\)."
+  },
+  {
+    badge: "Limiti quadratici",
+    q: "Nella verifica di \\(\\displaystyle\\lim_{x\\to2}x^2=4\\), perché non basta scrivere \\(|x^2-4|=|x-2||x+2|<\\varepsilon\\) e ricavare subito \\(\\delta\\)?",
+    opts: [
+      "Perché il fattore \\(|x+2|\\) dipende da \\(x\\) e va limitato prima",
+      "Perché la scomposizione \\(x^2-4=(x-2)(x+2)\\) è scorretta",
+      "Perché servirebbe usare i logaritmi",
+      "In realtà si può fare direttamente, senza alcuna cautela"
+    ],
+    ans: 0,
+    exp: "A differenza del caso lineare, qui compare un fattore \\(|x+2|\\) che varia con \\(x\\): occorre prima restringere la ricerca (per esempio a \\(|x-2|<1\\)) per poterlo limitare con una costante."
+  },
+  {
+    badge: "Limiti quadratici",
+    q: "Restringendo la ricerca a \\(|x-2|<1\\) (cioè \\(1<x<3\\)), a quale maggiorazione si arriva per \\(|x+2|\\)?",
+    opts: [
+      "\\(|x+2| < 3\\)",
+      "\\(|x+2| < 5\\)",
+      "\\(|x+2| < 1\\)",
+      "\\(|x+2|\\) non è limitabile in questo intervallo"
+    ],
+    ans: 1,
+    exp: "Se \\(1<x<3\\), allora \\(3<x+2<5\\), quindi \\(|x+2|<5\\). Questa maggiorazione costante permette di procedere con la disuguaglianza."
+  },
+  {
+    badge: "Limiti quadratici",
+    q: "Nel caso precedente, il \\(\\delta\\) finale corretto è tipicamente della forma:",
+    opts: [
+      "\\(\\delta = \\varepsilon\\)",
+      "\\(\\delta = \\min\\left(1, \\dfrac{\\varepsilon}{5}\\right)\\)",
+      "\\(\\delta = 5\\varepsilon\\)",
+      "\\(\\delta = \\varepsilon - 1\\)"
+    ],
+    ans: 1,
+    exp: "Si prende il minimo tra il vincolo iniziale (qui \\(\\delta \\le 1\\), che garantisce \\(|x+2|<5\\)) e il vincolo che rende \\(5|x-2|<\\varepsilon\\), cioè \\(|x-2|<\\frac{\\varepsilon}{5}\\)."
+  },
+  {
+    badge: "Interpretazione grafica",
+    q: "Graficamente, la condizione \\(|f(x)-\\ell|<\\varepsilon\\) corrisponde a:",
+    opts: [
+      "Una striscia orizzontale attorno alla retta \\(y=\\ell\\)",
+      "Una striscia verticale attorno alla retta \\(x=c\\)",
+      "Un cerchio attorno al punto \\((c,\\ell)\\)",
+      "Un singolo punto del grafico"
+    ],
+    ans: 0,
+    exp: "\\(\\varepsilon\\) delimita quanto \\(f(x)\\) può discostarsi da \\(\\ell\\): sul grafico è una fascia orizzontale tra le rette \\(y=\\ell-\\varepsilon\\) e \\(y=\\ell+\\varepsilon\\)."
+  },
+  {
+    badge: "Interpretazione grafica",
+    q: "Il gioco \\(\\varepsilon\\)-\\(\\delta\\) è vinto (il limite esiste ed è \\(\\ell\\)) quando:",
+    opts: [
+      "Esiste almeno un \\(\\varepsilon\\) per cui si trova un \\(\\delta\\) adeguato",
+      "Per ogni \\(\\varepsilon\\), qualunque sia, esiste sempre un \\(\\delta\\) adeguato",
+      "Il grafico passa esattamente per \\((c,\\ell)\\)",
+      "\\(\\delta\\) è più grande di \\(\\varepsilon\\)"
+    ],
+    ans: 1,
+    exp: "La definizione richiede che la proprietà valga per <em>ogni</em> \\(\\varepsilon>0\\), non solo per uno particolare: è un requisito universale, non esistenziale."
+  },
+  {
+    badge: "Unicità del limite",
+    q: "Il teorema di unicità del limite afferma che:",
+    opts: [
+      "Ogni funzione ha limite in ogni punto",
+      "Se il limite esiste, è determinato in modo univoco",
+      "Il limite coincide sempre con \\(f(c)\\)",
+      "\\(\\varepsilon\\) e \\(\\delta\\) devono essere uguali"
+    ],
+    ans: 1,
+    exp: "Se \\(\\lim_{x\\to c}f(x)\\) esiste, non può assumere due valori diversi contemporaneamente: la dimostrazione classica procede per assurdo usando due intorni disgiunti."
+  },
+  {
+    badge: "Unicità del limite",
+    q: "Nella dimostrazione per assurdo dell'unicità, supponendo \\(\\ell_1 \\neq \\ell_2\\), quale scelta di \\(\\varepsilon\\) rende gli intorni di \\(\\ell_1\\) e \\(\\ell_2\\) disgiunti?",
+    opts: [
+      "\\(\\varepsilon = \\ell_1 + \\ell_2\\)",
+      "\\(\\varepsilon = \\dfrac{|\\ell_1-\\ell_2|}{2}\\)",
+      "\\(\\varepsilon = \\ell_1 \\cdot \\ell_2\\)",
+      "Qualunque \\(\\varepsilon\\) positivo va bene"
+    ],
+    ans: 1,
+    exp: "Scegliendo \\(\\varepsilon\\) pari a metà della distanza tra \\(\\ell_1\\) e \\(\\ell_2\\), gli intorni di raggio \\(\\varepsilon\\) attorno ai due valori non si sovrappongono: \\(f(x)\\) non può stare in entrambi."
+  },
+  {
+    badge: "Limiti laterali",
+    q: "Nella definizione di limite destro \\(\\displaystyle\\lim_{x\\to c^+}f(x)=\\ell\\), la condizione sulla \\(x\\) diventa:",
+    opts: [
+      "\\(c-\\delta<x<c\\)",
+      "\\(c<x<c+\\delta\\)",
+      "\\(|x-c|<\\delta\\), senza restrizioni di segno",
+      "\\(x=c\\)"
+    ],
+    ans: 1,
+    exp: "Il limite destro considera solo i valori di \\(x\\) maggiori di \\(c\\) e sufficientemente vicini, cioè nell'intervallo \\((c, c+\\delta)\\)."
+  },
+  {
+    badge: "Limiti laterali",
+    q: "Se \\(\\displaystyle\\lim_{x\\to0^-}f(x)=-1\\) e \\(\\displaystyle\\lim_{x\\to0^+}f(x)=1\\), cosa si può concludere su \\(\\displaystyle\\lim_{x\\to0}f(x)\\)?",
+    opts: [
+      "Vale \\(0\\), la media dei due",
+      "Vale \\(1\\), il maggiore dei due",
+      "Non esiste, perché i limiti laterali sono diversi",
+      "Vale \\(-1\\), il minore dei due"
+    ],
+    ans: 2,
+    exp: "Per il teorema di collegamento, il limite bilatero esiste se e solo se i due limiti laterali esistono e coincidono. Essendo diversi, il limite non esiste."
+  }
+
+];
+
+// ── STATO ──
+let cur = 0, score = 0, answered = false, results = [];
+
+// ── LOGICA ──
+function startQuiz() {
+  cur = 0; score = 0; answered = false; results = [];
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx], total = Q.length;
+  document.getElementById('prog-frac').textContent = (idx+1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('q-badge').textContent = q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const letters = ['A','B','C','D'];
+  document.getElementById('q-opts').innerHTML = q.opts.map((o,i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${o}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === q.ans;
+  if (isOk) score++;
+  results.push(isOk);
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('opt-' + i).classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) document.getElementById('opt-' + q.ans).classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur+1);
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next show';
+  btn.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+
+  const msgs = [
+
+    [14, "Eccellente! Il formalismo epsilon-delta non ha più segreti per te."],
+    [11, "Molto bene. Hai afferrato il meccanismo logico della definizione."],
+    [8,  "Buona base, ma ripassa le maggiorazioni nei casi non lineari."],
+    [4,  "C'è ancora incertezza sul significato di epsilon e delta. Rileggi la sezione."],
+    [0,  "Riparti dall'idea del gioco tra i due giocatori e riprova con calma."]
+
+  ];
+  document.getElementById('res-msg').textContent = (msgs.find(m => score >= m[0]) || msgs[msgs.length-1])[1];
+
+  document.getElementById('res-grid').innerHTML = results.map((ok,i) =>
+    `<div class="rev-cell ${ok?'ok':'err'}" title="Domanda ${i+1}: ${ok?'corretta':'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) pick(parseInt(e.key)-1);
+  if ((e.key==='Enter'||e.key===' ') && answered) { e.preventDefault(); nextQ(); }
+});
+</script>
+</body>
+</html>
