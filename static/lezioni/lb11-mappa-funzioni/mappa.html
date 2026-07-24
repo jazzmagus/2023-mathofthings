@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mappa mentale — Classificazione delle Funzioni</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; }
+body {
+  font-family:'JetBrains Mono',monospace; background:var(--bg); color:var(--text);
+  overflow:hidden;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-size:.95rem; font-weight:700; }
+.topbar-brand em { font-style:normal; color:var(--accent); }
+.topbar-actions { margin-left:auto; display:flex; align-items:center; gap:14px; }
+.topbar-btn {
+  font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-mid);
+  background:none; border:1px solid var(--border); border-radius:6px; padding:5px 10px; cursor:pointer;
+}
+.topbar-btn:hover { color:var(--accent); border-color:var(--accent); }
+.topbar-home {
+  font-size:0.75rem; color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.map-frame {
+  position:absolute; top:68px; left:16px; right:16px; bottom:16px;
+  background:var(--surface); border:1px solid var(--border-light); border-radius:10px;
+  box-shadow:0 2px 14px rgba(44,37,32,.07); overflow:hidden;
+}
+#mindmap { display:block; width:100%; height:100%; }
+.node-box { cursor:default; transition:opacity .25s ease; }
+.node-box.clickable { cursor:pointer; }
+.node-box rect { fill:var(--surface); stroke:var(--border); stroke-width:1.4; transition:stroke .15s ease, fill .15s ease; }
+.node-box.clickable:hover rect { stroke:var(--accent); }
+.node-box.root rect { fill:var(--accent); stroke:var(--accent); }
+.node-box text { font-family:'JetBrains Mono',monospace; fill:var(--text); dominant-baseline:middle; text-anchor:middle; }
+.node-box.root text { fill:#fff; font-weight:700; }
+.node-box .indicator { fill:var(--accent); }
+.node-box.root .indicator { fill:#fff; }
+.edge { fill:none; stroke:var(--border); stroke-width:1.6; }
+.map-caption {
+  position:fixed; bottom:22px; left:0; right:0; text-align:center;
+  font-size:.7rem; color:var(--text-dim); pointer-events:none;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Classificazione delle <em>Funzioni</em> · mappa mentale</div>
+  <div class="topbar-actions">
+    <button class="topbar-btn" onclick="setAllExpanded(true)">Espandi tutto</button>
+    <button class="topbar-btn" onclick="setAllExpanded(false)">Comprimi tutto</button>
+    <a href="/materiali-corso-base/" class="topbar-home">← materiali corso base</a>
+  </div>
+</div>
+
+<div class="map-frame">
+  <svg id="mindmap"></svg>
+</div>
+<div class="map-caption">clic su un nodo per espandere/comprimere il ramo</div>
+
+<script>
+const DATA = {
+  name: "Funzioni",
+  expanded: false,
+  children: [
+    { name: "Algebriche", expanded: false, children: [
+      { name: "Polinomiali" },
+      { name: "Razionali", expanded: false, children: [
+        { name: "Intere" },
+        { name: "Fratte: P(x)/Q(x)" }
+      ]},
+      { name: "Irrazionali", expanded: false, children: [
+        { name: "Radicali" }
+      ]}
+    ]},
+    { name: "Trascendenti", expanded: false, children: [
+      { name: "Esponenziali" },
+      { name: "Logaritmiche" },
+      { name: "Goniometriche" }
+    ]}
+  ]
+};
+
+// assegna id stabili una sola volta
+let idCounter = 0;
+const byId = {};
+(function assignIds(node) {
+  node.id = 'n' + (idCounter++);
+  byId[node.id] = node;
+  (node.children || []).forEach(assignIds);
+})(DATA);
+
+const ROW_H = 96;
+const NODE_H = 40;
+const CHAR_W = 8.1;
+const PAD_X = 18;
+const PAD_TOP = 40;
+const MIN_W = 120;
+
+function nodeWidth(node) {
+  const w = node.name.length * CHAR_W + PAD_X * 2;
+  return Math.max(MIN_W, w);
+}
+
+function leafCount(node) {
+  if (!node.children || node.children.length === 0 || !node.expanded) return 1;
+  return node.children.reduce((s, c) => s + leafCount(c), 0);
+}
+
+function layout(node, depth, x0, x1) {
+  node.depth = depth;
+  node.cx = (x0 + x1) / 2;
+  node.cy = PAD_TOP + depth * ROW_H;
+  const visible = node.children && node.expanded ? node.children : [];
+  if (visible.length) {
+    const counts = visible.map(leafCount);
+    const total = counts.reduce((a, b) => a + b, 0);
+    let cursor = x0;
+    visible.forEach((child, i) => {
+      const span = (x1 - x0) * (counts[i] / total);
+      layout(child, depth + 1, cursor, cursor + span);
+      cursor += span;
+    });
+  }
+}
+
+function collectVisible(node, nodes, edges) {
+  nodes.push(node);
+  const visible = node.children && node.expanded ? node.children : [];
+  visible.forEach(child => {
+    edges.push([node, child]);
+    collectVisible(child, nodes, edges);
+  });
+}
+
+function render() {
+  const SLOT = 168;
+  const totalLeaves = leafCount(DATA);
+  const width = Math.max(totalLeaves * SLOT, 360);
+  layout(DATA, 0, 0, width);
+
+  const nodes = [], edges = [];
+  collectVisible(DATA, nodes, edges);
+
+  const maxDepth = Math.max(...nodes.map(n => n.depth));
+  let minX = Math.min(...nodes.map(n => n.cx - nodeWidth(n) / 2)) - 24;
+  let maxX = Math.max(...nodes.map(n => n.cx + nodeWidth(n) / 2)) + 24;
+  let vbW = maxX - minX;
+  let vbH = PAD_TOP + maxDepth * ROW_H + NODE_H + 30;
+
+  const MIN_VB_W = 760, MIN_VB_H = 460;
+  if (vbW < MIN_VB_W) { minX -= (MIN_VB_W - vbW) / 2; vbW = MIN_VB_W; }
+  if (vbH < MIN_VB_H) { vbH = MIN_VB_H; }
+
+  let svg = '';
+  edges.forEach(([p, c]) => {
+    const my = (p.cy + NODE_H / 2 + c.cy - NODE_H / 2) / 2;
+    svg += '<path class="edge" d="M' + p.cx.toFixed(1) + ',' + (p.cy + NODE_H / 2).toFixed(1) +
+      ' C' + p.cx.toFixed(1) + ',' + my.toFixed(1) + ' ' + c.cx.toFixed(1) + ',' + my.toFixed(1) + ' ' +
+      c.cx.toFixed(1) + ',' + (c.cy - NODE_H / 2).toFixed(1) + '"/>';
+  });
+
+  nodes.forEach(n => {
+    const w = n.depth === 0 ? nodeWidth(n) * 1.25 : nodeWidth(n);
+    const h = n.depth === 0 ? NODE_H * 1.2 : NODE_H;
+    const hasChildren = n.children && n.children.length > 0;
+    const cls = 'node-box' + (n.depth === 0 ? ' root' : '') + (hasChildren ? ' clickable' : '');
+    const onclick = hasChildren ? ' onclick="toggle(\'' + n.id + '\')"' : '';
+    svg += '<g class="' + cls + '"' + onclick + ' transform="translate(' + n.cx.toFixed(1) + ',' + n.cy.toFixed(1) + ')">' +
+      '<rect x="' + (-w / 2).toFixed(1) + '" y="' + (-h / 2).toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + h.toFixed(1) + '" rx="8"/>' +
+      '<text x="0" y="1" font-size="' + (n.depth === 0 ? 15 : 12.5) + '">' + n.name + (hasChildren ? (n.expanded ? '  −' : '  +') : '') + '</text>' +
+      '</g>';
+  });
+
+  const svgEl = document.getElementById('mindmap');
+  svgEl.setAttribute('viewBox', minX.toFixed(1) + ' 0 ' + vbW.toFixed(1) + ' ' + vbH.toFixed(1));
+  svgEl.innerHTML = svg;
+}
+
+function toggle(id) {
+  const node = byId[id];
+  node.expanded = !node.expanded;
+  render();
+}
+
+function setAllExpanded(state) {
+  Object.values(byId).forEach(n => { if (n.children && n.children.length) n.expanded = state; });
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

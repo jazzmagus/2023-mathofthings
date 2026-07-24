@@ -1278,6 +1278,10 @@ html:has(body.dark) {
   grid-template-columns: repeat(2, 1fr);
   gap: 1.2rem;
   margin-top: 1rem;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .materials-card {
