@@ -17,7 +17,7 @@ slides:
   <p class="mot-kicker" style="color: white; position: relative; z-index: 10;">matematica per il triennio</p>
   <h1 style="color: white; position: relative; z-index: 10;">Calcolo delle <span class="math-word" style="color: white; font-style: italic;">Probabilità</span></h1>
   <p class="mot-tagline" style="color: rgba(255,255,255,0.95); font-size: 1.3em; position: relative; z-index: 10;">quando la <em style="font-style: italic; color: white;">fortuna</em><br>incontra la <em style="font-style: italic; color: white;">matematica</em></p>
-  <p class="mot-meta" style="color: rgba(255,255,255,0.9); position: relative; z-index: 10;">prof. Diego Fantinelli &mdash; <a href="https://mathofthings.netlify.app/" target="_blank" class="mono">The Math of Things</a></p>
+  <p class="mot-meta" style="color: rgba(255,255,255,0.9); position: relative; z-index: 10;">prof. Diego Fantinelli &mdash; <a href="https://mathofthings.netlify.app/" target="_blank" class="mono" style="color: white;">The Math of Things</a></p>
 </section>
 
 ---
@@ -33,7 +33,7 @@ slides:
 
 <section class="mot-divider" data-background-color="#ed6f5c" data-transition="zoom" style="color: white;">
   <div id="particles-quando" class="bg-particles" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
-  <h1 class="r-fit-text" style="position: relative; z-index: 10;">QUANDO ACCADE QUALCOSA?</h1>
+  <h1 class="r-fit-text" style="position: relative; z-index: 10; color: white;">QUANDO ACCADE QUALCOSA?</h1>
 </section>
 
 <section>
@@ -90,7 +90,7 @@ slides:
 
 <section class="mot-divider" data-background-color="#ed6f5c" data-transition="zoom" style="color: white;">
   <div id="particles-sondaggi" class="bg-particles" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
-  <h1 class="r-fit-text" style="position: relative; z-index: 10;">SONDAGGI & STATISTICHE</h1>
+  <h1 class="r-fit-text" style="position: relative; z-index: 10; color: white;">SONDAGGI & STATISTICHE</h1>
 </section>
 
 <section>
@@ -128,7 +128,7 @@ slides:
 
 <section class="mot-divider" data-background-color="#ed6f5c" data-transition="zoom" style="color: white;">
   <div id="particles-gioco" class="bg-particles" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
-  <h1 class="r-fit-text" style="position: relative; z-index: 10;">IL GIOCO</h1>
+  <h1 class="r-fit-text" style="position: relative; z-index: 10; color: white;">IL GIOCO</h1>
 </section>
 
 <section>
@@ -198,7 +198,7 @@ slides:
 
 <section class="mot-divider" data-background-color="#ed6f5c" data-transition="zoom" style="color: white;">
   <div id="particles-riassunto" class="bg-particles" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
-  <h1 class="r-fit-text" style="position: relative; z-index: 10;">IL RIASSUNTO</h1>
+  <h1 class="r-fit-text" style="position: relative; z-index: 10; color: white;">IL RIASSUNTO</h1>
 </section>
 
 <section>

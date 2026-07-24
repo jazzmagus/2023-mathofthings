@@ -160,8 +160,8 @@ const S = [
     '<p>Tutto il calcolo con gli esponenziali si appoggia su queste regole, già note ma qui decisive:</p>' +
     '<div class="math-block">\\[ a^x \\cdot a^y = a^{x+y}, \\qquad \\frac{a^x}{a^y} = a^{x-y}, \\qquad (a^x)^y = a^{xy}, \\qquad a^{-x} = \\frac{1}{a^x} \\]</div>' +
     acc([
-      { t:"Esempio 1 — Crescita di 2^x", h:'<p>Per \\(f(x) = 2^x\\): \\(f(-2) = \\tfrac14\\), \\(f(0) = 1\\), \\(f(1) = 2\\), \\(f(3) = 8\\), \\(f(10) = 1024\\). Man mano che \\(x\\) cresce, \\(f(x)\\) esplode; per \\(x \\to -\\infty\\), \\(f(x) \\to 0^+\\).</p>' },
-      { t:"Esempio 2 — Decrescita di (1/2)^x", h:'<p>Per \\(g(x) = (\\tfrac12)^x\\): \\(g(-2) = 4\\), \\(g(0)=1\\), \\(g(2) = \\tfrac14\\). Nota che \\(g(x) = 2^{-x}\\): è il grafico di \\(2^x\\) ribaltato rispetto all\'asse \\(y\\).</p>' },
+      { t:"Esempio 1 — Crescita di \\(2^x\\)", h:'<p>Per \\(f(x) = 2^x\\): \\(f(-2) = \\tfrac14\\), \\(f(0) = 1\\), \\(f(1) = 2\\), \\(f(3) = 8\\), \\(f(10) = 1024\\). Man mano che \\(x\\) cresce, \\(f(x)\\) esplode; per \\(x \\to -\\infty\\), \\(f(x) \\to 0^+\\).</p>' },
+      { t:"Esempio 2 — Decrescita di \\((1/2)^x\\)", h:'<p>Per \\(g(x) = (\\tfrac12)^x\\): \\(g(-2) = 4\\), \\(g(0)=1\\), \\(g(2) = \\tfrac14\\). Nota che \\(g(x) = 2^{-x}\\): è il grafico di \\(2^x\\) ribaltato rispetto all\'asse \\(y\\).</p>' },
       { t:"Applicazione — Decadimento radioattivo", h:'<p>Una sostanza radioattiva dimezza la sua massa ogni ora: se \\(m_0\\) è la massa iniziale, dopo \\(x\\) ore resta:</p><div class="math-block result">\\[ m(x) = m_0 \\cdot \\left(\\frac12\\right)^{x} \\]</div><p class="dim">Base minore di 1: la quantità decresce esponenzialmente verso 0, senza mai annullarsi del tutto (in teoria).</p>' }
     ])
 },

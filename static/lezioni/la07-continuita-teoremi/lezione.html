@@ -395,8 +395,8 @@ const S = [
   <table class="ct">
     <tr><th>#</th><th>Condizione</th></tr>
     <tr><td>1</td><td>\\(f(x_0)\\) esiste (cioè \\(x_0\\) appartiene al dominio)</td></tr>
-    <tr><td>2</td><td>\\(\\displaystyle\\lim_{x\\to x_0} f(x)\\) esiste ed è finito</td></tr>
-    <tr><td>3</td><td>il limite è uguale al valore: \\(\\displaystyle\\lim_{x\\to x_0} f(x) = f(x_0)\\)</td></tr>
+    <tr><td>2</td><td>\\[\\displaystyle\\lim_{x\\to x_0} f(x)\\] esiste ed è finito</td></tr>
+    <tr><td>3</td><td>il limite è uguale al valore: \\[\\displaystyle\\lim_{x\\to x_0} f(x) = f(x_0)\\]</td></tr>
   </table>
   <p>Se anche una sola di queste manca, la funzione <strong>non</strong> è continua in \\(x_0\\).</p>
 
@@ -421,7 +421,9 @@ const S = [
   sub:"Quando la continuità viene a mancare, non tutte le rotture sono uguali. Si distinguono tre specie, a seconda di come si comportano i limiti destro e sinistro nel punto critico.",
   nav:"Discontinuità",
   body:`
-  <p>Chiamiamo \\(\\ell^- = \\lim_{x\\to x_0^-} f(x)\\) e \\(\\ell^+ = \\lim_{x\\to x_0^+} f(x)\\) i limiti sinistro e destro. La classificazione dipende da loro.</p>
+  <p>Chiamiamo:</p>
+  \\[ \\ell^- = \\lim_{x\\to x_0^-} f(x) \\qquad \\ell^+ = \\lim_{x\\to x_0^+} f(x) \\]
+  <p>i limiti sinistro e destro. La classificazione dipende da loro.</p>
 
   <h3>Prima specie — il salto</h3>
   <p>I due limiti esistono <strong>finiti</strong> ma sono <strong>diversi</strong>: \\(\\ell^- \\neq \\ell^+\\). Il grafico compie un «salto» la cui ampiezza è \\(|\\ell^+ - \\ell^-|\\).</p>
@@ -554,7 +556,7 @@ const S = [
   body:`
   <table class="ct">
     <tr><th>Concetto</th><th>In una riga</th></tr>
-    <tr><td>Continuità in \\(x_0\\)</td><td>\\(\\lim_{x\\to x_0} f(x)=f(x_0)\\) (tre condizioni)</td></tr>
+    <tr><td>Continuità in \\(x_0\\)</td><td>\\[\\lim_{x\\to x_0} f(x)=f(x_0)\\] (tre condizioni)</td></tr>
     <tr><td>Discontinuità</td><td>prima (salto), seconda (infinito), terza (eliminabile)</td></tr>
     <tr><td>Weierstrass</td><td>continua su \\([a,b]\\) ⟹ ha massimo e minimo</td></tr>
     <tr><td>Bolzano</td><td>continua e \\(f(a)f(b)<0\\) ⟹ esiste uno zero</td></tr>

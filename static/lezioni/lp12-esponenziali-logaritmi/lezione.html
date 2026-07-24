@@ -340,7 +340,7 @@ const S = [
 },
 {
   tag:"ANALISI",
-  title:"Derivate: <em>e^x</em> e <em>ln x</em>",
+  title:"Derivate: <em>\\(e^x\\)</em> e <em>\\(\\ln x\\)</em>",
   nav:"Derivate",
   body:
     '<p>Qui alziamo il livello: colleghiamo esponenziali e logaritmi al calcolo differenziale, con dimostrazioni complete a partire dalla definizione di derivata.</p>' +
@@ -384,7 +384,7 @@ const S = [
     acc([
       { t:"Teorema — La disuguaglianza fondamentale eˣ ≥ 1+x", h:'<p><strong>Enunciato.</strong> Per ogni \\(x \\in \\mathbb{R}\\), \\(e^x \\geq 1+x\\), con uguaglianza solo per \\(x=0\\).</p><p><strong>Dimostrazione.</strong> Sia \\(g(x) = e^x - 1 - x\\). Allora \\(g(0)=0\\) e \\(g\'(x) = e^x - 1\\). Per \\(x>0\\), \\(e^x>1\\) quindi \\(g\'(x)>0\\) (g cresce); per \\(x<0\\), \\(e^x<1\\) quindi \\(g\'(x)<0\\) (g decresce). Dunque \\(x=0\\) è un <strong>minimo assoluto</strong> di \\(g\\), con \\(g(0)=0\\): perciò \\(g(x) \\geq 0\\) per ogni \\(x\\), cioè la tesi. \\(\\blacksquare\\)</p><p class="dim">Questa disuguaglianza è alla base di molte stime in analisi, calcolo delle probabilità e teoria dell\'informazione.</p>' },
       { t:"Teorema — Concavità del logaritmo", h:'<p><strong>Enunciato.</strong> \\(\\ln x\\) è strettamente concava su \\((0,+\\infty)\\).</p><p><strong>Dimostrazione.</strong> \\((\\ln x)\' = \\tfrac1x\\), quindi \\((\\ln x)\'\' = -\\tfrac1{x^2} < 0\\) per ogni \\(x>0\\): la derivata seconda negativa è, per definizione, il criterio di concavità stretta. \\(\\blacksquare\\)</p><p class="dim">Conseguenza: la disuguaglianza di Jensen applicata a \\(\\ln\\) è la base della disuguaglianza tra media aritmetica e media geometrica (AM-GM).</p>' },
-      { t:"Teorema — Il logaritmo cresce più lentamente di ogni potenza", h:'<p><strong>Enunciato.</strong> Per ogni \\(\\alpha>0\\), \\(\\displaystyle\\lim_{x\\to+\\infty}\\frac{\\ln x}{x^{\\alpha}} = 0\\).</p><p><strong>Idea della dimostrazione.</strong> Si applica la disuguaglianza \\(\\ln t \\leq t - 1\\) (conseguenza della sezione precedente) a \\(t = x^{\\alpha/2}\\), ottenendo una maggiorazione di \\(\\ln x\\) che, divisa per \\(x^\\alpha\\), tende a 0 per confronto.</p><p class="dim">È il motivo per cui, in informatica, un algoritmo con complessità \\(O(\\log n)\\) è considerato "quasi gratuito" rispetto a qualunque potenza di \\(n\\).</p>' },
+      { t:"Teorema — Il logaritmo cresce più lentamente di ogni potenza", h:'<p><strong>Enunciato.</strong> Per ogni \\(\\alpha>0\\), \\[\\displaystyle\\lim_{x\\to+\\infty}\\frac{\\ln x}{x^{\\alpha}} = 0\\].</p><p><strong>Idea della dimostrazione.</strong> Si applica la disuguaglianza \\(\\ln t \\leq t - 1\\) (conseguenza della sezione precedente) a \\(t = x^{\\alpha/2}\\), ottenendo una maggiorazione di \\(\\ln x\\) che, divisa per \\(x^\\alpha\\), tende a 0 per confronto.</p><p class="dim">È il motivo per cui, in informatica, un algoritmo con complessità \\(O(\\log n)\\) è considerato "quasi gratuito" rispetto a qualunque potenza di \\(n\\).</p>' },
       { t:"Problema applicativo — Tempo di dimezzamento", h:'<p>Una sostanza decade secondo \\(m(t) = m_0 e^{-kt}\\). Sapendo che dopo 10 anni resta il 60% della massa, trova la costante \\(k\\) e il tempo di dimezzamento.</p><p>Da \\(0{,}6 = e^{-10k}\\): \\(k = -\\dfrac{\\ln 0{,}6}{10} \\approx 0{,}0511\\).</p><p>Il tempo di dimezzamento \\(t_{1/2}\\) risolve \\(e^{-kt_{1/2}} = \\tfrac12\\):</p><div class="math-block result">\\[ t_{1/2} = \\frac{\\ln 2}{k} \\approx 13{,}6 \\text{ anni} \\]</div>' }
     ]) +
     '<h3>Formule e teoremi da ricordare</h3>' +
@@ -392,7 +392,7 @@ const S = [
     '<tr><td>Costruzione di \\(a^x\\), \\(x\\) reale</td><td>estremo superiore su approssimazioni razionali</td></tr>' +
     '<tr><td>Monotonia stretta</td><td>crescente se \\(a>1\\), decrescente se \\(0\\lt a\\lt 1\\)</td></tr>' +
     '<tr><td>Numero \\(e\\)</td><td>\\(e=\\lim(1+1/n)^n\\), successione crescente e limitata</td></tr>' +
-    '<tr><td>Limite notevole</td><td>\\(\\lim_{h\\to0}(e^h-1)/h = 1\\)</td></tr>' +
+    '<tr><td>Limite notevole</td><td>\\[\\lim_{h\\to0}(e^h-1)/h = 1\\]</td></tr>' +
     '<tr><td>Teorema funzione inversa</td><td>continua + monotona stretta ⟹ inversa continua monotona</td></tr>' +
     '<tr><td>Derivata di \\(e^x\\)</td><td>\\((e^x)\' = e^x\\)</td></tr>' +
     '<tr><td>Derivata di \\(\\ln x\\)</td><td>\\((\\ln x)\' = 1/x\\)</td></tr>' +

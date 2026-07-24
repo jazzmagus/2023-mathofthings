@@ -485,29 +485,29 @@ const S = [
 
     <div class="cb tip">
       <div class="cb-label">Intorno bucato</div>
-      <p>Per parlare di \\(\\lim_{x \\to a}\\), <strong>non serve</strong> che \\(f(a)\\) esista: basta che \\(f\\) sia definita in un <em>intorno bucato</em> di \\(a\\), cioè per \\(x\\) vicini ad \\(a\\) ma \\(x \\neq a\\).</p>
+      <p>Per parlare di \\[\\lim_{x \\to a}\\], <strong>non serve</strong> che \\(f(a)\\) esista: basta che \\(f\\) sia definita in un <em>intorno bucato</em> di \\(a\\), cioè per \\(x\\) vicini ad \\(a\\) ma \\(x \\neq a\\).</p>
     </div>
 
     <table class="ct">
       <tr><th>Tipo</th><th>Notazione</th><th>Cosa descrive</th></tr>
       <tr>
         <td>Finito in un punto</td>
-        <td>\\(\\lim_{x\\to a} f(x) = L\\)</td>
+        <td>\\[\\lim_{x\\to a} f(x) = L\\]</td>
         <td>\\(f(x)\\) si avvicina a \\(L\\) reale</td>
       </tr>
       <tr>
         <td>Infinito in un punto</td>
-        <td>\\(\\lim_{x\\to a} f(x) = \\pm\\infty\\)</td>
+        <td>\\[\\lim_{x\\to a} f(x) = \\pm\\infty\\]</td>
         <td>\\(f(x)\\) cresce/decresce senza limite → asintoto verticale</td>
       </tr>
       <tr>
         <td>Finito all'infinito</td>
-        <td>\\(\\lim_{x\\to \\pm\\infty} f(x) = k\\)</td>
+        <td>\\[\\lim_{x\\to \\pm\\infty} f(x) = k\\]</td>
         <td>\\(f(x)\\) si stabilizza → asintoto orizzontale \\(y=k\\)</td>
       </tr>
       <tr>
         <td>Infinito all'infinito</td>
-        <td>\\(\\lim_{x\\to \\pm\\infty} f(x) = \\pm\\infty\\)</td>
+        <td>\\[\\lim_{x\\to \\pm\\infty} f(x) = \\pm\\infty\\]</td>
         <td>\\(f(x)\\) cresce/decresce senza limite</td>
       </tr>
     </table>
@@ -520,7 +520,7 @@ const S = [
         <li>osserva dove si avvicinano i punti del grafico</li>
         <li>ignora il valore di \\(f(a)\\)</li>
       </ul>
-      <p style="margin-top:8px">Se il grafico tende verso la stessa quota \\(y = L\\) sia da sinistra sia da destra, allora \\(\\lim_{x\\to a} f(x) = L\\).</p>
+      <p style="margin-top:8px">Se il grafico tende verso la stessa quota \\(y = L\\) sia da sinistra sia da destra, allora \\[\\lim_{x\\to a} f(x) = L\\].</p>
     </div>
   `
 },
@@ -542,7 +542,7 @@ const S = [
 
     <div class="cb danger">
       <div class="cb-label">Criterio di esistenza del limite</div>
-      <p>Il limite \\(\\lim_{x \\to a} f(x)\\) esiste <strong>se e solo se</strong> i due limiti laterali esistono e sono <strong>uguali</strong>:</p>
+      <p>Il limite \\[\\lim_{x \\to a} f(x)\\] esiste <strong>se e solo se</strong> i due limiti laterali esistono e sono <strong>uguali</strong>:</p>
       <div class="math-block hero-formula">
         \\[ \\lim_{x \\to a^-} f(x) = \\lim_{x \\to a^+} f(x) = L \\]
       </div>
@@ -597,7 +597,7 @@ const S = [
             \\end{aligned}\\]
           </div>
           <div class="math-block result">
-            <p>I due limiti coincidono → \\(\\lim_{x \\to 1} f(x) = 1\\). Poiché \\(f(1) = 1\\), la funzione è <strong>continua</strong> in \\(x=1\\).</p>
+            <p>I due limiti coincidono → \\[\\lim_{x \\to 1} f(x) = 1\\]. Poiché \\(f(1) = 1\\), la funzione è <strong>continua</strong> in \\(x=1\\).</p>
           </div>
         `
       }
@@ -614,7 +614,7 @@ const S = [
   body:`
     <div class="cb method">
       <div class="cb-label">Definizione (epsilon–delta)</div>
-      <p>\\(\\lim_{x \\to a} f(x) = L\\) significa:</p>
+      <p>\\[\\lim_{x \\to a} f(x) = L\\] significa:</p>
       <div class="math-block hero-formula">
         \\[ \\forall\\, \\varepsilon > 0 \\quad \\exists\\, \\delta > 0 \\quad \\text{tale che} \\quad 0 < |x - a| < \\delta \\Rightarrow |f(x) - L| < \\varepsilon \\]
       </div>
@@ -951,7 +951,7 @@ const S = [
     </div>
 
     <table class="ct">
-      <tr><th>Condizione</th><th>\\(\lim_{x\to\pm\infty} f(x)\\)</th><th>Asintoto</th></tr>
+      <tr><th>Condizione</th><th>\\[\lim_{x\to\pm\infty} f(x)\\]</th><th>Asintoto</th></tr>
       <tr>
         <td>\\(n < m\\)</td>
         <td style="color:var(--green)">\\(= 0\\)</td>
@@ -1024,7 +1024,7 @@ const S = [
         <li><strong>Sostituisci</strong> direttamente (se \\(f\\) è continua in \\(a\\) → fatto)</li>
         <li>Se ottieni una forma indeterminata, <strong>riconoscila</strong>: \\(0/0\\), \\(\\infty/\\infty\\), \\(\\infty-\\infty\\), \\(0\\cdot\\infty\\)</li>
         <li><strong>Trasforma</strong>: scomponi, razionalizza, metti a comune denominatore, porta fuori la potenza dominante</li>
-        <li>Se c'è un punto critico \\(a\\): calcola \\(\\lim_{x\\to a^-}\\) e \\(\\lim_{x\\to a^+}\\) separatamente</li>
+        <li>Se c'è un punto critico \\(a\\): calcola \\[ \\lim_{x\\to a^-} \\qquad \\lim_{x\\to a^+} \\] separatamente</li>
         <li>Verifica il <strong>criterio</strong>: limite esiste ↔ i due laterali sono uguali</li>
         <li>Se \\(x\\to\\pm\\infty\\): confronta i gradi (razionali) e verifica la presenza di asintoti</li>
       </ul>
@@ -1034,7 +1034,7 @@ const S = [
       <div class="cb-label">Trovare gli asintoti</div>
       <ul class="checklist">
         <li><strong>Verticale</strong> \\(x = a\\): dove il denominatore si annulla → calcola i limiti laterali</li>
-        <li><strong>Orizzontale</strong> \\(y = k\\): calcola \\(\\lim_{x\\to\\pm\\infty} f(x)\\)</li>
+        <li><strong>Orizzontale</strong> \\(y = k\\): calcola \\[\\lim_{x\\to\\pm\\infty} f(x)\\]</li>
         <li><strong>Obliquo</strong> \\(y = mx+q\\): calcola \\(m = \\lim f(x)/x\\), poi \\(q = \\lim (f(x)-mx)\\)</li>
       </ul>
     </div>

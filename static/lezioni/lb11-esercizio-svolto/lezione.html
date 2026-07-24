@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esercizio Svolto — Studio di Funzione al Contrario</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.ct.sign td { text-align:center; font-family:'JetBrains Mono',monospace; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.graph-wrap { margin:18px 0; text-align:center; }
+.graph-wrap svg { width:100%; max-width:520px; height:auto; background:var(--bg); border:1px solid var(--border-light); border-radius:8px; box-shadow:0 2px 10px rgba(44,37,32,.06); }
+.graph-wrap.wide svg { max-width:640px; }
+.graph-caption { font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--text-dim); margin-top:6px; text-align:center; }
+.legend { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--text-mid); margin-top:8px; }
+.legend span { display:inline-flex; align-items:center; gap:5px; }
+.legend i { width:14px; height:2px; display:inline-block; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Studio di Funzione al Contrario · esercizio svolto</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+function fmtTick(v) {
+  const r = Math.round(v * 100) / 100;
+  return (r % 1 === 0) ? String(r) : String(r).replace('.', ',');
+}
+
+function minorTicks(majors, min, max) {
+  if (!majors || majors.length < 2) return [];
+  const spacing = Math.abs(majors[1] - majors[0]);
+  const step = spacing / 4;
+  const out = [];
+  const start = Math.ceil(min / step) * step;
+  for (let v = start; v <= max + 1e-6; v += step) {
+    const rv = Math.round(v * 1000) / 1000;
+    if (!majors.some(m => Math.abs(m - rv) < 1e-6)) out.push(rv);
+  }
+  return out;
+}
+
+function plotFn(opts) {
+  const W = opts.w || 320, H = opts.h || 320;
+  const xmin = opts.xmin, xmax = opts.xmax, ymin = opts.ymin, ymax = opts.ymax;
+  const PL = 34, PR = 18, PT = 18, PB = 30;
+  const pw = W - PL - PR, ph = H - PT - PB;
+  const sx = x => PL + (x - xmin) / (xmax - xmin) * pw;
+  const sy = y => PT + ph - (y - ymin) / (ymax - ymin) * ph;
+  let gGrid = '', gAxes = '', gCurves = '', gPoints = '';
+
+  const x0 = sx(0), y0 = sy(0);
+  const axisXvisible = x0 >= PL - 0.5 && x0 <= W - PR + 0.5;
+  const axisYvisible = y0 >= PT - 0.5 && y0 <= H - PB + 0.5;
+  const tickBaseY = axisYvisible ? y0 : H - PB;
+  const tickBaseX = axisXvisible ? x0 : PL;
+
+  minorTicks(opts.grid, xmin, xmax).forEach(v => {
+    const x = sx(v);
+    if (x >= PL && x <= W - PR) gGrid += '<line x1="' + x.toFixed(1) + '" y1="' + PT + '" x2="' + x.toFixed(1) + '" y2="' + (H - PB) + '" stroke="rgba(44,37,32,0.05)" stroke-width="1"/>';
+  });
+  minorTicks(opts.gridY, ymin, ymax).forEach(v => {
+    const y = sy(v);
+    if (y >= PT && y <= H - PB) gGrid += '<line x1="' + PL + '" y1="' + y.toFixed(1) + '" x2="' + (W - PR) + '" y2="' + y.toFixed(1) + '" stroke="rgba(44,37,32,0.05)" stroke-width="1"/>';
+  });
+
+  (opts.grid || []).forEach(v => {
+    const x = sx(v);
+    if (x >= PL && x <= W - PR) {
+      gGrid += '<line x1="' + x.toFixed(1) + '" y1="' + PT + '" x2="' + x.toFixed(1) + '" y2="' + (H - PB) + '" stroke="rgba(44,37,32,0.11)" stroke-width="1"/>';
+      if (v !== 0) gGrid += '<text x="' + x.toFixed(1) + '" y="' + (tickBaseY + 15) + '" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--text-dim)">' + fmtTick(v) + '</text>';
+    }
+  });
+  (opts.gridY || []).forEach(v => {
+    const y = sy(v);
+    if (y >= PT && y <= H - PB) {
+      gGrid += '<line x1="' + PL + '" y1="' + y.toFixed(1) + '" x2="' + (W - PR) + '" y2="' + y.toFixed(1) + '" stroke="rgba(44,37,32,0.11)" stroke-width="1"/>';
+      if (v !== 0) gGrid += '<text x="' + (tickBaseX - 7) + '" y="' + (y.toFixed(1) - 0) + '" text-anchor="end" dominant-baseline="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--text-dim)">' + fmtTick(v) + '</text>';
+    }
+  });
+
+  if (axisXvisible) {
+    gAxes += '<line x1="' + x0.toFixed(1) + '" y1="' + PT + '" x2="' + x0.toFixed(1) + '" y2="' + (H - PB) + '" stroke="var(--text-mid)" stroke-width="1.3"/>';
+    gAxes += '<path d="M' + (x0 - 3.5).toFixed(1) + ' ' + (PT + 6) + ' L' + x0.toFixed(1) + ' ' + PT + ' L' + (x0 + 3.5).toFixed(1) + ' ' + (PT + 6) + '" fill="none" stroke="var(--text-mid)" stroke-width="1.3" stroke-linejoin="round"/>';
+    gAxes += '<text x="' + (x0 + 8).toFixed(1) + '" y="' + (PT + 9) + '" font-family="Playfair Display, serif" font-style="italic" font-size="11" fill="var(--text-mid)">y</text>';
+  }
+  if (axisYvisible) {
+    gAxes += '<line x1="' + PL + '" y1="' + y0.toFixed(1) + '" x2="' + (W - PR) + '" y2="' + y0.toFixed(1) + '" stroke="var(--text-mid)" stroke-width="1.3"/>';
+    gAxes += '<path d="M' + (W - PR - 6) + ' ' + (y0 - 3.5).toFixed(1) + ' L' + (W - PR) + ' ' + y0.toFixed(1) + ' L' + (W - PR - 6) + ' ' + (y0 + 3.5).toFixed(1) + '" fill="none" stroke="var(--text-mid)" stroke-width="1.3" stroke-linejoin="round"/>';
+    gAxes += '<text x="' + (W - PR - 5) + '" y="' + (y0 - 8).toFixed(1) + '" text-anchor="end" font-family="Playfair Display, serif" font-style="italic" font-size="11" fill="var(--text-mid)">x</text>';
+  }
+  if (axisXvisible && axisYvisible) {
+    gAxes += '<text x="' + (x0 - 5).toFixed(1) + '" y="' + (y0 + 13).toFixed(1) + '" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--text-dim)">0</text>';
+  }
+
+  (opts.fns || []).forEach(fn => {
+    const N = 400;
+    let d = '', started = false;
+    for (let i = 0; i <= N; i++) {
+      const x = xmin + (xmax - xmin) * i / N;
+      let y;
+      try { y = fn.f(x); } catch (e) { y = NaN; }
+      if (!isFinite(y) || y < ymin - (ymax - ymin) * 0.6 || y > ymax + (ymax - ymin) * 0.6) {
+        started = false;
+        continue;
+      }
+      const X = sx(x), Y = sy(y);
+      d += (started ? 'L' : 'M') + X.toFixed(1) + ' ' + Y.toFixed(1) + ' ';
+      started = true;
+    }
+    gCurves += '<path d="' + d + '" fill="none" stroke="' + fn.color + '" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>';
+  });
+
+  (opts.points || []).forEach(p => {
+    const X = sx(p.x), Y = sy(p.y);
+    const dx = p.dx !== undefined ? p.dx : 7, dy = p.dy !== undefined ? p.dy : -8;
+    const color = p.color || 'var(--accent)';
+    gPoints += '<circle cx="' + X.toFixed(1) + '" cy="' + Y.toFixed(1) + '" r="' + (p.r || 3) + '" fill="var(--surface)" stroke="' + color + '" stroke-width="2"/>';
+    if (p.label) {
+      const lx = X + dx, ly = Y + dy;
+      const anchor = dx < 0 ? 'end' : (dx === 0 ? 'middle' : 'start');
+      const chW = p.label.length * 5.6 + 8;
+      const chX = anchor === 'end' ? lx - chW : (anchor === 'middle' ? lx - chW / 2 : lx);
+      gPoints += '<rect x="' + chX.toFixed(1) + '" y="' + (ly - 10.5).toFixed(1) + '" width="' + chW.toFixed(1) + '" height="14" rx="3" fill="var(--bg)" fill-opacity="0.92"/>';
+      gPoints += '<text x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" text-anchor="' + anchor + '" font-family="JetBrains Mono, monospace" font-size="10.5" fill="' + color + '">' + p.label + '</text>';
+    }
+  });
+
+  const g = '<rect x="' + PL + '" y="' + PT + '" width="' + pw + '" height="' + ph + '" fill="none"/>' + gGrid + gAxes + gCurves + gPoints;
+
+  return '<div class="graph-wrap' + (opts.wide ? ' wide' : '') + '"><svg viewBox="0 0 ' + W + ' ' + H + '">' + g + '</svg>' +
+    (opts.caption ? '<div class="graph-caption">' + opts.caption + '</div>' : '') +
+    (opts.legend ? '<div class="legend">' + opts.legend.map(l => '<span><i style="background:' + l.color + '"></i>' + l.label + '</span>').join('') + '</div>' : '') +
+    '</div>';
+}
+
+const graph1 = plotFn({
+  xmin: -1.5, xmax: 4.5, ymin: -5.5, ymax: 2.5, w: 460, h: 400,
+  grid: [-1,0,1,2,3,4], gridY: [-5,-4,-3,-2,-1,0,1,2],
+  fns: [{ f: x => x*x*x - 3*x*x, color: '#c2185b' }],
+  points: [
+    { x:0, y:0, label:'M(0,0)', dx:-7, dy:-11 },
+    { x:3, y:0, label:'(3,0)', dx:9, dy:15 },
+    { x:2, y:-4, label:'m(2,-4)', dx:11, dy:4 },
+    { x:1, y:-2, label:'F(1,-2)', color:'#7a5197', dx:10, dy:-2 }
+  ],
+  caption: 'f(x) = x³ − 3x² — dato SOLO questo grafico',
+  legend: [{ color:'#c2185b', label:'y = x³ − 3x²' }]
+});
+
+const graph2 = plotFn({
+  xmin: -4.5, xmax: 4.5, ymin: -12, ymax: 12, w: 460, h: 400,
+  grid: [-4,-3,-2,-1,0,1,2,3,4], gridY: [-10,-5,0,5,10],
+  fns: [{ f: x => x*x*x - 9*x, color: '#7209b7' }],
+  points: [
+    { x:-3,y:0,label:'(-3,0)', dx:-9, dy:14 },
+    { x:0,y:0,label:'F(0,0)', dx:9, dy:15 },
+    { x:3,y:0,label:'(3,0)', dx:9, dy:-11 },
+    { x:-1.732,y:10.39,label:'M', dx:-7, dy:-10 },
+    { x:1.732,y:-10.39,label:'m', dx:7, dy:15 }
+  ],
+  caption: 'f(x) = x³ − 9x — dato SOLO questo grafico',
+  legend: [{ color:'#7209b7', label:'y = x³ − 9x' }]
+});
+
+const graph3 = plotFn({
+  xmin: -2.8, xmax: 2.8, ymin: -2, ymax: 5, w: 460, h: 400,
+  grid: [-2,-1,0,1,2], gridY: [-1,0,1,2,3,4],
+  fns: [{ f: x => Math.pow(x,4) - 4*x*x + 3, color: '#d62828' }],
+  points: [
+    { x:-1.732,y:0,label:'' }, { x:-1,y:0,label:'' }, { x:1,y:0,label:'' }, { x:1.732,y:0,label:'' },
+    { x:0,y:3,label:'M(0,3)', dx:0, dy:-13 },
+    { x:-1.414,y:-1,label:'m', dx:-8, dy:16 },
+    { x:1.414,y:-1,label:'m', dx:8, dy:16 },
+    { x:-0.816,y:0.778,label:'F', color:'#7a5197', dx:-8, dy:-9 },
+    { x:0.816,y:0.778,label:'F', color:'#7a5197', dx:8, dy:-9 }
+  ],
+  caption: 'f(x) = x⁴ − 4x² + 3 — dato SOLO questo grafico',
+  legend: [{ color:'#d62828', label:'y = x⁴ − 4x² + 3' }]
+});
+
+const S = [
+{
+  tag:"L'IDEA",
+  title:"Lo studio di funzione <em>al contrario</em>",
+  nav:"L'idea",
+  body:
+    '<p>Finora hai imparato a costruire un grafico <em>a partire</em> da un\'espressione: dominio, parità, intersezioni, segno, limiti, derivate — un passo dopo l\'altro, fino a un\'immagine. In questo esercizio il percorso si <strong>rovescia</strong>.</p>' +
+    '<div class="cb"><div class="cb-label">La regola del gioco</div><p>In ciascuno dei tre casi che seguono, vedrai <strong>prima il grafico</strong> — come se qualcuno te lo avesse consegnato già disegnato, senza dirti nulla dell\'espressione algebrica. Il compito non è calcolare da zero: è <strong>verificare</strong>, punto per punto, che ogni caratteristica visibile nel disegno (simmetria, zeri, massimi, minimi, flessi, concavità) trova davvero una giustificazione algebrica precisa.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Perché è un esercizio diverso, non solo "lo stesso al contrario"</div><p>Guardando il grafico puoi <strong>congetturare</strong> subito: "sembra dispari", "qui c\'è un minimo", "la concavità cambia verso x=1". Il lavoro analitico che segue non serve più a <em>scoprire</em> queste proprietà, ma a <strong>dimostrarle con rigore</strong> — esattamente il tipo di controllo che un matematico fa quando un\'intuizione visiva va messa alla prova dei conti.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Materiale</div><p>I tre esempi che seguono sono tratti da una lezione osservata durante l\'anno di prova e formazione (I.S. Remondini, 5ª Servizi Socio-Sanitari, aprile 2026), qui riadattati in formato interattivo per l\'esercitazione.</p></div>'
+},
+{
+  tag:"ESEMPIO 1",
+  title:"f(x) = x³ − 3x²: <em>dal grafico</em> alla dimostrazione",
+  nav:"Esempio 1",
+  body:
+    '<p>Osserva il grafico. Non sai ancora nulla dell\'espressione, se non che è tracciata qui sotto.</p>' +
+    graph1 +
+    '<div class="cb"><div class="cb-label">Cosa si può congetturare guardando il disegno</div><ul><li>Non sembra né simmetrico rispetto a \\(y\\) né rispetto all\'origine</li><li>Tocca l\'asse \\(x\\) in due punti, uno dei quali sembra "doppio" (la curva rimbalza invece di attraversare, vicino a \\(x=0\\))</li><li>C\'è un massimo relativo vicino all\'origine e un minimo relativo poco più a destra</li><li>La concavità sembra cambiare da qualche parte tra il massimo e il minimo</li></ul></div>' +
+    '<p>Ora verifichiamo ciascuna di queste osservazioni con i conti, per \\(f(x) = x^3 - 3x^2\\).</p>' +
+    acc([
+      { t:"1 — Dominio", h:'<p>Polinomio: \\(D = \\mathbb{R}\\), coerente con una curva tracciata senza interruzioni su tutto l\'asse x.</p>' },
+      { t:"2 — Parità (verifica dell\'assenza di simmetria)", h:'<p>\\(f(-x) = (-x)^3-3(-x)^2 = -x^3-3x^2\\). Confrontando: \\(f(-x)\\ne f(x)\\) e \\(f(-x)\\ne -f(x)=-x^3+3x^2\\).</p><div class="math-block result">\\[ \\text{né pari né dispari — confermata l\'assenza di simmetria vista nel disegno} \\]</div>' },
+      { t:"3 — Intersezioni con gli assi (il \"punto doppio\")", h:'<p>Asse \\(x\\): \\(x^3-3x^2=0 \\Rightarrow x^2(x-3)=0 \\Rightarrow x=0\\) (soluzione doppia) oppure \\(x=3\\).</p><p>La molteplicità \\(2\\) della radice \\(x=0\\) è esattamente ciò che il grafico mostrava come "rimbalzo": una radice doppia non cambia segno, la curva tocca l\'asse e torna indietro invece di attraversarlo.</p><p>Asse \\(y\\): \\(f(0)=0\\), stesso punto.</p>' },
+      { t:"4 — Segno", h:'<p>\\(x^2(x-3)>0\\): poiché \\(x^2\\ge0\\) sempre, il segno dipende solo da \\((x-3)\\).</p>' +
+        '<table class="ct sign"><tr><th>Intervallo</th><th>x&lt;0</th><th>x=0</th><th>0&lt;x&lt;3</th><th>x=3</th><th>x&gt;3</th></tr>' +
+        '<tr><td>x²</td><td>+</td><td>0</td><td>+</td><td>+</td><td>+</td></tr>' +
+        '<tr><td>x−3</td><td>−</td><td>−</td><td>−</td><td>0</td><td>+</td></tr>' +
+        '<tr><td>f(x)</td><td>−</td><td>0</td><td>−</td><td>0</td><td>+</td></tr></table>' +
+        '<div class="math-block result">\\[ f(x)<0 \\text{ per } x<0 \\text{ e } 0<x<3; \\quad f(x)>0 \\text{ per } x>3 \\]</div><p>Coerente con il grafico: la curva sta sotto l\'asse fino a \\(x=3\\), poi sale sopra.</p>' },
+      { t:"5 — Limiti agli estremi (nessun asintoto)", h:'<p>\\[ \\lim_{x\\to-\\infty}(x^3-3x^2) = \\lim_{x\\to-\\infty} x^3\\Big(1-\\frac3x\\Big) = -\\infty \\]</p><p>\\[ \\lim_{x\\to+\\infty}(x^3-3x^2) = \\lim_{x\\to+\\infty} x^3\\Big(1-\\frac3x\\Big) = +\\infty \\]</p><p>Nessun asintoto (è un polinomio): il grafico "parte da sotto a sinistra" e "sale indefinitamente a destra", come si vede ai bordi del disegno.</p>' },
+      { t:"6 — Derivata prima (verifica di massimo e minimo)", h:'<p>\\(f\'(x) = 3x^2-6x = 3x(x-2)\\).</p>' +
+        '<table class="ct sign"><tr><th>Intervallo</th><th>x&lt;0</th><th>x=0</th><th>0&lt;x&lt;2</th><th>x=2</th><th>x&gt;2</th></tr>' +
+        '<tr><td>3x</td><td>−</td><td>0</td><td>+</td><td>+</td><td>+</td></tr>' +
+        '<tr><td>x−2</td><td>−</td><td>−</td><td>−</td><td>0</td><td>+</td></tr>' +
+        '<tr><td>f\'(x)</td><td>+</td><td>0</td><td>−</td><td>0</td><td>+</td></tr></table>' +
+        '<p>Crescente su \\((-\\infty,0)\\) e \\((2,+\\infty)\\), decrescente su \\((0,2)\\): <strong>massimo relativo</strong> in \\(M(0,0)\\), <strong>minimo relativo</strong> in \\(m(2,f(2))=m(2,-4)\\) — esattamente i due punti segnati sul grafico.</p>' },
+      { t:"7 — Derivata seconda (verifica del flesso e della concavità)", h:'<p>\\(f\'\'(x)=6x-6=6(x-1)\\).</p>' +
+        '<table class="ct sign"><tr><th>Intervallo</th><th>x&lt;1</th><th>x=1</th><th>x&gt;1</th></tr>' +
+        '<tr><td>f\'\'(x)</td><td>−</td><td>0</td><td>+</td></tr>' +
+        '<tr><td>concavità</td><td>∩</td><td></td><td>∪</td></tr></table>' +
+        '<p><strong>Flesso</strong> in \\(F(1,f(1))=F(1,-2)\\): la concavità cambia esattamente dove il grafico, a occhio, sembrava "cambiare curvatura" tra il massimo e il minimo. Congettura confermata.</p>' }
+    ])
+},
+{
+  tag:"ESEMPIO 2",
+  title:"f(x) = x³ − 9x: <em>dal grafico</em> alla dimostrazione",
+  nav:"Esempio 2",
+  body:
+    '<p>Un secondo grafico, questa volta con una simmetria piuttosto evidente a occhio.</p>' +
+    graph2 +
+    '<div class="cb"><div class="cb-label">Cosa si può congetturare</div><ul><li>Il grafico sembra ruotato di 180° su sé stesso rispetto all\'origine — simmetria dispari?</li><li>Tre intersezioni con l\'asse \\(x\\), tutte "semplici" (la curva attraversa, non rimbalza)</li><li>Un massimo a sinistra dell\'origine e un minimo, simmetrico, a destra</li><li>Il flesso sembra cadere esattamente nell\'origine</li></ul></div>' +
+    '<p>Verifica per \\(f(x) = x^3 - 9x\\).</p>' +
+    acc([
+      { t:"1 — Dominio", h:'<p>Polinomio: \\(D=\\mathbb{R}\\).</p>' },
+      { t:"2 — Parità (verifica della simmetria dispari)", h:'<p>\\(f(-x) = -x^3+9x = -(x^3-9x) = -f(x)\\).</p><div class="math-block result">\\[ \\text{funzione dispari — confermata la simmetria rispetto all\'origine} \\]</div><p>Conseguenza pratica: basta studiare \\(x\\ge0\\) e riflettere. I passi seguenti sfruttano questa scorciatoia dove utile.</p>' },
+      { t:"3 — Intersezioni con gli assi (tre zeri semplici)", h:'<p>\\(x^3-9x=0 \\Rightarrow x(x^2-9)=0 \\Rightarrow x(x-3)(x+3)=0 \\Rightarrow x=-3,0,3\\).</p><p>Tre radici semplici (molteplicità 1): il grafico <em>attraversa</em> l\'asse in tutti e tre i punti, senza rimbalzare — coerente col disegno.</p><p>Asse \\(y\\): \\(f(0)=0\\), stesso punto della radice centrale.</p>' },
+      { t:"4 — Segno", h:'<table class="ct sign"><tr><th>Intervallo</th><th>x&lt;−3</th><th>−3</th><th>−3&lt;x&lt;0</th><th>0</th><th>0&lt;x&lt;3</th><th>3</th><th>x&gt;3</th></tr>' +
+        '<tr><td>x+3</td><td>−</td><td>0</td><td>+</td><td>+</td><td>+</td><td>+</td><td>+</td></tr>' +
+        '<tr><td>x</td><td>−</td><td>−</td><td>−</td><td>0</td><td>+</td><td>+</td><td>+</td></tr>' +
+        '<tr><td>x−3</td><td>−</td><td>−</td><td>−</td><td>−</td><td>−</td><td>0</td><td>+</td></tr>' +
+        '<tr><td>f(x)</td><td>−</td><td>0</td><td>+</td><td>0</td><td>−</td><td>0</td><td>+</td></tr></table>' +
+        '<div class="math-block result">\\[ f>0 \\text{ per } x\\in(-3,0)\\cup(3,+\\infty), \\quad f<0 \\text{ per } x\\in(-\\infty,-3)\\cup(0,3) \\]</div><p>Il segno alterna a ogni zero semplice — esattamente come nel disegno, dove la curva passa alternativamente sopra e sotto l\'asse.</p>' },
+      { t:"5 — Limiti", h:'<p>Termine dominante \\(x^3\\):</p>\\[ \\lim_{x\\to-\\infty}(x^3-9x) = -\\infty \\qquad \\lim_{x\\to+\\infty}(x^3-9x) = +\\infty \\]<p>Nessun asintoto.</p>' },
+      { t:"6 — Derivata prima (verifica di massimo e minimo simmetrici)", h:'<p>\\(f\'(x)=3x^2-9=3(x-\\sqrt3)(x+\\sqrt3)\\), punti critici \\(x=\\pm\\sqrt3\\approx\\pm1{,}73\\).</p>' +
+        '<table class="ct sign"><tr><th>Intervallo</th><th>x&lt;−√3</th><th>−√3</th><th>−√3&lt;x&lt;√3</th><th>√3</th><th>x&gt;√3</th></tr>' +
+        '<tr><td>f\'(x)</td><td>+</td><td>0</td><td>−</td><td>0</td><td>+</td></tr></table>' +
+        '<p><strong>Massimo relativo</strong> \\(M(-\\sqrt3,\\,6\\sqrt3)\\approx(-1{,}73,\\,10{,}39)\\), <strong>minimo relativo</strong> \\(m(\\sqrt3,\\,-6\\sqrt3)\\), simmetrico al massimo per la disparità già dimostrata — proprio come suggeriva il disegno.</p>' },
+      { t:"7 — Derivata seconda (verifica del flesso nell\'origine)", h:'<p>\\(f\'\'(x)=6x\\), che si annulla solo in \\(x=0\\).</p><table class="ct sign"><tr><th>Intervallo</th><th>x&lt;0</th><th>x=0</th><th>x&gt;0</th></tr><tr><td>f\'\'(x)</td><td>−</td><td>0</td><td>+</td></tr><tr><td>concavità</td><td>∩</td><td></td><td>∪</td></tr></table><p><strong>Flesso</strong> esattamente in \\(F(0,0)\\): coincide col centro di simmetria, come ci si aspetta per qualunque funzione dispari (il punto di simmetria di una funzione dispari è sempre anche un flesso, se la derivata seconda esiste).</p>' }
+    ])
+},
+{
+  tag:"ESEMPIO 3",
+  title:"f(x) = x⁴ − 4x² + 3: <em>dal grafico</em> alla dimostrazione",
+  nav:"Esempio 3",
+  body:
+    '<p>Il terzo grafico ha una forma "a doppia gobba", simmetrica rispetto all\'asse y.</p>' +
+    graph3 +
+    '<div class="cb"><div class="cb-label">Cosa si può congetturare</div><ul><li>Simmetria rispetto all\'asse \\(y\\) — funzione pari?</li><li>Quattro intersezioni con l\'asse \\(x\\)</li><li>Un massimo relativo sull\'asse \\(y\\) e due minimi relativi simmetrici</li><li>Due flessi, uno per lato, tra il massimo e ciascun minimo</li></ul></div>' +
+    '<p>Verifica per \\(f(x) = x^4-4x^2+3\\).</p>' +
+    acc([
+      { t:"1 — Dominio", h:'<p>Polinomio: \\(D=\\mathbb{R}\\).</p>' },
+      { t:"2 — Parità (verifica della simmetria pari)", h:'<p>\\(f(-x) = (-x)^4-4(-x)^2+3 = x^4-4x^2+3 = f(x)\\).</p><div class="math-block result">\\[ \\text{funzione pari — confermata la simmetria rispetto all\'asse y} \\]</div>' },
+      { t:"3 — Intersezioni con gli assi (le quattro radici)", h:'<p>Sostituzione biquadratica \\(t=x^2\\): \\(t^2-4t+3=0 \\Rightarrow (t-1)(t-3)=0 \\Rightarrow t=1 \\text{ o } t=3\\).</p><p>Quindi \\(x=\\pm1\\) e \\(x=\\pm\\sqrt3\\): quattro zeri, in accordo con i quattro punti visti sul grafico.</p><p>Asse \\(y\\): \\(f(0)=3\\), il punto più alto visibile sull\'asse.</p>' },
+      { t:"4 — Segno", h:'<p>\\((x^2-1)(x^2-3)>0\\): con \\(u=x^2\\), \\((u-1)(u-3)>0 \\Rightarrow u<1\\) oppure \\(u>3\\), cioè \\(|x|<1\\) oppure \\(|x|>\\sqrt3\\).</p><table class="ct sign"><tr><th>Intervallo</th><th>x&lt;−√3</th><th>−√3&lt;x&lt;−1</th><th>−1&lt;x&lt;1</th><th>1&lt;x&lt;√3</th><th>x&gt;√3</th></tr><tr><td>f(x)</td><td>+</td><td>−</td><td>+</td><td>−</td><td>+</td></tr></table><p>Il segno alterna simmetricamente attorno all\'asse y — la "doppia gobba" resta sopra l\'asse al centro e ai lati estremi, sotto nelle due zone intermedie.</p>' },
+      { t:"5 — Limiti", h:'<p>Grado pari, coefficiente direttore positivo:</p>\\[ \\lim_{x\\to\\pm\\infty}(x^4-4x^2+3) = +\\infty \\]<p>Nessun asintoto — coerente con entrambi i "bracci" del grafico che risalgono ai bordi del disegno.</p>' },
+      { t:"6 — Derivata prima (verifica di massimo centrale e minimi simmetrici)", h:'<p>\\(f\'(x)=4x^3-8x=4x(x-\\sqrt2)(x+\\sqrt2)\\), punti critici \\(x=0,\\pm\\sqrt2\\approx\\pm1{,}41\\).</p><table class="ct sign"><tr><th>Intervallo</th><th>x&lt;−√2</th><th>−√2&lt;x&lt;0</th><th>0&lt;x&lt;√2</th><th>x&gt;√2</th></tr><tr><td>f\'(x)</td><td>−</td><td>+</td><td>−</td><td>+</td></tr></table><p><strong>Massimo relativo</strong> \\(M(0,3)\\), <strong>minimi relativi</strong> \\(m(\\pm\\sqrt2,-1)\\) — simmetrici rispetto all\'asse y come previsto dalla parità.</p>' },
+      { t:"7 — Derivata seconda (verifica dei due flessi)", h:'<p>\\(f\'\'(x)=12x^2-8=4(3x^2-2)\\), che si annulla per \\(x=\\pm\\sqrt{2/3}=\\pm\\dfrac{\\sqrt6}{3}\\approx\\pm0{,}816\\).</p><table class="ct sign"><tr><th>Intervallo</th><th>x&lt;−√6/3</th><th>−√6/3&lt;x&lt;√6/3</th><th>x&gt;√6/3</th></tr><tr><td>f\'\'(x)</td><td>+</td><td>−</td><td>+</td></tr><tr><td>concavità</td><td>∪</td><td>∩</td><td>∪</td></tr></table><p>Calcolando \\(f\\big(\\sqrt6/3\\big) = \\tfrac49-\\tfrac83+3=\\tfrac79\\), i due <strong>flessi</strong> sono \\(F_1(-\\tfrac{\\sqrt6}{3},\\tfrac79)\\) e \\(F_2(\\tfrac{\\sqrt6}{3},\\tfrac79)\\), simmetrici come atteso — i due punti in cui, guardando il disegno, la curva "si appiattisce" tra gobba centrale e minimi laterali.</p>' }
+    ]) +
+    '<div class="cb success"><div class="cb-label">Il punto dell\'esercizio</div><p>In tutti e tre i casi, ogni tratto distintivo del grafico — simmetria, molteplicità delle radici, posizione di massimi/minimi/flessi — non era un\'osservazione impressionistica: aveva una <strong>giustificazione algebrica esatta</strong>, ricavabile con gli stessi strumenti dello studio di funzione "diretto". Questo è il senso di uno studio "al contrario": allenare a leggere un grafico criticamente, sapendo sempre quale calcolo lo confermerebbe.</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>

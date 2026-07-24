@@ -312,7 +312,7 @@ function svgDelta(type) {
     for(let i=0;i<=40;i++){const x=-1.2+i*2.4/40;const y=2*x*x;pts.push(`${35+x*35},${65-y*25}`);}
     curve=`<polyline points="${pts.join(' ')}" fill="none" stroke="${c}" stroke-width="2"/>`;
     dots=`<circle cx="35" cy="65" r="3" fill="${c}"/>`;
-    labels=`<text x="48" y="80" fill="${c}" font-size="9">x_V</text>`;
+    labels=`<text x="48" y="80" fill="${c}" font-size="9">x<tspan baseline-shift="sub" font-size="7">V</tspan></text>`;
   } else {
     const c='#4f6d7a';
     let pts=[];

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dispensa — Logica Proposizionale e Teoria degli Insiemi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+svg.diagram { display:block; margin:0 auto; max-width:100%; }
+.venn-row { display:flex; flex-wrap:wrap; justify-content:center; gap:24px; margin:18px 0; }
+.venn-cell { text-align:center; }
+.vcap { font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--text-dim); margin-top:6px; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Logica e Insiemi: Fondamenti Rigorosi · pro</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+
+{
+  tag:"MOTIVAZIONE",
+  title:"Perché fondare il <em>ragionamento</em> prima dei numeri",
+  nav:"Motivazione",
+  body:
+    '<p>Ogni dimostrazione che incontrerai nei prossimi anni — che un limite valga un certo numero, che un teorema sia vero per ogni \\(n\\), che due insiemi coincidano — si appoggia su un numero ristretto di <strong>mosse logiche legittime</strong>: negare una proposizione, dedurre da un’implicazione, ragionare per assurdo, generalizzare da un caso base a tutti i successivi. Questa dispensa mette a fuoco quelle mosse, prima di usarle altrove.</p>' +
+    '<div class="cb"><div class="cb-label">L’idea guida</div><p>Una dimostrazione non è "spiegare perché qualcosa sembra vero": è una catena finita di passaggi, ciascuno giustificato da una regola logica esplicita, che parte da ipotesi accettate e arriva alla tesi. Imparare queste regole significa poter riconoscere, in qualunque dimostrazione futura, <em>quale mossa</em> si sta usando e <em>perché</em> è lecita.</p></div>' +
+    '<p>Il percorso: connettivi logici e tavole di verità, i quantificatori e la loro negazione, le tecniche di dimostrazione diretta e per assurdo, il principio di induzione, e infine l’algebra degli insiemi — dove le stesse regole logiche riappaiono travestite da unione, intersezione e complementare.</p>'
+},
+{
+  tag:"CONNETTIVI",
+  title:"Connettivi logici e <em>tavole di verità</em>",
+  nav:"Connettivi",
+  body:
+    '<div class="cb"><div class="cb-label">Proposizione</div><p>Una <strong>proposizione</strong> è un enunciato a cui si può assegnare, senza ambiguità, uno tra i due valori di verità V (vero) o F (falso). "\\(7\\) è primo" è una proposizione (V); "che ora è?" non lo è.</p></div>' +
+    '<p>A partire da proposizioni semplici \\(p, q\\), si costruiscono proposizioni composte con i <strong>connettivi</strong>: negazione \\(\\lnot p\\), congiunzione \\(p\\land q\\), disgiunzione \\(p\\lor q\\), implicazione \\(p\\Rightarrow q\\), doppia implicazione \\(p\\Leftrightarrow q\\). Il valore di verità del composto dipende <em>solo</em> dai valori di \\(p\\) e \\(q\\), non dal loro significato.</p>' +
+    '<table class="ct"><tr><th>\\(p\\)</th><th>\\(q\\)</th><th>\\(p\\land q\\)</th><th>\\(p\\lor q\\)</th><th>\\(p\\Rightarrow q\\)</th></tr>' +
+    '<tr><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td></tr>' +
+    '<tr><td>V</td><td>F</td><td>F</td><td>V</td><td>F</td></tr>' +
+    '<tr><td>F</td><td>V</td><td>F</td><td>V</td><td>V</td></tr>' +
+    '<tr><td>F</td><td>F</td><td>F</td><td>F</td><td>V</td></tr></table>' +
+    '<div class="cb warn"><div class="cb-label">Il punto che spiazza sempre</div><p>\\(p\\Rightarrow q\\) è <strong>vera</strong> ogni volta che \\(p\\) è falsa, indipendentemente da \\(q\\): "se la luna è di formaggio, allora \\(2+2=5\\)" è un’implicazione vera, perché l’ipotesi non si verifica mai. Questo non è un capriccio: è l’unica scelta che rende l’implicazione coerente con il suo uso nelle dimostrazioni (vedi il riquadro sulla dimostrazione diretta più avanti).</p></div>' +
+    '<div class="cb"><div class="cb-label">Definizione — Tautologia e contraddizione</div><p>Una proposizione composta è una <strong>tautologia</strong> se è vera per ogni assegnazione di valori di verità alle sue componenti; è una <strong>contraddizione</strong> se è sempre falsa. Due proposizioni sono <strong>logicamente equivalenti</strong> (\\(p\\equiv q\\)) se hanno la stessa tavola di verità, cioè se \\(p\\Leftrightarrow q\\) è una tautologia.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Teorema — \\(p\\Rightarrow q\\) equivale a \\(\\lnot p \\lor q\\)</div><p><strong>Dimostrazione</strong> (per tavola di verità): nei quattro casi V-V, V-F, F-V, F-F di \\((p,q)\\), i valori di \\(p\\Rightarrow q\\) sono V,F,V,V (dalla tavola sopra); i valori di \\(\\lnot p\\lor q\\) sono, rispettivamente, F\\(\\lor\\)V=V, F\\(\\lor\\)F=F, V\\(\\lor\\)V=V, V\\(\\lor\\)F=V. Le due colonne coincidono riga per riga, quindi \\((p\\Rightarrow q)\\Leftrightarrow(\\lnot p\\lor q)\\) è una tautologia. \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Perché conta</div><p>Questa equivalenza è ciò che rende naturale il comportamento di \\(p\\Rightarrow q\\) quando \\(p\\) è falsa: se \\(p\\) è falsa, \\(\\lnot p\\) è vera, e "vera \\(\\lor\\) qualsiasi cosa" è sempre vera.</p></div>'
+},
+{
+  tag:"QUANTIFICATORI",
+  title:"<em>Quantificatori</em>: negazione e scambio di ordine",
+  nav:"Quantificatori",
+  body:
+    '<div class="cb"><div class="cb-label">Quantificatore universale ed esistenziale</div><p>\\(\\forall x\\in A,\\ P(x)\\) significa "per ogni \\(x\\) nell’insieme \\(A\\), la proprietà \\(P(x)\\) è vera". \\(\\exists x\\in A,\\ P(x)\\) significa "esiste (almeno) un \\(x\\) in \\(A\\) per cui \\(P(x)\\) è vera".</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema — negazione dei quantificatori</div><p>\\[ \\lnot\\big(\\forall x\\in A,\\ P(x)\\big) \\ \\equiv\\ \\exists x\\in A,\\ \\lnot P(x) \\]<br>\\[ \\lnot\\big(\\exists x\\in A,\\ P(x)\\big) \\ \\equiv\\ \\forall x\\in A,\\ \\lnot P(x) \\]</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione (per doppia implicazione, ragionando sul significato)</div><p>Dire che "non è vero che \\(P(x)\\) valga per ogni \\(x\\)" equivale a dire che c’è almeno un \\(x\\) che fa da controesempio, cioè per cui \\(P(x)\\) è falsa: questo è precisamente \\(\\exists x, \\lnot P(x)\\). Viceversa, se \\(\\exists x, \\lnot P(x)\\) è vera, allora quell’\\(x\\) contraddice \\(\\forall x, P(x)\\), quindi \\(\\forall x, P(x)\\) è falsa. Le due proposizioni si implicano a vicenda, dunque sono equivalenti. La seconda uguaglianza segue applicando la prima a \\(\\lnot P\\) e negando entrambi i membri. \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Errore classico da evitare</div><p>Negare "ogni studente ha superato l’esame" <strong>non</strong> significa "nessuno studente ha superato l’esame", ma "almeno uno studente non l’ha superato". Confondere \\(\\exists x,\\lnot P(x)\\) con \\(\\forall x,\\lnot P(x)\\) è l’errore più comune nella negazione di enunciati quantificati.</p></div>' +
+    '<div class="cb"><div class="cb-label">L’ordine dei quantificatori conta</div><p>\\(\\forall x\\,\\exists y,\\ P(x,y)\\) e \\(\\exists y\\,\\forall x,\\ P(x,y)\\) non sono equivalenti in generale. Nella prima, \\(y\\) può dipendere da \\(x\\) (uno diverso per ogni \\(x\\)); nella seconda, un unico \\(y\\) deve andare bene per tutti gli \\(x\\) simultaneamente.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Esempio decisivo (e già familiare)</div><p>La definizione di limite \\(\\forall\\varepsilon>0\\,\\exists\\delta>0:\\ |x-c|<\\delta\\Rightarrow|f(x)-\\ell|<\\varepsilon\\) ha questa struttura: \\(\\delta\\) può (anzi, deve in generale) dipendere da \\(\\varepsilon\\). Scambiare l’ordine dei quantificatori darebbe una condizione molto più forte — e quasi mai verificata.</p></div>'
+},
+{
+  tag:"DIMOSTRAZIONI",
+  title:"Dimostrazione <em>diretta</em> e per <em>assurdo</em>",
+  nav:"Assurdo",
+  body:
+    '<div class="cb"><div class="cb-label">Dimostrazione diretta di \\(p\\Rightarrow q\\)</div><p>Si assume \\(p\\) vera e si deduce \\(q\\) tramite una catena di passaggi logicamente validi. È legittima proprio perché \\(p\\Rightarrow q\\) è automaticamente vera quando \\(p\\) è falsa (sezione Connettivi): basta occuparsi del solo caso \\(p\\) vera.</p></div>' +
+    '<div class="cb"><div class="cb-label">Esempio — dimostrazione diretta</div><p><strong>Proposizione:</strong> se \\(n\\) è pari, allora \\(n^2\\) è pari.<br><strong>Dimostrazione:</strong> \\(n\\) pari significa \\(n=2k\\) per qualche intero \\(k\\). Allora \\(n^2=4k^2=2(2k^2)\\), che è il doppio dell’intero \\(2k^2\\), dunque pari. \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb"><div class="cb-label">Dimostrazione per assurdo</div><p>Per dimostrare che una proposizione \\(P\\) è vera, si assume \\(\\lnot P\\) e si deduce una contraddizione (una proposizione della forma \\(r\\land\\lnot r\\), sempre falsa). Poiché da premesse vere non si può dedurre il falso, l’ipotesi \\(\\lnot P\\) deve essere falsa, dunque \\(P\\) è vera.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Perché funziona (giustificazione logica)</div><p>Se \\(\\lnot P\\) porta, attraverso passaggi validi, a una contraddizione, allora \\(\\lnot P\\Rightarrow(r\\land\\lnot r)\\) è vera. Ma \\(r\\land\\lnot r\\) è sempre falsa; l’unico modo perché un’implicazione con conseguente falso sia vera è che l’ipotesi sia falsa (dalla tavola di verità di \\(\\Rightarrow\\)). Dunque \\(\\lnot P\\) è falsa, cioè \\(P\\) è vera. \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema — \\(\\sqrt2\\) è irrazionale</div><p><strong>Dimostrazione (per assurdo).</strong> Supponiamo, per assurdo, che \\(\\sqrt2\\) sia razionale: \\(\\sqrt2=\\dfrac{p}{q}\\) con \\(p,q\\) interi, \\(q\\ne0\\), e frazione ridotta ai minimi termini (cioè \\(\\text{MCD}(p,q)=1\\)).</p>' +
+    '<p>Elevando al quadrato: \\(2=\\dfrac{p^2}{q^2}\\), cioè \\(p^2=2q^2\\). Dunque \\(p^2\\) è pari; per l’esempio precedente (contrapposto: se \\(n^2\\) è pari, \\(n\\) è pari — lo si dimostra allo stesso modo), anche \\(p\\) è pari: \\(p=2k\\).</p>' +
+    '<p>Sostituendo: \\((2k)^2=2q^2 \\Rightarrow 4k^2=2q^2 \\Rightarrow q^2=2k^2\\). Quindi \\(q^2\\) è pari, e per lo stesso argomento \\(q\\) è pari.</p>' +
+    '<p>Ma allora \\(p\\) e \\(q\\) sono entrambi pari, cioè hanno \\(2\\) come divisore comune: contraddice l’ipotesi \\(\\text{MCD}(p,q)=1\\). Assurdo. Dunque \\(\\sqrt2\\) non è razionale. \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Dimostrazione per contronominale (cugina dell’assurdo)</div><p>Per dimostrare \\(p\\Rightarrow q\\), a volte è più comodo dimostrare l’equivalente <strong>contronominale</strong> \\(\\lnot q\\Rightarrow\\lnot p\\) (equivalenza che segue dalla tavola di verità di \\(\\Rightarrow\\), verificabile riga per riga). È diversa dall’assurdo: qui si dimostra direttamente un’altra implicazione, senza assumere la tesi negata e cercare una contraddizione esplicita.</p></div>'
+},
+{
+  tag:"INDUZIONE",
+  title:"Il <em>principio di induzione</em>",
+  nav:"Induzione",
+  body:
+    '<div class="cb"><div class="cb-label">Principio di induzione</div><p>Sia \\(P(n)\\) una proprietà definita per ogni intero \\(n\\ge n_0\\). Se valgono:</p>' +
+    '<p><strong>(Base)</strong> \\(P(n_0)\\) è vera;</p>' +
+    '<p><strong>(Passo induttivo)</strong> per ogni \\(k\\ge n_0\\), \\(P(k)\\Rightarrow P(k+1)\\);</p>' +
+    '<p>allora \\(P(n)\\) è vera per ogni \\(n\\ge n_0\\).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">L’immagine delle tessere del domino</div><p>La base fa cadere la prima tessera; il passo induttivo garantisce che ogni tessera, cadendo, fa cadere la successiva. Insieme, queste due condizioni assicurano che <em>tutte</em> le tessere cadranno, non solo un numero finito — è esattamente la differenza tra verificare \\(P(n)\\) caso per caso (impossibile per infiniti \\(n\\)) e dimostrarla per ogni \\(n\\) in un colpo solo.</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema — somma dei primi \\(n\\) interi</div><p>Per ogni \\(n\\ge1\\): \\(\\displaystyle\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2}\\).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione per induzione</div>' +
+    '<p><strong>Base</strong> (\\(n=1\\)): \\(\\sum_{i=1}^1 i = 1\\), e \\(\\frac{1\\cdot2}{2}=1\\). Coincidono.</p>' +
+    '<p><strong>Passo induttivo</strong>: supponiamo vera l’ipotesi induttiva \\(\\sum_{i=1}^{k} i = \\frac{k(k+1)}{2}\\) per un certo \\(k\\ge1\\), e dimostriamo che vale per \\(k+1\\):</p>' +
+    '<div class="math-block">\\[ \\sum_{i=1}^{k+1} i = \\sum_{i=1}^{k} i + (k+1) = \\frac{k(k+1)}{2} + (k+1) = (k+1)\\left(\\frac{k}{2}+1\\right) = \\frac{(k+1)(k+2)}{2} \\]</div>' +
+    '<p>che è esattamente la formula con \\(n=k+1\\). Per il principio di induzione, la formula vale per ogni \\(n\\ge1\\). \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Il passo che si dimentica sempre</div><p>Il passo induttivo non afferma "\\(P(k+1)\\) è vera": afferma l’<strong>implicazione</strong> \\(P(k)\\Rightarrow P(k+1)\\), cioè "<em>se</em> vale per \\(k\\), <em>allora</em> vale per \\(k+1\\)". Dimostrare l’implicazione richiede di usare esplicitamente l’ipotesi \\(P(k)\\) — se il passo induttivo non usa mai l’ipotesi induttiva, quasi certamente la dimostrazione è viziata o superflua.</p></div>' +
+    '<div class="cb"><div class="cb-label">Perché il principio è legittimo (cenno)</div><p>Segue dal fatto che ogni sottoinsieme non vuoto di \\(\\mathbb{N}\\) ha un minimo (buon ordinamento di \\(\\mathbb{N}\\)): se l’insieme degli \\(n\\ge n_0\\) per cui \\(P(n)\\) è falsa non fosse vuoto, avrebbe un minimo \\(m>n_0\\) (perché \\(P(n_0)\\) è vera per ipotesi); ma allora \\(P(m-1)\\) sarebbe vera (per minimalità di \\(m\\)), e il passo induttivo darebbe \\(P(m)\\) vera: assurdo.</p></div>'
+},
+{
+  tag:"INSIEMI",
+  title:"Algebra degli insiemi e leggi di <em>De Morgan</em>",
+  nav:"Insiemi",
+  body:
+    '<div class="cb"><div class="cb-label">Operazioni fondamentali</div><p>Dati \\(A,B\\subseteq U\\) (con \\(U\\) insieme universo): unione \\(A\\cup B=\\{x: x\\in A \\lor x\\in B\\}\\); intersezione \\(A\\cap B=\\{x: x\\in A \\land x\\in B\\}\\); complementare \\(A^c=\\{x\\in U: x\\notin A\\}\\). Ogni operazione insiemistica è definita tramite un connettivo logico sulla proprietà "appartenere".</p></div>' +
+    '<div class="venn-row">' +
+      '<div class="venn-cell"><svg class="diagram" viewBox="0 0 220 140" width="160" height="102">' +
+        '<rect x="6" y="6" width="208" height="128" rx="6" fill="none" stroke="var(--border)" stroke-width="1"/>' +
+        '<circle cx="88" cy="70" r="48" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/>' +
+        '<circle cx="132" cy="70" r="48" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/>' +
+        '<text x="14" y="20" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--text-dim)">U</text>' +
+        '<text x="52" y="74" font-family="Playfair Display, serif" font-size="15" fill="var(--text)">A</text>' +
+        '<text x="160" y="74" font-family="Playfair Display, serif" font-size="15" fill="var(--text)">B</text>' +
+      '</svg><div class="vcap">A ∪ B</div></div>' +
+      '<div class="venn-cell"><svg class="diagram" viewBox="0 0 220 140" width="160" height="102">' +
+        '<defs><clipPath id="vclipI"><circle cx="88" cy="70" r="48"/></clipPath></defs>' +
+        '<rect x="6" y="6" width="208" height="128" rx="6" fill="none" stroke="var(--border)" stroke-width="1"/>' +
+        '<circle cx="132" cy="70" r="48" fill="var(--accent)" fill-opacity="0.5" clip-path="url(#vclipI)"/>' +
+        '<circle cx="88" cy="70" r="48" fill="none" stroke="var(--accent)" stroke-width="1.5"/>' +
+        '<circle cx="132" cy="70" r="48" fill="none" stroke="var(--accent)" stroke-width="1.5"/>' +
+        '<text x="52" y="74" font-family="Playfair Display, serif" font-size="15" fill="var(--text)">A</text>' +
+        '<text x="160" y="74" font-family="Playfair Display, serif" font-size="15" fill="var(--text)">B</text>' +
+      '</svg><div class="vcap">A ∩ B</div></div>' +
+      '<div class="venn-cell"><svg class="diagram" viewBox="0 0 220 140" width="160" height="102">' +
+        '<rect x="6" y="6" width="208" height="128" rx="6" fill="none" stroke="var(--border)" stroke-width="1"/>' +
+        '<path d="M6,6 H214 V134 H6 Z M136,70 A48,48 0 1,0 40,70 A48,48 0 1,0 136,70 Z" fill-rule="evenodd" fill="var(--accent)" fill-opacity="0.22"/>' +
+        '<circle cx="88" cy="70" r="48" fill="none" stroke="var(--accent)" stroke-width="1.5"/>' +
+        '<text x="14" y="20" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--text-dim)">U</text>' +
+        '<text x="80" y="74" font-family="Playfair Display, serif" font-size="15" fill="var(--text)">A</text>' +
+      '</svg><div class="vcap">A<sup>c</sup></div></div>' +
+    '</div>' +
+    '<div class="cb"><div class="cb-label">Leggi di De Morgan (insiemistiche)</div><p>\\[ (A\\cup B)^c = A^c\\cap B^c \\qquad\\qquad (A\\cap B)^c = A^c\\cup B^c \\]</p></div>' +
+    '<div class="venn-row">' +
+      '<div class="venn-cell"><svg class="diagram" viewBox="0 0 220 140" width="160" height="102">' +
+        '<rect x="6" y="6" width="208" height="128" rx="6" fill="none" stroke="var(--border)" stroke-width="1"/>' +
+        '<path d="M6,6 H214 V134 H6 Z M136,70 A48,48 0 1,0 40,70 A48,48 0 1,0 136,70 Z M180,70 A48,48 0 1,0 84,70 A48,48 0 1,0 180,70 Z" fill-rule="evenodd" fill="var(--accent)" fill-opacity="0.28"/>' +
+        '<circle cx="88" cy="70" r="48" fill="none" stroke="var(--accent)" stroke-width="1.5"/>' +
+        '<circle cx="132" cy="70" r="48" fill="none" stroke="var(--accent)" stroke-width="1.5"/>' +
+      '</svg><div class="vcap">(A ∪ B)<sup>c</sup></div></div>' +
+      '<div class="venn-cell"><svg class="diagram" viewBox="0 0 220 140" width="160" height="102">' +
+        '<rect x="6" y="6" width="208" height="128" rx="6" fill="none" stroke="var(--border)" stroke-width="1"/>' +
+        '<path d="M6,6 H214 V134 H6 Z M136,70 A48,48 0 1,0 40,70 A48,48 0 1,0 136,70 Z" fill-rule="evenodd" fill="var(--accent)" fill-opacity="0.22"/>' +
+        '<path d="M6,6 H214 V134 H6 Z M180,70 A48,48 0 1,0 84,70 A48,48 0 1,0 180,70 Z" fill-rule="evenodd" fill="var(--accent)" fill-opacity="0.22"/>' +
+        '<circle cx="88" cy="70" r="48" fill="none" stroke="var(--accent)" stroke-width="1.5"/>' +
+        '<circle cx="132" cy="70" r="48" fill="none" stroke="var(--accent)" stroke-width="1.5"/>' +
+      '</svg><div class="vcap">A<sup>c</sup> ∩ B<sup>c</sup></div></div>' +
+    '</div>' +
+    '<p class="dim" style="text-align:center;font-size:.85rem;">Le due regioni ombreggiate coincidono: è la legge di De Morgan vista, invece che soltanto dimostrata algebricamente.</p>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione della prima legge (per doppia inclusione)</div>' +
+    '<p><strong>\\((A\\cup B)^c \\subseteq A^c\\cap B^c\\):</strong> sia \\(x\\in(A\\cup B)^c\\). Allora \\(x\\notin A\\cup B\\), cioè \\(\\lnot(x\\in A\\lor x\\in B)\\). Per la legge di De Morgan <em>logica</em> \\(\\lnot(p\\lor q)\\equiv\\lnot p\\land\\lnot q\\) (verificabile per tavola di verità), questo equivale a \\(x\\notin A \\land x\\notin B\\), cioè \\(x\\in A^c\\cap B^c\\).</p>' +
+    '<p><strong>\\(A^c\\cap B^c \\subseteq (A\\cup B)^c\\):</strong> il ragionamento precedente è fatto di equivalenze, quindi si ripercorre a ritroso: da \\(x\\in A^c\\cap B^c\\) si risale a \\(\\lnot(x\\in A\\lor x\\in B)\\), cioè \\(x\\notin A\\cup B\\), cioè \\(x\\in(A\\cup B)^c\\).</p>' +
+    '<p>Le due inclusioni danno l’uguaglianza degli insiemi. La seconda legge si dimostra allo stesso modo, a partire da \\(\\lnot(p\\land q)\\equiv\\lnot p\\lor\\lnot q\\). \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Il punto essenziale</div><p>Le leggi di De Morgan insiemistiche <strong>non sono un fatto nuovo</strong>: sono la traduzione, simbolo per simbolo, delle leggi di De Morgan logiche (\\(\\cup\\leftrightarrow\\lor\\), \\(\\cap\\leftrightarrow\\land\\), \\({}^c\\leftrightarrow\\lnot\\)). Ogni identità insiemistica dimostrabile per doppia inclusione nasconde, dietro le quinte, un’equivalenza logica sulla proprietà di appartenenza.</p></div>' +
+    '<div class="cb"><div class="cb-label">Proprietà distributiva (enunciato)</div><p>\\(A\\cap(B\\cup C) = (A\\cap B)\\cup(A\\cap C)\\), che discende allo stesso modo dalla distributività logica \\(p\\land(q\\lor r)\\equiv(p\\land q)\\lor(p\\land r)\\).</p></div>' +
+    acc([
+      { t:"Esercizio di dimostrazione 1", h:'<p>Dimostra per induzione che, per ogni \\(n\\ge1\\), \\(2^n > n\\).</p><p><strong>Traccia</strong>: base \\(n=1\\): \\(2^1=2>1\\). Passo: assumendo \\(2^k>k\\), mostra \\(2^{k+1}=2\\cdot2^k>2k\\ge k+1\\) (l’ultima disuguaglianza vale per \\(k\\ge1\\)).</p>' },
+      { t:"Esercizio di dimostrazione 2", h:'<p>Dimostra per assurdo che non esiste il più grande numero naturale.</p><p><strong>Traccia</strong>: supponi che \\(N\\) sia il più grande naturale; considera \\(N+1\\), che è naturale ed è maggiore di \\(N\\): contraddice la massimalità di \\(N\\).</p>' },
+      { t:"Esercizio di dimostrazione 3", h:'<p>Dimostra la seconda legge di De Morgan \\((A\\cap B)^c=A^c\\cup B^c\\) per doppia inclusione, seguendo lo schema usato per la prima legge.</p><p><strong>Traccia</strong>: parti da \\(x\\in(A\\cap B)^c \\Leftrightarrow \\lnot(x\\in A\\land x\\in B) \\Leftrightarrow \\lnot(x\\in A)\\lor\\lnot(x\\in B)\\) usando \\(\\lnot(p\\land q)\\equiv\\lnot p\\lor\\lnot q\\), poi traduci in \\(x\\in A^c\\cup B^c\\).</p>' },
+      { t:"Esercizio di dimostrazione 4", h:'<p>Nega formalmente l’enunciato "\\(\\forall\\varepsilon>0\\ \\exists\\delta>0\\ \\forall x:\\ (|x-c|<\\delta \\Rightarrow |f(x)-\\ell|<\\varepsilon)\\)", applicando le regole di negazione dei quantificatori e la negazione dell’implicazione.</p><p><strong>Traccia</strong>: la negazione è \\(\\exists\\varepsilon>0\\ \\forall\\delta>0\\ \\exists x:\\ |x-c|<\\delta \\land |f(x)-\\ell|\\ge\\varepsilon\\) — è precisamente la definizione formale di "\\(f\\) non tende a \\(\\ell\\) per \\(x\\to c\\)".</p>' }
+    ]) +
+    '<h3>Quadro riassuntivo: logica ↔ insiemi</h3>' +
+    '<table class="ct"><tr><th>Logica</th><th>Insiemi</th></tr>' +
+    '<tr><td>\\(\\land\\) (congiunzione)</td><td>\\(\\cap\\) (intersezione)</td></tr>' +
+    '<tr><td>\\(\\lor\\) (disgiunzione)</td><td>\\(\\cup\\) (unione)</td></tr>' +
+    '<tr><td>\\(\\lnot\\) (negazione)</td><td>\\({}^c\\) (complementare)</td></tr>' +
+    '<tr><td>\\(\\Rightarrow\\) (implicazione)</td><td>\\(\\subseteq\\) (inclusione)</td></tr></table>' +
+    '<div class="cb success"><div class="cb-label">Il filo che lega tutto</div><p>Connettivi, quantificatori, tecniche di dimostrazione e algebra degli insiemi non sono argomenti separati: sono la stessa struttura logica vista da quattro angolazioni diverse. Riconoscerla è ciò che permette, da ora in poi, di leggere qualunque dimostrazione — sui limiti, sulla continuità, sui numeri complessi — individuando immediatamente quale mossa logica è in gioco in ciascun passaggio.</p></div>'
+}
+
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dispensa — Calcolo delle Probabilità: Approfondimenti</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+svg.diagram { display:block; margin:0 auto; max-width:100%; }
+.venn-row { display:flex; flex-wrap:wrap; justify-content:center; gap:24px; margin:18px 0; }
+.venn-cell { text-align:center; }
+.vcap { font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--text-dim); margin-top:6px; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Calcolo delle Probabilità: Approfondimenti · pro</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+
+{
+  tag:"MOTIVAZIONE",
+  title:"Dalla <em>probabilità</em> intuitiva alle dimostrazioni",
+  nav:"Motivazione",
+  body:
+    '<p>Sai già calcolare probabilità condizionate, valore atteso, varianza. Questa dispensa non introduce formule nuove: dimostra rigorosamente <em>perché</em> quelle formule sono corrette, e ne mostra i limiti di applicabilità attraverso le ipotesi esplicite di ogni teorema.</p>' +
+    '<div class="cb"><div class="cb-label">Il filo conduttore</div><p>Partiamo dagli assiomi di Kolmogorov (probabilità come misura), deriviamo rigorosamente la formula di Bayes, formalizziamo le variabili aleatorie discrete e le loro distribuzioni, dimostriamo le proprietà di valore atteso e varianza, e chiudiamo con la disuguaglianza di Chebyshev e la legge (debole) dei grandi numeri — il ponte tra probabilità teorica e frequenza osservata.</p></div>'
+},
+{
+  tag:"BAYES",
+  title:"Il <em>Teorema di Bayes</em>: formulazione e dimostrazione",
+  nav:"Bayes",
+  body:
+    '<p>Il teorema che segue ha oltre 250 anni, ed è tuttora al centro di campi lontanissimi tra loro: diagnostica medica, filtri antispam, intelligenza artificiale. Per una storia — recente e sorprendente — di quanto seriamente si possa prendere questo teorema, vedi <a href="/post/teorema-bayes-lynch/" target="_blank" rel="noopener" style="color:var(--accent);">Il Bayesian: un teorema, una fortuna, un naufragio →</a>.</p>' +
+    '<div class="cb"><div class="cb-label">Probabilità condizionata (definizione)</div><p>\\[ P(A\\mid B) = \\frac{P(A\\cap B)}{P(B)} \\qquad (P(B)>0) \\]</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema (formula delle probabilità composte)</div><p>Dalla definizione segue immediatamente \\(P(A\\cap B)=P(A\\mid B)\\,P(B)=P(B\\mid A)\\,P(A)\\), valida ogni volta che entrambe le probabilità condizionate sono definite.</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema di Bayes</div><p>\\[ P(A\\mid B) = \\frac{P(B\\mid A)\\,P(A)}{P(B)} \\]</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione</div><p>Dalla definizione di probabilità condizionata, \\(P(A\\mid B)=\\dfrac{P(A\\cap B)}{P(B)}\\). Per la formula delle probabilità composte, \\(P(A\\cap B)=P(B\\cap A)=P(B\\mid A)\\,P(A)\\). Sostituendo nel numeratore si ottiene la tesi. \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema (formula di disintegrazione / probabilità totale)</div><p>Se \\(\\{A_1,\\dots,A_n\\}\\) è una partizione di \\(\\Omega\\) (eventi a due a due disgiunti con \\(\\bigcup_i A_i=\\Omega\\), tutti di probabilità positiva), allora per ogni evento \\(B\\):</p><div class="math-block hero-formula">\\[ P(B) = \\sum_{i=1}^n P(B\\mid A_i)\\,P(A_i) \\]</div></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione</div><p>Poiché \\(\\{A_i\\}\\) è una partizione di \\(\\Omega\\), \\(B=B\\cap\\Omega=B\\cap\\bigcup_i A_i=\\bigcup_i(B\\cap A_i)\\), unione di eventi a due a due disgiunti (poiché gli \\(A_i\\) lo sono). Per l’assioma di additività numerabile, \\(P(B)=\\sum_i P(B\\cap A_i)\\). Applicando la formula delle probabilità composte a ciascun termine, \\(P(B\\cap A_i)=P(B\\mid A_i)P(A_i)\\), da cui la tesi. \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Bayes in forma estesa</div><p>Combinando i due risultati: \\[ P(A_k\\mid B) = \\frac{P(B\\mid A_k)\\,P(A_k)}{\\sum_{i=1}^n P(B\\mid A_i)\\,P(A_i)} \\] — la forma usata nei problemi di diagnostica (test medici, filtri antispam, controllo qualità), dove gli \\(A_i\\) sono le "cause" possibili e \\(B\\) è l’evidenza osservata.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Applicazione: il paradosso del test medico</div><p>Una malattia ha prevalenza \\(P(M)=0{,}001\\). Un test ha sensibilità \\(P(+\\mid M)=0{,}99\\) e falsi positivi \\(P(+\\mid M^c)=0{,}05\\). Dato un risultato positivo:</p><div class="math-block">\\[ P(M\\mid +) = \\frac{0{,}99\\times0{,}001}{0{,}99\\times0{,}001 + 0{,}05\\times0{,}999} \\approx 0{,}0194 \\]</div><p>Nonostante un test "accurato al 99%", la probabilità di essere davvero malati dato un positivo è circa il 2%: la bassa prevalenza domina il risultato. È l’applicazione più istruttiva — e più controintuitiva — del teorema.</p></div>'
+},
+{
+  tag:"VARIABILI ALEATORIE",
+  title:"Variabili aleatorie <em>discrete</em>",
+  nav:"Var. aleatorie",
+  body:
+    '<div class="cb"><div class="cb-label">Definizione</div><p>Una variabile aleatoria discreta \\(X\\) è una funzione \\(X:\\Omega\\to\\mathbb{R}\\) che assume un numero finito o numerabile di valori \\(x_1,x_2,\\dots\\), ciascuno con probabilità \\(p_i=P(X=x_i)\\).</p></div>' +
+    '<div class="cb"><div class="cb-label">Funzione di distribuzione (densità discreta)</div><p>La funzione \\(p_X(x_i)=P(X=x_i)\\) deve soddisfare: \\(p_i\\ge0\\) per ogni \\(i\\), e \\(\\sum_i p_i=1\\) (normalizzazione).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione della normalizzazione</div><p>Gli eventi \\(\\{X=x_i\\}\\) sono a due a due disgiunti (una variabile assume un solo valore per esito) e la loro unione è \\(\\Omega\\) (poiché \\(X\\) è definita su tutto \\(\\Omega\\) e assume solo i valori \\(x_i\\)). Per additività numerabile, \\(\\sum_i P(X=x_i) = P(\\Omega) = 1\\). \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb"><div class="cb-label">Funzione di ripartizione</div><p>\\(F_X(t) = P(X\\le t) = \\displaystyle\\sum_{x_i\\le t} p_i\\). È monotona non decrescente, continua da destra (nel caso discreto, una funzione a gradini), con:</p>\\[ \\lim_{t\\to-\\infty}F_X(t) = 0 \\qquad \\lim_{t\\to+\\infty}F_X(t) = 1 \\]</div>' +
+    '<div class="cb tip"><div class="cb-label">Perché la normalizzazione non è un dettaglio tecnico</div><p>È esattamente ciò che garantisce che "probabilità" abbia senso come misura: senza \\(\\sum_i p_i=1\\), non si potrebbe dire che <em>qualche</em> esito si verifica con certezza. Ogni distribuzione che incontrerai (binomiale, geometrica, Poisson) deve la propria formula proprio a questo vincolo.</p></div>'
+},
+{
+  tag:"DISTRIBUZIONI",
+  title:"Proprietà teoriche delle <em>distribuzioni discrete</em>",
+  nav:"Distribuzioni",
+  body:
+    '<div class="cb"><div class="cb-label">Distribuzione binomiale — dimostrazione della formula</div><p>Se \\(X\\) conta i successi in \\(n\\) prove indipendenti con probabilità di successo \\(p\\), allora \\(P(X=k) = \\binom{n}{k}p^k(1-p)^{n-k}\\).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione</div><p>Una sequenza specifica di \\(k\\) successi e \\(n-k\\) insuccessi ha probabilità \\(p^k(1-p)^{n-k}\\) per indipendenza delle prove. Il numero di sequenze con esattamente \\(k\\) successi tra \\(n\\) posizioni è \\(\\binom{n}{k}\\) (scelta delle posizioni dei successi). Le sequenze sono eventi disgiunti che si sommano per l’additività, dando la formula. \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb"><div class="cb-label">Normalizzazione della binomiale (verifica)</div><p>\\(\\sum_{k=0}^n\\binom{n}{k}p^k(1-p)^{n-k} = \\big(p+(1-p)\\big)^n = 1\\) per il teorema binomiale di Newton — coerente con il vincolo di normalizzazione della sezione precedente.</p></div>' +
+    '<div class="cb"><div class="cb-label">Distribuzione geometrica — dimostrazione della formula</div><p>Se \\(X\\) conta il numero di prove fino al primo successo (incluso), \\(P(X=k)=(1-p)^{k-1}p\\) per \\(k\\ge1\\).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione</div><p>"Primo successo alla prova \\(k\\)" richiede \\(k-1\\) insuccessi seguiti da un successo, eventi indipendenti: probabilità \\((1-p)^{k-1}\\cdot p\\). La normalizzazione \\(\\sum_{k=1}^{\\infty}(1-p)^{k-1}p = p\\cdot\\dfrac{1}{1-(1-p)}=1\\) segue dalla somma della serie geometrica, verificando la formula. \\(\\blacksquare\\)</p></div>'
+},
+{
+  tag:"VALORE ATTESO",
+  title:"Valore atteso, varianza e <em>covarianza</em>: dimostrazioni",
+  nav:"Attesa/varianza",
+  body:
+    '<div class="cb"><div class="cb-label">Definizioni</div><p>\\(E[X]=\\displaystyle\\sum_i x_i\\,p_i\\); \\(\\mathrm{Var}(X)=E\\big[(X-E[X])^2\\big]\\); \\(\\mathrm{Cov}(X,Y)=E\\big[(X-E[X])(Y-E[Y])\\big]\\).</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema — linearità del valore atteso</div><p>Per ogni \\(a,b\\in\\mathbb{R}\\) e variabili aleatorie \\(X,Y\\): \\(E[aX+bY]=aE[X]+bE[Y]\\), <strong>senza bisogno di indipendenza</strong>.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione</div><p>Sia \\((x_i,y_j)\\) i valori congiunti con probabilità \\(p_{ij}\\). Allora:</p><div class="math-block">\\[ E[aX+bY] = \\sum_{i,j}(ax_i+by_j)p_{ij} = a\\sum_{i,j}x_ip_{ij} + b\\sum_{i,j}y_jp_{ij} = a\\sum_i x_i\\Big(\\sum_j p_{ij}\\Big) + b\\sum_j y_j\\Big(\\sum_i p_{ij}\\Big) \\]</div><p>Le somme tra parentesi sono le marginali \\(P(X=x_i)\\) e \\(P(Y=y_j)\\), quindi l’espressione vale \\(a\\sum_i x_ip_i + b\\sum_j y_jp_j = aE[X]+bE[Y]\\). \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema — formula alternativa della varianza</div><p>\\(\\mathrm{Var}(X)=E[X^2]-(E[X])^2\\).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione</div><p>Sviluppando il quadrato e usando la linearità di \\(E\\) (con \\(\\mu=E[X]\\), costante):</p><div class="math-block">\\[ \\mathrm{Var}(X) = E[(X-\\mu)^2] = E[X^2-2\\mu X+\\mu^2] = E[X^2]-2\\mu E[X]+\\mu^2 = E[X^2]-2\\mu^2+\\mu^2 = E[X^2]-\\mu^2 \\]</div><p>\\(\\blacksquare\\)</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema — varianza di una somma</div><p>\\(\\mathrm{Var}(X+Y) = \\mathrm{Var}(X)+\\mathrm{Var}(Y)+2\\,\\mathrm{Cov}(X,Y)\\); se \\(X,Y\\) sono indipendenti, \\(\\mathrm{Cov}(X,Y)=0\\) e quindi \\(\\mathrm{Var}(X+Y)=\\mathrm{Var}(X)+\\mathrm{Var}(Y)\\).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione</div><p>Con \\(\\mu_X=E[X]\\), \\(\\mu_Y=E[Y]\\): \\(\\mathrm{Var}(X+Y)=E[((X-\\mu_X)+(Y-\\mu_Y))^2]=E[(X-\\mu_X)^2]+E[(Y-\\mu_Y)^2]+2E[(X-\\mu_X)(Y-\\mu_Y)]\\), che è \\(\\mathrm{Var}(X)+\\mathrm{Var}(Y)+2\\,\\mathrm{Cov}(X,Y)\\) per definizione. Se \\(X,Y\\) sono indipendenti, \\(E[(X-\\mu_X)(Y-\\mu_Y)]=E[X-\\mu_X]\\cdot E[Y-\\mu_Y]=0\\cdot0=0\\) (il valore atteso del prodotto di indipendenti è il prodotto dei valori attesi). \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Attenzione: la linearità di \\(E\\) non richiede indipendenza, quella di \\(\\mathrm{Var}\\) sì</div><p>È l’errore più comune: \\(E[X+Y]=E[X]+E[Y]\\) vale <em>sempre</em>; \\(\\mathrm{Var}(X+Y)=\\mathrm{Var}(X)+\\mathrm{Var}(Y)\\) vale <strong>solo</strong> se \\(X,Y\\) sono indipendenti (o più in generale scorrelate, \\(\\mathrm{Cov}=0\\)).</p></div>'
+},
+{
+  tag:"CHEBYSHEV",
+  title:"Disuguaglianza di <em>Chebyshev</em> e legge dei grandi numeri",
+  nav:"Chebyshev/LGN",
+  body:
+    '<div class="cb"><div class="cb-label">Disuguaglianza di Markov (lemma preliminare)</div><p>Se \\(Y\\ge0\\) è una variabile aleatoria discreta con \\(E[Y]<\\infty\\), allora per ogni \\(a>0\\): \\(P(Y\\ge a) \\le \\dfrac{E[Y]}{a}\\).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione</div><p>\\(E[Y]=\\sum_y y\\,P(Y=y) \\ge \\sum_{y\\ge a} y\\,P(Y=y) \\ge \\sum_{y\\ge a} a\\,P(Y=y) = a\\sum_{y\\ge a}P(Y=y) = a\\,P(Y\\ge a)\\), dove la prima disuguaglianza segue dall’aver scartato i termini con \\(y<a\\) (tutti non negativi), e la seconda dal sostituire \\(y\\) con il minorante \\(a\\) sull’intervallo \\(y\\ge a\\). Dividendo per \\(a>0\\) si ottiene la tesi. \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb"><div class="cb-label">Disuguaglianza di Chebyshev</div><p>Se \\(X\\) ha media \\(\\mu\\) e varianza \\(\\sigma^2\\) finita, per ogni \\(k>0\\): \\[ P(|X-\\mu|\\ge k) \\le \\frac{\\sigma^2}{k^2} \\]</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione</div><p>Applica la disuguaglianza di Markov alla variabile \\(Y=(X-\\mu)^2\\ge0\\), con soglia \\(a=k^2\\): \\(P\\big((X-\\mu)^2\\ge k^2\\big) \\le \\dfrac{E[(X-\\mu)^2]}{k^2} = \\dfrac{\\sigma^2}{k^2}\\). Poiché \\((X-\\mu)^2\\ge k^2 \\Leftrightarrow |X-\\mu|\\ge k\\) (per \\(k>0\\)), la tesi segue. \\(\\blacksquare\\)</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Perché è utile nonostante sia "grezza"</div><p>Chebyshev vale per <em>qualunque</em> distribuzione di varianza finita, senza ipotesi aggiuntive: è il prezzo di una stima spesso poco stretta (per la normale, ad esempio, dà limiti molto più larghi del vero valore). Il suo valore sta nella generalità, non nella precisione.</p></div>' +
+    '<div class="cb"><div class="cb-label">Legge (debole) dei grandi numeri</div><p>Siano \\(X_1,\\dots,X_n\\) indipendenti e identicamente distribuite, con media \\(\\mu\\) e varianza \\(\\sigma^2\\) finita. Sia \\(\\overline{X}_n=\\frac1n\\sum_{i=1}^n X_i\\). Allora per ogni \\(\\varepsilon>0\\):</p><div class="math-block hero-formula">\\[ \\lim_{n\\to\\infty} P\\big(|\\overline{X}_n-\\mu|\\ge\\varepsilon\\big) = 0 \\]</div></div>' +
+    '<div class="cb purple"><div class="cb-label">Dimostrazione</div><p>Per linearità, \\(E[\\overline{X}_n]=\\mu\\). Per indipendenza e la formula della varianza di una somma, \\(\\mathrm{Var}(\\overline{X}_n)=\\dfrac{1}{n^2}\\sum_{i=1}^n\\mathrm{Var}(X_i)=\\dfrac{n\\sigma^2}{n^2}=\\dfrac{\\sigma^2}{n}\\). Applicando Chebyshev a \\(\\overline{X}_n\\) con \\(k=\\varepsilon\\):</p><div class="math-block">\\[ P(|\\overline{X}_n-\\mu|\\ge\\varepsilon) \\le \\frac{\\sigma^2/n}{\\varepsilon^2} = \\frac{\\sigma^2}{n\\varepsilon^2} \\xrightarrow[n\\to\\infty]{} 0 \\]</div><p>\\(\\blacksquare\\)</p></div>' +
+    '<div class="cb success"><div class="cb-label">Il significato profondo</div><p>Questo teorema è ciò che rende sensata l’interpretazione frequentista della probabilità: la media aritmetica di molte osservazioni indipendenti si concentra, con probabilità sempre più vicina a \\(1\\), attorno al valore atteso teorico. È il ponte rigoroso tra "probabilità" (concetto astratto, assiomatico) e "frequenza osservata" (dato sperimentale).</p></div>' +
+    acc([
+      { t:"Esercizio di dimostrazione 1", h:'<p>Un\'urna contiene 3 palline rosse e 7 blu. Si estrae una pallina, e se rossa si aggiunge un\'altra pallina rossa nell\'urna per la seconda estrazione (senza reimmettere la prima); se blu, si aggiunge una pallina blu. Calcola \\(P(\\text{seconda rossa})\\) usando la formula di disintegrazione, e verifica il risultato.</p><p><strong>Traccia</strong>: condiziona sul colore della prima estrazione: \\(P(R_2)=P(R_2\\mid R_1)P(R_1)+P(R_2\\mid B_1)P(B_1) = \\frac{4}{11}\\cdot\\frac{3}{10}+\\frac{3}{11}\\cdot\\frac{7}{10}\\).</p>' },
+      { t:"Esercizio di dimostrazione 2", h:'<p>Dimostra che se \\(X\\) è una variabile aleatoria discreta con \\(\\mathrm{Var}(X)=0\\), allora \\(X\\) è costante (quasi certamente uguale a \\(E[X]\\)).</p><p><strong>Traccia</strong>: se esistesse un valore \\(x_i\\ne E[X]\\) con \\(p_i>0\\), il termine \\((x_i-E[X])^2p_i>0\\) contribuirebbe positivamente alla somma \\(\\mathrm{Var}(X)=\\sum_i(x_i-E[X])^2p_i\\), contraddicendo \\(\\mathrm{Var}(X)=0\\) (somma di termini non negativi nulla solo se tutti nulli).</p>' },
+      { t:"Esercizio di dimostrazione 3", h:'<p>Usa Chebyshev per stimare quante monete lanciare (\\(p=0{,}5\\)) affinché la frequenza di teste disti da \\(0{,}5\\) meno di \\(0{,}01\\) con probabilità almeno \\(0{,}95\\).</p><p><strong>Traccia</strong>: \\(\\sigma^2=p(1-p)=0{,}25\\) per singolo lancio. Richiedi \\(\\frac{0{,}25}{n\\cdot0{,}01^2}\\le0{,}05\\), da cui \\(n\\ge\\frac{0{,}25}{0{,}05\\cdot0{,}0001}=50000\\): un limite molto conservativo (Chebyshev non sfrutta la forma specifica della binomiale).</p>' }
+    ]) +
+    '<h3>Quadro riassuntivo</h3>' +
+    '<table class="ct"><tr><th>Risultato</th><th>Ipotesi chiave</th></tr>' +
+    '<tr><td>Linearità di \\(E\\)</td><td>Nessuna (vale sempre)</td></tr>' +
+    '<tr><td>\\(\\mathrm{Var}(X+Y)=\\mathrm{Var}(X)+\\mathrm{Var}(Y)\\)</td><td>Indipendenza (o \\(\\mathrm{Cov}=0\\))</td></tr>' +
+    '<tr><td>Disuguaglianza di Markov</td><td>Variabile non negativa, media finita</td></tr>' +
+    '<tr><td>Disuguaglianza di Chebyshev</td><td>Varianza finita</td></tr>' +
+    '<tr><td>Legge dei grandi numeri</td><td>i.i.d., varianza finita</td></tr></table>'
+}
+
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>
