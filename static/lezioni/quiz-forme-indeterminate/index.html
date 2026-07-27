@@ -185,93 +185,117 @@ const Q = [
     opts: [
       "Solo \\(\\frac{0}{0}\\)",
       "\\(\\frac{0}{0}\\), \\(\\frac{\\infty}{\\infty}\\), \\(\\infty-\\infty\\), \\(0\\cdot\\infty\\), \\(1^\\infty\\), \\(0^0\\), \\(\\infty^0\\)",
-      "\\(\\frac{\\ell}{0}\\) con \\(\\ell\\neq0\\)",
-      "\\(\\ell+\\infty\\) con \\(\\ell\\) finito"
+      "\\(\\ell+\\infty\\) con \\(\\ell\\) finito",
+      "\\(\\frac{\\ell}{0}\\) con \\(\\ell\\neq0\\)"
     ],
     ans: 1,
     exp: "Sono esattamente sette le forme indeterminate classiche. Le altre combinazioni (come \\(\\frac{\\ell}{0}\\) o \\(\\ell+\\infty\\)) hanno un esito determinato dalle regole standard."
   },
+
   {
     badge: "Riconoscere le forme",
     q: "\\(\\displaystyle\\lim_{x\\to+\\infty}\\frac{5}{x^2}\\) è una forma indeterminata?",
     opts: [
-      "Sì, è \\(\\frac{\\infty}{\\infty}\\)",
       "No: numeratore costante, denominatore \\(\\to\\infty\\), quindi il limite è \\(0\\) senza ambiguità",
-      "Sì, è \\(0\\cdot\\infty\\)",
-      "No, il limite non esiste"
+      "Sì, è \\(\\frac{\\infty}{\\infty}\\)",
+      "No, il limite non esiste",
+      "Sì, è \\(0\\cdot\\infty\\)"
     ],
-    ans: 1,
+    ans: 0,
     exp: "\\(\\frac{\\ell}{\\infty}\\) con \\(\\ell\\) finito non è indeterminata: il risultato è sempre \\(0\\), qualunque sia il valore finito \\(\\ell\\)."
   },
+
   {
     badge: "0/0 per scomposizione",
     q: "Per calcolare \\(\\displaystyle\\lim_{x\\to2}\\frac{x^2-4}{x-2}\\), la strategia corretta è:",
     opts: [
-      "Sostituire direttamente \\(x=2\\)",
-      "Scomporre il numeratore come \\((x-2)(x+2)\\) e semplificare",
+      "Concludere che il limite non esiste",
       "Applicare subito la tabella dei segni dell'infinito",
-      "Concludere che il limite non esiste"
+      "Scomporre il numeratore come \\((x-2)(x+2)\\) e semplificare",
+      "Sostituire direttamente \\(x=2\\)"
     ],
-    ans: 1,
+    ans: 2,
     exp: "\\(x^2-4=(x-2)(x+2)\\): semplificando il fattore comune \\((x-2)\\) si elimina l'indeterminazione, ottenendo \\(\\lim_{x\\to2}(x+2)=4\\)."
   },
+
   {
     badge: "0/0 per scomposizione",
     q: "Quanto vale \\(\\displaystyle\\lim_{x\\to2}\\frac{x^2-4}{x-2}\\)?",
-    opts: ["\\(0\\)", "\\(2\\)", "\\(4\\)", "Non esiste"],
-    ans: 2,
+    opts: [
+      "\\(4\\)",
+      "\\(2\\)",
+      "\\(0\\)",
+      "Non esiste"
+    ],
+    ans: 0,
     exp: "Dopo la semplificazione, \\(\\lim_{x\\to2}(x+2)=2+2=4\\)."
   },
+
   {
     badge: "0/0 per razionalizzazione",
     q: "Per calcolare \\(\\displaystyle\\lim_{x\\to0}\\frac{\\sqrt{x+1}-1}{x}\\), quale tecnica è più efficace?",
     opts: [
-      "Scomposizione in fattori",
-      "Moltiplicare per il coniugato \\(\\sqrt{x+1}+1\\)",
       "Sostituzione diretta",
-      "Il teorema del confronto"
+      "Moltiplicare per il coniugato \\(\\sqrt{x+1}+1\\)",
+      "Il teorema del confronto",
+      "Scomposizione in fattori"
     ],
     ans: 1,
     exp: "In presenza di radici in una forma \\(\\frac00\\), moltiplicare numeratore e denominatore per il coniugato elimina la radice al numeratore e permette di semplificare."
   },
+
   {
     badge: "0/0 per razionalizzazione",
     q: "Quanto vale \\(\\displaystyle\\lim_{x\\to0}\\frac{\\sqrt{x+1}-1}{x}\\)?",
-    opts: ["\\(0\\)", "\\(1\\)", "\\(\\dfrac12\\)", "\\(+\\infty\\)"],
+    opts: [
+      "\\(1\\)",
+      "\\(0\\)",
+      "\\(\\dfrac12\\)",
+      "\\(+\\infty\\)"
+    ],
     ans: 2,
     exp: "Razionalizzando si ottiene \\(\\frac{1}{\\sqrt{x+1}+1}\\), che per \\(x\\to0\\) vale \\(\\frac{1}{1+1}=\\frac12\\)."
   },
+
   {
     badge: "∞/∞ e confronto di gradi",
     q: "Per \\(\\displaystyle\\lim_{x\\to+\\infty}\\frac{3x^2+x}{5x^3-2}\\), qual è il metodo corretto?",
     opts: [
-      "Sostituire \\(x=+\\infty\\) direttamente nella frazione",
       "Raccogliere la potenza di grado massimo a numeratore e denominatore",
       "Scomporre entrambi i polinomi in fattori di primo grado",
-      "Applicare la definizione epsilon-delta"
+      "Applicare la definizione epsilon-delta",
+      "Sostituire \\(x=+\\infty\\) direttamente nella frazione"
     ],
-    ans: 1,
+    ans: 0,
     exp: "Raccogliendo \\(x^2\\) al numeratore e \\(x^3\\) al denominatore si isola il rapporto tra i gradi, che determina il comportamento all'infinito."
   },
+
   {
     badge: "∞/∞ e confronto di gradi",
     q: "Se il grado del denominatore è maggiore di quello del numeratore, il limite per \\(x\\to\\pm\\infty\\) di un rapporto di polinomi è:",
-    opts: ["\\(\\pm\\infty\\)", "Il rapporto dei coefficienti direttori", "\\(0\\)", "Non esiste mai"],
-    ans: 2,
+    opts: [
+      "Non esiste mai",
+      "\\(0\\)",
+      "Il rapporto dei coefficienti direttori",
+      "\\(\\pm\\infty\\)"
+    ],
+    ans: 1,
     exp: "Quando il denominatore «cresce più in fretta», la frazione tende a \\(0\\), indipendentemente dai coefficienti."
   },
+
   {
     badge: "∞/∞ e confronto di gradi",
     q: "Se numeratore e denominatore hanno lo stesso grado, il limite all'infinito è:",
     opts: [
+      "Non è mai determinabile",
       "Sempre \\(0\\)",
       "Sempre \\(+\\infty\\)",
-      "Il rapporto tra i coefficienti dei termini di grado massimo",
-      "Non è mai determinabile"
+      "Il rapporto tra i coefficienti dei termini di grado massimo"
     ],
-    ans: 2,
+    ans: 3,
     exp: "A gradi uguali, raccogliendo la potenza massima essa si semplifica, lasciando il rapporto dei coefficienti direttori come limite."
   },
+
   {
     badge: "∞ − ∞",
     q: "Per risolvere una forma \\(\\infty-\\infty\\) con radici, come \\(\\displaystyle\\lim_{x\\to+\\infty}(\\sqrt{x^2+x}-x)\\), si procede:",
@@ -284,54 +308,69 @@ const Q = [
     ans: 1,
     exp: "La razionalizzazione trasforma la differenza di radici in una frazione, riconducendo la forma \\(\\infty-\\infty\\) a una forma \\(\\frac{\\infty}{\\infty}\\) o \\(\\frac00\\) gestibile."
   },
+
   {
     badge: "∞ − ∞",
     q: "Quanto vale \\(\\displaystyle\\lim_{x\\to+\\infty}\\left(\\sqrt{x^2+x}-x\\right)\\)?",
-    opts: ["\\(0\\)", "\\(\\dfrac12\\)", "\\(1\\)", "\\(+\\infty\\)"],
-    ans: 1,
+    opts: [
+      "\\(\\dfrac12\\)",
+      "\\(+\\infty\\)",
+      "\\(0\\)",
+      "\\(1\\)"
+    ],
+    ans: 0,
     exp: "Razionalizzando si ottiene \\(\\frac{x}{\\sqrt{x^2+x}+x}\\), che raccogliendo \\(x\\) sotto radice diventa \\(\\frac{1}{\\sqrt{1+\\frac1x}+1}\\to\\frac12\\)."
   },
+
   {
     badge: "0 · ∞",
     q: "Una forma \\(0\\cdot\\infty\\) si può ricondurre a una forma più familiare:",
     opts: [
+      "Solo se compaiono funzioni trigonometriche",
       "Non è mai possibile risolverla",
-      "Riscrivendo il fattore \\(0\\) come \\(\\frac{1}{\\infty}\\), ottenendo una forma \\(\\frac{\\infty}{\\infty}\\) (o viceversa \\(\\frac00\\))",
       "Applicando sempre e solo il teorema di unicità",
-      "Solo se compaiono funzioni trigonometriche"
+      "Riscrivendo il fattore \\(0\\) come \\(\\frac{1}{\\infty}\\), ottenendo una forma \\(\\frac{\\infty}{\\infty}\\) (o viceversa \\(\\frac00\\))"
     ],
-    ans: 1,
+    ans: 3,
     exp: "Trasformare uno dei due fattori in un reciproco converte \\(0\\cdot\\infty\\) in un quoziente, riconducendola a \\(\\frac00\\) o \\(\\frac{\\infty}{\\infty}\\)."
   },
+
   {
     badge: "Teorema del confronto",
     q: "Per calcolare \\(\\displaystyle\\lim_{x\\to0}x^2\\sin\\frac1x\\), il metodo più efficace è:",
     opts: [
+      "Sostituzione diretta di \\(x=0\\)",
       "Scomposizione in fattori",
       "Il teorema del confronto (dei due carabinieri), usando \\(-1\\le\\sin\\frac1x\\le1\\)",
-      "Razionalizzazione",
-      "Sostituzione diretta di \\(x=0\\)"
+      "Razionalizzazione"
     ],
-    ans: 1,
+    ans: 2,
     exp: "Poiché \\(\\sin\\frac1x\\) oscilla senza limite, non si può sostituire; ma limitandolo tra \\(-1\\) e \\(1\\) e moltiplicando per \\(x^2\\), il teorema del confronto forza il limite a \\(0\\)."
   },
+
   {
     badge: "Teorema del confronto",
     q: "Quanto vale \\(\\displaystyle\\lim_{x\\to0}x^2\\sin\\frac1x\\)?",
-    opts: ["Non esiste", "\\(1\\)", "\\(0\\)", "\\(+\\infty\\)"],
-    ans: 2,
+    opts: [
+      "Non esiste",
+      "\\(0\\)",
+      "\\(1\\)",
+      "\\(+\\infty\\)"
+    ],
+    ans: 1,
     exp: "Da \\(-x^2\\le x^2\\sin\\frac1x\\le x^2\\) e \\(\\lim_{x\\to0}(\\pm x^2)=0\\), il teorema del confronto dà limite \\(0\\)."
   },
+
   {
     badge: "Sintesi",
     q: "Qual è il primo passo corretto davanti a un limite qualsiasi?",
     opts: [
       "Applicare subito la razionalizzazione, sempre",
+      "Calcolare la derivata della funzione",
       "Provare la sostituzione diretta e riconoscere se emerge una forma indeterminata",
-      "Assumere che il limite non esista",
-      "Calcolare la derivata della funzione"
+      "Assumere che il limite non esista"
     ],
-    ans: 1,
+    ans: 2,
     exp: "Conviene sempre iniziare sostituendo: se il risultato è determinato, il limite è calcolato; se emerge una delle sette forme indeterminate, si sceglie la tecnica adeguata."
   }
 

@@ -183,136 +183,168 @@ const Q = [
     badge: "Quando cercare un asintoto obliquo",
     q: "Un asintoto obliquo può esistere solo se:",
     opts: [
+      "La funzione è definita ovunque",
       "La funzione ha un asintoto orizzontale",
       "\\(\\displaystyle\\lim_{x\\to\\pm\\infty}f(x)=\\pm\\infty\\) (nessun asintoto orizzontale in quella direzione)",
-      "La funzione è definita ovunque",
       "Il grado del numeratore è uguale a quello del denominatore"
     ],
-    ans: 1,
+    ans: 2,
     exp: "Se il limite all'infinito è finito, c'è un asintoto orizzontale e non ha senso cercarne uno obliquo. L'obliquo si cerca solo quando la funzione diverge."
   },
+
   {
     badge: "Il coefficiente angolare m",
     q: "Il coefficiente angolare \\(m\\) di un eventuale asintoto obliquo si calcola come:",
     opts: [
-      "\\(\\displaystyle m=\\lim_{x\\to\\pm\\infty}f(x)\\)",
-      "\\(\\displaystyle m=\\lim_{x\\to\\pm\\infty}\\frac{f(x)}{x}\\)",
       "\\(\\displaystyle m=\\lim_{x\\to\\pm\\infty}[f(x)-x]\\)",
-      "\\(\\displaystyle m=f'(x)\\) calcolata all'infinito"
+      "\\(\\displaystyle m=f'(x)\\) calcolata all'infinito",
+      "\\(\\displaystyle m=\\lim_{x\\to\\pm\\infty}\\frac{f(x)}{x}\\)",
+      "\\(\\displaystyle m=\\lim_{x\\to\\pm\\infty}f(x)\\)"
     ],
-    ans: 1,
+    ans: 2,
     exp: "\\(m\\) misura la pendenza «a lungo termine» del grafico rispetto a \\(x\\), ed è definito come il limite del rapporto incrementale \\(\\frac{f(x)}{x}\\)."
   },
+
   {
     badge: "Il termine noto q",
     q: "Una volta trovato \\(m\\), il termine noto \\(q\\) dell'asintoto \\(y=mx+q\\) si calcola come:",
     opts: [
       "\\(\\displaystyle q=\\lim_{x\\to\\pm\\infty}\\frac{f(x)}{x}\\)",
-      "\\(\\displaystyle q=\\lim_{x\\to\\pm\\infty}[f(x)-mx]\\)",
       "\\(\\displaystyle q=f(0)\\)",
-      "\\(\\displaystyle q=\\lim_{x\\to\\pm\\infty}f(x)\\)"
+      "\\(\\displaystyle q=\\lim_{x\\to\\pm\\infty}f(x)\\)",
+      "\\(\\displaystyle q=\\lim_{x\\to\\pm\\infty}[f(x)-mx]\\)"
     ],
-    ans: 1,
+    ans: 3,
     exp: "\\(q\\) è la distanza residua tra il grafico e la retta di pendenza \\(m\\): si isola sottraendo \\(mx\\) da \\(f(x)\\) e passando al limite."
   },
+
   {
     badge: "Condizioni di esistenza",
     q: "Se il limite che definisce \\(m\\) risulta \\(m=0\\), cosa significa?",
     opts: [
-      "Che l'asintoto obliquo esiste comunque, con \\(y=q\\)",
-      "Che non esiste asintoto obliquo: se il limite di \\(f(x)-mx\\) è finito con \\(m=0\\), è in realtà un asintoto orizzontale",
       "Che la funzione non ha asintoti di alcun tipo",
-      "Che bisogna ricalcolare \\(m\\) con un altro metodo"
+      "Che l'asintoto obliquo esiste comunque, con \\(y=q\\)",
+      "Che bisogna ricalcolare \\(m\\) con un altro metodo",
+      "Che non esiste asintoto obliquo: se il limite di \\(f(x)-mx\\) è finito con \\(m=0\\), è in realtà un asintoto orizzontale"
     ],
-    ans: 1,
+    ans: 3,
     exp: "Per definizione, l'asintoto è «obliquo» solo se \\(m\\neq0\\). Se risulta \\(m=0\\), si ricade (semmai) nel caso dell'asintoto orizzontale, non in uno obliquo."
   },
+
   {
     badge: "Condizioni di esistenza",
     q: "Se il limite che definisce \\(m\\) è infinito o non esiste, cosa concludi?",
     opts: [
-      "Che l'asintoto obliquo esiste comunque",
       "Che non esiste alcun asintoto (né obliquo né orizzontale) in quella direzione",
+      "Che l'asintoto obliquo esiste comunque",
       "Che bisogna cercare un asintoto verticale al posto di quello obliquo",
       "Che la funzione è periodica"
     ],
-    ans: 1,
+    ans: 0,
     exp: "Se \\(m\\) non esiste finito, il grafico non ha una direzione asintotica lineare in quella direzione: niente asintoto obliquo (e nemmeno orizzontale, visto che la funzione diverge)."
   },
+
   {
     badge: "Indizio dal grado",
     q: "Per una funzione razionale \\(f(x)=\\frac{P(x)}{Q(x)}\\), un asintoto obliquo è tipico quando:",
     opts: [
-      "Il grado di \\(P\\) è uguale al grado di \\(Q\\)",
+      "\\(Q(x)\\) è una costante",
       "Il grado di \\(P\\) supera di esattamente 1 il grado di \\(Q\\)",
-      "Il grado di \\(P\\) è minore del grado di \\(Q\\)",
-      "\\(Q(x)\\) è una costante"
+      "Il grado di \\(P\\) è uguale al grado di \\(Q\\)",
+      "Il grado di \\(P\\) è minore del grado di \\(Q\\)"
     ],
     ans: 1,
     exp: "Se il numeratore ha grado maggiore di 1 rispetto al denominatore, la divisione dei polinomi produce un termine lineare (l'asintoto obliquo) più un resto che tende a 0."
   },
+
   {
     badge: "Esempio numerico",
     q: "Per \\(f(x)=\\dfrac{x^2-1}{x}\\), quanto vale \\(m\\)?",
-    opts: ["\\(0\\)", "\\(1\\)", "\\(-1\\)", "\\(+\\infty\\)"],
-    ans: 1,
+    opts: [
+      "\\(-1\\)",
+      "\\(0\\)",
+      "\\(1\\)",
+      "\\(+\\infty\\)"
+    ],
+    ans: 2,
     exp: "\\(m=\\lim_{x\\to\\pm\\infty}\\frac{f(x)}{x}=\\lim_{x\\to\\pm\\infty}\\frac{x^2-1}{x^2}=1\\)."
   },
+
   {
     badge: "Esempio numerico",
     q: "Continuando l'esempio \\(f(x)=\\dfrac{x^2-1}{x}\\) (con \\(m=1\\)), quanto vale \\(q\\)?",
-    opts: ["\\(-1\\)", "\\(0\\)", "\\(1\\)", "Non esiste"],
-    ans: 1,
+    opts: [
+      "\\(-1\\)",
+      "Non esiste",
+      "\\(1\\)",
+      "\\(0\\)"
+    ],
+    ans: 3,
     exp: "\\(q=\\lim_{x\\to\\pm\\infty}\\left[\\frac{x^2-1}{x}-x\\right]=\\lim_{x\\to\\pm\\infty}\\frac{-1}{x}=0\\)."
   },
+
   {
     badge: "Esempio numerico",
     q: "Qual è quindi l'asintoto obliquo di \\(f(x)=\\dfrac{x^2-1}{x}\\)?",
-    opts: ["\\(y=x\\)", "\\(y=x-1\\)", "\\(y=x+1\\)", "\\(y=1\\)"],
+    opts: [
+      "\\(y=x\\)",
+      "\\(y=x-1\\)",
+      "\\(y=x+1\\)",
+      "\\(y=1\\)"
+    ],
     ans: 0,
     exp: "Con \\(m=1\\) e \\(q=0\\), l'asintoto è \\(y=1\\cdot x+0=x\\)."
   },
+
   {
     badge: "Ripasso: asintoto verticale",
     q: "La retta \\(x=c\\) è asintoto verticale se:",
     opts: [
       "\\(\\displaystyle\\lim_{x\\to c}f(x)=f(c)\\)",
+      "\\(c\\) appartiene al dominio di \\(f\\)",
       "Almeno uno dei limiti laterali in \\(c\\) è infinito",
-      "\\(f\\) è continua in \\(c\\)",
-      "\\(c\\) appartiene al dominio di \\(f\\)"
+      "\\(f\\) è continua in \\(c\\)"
     ],
-    ans: 1,
+    ans: 2,
     exp: "Un asintoto verticale segnala che la funzione diverge avvicinandosi a un punto escluso (o comunque critico) del dominio: basta che uno dei due limiti laterali sia \\(\\pm\\infty\\)."
   },
+
   {
     badge: "Ripasso: asintoto orizzontale",
     q: "Per \\(f(x)=\\dfrac{2x+1}{x-3}\\), l'asintoto orizzontale è:",
-    opts: ["\\(y=0\\)", "\\(y=2\\)", "\\(y=-3\\)", "Non esiste"],
-    ans: 1,
+    opts: [
+      "\\(y=-3\\)",
+      "\\(y=0\\)",
+      "Non esiste",
+      "\\(y=2\\)"
+    ],
+    ans: 3,
     exp: "Grado numeratore = grado denominatore: il limite all'infinito è il rapporto dei coefficienti direttori, \\(\\frac21=2\\)."
   },
+
   {
     badge: "Distinguere i tre casi",
     q: "Una funzione razionale con numeratore di grado 4 e denominatore di grado 2 ha:",
     opts: [
-      "Un asintoto orizzontale",
       "Un asintoto obliquo",
       "Nessun asintoto per \\(x\\to\\pm\\infty\\) (né orizzontale né obliquo, perché la divergenza non è lineare)",
+      "Un asintoto orizzontale",
       "Sempre un asintoto verticale"
     ],
-    ans: 2,
+    ans: 1,
     exp: "L'asintoto obliquo esiste solo se il grado del numeratore supera di <strong>esattamente 1</strong> quello del denominatore. Con un divario di 2, la funzione diverge più velocemente di una retta: niente asintoto."
   },
+
   {
     badge: "Interpretazione grafica",
     q: "Un asintoto obliquo \\(y=mx+q\\) descrive:",
     opts: [
-      "Un punto isolato del grafico",
       "Una retta a cui il grafico della funzione si avvicina indefinitamente per \\(x\\to\\pm\\infty\\)",
-      "Il valore massimo della funzione",
-      "Un punto di discontinuità"
+      "Un punto di discontinuità",
+      "Un punto isolato del grafico",
+      "Il valore massimo della funzione"
     ],
-    ans: 1,
+    ans: 0,
     exp: "Esattamente come l'asintoto orizzontale è un caso particolare (con \\(m=0\\)), l'asintoto obliquo descrive il comportamento a lungo termine del grafico rispetto a una retta inclinata."
   }
 

@@ -183,180 +183,194 @@ const Q = [
     badge: "Il senso della definizione",
     q: "Nella definizione \\(\\forall \\varepsilon>0\\ \\exists \\delta>0:\\ 0<|x-c|<\\delta \\Rightarrow |f(x)-\\ell|<\\varepsilon\\), chi \\(\\text{sceglie}\\) per primo?",
     opts: [
+      "Nessuno dei due: sono fissati a priori",
       "Chi dimostra il limite, sceglie \\(\\delta\\)",
-      "Lo scettico, sceglie \\(\\varepsilon\\)",
       "Si scelgono insieme",
-      "Nessuno dei due: sono fissati a priori"
+      "Lo scettico, sceglie \\(\\varepsilon\\)"
     ],
-    ans: 1,
+    ans: 3,
     exp: "L'ordine dei quantificatori è decisivo: prima \\(\\forall \\varepsilon\\) (lo scettico propone un margine di errore su \\(f(x)\\)), poi \\(\\exists \\delta\\) (chi dimostra il limite risponde con un margine su \\(x\\) che lo garantisce)."
   },
+
   {
     badge: "Il senso della definizione",
     q: "Cosa rappresenta \\(\\varepsilon\\) nella definizione di limite?",
     opts: [
+      "La distanza tra due punti del dominio",
       "Un margine di tolleranza sulla variabile \\(x\\)",
       "Un margine di tolleranza sul valore \\(f(x)\\)",
-      "La distanza tra due punti del dominio",
       "Il valore del limite stesso"
     ],
-    ans: 1,
+    ans: 2,
     exp: "\\(\\varepsilon\\) è l'errore massimo tollerato sul valore della funzione: vogliamo che \\(f(x)\\) disti da \\(\\ell\\) meno di \\(\\varepsilon\\)."
   },
+
   {
     badge: "Il senso della definizione",
     q: "Cosa rappresenta \\(\\delta\\) nella definizione di limite?",
     opts: [
-      "Un margine di tolleranza sul valore \\(f(x)\\)",
-      "Il valore del limite \\(\\ell\\)",
+      "Il numero di iterazioni necessarie",
       "Un margine di tolleranza sulla variabile \\(x\\), attorno a \\(c\\)",
-      "Il numero di iterazioni necessarie"
+      "Il valore del limite \\(\\ell\\)",
+      "Un margine di tolleranza sul valore \\(f(x)\\)"
     ],
-    ans: 2,
+    ans: 1,
     exp: "\\(\\delta\\) delimita un intorno di \\(c\\) sull'asse \\(x\\): se \\(x\\) sta in quell'intorno (escluso \\(c\\)), la vicinanza di \\(f(x)\\) a \\(\\ell\\) è garantita."
   },
+
   {
     badge: "Perché escludere x = c",
     q: "Perché nella definizione si richiede \\(0 < |x-c|\\) e non semplicemente \\(|x-c| < \\delta\\)?",
     opts: [
+      "È solo una convenzione stilistica, senza motivo reale",
       "Per evitare divisioni per zero in ogni caso",
       "Perché il limite descrive il comportamento attorno a \\(c\\), indipendentemente dal valore (o dall'esistenza) di \\(f(c)\\)",
-      "È solo una convenzione stilistica, senza motivo reale",
       "Perché altrimenti \\(\\delta\\) non esisterebbe mai"
     ],
-    ans: 1,
+    ans: 2,
     exp: "Il limite non si occupa del valore di \\(f\\) esattamente in \\(c\\): la funzione potrebbe non essere nemmeno definita lì (come \\(\\frac{\\sin x}{x}\\) in \\(x=0\\)), ma il limite può comunque esistere."
   },
+
   {
     badge: "Verifica guidata",
     q: "Per dimostrare \\(\\displaystyle\\lim_{x\\to3}(4x-1)=11\\) con la definizione, a cosa è uguale \\(|f(x)-\\ell|\\)?",
     opts: [
-      "\\(|4x-1-11| = 4|x-3|\\)",
       "\\(|4x-1-11| = |x-3|\\)",
+      "\\(|4x-1-11| = 4|x-3|\\)",
       "\\(4|x-11|\\)",
       "\\(|4x-12|\\) senza ulteriori semplificazioni possibili"
     ],
-    ans: 0,
+    ans: 1,
     exp: "\\(|(4x-1)-11| = |4x-12| = 4|x-3|\\). Riconoscere questo fattore costante è il passo chiave per trovare \\(\\delta\\)."
   },
+
   {
     badge: "Verifica guidata",
     q: "Continuando l'esempio precedente (\\(|4x-12|=4|x-3|\\)), quale \\(\\delta\\) garantisce \\(|f(x)-11|<\\varepsilon\\)?",
     opts: [
-      "\\(\\delta = \\varepsilon\\)",
-      "\\(\\delta = 4\\varepsilon\\)",
       "\\(\\delta = \\dfrac{\\varepsilon}{4}\\)",
-      "\\(\\delta = \\varepsilon^2\\)"
+      "\\(\\delta = \\varepsilon\\)",
+      "\\(\\delta = \\varepsilon^2\\)",
+      "\\(\\delta = 4\\varepsilon\\)"
     ],
-    ans: 2,
+    ans: 0,
     exp: "Vogliamo \\(4|x-3|<\\varepsilon\\), cioè \\(|x-3|<\\frac{\\varepsilon}{4}\\). Basta scegliere \\(\\delta=\\frac{\\varepsilon}{4}\\): se \\(|x-3|<\\delta\\), allora \\(4|x-3|<4\\delta=\\varepsilon\\)."
   },
+
   {
     badge: "Limiti quadratici",
     q: "Nella verifica di \\(\\displaystyle\\lim_{x\\to2}x^2=4\\), perché non basta scrivere \\(|x^2-4|=|x-2||x+2|<\\varepsilon\\) e ricavare subito \\(\\delta\\)?",
     opts: [
-      "Perché il fattore \\(|x+2|\\) dipende da \\(x\\) e va limitato prima",
       "Perché la scomposizione \\(x^2-4=(x-2)(x+2)\\) è scorretta",
+      "Perché il fattore \\(|x+2|\\) dipende da \\(x\\) e va limitato prima",
       "Perché servirebbe usare i logaritmi",
       "In realtà si può fare direttamente, senza alcuna cautela"
     ],
-    ans: 0,
+    ans: 1,
     exp: "A differenza del caso lineare, qui compare un fattore \\(|x+2|\\) che varia con \\(x\\): occorre prima restringere la ricerca (per esempio a \\(|x-2|<1\\)) per poterlo limitare con una costante."
   },
+
   {
     badge: "Limiti quadratici",
     q: "Restringendo la ricerca a \\(|x-2|<1\\) (cioè \\(1<x<3\\)), a quale maggiorazione si arriva per \\(|x+2|\\)?",
     opts: [
-      "\\(|x+2| < 3\\)",
+      "\\(|x+2|\\) non è limitabile in questo intervallo",
       "\\(|x+2| < 5\\)",
       "\\(|x+2| < 1\\)",
-      "\\(|x+2|\\) non è limitabile in questo intervallo"
+      "\\(|x+2| < 3\\)"
     ],
     ans: 1,
     exp: "Se \\(1<x<3\\), allora \\(3<x+2<5\\), quindi \\(|x+2|<5\\). Questa maggiorazione costante permette di procedere con la disuguaglianza."
   },
+
   {
     badge: "Limiti quadratici",
     q: "Nel caso precedente, il \\(\\delta\\) finale corretto è tipicamente della forma:",
     opts: [
-      "\\(\\delta = \\varepsilon\\)",
       "\\(\\delta = \\min\\left(1, \\dfrac{\\varepsilon}{5}\\right)\\)",
       "\\(\\delta = 5\\varepsilon\\)",
+      "\\(\\delta = \\varepsilon\\)",
       "\\(\\delta = \\varepsilon - 1\\)"
     ],
-    ans: 1,
+    ans: 0,
     exp: "Si prende il minimo tra il vincolo iniziale (qui \\(\\delta \\le 1\\), che garantisce \\(|x+2|<5\\)) e il vincolo che rende \\(5|x-2|<\\varepsilon\\), cioè \\(|x-2|<\\frac{\\varepsilon}{5}\\)."
   },
+
   {
     badge: "Interpretazione grafica",
     q: "Graficamente, la condizione \\(|f(x)-\\ell|<\\varepsilon\\) corrisponde a:",
     opts: [
-      "Una striscia orizzontale attorno alla retta \\(y=\\ell\\)",
       "Una striscia verticale attorno alla retta \\(x=c\\)",
-      "Un cerchio attorno al punto \\((c,\\ell)\\)",
-      "Un singolo punto del grafico"
+      "Una striscia orizzontale attorno alla retta \\(y=\\ell\\)",
+      "Un singolo punto del grafico",
+      "Un cerchio attorno al punto \\((c,\\ell)\\)"
     ],
-    ans: 0,
+    ans: 1,
     exp: "\\(\\varepsilon\\) delimita quanto \\(f(x)\\) può discostarsi da \\(\\ell\\): sul grafico è una fascia orizzontale tra le rette \\(y=\\ell-\\varepsilon\\) e \\(y=\\ell+\\varepsilon\\)."
   },
+
   {
     badge: "Interpretazione grafica",
     q: "Il gioco \\(\\varepsilon\\)-\\(\\delta\\) è vinto (il limite esiste ed è \\(\\ell\\)) quando:",
     opts: [
-      "Esiste almeno un \\(\\varepsilon\\) per cui si trova un \\(\\delta\\) adeguato",
       "Per ogni \\(\\varepsilon\\), qualunque sia, esiste sempre un \\(\\delta\\) adeguato",
       "Il grafico passa esattamente per \\((c,\\ell)\\)",
+      "Esiste almeno un \\(\\varepsilon\\) per cui si trova un \\(\\delta\\) adeguato",
       "\\(\\delta\\) è più grande di \\(\\varepsilon\\)"
     ],
-    ans: 1,
+    ans: 0,
     exp: "La definizione richiede che la proprietà valga per <em>ogni</em> \\(\\varepsilon>0\\), non solo per uno particolare: è un requisito universale, non esistenziale."
   },
+
   {
     badge: "Unicità del limite",
     q: "Il teorema di unicità del limite afferma che:",
     opts: [
+      "\\(\\varepsilon\\) e \\(\\delta\\) devono essere uguali",
       "Ogni funzione ha limite in ogni punto",
-      "Se il limite esiste, è determinato in modo univoco",
       "Il limite coincide sempre con \\(f(c)\\)",
-      "\\(\\varepsilon\\) e \\(\\delta\\) devono essere uguali"
+      "Se il limite esiste, è determinato in modo univoco"
     ],
-    ans: 1,
+    ans: 3,
     exp: "Se \\(\\lim_{x\\to c}f(x)\\) esiste, non può assumere due valori diversi contemporaneamente: la dimostrazione classica procede per assurdo usando due intorni disgiunti."
   },
+
   {
     badge: "Unicità del limite",
     q: "Nella dimostrazione per assurdo dell'unicità, supponendo \\(\\ell_1 \\neq \\ell_2\\), quale scelta di \\(\\varepsilon\\) rende gli intorni di \\(\\ell_1\\) e \\(\\ell_2\\) disgiunti?",
     opts: [
-      "\\(\\varepsilon = \\ell_1 + \\ell_2\\)",
       "\\(\\varepsilon = \\dfrac{|\\ell_1-\\ell_2|}{2}\\)",
-      "\\(\\varepsilon = \\ell_1 \\cdot \\ell_2\\)",
-      "Qualunque \\(\\varepsilon\\) positivo va bene"
+      "Qualunque \\(\\varepsilon\\) positivo va bene",
+      "\\(\\varepsilon = \\ell_1 + \\ell_2\\)",
+      "\\(\\varepsilon = \\ell_1 \\cdot \\ell_2\\)"
     ],
-    ans: 1,
+    ans: 0,
     exp: "Scegliendo \\(\\varepsilon\\) pari a metà della distanza tra \\(\\ell_1\\) e \\(\\ell_2\\), gli intorni di raggio \\(\\varepsilon\\) attorno ai due valori non si sovrappongono: \\(f(x)\\) non può stare in entrambi."
   },
+
   {
     badge: "Limiti laterali",
     q: "Nella definizione di limite destro \\(\\displaystyle\\lim_{x\\to c^+}f(x)=\\ell\\), la condizione sulla \\(x\\) diventa:",
     opts: [
-      "\\(c-\\delta<x<c\\)",
       "\\(c<x<c+\\delta\\)",
+      "\\(x=c\\)",
       "\\(|x-c|<\\delta\\), senza restrizioni di segno",
-      "\\(x=c\\)"
+      "\\(c-\\delta<x<c\\)"
     ],
-    ans: 1,
+    ans: 0,
     exp: "Il limite destro considera solo i valori di \\(x\\) maggiori di \\(c\\) e sufficientemente vicini, cioè nell'intervallo \\((c, c+\\delta)\\)."
   },
+
   {
     badge: "Limiti laterali",
     q: "Se \\(\\displaystyle\\lim_{x\\to0^-}f(x)=-1\\) e \\(\\displaystyle\\lim_{x\\to0^+}f(x)=1\\), cosa si può concludere su \\(\\displaystyle\\lim_{x\\to0}f(x)\\)?",
     opts: [
-      "Vale \\(0\\), la media dei due",
-      "Vale \\(1\\), il maggiore dei due",
       "Non esiste, perché i limiti laterali sono diversi",
-      "Vale \\(-1\\), il minore dei due"
+      "Vale \\(-1\\), il minore dei due",
+      "Vale \\(0\\), la media dei due",
+      "Vale \\(1\\), il maggiore dei due"
     ],
-    ans: 2,
+    ans: 0,
     exp: "Per il teorema di collegamento, il limite bilatero esiste se e solo se i due limiti laterali esistono e coincidono. Essendo diversi, il limite non esiste."
   }
 
