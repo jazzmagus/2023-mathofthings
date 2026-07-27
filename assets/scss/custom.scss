@@ -1284,6 +1284,69 @@ html:has(body.dark) {
   }
 }
 
+.lb00-card {
+  margin-top: 1rem;
+  margin-bottom: 1.2rem;
+  display: flex;
+  gap: 1.4rem;
+  padding: 1.1rem;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+  }
+
+  .lb00-card-image {
+    flex: 0 0 220px;
+    align-self: stretch;
+    border-radius: 8px;
+    overflow: hidden;
+
+    @media (max-width: 640px) {
+      flex-basis: auto;
+      height: 180px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .lb00-card-body {
+    flex: 1;
+    min-width: 0;
+
+    .materials-card-badge {
+      display: block;
+      font-family: $sta-font-heading, serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1;
+      color: $primary;
+      margin-bottom: 0.2rem;
+    }
+  }
+
+  .lesson-description {
+    max-width: 720px;
+  }
+
+  .lb00-slides {
+    margin-bottom: 0.9rem;
+  }
+
+  .lb00-videos {
+    padding-top: 0.9rem;
+    border-top: 1px solid rgba(21, 20, 15, 0.1);
+
+    .dark & {
+      border-top-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
 .materials-card {
   padding: 1rem 1.1rem;
   border: 1px solid rgba(21, 20, 15, 0.1);
