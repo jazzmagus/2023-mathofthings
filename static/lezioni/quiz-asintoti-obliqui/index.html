@@ -114,6 +114,67 @@ body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(
 }
 </style>
 </head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-brand">Math of Things</span>
+  <span class="topbar-tag">Quiz · Limiti</span>
+</div>
+
+<div class="container">
+
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Quiz — Limiti</div>
+      <h1>Gli asintoti <em>obliqui</em></h1>
+      <p class="hero-sub">Calcolo e rappresentazione degli asintoti obliqui: condizioni di esistenza, calcolo di \(m\) e \(q\), distinzione dagli asintoti orizzontali.</p>
+    </div>
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">13</span></div>
+      <div class="meta-item"><span class="meta-label">Tempo stimato</span><span class="meta-value">8–12 min</span></div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Comincia →</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Domanda <span id="prog-frac"></span></span>
+        <span class="score-live" id="score-live"></span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="results-num" id="res-score"></div>
+      <div class="results-den">su 13 risposte corrette</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+    </div>
+    <div class="review-title">Riepilogo domande</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova →</button>
+      <a class="btn-lesson" href="/lezioni/la08-limiti-rigorosi/lezione.html">Torna alla lezione</a>
+    </div>
+  </div>
+
+</div>
 
 <script>
 const Q = [
