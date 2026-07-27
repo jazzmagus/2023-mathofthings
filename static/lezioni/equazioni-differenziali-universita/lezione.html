@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verso l'Università — Equazioni Differenziali: Oltre il Primo Ordine</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.graph-wrap { margin:18px 0; text-align:center; }
+.graph-wrap svg { width:100%; max-width:420px; height:auto; }
+.graph-wrap.wide svg { max-width:540px; }
+.axis-line { stroke:var(--text-dim); stroke-width:1; }
+.legend { display:flex; gap:18px; justify-content:center; flex-wrap:wrap; margin-top:8px; }
+.legend-item { display:flex; align-items:center; gap:6px; font-size:.78rem; color:var(--text-mid); font-family:'JetBrains Mono',monospace; }
+.legend-swatch { width:14px; height:3px; border-radius:2px; display:inline-block; }
+.caption { font-size:.82rem; text-align:center; color:var(--text-dim); margin-top:4px; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Verso l'Università · Equazioni Differenziali</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/verso-universita/" class="topbar-home">← verso l'università</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+function legend(items) {
+  return '<div class="legend">' + items.map(it =>
+    '<span class="legend-item"><span class="legend-swatch" style="background:' + it.c + '"></span>' + it.l + '</span>'
+  ).join('') + '</div>';
+}
+
+function sineSvg() {
+  const w = 360, h = 200, midY = 100, amp = 75;
+  let path = '';
+  for (let i = 0; i <= 200; i++) {
+    const x = 20 + (i / 200) * (w - 40);
+    const t = (i / 200) * 4 * Math.PI;
+    const y = midY - amp * Math.sin(t);
+    path += (i === 0 ? 'M ' : 'L ') + x.toFixed(1) + ' ' + y.toFixed(1) + ' ';
+  }
+  return '<div class="graph-wrap"><svg viewBox="0 0 ' + w + ' ' + h + '">' +
+    '<line class="axis-line" x1="20" y1="' + midY + '" x2="' + (w - 10) + '" y2="' + midY + '"/>' +
+    '<line class="axis-line" x1="20" y1="20" x2="20" y2="' + (h - 10) + '"/>' +
+    '<path d="' + path + '" fill="none" stroke="var(--accent)" stroke-width="2.2"/>' +
+    '</svg></div>';
+}
+
+function dampedOscSvg() {
+  const w = 380, h = 230, x0 = 20, xw = w - 30, midY = h / 2, amp = 85;
+  function curve(fn, color, dashed) {
+    let d = '';
+    for (let i = 0; i <= 220; i++) {
+      const frac = i / 220;
+      const x = x0 + frac * xw;
+      const y = midY + amp * fn(frac * 10);
+      d += (i === 0 ? 'M ' : 'L ') + x.toFixed(1) + ' ' + y.toFixed(1) + ' ';
+    }
+    return '<path d="' + d + '" fill="none" stroke="' + color + '" stroke-width="2" ' + (dashed ? 'stroke-dasharray="5 4"' : '') + '/>';
+  }
+  const under = t => Math.exp(-0.35 * t) * Math.cos(2.1 * t);
+  const crit = t => (1 + 1.4 * t) * Math.exp(-1.4 * t);
+  const over = t => 0.65 * Math.exp(-0.55 * t) + 0.35 * Math.exp(-2.6 * t);
+  const envUp = t => Math.exp(-0.35 * t), envDown = t => -Math.exp(-0.35 * t);
+  return '<div class="graph-wrap wide"><svg viewBox="0 0 ' + w + ' ' + h + '">' +
+    '<line class="axis-line" x1="' + x0 + '" y1="' + midY + '" x2="' + (w - 10) + '" y2="' + midY + '"/>' +
+    '<line class="axis-line" x1="' + x0 + '" y1="10" x2="' + x0 + '" y2="' + (h - 10) + '"/>' +
+    curve(envUp, 'var(--border)', true) + curve(envDown, 'var(--border)', true) +
+    curve(under, 'var(--accent)', false) +
+    curve(crit, 'var(--blue)', false) +
+    curve(over, 'var(--gold)', false) +
+    '</svg></div>' +
+    legend([{ c: 'var(--accent)', l: 'sottosmorzato' }, { c: 'var(--blue)', l: 'smorzamento critico' }, { c: 'var(--gold)', l: 'sovrasmorzato' }]);
+}
+
+function spiralSvg(stable) {
+  const cx = 150, cy = 150;
+  function spiralPath(r0, turns, decay, color, phase) {
+    let d = '';
+    for (let i = 0; i <= 260; i++) {
+      const frac = i / 260;
+      const t = frac * turns * 2 * Math.PI;
+      const r = stable ? r0 * Math.exp(-decay * t) : r0 * Math.exp(decay * t * 0.35);
+      const x = cx + r * Math.cos(t + phase);
+      const y = cy - r * Math.sin(t + phase);
+      d += (i === 0 ? 'M ' : 'L ') + x.toFixed(1) + ' ' + y.toFixed(1) + ' ';
+    }
+    return '<path d="' + d + '" fill="none" stroke="' + color + '" stroke-width="1.8"/>';
+  }
+  const r0 = stable ? 118 : 3;
+  const turns = stable ? 2.6 : 2.1;
+  return '<div class="graph-wrap"><svg viewBox="0 0 300 300">' +
+    '<line class="axis-line" x1="20" y1="150" x2="280" y2="150"/>' +
+    '<line class="axis-line" x1="150" y1="20" x2="150" y2="280"/>' +
+    spiralPath(r0, turns, 0.2, 'var(--accent)', 0) +
+    spiralPath(r0 * 0.6, turns, 0.2, 'var(--blue)', 2.4) +
+    '<circle cx="150" cy="150" r="3.5" fill="var(--text)"/>' +
+    '</svg></div>';
+}
+
+function centerSvg() {
+  const cx = 150, cy = 150;
+  const radii = [38, 66, 94, 122];
+  const ellipses = radii.map((r, i) =>
+    '<ellipse cx="' + cx + '" cy="' + cy + '" rx="' + r + '" ry="' + (r * 0.6).toFixed(1) + '" fill="none" stroke="var(--accent)" stroke-width="' + (i === 2 ? 2 : 1.3) + '" opacity="' + (0.95 - i * 0.16).toFixed(2) + '"/>'
+  ).join('');
+  return '<div class="graph-wrap"><svg viewBox="0 0 300 300">' +
+    '<line class="axis-line" x1="20" y1="150" x2="280" y2="150"/>' +
+    '<line class="axis-line" x1="150" y1="20" x2="150" y2="280"/>' +
+    ellipses +
+    '<circle cx="150" cy="150" r="3.5" fill="var(--text)"/>' +
+    '</svg></div>';
+}
+
+function saddleSvg() {
+  const cx = 150, cy = 150;
+  function branch(a, b, sign) {
+    let d = '';
+    for (let i = 0; i <= 80; i++) {
+      const s = -2.6 + (i / 80) * 5.2;
+      const x = cx + sign * a * Math.cosh(s * 0.55);
+      const y = cy - b * Math.sinh(s * 0.55) * (sign > 0 ? 1 : -1) * 0;
+      d += (i === 0 ? 'M ' : 'L ') + Math.max(6, Math.min(294, x)).toFixed(1) + ' ' + Math.max(6, Math.min(294, cy - b * Math.sinh(s * 0.55))).toFixed(1) + ' ';
+    }
+    return '<path d="' + d + '" fill="none" stroke="var(--accent)" stroke-width="1.7"/>';
+  }
+  const separ = '<line x1="20" y1="150" x2="280" y2="150" class="axis-line" stroke-dasharray="4 4"/>' +
+    '<line x1="150" y1="20" x2="150" y2="280" class="axis-line" stroke-dasharray="4 4"/>';
+  return '<div class="graph-wrap"><svg viewBox="0 0 300 300">' +
+    separ +
+    branch(70, 70, 1) + branch(70, 70, -1) +
+    '<circle cx="150" cy="150" r="3.5" fill="var(--text)"/>' +
+    '</svg></div>';
+}
+
+function resonanceSvg() {
+  const w = 380, h = 220, x0 = 20, xw = w - 30, midY = 110;
+  let path = '', envTop = '', envBot = '';
+  for (let i = 0; i <= 260; i++) {
+    const frac = i / 260;
+    const x = x0 + frac * xw;
+    const t = frac * 8 * Math.PI;
+    const env = 4 + frac * 92;
+    const y = midY - env * Math.sin(t);
+    path += (i === 0 ? 'M ' : 'L ') + x.toFixed(1) + ' ' + y.toFixed(1) + ' ';
+    if (i === 0 || i === 260) {
+      envTop += (i === 0 ? 'M ' : 'L ') + x.toFixed(1) + ' ' + (midY - (4 + frac * 92)).toFixed(1) + ' ';
+      envBot += (i === 0 ? 'M ' : 'L ') + x.toFixed(1) + ' ' + (midY + (4 + frac * 92)).toFixed(1) + ' ';
+    }
+  }
+  return '<div class="graph-wrap wide"><svg viewBox="0 0 ' + w + ' ' + h + '">' +
+    '<line class="axis-line" x1="' + x0 + '" y1="' + midY + '" x2="' + (w - 10) + '" y2="' + midY + '"/>' +
+    '<path d="' + envTop + '" fill="none" stroke="var(--gold)" stroke-width="1.4" stroke-dasharray="5 4"/>' +
+    '<path d="' + envBot + '" fill="none" stroke="var(--gold)" stroke-width="1.4" stroke-dasharray="5 4"/>' +
+    '<path d="' + path + '" fill="none" stroke="var(--accent)" stroke-width="1.8"/>' +
+    '</svg></div>';
+}
+
+const S = [
+{
+  tag:"OLTRE IL LICEO",
+  title:"Da dove <em>ripartiamo</em>",
+  nav:"Da dove ripartiamo",
+  body:
+    '<p>Nell\'approfondimento del corso Pro abbiamo imparato a risolvere equazioni differenziali del <strong>primo ordine</strong>: variabili separabili, equazioni lineari con il fattore integrante, il problema di Cauchy. È un buon punto di partenza, ma è solo l\'inizio della storia.</p>' +
+    '<div class="cb"><div class="cb-label">Il salto di livello</div><p>Un corso universitario di analisi matematica (o di fisica matematica) dedica alle equazioni differenziali un\'intera area di studio. In questo approfondimento vediamo tre passi avanti fondamentali:</p><ol style="margin-left:20px"><li>equazioni del <strong>secondo ordine</strong>, che governano tutti i fenomeni oscillatori;</li><li><strong>sistemi</strong> di equazioni, cioè più grandezze che evolvono insieme;</li><li>un accenno a due strumenti che l\'analisi universitaria costruisce sopra queste basi: <strong>serie</strong> e <strong>trasformata di Laplace</strong>.</li></ol></div>' +
+    '<div class="cb tip"><div class="cb-label">Perché proprio il secondo ordine</div><p>La seconda legge di Newton, \\(F=ma\\), scritta per esteso è \\(F = m\\dfrac{d^2x}{dt^2}\\): un\'equazione del <strong>secondo ordine</strong> nella posizione \\(x(t)\\). Ogni volta che una forza dipende dalla posizione (una molla, la gravità, un campo elettrico), il moto risultante è governato da un\'equazione di questo tipo. Non è un dettaglio tecnico: è il cuore della meccanica.</p></div>' +
+    '<p style="font-size:.85rem" class="dim">Il prerequisito è la lezione LP09 del corso Pro (equazioni del primo ordine): se non l\'hai ancora seguita, è il punto di partenza naturale prima di questo approfondimento.</p>'
+},
+{
+  tag:"SECONDO ORDINE",
+  title:"Equazioni lineari omogenee a coefficienti <em>costanti</em>",
+  nav:"Secondo ordine",
+  body:
+    '<p>Ci concentriamo sulla famiglia più importante e più trattabile: le equazioni lineari del secondo ordine a coefficienti <strong>costanti</strong>.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione</div><div class="math-block hero-formula">\\[ ay\'\' + by\' + cy = 0, \\qquad a,b,c \\in \\mathbb{R},\\ a\\neq0 \\]</div></div>' +
+    '<div class="cb tip"><div class="cb-label">L\'idea chiave — l\'equazione caratteristica</div><p>Cerchiamo soluzioni della forma \\(y=e^{\\lambda x}\\), perché per l\'esponenziale derivare equivale a moltiplicare per una costante. Sostituendo: \\(a\\lambda^2e^{\\lambda x}+b\\lambda e^{\\lambda x}+ce^{\\lambda x}=0\\). Dividendo per \\(e^{\\lambda x}\\) (mai nullo), il problema differenziale si riduce a un\'<strong>equazione algebrica di secondo grado</strong>:</p><div class="math-block hero-formula">\\[ a\\lambda^2+b\\lambda+c=0 \\]</div><p>chiamata <strong>equazione caratteristica</strong>. Il comportamento delle soluzioni dipende, esattamente come nelle equazioni di secondo grado del liceo, dal segno del discriminante \\(\\Delta=b^2-4ac\\).</p></div>' +
+    '<table class="ct"><tr><th>Discriminante</th><th>Radici</th><th>Integrale generale</th></tr>' +
+    '<tr><td>\\(\\Delta>0\\)</td><td>\\(\\lambda_1\\neq\\lambda_2\\) reali</td><td>\\(y=C_1e^{\\lambda_1x}+C_2e^{\\lambda_2x}\\)</td></tr>' +
+    '<tr><td>\\(\\Delta=0\\)</td><td>\\(\\lambda\\) doppia</td><td>\\(y=(C_1+C_2x)e^{\\lambda x}\\)</td></tr>' +
+    '<tr><td>\\(\\Delta<0\\)</td><td>\\(\\lambda_{1,2}=\\alpha\\pm i\\beta\\)</td><td>\\(y=e^{\\alpha x}(C_1\\cos\\beta x+C_2\\sin\\beta x)\\)</td></tr>' +
+    '</table>' +
+    '<div class="cb warn"><div class="cb-label">Il caso della radice doppia — da dove viene il fattore \\(x\\)?</div><p>Se \\(\\Delta=0\\), l\'equazione caratteristica dà una sola radice \\(\\lambda\\), quindi \\(y_1=e^{\\lambda x}\\) è soluzione ma non basta (servono due soluzioni indipendenti per l\'integrale generale di un\'equazione del secondo ordine). Si dimostra — per sostituzione diretta — che anche \\(y_2=xe^{\\lambda x}\\) risolve l\'equazione quando \\(\\lambda\\) è radice doppia: da qui il fattore \\(x\\) che moltiplica \\(C_2\\).</p></div>' +
+    acc([
+      { t:"Esempio commentato — radici reali distinte", h:'<p>Risolviamo \\(y\'\'-3y\'+2y=0\\). L\'equazione caratteristica è \\(\\lambda^2-3\\lambda+2=0\\), che si scompone come \\((\\lambda-1)(\\lambda-2)=0\\): due radici reali distinte, \\(\\lambda_1=1\\) e \\(\\lambda_2=2\\).</p><p>Per la tabella, l\'integrale generale è \\(y=C_1e^{x}+C_2e^{2x}\\). Da notare: per \\(x\\to+\\infty\\) il termine con \\(\\lambda_2=2\\) (l\'esponente più grande) "domina" su quello con \\(\\lambda_1=1\\) — è sempre la radice più grande a decidere il comportamento a lungo termine.</p>' },
+      { t:"Esempio commentato — radice doppia", h:'<p>Risolviamo \\(y\'\'-4y\'+4y=0\\). L\'equazione caratteristica \\(\\lambda^2-4\\lambda+4=0\\) si scompone come \\((\\lambda-2)^2=0\\): radice doppia \\(\\lambda=2\\).</p><p>Integrale generale: \\(y=(C_1+C_2x)e^{2x}\\). Verifichiamo che \\(y_2=xe^{2x}\\) soddisfi davvero l\'equazione: \\(y_2\'=e^{2x}+2xe^{2x}=(1+2x)e^{2x}\\), e \\(y_2\'\'=2e^{2x}+2(1+2x)e^{2x}=(4+4x)e^{2x}\\). Sostituendo: \\((4+4x)e^{2x}-4(1+2x)e^{2x}+4xe^{2x} = [4+4x-4-8x+4x]e^{2x}=0\\). Torna: la "candidatura" di \\(xe^{2x}\\) non era un trucco arbitrario, è verificabile.</p>' },
+      { t:"Esempio commentato — radici complesse coniugate", h:'<p>Risolviamo \\(y\'\'+2y\'+5y=0\\). Equazione caratteristica: \\(\\lambda^2+2\\lambda+5=0\\), con \\(\\Delta=4-20=-16<0\\). Le radici sono \\(\\lambda=\\dfrac{-2\\pm\\sqrt{-16}}{2}=-1\\pm2i\\) (esattamente come le equazioni di secondo grado in campo complesso viste nel corso Pro).</p><p>Con \\(\\alpha=-1\\), \\(\\beta=2\\): \\(y=e^{-x}(C_1\\cos2x+C_2\\sin2x)\\). Il fattore \\(e^{-x}\\) smorza l\'oscillazione descritta da seno e coseno: è esattamente la forma delle <strong>oscillazioni smorzate</strong> che vedremo tra due sezioni.</p>' }
+    ])
+},
+{
+  tag:"OSCILLATORE ARMONICO",
+  title:"L\'oscillatore <em>armonico</em>",
+  nav:"Oscillatore armonico",
+  body:
+    '<p>Il caso \\(\\Delta<0\\) senza smorzamento (parte reale nulla) è così importante da meritare un nome proprio: è l\'<strong>oscillatore armonico</strong>, il modello di ogni fenomeno periodico "semplice" — una molla ideale, un pendolo per piccole oscillazioni, un circuito LC.</p>' +
+    '<div class="cb"><div class="cb-label">Dalla fisica all\'equazione</div><p>Una massa \\(m\\) attaccata a una molla di costante elastica \\(k\\) (legge di Hooke: \\(F=-kx\\)) soddisfa, per \\(F=ma\\):</p><div class="math-block hero-formula">\\[ m\\ddot x = -kx \\ \\Longleftrightarrow\\ \\ddot x + \\omega^2 x = 0, \\qquad \\omega=\\sqrt{\\frac{k}{m}} \\]</div><p>(qui \\(\\ddot x\\) indica \\(\\dfrac{d^2x}{dt^2}\\), notazione di Newton, comune in fisica). L\'equazione caratteristica \\(\\lambda^2+\\omega^2=0\\) ha radici \\(\\lambda=\\pm i\\omega\\) (\\(\\alpha=0\\)): nessuno smorzamento, oscillazione pura.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Soluzione generale, in due forme equivalenti</div><div class="math-block hero-formula">\\[ x(t) = C_1\\cos\\omega t + C_2\\sin\\omega t \\ = \\ A\\cos(\\omega t - \\varphi) \\]</div><p>La seconda forma è spesso più intuitiva: \\(A=\\sqrt{C_1^2+C_2^2}\\) è l\'<strong>ampiezza</strong> (il massimo spostamento), \\(\\varphi\\) è la <strong>fase</strong> (con \\(\\cos\\varphi=C_1/A\\), \\(\\sin\\varphi=C_2/A\\)), e \\(\\omega\\) è la <strong>pulsazione</strong>, legata al periodo da \\(T=2\\pi/\\omega\\).</p></div>' +
+    sineSvg() + '<p class="caption">Oscillazione non smorzata: ampiezza costante nel tempo.</p>' +
+    acc([
+      { t:"Esempio commentato — dal problema di Cauchy all\'ampiezza", h:'<p>Una massa attaccata a una molla con \\(\\omega=3\\ \\text{rad/s}\\) parte da \\(x(0)=2\\) con velocità iniziale nulla, \\(\\dot x(0)=0\\). Vogliamo la legge oraria.</p><p>Dall\'integrale generale \\(x(t)=C_1\\cos3t+C_2\\sin3t\\): derivando, \\(\\dot x(t)=-3C_1\\sin3t+3C_2\\cos3t\\). Imponendo \\(x(0)=2\\): \\(C_1=2\\). Imponendo \\(\\dot x(0)=0\\): \\(3C_2=0\\), quindi \\(C_2=0\\).</p><p>Soluzione: \\(x(t)=2\\cos3t\\). Il fatto che \\(C_2=0\\) non è un caso: partire da fermi in un punto di massimo spostamento produce sempre un puro coseno, senza componente in seno — coerente con l\'intuizione fisica (si parte da fermi, quindi dal punto di massima ampiezza).</p>' },
+      { t:"Esercizio — dal periodo alla costante elastica", h:'<p>Una massa di \\(0.5\\,kg\\) oscilla con periodo \\(T=1.2\\,s\\). Ricava la costante elastica \\(k\\) della molla. <em>Traccia</em>: da \\(T=2\\pi/\\omega\\) ricava \\(\\omega\\), poi usa \\(\\omega=\\sqrt{k/m}\\) per isolare \\(k=m\\omega^2\\).</p>' }
+    ])
+},
+{
+  tag:"OSCILLAZIONI SMORZATE",
+  title:"Oscillazioni <em>smorzate</em>",
+  nav:"Oscillazioni smorzate",
+  body:
+    '<p>Nella realtà, ogni oscillatore perde energia per attrito. Aggiungendo un termine di smorzamento proporzionale alla velocità (come nella caduta con attrito vista nel corso Pro), il modello diventa:</p>' +
+    '<div class="cb"><div class="cb-label">L\'oscillatore smorzato</div><div class="math-block hero-formula">\\[ m\\ddot x + c\\dot x + kx = 0 \\]</div><p>con \\(c>0\\) coefficiente di smorzamento. L\'equazione caratteristica è \\(m\\lambda^2+c\\lambda+k=0\\), con discriminante \\(\\Delta=c^2-4mk\\): tre regimi possibili, a seconda di <strong>quanto</strong> smorzamento c\'è rispetto alla "forza di richiamo" della molla.</p></div>' +
+    dampedOscSvg() + '<p class="caption">Le tre risposte per la stessa condizione iniziale: sottosmorzato (oscilla e decade), smorzamento critico (ritorno più rapido possibile senza oscillare), sovrasmorzato (ritorno lento, senza oscillare).</p>' +
+    '<div class="cb tip"><div class="cb-label">I tre regimi</div><dl style="margin-left:4px"><dt style="font-weight:600;margin-top:8px">Sottosmorzato (\\(\\Delta<0\\))</dt><dd>Il sistema oscilla, con ampiezza che decresce esponenzialmente: \\(x(t)=Ae^{-\\gamma t}\\cos(\\omega_dt-\\varphi)\\). È il caso di un\'altalena spinta una volta, o di una corda di chitarra.</dd><dt style="font-weight:600;margin-top:8px">Smorzamento critico (\\(\\Delta=0\\))</dt><dd>Il confine tra i due mondi: il sistema torna all\'equilibrio nel <strong>minor tempo possibile</strong> senza mai oscillare. È il regime cercato, ad esempio, negli ammortizzatori delle automobili.</dd><dt style="font-weight:600;margin-top:8px">Sovrasmorzato (\\(\\Delta>0\\))</dt><dd>Il sistema torna all\'equilibrio senza oscillare, ma più lentamente del caso critico: due esponenziali reali negativi che decrescono insieme.</dd></dl></div>' +
+    '<h3>Il ritratto di fase</h3>' +
+    '<p>Un altro modo di vedere la stessa storia: nel piano <strong>posizione-velocità</strong> \\((x,\\dot x)\\), ogni soluzione traccia una traiettoria. Per l\'oscillatore smorzato (sottosmorzato), la traiettoria è una <strong>spirale che converge all\'origine</strong>: energia che si dissipa, oscillazione che si spegne.</p>' +
+    spiralSvg(true) + '<p class="caption">Ritratto di fase di un oscillatore sottosmorzato: la traiettoria spiraleggia verso il punto di equilibrio \\((0,0)\\) — è un <em>fuoco stabile</em>.</p>' +
+    acc([
+      { t:"Esempio commentato — classificare il regime", h:'<p>Un sistema massa-molla-smorzatore ha \\(m=1\\,kg\\), \\(c=6\\,kg/s\\), \\(k=9\\,N/m\\). Che regime osserviamo?</p><p>Calcoliamo il discriminante dell\'equazione caratteristica \\(\\lambda^2+6\\lambda+9=0\\): \\(\\Delta=36-36=0\\). Smorzamento critico: radice doppia \\(\\lambda=-3\\). Soluzione: \\(x(t)=(C_1+C_2t)e^{-3t}\\) — il sistema torna a riposo senza mai oltrepassare (o oltrepassando al più una volta) la posizione di equilibrio.</p>' },
+      { t:"Esercizio — dal sottosmorzato al critico", h:'<p>Per il sistema \\(\\ddot x + c\\dot x + 25x=0\\) (con \\(m=1\\)), per quale valore di \\(c\\) il sistema passa dal regime sottosmorzato a quello critico? <em>Traccia</em>: imponi \\(\\Delta=c^2-100=0\\).</p>' }
+    ])
+},
+{
+  tag:"RISONANZA",
+  title:"Il fenomeno della <em>risonanza</em>",
+  nav:"Risonanza",
+  body:
+    '<p>Cosa succede se, oltre allo smorzamento, applichiamo all\'oscillatore una <strong>forza esterna periodica</strong> \\(F(t)=F_0\\cos(\\omega_f t)\\)? L\'equazione diventa <strong>non omogenea</strong>:</p>' +
+    '<div class="cb"><div class="cb-label">Equazione forzata</div><div class="math-block hero-formula">\\[ m\\ddot x + c\\dot x + kx = F_0\\cos(\\omega_f t) \\]</div></div>' +
+    '<div class="cb tip"><div class="cb-label">Il metodo dei coefficienti indeterminati</div><p>La soluzione generale di un\'equazione non omogenea è \\(x=x_{om}+x_p\\): la soluzione dell\'omogenea associata (che abbiamo già imparato a trovare) più una <strong>soluzione particolare</strong> \\(x_p\\), che "insegue" la forma del termine noto. Per un termine noto sinusoidale, si cerca \\(x_p=A\\cos(\\omega_ft)+B\\sin(\\omega_ft)\\) e si sostituisce nell\'equazione per determinare \\(A\\) e \\(B\\).</p><p>Con smorzamento (\\(c>0\\)), dopo un transitorio (in cui conta \\(x_{om}\\), che decade a zero), il sistema si assesta su un\'oscillazione permanente alla <strong>stessa frequenza della forzante</strong>, con un\'ampiezza che dipende da quanto \\(\\omega_f\\) è vicina alla frequenza naturale \\(\\omega_0=\\sqrt{k/m}\\) del sistema.</p></div>' +
+    '<div class="cb danger"><div class="cb-label">Il caso limite — risonanza pura</div><p>Se il sistema è <strong>privo di smorzamento</strong> (\\(c=0\\)) e la forzante è esattamente alla frequenza naturale (\\(\\omega_f=\\omega_0\\)), il metodo dei coefficienti indeterminati "fallisce" nel modo consueto (la forma tentativo coincide già con una soluzione dell\'omogenea) e va corretta moltiplicando per \\(t\\):</p><div class="math-block hero-formula">\\[ x_p(t) = \\frac{F_0}{2m\\omega_0}\\,t\\,\\sin(\\omega_0 t) \\]</div><p>L\'ampiezza <strong>cresce linearmente nel tempo, senza limite</strong>: è la risonanza pura.</p></div>' +
+    resonanceSvg() + '<p class="caption">Risonanza: l\'ampiezza dell\'oscillazione cresce linearmente (inviluppo tratteggiato \\(\\pm t\\)) mentre l\'oscillazione continua alla frequenza naturale.</p>' +
+    '<div class="cb purple"><div class="cb-label">Il ponte di Tacoma Narrows</div><p>Il crollo del ponte di Tacoma Narrows (1940) è spesso citato come esempio da manuale di risonanza: il vento avrebbe eccitato il ponte vicino a una sua frequenza propria di oscillazione, fino a un\'ampiezza distruttiva. È un\'ottima intuizione didattica — <strong>ma va presa con cautela</strong>: gli studi successivi hanno mostrato che il meccanismo reale è più sottile, un fenomeno chiamato <strong>flutter aeroelastico</strong>, in cui il vento stesso alimenta l\'oscillazione in modo autosostenuto, non una semplice forzante periodica esterna. La matematica della risonanza resta comunque essenziale: è alla base della progettazione di ogni struttura (ponti, grattacieli, ali di aereo), che deve evitare di avere frequenze proprie vicine a quelle delle sollecitazioni ambientali attese.</p></div>' +
+    acc([
+      { t:"Esempio commentato — ampiezza a regime, lontano dalla risonanza", h:'<p>Un sistema con \\(m=1\\), \\(k=100\\) (quindi \\(\\omega_0=10\\ \\text{rad/s}\\)) e smorzamento debole viene forzato a \\(\\omega_f=5\\ \\text{rad/s}\\), lontano dalla risonanza. In questo regime l\'ampiezza a regime resta <strong>limitata e modesta</strong>, perché il denominatore che compare nella formula dell\'ampiezza (proporzionale a \\((\\omega_0^2-\\omega_f^2)^2\\) più un termine di smorzamento) è ancora "grande". Il sistema risponde alla forzante, ma senza amplificazioni pericolose.</p><p>Se invece \\(\\omega_f\\) si avvicina a \\(\\omega_0=10\\), quel denominatore si avvicina a zero e l\'ampiezza a regime cresce vistosamente: è il fenomeno, ben più realistico della risonanza pura, della <strong>risonanza con smorzamento</strong> — un picco alto ma finito, invece di una crescita illimitata.</p>' },
+      { t:"Esercizio — riconoscere la forma tentativo", h:'<p>Per risolvere \\(\\ddot x+4x=3\\cos(2t)\\) con il metodo dei coefficienti indeterminati, perché la forma tentativo "ovvia" \\(x_p=A\\cos2t+B\\sin2t\\) <strong>non funziona</strong>, e va sostituita da \\(x_p=t(A\\cos2t+B\\sin2t)\\)? <em>Traccia</em>: confronta \\(\\omega_f=2\\) con la frequenza naturale del sistema omogeneo \\(\\ddot x+4x=0\\).</p>' }
+    ])
+},
+{
+  tag:"SISTEMI E RITRATTI DI FASE",
+  title:"Sistemi lineari e ritratti di <em>fase</em>",
+  nav:"Sistemi e fase",
+  body:
+    '<p>Ogni equazione del secondo ordine si può riscrivere come un <strong>sistema</strong> di due equazioni del primo ordine, introducendo la velocità come seconda incognita. Questo cambio di prospettiva è più di un trucco tecnico: apre la porta ai <strong>ritratti di fase</strong>, uno degli strumenti più potenti per capire un sistema dinamico senza risolverlo esplicitamente.</p>' +
+    '<div class="cb"><div class="cb-label">Dalla singola equazione al sistema</div><p>Ponendo \\(v=\\dot x\\), l\'equazione \\(m\\ddot x+c\\dot x+kx=0\\) diventa il sistema:</p><div class="math-block hero-formula">\\[ \\begin{cases} \\dot x = v \\\\ \\dot v = -\\dfrac{k}{m}x-\\dfrac{c}{m}v \\end{cases} \\]</div><p>In forma matriciale, \\(\\dot{\\mathbf{u}}=A\\mathbf{u}\\) con \\(\\mathbf{u}=(x,v)\\): il comportamento delle soluzioni è determinato dagli <strong>autovalori</strong> della matrice \\(A\\) — che altro non sono se non le radici \\(\\lambda\\) della stessa equazione caratteristica incontrata poco fa.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Tre ritratti di fase fondamentali</div><p>Nel piano \\((x,v)\\), il punto di equilibrio nell\'origine può essere di tipi qualitativamente diversi, a seconda del segno e della natura degli autovalori:</p></div>' +
+    '<table class="ct"><tr><th>Autovalori</th><th>Tipo di equilibrio</th><th>Esempio fisico</th></tr>' +
+    '<tr><td>Complessi, parte reale \\(<0\\)</td><td>Fuoco stabile (spirale)</td><td>Oscillatore smorzato</td></tr>' +
+    '<tr><td>Immaginari puri</td><td>Centro (orbite chiuse)</td><td>Oscillatore armonico ideale</td></tr>' +
+    '<tr><td>Reali, di segno opposto</td><td>Sella (instabile)</td><td>Equilibrio instabile, es. pendolo capovolto</td></tr>' +
+    '</table>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">' +
+      '<div style="flex:1;min-width:220px">' + spiralSvg(true) + '<p class="caption">Fuoco stabile — oscillatore smorzato</p></div>' +
+      '<div style="flex:1;min-width:220px">' + centerSvg() + '<p class="caption">Centro — oscillatore ideale, orbite periodiche chiuse</p></div>' +
+    '</div>' +
+    saddleSvg() + '<p class="caption">Sella: quasi tutte le traiettorie si allontanano dall\'origine — un equilibrio instabile.</p>' +
+    acc([
+      { t:"Esempio commentato — classificare un sistema", h:'<p>Consideriamo \\(\\ddot x - x=0\\) (attenzione al segno: non è un oscillatore, è un\'equazione con "richiamo negativo"). L\'equazione caratteristica è \\(\\lambda^2-1=0\\), con radici reali \\(\\lambda=\\pm1\\): di segno opposto.</p><p>Per la tabella, questo è un caso di <strong>sella</strong>: quasi ogni condizione iniziale porta la soluzione ad allontanarsi esponenzialmente (per la componente con \\(\\lambda=+1\\)), tranne le condizioni iniziali esattamente sulla direzione stabile associata a \\(\\lambda=-1\\). Fisicamente, è il comportamento di un pendolo <strong>vicino alla posizione capovolta</strong>: instabile, la minima perturbazione lo allontana.</p>' },
+      { t:"Esercizio — dal sistema al ritratto di fase", h:'<p>Classifica l\'equilibrio nell\'origine per il sistema associato a \\(\\ddot x+4\\dot x+3x=0\\). <em>Traccia</em>: trova le radici dell\'equazione caratteristica \\(\\lambda^2+4\\lambda+3=0\\) e confrontale con la tabella dei tre casi.</p>' }
+    ])
+},
+{
+  tag:"ORIZZONTI",
+  title:"Un primo sguardo a serie e trasformata di <em>Laplace</em>",
+  nav:"Serie e Laplace",
+  body:
+    '<p>Il metodo dei coefficienti indeterminati funziona bene quando il termine noto è "semplice" (polinomi, esponenziali, seno e coseno). Per casi più generali, l\'analisi universitaria sviluppa due strumenti molto più potenti: li presentiamo solo nell\'idea, rimandando la trattazione completa ai corsi di analisi.</p>' +
+    '<div class="cb"><div class="cb-label">Soluzioni per serie di potenze</div><p>Quando i coefficienti dell\'equazione non sono costanti (ad esempio l\'equazione di Legendre o quella di Bessel, che compaiono studiando la propagazione del calore o le onde in geometrie sferiche/cilindriche), spesso non esiste una soluzione elementare. Si cerca allora una soluzione come <strong>serie di potenze</strong>:</p><div class="math-block hero-formula">\\[ y(x) = \\sum_{n=0}^{\\infty} a_n x^n \\]</div><p>Sostituendo nell\'equazione differenziale, si ottiene una <strong>relazione di ricorrenza</strong> tra i coefficienti \\(a_n\\): un problema differenziale si trasforma in un problema di successioni, spesso più trattabile.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">La trasformata di Laplace</div><p>Un\'idea più radicale: trasformare l\'intera equazione differenziale in un\'equazione <strong>algebrica</strong>. La trasformata di Laplace di una funzione \\(f(t)\\) è:</p><div class="math-block hero-formula">\\[ \\mathcal{L}\\{f(t)\\}(s) = \\int_0^{\\infty} f(t)\\,e^{-st}\\,dt \\]</div><p>La proprietà cruciale è che <strong>trasforma la derivazione in moltiplicazione</strong>: \\(\\mathcal{L}\\{f\'(t)\\}=sF(s)-f(0)\\). Un\'equazione differenziale con condizioni iniziali diventa così un\'equazione puramente algebrica in \\(F(s)\\), che si risolve con l\'algebra elementare — per poi tornare a \\(f(t)\\) con la trasformata inversa.</p></div>' +
+    '<div class="cb success"><div class="cb-label">Perché conta</div><p>Questo approccio è lo standard nell\'ingegneria elettrica ed elettronica: circuiti, sistemi di controllo, teoria dei segnali si progettano quasi sempre lavorando nel "dominio di Laplace" (la variabile \\(s\\)) invece che nel dominio del tempo, proprio perché lì le equazioni differenziali diventano semplice algebra.</p></div>' +
+    acc([
+      { t:"Assaggio — la trasformata di una derivata", h:'<p>Non dimostriamo la formula generale, ma ne vediamo l\'idea: integrando per parti, \\(\\displaystyle\\int_0^\\infty f\'(t)e^{-st}dt = \\big[f(t)e^{-st}\\big]_0^\\infty + s\\int_0^\\infty f(t)e^{-st}dt = -f(0)+sF(s)\\) (assumendo che \\(f(t)e^{-st}\\to0\\) per \\(t\\to\\infty\\)). Da qui \\(\\mathcal{L}\\{f\'\\}=sF(s)-f(0)\\): la derivazione diventa una moltiplicazione per \\(s\\), a meno del dato iniziale.</p>' }
+    ])
+},
+{
+  tag:"SINTESI",
+  title:"Equazioni che governano il <em>mondo</em>",
+  nav:"Sintesi",
+  body:
+    '<p>Chiudiamo con una mappa d\'insieme: dagli strumenti visti in questo approfondimento alle equazioni che, con la stessa logica ma su scala più grande, descrivono buona parte della fisica moderna.</p>' +
+    '<table class="ct"><tr><th>Argomento</th><th>Strumento</th><th>Idea chiave</th></tr>' +
+    '<tr><td>Omogenee, secondo ordine</td><td>Equazione caratteristica</td><td>Tre regimi secondo il segno di \\(\\Delta\\)</td></tr>' +
+    '<tr><td>Oscillatore smorzato</td><td>Radici complesse con \\(\\alpha<0\\)</td><td>Oscillazione + decadimento</td></tr>' +
+    '<tr><td>Forzanti periodiche</td><td>Coefficienti indeterminati</td><td>Risonanza quando \\(\\omega_f\\to\\omega_0\\)</td></tr>' +
+    '<tr><td>Sistemi</td><td>Autovalori, ritratti di fase</td><td>Stabilità qualitativa senza risolvere esplicitamente</td></tr>' +
+    '<tr><td>Casi generali</td><td>Serie di potenze, Laplace</td><td>Trasformare il problema in uno più semplice</td></tr>' +
+    '</table>' +
+    '<div class="cb purple"><div class="cb-label">Un\'ultima galleria</div><p>La stessa idea — una legge scritta come equazione differenziale — è dietro alcune delle equazioni più famose della fisica: l\'<strong>equazione del calore</strong> (diffusione del calore in un materiale), l\'<strong>equazione delle onde</strong> (propagazione del suono, della luce), le <strong>equazioni di Maxwell</strong> (elettromagnetismo), l\'<strong>equazione di Schrödinger</strong> (meccanica quantistica), le <strong>equazioni di Navier-Stokes</strong> (moto dei fluidi, dall\'aerodinamica alla meteorologia). Tutte più complesse di quelle viste qui — spesso alle derivate parziali, con più variabili — ma costruite sullo stesso principio: descrivere <em>come cambia</em> una grandezza, non semplicemente quanto vale.</p></div>' +
+    '<h3>Problemi di sintesi</h3>' +
+    acc([
+      { t:"Problema 1 — dal fenomeno all\'equazione", h:'<p>Un edificio alto oscilla, sotto l\'azione del vento, come un oscillatore smorzato con \\(\\omega_0=2\\pi/T_0\\) dove \\(T_0\\) è il suo periodo naturale (tipicamente qualche secondo per un grattacielo). Perché i progettisti sono interessati a conoscere con precisione \\(T_0\\), e cosa succederebbe se il vento producesse raffiche periodiche vicine a quella frequenza?</p>' },
+      { t:"Problema 2 — risolvere e classificare", h:'<p>Risolvi \\(y\'\'+6y\'+9y=0\\) e classifica il regime (in analogia meccanica) che rappresenterebbe se fosse un sistema massa-molla-smorzatore.</p>' },
+      { t:"Problema 3 — risonanza con numeri", h:'<p>Un sistema non smorzato ha \\(m=2\\,kg\\), \\(k=8\\,N/m\\). Per quale valore della pulsazione della forzante \\(\\omega_f\\) si osserva risonanza pura? Scrivi la forma della soluzione particolare in quel caso.</p>' }
+    ])
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>

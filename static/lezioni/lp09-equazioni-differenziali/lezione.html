@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento Pro — Equazioni Differenziali</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.ct.sign td { text-align:center; font-family:'JetBrains Mono',monospace; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.graph-wrap { margin:18px 0; text-align:center; }
+.graph-wrap svg { width:100%; max-width:380px; height:auto; }
+.graph-wrap.wide svg { max-width:520px; }
+.axis-line { stroke:var(--text-dim); stroke-width:1; }
+.grid-line { stroke:var(--border-light); stroke-width:1; }
+.plot-point { fill:var(--accent); }
+.plot-label { font-family:'JetBrains Mono',monospace; font-size:11px; fill:var(--text); }
+.plot-curve { fill:none; stroke:var(--accent); stroke-width:2; }
+.plot-curve.alt { stroke:var(--blue); }
+.plot-curve.dim { stroke:var(--text-dim); stroke-dasharray:3 3; }
+.slope-seg { stroke:var(--blue); stroke-width:1.3; opacity:.55; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Pro · Equazioni Differenziali</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+function expCurveSvg(kind) {
+  // kind: 'growth' | 'decay' | 'newton'
+  let path;
+  if (kind === 'growth') {
+    path = 'M 30 240 C 90 238, 150 220, 200 170 C 250 120, 280 50, 300 15';
+  } else if (kind === 'decay') {
+    path = 'M 30 15 C 80 75, 120 135, 160 170 C 210 210, 260 230, 300 238';
+  } else {
+    path = 'M 30 15 C 70 85, 110 150, 160 185 C 210 215, 260 230, 300 234';
+  }
+  const asym = kind === 'newton' ? '<line x1="20" y1="235" x2="310" y2="235" class="plot-curve dim"/>' : '';
+  return '<div class="graph-wrap"><svg viewBox="0 0 320 260">' +
+    '<line class="axis-line" x1="20" y1="250" x2="20" y2="10"/>' +
+    '<line class="axis-line" x1="20" y1="250" x2="310" y2="250"/>' +
+    '<text class="plot-label" x="4" y="14">y</text>' +
+    '<text class="plot-label" x="298" y="246">t</text>' +
+    asym +
+    '<path d="' + path + '" class="plot-curve"/>' +
+    '</svg></div>';
+}
+
+function slopeFieldSvg() {
+  // campo di direzioni per y' = x - y, con una curva integrale approssimata
+  let segs = '';
+  for (let i = 0; i <= 6; i++) {
+    for (let j = 0; j <= 6; j++) {
+      const x = 30 + i * 42, y = 250 - j * 36;
+      const xv = -3 + i, yv = -3 + j;
+      const slope = xv - yv;
+      const ang = Math.atan(slope);
+      const dx = 13 * Math.cos(ang), dy = 13 * Math.sin(ang);
+      segs += '<line class="slope-seg" x1="' + (x - dx).toFixed(1) + '" y1="' + (y + dy).toFixed(1) + '" x2="' + (x + dx).toFixed(1) + '" y2="' + (y - dy).toFixed(1) + '"/>';
+    }
+  }
+  const curve = 'M 30 106 C 90 160, 150 196, 240 214 C 270 218, 290 220, 300 220';
+  return '<div class="graph-wrap wide"><svg viewBox="0 0 320 270">' +
+    segs +
+    '<path d="' + curve + '" class="plot-curve"/>' +
+    '<text class="plot-label" x="250" y="204" style="font-size:11px">curva integrale</text>' +
+    '</svg></div>';
+}
+
+const S = [
+{
+  tag:"FONDAMENTI",
+  title:"Cos'è un'equazione <em>differenziale</em>",
+  nav:"Cos'è una ED",
+  body:
+    '<p>Fino ad ora abbiamo risolto equazioni in cui l\'incognita era un <strong>numero</strong>. Un\'<strong>equazione differenziale</strong> è di natura diversa: l\'incognita è una <strong>funzione</strong>, e l\'equazione lega la funzione alle sue derivate.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione — equazione differenziale ordinaria (EDO)</div><p>Un\'equazione che coinvolge una funzione incognita \\(y=y(x)\\) e una o più delle sue derivate si dice <strong>equazione differenziale ordinaria</strong>. In forma normale, di ordine \\(n\\):</p><div class="math-block hero-formula">\\[ y^{(n)} = f\\big(x,\\ y,\\ y\',\\ \\dots,\\ y^{(n-1)}\\big) \\]</div><p>L\'aggettivo <strong>ordinaria</strong> distingue queste equazioni da quelle <em>alle derivate parziali</em>, dove la funzione incognita dipende da più variabili: qui ci occupiamo solo del caso ordinario.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Perché servono</div><p>Molti fenomeni naturali non si descrivono dicendo "quanto vale" una grandezza, ma <strong>quanto velocemente cambia</strong>: la velocità di crescita di una popolazione dipende dalla popolazione stessa, la velocità di raffreddamento di un corpo dipende dalla sua temperatura. Un\'equazione differenziale è il modo naturale di tradurre in matematica questo tipo di legge.</p></div>' +
+    '<h3>Ordine, soluzione generale e particolare</h3>' +
+    '<p>L\'<strong>ordine</strong> di un\'equazione differenziale è l\'ordine massimo di derivata che vi compare. Risolvere un\'EDO significa trovare <strong>tutte</strong> le funzioni che la soddisfano: questo insieme di funzioni si chiama <strong>integrale generale</strong> (o soluzione generale), e dipende da tante costanti arbitrarie quanto è l\'ordine dell\'equazione.</p>' +
+    '<div class="cb"><div class="cb-label">Esempio guida</div><p>L\'equazione \\(y\'=2x\\) ha ordine 1. Integrando entrambi i membri rispetto a \\(x\\):</p><div class="math-block hero-formula">\\[ y(x) = x^2+c, \\qquad c\\in\\mathbb{R} \\]</div><p>Questa è l\'<strong>integrale generale</strong>: infinite parabole, una per ogni valore di \\(c\\), tutte con la stessa "forma" ma traslate verticalmente. Fissando un valore di \\(c\\) — ad esempio imponendo che il grafico passi per un punto assegnato — si ottiene una <strong>soluzione particolare</strong>.</p></div>' +
+    acc([
+      { t:"Esempio — equazione del secondo ordine", h:'<p>Risolvi \\(y\'\'=6x\\). Integrando una prima volta: \\(y\'=3x^2+c_1\\). Integrando di nuovo: \\(y=x^3+c_1x+c_2\\). Essendo l\'equazione di <strong>ordine 2</strong>, l\'integrale generale contiene, coerentemente, <strong>due</strong> costanti arbitrarie.</p>' },
+      { t:"Esercizio — verifica di soluzione", h:'<p>Verifica che \\(y=Ce^{3x}\\) è soluzione di \\(y\'=3y\\) per ogni valore della costante \\(C\\). <em>Traccia</em>: calcola \\(y\'\\) e confrontalo con \\(3y\\).</p>' }
+    ])
+},
+{
+  tag:"VARIABILI SEPARABILI",
+  title:"Equazioni a variabili <em>separabili</em>",
+  nav:"Variabili separabili",
+  body:
+    '<p>La famiglia di equazioni più semplice da risolvere è quella in cui la parte dipendente da \\(x\\) e quella dipendente da \\(y\\) possono essere "separate" ai due lati dell\'uguale.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione — equazione a variabili separabili</div><p>Un\'equazione della forma</p><div class="math-block hero-formula">\\[ y\' = g(x)\\,h(y) \\]</div><p>si dice a <strong>variabili separabili</strong>. Scrivendo \\(y\'=\\dfrac{dy}{dx}\\) e trattando (in modo euristico, ma rigorizzabile) i differenziali come quantità algebriche, si separano le variabili e si integra ciascun membro separatamente:</p><div class="math-block hero-formula">\\[ \\int \\frac{dy}{h(y)} = \\int g(x)\\,dx \\]</div></div>' +
+    '<div class="cb warn"><div class="cb-label">Attenzione — soluzioni singolari</div><p>Dividere per \\(h(y)\\) è lecito solo dove \\(h(y)\\neq0\\). Se \\(h(y_0)=0\\) per qualche \\(y_0\\), la funzione <strong>costante</strong> \\(y(x)=y_0\\) è essa stessa soluzione dell\'equazione (perché \\(y\'=0=g(x)\\cdot h(y_0)\\)), ma può andare persa nel procedimento di separazione: va sempre controllata a parte.</p></div>' +
+    '<h3>Un esempio completo</h3>' +
+    '<div class="cb"><div class="cb-label">Risolvere \\(y\' = xy\\)</div><p>Per \\(y\\neq0\\), si separano le variabili:</p><div class="math-block">\\[ \\frac{dy}{y} = x\\,dx \\ \\Longrightarrow\\ \\int\\frac{dy}{y} = \\int x\\,dx \\ \\Longrightarrow\\ \\ln|y| = \\frac{x^2}{2}+c_1 \\]</div><p>Esplicitando \\(y\\): \\(|y|=e^{x^2/2+c_1}=e^{c_1}e^{x^2/2}\\). Ponendo \\(C=\\pm e^{c_1}\\) (una costante reale qualunque, positiva o negativa) si riassorbe il valore assoluto, e si può includere anche \\(C=0\\) (che ricostruisce la soluzione singolare \\(y=0\\), persa dividendo per \\(y\\)):</p><div class="math-block result">\\[ y(x) = C\\,e^{x^2/2}, \\qquad C\\in\\mathbb{R} \\]</div></div>' +
+    acc([
+      { t:"Esempio — decadimento gaussiano", h:'<p>Risolvi \\(y\'=-2xy\\). Separando: \\(\\dfrac{dy}{y}=-2x\\,dx\\), da cui \\(\\ln|y|=-x^2+c_1\\), quindi \\(y=Ce^{-x^2}\\): la celebre <strong>curva a campana</strong> (a meno del fattore di normalizzazione), fondamentale in statistica.</p>' },
+      { t:"Esempio — un\'equazione non lineare che \"esplode\"", h:'<p>Risolvi \\(y\'=y^2\\) con \\(y(0)=1\\). Separando: \\(\\dfrac{dy}{y^2}=dx\\), quindi \\(-\\dfrac1y=x+c\\). Da \\(y(0)=1\\) si ricava \\(c=-1\\), dunque \\(y=\\dfrac{1}{1-x}\\). A differenza dei casi lineari, questa soluzione non è definita per ogni \\(x\\): "esplode" all\'infinito quando \\(x\\to1^-\\). Anche le equazioni più semplici, se non lineari, possono avere sorprese.</p>' },
+      { t:"Esercizio", h:'<p>Risolvi \\(y\' = \\dfrac{x}{y}\\), con \\(y>0\\). <em>Traccia</em>: separando si ottiene \\(y\\,dy=x\\,dx\\), quindi \\(y^2=x^2+C\\): una famiglia di iperboli.</p>' }
+    ])
+},
+{
+  tag:"CRESCITA E DECADIMENTO",
+  title:"Crescita e decadimento <em>esponenziale</em>",
+  nav:"Crescita/decadimento",
+  body:
+    '<p>L\'equazione a variabili separabili più importante dal punto di vista delle applicazioni è quella in cui la <strong>velocità di variazione è proporzionale alla quantità stessa</strong>.</p>' +
+    '<div class="cb"><div class="cb-label">Il modello \\(y\'=ky\\)</div><p>Separando le variabili come nella sezione precedente (con \\(g(x)=k\\) costante e \\(h(y)=y\\)):</p><div class="math-block hero-formula">\\[ y(x) = y_0\\,e^{kx}, \\qquad y_0=y(0) \\]</div><p>Se \\(k>0\\) si ha <strong>crescita</strong> esponenziale, se \\(k<0\\) si ha <strong>decadimento</strong> esponenziale.</p></div>' +
+    expCurveSvg('growth') + '<p style="font-size:.82rem;text-align:center" class="dim">\\(y=y_0e^{kt},\\ k>0\\) — crescita</p>' +
+    expCurveSvg('decay') + '<p style="font-size:.82rem;text-align:center" class="dim">\\(y=y_0e^{kt},\\ k<0\\) — decadimento</p>' +
+    '<div class="cb tip"><div class="cb-label">Decadimento radioattivo e tempo di dimezzamento</div><p>La quantità \\(N(t)\\) di nuclei radioattivi presenti al tempo \\(t\\) soddisfa \\(N\'=-\\lambda N\\) (\\(\\lambda>0\\) è la <strong>costante di decadimento</strong>), quindi \\(N(t)=N_0e^{-\\lambda t}\\). Il <strong>tempo di dimezzamento</strong> \\(t_{1/2}\\) è il tempo dopo cui \\(N=N_0/2\\):</p><div class="math-block hero-formula">\\[ \\frac{N_0}{2}=N_0e^{-\\lambda t_{1/2}} \\ \\Longrightarrow\\ t_{1/2}=\\frac{\\ln 2}{\\lambda} \\]</div><p>È la base della <strong>datazione al carbonio-14</strong>, con \\(t_{1/2}\\approx5730\\) anni.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">La legge di raffreddamento di Newton</div><p>La temperatura \\(T(t)\\) di un corpo immerso in un ambiente a temperatura costante \\(T_{amb}\\) varia con velocità proporzionale al <strong>divario</strong> di temperatura, non alla temperatura stessa:</p><div class="math-block hero-formula">\\[ T\'(t) = -k\\big(T(t)-T_{amb}\\big), \\qquad k>0 \\]</div><p>È ancora un\'equazione a variabili separabili (ponendo \\(u=T-T_{amb}\\) si torna al caso \\(u\'=-ku\\)); la soluzione è:</p><div class="math-block hero-formula">\\[ T(t) = T_{amb} + (T_0-T_{amb})\\,e^{-kt} \\]</div>' + expCurveSvg('newton') + '<p style="font-size:.82rem;text-align:center" class="dim">\\(T(t)=T_{amb}+(T_0-T_{amb})e^{-kt}\\)</p>' + '<p style="font-size:.85rem" class="dim">Da notare: per \\(t\\to\\infty\\), \\(T(t)\\to T_{amb}\\). Il corpo tende sempre alla temperatura ambiente, indipendentemente dalla temperatura di partenza — solo il <em>tempo</em> per avvicinarvisi cambia.</p></div>' +
+    acc([
+      { t:"Esempio — raddoppio di una coltura batterica", h:'<p>Una coltura batterica raddoppia ogni 3 ore. Trova \\(k\\) nel modello \\(N(t)=N_0e^{kt}\\). Da \\(2N_0=N_0e^{3k}\\): \\(k=\\dfrac{\\ln2}{3}\\approx0.231\\ \\text{h}^{-1}\\). Dopo 10 ore: \\(N(10)=N_0e^{10\\cdot0.231}\\approx10.08\\,N_0\\).</p>' },
+      { t:"Esercizio — datazione al carbonio-14", h:'<p>Un reperto contiene il 25% del carbonio-14 originario. Sapendo che \\(t_{1/2}=5730\\) anni, stima la sua età. <em>Traccia</em>: \\(0.25=e^{-\\lambda t}\\) con \\(\\lambda=\\ln2/5730\\); risolvi rispetto a \\(t\\) usando i logaritmi. Nota che il 25% corrisponde esattamente a <strong>due</strong> tempi di dimezzamento.</p>' }
+    ])
+},
+{
+  tag:"EQUAZIONI LINEARI",
+  title:"Equazioni lineari del <em>primo ordine</em>",
+  nav:"Lineari del I ordine",
+  body:
+    '<p>Non tutte le equazioni del primo ordine sono a variabili separabili — ad esempio la legge di raffreddamento di Newton lo è solo perché il termine noto è costante. Il caso generale ha una struttura più ricca, ma un metodo altrettanto sistematico.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione — equazione lineare del primo ordine</div><div class="math-block hero-formula">\\[ y\' + p(x)\\,y = q(x) \\]</div><p>Si dice <strong>omogenea</strong> se \\(q(x)\\equiv0\\) (ed è, in tal caso, a variabili separabili); altrimenti si dice <strong>completa</strong>.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Il metodo del fattore integrante</div><p>L\'idea è moltiplicare l\'intera equazione per una funzione \\(\\mu(x)\\), scelta in modo che il primo membro diventi la derivata di un prodotto. Si definisce:</p><div class="math-block hero-formula">\\[ \\mu(x) = e^{\\int p(x)\\,dx} \\]</div><p><strong>Dimostrazione che funziona.</strong> Moltiplicando l\'equazione per \\(\\mu(x)\\):</p><div class="math-block">\\[ \\mu y\' + \\mu p\\,y = \\mu q \\]</div><p>Poiché \\(\\mu\'=\\mu p\\) (per come è stato definito \\(\\mu\\)), il primo membro è esattamente la derivata del prodotto \\(\\mu y\\):</p><div class="math-block">\\[ (\\mu y)\' = \\mu y\' + \\mu\' y = \\mu y\' + \\mu p\\,y = \\mu q \\]</div><p>Integrando entrambi i membri rispetto a \\(x\\) si ottiene \\(\\mu y\\), e quindi \\(y\\):</p><div class="math-block result">\\[ y(x) = \\frac{1}{\\mu(x)}\\left[\\int \\mu(x)\\,q(x)\\,dx + C\\right] \\]</div></div>' +
+    '<div class="cb purple"><div class="cb-label">Il caso di Newton, rivisitato</div><p>Con \\(p(x)=k\\) e \\(q(x)=kT_{amb}\\) (entrambe costanti), il fattore integrante è \\(\\mu(x)=e^{kx}\\): applicando la formula generale si ritrova esattamente \\(T(t)=T_{amb}+(T_0-T_{amb})e^{-kt}\\) trovato nella sezione precedente per altra via. Le equazioni lineari <strong>contengono</strong> il caso della crescita/decadimento come caso particolare.</p></div>' +
+    acc([
+      { t:"Esempio — risolvere \\(y\'+2y=e^{-x}\\)", h:'<p>Qui \\(p(x)=2\\), quindi \\(\\mu(x)=e^{2x}\\). Moltiplicando: \\((e^{2x}y)\'=e^{2x}e^{-x}=e^{x}\\). Integrando: \\(e^{2x}y=e^x+C\\), quindi \\(y=e^{-x}+Ce^{-2x}\\). Si osservi come, per \\(x\\to\\infty\\), il termine \\(Ce^{-2x}\\) si "dimentichi" della costante arbitraria e la soluzione tenda a \\(e^{-x}\\).</p>' },
+      { t:"Esercizio — risolvere \\(y\' - \\dfrac{y}{x}=x\\), \\(x>0\\)", h:'<p>Qui \\(p(x)=-1/x\\), quindi \\(\\mu(x)=e^{-\\int dx/x}=e^{-\\ln x}=1/x\\). <em>Traccia</em>: moltiplica per \\(\\mu\\), riconosci la derivata di \\(y/x\\), integra, e ottieni \\(y=x^2+Cx\\).</p>' }
+    ])
+},
+{
+  tag:"IL PROBLEMA DI CAUCHY",
+  title:"Il problema di <em>Cauchy</em>",
+  nav:"Problema di Cauchy",
+  body:
+    '<p>Abbiamo visto che l\'integrale generale di un\'equazione del primo ordine contiene <strong>una</strong> costante arbitraria: infinite curve, tutte soluzioni della stessa equazione. Per selezionarne <strong>una sola</strong>, serve un\'informazione aggiuntiva.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione — problema di Cauchy</div><p>Un\'equazione differenziale accoppiata a una <strong>condizione iniziale</strong>:</p><div class="math-block hero-formula">\\[ \\begin{cases} y\' = f(x,y) \\\\ y(x_0) = y_0 \\end{cases} \\]</div><p>si chiama <strong>problema di Cauchy</strong>. Geometricamente, tra tutte le curve integrali dell\'equazione, si seleziona quella (se esiste ed è unica) che passa per il punto \\((x_0,y_0)\\).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Teorema di esistenza e unicità (cenno)</div><p>Se \\(f(x,y)\\) e la sua derivata parziale \\(\\dfrac{\\partial f}{\\partial y}\\) sono continue in un intorno di \\((x_0,y_0)\\), il problema di Cauchy ammette <strong>una e una sola</strong> soluzione, almeno in un intorno di \\(x_0\\). Non dimostriamo questo teorema (richiede strumenti di analisi funzionale), ma ne usiamo la conseguenza più importante:</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Conseguenza geometrica</div><p>Sotto le ipotesi del teorema, per ogni punto del piano passa <strong>una sola</strong> curva integrale: due soluzioni distinte della stessa equazione non si intersecano mai. È lo stesso principio che garantisce, nella legge di raffreddamento di Newton, che un corpo più caldo dell\'ambiente non si scambi mai di posto con uno più freddo.</p></div>' +
+    '<h3>Il campo di direzioni</h3>' +
+    '<p>Un modo per "vedere" le soluzioni di \\(y\'=f(x,y)\\) <strong>senza risolverla</strong>: in ogni punto \\((x,y)\\) del piano si traccia un piccolo segmento con pendenza \\(f(x,y)\\). L\'insieme di questi segmenti si chiama <strong>campo di direzioni</strong> (o campo di pendenze): ogni curva che in ogni suo punto è tangente al segmento corrispondente è una curva integrale.</p>' +
+    slopeFieldSvg() +
+    '<p style="font-size:.85rem" class="dim">Campo di direzioni per \\(y\'=x-y\\), con una curva integrale disegnata sopra: si noti come la curva segua ovunque la direzione dei segmenti locali.</p>' +
+    acc([
+      { t:"Esempio — problema di Cauchy con equazione separabile", h:'<p>Risolvi \\(y\'=2xy\\), \\(y(0)=3\\). L\'integrale generale (variabili separabili) è \\(y=Ce^{x^2}\\). Imponendo \\(y(0)=3\\): \\(3=Ce^0=C\\). Soluzione: \\(y=3e^{x^2}\\).</p>' },
+      { t:"Esercizio — problema di Cauchy con equazione lineare", h:'<p>Risolvi \\(y\'+y=1\\), \\(y(0)=0\\). <em>Traccia</em>: fattore integrante \\(\\mu=e^x\\); l\'integrale generale è \\(y=1+Ce^{-x}\\); imponendo la condizione iniziale si trova \\(C=-1\\), quindi \\(y=1-e^{-x}\\).</p>' }
+    ])
+},
+{
+  tag:"APPLICAZIONI FISICHE",
+  title:"Applicazioni <em>fisiche</em>",
+  nav:"Applicazioni fisiche",
+  body:
+    '<p>Le equazioni differenziali lineari del primo ordine descrivono un\'ampia famiglia di fenomeni fisici che, a prima vista, sembrano non avere nulla in comune.</p>' +
+    '<div class="cb"><div class="cb-label">Circuito RC — carica di un condensatore</div><p>Un circuito con resistenza \\(R\\), capacità \\(C\\) e generatore di tensione costante \\(V_0\\) soddisfa, per la carica \\(q(t)\\) sul condensatore, l\'equazione (dalla legge di Kirchhoff delle tensioni):</p><div class="math-block hero-formula">\\[ R\\,\\frac{dq}{dt} + \\frac{q}{C} = V_0 \\]</div><p>È un\'equazione lineare del primo ordine, con \\(p=\\frac{1}{RC}\\) e \\(q_{\\text{termine noto}}=\\frac{V_0}{R}\\). Il fattore integrante è \\(\\mu(t)=e^{t/RC}\\), e con la condizione iniziale \\(q(0)=0\\) (condensatore scarico) si ottiene:</p><div class="math-block result">\\[ q(t) = CV_0\\left(1-e^{-t/RC}\\right) \\]</div><p>Il prodotto \\(\\tau=RC\\) si chiama <strong>costante di tempo</strong> del circuito: dopo un tempo \\(\\tau\\), la carica ha raggiunto circa il 63% del valore massimo \\(CV_0\\).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Caduta con attrito viscoso</div><p>Un corpo di massa \\(m\\) che cade sotto l\'azione della gravità, soggetto a una resistenza dell\'aria proporzionale alla velocità (\\(F_{attrito}=-kv\\)), soddisfa per la seconda legge di Newton:</p><div class="math-block hero-formula">\\[ m\\,\\frac{dv}{dt} = mg - kv \\ \\Longleftrightarrow\\ \\frac{dv}{dt} + \\frac{k}{m}v = g \\]</div><p>Di nuovo lineare del primo ordine. Con \\(v(0)=0\\), la soluzione è:</p><div class="math-block result">\\[ v(t) = \\frac{mg}{k}\\left(1-e^{-kt/m}\\right) \\]</div><p>Il termine \\(v_{lim}=\\dfrac{mg}{k}\\) è la <strong>velocità limite</strong>: per \\(t\\to\\infty\\), \\(v(t)\\to v_{lim}\\), e l\'accelerazione tende a zero. È il motivo per cui un paracadutista non accelera indefinitamente.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Un\'osservazione unificante</div><p>Carica del condensatore, velocità di caduta, temperatura di raffreddamento: sono fenomeni fisicamente diversissimi, eppure condividono <strong>la stessa struttura matematica</strong> — un sistema che si avvicina esponenzialmente a un valore di equilibrio (\\(CV_0\\), \\(v_{lim}\\), \\(T_{amb}\\)), con una "costante di tempo" che ne regola la rapidità. Riconoscere che equazioni diverse hanno la stessa forma è uno degli scopi più profondi della matematica applicata.</p></div>' +
+    acc([
+      { t:"Esercizio — tempo di carica del condensatore", h:'<p>Un circuito RC ha \\(R=1000\\,\\Omega\\), \\(C=500\\,\\mu F\\), \\(V_0=12\\,V\\). Dopo quanto tempo la carica raggiunge il 90% del valore massimo? <em>Traccia</em>: risolvi \\(0.9=1-e^{-t/RC}\\) rispetto a \\(t\\), con \\(RC=0.5\\,s\\); usa \\(\\ln(0.1)\\approx-2.303\\).</p>' },
+      { t:"Esercizio — velocità limite", h:'<p>Un corpo di massa \\(m=0.5\\,kg\\) cade con coefficiente di attrito \\(k=0.2\\,kg/s\\) (\\(g=9.8\\,m/s^2\\)). Calcola la velocità limite e il tempo necessario per raggiungere il 95% di essa.</p>' }
+    ])
+},
+{
+  tag:"SINTESI",
+  title:"Sintesi e <em>orizzonti</em>",
+  nav:"Sintesi ed esercizi",
+  body:
+    '<p>Riassumiamo i metodi incontrati e apriamo uno sguardo su ciò che si trova oltre questa introduzione.</p>' +
+    '<table class="ct"><tr><th>Tipo di equazione</th><th>Metodo</th><th>Esempio incontrato</th></tr>' +
+    '<tr><td>\\(y\'=g(x)h(y)\\)</td><td>Separazione delle variabili</td><td>\\(y\'=xy\\), decadimento gaussiano</td></tr>' +
+    '<tr><td>\\(y\'=ky\\)</td><td>Separazione (caso particolare)</td><td>Crescita/decadimento esponenziale</td></tr>' +
+    '<tr><td>\\(y\'+p(x)y=q(x)\\)</td><td>Fattore integrante \\(\\mu=e^{\\int p\\,dx}\\)</td><td>Circuito RC, caduta con attrito</td></tr>' +
+    '<tr><td>EDO + condizione iniziale</td><td>Problema di Cauchy</td><td>Selezione della soluzione particolare</td></tr>' +
+    '</table>' +
+    '<div class="cb"><div class="cb-label">Cosa c\'è oltre</div><p>Questa introduzione si è fermata al primo ordine. L\'analisi matematica universitaria estende questi strumenti in diverse direzioni: <strong>equazioni del secondo ordine</strong> (come \\(y\'\'+\\omega^2y=0\\), che descrive l\'oscillatore armonico), <strong>sistemi di equazioni differenziali</strong> (più grandezze che evolvono insieme e si influenzano a vicenda, come predatore e preda), e le <strong>equazioni alle derivate parziali</strong>, dove la funzione incognita dipende da più variabili (il tempo e lo spazio, ad esempio, nell\'equazione del calore o delle onde).</p></div>' +
+    '<div class="cb success"><div class="cb-label">Il filo conduttore</div><p>Ciò che rende le equazioni differenziali così centrali nella scienza è che le <strong>leggi fisiche fondamentali</strong> — dalla meccanica di Newton all\'elettromagnetismo di Maxwell, fino all\'equazione di Schrödinger della meccanica quantistica — si scrivono quasi sempre come equazioni differenziali: leggi che non dicono direttamente "come si comporta" una grandezza, ma "come cambia".</p></div>' +
+    '<h3>Problemi di sintesi</h3>' +
+    acc([
+      { t:"Problema 1 — riconoscere il tipo", h:'<p>Per ciascuna delle seguenti equazioni, stabilisci se è a variabili separabili, lineare, entrambe le cose, o nessuna delle due: \\(y\'=3x^2y\\); \\(y\'+xy=x\\); \\(y\'=x+y\\); \\(yy\'=x\\).</p>' },
+      { t:"Problema 2 — problema di Cauchy misto", h:'<p>Risolvi il problema di Cauchy \\(y\'+3y=6\\), \\(y(0)=1\\), e verifica che, per \\(t\\to\\infty\\), la soluzione tende al valore di equilibrio \\(y=2\\) (quello per cui \\(y\'=0\\)).</p>' },
+      { t:"Problema 3 — modellizzazione", h:'<p>Un serbatoio contiene 100 litri di acqua pura. A partire da \\(t=0\\), vi entra acqua salata a concentrazione costante con portata di 2 litri al minuto, e la miscela (mantenuta omogenea) esce con la stessa portata. Imposta l\'equazione differenziale che descrive la quantità di sale \\(S(t)\\) presente nel serbatoio, riconoscendone la struttura lineare.</p>' }
+    ])
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>
