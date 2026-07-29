@@ -75,7 +75,7 @@ Altri due sondaggi, uno britannico e uno spagnolo, condotti su giovani 16-24 ann
 
 - **Regno Unito** (HOPE not hate, 2020, campione 2.076 persone 16-24 anni): il **50%** dei ragazzi ritiene che il femminismo abbia reso la vita più difficile agli uomini.
 - **Spagna** (2024, giovani 16-24 anni): il **52%** ritiene che il femminismo abbia "esagerato" al punto da discriminare ora gli uomini.
-- **Media globale** (Ipsos/KCL, 2026, uomini di tutte le età, 29 paesi): **52%** concorda con l'idea che si sia "andati troppo oltre" nel promuovere l'uguaglianza di genere, arrivando a discriminare gli uomini.
+- **Media globale** (Ipsos/KCL, 2026, uomini di tutte le età, 29 paesi): il **52%** concorda con l'idea che si sia "andati troppo oltre" nel promuovere l'uguaglianza di genere, arrivando a discriminare gli uomini.
 
 ### E in Italia?
 
