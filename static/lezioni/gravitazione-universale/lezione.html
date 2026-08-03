@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La gravitazione universale — Terzo anno</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #3a6b8c; --accent-light: #e8f0f5;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:2px; overflow-x:auto; flex:1; align-items:center; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.78rem; color:var(--text-dim); padding:6px 11px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.nav-group {
+  font-family:'Fira Code',monospace; font-size:.62rem; color:var(--text-dim);
+  padding:0 8px; letter-spacing:1px; border-left:1px solid var(--border); margin-left:4px;
+  white-space:nowrap;
+}
+.nav-group:first-child { border-left:none; margin-left:0; }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.part-label { font-family:'Fira Code',monospace; font-size:.68rem; text-transform:uppercase; color:var(--purple); letter-spacing:1.5px; margin-bottom:6px; font-weight:600; }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.1rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 18px 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.87rem; }
+.ct th { text-align:left; padding:10px 12px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.72rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 12px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.hero-img-wrap { margin:0 0 28px; border-radius:var(--radius); overflow:hidden; }
+.hero-img-wrap img { width:100%; display:block; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.6rem; } .acc-inner { padding:4px 0 16px 14px; } .ct { font-size:.8rem; } }
+@media print {
+  .topbar, .bottom-nav { display:none !important; }
+  .container { padding:20px 24px; max-width:100%; }
+  .section { display:block !important; page-break-after: always; }
+  .section:last-child { page-break-after: auto; }
+  .acc-body { max-height:none !important; }
+  .acc-arrow { display:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Terzo anno · Gravitazione</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/lezioni/gravitazione-universale/gravitazione-universale.pdf" class="topbar-home" target="_blank">PDF ↓</a>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+
+{
+  part:"Parte I — La mela, la Luna, e un'intuizione clamorosa",
+  tag:"LA STESSA FORZA, DUE FENOMENI CHE SEMBRAVANO INCOMPARABILI",
+  title:"La mela e la <em>Luna</em> sono la stessa cosa",
+  nav:"Mela e Luna",
+  body:
+    '<p>Una mela cade da un albero: normale amministrazione, nessuno ci trova nulla di strano. La Luna, invece, non cade mai sulla Terra: gira in cerchio (più o meno) attorno a noi da miliardi di anni, senza mai avvicinarsi né allontanarsi in modo apprezzabile. Sembrano due fenomeni completamente diversi — uno banale, l\'altro talmente stabile da sembrare eterno. L\'intuizione geniale di Newton (mela sulla testa o meno, l\'aneddoto è quasi certamente romanzato, ma l\'idea è autentica) fu capire che sono <strong>esattamente la stessa forza</strong> ad agire in entrambi i casi.</p>' +
+    '<div class="cb tip"><div class="cb-label">Perché la Luna non cade mai (o meglio: cade sempre)</div><p>La Luna, in un certo senso, <strong>sta cadendo</strong> verso la Terra in ogni singolo istante — solo che si muove anche lateralmente, a una velocità tale che, mentre cade, la superficie curva della Terra "si allontana" da sotto di lei alla stessa velocità con cui lei le si avvicina. Il risultato netto è che la Luna cade in eterno senza mai avvicinarsi davvero: è, a tutti gli effetti, in caduta libera perenne, proprio come la mela — solo con abbastanza velocità laterale da "mancare" il bersaglio all\'infinito. Torneremo su questa idea, con un diagramma preciso, quando parleremo di orbite.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Il salto concettuale di Newton</div><p>Prima di Newton, si pensava che le leggi che governano i cieli (il moto dei pianeti, perfetto ed eterno) fossero di natura completamente diversa dalle leggi terrestri (imperfette, soggette ad attrito e usura). Newton unificò le due cose: la stessa identica forza — la <strong>gravità</strong> — tiene i piedi per terra a te, fa cadere le mele, tiene la Luna in orbita attorno alla Terra, e la Terra in orbita attorno al Sole. Non esistono "leggi del cielo" separate da "leggi della Terra": è tutta la stessa fisica, ovunque nell\'universo — un\'idea che oggi diamo per scontata, ma che ai tempi fu, letteralmente, rivoluzionaria.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — perché la mela sembra diversa dalla Luna", h:'<p>Se davvero la stessa forza agisce sia sulla mela che sulla Luna, perché la mela cade a terra in un secondo, mentre la Luna orbita stabilmente per miliardi di anni? <em>Traccia</em>: non è la forza a essere diversa in natura, ma la <strong>velocità laterale</strong> dei due oggetti: la mela ha velocità laterale sostanzialmente nulla (cade quasi dritta), mentre la Luna si muove lateralmente a quasi 1 km/s — abbastanza da "mancare" continuamente la Terra mentre cade verso di essa.</p>' },
+      { t:"Esercizio — cosa hanno in comune", h:'<p>Elenca almeno tre fenomeni apparentemente diversi tra loro che, secondo Newton, sono in realtà manifestazioni della stessa identica forza gravitazionale. <em>Traccia</em>: pensa a un oggetto che cade a terra, alla Luna che orbita attorno alla Terra, alla Terra che orbita attorno al Sole, alle maree, a un satellite artificiale in orbita.</p>' }
+    ])
+},
+
+{
+  part:"Parte I — La mela, la Luna, e un'intuizione clamorosa",
+  tag:"UNA FORMULA CHE GOVERNA TUTTO L'UNIVERSO OSSERVABILE",
+  title:"La legge di <em>gravitazione universale</em>",
+  nav:"Legge di gravitazione",
+  body:
+    '<p>Newton formalizzò questa intuizione in un\'unica, elegantissima equazione — probabilmente la legge fisica con il più alto rapporto tra "quanto è semplice da scrivere" e "quante cose spiega", dalle maree oceaniche alle orbite delle galassie.</p>' +
+    '<div class="cb"><div class="cb-label">La legge di gravitazione universale</div><div class="math-block hero-formula">\\[ F = G\\,\\frac{m_1 m_2}{r^2} \\tag{3} \\]</div><p>Due corpi qualsiasi, dotati di massa \\(m_1\\) e \\(m_2\\), si attraggono con una forza \\(F\\) direttamente proporzionale al prodotto delle loro masse e inversamente proporzionale al <strong>quadrato</strong> della distanza \\(r\\) che li separa. La costante \\(G\\approx6{,}674\\times10^{-11}\\ \\text{N m}^2/\\text{kg}^2\\) è la stessa, identica, in ogni angolo dell\'universo conosciuto.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Perché \"universale\" non è un aggettivo a caso</div><p>Questa legge non vale solo per pianeti e stelle: vale, in linea di principio, per <strong>due qualsiasi</strong> oggetti dotati di massa — comprese due persone sedute vicine, o questo libro e il tuo gomito. La ragione per cui non senti mai la reciproca attrazione gravitazionale con il tuo compagno di banco è semplicemente che \\(G\\) è <strong>incredibilmente</strong> piccola: servono masse enormi (come un intero pianeta) perché la forza gravitazionale diventi percepibile nella vita quotidiana.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Il dettaglio che fa la differenza: il quadrato della distanza</div><p>La dipendenza da \\(1/r^2\\) (e non, ad esempio, da \\(1/r\\)) ha conseguenze enormi: raddoppiando la distanza tra due corpi, la forza gravitazionale non si dimezza, ma si riduce a <strong>un quarto</strong>. Triplicando la distanza, la forza scende a un nono. È lo stesso tipo di legge (chiamata "legge dell\'inverso del quadrato") che regola anche l\'intensità della luce da una sorgente puntiforme o l\'intensità del suono — non è un caso: tutte descrivono qualcosa che si "diluisce" nello spazio in tre dimensioni.</p></div>' +
+    acc([
+      { t:"Esercizio — raddoppiare la distanza", h:'<p>Due masse si attraggono con una forza gravitazionale \\(F\\) quando sono a distanza \\(r\\). Se la distanza viene raddoppiata, quale sarà la nuova forza, in funzione di \\(F\\)? <em>Traccia</em>: dalla legge \\(F\\propto 1/r^2\\), raddoppiare \\(r\\) significa dividere \\(F\\) per \\(2^2=4\\).</p>' },
+      { t:"Domanda concettuale — perché non senti la gravità del tuo compagno di banco", h:'<p>Secondo la legge di gravitazione universale, il tuo compagno di banco esercita su di te una forza gravitazionale attrattiva — perché allora non la percepisci mai? <em>Traccia</em>: la costante \\(G\\) è talmente piccola (\\(6{,}674\\times10^{-11}\\)) che, con masse dell\'ordine di decine di kg a distanza di meno di un metro, la forza risultante è ordini di grandezza più debole di qualunque cosa i tuoi sensi possano rilevare — mentre la Terra, con una massa di circa \\(6\\times10^{24}\\) kg, produce una forza (il tuo peso) perfettamente percepibile.</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Conseguenze che sembrano quasi un trucco di magia",
+  tag:"IL PIÙ BEL VIDEO MAI GIRATO SULLA LUNA (SUL SERIO)",
+  title:"Perché una <em>piuma</em> e un martello cadono insieme",
+  nav:"Piuma e martello",
+  body:
+    '<p>Lascia cadere contemporaneamente un martello e una piuma dalla stessa altezza, qui sulla Terra: il martello tocca terra per primo, la piuma svolazza lentamente dietro di lui. Sembrerebbe confermare l\'intuizione di Aristotele — gli oggetti più pesanti cadono più velocemente — se non fosse che il colpevole, anche qui, è un vecchio conoscente: la resistenza dell\'aria, che frena la piuma molto più del martello. Tolto di mezzo quel disturbo, la sorpresa è totale.</p>' +
+    '<div class="cb success"><div class="cb-label">L\'esperimento più elegante della storia dell\'esplorazione spaziale</div><p>Nel 1971, durante la missione Apollo 15, l\'astronauta David Scott lasciò cadere contemporaneamente un martello geologico e una piuma di falco sulla superficie della Luna, priva di atmosfera (e quindi di resistenza dell\'aria). I due oggetti toccarono il suolo lunare <strong>esattamente nello stesso istante</strong>, davanti alle telecamere, confermando in diretta televisiva un principio che Galileo aveva già intuito quattro secoli prima con soli esperimenti mentali: in assenza di attrito con l\'aria, <strong>tutti</strong> i corpi cadono con la stessa identica accelerazione, indipendentemente dalla loro massa.</p></div>' +
+    '<div class="cb"><div class="cb-label">Perché succede: la massa si semplifica</div><p>Consideriamo un corpo di massa \\(m\\) in caduta, soggetto solo alla forza di gravità di un pianeta di massa \\(M\\) e raggio \\(r\\). Per la legge di gravitazione, \\(F=GMm/r^2\\); per il secondo principio della dinamica, \\(F=ma\\). Uguagliando:</p><div class="math-block hero-formula">\\[ ma = \\frac{GMm}{r^2} \\quad\\Rightarrow\\quad a = \\frac{GM}{r^2} = g \\]</div><p>La massa \\(m\\) del corpo che cade compare su entrambi i lati dell\'equazione e si <strong>semplifica completamente</strong>: l\'accelerazione di gravità \\(g\\) non dipende affatto dalla massa dell\'oggetto che cade, ma solo dalla massa e dal raggio del pianeta. Un martello e una piuma, sulla Luna, cadono quindi esattamente alla stessa velocità, in ogni istante.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — perché sulla Terra non lo vediamo mai", h:'<p>Se la fisica dice che martello e piuma dovrebbero cadere insieme anche sulla Terra, perché ogni volta che proviamo questo esperimento a scuola (o a casa) il risultato è visibilmente diverso? <em>Traccia</em>: la legge \\(a=GM/r^2\\) vale per la sola forza di gravità; sulla Terra agisce anche la resistenza dell\'aria, una forza aggiuntiva che dipende fortemente dalla forma e dalla superficie dell\'oggetto (enorme per una piuma, trascurabile per un martello compatto) — è quella, e non la gravità, a rendere diversa la caduta dei due oggetti.</p>' },
+      { t:"Esercizio — verifica numerica", h:'<p>Verifica che l\'accelerazione di gravità sulla superficie terrestre, calcolata con \\(g=GM_{Terra}/r_{Terra}^2\\), dia effettivamente un valore vicino a \\(9{,}8\\ \\text{m/s}^2\\). Usa \\(G\\approx6{,}674\\times10^{-11}\\ \\text{N m}^2/\\text{kg}^2\\), \\(M_{Terra}\\approx5{,}97\\times10^{24}\\) kg, \\(r_{Terra}\\approx6{,}37\\times10^{6}\\) m. <em>Traccia</em>: sostituisci direttamente i valori numerici nella formula.</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Conseguenze che sembrano quasi un trucco di magia",
+  tag:"IL SEGRETO DI OGNI SATELLITE, STAZIONE SPAZIALE E PIANETA",
+  title:"Le <em>orbite</em>: cadere per sempre, senza mai arrivare",
+  nav:"Orbite",
+  body:
+    '<p>Torniamo all\'idea della Sezione I: la Luna "cade" verso la Terra in ogni istante, ma si muove anche lateralmente abbastanza velocemente da non avvicinarsi mai davvero. Newton stesso, per spiegare questa idea, propose un esperimento mentale diventato celebre, oggi noto come il "cannone di Newton".</p>' +
+    '<img src="/lezioni/gravitazione-universale/cannone-di-newton.png" alt="Esperimento mentale del cannone di Newton: traiettorie a velocità crescente fino all\'orbita e alla fuga" style="width:100%;height:auto;display:block;margin:1.5rem 0;">' +
+    '<div class="cb tip"><div class="cb-label">Il cannone immaginario di Newton</div><p>Immagina un cannone posto sulla cima di una montagna altissima, che spara un proiettile orizzontalmente. Con poca velocità, il proiettile percorre una parabola e ricade a terra non lontano dalla base della montagna — esattamente come un sasso lanciato con la mano. Aumentando la velocità iniziale, il proiettile percorre una parabola sempre più ampia, ricadendo sempre più lontano. A una velocità sufficientemente alta (circa 7,9 km/s, al livello del mare, trascurando l\'atmosfera), la curvatura della traiettoria del proiettile eguaglia esattamente la curvatura della superficie terrestre: il proiettile "cade" in continuazione, ma la Terra si incurva esattamente alla stessa velocità con cui lui cade — il risultato è un\'<strong>orbita circolare</strong> perenne. Aumentando ancora la velocità oltre un\'altra soglia critica, il proiettile smette di orbitare e sfugge del tutto all\'attrazione terrestre.</p></div>' +
+    '<div class="cb"><div class="cb-label">Un satellite non ha motori accesi (quasi mai)</div><p>La maggior parte dei satelliti artificiali, una volta raggiunta l\'orbita, non ha bisogno di motori accesi per restarci: la loro velocità laterale è calibrata esattamente affinché la caduta gravitazionale verso la Terra sia compensata dalla curvatura della loro traiettoria, in un equilibrio perenne che richiede zero energia aggiuntiva per essere mantenuto (a parte occasionali, piccole correzioni di rotta). È lo stesso principio, identico, che tiene la Stazione Spaziale Internazionale in orbita a circa 400 km di altitudine, viaggiando a quasi 7,7 km/s.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — perché gli astronauti sembrano fluttuare", h:'<p>Gli astronauti a bordo della Stazione Spaziale Internazionale sembrano "fluttuare senza peso", eppure a quell\'altitudine (circa 400 km) la forza di gravità terrestre è ancora quasi il 90% di quella sulla superficie. Come si spiega, allora, l\'apparente assenza di peso? <em>Traccia</em>: proprio come la Luna, la stazione (e tutto ciò che contiene, astronauti compresi) è in <strong>caduta libera continua</strong> attorno alla Terra: non è l\'assenza di gravità a produrre la sensazione di assenza di peso, ma il fatto che stazione e astronauti cadono esattamente alla stessa velocità, senza alcuna forza normale differenziale tra loro — esattamente come l\'ascensore con il cavo spezzato della lezione precedente.</p>' },
+      { t:"Esercizio — la velocità della Stazione Spaziale", h:'<p>Perché, secondo te, un satellite in orbita molto più alta (ad esempio i satelliti geostazionari, a circa 36.000 km di altitudine) deve viaggiare a una velocità <strong>minore</strong> rispetto alla Stazione Spaziale Internazionale (a soli 400 km), pur restando comunque in orbita stabile? <em>Traccia</em>: più ci si allontana dalla Terra, più \\(g\\) diminuisce (per la legge \\(1/r^2\\)); serve quindi una velocità laterale via via minore per mantenere una curvatura di traiettoria che compensi una caduta gravitazionale via via più debole.</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Conseguenze che sembrano quasi un trucco di magia",
+  tag:"PERCHÉ SUL MONTE EVEREST PESI (LEGGERMENTE) DI MENO",
+  title:"La <em>g</em> non è la stessa ovunque",
+  nav:"g variabile",
+  body:
+    '<p>Nella maggior parte degli esercizi di scuola si usa \\(g\\approx9{,}8\\ \\text{m/s}^2\\) come se fosse una costante scolpita nella pietra, identica ovunque sulla Terra. In realtà, come suggerisce la formula \\(g=GM/r^2\\) vista poco fa, \\(g\\) dipende dalla distanza dal centro del pianeta — e sulla superficie terrestre, quella distanza non è affatto costante.</p>' +
+    '<div class="cb warn"><div class="cb-label">Più in alto, meno pesi (pochissimo, ma è reale)</div><p>Salendo in altitudine, ci si allontana dal centro della Terra, quindi \\(r\\) aumenta e \\(g\\) diminuisce leggermente. In cima all\'Everest (circa 8.849 m sul livello del mare) \\(g\\) è inferiore di circa lo 0,3% rispetto al livello del mare — un effetto reale ma talmente piccolo da essere completamente impercettibile senza strumenti di precisione. È anche per questo (insieme alla rotazione terrestre, che genera un piccolo effetto centrifugo) che \\(g\\) è leggermente più debole all\'equatore rispetto ai poli.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Cambiare pianeta, cambiare g</div><table class="ct"><tr><th>Corpo celeste</th><th>g approssimativa</th></tr>' +
+    '<tr><td>Luna</td><td>1,6 m/s²</td></tr>' +
+    '<tr><td>Marte</td><td>3,7 m/s²</td></tr>' +
+    '<tr><td>Terra</td><td>9,8 m/s²</td></tr>' +
+    '<tr><td>Saturno</td><td>10,4 m/s² (sorprendentemente vicino alla Terra, nonostante la massa enorme — Saturno è enorme ma anche molto meno denso)</td></tr>' +
+    '<tr><td>Giove</td><td>24,8 m/s²</td></tr>' +
+    '<tr><td>Sole (superficie)</td><td>274 m/s² (28 volte quella terrestre)</td></tr>' +
+    '</table></div>' +
+    acc([
+      { t:"Esercizio — g su Marte", h:'<p>Marte ha massa \\(M\\approx6{,}4\\times10^{23}\\) kg e raggio \\(r\\approx3{,}39\\times10^{6}\\) m. Calcola l\'accelerazione di gravità sulla sua superficie, e confrontala con quella terrestre. <em>Traccia</em>: \\(g_{Marte}=GM/r^2\\); il rapporto \\(g_{Marte}/g_{Terra}\\) ti dice quante volte "più leggero" ti sentiresti su Marte.</p>' },
+      { t:"Domanda concettuale — Saturno, il gigante sorprendentemente leggero", h:'<p>Perché Saturno, pur avendo una massa enormemente maggiore della Terra (circa 95 volte), ha un valore di \\(g\\) sulla sua "superficie" (per quanto gassosa) solo leggermente superiore a quello terrestre? <em>Traccia</em>: \\(g=GM/r^2\\) dipende sia dalla massa <strong>sia</strong> dal raggio; Saturno ha un raggio molto più grande della Terra (quasi 9,5 volte), e questo raggio enorme, al denominatore al quadrato, compensa quasi del tutto l\'aumento di massa al numeratore — un pianeta enorme ma anche molto meno denso della Terra puó avere una gravità superficiale sorprendentemente simile.</p>' }
+    ])
+},
+
+{
+  part:"Parte III — Keplero, il sistema solare, e un limite che nemmeno Newton previde",
+  tag:"IL MATEMATICO CHE CAPÌ LE ORBITE PRIMA ANCORA DI NEWTON",
+  title:"Le tre leggi di <em>Keplero</em>",
+  nav:"Leggi di Keplero",
+  body:
+    '<p>Circa mezzo secolo prima di Newton, l\'astronomo tedesco Johannes Keplero, analizzando con pazienza certosina decenni di osservazioni astronomiche (raccolte dal suo maestro Tycho Brahe), formulò tre leggi empiriche sul moto dei pianeti attorno al Sole — senza sapere <em>perché</em> quelle leggi fossero vere. Fu proprio Newton, decenni dopo, a dimostrare che le tre leggi di Keplero sono tutte conseguenze matematiche dirette della sua legge di gravitazione universale: un caso più unico che raro in cui la "spiegazione" arriva più tardi della "regola" già verificata sperimentalmente.</p>' +
+    '<img src="/lezioni/gravitazione-universale/legge-aree-keplero.png" alt="Seconda legge di Keplero: aree uguali spazzate in tempi uguali lungo un\'orbita ellittica" style="width:100%;height:auto;display:block;margin:1.5rem 0;">' +
+    '<div class="cb"><div class="cb-label">Le tre leggi, in sintesi</div><ol style="margin-left:18px"><li><strong>Prima legge (delle orbite)</strong>: i pianeti percorrono orbite <strong>ellittiche</strong>, non circolari, con il Sole posto in uno dei due fuochi dell\'ellisse, non al centro.</li><li><strong>Seconda legge (delle aree)</strong>: il segmento che unisce il Sole a un pianeta spazza <strong>aree uguali in tempi uguali</strong> — il che significa che un pianeta si muove più velocemente quando è vicino al Sole (perielio) e più lentamente quando ne è lontano (afelio).</li><li><strong>Terza legge (armonica)</strong>: il quadrato del periodo orbitale \\(T\\) è proporzional al cubo del semiasse maggiore \\(a\\) dell\'orbita: \\(T^2 \\propto a^3\\). I pianeti più lontani dal Sole impiegano, sproporzionatamente, molto più tempo a completare un\'orbita.</li></ol></div>' +
+    '<div class="cb success"><div class="cb-label">Newton spiega Keplero (e non il contrario)</div><p>Applicando la sua legge di gravitazione e le equazioni del moto, Newton dimostrò rigorosamente che un corpo soggetto a una forza attrattiva proporzionale a \\(1/r^2\\) percorre necessariamente un\'orbita a forma di sezione conica (ellisse, nel caso più comune dei pianeti legati gravitazionalmente al Sole) — la prima legge di Keplero, dedotta da zero. Le altre due leggi seguono da considerazioni di conservazione dell\'energia e del momento angolare. In un colpo solo, Newton trasformò tre regole empiriche isolate in conseguenze necessarie di un\'unica legge universale.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — perché la Terra è più veloce a gennaio", h:'<p>L\'orbita terrestre attorno al Sole non è un cerchio perfetto: a inizio gennaio la Terra si trova al perielio (punto di minima distanza dal Sole), a inizio luglio all\'afelio (massima distanza). In quale dei due mesi la Terra si muove più velocemente lungo la sua orbita? <em>Traccia</em>: per la seconda legge di Keplero (aree uguali in tempi uguali), più il pianeta è vicino al Sole, più deve muoversi velocemente per "spazzare" la stessa area in un dato intervallo di tempo — quindi la Terra è leggermente più veloce a gennaio.</p>' },
+      { t:"Esercizio — la terza legge di Keplero", h:'<p>Un pianeta ha semiasse maggiore dell\'orbita 4 volte quello terrestre. Usando \\(T^2\\propto a^3\\) e sapendo che per la Terra \\(T=1\\) anno e \\(a=1\\) (in unità astronomiche), calcola il periodo orbitale di quel pianeta in anni. <em>Traccia</em>: \\(T^2=a^3=4^3=64\\), quindi \\(T=\\sqrt{64}=8\\) anni.</p>' }
+    ])
+},
+
+{
+  part:"Parte III — Keplero, il sistema solare, e un limite che nemmeno Newton previde",
+  tag:"LA VELOCITÀ MINIMA PER LASCIARSI TUTTO ALLE SPALLE",
+  title:"La <em>velocità di fuga</em>",
+  nav:"Velocità di fuga",
+  body:
+    '<p>Tornando al cannone immaginario di Newton: abbiamo visto che, oltre una certa velocità, il proiettile smette di orbitare e sfugge del tutto all\'attrazione gravitazionale del pianeta. Questa velocità minima ha un nome preciso, ed è un numero che ogni agenzia spaziale del mondo conosce a memoria per ogni pianeta e luna del sistema solare.</p>' +
+    '<div class="cb"><div class="cb-label">La formula della velocità di fuga</div><div class="math-block hero-formula">\\[ v_{fuga} = \\sqrt{\\dfrac{2GM}{r}} \\]</div><p>dove \\(M\\) è la massa del corpo celeste da cui ci si vuole allontanare per sempre, e \\(r\\) la distanza dal suo centro (tipicamente il raggio della sua superficie, se si parte da lì). Superata questa velocità iniziale, un oggetto lanciato verticalmente (o in qualunque direzione, trascurando l\'atmosfera) non ricadrà mai più, indipendentemente da quanto la gravità continui a "tirarlo indietro" lungo il tragitto.</p></div>' +
+    '<div class="cb danger"><div class="cb-label">Perché serve un razzo così grande per un carico così piccolo</div><p>Sulla Terra, la velocità di fuga dalla superficie è di circa 11,2 km/s — quasi 40.000 km/h. È un numero enorme, ed è il motivo per cui i razzi devono essere quasi interamente composti da carburante: gran parte della massa al decollo di un razzo non è il carico utile (satelliti, astronauti, strumenti scientifici), ma il propellente necessario per raggiungere quella velocità colossale. Sulla Luna, con una massa molto minore, la velocità di fuga è di appena 2,4 km/s — un fattore quasi cinque volte inferiore, e uno dei motivi per cui il modulo di risalita dell\'Apollo, per tornare in orbita lunare, poteva permettersi di essere così piccolo e leggero rispetto a un razzo terrestre.</p></div>' +
+    acc([
+      { t:"Esercizio — velocità di fuga dalla Luna", h:'<p>La Luna ha massa \\(M\\approx7{,}35\\times10^{22}\\) kg e raggio \\(r\\approx1{,}74\\times10^{6}\\) m. Calcola la sua velocità di fuga, e confrontala con quella terrestre (11,2 km/s). <em>Traccia</em>: sostituisci direttamente i valori in \\(v_{fuga}=\\sqrt{2GM/r}\\), con \\(G\\approx6{,}674\\times10^{-11}\\ \\text{N m}^2/\\text{kg}^2\\).</p>' },
+      { t:"Domanda concettuale — velocità di fuga e orbita, non sono la stessa cosa", h:'<p>Perché la velocità di fuga da un pianeta è sempre maggiore (di un fattore \\(\\sqrt{2}\\), per la precisione) della velocità necessaria per orbitare stabilmente appena sopra la sua superficie? <em>Traccia</em>: per orbitare, basta bilanciare la caduta gravitazionale con la curvatura della traiettoria (un equilibrio locale); per fuggire del tutto, bisogna invece fornire abbastanza energia cinetica da <strong>vincere completamente</strong> il "pozzo" di energia potenziale gravitazionale del pianeta, un requisito energetico più severo.</p>' }
+    ])
+},
+
+{
+  part:"Parte III — Keplero, il sistema solare, e un limite che nemmeno Newton previde",
+  tag:"QUANDO ANCHE UNA TEORIA PERFETTA MOSTRA UNA CREPA",
+  title:"Quando Newton non <em>basta</em> più",
+  nav:"Oltre Newton",
+  body:
+    '<p>Per oltre due secoli, la legge di gravitazione universale di Newton ha previsto con una precisione impressionante il moto di ogni pianeta, luna e cometa del sistema solare conosciuto — al punto da permettere, nel 1846, la scoperta di un intero pianeta (Nettuno) semplicemente calcolando dove <em>doveva</em> trovarsi per spiegare piccole anomalie nell\'orbita di Urano, prima ancora di puntarci un telescopio. Un trionfo quasi ininterrotto della teoria di Newton, con una sola, fastidiosissima eccezione.</p>' +
+    '<div class="cb warn"><div class="cb-label">Il piccolo problema di Mercurio</div><p>L\'orbita di Mercurio, il pianeta più vicino al Sole, presenta una lentissima "precessione": il punto di massimo avvicinamento al Sole (il perielio) si sposta gradualmente, di appena 43 secondi d\'arco per secolo, oltre a quanto già previsto dalle perturbazioni gravitazionali degli altri pianeti secondo la teoria di Newton. Una quantità minuscola — ma misurabile con precisione fin dall\'Ottocento, e che nessuna correzione, nessun pianeta nascosto ipotizzato, nessun aggiustamento riuscì mai a spiegare usando la sola gravitazione newtoniana.</p></div>' +
+    '<div class="cb success"><div class="cb-label">La soluzione arriva da tutt\'altra parte</div><p>Fu Einstein, nel 1915, con la sua teoria della <strong>relatività generale</strong>, a spiegare esattamente quei 43 secondi d\'arco mancanti: vicino a un corpo massiccio come il Sole, lo spazio-tempo stesso si curva in un modo che la gravità newtoniana (una semplice forza a distanza) non riesce a catturare del tutto. La teoria di Newton resta, ancora oggi, perfettamente adeguata per il 99,9% delle applicazioni pratiche — dalle orbite dei satelliti ai viaggi verso Marte — ma quel piccolo scarto su Mercurio fu il primo indizio sperimentale che, vicino a masse enormi o a velocità elevatissime, serve una teoria della gravità ancora più profonda.</p></div>' +
+    acc([
+      { t:"Per chi vuole andare oltre il programma", h:'<p>Cerca, come approfondimento personale, cosa si intende con l\'espressione "curvatura dello spazio-tempo" secondo la relatività generale, e perché oggi il sistema di posizionamento satellitare GPS che usi ogni giorno sul telefono debba tenere conto <strong>sia</strong> della relatività ristretta <strong>sia</strong> di quella generale per restare preciso: un errore di sincronizzazione degli orologi dei satelliti GPS, se non corretto secondo le equazioni di Einstein, si accumulerebbe fino a produrre errori di posizione di diversi chilometri al giorno.</p>' },
+      { t:"Domanda concettuale — perché usiamo ancora Newton", h:'<p>Se la teoria di Newton è, in senso stretto, "sbagliata" (non spiega perfettamente l\'orbita di Mercurio), perché la usiamo ancora per calcolare le orbite dei satelliti, le traiettorie delle sonde spaziali, e in generale tutta la fisica di scuola superiore? <em>Traccia</em>: la discrepanza tra le previsioni di Newton e quelle di Einstein diventa significativa solo in presenza di campi gravitazionali molto intensi (vicino a masse enormi come il Sole) o velocità prossime a quella della luce; nella stragrande maggioranza delle situazioni pratiche (satelliti terrestri, viaggi interplanetari, la vita di tutti i giorni), le previsioni di Newton sono accuratissime e molto più semplici da calcolare.</p>' }
+    ])
+}
+
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="part-label">' + s.part + '</div>' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  let pills = '';
+  let lastPart = null;
+  S.forEach((sec, i) => {
+    if (sec.part !== lastPart) {
+      const m = sec.part.match(/Parte\s+(\S+)/);
+      pills += '<span class="nav-group">' + (m ? m[1] : '') + '</span>';
+      lastPart = sec.part;
+    }
+    pills += '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + sec.nav + '</button>';
+  });
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+function renderAll() {
+  document.querySelector('.topbar').style.display = 'none';
+  const html = S.map(s =>
+    '<div class="section active">' +
+      '<div class="hero">' +
+        '<div class="part-label">' + s.part + '</div>' +
+        '<div class="hero-tag">' + s.tag + '</div>' +
+        '<h1>' + s.title + '</h1></div>' +
+      '<div class="section-body">' + s.body + '</div>' +
+    '</div>'
+  ).join('');
+  document.getElementById('app').innerHTML = html;
+  document.querySelectorAll('.acc-item').forEach(el => el.classList.add('open'));
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+if (new URLSearchParams(location.search).get('print') === '1') {
+  renderAll();
+} else {
+  render();
+}
+</script>
+</body>
+</html>
