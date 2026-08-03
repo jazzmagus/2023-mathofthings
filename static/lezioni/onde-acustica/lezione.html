@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onde meccaniche e acustica — Quarto anno</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #3a6b8c; --accent-light: #e8f0f5;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:2px; overflow-x:auto; flex:1; align-items:center; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.78rem; color:var(--text-dim); padding:6px 11px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.nav-group {
+  font-family:'Fira Code',monospace; font-size:.62rem; color:var(--text-dim);
+  padding:0 8px; letter-spacing:1px; border-left:1px solid var(--border); margin-left:4px;
+  white-space:nowrap;
+}
+.nav-group:first-child { border-left:none; margin-left:0; }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.part-label { font-family:'Fira Code',monospace; font-size:.68rem; text-transform:uppercase; color:var(--purple); letter-spacing:1.5px; margin-bottom:6px; font-weight:600; }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.1rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.87rem; }
+.ct th { text-align:left; padding:10px 12px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.72rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 12px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.hero-img-wrap { margin:0 0 28px; border-radius:var(--radius); overflow:hidden; }
+.hero-img-wrap img { width:100%; display:block; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.6rem; } .acc-inner { padding:4px 0 16px 14px; } .ct { font-size:.8rem; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quarto anno · Onde e suono</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+
+{
+  part:"Parte I — Onde meccaniche: il trasporto senza il trasportatore",
+  tag:"LA OLA, LA CORDA, LO SLINKY",
+  title:"Cos'è un'<em>onda</em>, davvero",
+  nav:"Cos'è un'onda",
+  body:
+    '<p>Sei allo stadio. Parte "la ola": migliaia di persone si alzano e si siedono, una dopo l\'altra, e qualcosa sembra correre lungo tutto lo spalto a grande velocità. Ma nessuno spettatore si è mosso di un centimetro dal proprio posto: ognuno si è semplicemente alzato e riseduto, sul posto. Eppure "qualcosa" ha viaggiato per centinaia di metri in pochi secondi. Ecco, questo è già il novanta per cento della definizione di un\'<strong>onda</strong>: una perturbazione che si propaga nello spazio trasportando <strong>energia</strong>, senza che la materia (o le persone) si spostino nella stessa direzione in modo permanente.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione</div><p>Un\'onda meccanica è la propagazione di una perturbazione attraverso un <strong>mezzo materiale</strong> (corda, acqua, aria, terreno), in cui ogni singola particella del mezzo oscilla localmente attorno alla propria posizione di equilibrio, senza compiere un viaggio netto insieme all\'onda.</p></div>' +
+    '<img src="/lezioni/onde-acustica/onda-trasversale-longitudinale.png" alt="Confronto tra onda trasversale e onda longitudinale" style="width:100%;height:auto;display:block;margin:1.5rem 0;">' +
+    '<div class="cb tip"><div class="cb-label">Trasversali vs longitudinali</div><p>Prendi una corda di chitarra e falla oscillare con un colpo secco: la corda si muove <strong>su e giù</strong>, ma l\'onda corre <strong>lungo</strong> la corda, orizzontalmente. Il movimento della corda è perpendicolare alla direzione di propagazione: onda <strong>trasversale</strong>. Prendi ora uno slinky (la molla giocattolo) e comprimilo e rilascialo a un\'estremità: vedrai delle "zone compresse" viaggiare lungo la molla, ma ogni spira si muove <strong>avanti e indietro</strong>, nella stessa direzione in cui viaggia l\'onda: onda <strong>longitudinale</strong>. Anticipazione: il suono è un\'onda longitudinale. La luce, come avrai visto (o vedrai) parlando di Maxwell, è invece trasversale — ma senza bisogno di alcun mezzo materiale, il che ai tempi lasciò tutti piuttosto perplessi.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — la ola e l'energia", h:'<p>Nella ola allo stadio, cosa viaggia realmente da un capo all\'altro dello stadio, se non le persone? <em>Traccia</em>: pensa a cosa serve fisicamente per far alzare ogni singola persona al proprio turno — non è la persona a spostarsi, ma il "segnale" (e l\'energia necessaria a muoversi) che passa di spettatore in spettatore.</p>' },
+      { t:"Esercizio — classifica l'onda", h:'<p>Classifica come trasversale o longitudinale ciascuna delle seguenti onde: (a) un\'onda che corre lungo una corda tesa; (b) il suono che si propaga nell\'aria; (c) le onde sismiche di tipo "P" (le prime a essere rilevate durante un terremoto, che comprimono e dilatano la roccia nella direzione di propagazione). <em>Traccia</em>: chiediti se il movimento della materia è perpendicolare o parallelo alla direzione in cui viaggia il disturbo.</p>' }
+    ])
+},
+
+{
+  part:"Parte I — Onde meccaniche: il trasporto senza il trasportatore",
+  tag:"AMPIEZZA, LUNGHEZZA D'ONDA, FREQUENZA",
+  title:"Le grandezze <em>caratteristiche</em> di un'onda",
+  nav:"Grandezze",
+  body:
+    '<p>Per descrivere un\'onda periodica (che si ripete uguale a se stessa nel tempo e nello spazio) bastano poche grandezze, e le userai per il resto dell\'anno — meglio fissarle bene una volta per tutte.</p>' +
+    '<div class="cb"><div class="cb-label">Le quattro grandezze fondamentali</div><ul style="margin-left:18px"><li><strong>Ampiezza</strong> \\(A\\): lo spostamento massimo dalla posizione di equilibrio (quanto "in alto" o "in basso" arriva l\'onda)</li><li><strong>Lunghezza d\'onda</strong> \\(\\lambda\\): la distanza spaziale tra due punti che oscillano "in fase" (due creste consecutive, ad esempio)</li><li><strong>Periodo</strong> \\(T\\): il tempo necessario perché un singolo punto del mezzo completi un\'oscillazione intera</li><li><strong>Frequenza</strong> \\(f = 1/T\\): il numero di oscillazioni complete al secondo, misurata in hertz (Hz)</li></ul></div>' +
+    '<div class="cb tip"><div class="cb-label">La relazione che lega tutto</div><p>Lo spazio percorso dall\'onda in un periodo è, per definizione, una lunghezza d\'onda intera. Dividendo per il tempo impiegato (il periodo stesso) si ottiene la velocità di propagazione:</p><div class="math-block hero-formula">\\[ v = \\lambda f \\tag{1} \\]</div><p>Questa relazione vale per <strong>qualsiasi</strong> onda periodica — meccanica o elettromagnetica, sul mare o su una corda di violino — e la userai continuamente, quindi conviene impararla a memoria piuttosto che ricavarla ogni volta.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Attenzione al fraintendimento più comune</div><p>La velocità di propagazione \\(v\\) dell\'onda <strong>non</strong> è, in generale, la velocità con cui si muove una singola particella del mezzo (la corda, l\'acqua). Un sughero che galleggia sull\'acqua, al passaggio di un\'onda, sale e scende sul posto: non viene "trasportato" verso la riva dall\'onda stessa (a meno di effetti secondari come le correnti). Confondere queste due velocità è l\'errore concettuale numero uno su questo argomento.</p></div>' +
+    acc([
+      { t:"Esercizio — dalla lunghezza d'onda alla frequenza", h:'<p>Un\'onda sull\'acqua di un lago ha lunghezza d\'onda \\(\\lambda = 2\\) m e viaggia a \\(v = 4\\) m/s. Calcola la frequenza e il periodo dell\'onda. <em>Traccia</em>: usa \\(v=\\lambda f\\) per trovare \\(f\\), poi \\(T=1/f\\).</p>' },
+      { t:"Domanda concettuale — il sughero e l'onda", h:'<p>Perché un tappo di sughero che galleggia sul mare, al passaggio delle onde, oscilla su e giù ma non viene trascinato verso riva (in prima approssimazione)? <em>Traccia</em>: distingui il moto oscillatorio locale delle particelle d\'acqua dal moto di propagazione della forma d\'onda nel suo complesso.</p>' }
+    ])
+},
+
+{
+  part:"Parte I — Onde meccaniche: il trasporto senza il trasportatore",
+  tag:"PERCHÉ IL MI BASSO È PIÙ SPESSO DEL MI ALTO",
+  title:"Onde su una <em>corda</em>",
+  nav:"Onde su corda",
+  body:
+    '<p>Guarda una chitarra: le corde gravi (quelle che suonano i toni bassi) sono visibilmente più spesse di quelle acute. Non è un vezzo estetico del liutaio: è pura fisica delle onde su una corda tesa.</p>' +
+    '<div class="cb"><div class="cb-label">La velocità dell\'onda su una corda</div><p>La velocità con cui un\'onda trasversale si propaga lungo una corda tesa dipende da due sole cose: quanto la corda è tesa (la tensione \\(F\\)) e quanto è "pesante" per unità di lunghezza (la densità lineare \\(\\mu = m/L\\)):</p><div class="math-block hero-formula">\\[ v = \\sqrt{\\dfrac{F}{\\mu}} \\]</div><p>Più la corda è tesa, più veloce viaggia l\'onda (e più acuto è il suono, come vedrai tra poco); più la corda è "pesante" per unità di lunghezza, più lenta è l\'onda.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Il caso della chitarra</div><p>Tutte le corde di una chitarra hanno (più o meno) la stessa lunghezza e tensione paragonabile, eppure devono produrre frequenze molto diverse tra loro. L\'unico parametro rimasto libero da giocare è \\(\\mu\\): le corde basse (Mi grave, La, Re) sono più spesse — spesso avvolte con un filo metallico aggiuntivo proprio per aumentarne la densità lineare senza doverle allentare eccessivamente — proprio per abbassarne la velocità di propagazione e quindi la frequenza fondamentale.</p></div>' +
+    acc([
+      { t:"Esercizio — raddoppiare la tensione", h:'<p>Se la tensione di una corda di chitarra viene raddoppiata (accordandola più "su"), di che fattore aumenta la velocità dell\'onda su quella corda? <em>Traccia</em>: nella formula \\(v=\\sqrt{F/\\mu}\\), la velocità dipende dalla <strong>radice quadrata</strong> della tensione: raddoppiare \\(F\\) non raddoppia \\(v\\), ma la moltiplica per \\(\\sqrt{2}\\approx1{,}41\\).</p>' },
+      { t:"Domanda concettuale — perché non basta allentare la corda", h:'<p>Perché i liutai non si limitano a usare corde sempre più sottili e sempre più allentate per ottenere note più gravi, invece di aumentarne la densità lineare? <em>Traccia</em>: una corda troppo allentata perde tensione meccanica sufficiente a vibrare in modo pulito e a rimanere accordata stabilmente; aumentare \\(\\mu\\) permette di abbassare la frequenza mantenendo una tensione ragionevole.</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Il suono: aria che spinge aria",
+  tag:"PERCHÉ NELLO SPAZIO NESSUNO TI SENTE URLARE",
+  title:"Cos'è il <em>suono</em>",
+  nav:"Cos'è il suono",
+  body:
+    '<p>Il suono è un\'onda <strong>longitudinale di pressione</strong> che si propaga in un mezzo materiale (tipicamente l\'aria, ma anche acqua, solidi, e persino il tuo tavolo di casa se ci bussi sopra). Una sorgente sonora — le corde vocali, un altoparlante, una corda di chitarra — vibra avanti e indietro, comprimendo e rarefacendo alternativamente l\'aria circostante. Queste zone di compressione e rarefazione viaggiano, una dopo l\'altra, fino a raggiungere il tuo orecchio, dove fanno vibrare il timpano nello stesso modo in cui vibrava la sorgente.</p>' +
+    '<div class="cb danger"><div class="cb-label">Il tagline da film di fantascienza (sbagliato)</div><p>"Nello spazio nessuno può sentirti urlare" è, dal punto di vista della fisica, perfettamente corretto — e la stragrande maggioranza dei film di fantascienza lo ignora allegramente, facendo esplodere astronavi con tanto di boato. Il suono ha bisogno di un mezzo materiale da comprimere e rarefare: nel vuoto dello spazio non c\'è aria (né alcun altro mezzo) da far vibrare, quindi nessuna onda sonora può propagarsi. La luce delle esplosioni ti arriverebbe (viaggia benissimo nel vuoto, essendo un\'onda elettromagnetica); il boato, mai.</p></div>' +
+    '<div class="cb"><div class="cb-label">La velocità del suono</div><p>Nell\'aria, a temperatura ambiente (circa 20°C), il suono viaggia a circa \\(v \\approx 343\\ \\text{m/s}\\) — più lentamente della luce di circa un milione di volte, il che spiega perché vedi il lampo di un fulmine ben prima di sentirne il tuono. La velocità del suono dipende dal mezzo (nell\'acqua è circa 1480 m/s, in un\'asta d\'acciaio oltre 5000 m/s) e, nei gas, anche dalla temperatura: più le molecole si muovono velocemente in media, più rapidamente riescono a trasmettersi la perturbazione.</p></div>' +
+    acc([
+      { t:"Esercizio — il temporale e il conteggio dei secondi", h:'<p>Vedi il lampo di un fulmine e, dopo 6 secondi, senti il tuono. A che distanza (approssimativa) si trova il fulmine? Trascura il tempo impiegato dalla luce (praticamente istantaneo). <em>Traccia</em>: \\(d=v\\cdot t = 343\\ \\text{m/s}\\times6\\ \\text{s}\\).</p>' },
+      { t:"Domanda concettuale — solidi, liquidi, gas", h:'<p>Perché il suono viaggia più velocemente nei solidi che nei gas, nonostante i gas siano molto meno densi (e quindi si potrebbe pensare più "facili" da mettere in moto)? <em>Traccia</em>: conta di più quanto rigidamente le molecole sono legate tra loro (l\'elasticità del mezzo) piuttosto che la sola densità: in un solido, ogni molecola "spinge" la successiva quasi istantaneamente grazie ai legami rigidi; in un gas, le molecole devono prima scontrarsi casualmente.</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Il suono: aria che spinge aria",
+  tag:"PERCHÉ UN FLAUTO E UN VIOLINO SUONANO DIVERSI",
+  title:"Altezza, intensità e <em>timbro</em>",
+  nav:"Altezza e timbro",
+  body:
+    '<p>Quando dici che un suono è "acuto" o "grave", "forte" o "debole", o che riconosci uno strumento "dal suono", stai in realtà distinguendo tre proprietà fisiche completamente diverse dell\'onda sonora.</p>' +
+    '<div class="cb"><div class="cb-label">Le tre proprietà percettive del suono</div><ul style="margin-left:18px"><li><strong>Altezza</strong> (grave/acuto): corrisponde alla <strong>frequenza</strong> dell\'onda. Frequenze alte → suoni acuti; frequenze basse → suoni gravi. L\'orecchio umano percepisce, indicativamente, da 20 Hz a 20.000 Hz.</li><li><strong>Intensità</strong> (forte/debole): corrisponde all\'<strong>ampiezza</strong> dell\'onda (e, più precisamente, all\'energia trasportata per unità di tempo e superficie).</li><li><strong>Timbro</strong>: la "firma" che permette di distinguere due strumenti che suonano <strong>la stessa nota, alla stessa intensità</strong>.</li></ul></div>' +
+    '<img src="/lezioni/onde-acustica/spettro-armoniche.png" alt="Forma d\'onda di una nota di violino e relativo spettro delle armoniche" style="width:100%;height:auto;display:block;margin:1.5rem 0;">' +
+    '<div class="cb tip"><div class="cb-label">Il segreto del timbro — le armoniche</div><p>Nessuno strumento produce mai una singola frequenza pura. Un flauto che suona un Do produce, oltre alla frequenza fondamentale (quella che percepisci come "l\'altezza" della nota), anche una serie di frequenze multiple intere di quella fondamentale — le cosiddette <strong>armoniche</strong> (\\(2f, 3f, 4f, \\dots\\)) — ciascuna con un\'ampiezza diversa. Un violino che suona lo stesso Do produce esattamente lo stesso set di frequenze (fondamentale + armoniche agli stessi multipli), ma con un "mix" di ampiezze relative completamente diverso. È questa diversa "ricetta" di armoniche a far sì che l\'orecchio (e il cervello) riconoscano immediatamente i due timbri come diversi, pur trattandosi della stessa identica nota.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — riconoscere una voce al telefono", h:'<p>Perché riesci a riconoscere la voce di un amico al telefono, anche se il telefono trasmette un range di frequenze piuttosto limitato (storicamente, circa 300-3400 Hz)? <em>Traccia</em>: gran parte dell\'informazione sul timbro (il "mix" caratteristico delle armoniche più basse) rientra proprio in quella banda ristretta; è per questo che le voci restano riconoscibili anche se "un po\' metalliche" al telefono.</p>' },
+      { t:"Esercizio — armoniche di una corda", h:'<p>Una corda di chitarra vibra con frequenza fondamentale \\(f_1 = 110\\) Hz (il La grave). Quali sono le frequenze delle prime tre armoniche successive? <em>Traccia</em>: le armoniche sono multipli interi della fondamentale: \\(f_2=2f_1\\), \\(f_3=3f_1\\), \\(f_4=4f_1\\).</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Il suono: aria che spinge aria",
+  tag:"UNA SCALA CHE INGANNA CHI NON LA CONOSCE",
+  title:"Il <em>decibel</em>, ovvero perché 120 non è il doppio di 60",
+  nav:"Decibel",
+  body:
+    '<p>L\'orecchio umano è uno strumento di misura sorprendente: riesce a percepire suoni la cui <strong>intensità</strong> (energia per unità di tempo e superficie) varia di un fattore di mille miliardi tra il più debole sussurro percepibile e il rumore che provoca dolore fisico immediato. Nessuna scala lineare normale (quella con cui misuri lunghezze o pesi) sarebbe pratica da usare su un intervallo così vasto: da qui la scelta di una scala <strong>logaritmica</strong>, il decibel (dB).</p>' +
+    '<div class="cb"><div class="cb-label">La formula del livello di intensità sonora</div><div class="math-block hero-formula">\\[ L = 10\\,\\log_{10}\\!\\left(\\frac{I}{I_0}\\right) \\ \\text{dB} \\]</div><p>dove \\(I_0 = 10^{-12}\\ \\text{W/m}^2\\) è, per convenzione, la soglia di udibilità umana (il suono più debole percepibile da un orecchio "medio" a 1000 Hz), usata come riferimento a 0 dB.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">La trappola concettuale del decibel</div><p>Poiché la scala è logaritmica, <strong>+10 dB non significa "il 10% in più di suono"</strong>: significa un\'intensità <strong>dieci volte</strong> maggiore. Un concerto rock a 110 dB non è "un po\' più forte" di una conversazione a 60 dB: in termini di intensità fisica reale (energia), è centomila volte più intenso (\\(10^{(110-60)/10}=10^5\\)). È lo stesso motivo per cui la scala Richter dei terremoti, anch\'essa logaritmica, fa impressione solo a chi ne conosce il trucco.</p></div>' +
+    '<div class="cb"><div class="cb-label">Alcuni valori di riferimento</div><table class="ct"><tr><th>Sorgente</th><th>Livello approssimativo</th></tr>' +
+    '<tr><td>Soglia di udibilità</td><td>0 dB</td></tr>' +
+    '<tr><td>Bisbiglio a 1 m</td><td>20 dB</td></tr>' +
+    '<tr><td>Conversazione normale</td><td>60 dB</td></tr>' +
+    '<tr><td>Traffico cittadino intenso</td><td>80–85 dB</td></tr>' +
+    '<tr><td>Concerto rock</td><td>110–120 dB</td></tr>' +
+    '<tr><td>Decollo di un aereo (a poche decine di metri)</td><td>130–140 dB</td></tr>' +
+    '<tr><td>Soglia del dolore</td><td>~120–130 dB</td></tr>' +
+    '</table></div>' +
+    acc([
+      { t:"Esercizio — quante volte più intenso", h:'<p>Un aspirapolvere produce un livello sonoro di 70 dB, un frullatore di 90 dB. Di quante volte è più intensa (in termini di \\(I\\), non di dB) l\'onda sonora del frullatore rispetto a quella dell\'aspirapolvere? <em>Traccia</em>: la differenza è di 20 dB, cioè \\(10^{20/10}=10^2=100\\) volte.</p>' },
+      { t:"Domanda concettuale — perché una scala logaritmica", h:'<p>Perché usare una scala logaritmica per l\'intensità sonora invece di esprimere direttamente i valori in W/m²? <em>Traccia</em>: l\'intervallo di intensità percepibile dall\'orecchio umano copre circa 12-13 ordini di grandezza; una scala logaritmica comprime questo intervallo enorme in numeri maneggevoli (0-140 circa) ed è anche più coerente con la percezione umana dell\'intensità, che è essa stessa approssimativamente logaritmica (legge di Weber-Fechner).</p>' }
+    ])
+},
+
+{
+  part:"Parte III — Fenomeni che stupiscono (e spiegano cose reali)",
+  tag:"IL 'WOW-WOW-WOW' DELL'ACCORDATURA",
+  title:"<em>Battimenti</em>: quando due onde quasi identiche litigano",
+  nav:"Battimenti",
+  body:
+    '<p>Se hai mai visto qualcuno accordare una chitarra pizzicando due corde vicine (o confrontando una corda con un diapason), avrai sentito quel caratteristico "wow... wow... wow..." — un suono che pulsa di intensità, alternando momenti in cui sembra quasi sparire a momenti in cui torna forte. Questo fenomeno si chiama <strong>battimento</strong>, e succede ogni volta che due onde sonore di frequenza molto vicina (ma non identica) si sovrappongono nello stesso punto dello spazio.</p>' +
+    '<img src="/lezioni/onde-acustica/battimenti.png" alt="Sovrapposizione di due onde di frequenza vicina e inviluppo del battimento risultante" style="width:100%;height:auto;display:block;margin:1.5rem 0;">' +
+    '<div class="cb"><div class="cb-label">Cosa succede fisicamente</div><p>Due onde di frequenza \\(f_1\\) e \\(f_2\\) molto vicine tra loro, sovrapposte, vanno periodicamente in fase (si sommano, suono forte) e in controfase (si cancellano quasi del tutto, suono debole). La frequenza con cui si ripete questa alternanza forte-debole è, sorprendentemente semplice:</p><div class="math-block hero-formula">\\[ f_{batt} = |f_1 - f_2| \\]</div><p>Più le due frequenze sono vicine, più lento (e quindi percepibile all\'orecchio come un "battito" separato, non come un suono continuo) è il battimento — il che rende questo fenomeno perfetto per accordare uno strumento "a orecchio": quando il battimento rallenta fino a sparire del tutto, le due corde sono alla stessa identica frequenza.</p></div>' +
+    acc([
+      { t:"Esercizio — calcolo della frequenza di battimento", h:'<p>Due diapason vibrano a 440 Hz e 444 Hz rispettivamente. Con quale frequenza (quanti battiti al secondo) un ascoltatore percepirà l\'alternanza forte-debole? <em>Traccia</em>: \\(f_{batt}=|444-440|=4\\) Hz, cioè 4 battiti al secondo — abbastanza lento da essere chiaramente percepito come un pulsare distinto, non come un ronzio continuo.</p>' },
+      { t:"Domanda concettuale — accordare a orecchio", h:'<p>Perché un musicista, per accordare una corda, cerca di far <strong>sparire</strong> il battimento invece di contarne la frequenza? <em>Traccia</em>: quando \\(f_1=f_2\\), \\(f_{batt}=0\\): nessuna alternanza percepibile significa che le due frequenze coincidono esattamente — è un metodo di verifica molto più sensibile dell\'orecchio umano di quanto lo sarebbe cercare di giudicare "a naso" se due note suonano alla stessa altezza.</p>' }
+    ])
+},
+
+{
+  part:"Parte III — Fenomeni che stupiscono (e spiegano cose reali)",
+  tag:"LA SIRENA DELL'AMBULANZA (E LE GALASSIE CHE FUGGONO)",
+  title:"L'effetto <em>Doppler</em>",
+  nav:"Effetto Doppler",
+  body:
+    '<p>Un\'ambulanza si avvicina con la sirena accesa: il tono che senti è più acuto di quello reale emesso dalla sirena. Passa oltre te, e mentre si allontana il tono scende, diventando più grave — pur trattandosi, ovviamente, sempre della stessa identica sirena, che non ha certo cambiato intonazione a metà strada. Questo fenomeno, universalmente noto a chiunque abbia mai sentito passare un\'ambulanza (o un\'auto da corsa), si chiama <strong>effetto Doppler</strong>.</p>' +
+    '<img src="/lezioni/onde-acustica/effetto-doppler.png" alt="Fronti d\'onda compressi davanti e dilatati dietro una sorgente sonora in movimento" style="width:100%;height:auto;display:block;margin:1.5rem 0;">' +
+    '<div class="cb tip"><div class="cb-label">Perché succede</div><p>Mentre la sorgente si avvicina, ogni fronte d\'onda successivo viene emesso da una posizione leggermente più vicina all\'ascoltatore rispetto al precedente: i fronti d\'onda si "accalcano" tra loro, comprimendo effettivamente la lunghezza d\'onda percepita — e quindi aumentando la frequenza percepita (suono più acuto). Mentre la sorgente si allontana, vale l\'esatto contrario: i fronti si "diradano", la lunghezza d\'onda percepita si allunga, la frequenza percepita si abbassa (suono più grave). Da notare bene: la frequenza <strong>emessa</strong> dalla sirena non cambia mai — cambia solo quella <strong>percepita</strong> da un osservatore in moto relativo rispetto alla sorgente.</p></div>' +
+    '<div class="cb"><div class="cb-label">Formula (caso sorgente in movimento, osservatore fermo)</div><div class="math-block hero-formula">\\[ f_{oss} = f_{sorg}\\cdot\\frac{v_{suono}}{v_{suono} \\mp v_{sorg}} \\]</div><p>segno "−" al denominatore quando la sorgente si avvicina (frequenza percepita più alta), segno "+" quando si allontana (frequenza percepita più bassa).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Lo stesso identico principio spiega l\'espansione dell\'universo</div><p>L\'effetto Doppler non è un capriccio esclusivo del suono: vale per <strong>qualunque</strong> tipo di onda, incluse quelle elettromagnetiche (la luce). La luce proveniente da galassie lontane appare sistematicamente "spostata verso il rosso" (<em>redshift</em>, cioè verso frequenze più basse) rispetto a quella emessa da sorgenti ferme rispetto a noi — esattamente come il tono di un\'ambulanza che si allontana si abbassa. È stato proprio questo fenomeno, osservato da Edwin Hubble negli anni \'20 del Novecento su decine di galassie, a fornire la prima prova solida che l\'universo si sta espandendo: più le galassie sono lontane, più velocemente si allontanano da noi, più marcato è il loro redshift. Una sirena di ambulanza, in un certo senso, ti sta già insegnando cosmologia.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — Doppler e osservatore in moto", h:'<p>L\'effetto Doppler si verifica solo quando è la sorgente a muoversi, oppure anche quando è l\'osservatore a muoversi verso una sorgente ferma (ad esempio, tu che ti avvicini in bici a un altoparlante fermo)? <em>Traccia</em>: l\'effetto dipende dal moto <strong>relativo</strong> tra sorgente e osservatore; la formula esatta differisce leggermente nei due casi (sorgente in moto vs osservatore in moto), ma il fenomeno percettivo — tono più acuto avvicinandosi, più grave allontanandosi — si presenta in entrambi i casi.</p>' },
+      { t:"Esercizio — auto da corsa", h:'<p>Un\'auto da corsa emette un suono a 500 Hz e si avvicina a un osservatore fermo a \\(v_{sorg}=40\\) m/s. Sapendo che \\(v_{suono}=340\\) m/s, calcola la frequenza percepita dall\'osservatore. <em>Traccia</em>: sorgente che si avvicina → segno meno al denominatore: \\(f_{oss}=500\\cdot\\dfrac{340}{340-40}\\).</p>' }
+    ])
+},
+
+{
+  part:"Parte III — Fenomeni che stupiscono (e spiegano cose reali)",
+  tag:"IL PONTE CHE CROLLÒ PER COLPA DEL VENTO (E DELLA FISICA)",
+  title:"<em>Risonanza</em>: la forza della frequenza giusta",
+  nav:"Risonanza",
+  body:
+    '<p>Ogni oggetto elastico (una corda, una lastra, un ponte, un bicchiere di cristallo) ha una o più <strong>frequenze naturali</strong> di oscillazione, alle quali "preferisce" vibrare se lasciato libero dopo una singola sollecitazione. Se una forza periodica esterna viene applicata proprio a quella frequenza, l\'ampiezza dell\'oscillazione può crescere in modo spettacolare, anche a partire da una spinta iniziale piccolissima: questo fenomeno si chiama <strong>risonanza</strong>.</p>' +
+    '<img src="/lezioni/onde-acustica/tacoma-narrows.jpg" alt="Ponte di Tacoma Narrows in oscillazione poco prima del crollo, 1940" style="width:100%;height:auto;display:block;margin:1.5rem 0;border-radius:8px;">' +
+    '<div class="cb danger"><div class="cb-label">Il ponte di Tacoma Narrows (1940)</div><p>Il caso di risonanza più celebre (e più fotografato) della storia dell\'ingegneria: il ponte sospeso di Tacoma Narrows, nello stato di Washington, iniziò a oscillare in modo sempre più marcato sotto l\'azione di un vento moderato ma costante, che per un fenomeno aerodinamico (vortici periodici, non semplice spinta) sollecitava la struttura proprio vicino a una delle sue frequenze naturali di torsione. Le oscillazioni crebbero fino a diventare visibilmente ondulatorie — il filmato dell\'epoca, ancora oggi mostrato in ogni corso di ingegneria strutturale, sembra quasi un fotomontaggio — fino al collasso completo della campata centrale, il 7 novembre 1940, appena quattro mesi dopo l\'apertura. Fortunatamente non ci furono vittime umane (solo un cane, rimasto bloccato in un\'auto abbandonata sul ponte).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Il lato meno catastrofico: il bicchiere di cristallo</div><p>Lo stesso principio, in scala molto più innocua, permette (ad alcuni cantanti lirici, con parecchio allenamento) di rompere un bicchiere di cristallo con la sola voce: se si riesce a produrre una nota esattamente alla frequenza di risonanza naturale del bicchiere, e a sostenerla abbastanza a lungo e abbastanza forte, le vibrazioni indotte possono crescere fino a superare il limite elastico del materiale, frantumandolo. Non funziona con qualunque nota: deve essere esattamente quella "giusta" per quel bicchiere specifico (forma, spessore e materiale ne determinano la frequenza naturale).</p></div>' +
+    acc([
+      { t:"Domanda concettuale — perché non basta un vento fortissimo", h:'<p>Perché il ponte di Tacoma Narrows crollò con un vento relativamente moderato (circa 65 km/h, non un uragano), mentre resisteva perfettamente a venti anche più forti in altre occasioni? <em>Traccia</em>: non conta solo l\'intensità della forza applicata, ma la sua <strong>frequenza</strong>: solo quando questa coincide (o è vicina) a una frequenza naturale della struttura, l\'energia si accumula oscillazione dopo oscillazione invece di dissiparsi, portando ad ampiezze catastrofiche anche con forze modeste.</p>' },
+      { t:"Per chi vuole andare oltre il programma", h:'<p>Cerca, come approfondimento personale, come gli ingegneri moderni progettano ponti e grattacieli per evitare il ripetersi di un caso come Tacoma Narrows — in particolare, cosa sono gli "smorzatori di massa accordati" (tuned mass dampers), installati ad esempio in cima al grattacielo Taipei 101, e come funzionano per spostare o assorbire l\'energia lontano dalle frequenze di risonanza pericolose della struttura.</p>' }
+    ])
+}
+
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="part-label">' + s.part + '</div>' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  let pills = '';
+  let lastPart = null;
+  S.forEach((sec, i) => {
+    if (sec.part !== lastPart) {
+      const m = sec.part.match(/Parte\s+(\S+)/);
+      pills += '<span class="nav-group">' + (m ? m[1] : '') + '</span>';
+      lastPart = sec.part;
+    }
+    pills += '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + sec.nav + '</button>';
+  });
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>
