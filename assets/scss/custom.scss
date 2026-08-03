@@ -1580,11 +1580,25 @@ html:has(body.dark) {
 }
 
 // Articles & talks list styling: thin horizontal cards
+.year-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: $primary;
+  margin: 1.6rem 0 0.5rem;
+
+  &:first-child {
+    margin-top: 2rem;
+  }
+}
+
 .articles-card-list {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  margin-top: 2rem;
+  margin-top: 0.5rem;
 
   .article-item-link {
     display: flex;

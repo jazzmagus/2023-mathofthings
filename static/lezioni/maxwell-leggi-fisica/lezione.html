@@ -105,6 +105,14 @@ mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
 .hero-img-wrap { margin:0 0 28px; border-radius:var(--radius); overflow:hidden; }
 .hero-img-wrap img { width:100%; display:block; }
 @media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.6rem; } .acc-inner { padding:4px 0 16px 14px; } .ct { font-size:.8rem; } }
+@media print {
+  .topbar, .bottom-nav { display:none !important; }
+  .container { padding:20px 24px; max-width:100%; }
+  .section { display:block !important; page-break-after: always; }
+  .section:last-child { page-break-after: auto; }
+  .acc-body { max-height:none !important; }
+  .acc-arrow { display:none; }
+}
 </style>
 </head>
 <body>
@@ -112,6 +120,7 @@ mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
 <div class="topbar">
   <div class="topbar-brand">Quinto anno · Maxwell</div>
   <div class="topbar-nav" id="topNav"></div>
+  <a href="/lezioni/maxwell-leggi-fisica/maxwell-leggi-fisica.pdf" class="topbar-home" target="_blank">PDF ↓</a>
   <a href="/" class="topbar-home">← home</a>
 </div>
 <div class="container" id="app"></div>
@@ -403,7 +412,30 @@ function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(
 function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
 function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
 
-render();
+function renderAll() {
+  document.querySelector('.topbar').style.display = 'none';
+  const html = S.map(s =>
+    '<div class="section active">' +
+      '<div class="hero">' +
+        '<div class="part-label">' + s.part + '</div>' +
+        '<div class="hero-tag">' + s.tag + '</div>' +
+        '<h1>' + s.title + '</h1></div>' +
+      '<div class="section-body">' + s.body + '</div>' +
+    '</div>'
+  ).join('');
+  document.getElementById('app').innerHTML = html;
+  document.querySelectorAll('.acc-item').forEach(el => el.classList.add('open'));
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+if (new URLSearchParams(location.search).get('print') === '1') {
+  renderAll();
+} else {
+  render();
+}
 </script>
 </body>
 </html>

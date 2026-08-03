@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le leggi di Newton — Terzo anno</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #3a6b8c; --accent-light: #e8f0f5;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:2px; overflow-x:auto; flex:1; align-items:center; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.78rem; color:var(--text-dim); padding:6px 11px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.nav-group {
+  font-family:'Fira Code',monospace; font-size:.62rem; color:var(--text-dim);
+  padding:0 8px; letter-spacing:1px; border-left:1px solid var(--border); margin-left:4px;
+  white-space:nowrap;
+}
+.nav-group:first-child { border-left:none; margin-left:0; }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.part-label { font-family:'Fira Code',monospace; font-size:.68rem; text-transform:uppercase; color:var(--purple); letter-spacing:1.5px; margin-bottom:6px; font-weight:600; }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.1rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.87rem; }
+.ct th { text-align:left; padding:10px 12px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.72rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 12px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.hero-img-wrap { margin:0 0 28px; border-radius:var(--radius); overflow:hidden; }
+.hero-img-wrap img { width:100%; display:block; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.6rem; } .acc-inner { padding:4px 0 16px 14px; } .ct { font-size:.8rem; } }
+@media print {
+  .topbar, .bottom-nav { display:none !important; }
+  .container { padding:20px 24px; max-width:100%; }
+  .section { display:block !important; page-break-after: always; }
+  .section:last-child { page-break-after: auto; }
+  .acc-body { max-height:none !important; }
+  .acc-arrow { display:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Terzo anno · Newton</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/lezioni/leggi-newton/leggi-newton.pdf" class="topbar-home" target="_blank">PDF ↓</a>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+
+{
+  part:"Parte I — Il moto, prima di Newton (e perché tutti sbagliavano)",
+  tag:"2000 ANNI DI ERRORE, PIÙ O MENO CONVINTO",
+  title:"Perché Aristotele si <em>sbagliava</em>",
+  nav:"Aristotele sbagliava",
+  body:
+    '<p>Spingi un libro sul tavolo: parte veloce, rallenta, si ferma. Sembra ovvio, no? Per fermarsi, un oggetto in movimento ha "bisogno" che smetta di essere spinto — è più o meno quello che pensava Aristotele, più di duemila anni fa: gli oggetti si muovono solo finché una forza li spinge, e si fermano appena questa forza cessa. Il problema è che questa idea, per quanto sembri confermata da ogni singola esperienza quotidiana con libri, palle e carrelli della spesa, è <strong>completamente sbagliata</strong> — e ci sono voluti secoli, e un certo Galileo Galilei prima ancora di Newton, per capire perché.</p>' +
+    '<div class="cb warn"><div class="cb-label">Il colpevole nascosto: l\'attrito</div><p>Il libro sul tavolo non si ferma "perché finisce la spinta": si ferma perché il tavolo esercita una forza di <strong>attrito</strong> che lo rallenta, proprio come una mano invisibile che lo trattiene. Aristotele non aveva sbagliato a osservare (i libri si fermano davvero), aveva sbagliato a <em>spiegare</em>: aveva scambiato l\'effetto dell\'attrito per una legge universale del moto. È un errore facilissimo da fare — e infatti ci sono voluti quasi duemila anni prima che qualcuno se ne accorgesse ufficialmente.</p></div>' +
+    '<div class="cb"><div class="cb-label">L\'esperimento (mentale) di Galileo</div><p>Galileo immaginò una pallina che rotola su un piano sempre più liscio: meno attrito c\'è, più a lungo la pallina continua a muoversi alla stessa velocità prima di fermarsi. Portando il ragionamento all\'estremo — un piano perfettamente liscio, senza il minimo attrito — la pallina, una volta lanciata, non si fermerebbe <strong>mai</strong>. Nessuno ha mai costruito un piano del genere in laboratorio (per fortuna, altrimenti staremmo ancora aspettando quella pallina), ma il ragionamento logico è ineccepibile, ed è esattamente l\'intuizione che Newton trasformerà, poco dopo, nella sua prima legge.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — l'astronave nello spazio", h:'<p>Un\'astronave nello spazio profondo, lontanissima da ogni pianeta o stella, spegne tutti i motori. Cosa succede alla sua velocità? <em>Traccia</em>: nello spazio non c\'è aria, né attrito di alcun tipo con cui "combattere" il moto: l\'astronave continua a viaggiare esattamente alla stessa velocità, nella stessa direzione, per sempre — altro che rallentare come il libro sul tavolo.</p>' },
+      { t:"Esercizio — trova l'attrito nascosto", h:'<p>Per ciascuna di queste situazioni quotidiane, individua quale forza di attrito (o resistenza) sta davvero facendo fermare l\'oggetto, che a un occhio poco allenato sembrerebbe fermarsi "da solo": (a) una bicicletta lasciata rotolare in piano senza pedalare; (b) una palla da bowling lanciata sulla pista; (c) un aquilone che smette di volare quando cade il vento. <em>Traccia</em>: pensa ad attrito con l\'aria (resistenza aerodinamica), attrito tra superfici a contatto, e — nel caso dell\'aquilone — assenza della forza che lo sosteneva, non un "arresto naturale".</p>' }
+    ])
+},
+
+{
+  part:"Parte I — Il moto, prima di Newton (e perché tutti sbagliavano)",
+  tag:"LA PIGRIZIA COME LEGGE FISICA UFFICIALE",
+  title:"Il primo principio: la <em>legge dell'inerzia</em>",
+  nav:"1° principio",
+  body:
+    '<p>Newton formalizzò l\'intuizione di Galileo in quella che oggi chiamiamo la <strong>prima legge della dinamica</strong>, o legge d\'inerzia — probabilmente la legge fisica più facile da enunciare e, paradossalmente, più difficile da credere davvero, perché contraddice l\'esperienza quotidiana di ogni singolo oggetto che vediamo fermarsi.</p>' +
+    '<div class="cb"><div class="cb-label">Il primo principio della dinamica</div><p>Un corpo permane nel proprio stato di quiete, o di moto rettilineo uniforme, a meno che una forza esterna non agisca su di esso per modificarne lo stato.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Cosa significa davvero \"inerzia\"</div><p>L\'inerzia è, in un certo senso, la "pigrizia" della materia: un oggetto fermo preferisce restare fermo, un oggetto in moto preferisce continuare a muoversi esattamente come stava facendo (stessa velocità, stessa direzione), e ci vuole sempre una forza esterna per convincerlo a cambiare idea. Non è un caso che la <strong>massa</strong> di un oggetto sia, fisicamente, proprio la misura di quanto quell\'oggetto "resiste" a un cambiamento del proprio stato di moto: più massa ha, più è "testardo".</p></div>' +
+    '<div class="cb danger"><div class="cb-label">Perché ti sbatti in avanti quando il bus frena</div><p>Quando sei in piedi su un autobus che frena bruscamente, il tuo corpo tende a continuare a muoversi alla velocità precedente (inerzia!), mentre i tuoi piedi, a contatto con il pavimento, vengono rallentati insieme al bus dall\'attrito. Risultato: ti sbilanci in avanti — non perché una misteriosa forza ti spinge, ma perché la parte superiore del tuo corpo sta semplicemente continuando a fare quello che stava già facendo prima della frenata. La stessa identica fisica ti schiaccia contro il sedile quando l\'auto accelera bruscamente in avanti.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — la tovaglia e i piatti", h:'<p>Il classico trucco da festa: tirare via di scatto una tovaglia da sotto ai piatti, lasciando i piatti al loro posto sul tavolo (quando riesce, il che non è garantito). Perché funziona, in termini di inerzia? <em>Traccia</em>: se il movimento è abbastanza rapido, l\'attrito tra tovaglia e piatti ha pochissimo tempo per trasmettere una forza significativa ai piatti stessi, che per inerzia "preferiscono" restare fermi dove sono — sconsigliato provarlo con il servizio buono della nonna.</p>' },
+      { t:"Esercizio — vero o falso", h:'<p>Valuta vero o falso: "Per mantenere un oggetto in moto a velocità costante su una superficie orizzontale reale, serve sempre una forza applicata costante." <em>Traccia</em>: in un mondo <strong>senza attrito</strong>, la prima legge dice che basterebbe la velocità iniziale, nessuna forza ulteriore necessaria. Ma su una superficie <strong>reale</strong>, con attrito presente, serve sì una forza costante — ma solo per bilanciare esattamente l\'attrito, non per "mantenere" il moto in sé. La distinzione è sottile ma cruciale.</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Le tre leggi, in dettaglio (con qualche dramma familiare)",
+  tag:"LA FORMULA PIÙ FAMOSA DELLA FISICA (SÌ, PIÙ DI E=MC²)",
+  title:"Il secondo principio: <em>F = ma</em>",
+  nav:"2° principio",
+  body:
+    '<p>Se il primo principio dice cosa succede <strong>senza</strong> forze (nulla, tutto resta come stava), il secondo principio dice cosa succede <strong>con</strong> una forza applicata — ed è, con ogni probabilità, la formula più citata (e più fraintesa) di tutta la fisica delle scuole superiori.</p>' +
+    '<div class="cb"><div class="cb-label">Il secondo principio della dinamica</div><div class="math-block hero-formula">\\[ \\vec{F} = m\\,\\vec{a} \\tag{2} \\]</div><p>La forza risultante applicata a un corpo è direttamente proporzionale alla sua massa e all\'accelerazione che tale forza produce. In parole povere: a parità di forza applicata, un oggetto più "pesante" (con più massa) accelera di meno; a parità di massa, una forza più intensa produce un\'accelerazione maggiore.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">L\'errore concettuale numero uno</div><p>\\(F=ma\\) collega la forza all\'<strong>accelerazione</strong>, non alla velocità. Una forza costante non produce una velocità costante: produce un\'accelerazione costante, cioè una velocità che <strong>continua ad aumentare</strong> (o diminuire) nel tempo. Se spingi costantemente un carrello della spesa con la stessa forza, il carrello non raggiunge una velocità fissa e ci resta: accelera sempre di più, finché tu (o l\'attrito, o un muro) non lo fermate.</p></div>' +
+    acc([
+      { t:"Esercizio — spingere un carrello", h:'<p>Un carrello della spesa ha massa \\(m=15\\) kg. Applicando una forza orizzontale netta di \\(F=30\\) N (trascurando l\'attrito con il pavimento), quale accelerazione subisce il carrello? <em>Traccia</em>: \\(a=F/m=30/15\\).</p>' },
+      { t:"Domanda concettuale — stessa forza, masse diverse", h:'<p>Applichi la stessa identica forza a un pallone da calcio e a una palla da bowling, entrambi inizialmente fermi. Quale dei due accelera di più, e perché? <em>Traccia</em>: a parità di forza, l\'accelerazione è inversamente proporzionale alla massa (\\(a=F/m\\)): il pallone da calcio, molto meno "massiccio", accelera notevolmente di più della ben più pesante palla da bowling.</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Le tre leggi, in dettaglio (con qualche dramma familiare)",
+  tag:"LA CONFUSIONE PIÙ COMUNE DI TUTTO IL PROGRAMMA",
+  title:"Massa e <em>peso</em> non sono la stessa cosa (mai)",
+  nav:"Massa vs peso",
+  body:
+    '<p>"Quanto pesi?" chiedi a un amico, e lui ti risponde "70 chili" — tecnicamente, ha appena confuso due grandezze fisiche completamente diverse, e non è certo il solo: è probabilmente l\'errore linguistico (e concettuale) più diffuso di tutta la fisica scolastica, talmente radicato nell\'italiano di tutti i giorni che perfino i libretti di istruzioni delle bilance ci cascano.</p>' +
+    '<div class="cb"><div class="cb-label">Definizioni, senza sconti</div><ul style="margin-left:18px"><li><strong>Massa</strong> \\(m\\): quantità di materia di un corpo, misurata in <strong>kg</strong>. È una proprietà intrinseca dell\'oggetto: non cambia se lo sposti sulla Luna, su Marte, o nello spazio profondo.</li><li><strong>Peso</strong> \\(P\\): la forza con cui la gravità attrae quel corpo, misurata in <strong>newton (N)</strong>, esattamente come ogni altra forza: \\(P = mg\\).</li></ul></div>' +
+    '<div class="cb purple"><div class="cb-label">La stessa persona, tre pianeti diversi</div><p>Una persona con massa \\(m=70\\) kg ha sempre, ovunque nell\'universo, esattamente 70 kg di massa — che sia sulla Terra, sulla Luna, o in caduta libera in orbita. Il suo <strong>peso</strong>, invece, cambia eccome: sulla Terra (\\(g\\approx9{,}8\\ \\text{m/s}^2\\)) pesa circa 686 N; sulla Luna (\\(g\\approx1{,}6\\ \\text{m/s}^2\\)) pesa appena circa 112 N, meno di un sesto — ecco perché gli astronauti sulla Luna sembravano saltellare senza sforzo, altro che tuta spaziale scomoda; su Marte (\\(g\\approx3{,}7\\ \\text{m/s}^2\\)) peserebbe circa 259 N. Stessa massa, pesi completamente diversi.</p></div>' +
+    acc([
+      { t:"Esercizio — sulla Luna", h:'<p>Un oggetto ha massa \\(m=12\\) kg. Calcola il suo peso sulla Terra e sulla Luna, usando \\(g_{Terra}\\approx9{,}8\\ \\text{m/s}^2\\) e \\(g_{Luna}\\approx1{,}6\\ \\text{m/s}^2\\). <em>Traccia</em>: \\(P=mg\\) in entrambi i casi; la massa resta 12 kg su entrambi i corpi celesti, cambia solo \\(g\\).</p>' },
+      { t:"Domanda concettuale — la bilancia mente (un po')", h:'<p>Perché una bilancia pesapersone, tecnicamente, misura una forza (il peso) ma la maggior parte delle persone la legge come se misurasse direttamente la massa (in kg)? <em>Traccia</em>: sulla Terra, dove \\(g\\) è sostanzialmente costante ovunque tu ti pesi, peso e massa sono sempre <strong>proporzionali</strong> tra loro nello stesso identico modo — quindi è comodo (anche se tecnicamente scorretto) tarare la bilancia direttamente in kg invece che in newton. Il problema si vedrebbe solo portando la bilancia sulla Luna.</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Le tre leggi, in dettaglio (con qualche dramma familiare)",
+  tag:"NON PUOI SPINGERE NULLA SENZA ESSERE SPINTO INDIETRO",
+  title:"Il terzo principio: <em>azione e reazione</em>",
+  nav:"3° principio",
+  body:
+    '<p>Spingi un muro con tutta la tua forza. Il muro, ovviamente, non si sposta di un millimetro — ma se ci fai caso, senti chiaramente il muro "spingere indietro" contro le tue mani. Non è un\'illusione psicologica: è la terza legge della dinamica in azione, forse la più controintuitiva delle tre, perché sembra suggerire che perfino un muro immobile eserciti attivamente una forza.</p>' +
+    '<div class="cb"><div class="cb-label">Il terzo principio della dinamica</div><p>Ad ogni azione corrisponde sempre una reazione uguale e contraria: se un corpo A esercita una forza su un corpo B, il corpo B esercita simultaneamente su A una forza di uguale intensità, stessa direzione, ma verso opposto.</p></div>' +
+    '<img src="/lezioni/leggi-newton/azione-reazione.png" alt="Coppia di forze azione-reazione tra una mano e un muro" style="width:100%;height:auto;display:block;margin:1.5rem 0;">' +
+    '<div class="cb warn"><div class="cb-label">Attenzione: non sono la stessa forza applicata due volte</div><p>Le due forze della coppia azione-reazione agiscono su <strong>due corpi diversi</strong>, e proprio per questo non si "annullano" mai a vicenda: la forza che tu eserciti sul muro agisce sul muro; la forza di reazione del muro agisce su di te. Se agissero sullo stesso corpo, nulla si muoverebbe mai in tutto l\'universo — il che, visibilmente, non è il caso.</p></div>' +
+    '<div class="cb success"><div class="cb-label">Come cammini davvero (e come vola un razzo)</div><p>Quando cammini, in realtà stai spingendo il terreno <strong>all\'indietro</strong> con il piede a ogni passo; per reazione, il terreno ti spinge <strong>in avanti</strong> con una forza uguale e contraria — è quella spinta di reazione del suolo, non un misterioso "sforzo muscolare in avanti", a farti effettivamente avanzare. Un razzo funziona sullo stesso identico principio, solo più spettacolare: espelle gas caldi verso il basso ad altissima velocità, e per reazione i gas spingono il razzo verso l\'alto — nessun bisogno di "spingere contro l\'aria", tanto che i razzi funzionano perfettamente anche nel vuoto assoluto dello spazio, dove non c\'è proprio nulla contro cui spingersi.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — il cavallo e il carro", h:'<p>Un vecchio paradosso filosofico (pre-Newton) diceva: se un cavallo tira un carro con una forza \\(F\\), per il terzo principio il carro tira indietro il cavallo con una forza uguale e contraria \\(-F\\) — quindi le due forze si annullano sempre, e il carro non dovrebbe mai muoversi. Dove sta l\'errore del ragionamento? <em>Traccia</em>: quelle due forze (cavallo→carro e carro→cavallo) agiscono su <strong>due corpi diversi</strong>, quindi non si annullano affatto tra loro; per capire se il carro accelera, bisogna guardare separatamente <strong>tutte</strong> le forze che agiscono sul solo carro (inclusa la trazione del cavallo e l\'attrito delle ruote), non confrontare corpi diversi tra loro.</p>' },
+      { t:"Esercizio — riconoscere le coppie azione-reazione", h:'<p>Per ciascuna situazione, individua la forza di reazione corrispondente: (a) la Terra attrae una mela verso il basso con la forza di gravità; (b) un nuotatore spinge l\'acqua all\'indietro con la mano; (c) un libro appoggiato su un tavolo esercita una forza-peso verso il basso sul tavolo. <em>Traccia</em>: (a) la mela attrae la Terra verso l\'alto con una forza gravitazionale uguale e contraria (impercettibile, data la massa enorme della Terra); (b) l\'acqua spinge la mano del nuotatore in avanti; (c) il tavolo esercita sul libro una forza normale, uguale e contraria, verso l\'alto.</p>' }
+    ])
+},
+
+{
+  part:"Parte III — Applicazioni pratiche (dove la fisica incontra la vita reale)",
+  tag:"IL NEMICO INVISIBILE CHE FERMA TUTTO",
+  title:"L'<em>attrito</em>, finalmente formalizzato",
+  nav:"Attrito",
+  body:
+    '<p>Abbiamo già incontrato l\'attrito come "il colpevole nascosto" della Sezione I — è ora di dargli finalmente una forma matematica precisa, così da poterlo usare nei problemi invece di limitarci a incolparlo genericamente.</p>' +
+    '<div class="cb"><div class="cb-label">Attrito statico e dinamico</div><ul style="margin-left:18px"><li><strong>Attrito statico</strong>: si oppone al tentativo di mettere in moto un corpo fermo. Ha un valore <strong>massimo</strong> che non può superare: \\(F_{s,max} = \\mu_s N\\), dove \\(N\\) è la forza normale (la reazione della superficie di appoggio).</li><li><strong>Attrito dinamico</strong>: si oppone al moto di un corpo già in scorrimento su una superficie: \\(F_d = \\mu_d N\\). Generalmente \\(\\mu_d < \\mu_s\\) — è per questo che è sempre più difficile <strong>iniziare</strong> a spingere un mobile pesante che continuare a spingerlo una volta partito.</li></ul></div>' +
+    '<div class="cb tip"><div class="cb-label">Perché il mobile "si incastra" solo all\'inizio</div><p>Hai presente quella sensazione di dover dare una spinta iniziale più forte per smuovere un armadio, per poi continuare a spingerlo con meno fatica una volta che si muove? Non è impressione: stai letteralmente vincendo l\'attrito statico (più alto) per avviare il moto, per poi dover contrastare solo l\'attrito dinamico (più basso) per mantenerlo. La fisica, in questo caso, conferma pienamente quello che i tuoi muscoli ti stavano già dicendo.</p></div>' +
+    acc([
+      { t:"Esercizio — quanta forza serve per smuovere una cassa", h:'<p>Una cassa di massa \\(m=40\\) kg poggia su un pavimento con coefficiente di attrito statico \\(\\mu_s=0{,}5\\). Qual è la forza orizzontale minima necessaria per iniziare a smuoverla? (Usa \\(g\\approx9{,}8\\ \\text{m/s}^2\\).) <em>Traccia</em>: prima calcola \\(N=mg\\) (la cassa poggia su un piano orizzontale, quindi \\(N\\) eguaglia il peso), poi \\(F_{s,max}=\\mu_s N\\): serve superare questo valore per avviare il moto.</p>' },
+      { t:"Domanda concettuale — le gomme dell'auto e l'ABS", h:'<p>Perché frenare bruscamente fino a bloccare le ruote (facendole scivolare, cioè slittare sull\'asfalto) fa fermare l\'auto <strong>peggio</strong> rispetto a frenare senza bloccarle, cosa che il sistema ABS impedisce automaticamente di fare? <em>Traccia</em>: una ruota che slitta sfrutta l\'attrito <strong>dinamico</strong> (più basso), mentre una ruota che rotola senza slittare sfrutta punti di contatto momentaneamente fermi rispetto all\'asfalto, quindi più vicini all\'attrito <strong>statico</strong> (più alto) — l\'ABS mantiene le ruote appena sotto la soglia di bloccaggio proprio per sfruttare questo attrito maggiore e frenare più efficacemente.</p>' }
+    ])
+},
+
+{
+  part:"Parte III — Applicazioni pratiche (dove la fisica incontra la vita reale)",
+  tag:"IL CLASSICO DA VERIFICA (E DA SCI ALPINO)",
+  title:"Il <em>piano inclinato</em>",
+  nav:"Piano inclinato",
+  body:
+    '<p>Il piano inclinato è probabilmente l\'esercizio più fotocopiato nella storia dei compiti in classe di fisica — con buone ragioni: costringe a scomporre correttamente una forza (il peso) lungo due direzioni non banali, ed è un\'ottima palestra per il ragionamento vettoriale che userai per il resto dell\'anno (e degli anni a venire).</p>' +
+    '<img src="/lezioni/leggi-newton/piano-inclinato.png" alt="Diagramma delle forze su un corpo su un piano inclinato con attrito" style="width:100%;height:auto;display:block;margin:1.5rem 0;">' +
+    '<div class="cb"><div class="cb-label">Scomposizione del peso sul piano inclinato</div><p>Su un piano inclinato di angolo \\(\\theta\\) rispetto all\'orizzontale, il peso \\(P=mg\\) di un corpo si scompone in due componenti perpendicolari tra loro:</p><ul style="margin-left:18px"><li>una componente <strong>parallela</strong> al piano, che tende a far scivolare il corpo verso il basso: \\(P_{\\parallel} = mg\\sin\\theta\\)</li><li>una componente <strong>perpendicolare</strong> al piano, bilanciata dalla reazione normale del piano stesso: \\(P_{\\perp} = mg\\cos\\theta\\)</li></ul></div>' +
+    '<div class="cb purple"><div class="cb-label">Il caso limite che tutti dimenticano</div><p>Per \\(\\theta=0°\\) (piano perfettamente orizzontale), \\(\\sin\\theta=0\\): nessuna componente del peso spinge il corpo lungo il piano, tutto il peso è sostenuto dalla normale — coerente con quello che già sapevi. Per \\(\\theta=90°\\) (piano verticale, cioè una parete), \\(\\cos\\theta=0\\): nessuna forza normale, il corpo cade semplicemente in caduta libera lungo la parete. Controllare sempre questi due casi limite è il modo più veloce per accorgersi se una formula di scomposizione ha seno e coseno scambiati — errore quasi obbligatorio la prima volta che si affronta l\'esercizio.</p></div>' +
+    acc([
+      { t:"Esercizio — corpo su un piano inclinato senza attrito", h:'<p>Un blocco di massa \\(m=5\\) kg è appoggiato su un piano inclinato di \\(\\theta=30°\\), privo di attrito. Calcola l\'accelerazione con cui il blocco scivola verso il basso lungo il piano. <em>Traccia</em>: l\'unica forza che accelera il blocco lungo il piano è \\(P_{\\parallel}=mg\\sin\\theta\\); per il secondo principio, \\(a = P_{\\parallel}/m = g\\sin\\theta\\) (la massa si semplifica: non serve nemmeno conoscerla per questo calcolo, sorprendentemente).</p>' },
+      { t:"Domanda concettuale — sci di fondo in salita", h:'<p>Perché è molto più facile far scivolare (o sciare) su un pendio poco inclinato piuttosto che su uno quasi verticale, a parità di attrito? <em>Traccia</em>: la componente del peso lungo il piano cresce con \\(\\sin\\theta\\), che aumenta rapidamente avvicinandosi a 90°; contemporaneamente la forza normale (e quindi l\'attrito, proporzionale a \\(\\cos\\theta\\)) diminuisce — il risultato netto è un\'accelerazione lungo il pendio sempre maggiore man mano che il piano si fa più ripido.</p>' }
+    ])
+},
+
+{
+  part:"Parte III — Applicazioni pratiche (dove la fisica incontra la vita reale)",
+  tag:"PERCHÉ TI SENTI PIÙ LEGGERO (O PIÙ PESANTE) IN ASCENSORE",
+  title:"Il mistero dell'<em>ascensore</em> (peso apparente)",
+  nav:"Ascensore",
+  body:
+    '<p>Entri in ascensore, premi il pulsante, e per un istante — proprio mentre l\'ascensore inizia a salire — ti senti leggermente più "schiacciato" verso il basso, come se pesassi di più. Quando l\'ascensore comincia a frenare, poco prima di fermarsi al piano, provi la sensazione opposta: un attimo di leggerezza, quasi come se il pavimento ti mancasse sotto i piedi. Il tuo peso reale, ovviamente, non è affatto cambiato — ma quello che percepisci sì, ed è un\'applicazione perfetta (e quotidiana) del secondo principio.</p>' +
+    '<div class="cb"><div class="cb-label">Cosa misura davvero la bilancia in ascensore</div><p>Quello che senti (e che una bilancia sotto i tuoi piedi misurerebbe) non è il tuo peso \\(P=mg\\), ma la forza normale \\(N\\) che il pavimento esercita su di te — che coincide con il peso reale solo quando non stai accelerando verticalmente. Applicando il secondo principio lungo la verticale:</p><div class="math-block hero-formula">\\[ N - mg = ma \\quad\\Rightarrow\\quad N = m(g+a) \\]</div><p>dove \\(a\\) è l\'accelerazione dell\'ascensore (positiva se accelera verso l\'alto, negativa se accelera verso il basso).</p></div>' +
+    '<div class="cb success"><div class="cb-label">Interpretazione: più pesante o più leggero</div><p>Quando l\'ascensore <strong>accelera verso l\'alto</strong> (partenza in salita, o frenata in discesa), \\(a>0\\): \\(N>mg\\), ti senti più pesante — il pavimento ti sta effettivamente spingendo più forte del tuo solo peso, per accelerarti verso l\'alto insieme alla cabina. Quando l\'ascensore <strong>accelera verso il basso</strong> (partenza in discesa, o frenata in salita), \\(a<0\\): \\(N<mg\\), ti senti più leggero. Nel caso estremo (e per fortuna solo teorico) in cui il cavo si spezzasse e l\'ascensore cadesse in caduta libera con \\(a=-g\\), avresti \\(N=0\\): assenza di peso apparente totale, esattamente come un astronauta in orbita — non è un caso che gli astronauti si allenino proprio a bordo di aerei che simulano cadute libere controllate.</p></div>' +
+    acc([
+      { t:"Esercizio — accelerazione dell'ascensore", h:'<p>Una persona di massa \\(m=70\\) kg, su una bilancia dentro un ascensore, legge un peso apparente di \\(N=770\\) N durante la partenza. Sapendo che \\(g\\approx9{,}8\\ \\text{m/s}^2\\), calcola l\'accelerazione dell\'ascensore in quell\'istante, e stabilisci se sta accelerando verso l\'alto o verso il basso. <em>Traccia</em>: da \\(N=m(g+a)\\), ricava \\(a = N/m - g = 770/70 - 9{,}8\\); il segno di \\(a\\) ti dirà la direzione.</p>' },
+      { t:"Per chi vuole andare oltre il programma", h:'<p>Cerca, come approfondimento personale, cosa si intende per \"assenza di peso\" (o microgravità) vissuta dagli astronauti a bordo della Stazione Spaziale Internazionale: non è affatto vero che lì la gravità terrestre sia "nulla" (a quell\'altitudine è ancora circa il 90% di quella sulla superficie) — è invece un caso di caduta libera continua, concettualmente identico al cavo dell\'ascensore che si spezza, solo che la stazione (e tutto ciò che contiene) sta "cadendo" attorno alla Terra in un\'orbita perpetua invece di schiantarsi al suolo.</p>' }
+    ])
+}
+
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="part-label">' + s.part + '</div>' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  let pills = '';
+  let lastPart = null;
+  S.forEach((sec, i) => {
+    if (sec.part !== lastPart) {
+      const m = sec.part.match(/Parte\s+(\S+)/);
+      pills += '<span class="nav-group">' + (m ? m[1] : '') + '</span>';
+      lastPart = sec.part;
+    }
+    pills += '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + sec.nav + '</button>';
+  });
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+function renderAll() {
+  document.querySelector('.topbar').style.display = 'none';
+  const html = S.map(s =>
+    '<div class="section active">' +
+      '<div class="hero">' +
+        '<div class="part-label">' + s.part + '</div>' +
+        '<div class="hero-tag">' + s.tag + '</div>' +
+        '<h1>' + s.title + '</h1></div>' +
+      '<div class="section-body">' + s.body + '</div>' +
+    '</div>'
+  ).join('');
+  document.getElementById('app').innerHTML = html;
+  document.querySelectorAll('.acc-item').forEach(el => el.classList.add('open'));
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+if (new URLSearchParams(location.search).get('print') === '1') {
+  renderAll();
+} else {
+  render();
+}
+</script>
+</body>
+</html>
