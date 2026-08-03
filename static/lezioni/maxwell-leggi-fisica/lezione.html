@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le leggi di Maxwell — Quinto anno</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #3a6b8c; --accent-light: #e8f0f5;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:2px; overflow-x:auto; flex:1; align-items:center; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.78rem; color:var(--text-dim); padding:6px 11px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.nav-group {
+  font-family:'Fira Code',monospace; font-size:.62rem; color:var(--text-dim);
+  padding:0 8px; letter-spacing:1px; border-left:1px solid var(--border); margin-left:4px;
+  white-space:nowrap;
+}
+.nav-group:first-child { border-left:none; margin-left:0; }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.part-label { font-family:'Fira Code',monospace; font-size:.68rem; text-transform:uppercase; color:var(--purple); letter-spacing:1.5px; margin-bottom:6px; font-weight:600; }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.1rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.87rem; }
+.ct th { text-align:left; padding:10px 12px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.72rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 12px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.hero-img-wrap { margin:0 0 28px; border-radius:var(--radius); overflow:hidden; }
+.hero-img-wrap img { width:100%; display:block; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.6rem; } .acc-inner { padding:4px 0 16px 14px; } .ct { font-size:.8rem; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quinto anno · Maxwell</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+
+{
+  part:"Parte I — Prima di Maxwell (introduzione storica)",
+  tag:"1785–1835 · L'ELETTRICITÀ TROVA LE SUE LEGGI",
+  title:"Coulomb, Gauss e il campo <em>elettrico</em>",
+  nav:"Coulomb e Gauss",
+  body:
+    '<div class="hero-img-wrap"><img src="featured.jpg" alt="Campi elettrici e magnetici in laboratorio"></div>' +
+    '<p>Nel Seicento, l\'unica cosa che si sapeva con certezza sull\'elettricità era che, strofinando l\'ambra con un panno di lana, si otteneva un oggetto capace di attirare pagliuzze. Da lì, per quasi due secoli, la fisica dell\'elettricità procedette a tentoni: fenomeni curiosi da salotto, scintille da esibire agli ospiti, poco altro. Poi arrivò qualcuno con una bilancia di torsione.</p>' +
+    '<div class="cb"><div class="cb-label">1785 — Charles-Augustin de Coulomb</div><p>Misurando la forza tra due sfere cariche, Coulomb trovò una legge sorprendentemente simile a quella della gravitazione di Newton:</p><div class="math-block hero-formula">\\[ F = k\\,\\frac{|q_1 q_2|}{r^2} \\]</div><p>Stessa dipendenza dall\'inverso del quadrato della distanza, stessa eleganza. La differenza fondamentale: la forza gravitazionale è sempre attrattiva, quella elettrica può essere attrattiva o repulsiva a seconda dei segni delle cariche.</p></div>' +
+    '<p>Coulomb descrisse un\'<strong>azione a distanza</strong>: due cariche si "sentono" istantaneamente, senza che nulla debba viaggiare fisicamente tra loro. Funzionava benissimo per i calcoli, ma lasciava un dubbio filosofico scomodo che tornerà, con gli interessi, più avanti in questa lezione: <em>come fa</em> una carica a sapere che l\'altra esiste, dall\'altra parte della stanza, nello stesso identico istante?</p>' +
+    '<div class="cb tip"><div class="cb-label">L\'idea di campo</div><p>Michael Faraday (lo incontreremo tra poco anche per l\'induzione) propose un\'alternativa più fisica: ogni carica non "agisce a distanza", ma modifica lo spazio attorno a sé, creando un <strong>campo elettrico</strong> \\(\\vec{E}\\) — una proprietà dello spazio stesso, presente anche dove non c\'è nessuna seconda carica a "sentirla". Una seconda carica, posta in quel punto, subisce semplicemente la forza dovuta al campo locale.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">1835 — Carl Friedrich Gauss</div><p>Gauss riformulò la legge di Coulomb in termini di <strong>flusso</strong> del campo elettrico attraverso una superficie chiusa, trovando una relazione più generale (valida anche per distribuzioni di carica complicate, non solo cariche puntiformi):</p><div class="math-block hero-formula">\\[ \\Phi(\\vec{E}) = \\frac{Q_{int}}{\\varepsilon_0} \\]</div><p>Il flusso del campo elettrico attraverso una qualsiasi superficie chiusa dipende solo dalla carica racchiusa all\'interno — non da come è distribuita, non dalla forma della superficie. Sarà la <strong>prima</strong> delle quattro leggi che Maxwell metterà insieme.</p></div>' +
+    '<p class="dim" style="font-size:.9rem">Curiosità storica non richiesta ma difficile da tenere per sé: Gauss stesso considerava questo risultato talmente ovvio da non pubblicarlo per anni. A volte i giganti sottovalutano proprio i risultati che finiranno sui libri di scuola di tutto il mondo.</p>' +
+    acc([
+      { t:"Esercizio — due cariche a confronto", h:'<p>Due cariche puntiformi \\(q_1=2\\,\\mu C\\) e \\(q_2=-3\\,\\mu C\\) distano \\(0{,}5\\) m. Calcola modulo e verso (attrattiva o repulsiva) della forza tra loro, sapendo che \\(k\\approx 9\\times10^9\\ \\text{N m}^2/\\text{C}^2\\). <em>Traccia</em>: applica direttamente la legge di Coulomb; i segni opposti dicono già, prima ancora di calcolare, che la forza sarà attrattiva.</p>' },
+      { t:"Domanda concettuale", h:'<p>Perché l\'idea di "campo" risolve (almeno in parte) il problema filosofico dell\'azione a distanza? <em>Traccia</em>: pensa a cosa succederebbe se una delle due cariche venisse spostata istantaneamente — con l\'azione a distanza l\'altra "se ne accorgerebbe" subito; con il campo, la perturbazione deve propagarsi, e qui la Sezione III riserva una sorpresa.</p>' }
+    ])
+},
+
+{
+  part:"Parte I — Prima di Maxwell (introduzione storica)",
+  tag:"1820 · UN INCIDENTE FORTUNATO",
+  title:"Oersted, Ampère e il campo <em>magnetico</em>",
+  nav:"Oersted e Ampère",
+  body:
+    '<p>Per secoli elettricità e magnetismo furono considerati due fenomeni completamente separati: uno riguardava l\'ambra strofinata, l\'altro le calamite naturali e le bussole dei naviganti. Nessuno sospettava una connessione. Poi, nell\'aprile del 1820, un professore danese poco appassionato di conferenze cambiò tutto quasi per errore.</p>' +
+    '<div class="cb"><div class="cb-label">1820 — Hans Christian Ørsted</div><p>Durante una lezione universitaria, Ørsted notò che l\'ago di una bussola posta vicino a un filo percorso da corrente si spostava. Non stava nemmeno conducendo un esperimento pensato per questo: fu, per stessa ammissione dell\'epoca, una scoperta quasi casuale davanti a una classe di studenti — probabilmente più stupiti del professore stesso.</p></div>' +
+    '<p>Una corrente elettrica, dunque, genera un <strong>campo magnetico</strong> \\(\\vec{B}\\) attorno a sé. Elettricità e magnetismo, fino a quel momento due mondi separati, erano in realtà collegati. La notizia si sparse rapidamente in tutta Europa, e arrivò sul tavolo di un fisico francese che in una settimana trasformò l\'osservazione in una teoria matematica.</p>' +
+    '<div class="cb tip"><div class="cb-label">1826 — André-Marie Ampère</div><p>Ampère formalizzò la relazione tra corrente e campo magnetico con una legge sulla <strong>circuitazione</strong> di \\(\\vec{B}\\) lungo un percorso chiuso che concatena la corrente:</p><div class="math-block hero-formula">\\[ \\oint \\vec{B}\\cdot d\\vec{l} = \\mu_0 I_{conc} \\]</div><p>dove \\(\\mu_0\\) è la <strong>permeabilità magnetica del vuoto</strong>. In parole povere: più corrente scorre attraverso una superficie delimitata dal percorso scelto, più il campo magnetico "gira" attorno a quel percorso.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Un dettaglio che tornerà importante</div><p>Ampère fece un\'ipotesi implicita, ragionevole per l\'epoca: che <em>solo</em> le correnti reali (cariche in movimento in un filo) potessero generare campo magnetico. Sembrava ovvio. Quarant\'anni dopo, un fisico scozzese si accorgerà che quest\'ipotesi, presa alla lettera, porta a una contraddizione — e la correzione che ne seguirà sarà, arguibilmente, il passaggio più importante di tutta questa storia.</p></div>' +
+    '<p>Nel frattempo, un altro fatto sperimentale merita di essere segnalato, perché diventerà la seconda legge di Maxwell: per quanto si cerchi, <strong>nessuno ha mai trovato un polo magnetico isolato</strong>. Spezza una calamita in due, e non ottieni un polo nord e un polo sud separati: ottieni due calamite più piccole, ciascuna con il proprio nord e il proprio sud. Il magnetismo, a differenza dell\'elettricità, non ammette "cariche" magnetiche solitarie.</p>' +
+    acc([
+      { t:"Domanda concettuale — la bussola di Ørsted", h:'<p>Perché l\'osservazione di Ørsted fu così sorprendente per l\'epoca, al punto da essere quasi accidentale? <em>Traccia</em>: pensa a quanto fossero considerati distinti, fino ad allora, i fenomeni elettrici e quelli magnetici — non esisteva nessun motivo teorico per aspettarsi una connessione.</p>' },
+      { t:"Esercizio — filo rettilineo", h:'<p>Un filo rettilineo molto lungo è percorso da una corrente \\(I=4\\) A. Applicando la legge di Ampère a una circonferenza di raggio \\(r=0{,}1\\) m centrata sul filo (dove \\(B\\) è costante in modulo lungo tutto il percorso), ricava l\'espressione di \\(B\\) e calcolane il valore, con \\(\\mu_0=4\\pi\\times10^{-7}\\ \\text{T m/A}\\). <em>Traccia</em>: \\(\\oint B\\,dl = B\\cdot 2\\pi r = \\mu_0 I\\), quindi \\(B=\\mu_0 I/(2\\pi r)\\).</p>' }
+    ])
+},
+
+{
+  part:"Parte I — Prima di Maxwell (introduzione storica)",
+  tag:"1831 · IL CAMPO CHE DIVENTA CORRENTE",
+  title:"Faraday e l'<em>induzione</em>",
+  nav:"Faraday",
+  body:
+    '<p>Se Ørsted aveva mostrato che l\'elettricità genera magnetismo, era naturale chiedersi se valesse anche il contrario: può un campo magnetico generare elettricità? Michael Faraday — autodidatta, ex apprendista rilegatore di libri, uno dei più grandi sperimentatori della storia della fisica pur senza una solida formazione matematica — passò anni a cercare la risposta, con un\'ostinazione quasi testarda.</p>' +
+    '<div class="cb"><div class="cb-label">1831 — la scoperta dell\'induzione</div><p>Faraday scoprì che un campo magnetico <em>statico</em> non genera nessuna corrente in un circuito vicino. Ma un campo magnetico che <strong>varia nel tempo</strong> — ad esempio perché si muove un magnete, o perché una corrente vicina viene accesa e spenta — induce una forza elettromotrice, e quindi una corrente, in un circuito chiuso.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Legge di Faraday-Neumann</div><p>La forza elettromotrice indotta è proporzionale alla rapidità di variazione del <strong>flusso magnetico</strong> concatenato al circuito:</p><div class="math-block hero-formula">\\[ f.e.m. = -\\frac{d\\Phi(\\vec{B})}{dt} \\]</div><p>Il segno meno è la <strong>legge di Lenz</strong>: la corrente indotta scorre sempre in modo da opporsi alla causa che l\'ha generata (per esempio, opponendosi all\'aumento del flusso che la sta inducendo). Non è un dettaglio decorativo: è, in fondo, una forma del principio di conservazione dell\'energia. Se la corrente indotta assecondasse la variazione invece di opporvisi, un magnete lasciato cadere vicino a una bobina accelererebbe sempre di più, in un ciclo di autoalimentazione energetica che la natura, con ammirevole senso pratico, ha deciso di non permettere.</p></div>' +
+    '<p>La scoperta di Faraday non fu solo teoricamente elegante: fu <strong>l\'invenzione, di fatto, del generatore elettrico</strong>. Ogni centrale elettrica del pianeta, oggi, funziona esattamente su questo principio: far ruotare una bobina in un campo magnetico (o viceversa) per indurre una corrente. Faraday, con il suo esperimento da tavolo fatto di fili e magneti, aveva appena inventato — senza saperlo — il modo in cui l\'umanità avrebbe illuminato le proprie case per i due secoli successivi.</p>' +
+    '<div class="cb purple"><div class="cb-label">Un\'osservazione che tornerà nella Sezione III</div><p>Faraday notò qualcosa di più profondo di un semplice trucco per generare corrente: un campo magnetico variabile genera, nello spazio circostante, un <strong>campo elettrico</strong> anche senza bisogno di un filo conduttore. Il filo del circuito non è la causa del campo elettrico indotto: è solo lo strumento con cui lo si rileva, misurando la corrente che ne consegue. Il campo elettrico indotto esisterebbe comunque, filo o non filo.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — perché serve la variazione", h:'<p>Perché un magnete <em>fermo</em> vicino a una bobina non induce nessuna corrente, mentre lo stesso magnete in movimento sì? <em>Traccia</em>: rifletti su cosa compare a denominatore nella legge di Faraday-Neumann — non è il flusso in sé, ma la sua variazione nel tempo.</p>' },
+      { t:"Esercizio — spira e flusso variabile", h:'<p>Una spira quadrata di lato \\(L=0{,}2\\) m è immersa in un campo magnetico uniforme e perpendicolare al suo piano, che cresce linearmente da \\(0\\) a \\(0{,}5\\) T in \\(2\\) s. Calcola la f.e.m. indotta media. <em>Traccia</em>: \\(\\Phi=B\\,L^2\\); calcola \\(\\Delta\\Phi\\) e dividi per \\(\\Delta t\\).</p>' }
+    ])
+},
+
+{
+  part:"Parte I — Prima di Maxwell (introduzione storica)",
+  tag:"1861–1865 · L'UNIFICAZIONE",
+  title:"Il genio (silenzioso) di <em>Maxwell</em>",
+  nav:"Maxwell unifica",
+  body:
+    '<p>Entra in scena James Clerk Maxwell, fisico scozzese, uomo schivo e — a differenza di molti protagonisti di questa storia — non particolarmente incline agli aneddoti pittoreschi. Nessuna rapina, nessuna bussola impazzita, nessun incidente in laboratorio da raccontare ai posteri. Solo un lavoro, silenzioso e meticoloso, di messa a sistema: prendere quattro leggi sperimentali scoperte da altri, in decenni diversi, e trattarle come un\'unica teoria coerente.</p>' +
+    '<p>A metà Ottocento la situazione era questa: si conoscevano la legge di Gauss per \\(\\vec{E}\\), l\'assenza di monopoli magnetici, la legge di Ampère per \\(\\vec{B}\\), e la legge di Faraday sull\'induzione. Quattro leggi, scritte da quattro persone diverse, con notazioni diverse, senza che nessuno le avesse mai considerate come pezzi di un unico puzzle.</p>' +
+    '<div class="cb warn"><div class="cb-label">Il problema che Maxwell notò (e che nessuno aveva notato prima)</div><p>Maxwell si accorse che la legge di Ampère, presa alla lettera, era <strong>matematicamente inconsistente</strong> in una situazione molto concreta: un condensatore in fase di carica. Tra le due armature di un condensatore che si sta caricando non scorre nessuna corrente reale (c\'è il vuoto, o un dielettrico), eppure il campo magnetico attorno al filo di carica esiste comunque — è misurabile, proprio come attorno a un filo percorso da corrente ordinaria. La legge di Ampère originale, applicata a una superficie che passa <em>tra</em> le armature, avrebbe previsto \\(B=0\\): un risultato in aperta contraddizione con l\'esperienza.</p></div>' +
+    '<div class="cb"><div class="cb-label">La correzione di Maxwell — la corrente di spostamento</div><p>Maxwell propose che, oltre alla corrente di conduzione \\(I\\), esistesse un secondo termine capace di generare campo magnetico: la variazione nel tempo del <strong>flusso del campo elettrico</strong>, che chiamò <strong>corrente di spostamento</strong>:</p><div class="math-block hero-formula">\\[ I_{spost} = \\varepsilon_0\\,\\frac{d\\Phi(\\vec{E})}{dt} \\]</div><p>Tra le armature del condensatore, mentre la carica cresce, cresce anche il campo elettrico \\(\\vec{E}\\) tra le piastre — e questa variazione "sostituisce" la corrente reale mancante, generando comunque un campo magnetico coerente con l\'esperimento.</p></div>' +
+    '<p>Con questa singola correzione — che a prima vista sembra un dettaglio tecnico per salvare un caso limite — Maxwell ottenne un sistema di quattro equazioni perfettamente simmetrico e coerente. E fu proprio da questa simmetria, come vedremo nella Sezione III, che scaturì la previsione più clamorosa di tutta la fisica ottocentesca: l\'esistenza delle onde elettromagnetiche, luce compresa. Non male, per una correzione che sulla carta sembrava solo mettere ordine in un cassetto.</p>' +
+    '<div class="cb success"><div class="cb-label">Le quattro leggi, per la prima volta insieme</div><ol style="margin-left:18px"><li>Legge di Gauss per \\(\\vec{E}\\) (Gauss, 1835)</li><li>Legge di Gauss per \\(\\vec{B}\\) — assenza di monopoli (osservazione sperimentale)</li><li>Legge di Faraday-Neumann-Lenz (Faraday, 1831)</li><li>Legge di Ampère-Maxwell (Ampère 1826, corretta da Maxwell nel 1861)</li></ol><p style="margin-top:8px">Da qui in poi, in questa lezione, le chiameremo semplicemente <strong>le equazioni di Maxwell</strong> — anche se, con onestà storica, tre delle quattro leggi portano il nome di chi le scoprì per primo, e non di chi le mise finalmente in ordine.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — il merito di Maxwell", h:'<p>Se tre leggi su quattro erano già note prima di Maxwell, in che senso si parla di "genio di Maxwell" e non semplicemente di un lavoro di catalogazione? <em>Traccia</em>: pensa alla corrente di spostamento — non è una scoperta sperimentale, ma una necessità <em>teorica</em> dedotta dalla richiesta di coerenza matematica, poi confermata sperimentalmente. Individuare una legge della natura ragionando su una contraddizione logica, prima ancora di misurarla, è raro quanto prezioso.</p>' },
+      { t:"Esercizio — la corrente di spostamento in un condensatore", h:'<p>Un condensatore a facce piane parallele di area \\(A=0{,}01\\ \\text{m}^2\\) si sta caricando; il campo elettrico tra le armature cresce con rapidità \\(dE/dt = 2\\times10^6\\ \\text{V/(m\\,s)}\\). Calcola la corrente di spostamento, sapendo che \\(\\Phi(\\vec E)=E\\cdot A\\) e \\(\\varepsilon_0\\approx8{,}85\\times10^{-12}\\ \\text{F/m}\\). <em>Traccia</em>: \\(I_{spost}=\\varepsilon_0 A\\,(dE/dt)\\).</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Approfondimento (le quattro leggi in dettaglio)",
+  tag:"PRIMA LEGGE",
+  title:"Legge di Gauss per il campo <em>elettrico</em>",
+  nav:"Gauss — E",
+  body:
+    '<p>Riprendiamo la prima legge, questa volta con più cura, perché è il modello su cui capire anche le altre tre. L\'idea centrale è quella di <strong>flusso</strong> di un campo vettoriale attraverso una superficie.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione — flusso del campo elettrico</div><p>Per una superficie chiusa \\(S\\) (una "scatola" immaginaria, di forma qualsiasi), il flusso di \\(\\vec E\\) è la somma, su tutta la superficie, della componente di \\(\\vec E\\) perpendicolare alla superficie stessa:</p><div class="math-block hero-formula">\\[ \\Phi(\\vec{E}) = \\oint_S \\vec{E}\\cdot d\\vec{A} \\]</div><p>Intuitivamente: quante "linee di campo" attraversano la superficie, contate col segno (uscenti positive, entranti negative).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Il teorema di Gauss</div><div class="math-block hero-formula">\\[ \\oint_S \\vec{E}\\cdot d\\vec{A} = \\frac{Q_{int}}{\\varepsilon_0} \\]</div><p>Il flusso attraverso una superficie chiusa qualsiasi dipende <strong>solo</strong> dalla carica netta racchiusa all\'interno. Non conta come sia distribuita quella carica, non conta la forma della superficie scelta (purché sia chiusa), non contano le cariche <em>esterne</em> alla superficie — il loro contributo al flusso netto è sempre nullo, perché ogni linea di campo che entra dall\'esterno prima o poi deve anche uscire.</p></div>' +
+    '<img src="/lezioni/maxwell-leggi-fisica/gauss-sfera.png" alt="Carica puntiforme al centro di una superficie sferica, con linee di campo elettrico radiali" style="width:100%;height:auto;display:block;margin:1.5rem 0;">' +
+    '<div class="cb purple"><div class="cb-label">Perché è così potente</div><p>Scegliendo con astuzia una superficie con la stessa simmetria della distribuzione di carica (una sfera per una carica puntiforme, un cilindro per un filo carico, un "pillbox" per un piano carico), il calcolo dell\'integrale diventa quasi banale: \\(E\\) esce fuori dall\'integrale perché è costante sulla superficie scelta. È il motivo per cui la legge di Gauss, pur essendo matematicamente equivalente alla legge di Coulomb, è molto più comoda nei casi con simmetria.</p></div>' +
+    acc([
+      { t:"Esempio — sfera carica uniformemente", h:'<p>Una sfera di raggio \\(R\\) porta carica totale \\(Q\\) distribuita uniformemente in volume. Applicando Gauss a una superficie sferica concentrica di raggio \\(r>R\\): \\(E\\cdot4\\pi r^2=Q/\\varepsilon_0\\), quindi \\(E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{Q}{r^2}\\) — esattamente la legge di Coulomb, come se tutta la carica fosse concentrata al centro. All\'<em>interno</em> della sfera (\\(r<R\\)), invece, conta solo la carica racchiusa fino a \\(r\\), e il campo cresce linearmente con \\(r\\) fino alla superficie.</p>' },
+      { t:"Esercizio — piano infinito carico", h:'<p>Un piano infinito ha densità di carica superficiale \\(\\sigma\\). Usando una superficie "a scatola" (pillbox) che attraversa il piano, con due facce di area \\(A\\) parallele al piano, mostra che il campo (uniforme, perpendicolare al piano) vale \\(E=\\dfrac{\\sigma}{2\\varepsilon_0}\\). <em>Traccia</em>: il flusso attraversa solo le due facce parallele (per simmetria, \\(E\\) è perpendicolare al piano su entrambi i lati), quindi \\(2EA=\\sigma A/\\varepsilon_0\\).</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Approfondimento (le quattro leggi in dettaglio)",
+  tag:"SECONDA LEGGE",
+  title:"Legge di Gauss per il campo <em>magnetico</em>",
+  nav:"Gauss — B",
+  body:
+    '<p>La seconda legge è, in un certo senso, la più semplice da enunciare e la più profonda da interpretare. Si scrive esattamente come la prima, con una differenza cruciale.</p>' +
+    '<div class="cb"><div class="cb-label">Legge di Gauss per il magnetismo</div><div class="math-block hero-formula">\\[ \\oint_S \\vec{B}\\cdot d\\vec{A} = 0 \\]</div><p>Il flusso del campo magnetico attraverso <strong>qualunque</strong> superficie chiusa è sempre nullo. Sempre, senza eccezioni, per qualsiasi \\(\\vec B\\) mai osservato in natura.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Cosa significa davvero</div><p>Il membro destro della legge di Gauss per \\(\\vec E\\) era \\(Q_{int}/\\varepsilon_0\\): la "sorgente" del campo elettrico è la carica elettrica. Qui il membro destro è zero perché non esiste una "carica magnetica" analoga — nessun <strong>monopolo magnetico</strong> è mai stato osservato. Ogni oggetto magnetico, dal più piccolo elettrone alla più grande calamita industriale, ha sempre un polo nord <em>e</em> un polo sud insieme, in coppia inseparabile.</p></div>' +
+    '<p>Le linee di campo magnetico, di conseguenza, non hanno mai un inizio né una fine: sono sempre <strong>chiuse su se stesse</strong> (escono dal polo nord, girano intorno, rientrano dal polo sud, e continuano <em>dentro</em> il magnete per richiudersi). Le linee di campo elettrico, al contrario, nascono sulle cariche positive e muoiono su quelle negative — hanno un inizio e una fine ben definiti.</p>' +
+    '<div class="cb purple"><div class="cb-label">Una domanda aperta, ancora oggi</div><p>Alcune teorie di fisica delle particelle (a partire da un\'ipotesi di Paul Dirac negli anni \'30) prevedono che i monopoli magnetici <em>potrebbero</em> esistere, magari rarissimi e prodotti solo nei primi istanti dopo il Big Bang. Nessun esperimento, fino a oggi, ne ha mai trovato uno con certezza. Questa legge, quindi, non è solo una curiosità da manuale: è una delle poche affermazioni della fisica classica che la ricerca sperimentale sta ancora, letteralmente, cercando di smentire.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — la calamita spezzata", h:'<p>Perché spezzando una calamita a metà si ottengono due calamite complete, ciascuna con un proprio polo nord e sud, invece di un polo nord isolato da un lato e un polo sud isolato dall\'altro? <em>Traccia</em>: collega la risposta al fatto che il flusso di \\(\\vec B\\) attraverso qualunque superficie chiusa deve restare nullo, indipendentemente da quanto piccola sia la superficie che racchiude un frammento di calamita.</p>' },
+      { t:"Esercizio — confronto E / B", h:'<p>Elenca almeno due differenze concettuali tra le linee di campo elettrico e le linee di campo magnetico, motivandole con le rispettive leggi di Gauss. <em>Traccia</em>: pensa a dove nascono/muoiono le linee, e a cosa succederebbe se si potesse isolare un solo polo magnetico.</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Approfondimento (le quattro leggi in dettaglio)",
+  tag:"TERZA LEGGE",
+  title:"Legge di Faraday-Neumann-<em>Lenz</em>",
+  nav:"Faraday-Lenz",
+  body:
+    '<p>Riprendiamo la legge di Faraday nella sua forma integrale completa, quella che permette di calcolare non solo <em>quanta</em> f.e.m. viene indotta, ma anche la <strong>circuitazione</strong> del campo elettrico indotto — collegandola direttamente alla struttura delle altre leggi.</p>' +
+    '<div class="cb"><div class="cb-label">Forma integrale</div><div class="math-block hero-formula">\\[ \\oint_C \\vec{E}\\cdot d\\vec{l} = -\\frac{d\\Phi(\\vec{B})}{dt} \\]</div><p>La circuitazione del campo elettrico lungo un percorso chiuso \\(C\\) è uguale, cambiata di segno, alla rapidità di variazione del flusso magnetico attraverso una qualunque superficie delimitata da \\(C\\).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Un dettaglio che cambia tutto</div><p>Nota il primo membro: è la circuitazione di \\(\\vec E\\), non semplicemente una differenza di potenziale. Nell\'elettrostatica "pura" (cariche ferme), la circuitazione di \\(\\vec E\\) lungo qualunque percorso chiuso è sempre nulla — è il motivo per cui si può definire un potenziale elettrico coerente. Qui, invece, con un flusso magnetico che varia nel tempo, la circuitazione di \\(\\vec E\\) <strong>non è più nulla</strong>. Il campo elettrico indotto non è più "conservativo" nel senso classico: le sue linee di campo, anziché nascere e morire sulle cariche, si chiudono su se stesse, un po\' come quelle del campo magnetico.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Il segno meno — legge di Lenz</div><p>Non è un dettaglio tecnico: è la legge di Lenz travestita da segno algebrico. La corrente indotta genera, a sua volta, un proprio campo magnetico che si oppone <em>sempre</em> alla variazione di flusso che l\'ha generata. Se così non fosse — se il segno fosse positivo — un piccolo disturbo iniziale si autoalimenterebbe indefinitamente, un moto perpetuo elettromagnetico bello e pronto, e la fisica dovrebbe riscrivere anche i suoi principi di conservazione. Fortunatamente per l\'edificio della termodinamica, la natura non concede sconti del genere.</p></div>' +
+    '<p>Le applicazioni pratiche di questa legge sono ovunque, spesso senza che ce ne accorgiamo: generatori elettrici nelle centrali, trasformatori, motori elettrici, i piani cottura a induzione in cucina, i lettori di badge magnetici, i freni a induzione dei treni. Poche leggi della fisica hanno cambiato la vita quotidiana quanto questa.</p>' +
+    acc([
+      { t:"Esempio — il freno a induzione (in breve)", h:'<p>Un disco metallico ruota tra le espansioni polari di un magnete. Mentre ruota, ogni porzione del disco vede un flusso magnetico che cambia nel tempo, e vi si inducono correnti (dette <strong>correnti parassite</strong>, o "di Foucault"). Per la legge di Lenz, queste correnti generano forze che si oppongono al moto relativo: il disco rallenta, senza nessun contatto meccanico. È il principio dei freni a induzione di alcuni treni e mezzi pesanti.</p>' },
+      { t:"Esercizio — bobina e magnete in avvicinamento", h:'<p>Un magnete si avvicina al polo nord rivolto verso una bobina, aumentando il flusso magnetico concatenato. In che verso scorre la corrente indotta nella bobina, vista dal lato del magnete? <em>Traccia</em>: per la legge di Lenz, la corrente indotta deve creare un campo magnetico che si opponga all\'aumento del flusso — quindi la faccia della bobina rivolta al magnete deve comportarsi come un polo nord (per respingerlo).</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Approfondimento (le quattro leggi in dettaglio)",
+  tag:"QUARTA LEGGE",
+  title:"Legge di Ampère-<em>Maxwell</em>",
+  nav:"Ampère-Maxwell",
+  body:
+    '<p>Chiudiamo il quartetto con la legge che Maxwell riparò di persona, questa volta scritta nella sua forma completa e definitiva.</p>' +
+    '<div class="cb"><div class="cb-label">Forma integrale completa</div><div class="math-block hero-formula">\\[ \\oint_C \\vec{B}\\cdot d\\vec{l} = \\mu_0 I_{conc} + \\mu_0\\varepsilon_0\\,\\frac{d\\Phi(\\vec{E})}{dt} \\]</div><p>La circuitazione del campo magnetico lungo un percorso chiuso è generata da <strong>due</strong> contributi: la corrente di conduzione reale che attraversa una superficie delimitata dal percorso (il termine di Ampère), e la variazione nel tempo del flusso del campo elettrico attraverso quella stessa superficie (il termine di Maxwell — la corrente di spostamento, moltiplicata per \\(\\mu_0\\)).</p></div>' +
+    '<div class="cb success"><div class="cb-label">Verifica — il caso del condensatore</div><p>Torniamo al problema della Parte I. Se il percorso \\(C\\) è una circonferenza attorno al filo di carica, e si sceglie una superficie che passa <em>tra</em> le armature (dove non scorre corrente reale, \\(I_{conc}=0\\)), il secondo termine <strong>salva la situazione</strong>: lì il campo elettrico tra le armature sta variando (il condensatore si sta caricando), e questa variazione genera esattamente la circuitazione di \\(\\vec B\\) che ci si aspetta per continuità con il caso "prima" delle armature. Le due scelte di superficie — quella che taglia il filo, e quella che passa tra le piastre — danno ora lo <strong>stesso</strong> risultato, come deve essere in una teoria coerente.</p></div>' +
+    '<img src="/lezioni/maxwell-leggi-fisica/condensatore-spostamento.png" alt="Condensatore in carica con corrente di spostamento e campo magnetico indotto" style="width:100%;height:auto;display:block;margin:1.5rem 0;">' +
+    '<div class="cb purple"><div class="cb-label">La simmetria, finalmente completa</div><p>Confronta questa legge con la legge di Faraday appena vista: un campo elettrico che varia nel tempo genera un campo magnetico (Ampère-Maxwell), e un campo magnetico che varia nel tempo genera un campo elettrico (Faraday). Le due leggi sono, a meno di segni e costanti, l\'immagine speculare l\'una dell\'altra. Prima della correzione di Maxwell questa simmetria non esisteva: era zoppa, con \\(\\vec B\\) generato solo da correnti reali. Ora è perfetta — ed è proprio da questa simmetria perfetta, come vedremo tra poco, che scaturisce l\'esistenza delle onde elettromagnetiche.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — perché serviva proprio \\(\\varepsilon_0\\)", h:'<p>Nel termine della corrente di spostamento compare la costante \\(\\varepsilon_0\\), la stessa della legge di Coulomb/Gauss. È una coincidenza? <em>Traccia</em>: la corrente di spostamento nasce dalla variazione del flusso elettrico \\(\\Phi(\\vec E)\\); poiché \\(\\Phi(\\vec E)\\) è legato alla carica tramite \\(\\varepsilon_0\\) (legge di Gauss), è naturale che la stessa costante ricompaia — è il "cambio valuta" tra campo elettrico e carica elettrica.</p>' },
+      { t:"Esercizio — riepilogo numerico", h:'<p>In un condensatore che si carica, la corrente nel filo è \\(I=0{,}2\\) A. Qual è, in quell\'istante, la corrente di spostamento tra le armature? <em>Traccia</em>: per la coerenza della legge di Ampère-Maxwell vista sopra, la corrente di spostamento deve eguagliare esattamente la corrente reale nel filo, istante per istante: \\(I_{spost}=I=0{,}2\\) A.</p>' }
+    ])
+},
+
+{
+  part:"Parte III — A fondo (forma differenziale e conseguenze)",
+  tag:"OPERATORI VETTORIALI",
+  title:"Divergenza e <em>rotore</em>, in breve",
+  nav:"Div e rot",
+  body:
+    '<p>Le quattro leggi viste finora sono scritte in <strong>forma integrale</strong>: parlano di flussi e circuitazioni su superfici e percorsi estesi. Esiste una versione equivalente, più compatta, che descrive il campo <strong>punto per punto</strong>: la forma differenziale. Per scriverla servono due nuovi strumenti matematici, che qui introduciamo solo nello spirito, senza pretese di rigore da corso universitario — ma abbastanza per capire cosa dicono davvero le equazioni di Maxwell nella loro forma più famosa.</p>' +
+    '<div class="cb tip"><div class="cb-label">La divergenza — quanto "sgorga" un campo</div><p>La <strong>divergenza</strong> di un campo vettoriale \\(\\vec F\\) in un punto misura quanto il campo stia "sgorgando fuori" da un intorno infinitesimo di quel punto — è, in un certo senso, il flusso di Gauss ridotto a un volumetto piccolissimo attorno al punto, anziché a una superficie estesa:</p><div class="math-block hero-formula">\\[ \\text{div}\\,\\vec F = \\nabla\\cdot\\vec F = \\frac{\\partial F_x}{\\partial x}+\\frac{\\partial F_y}{\\partial y}+\\frac{\\partial F_z}{\\partial z} \\]</div><p>Se la divergenza in un punto è positiva, quel punto è una "sorgente" del campo (come una carica positiva); se è negativa, è un "pozzo" (una carica negativa); se è nulla, tanto entra quanto esce.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Il rotore — quanto "gira" un campo</div><p>Il <strong>rotore</strong> misura quanto un campo vettoriale tenda a "circolare" attorno a un punto — è l\'analogo puntuale della circuitazione di Ampère e Faraday, ridotta a un percorso infinitesimo:</p><div class="math-block hero-formula">\\[ \\text{rot}\\,\\vec F = \\nabla\\times\\vec F \\]</div><p>Se immergessi una piccola ruota a pale nel campo \\(\\vec F\\) in un punto dove il rotore è diverso da zero, la ruota comincerebbe a girare. Il rotore è un vettore: la sua direzione è l\'asse attorno a cui la "rotazione" del campo avviene, il suo modulo ne misura l\'intensità.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Per i più curiosi (non indispensabile)</div><p>In coordinate cartesiane, il rotore si scrive per esteso come:</p><div class="math-block">\\[ \\nabla\\times\\vec F = \\left(\\frac{\\partial F_z}{\\partial y}-\\frac{\\partial F_y}{\\partial z}\\right)\\hat{x} + \\left(\\frac{\\partial F_x}{\\partial z}-\\frac{\\partial F_z}{\\partial x}\\right)\\hat{y} + \\left(\\frac{\\partial F_y}{\\partial x}-\\frac{\\partial F_x}{\\partial y}\\right)\\hat{z} \\]</div><p>Non serve memorizzarla per seguire il resto della lezione: basta l\'idea intuitiva di "quanto circola" il campo attorno a un punto.</p></div>' +
+    '<p>Con questi due strumenti, un teorema di analisi vettoriale (i teoremi della divergenza di Gauss-Green e del rotore di Stokes, che qui usiamo solo come "traduttori", senza dimostrarli) permette di riscrivere ciascuna delle quattro leggi integrali in una legge <strong>locale</strong>, valida in ogni singolo punto dello spazio: è il contenuto della prossima scheda.</p>' +
+    acc([
+      { t:"Domanda concettuale — divergenza e rotore a confronto", h:'<p>La legge di Gauss per \\(\\vec E\\) coinvolge un flusso, la legge di Faraday una circuitazione. Quale dei due nuovi operatori (divergenza o rotore) ti aspetti compaia nella versione differenziale di ciascuna? <em>Traccia</em>: flusso → divergenza; circuitazione → rotore. Prova a motivarlo collegando ogni operatore alla sua definizione intuitiva data sopra.</p>' },
+      { t:"Esercizio — un caso concreto", h:'<p>Considera il campo \\(\\vec F=(x,\\,y,\\,z)\\) (un campo che "punta sempre verso l\'esterno", come le linee di un\'unica carica positiva nell\'origine). Calcola \\(\\nabla\\cdot\\vec F\\). <em>Traccia</em>: \\(\\partial x/\\partial x=1\\), stesso per le altre due componenti, quindi \\(\\nabla\\cdot\\vec F=3\\) — un valore positivo e costante, coerente con un campo che "sgorga" ovunque da una sorgente diffusa.</p>' }
+    ])
+},
+
+{
+  part:"Parte III — A fondo (forma differenziale e conseguenze)",
+  tag:"IL POSTER",
+  title:"Le quattro equazioni, <em>tutte insieme</em>",
+  nav:"Le 4 equazioni",
+  body:
+    '<p>Ecco il punto d\'arrivo: le quattro leggi di Maxwell, forma integrale e forma differenziale affiancate. Sono la stessa fisica, scritta con due grammatiche diverse — la prima parla di regioni estese (superfici, percorsi), la seconda parla di singoli punti dello spazio.</p>' +
+    '<table class="ct"><tr><th>Legge</th><th>Forma integrale</th><th>Forma differenziale</th></tr>' +
+    '<tr><td>Gauss — \\(\\vec E\\)</td><td>\\(\\displaystyle\\oint_S \\vec{E}\\cdot d\\vec{A}=\\dfrac{Q_{int}}{\\varepsilon_0}\\)</td><td>\\(\\displaystyle\\nabla\\cdot\\vec{E}=\\dfrac{\\rho}{\\varepsilon_0}\\)</td></tr>' +
+    '<tr><td>Gauss — \\(\\vec B\\)</td><td>\\(\\displaystyle\\oint_S \\vec{B}\\cdot d\\vec{A}=0\\)</td><td>\\(\\displaystyle\\nabla\\cdot\\vec{B}=0\\)</td></tr>' +
+    '<tr><td>Faraday-Neumann-Lenz</td><td>\\(\\displaystyle\\oint_C \\vec{E}\\cdot d\\vec{l}=-\\dfrac{d\\Phi(\\vec B)}{dt}\\)</td><td>\\(\\displaystyle\\nabla\\times\\vec{E}=-\\dfrac{\\partial \\vec B}{\\partial t}\\)</td></tr>' +
+    '<tr><td>Ampère-Maxwell</td><td>\\(\\displaystyle\\oint_C \\vec{B}\\cdot d\\vec{l}=\\mu_0 I_{conc}+\\mu_0\\varepsilon_0\\dfrac{d\\Phi(\\vec E)}{dt}\\)</td><td>\\(\\displaystyle\\nabla\\times\\vec{B}=\\mu_0\\vec{J}+\\mu_0\\varepsilon_0\\dfrac{\\partial \\vec E}{\\partial t}\\)</td></tr>' +
+    '</table>' +
+    '<p style="font-size:.85rem" class="dim">(\\(\\rho\\) è la densità di carica per unità di volume, \\(\\vec J\\) la densità di corrente per unità di superficie — le versioni "locali" di \\(Q\\) e \\(I\\).)</p>' +
+    '<div class="cb success"><div class="cb-label">Quattro equazioni, un intero universo elettromagnetico</div><p>Queste quattro righe — non una di più — descrivono in linea di principio <strong>ogni</strong> fenomeno elettrico e magnetico dell\'universo classico: la luce di una lampadina, il segnale del wifi, la bussola che punta a nord, il fulmine durante un temporale, il funzionamento di un motore elettrico. Poche altre volte nella storia della scienza così poche righe hanno racchiuso così tanto. Un fisico che le ammira giustamente, Richard Feynman, arrivò a dire che tra diecimila anni gli storici probabilmente ricorderanno il diciannovesimo secolo soprattutto per la scoperta delle leggi dell\'elettromagnetismo — non per la guerra civile americana che si combatteva proprio in quegli stessi anni.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Un\'osservazione da non perdere</div><p>Guarda ora le due equazioni "a destra" (Faraday e Ampère-Maxwell) una accanto all\'altra: sono quasi identiche, a meno di un segno e delle costanti \\(\\mu_0,\\varepsilon_0\\). Un \\(\\vec E\\) che cambia genera un \\(\\vec B\\) che circola; un \\(\\vec B\\) che cambia genera un \\(\\vec E\\) che circola. È una simmetria a specchio quasi sospetta — ed è esattamente da qui che nasce la scheda successiva.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — nel vuoto", h:'<p>Nello spazio vuoto, lontano da ogni carica e corrente, cosa diventano le quattro equazioni ponendo \\(\\rho=0\\) e \\(\\vec J=0\\)? <em>Traccia</em>: le prime due restano invariate (sono già nulle a destra); le ultime due perdono il termine "sorgente" (\\(I_{conc}\\) o \\(\\rho\\)) e restano solo i termini che legano \\(\\vec E\\) e \\(\\vec B\\) tra loro. È esattamente la situazione della prossima scheda.</p>' },
+      { t:"Esercizio — riconoscere le leggi", h:'<p>Ad ognuna delle seguenti situazioni fisiche, associa la legge di Maxwell più direttamente coinvolta: (a) una calamita non si può mai spezzare in due poli isolati; (b) un trasformatore funziona con corrente alternata ma non con corrente continua; (c) un condensatore che si carica genera comunque un campo magnetico misurabile attorno al filo. <em>Traccia</em>: (a) Gauss-B; (b) Faraday-Neumann-Lenz (serve un flusso <em>variabile</em>); (c) Ampère-Maxwell.</p>' }
+    ])
+},
+
+{
+  part:"Parte III — A fondo (forma differenziale e conseguenze)",
+  tag:"LA PREVISIONE PIÙ AUDACE",
+  title:"Dalle equazioni alle <em>onde elettromagnetiche</em>",
+  nav:"Onde EM",
+  body:
+    '<p>Torniamo alle due equazioni nel vuoto individuate nella scheda precedente. Senza cariche né correnti, restano solo queste due, accoppiate tra loro:</p>' +
+    '<div class="math-block hero-formula">\\[ \\nabla\\times\\vec{E}=-\\frac{\\partial \\vec B}{\\partial t} \\qquad\\qquad \\nabla\\times\\vec{B}=\\mu_0\\varepsilon_0\\frac{\\partial \\vec E}{\\partial t} \\]</div>' +
+    '<div class="cb tip"><div class="cb-label">L\'idea della derivazione (in sintesi)</div><p>Applicando ancora un rotore alla prima equazione, e sostituendo la seconda al suo interno (un passaggio di calcolo vettoriale che qui non svolgiamo per esteso, ma il cui esito è il punto importante), le due equazioni accoppiate del primo ordine si trasformano in <strong>un\'unica equazione del secondo ordine per \\(\\vec E\\) soltanto</strong> — e, con lo stesso procedimento applicato all\'altra equazione, un\'equazione identica per \\(\\vec B\\):</p><div class="math-block result">\\[ \\frac{\\partial^2 \\vec E}{\\partial t^2} = \\frac{1}{\\mu_0\\varepsilon_0}\\,\\nabla^2\\vec E \\]</div></div>' +
+    '<div class="cb warn"><div class="cb-label">Perché questa è un\'equazione delle onde</div><p>Chi ha già incontrato l\'equazione di un\'onda meccanica (una corda che vibra, un\'onda sonora) riconoscerà immediatamente la struttura: <strong>derivata seconda nel tempo uguale a una costante per la derivata seconda nello spazio</strong>. È esattamente la forma dell\'equazione delle onde, e la "costante" che compare al posto del quadrato della velocità è \\(1/(\\mu_0\\varepsilon_0)\\). Questo significa una cosa enorme: le equazioni di Maxwell, prese nel vuoto, <strong>prevedono da sole l\'esistenza di onde</strong> che si propagano nello spazio — onde in cui \\(\\vec E\\) e \\(\\vec B\\) oscillano insieme, perpendicolari tra loro e alla direzione di propagazione, autosostenendosi a vicenda: il campo elettrico variabile genera quello magnetico, che a sua volta rigenera quello elettrico, in un ciclo che non ha più bisogno di nessuna carica o corrente per continuare a esistere.</p></div>' +
+    '<img src="/lezioni/maxwell-leggi-fisica/campi-em-3d.png" alt="Campi elettrico e magnetico oscillanti perpendicolari, onda elettromagnetica" style="width:100%;height:auto;display:block;margin:1.5rem 0;">' +
+    '<div class="cb success"><div class="cb-label">Il momento "eureka" di Maxwell</div><p>Confrontando la sua costante teorica con i valori misurati (all\'epoca già noti, sia pure con altre notazioni) di \\(\\mu_0\\) e \\(\\varepsilon_0\\):</p><div class="math-block hero-formula">\\[ c = \\frac{1}{\\sqrt{\\mu_0\\varepsilon_0}} \\approx \\frac{1}{\\sqrt{(4\\pi\\times10^{-7})(8{,}85\\times10^{-12})}} \\approx 3{,}0\\times10^{8}\\ \\text{m/s} \\]</div><p>Maxwell riconobbe immediatamente quel numero: era, entro l\'errore sperimentale dell\'epoca, la <strong>velocità della luce</strong>, già misurata da decenni con metodi puramente ottici, senza alcun collegamento apparente con l\'elettricità o il magnetismo. La conclusione, tanto audace quanto — si sarebbe scoperto — esatta: <strong>la luce stessa è un\'onda elettromagnetica</strong>. Due branche della fisica considerate completamente separate per secoli, ottica ed elettromagnetismo, erano in realtà la stessa identica cosa.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">1887 — la conferma sperimentale</div><p>Maxwell morì nel 1879, otto anni prima che qualcuno riuscisse a produrre e rilevare in laboratorio onde elettromagnetiche generate artificialmente (non luce visibile, ma quelle che oggi chiamiamo onde radio). Fu Heinrich Hertz, nel 1887, a costruire un semplice generatore di scintille e un rilevatore capace di captarle a distanza, confermando sperimentalmente ogni dettaglio della previsione teorica di Maxwell: velocità, polarizzazione, riflessione, tutto. Alla domanda su quale fosse l\'utilità pratica della sua scoperta, Hertz rispose, con un\'ironia che ha invecchiato piuttosto male: "Nessuna, credo". Qualche decennio dopo, quelle stesse onde avrebbero acceso la radio, la televisione, il radar e — con qualche generazione tecnologica di mezzo — anche il wifi con cui probabilmente stai leggendo questa lezione.</p></div>' +
+    acc([
+      { t:"Esercizio — verifica numerica", h:'<p>Verifica, con una calcolatrice, che \\(1/\\sqrt{\\mu_0\\varepsilon_0}\\) dia effettivamente un valore molto vicino a \\(3\\times10^8\\) m/s, usando \\(\\mu_0=4\\pi\\times10^{-7}\\ \\text{T m/A}\\) e \\(\\varepsilon_0\\approx8{,}85\\times10^{-12}\\ \\text{F/m}\\). <em>Traccia</em>: calcola prima il prodotto \\(\\mu_0\\varepsilon_0\\), poi la radice quadrata, poi il reciproco.</p>' },
+      { t:"Domanda concettuale — nessuna carica necessaria", h:'<p>Perché il fatto che le onde elettromagnetiche si autosostengano "senza bisogno di cariche o correnti" è così sorprendente, alla luce di come erano state introdotte inizialmente le leggi di Gauss, Ampère e Faraday? <em>Traccia</em>: tutte le leggi viste nella Parte I e II collegavano i campi a sorgenti materiali (cariche, correnti); qui, invece, \\(\\vec E\\) e \\(\\vec B\\) si generano a vicenda anche nel vuoto assoluto, sganciandosi completamente dalla materia che li aveva originati.</p>' }
+    ])
+},
+
+{
+  part:"Parte III — A fondo (forma differenziale e conseguenze)",
+  tag:"COSA CAMBIÒ PER SEMPRE",
+  title:"Lo spettro elettromagnetico (e un debito con <em>Einstein</em>)",
+  nav:"Spettro e oltre",
+  body:
+    '<p>Se la luce visibile è un\'onda elettromagnetica con una certa frequenza, nulla vieta — nella teoria di Maxwell — che esistano onde elettromagnetiche a frequenze diverse, invisibili all\'occhio umano ma governate esattamente dalle stesse quattro equazioni. È esattamente ciò che i decenni successivi confermarono, un pezzo alla volta.</p>' +
+    '<div class="cb"><div class="cb-label">Lo spettro elettromagnetico</div><table class="ct"><tr><th>Regione</th><th>Frequenza (ordine di grandezza)</th></tr>' +
+    '<tr><td>Onde radio</td><td>\\(\\lesssim10^{9}\\) Hz</td></tr>' +
+    '<tr><td>Microonde</td><td>\\(10^{9}\\)–\\(10^{12}\\) Hz</td></tr>' +
+    '<tr><td>Infrarosso</td><td>\\(10^{12}\\)–\\(10^{14}\\) Hz</td></tr>' +
+    '<tr><td>Luce visibile</td><td>\\(\\approx4\\text{–}7,5\\times10^{14}\\) Hz</td></tr>' +
+    '<tr><td>Ultravioletto</td><td>\\(10^{15}\\)–\\(10^{17}\\) Hz</td></tr>' +
+    '<tr><td>Raggi X</td><td>\\(10^{17}\\)–\\(10^{19}\\) Hz</td></tr>' +
+    '<tr><td>Raggi gamma</td><td>\\(\\gtrsim10^{19}\\) Hz</td></tr>' +
+    '</table><p>Tutte queste radiazioni, dalle onde radio dei trasmettitori ai raggi gamma emessi da un nucleo radioattivo, sono la <strong>stessa identica cosa fisica</strong>: oscillazioni accoppiate di \\(\\vec E\\) e \\(\\vec B\\) che viaggiano tutte esattamente alla stessa velocità \\(c\\) nel vuoto, e differiscono solo per la frequenza — cioè, in ultima analisi, per l\'energia che trasportano ciascun fotone (un concetto che affronterete parlando di fisica quantistica, ben oltre i confini di questa lezione classica).</p></div>' +
+    '<div class="cb danger"><div class="cb-label">Il problema che Maxwell lasciò in eredità (senza saperlo)</div><p>C\'è un dettaglio, nelle equazioni di Maxwell, che a fine Ottocento sembrava un\'incongruenza minore ma che si sarebbe rivelata una delle crepe più feconde della storia della fisica: la velocità \\(c=1/\\sqrt{\\mu_0\\varepsilon_0}\\) compare nelle equazioni come una <strong>costante</strong>, senza fare riferimento a nessun sistema di riferimento particolare. Ma nella meccanica di Newton, tutte le velocità dovrebbero sommarsi vettorialmente a seconda di chi le osserva (un treno visto da terra, e visto da un altro treno, ha velocità diverse). Se le equazioni di Maxwell sono corrette per <em>ogni</em> osservatore, come può la velocità della luce risultare identica indipendentemente da come si muove chi la misura?</p></div>' +
+    '<div class="cb success"><div class="cb-label">1905 — la soluzione di Einstein</div><p>Fu proprio questa apparente contraddizione, insieme ai risultati sperimentali dell\'epoca, a spingere Albert Einstein a proporre la <strong>relatività ristretta</strong>: non erano le equazioni di Maxwell a essere sbagliate, era la meccanica di Newton (con la sua legge di composizione "ingenua" delle velocità) a dover essere corretta. Einstein prese sul serio, fino in fondo, il fatto che \\(c\\) fosse la stessa per tutti gli osservatori — e da lì derivò dilatazione dei tempi, contrazione delle lunghezze, ed \\(E=mc^2\\). In un certo senso, tutta la relatività ristretta nasce dal prendere le equazioni di Maxwell più sul serio di quanto Maxwell stesso avesse osato fare.</p></div>' +
+    '<p>Chiudiamo, allora, dove siamo partiti: nel Seicento, un pezzo di ambra strofinato che attirava pagliuzze. Meno di trecento anni dopo, quella stessa curiosità da salotto aveva prodotto le equazioni che descrivono la luce, alimentato la rivoluzione elettrica, acceso la radio, e — passando per un\'incongruenza apparentemente insignificante — messo in moto Einstein e la fisica del Novecento. Poche lezioni di fisica del liceo possono vantare un curriculum vitae altrettanto impressionante.</p>' +
+    acc([
+      { t:"Domanda concettuale — stessa velocità, frequenze diverse", h:'<p>Come è possibile che onde radio, luce visibile e raggi X, pur avendo frequenze diverse per svariati ordini di grandezza, viaggino tutte alla stessa identica velocità \\(c\\) nel vuoto? <em>Traccia</em>: ricorda la relazione \\(c=\\lambda f\\) tra velocità, lunghezza d\'onda e frequenza — è la lunghezza d\'onda a variare enormemente da una regione dello spettro all\'altra, non la velocità di propagazione, che dipende solo da \\(\\mu_0\\) ed \\(\\varepsilon_0\\), costanti universali del vuoto.</p>' },
+      { t:"Esercizio — dalla frequenza alla lunghezza d\'onda", h:'<p>Un\'onda radio FM ha frequenza \\(f=100\\) MHz \\(=10^8\\) Hz. Calcolane la lunghezza d\'onda nel vuoto, sapendo che \\(c\\approx3\\times10^8\\) m/s. <em>Traccia</em>: \\(\\lambda=c/f\\); confronta il risultato con le dimensioni tipiche di un\'antenna radio, e capirai perché sono lunghe come sono.</p>' },
+      { t:"Per chi vuole andare oltre il programma", h:'<p>Cerca, come approfondimento personale, in cosa consiste il cosiddetto "esperimento di Michelson-Morley" (1887) e perché il suo risultato negativo (nessuna variazione misurabile della velocità della luce dovuta al moto della Terra) sia considerato, con il senno di poi, una delle prime conferme sperimentali indirette a favore di quello che Einstein avrebbe poi formalizzato.</p>' }
+    ])
+}
+
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="part-label">' + s.part + '</div>' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const romans = ['I','II','III'];
+  let pills = '';
+  S.forEach((sec, i) => {
+    if (i % 4 === 0) {
+      pills += '<span class="nav-group">' + romans[i / 4] + '</span>';
+    }
+    pills += '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + sec.nav + '</button>';
+  });
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>

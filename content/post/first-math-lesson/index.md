@@ -15,8 +15,8 @@ link_override: /slides/prima-lezione-matematica/
 # To use, add an image named `featured.jpg/png` to your page's folder.
 # Focal point options: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight
 image:
-  caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/FIKD9t5_5zQ)'
-  focal_point: "center"
+  caption: ''
+  focal_point: "Center"
   placement: 2
   preview_only: false
 

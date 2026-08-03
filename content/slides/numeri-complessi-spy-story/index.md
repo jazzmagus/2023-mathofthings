@@ -21,7 +21,7 @@ slides:
 
 ---
 
-<section data-background-image="book_bkg.jpg" data-background-opacity="0.15">
+<section>
   <blockquote class="mot-quote">
     La matematica è la poesia della logica. E come la poesia, a volte rivela verità che la realtà nega.
     <span class="quote-attr">&mdash; Parafrasando David Hilbert</span>
@@ -351,7 +351,7 @@ slides:
 
 ---
 
-<section class="mot-divider" data-background-image="numbers.gif" data-background-opacity="0.15" data-transition="zoom">
+<section class="mot-divider" data-transition="zoom">
   <h1 class="r-fit-text">EPILOGO</h1>
   <p class="mot-tagline">L'eredità nel mondo reale</p>
 </section>
@@ -425,7 +425,7 @@ slides:
 
 ---
 
-<section class="mot-divider" data-background-image="numbers.gif" data-background-opacity="0.25" data-transition="zoom">
+<section class="mot-divider" data-transition="zoom">
   <h1 class="r-fit-text">DOMANDE?</h1>
   <p class="mot-tagline">la storia non è finita</p>
 </section>

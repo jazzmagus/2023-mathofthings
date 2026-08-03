@@ -22,7 +22,7 @@ slides:
   <!-- <h3 style="color:#8A4117" class="r-fit-text">Relazioni e funzioni</h3> -->
   <br>
   <h4 style="color##342A2A"><b>candidato: </b>Diego Fantinelli - STEM A026</h4>
-  <p style="font-size:73%"><em><a href="https://mathofthings.netlify.app/">The Math of Things</a> | <a href="./202122_Recuperi_settembre_fermi.pdf">Documentation</a></em></p>
+  <p style="font-size:73%"><em><a href="https://mathofthings.netlify.app/">The Math of Things</a> | <a href="./202122_prova_recupero-Test_Ex_soluzioni.pdf">Documentation</a></em></p>
 </section>
 
 ---

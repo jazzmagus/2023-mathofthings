@@ -5,6 +5,7 @@ authors: [Diego Fantinelli]
 tags: [organizzazione, prima-lezione]
 categories: [lesson]
 date: "2026-07-09T00:00:00Z"
+draft: true
 slides:
   theme: mathofthings
   transition: convex
@@ -52,6 +53,7 @@ slides:
   </dl>
 </section>
 
+<!--
 <section>
   <p class="mot-kicker">supporto</p>
   <h2>Sportello e recupero</h2>
@@ -64,6 +66,7 @@ slides:
   </ul>
   <p class="mot-joke fragment">i dettagli precisi arriveranno più avanti, appena il quadro sarà completo</p>
 </section>
+-->
 
 ---
 
@@ -75,6 +78,7 @@ slides:
   <p class="mot-kicker">strumenti didattici</p>
   <h2>Dove trovare <em>tutto</em></h2>
   <dl class="mot-rows">
+    <dt class="fragment">The Math of Things</dt><dd class="fragment"><a href="https://mathofthings.netlify.app/" target="_blank" class="mono">mathofthings.netlify.app</a> — il mio sito web, con lezioni, dispense e materiali di approfondimento sempre disponibili</dd>
     <dt class="fragment">Google Classroom</dt><dd class="fragment">comunicazioni, compiti, materiale didattico (dispense, video, esercizi), post e suggerimenti</dd>
     <dt class="fragment">Registro elettronico</dt><dd class="fragment">Classeviva Spaggiari — comunicazioni ufficiali, verifiche, interrogazioni, note, voti</dd>
     <dt class="fragment">Libro di testo</dt><dd class="fragment">non strettamente indispensabile in classe; valutiamo insieme una versione digitale</dd>
@@ -161,12 +165,11 @@ slides:
 ---
 
 <section>
-  <p class="mot-kicker">un'altra opportunità</p>
   <h2>Lezioni <em>private</em></h2>
-  <p class="fragment">Per chi desidera un supporto individuale in più: ne parliamo con calma, caso per caso.</p>
+  <p class="fragment">Non posso impartire lezioni private a nessuno studente dell'istituto in cui insegno: è un impegno che ho sottoscritto ancora prima della firma del contratto.</p>
 </section>
 
-<section class="mot-divider" data-transition="zoom">
+<section class="mot-divider" data-transition="zoom" data-background-image="panic.jpg" data-background-opacity="0.2">
   <h1 class="r-fit-text">DOMANDE?</h1>
   <p class="mot-joke fragment">le domande stupide non esistono. Le risposte, qualche volta.</p>
 </section>
