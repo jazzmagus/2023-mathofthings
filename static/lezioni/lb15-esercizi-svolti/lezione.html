@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esercizi Svolti — Studio Completo di Funzione (con i Limiti)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.ct.sign td { text-align:center; font-family:'JetBrains Mono',monospace; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.graph-wrap { margin:18px 0; text-align:center; }
+.graph-wrap svg { width:100%; max-width:520px; height:auto; background:var(--bg); border:1px solid var(--border-light); border-radius:8px; box-shadow:0 2px 10px rgba(44,37,32,.06); }
+.graph-wrap.wide svg { max-width:640px; }
+.graph-caption { font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--text-dim); margin-top:6px; text-align:center; }
+.legend { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--text-mid); margin-top:8px; }
+.legend span { display:inline-flex; align-items:center; gap:5px; }
+.legend i { width:14px; height:2px; display:inline-block; }
+.legend i.dashed { background:none; border-top:2px dashed currentColor; height:0; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Studio Completo di Funzione · esercizi svolti</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+function fmtTick(v) {
+  const r = Math.round(v * 100) / 100;
+  return (r % 1 === 0) ? String(r) : String(r).replace('.', ',');
+}
+
+function minorTicks(majors, min, max) {
+  if (!majors || majors.length < 2) return [];
+  const spacing = Math.abs(majors[1] - majors[0]);
+  const step = spacing / 4;
+  const out = [];
+  const start = Math.ceil(min / step) * step;
+  for (let v = start; v <= max + 1e-6; v += step) {
+    const rv = Math.round(v * 1000) / 1000;
+    if (!majors.some(m => Math.abs(m - rv) < 1e-6)) out.push(rv);
+  }
+  return out;
+}
+
+function plotFn(opts) {
+  const W = opts.w || 320, H = opts.h || 320;
+  const xmin = opts.xmin, xmax = opts.xmax, ymin = opts.ymin, ymax = opts.ymax;
+  const PL = 34, PR = 18, PT = 18, PB = 30;
+  const pw = W - PL - PR, ph = H - PT - PB;
+  const sx = x => PL + (x - xmin) / (xmax - xmin) * pw;
+  const sy = y => PT + ph - (y - ymin) / (ymax - ymin) * ph;
+  let gGrid = '', gAxes = '', gAsym = '', gCurves = '', gPoints = '';
+
+  const x0 = sx(0), y0 = sy(0);
+  const axisXvisible = x0 >= PL - 0.5 && x0 <= W - PR + 0.5;
+  const axisYvisible = y0 >= PT - 0.5 && y0 <= H - PB + 0.5;
+  const tickBaseY = axisYvisible ? y0 : H - PB;
+  const tickBaseX = axisXvisible ? x0 : PL;
+
+  minorTicks(opts.grid, xmin, xmax).forEach(v => {
+    const x = sx(v);
+    if (x >= PL && x <= W - PR) gGrid += '<line x1="' + x.toFixed(1) + '" y1="' + PT + '" x2="' + x.toFixed(1) + '" y2="' + (H - PB) + '" stroke="rgba(44,37,32,0.05)" stroke-width="1"/>';
+  });
+  minorTicks(opts.gridY, ymin, ymax).forEach(v => {
+    const y = sy(v);
+    if (y >= PT && y <= H - PB) gGrid += '<line x1="' + PL + '" y1="' + y.toFixed(1) + '" x2="' + (W - PR) + '" y2="' + y.toFixed(1) + '" stroke="rgba(44,37,32,0.05)" stroke-width="1"/>';
+  });
+
+  (opts.grid || []).forEach(v => {
+    const x = sx(v);
+    if (x >= PL && x <= W - PR) {
+      gGrid += '<line x1="' + x.toFixed(1) + '" y1="' + PT + '" x2="' + x.toFixed(1) + '" y2="' + (H - PB) + '" stroke="rgba(44,37,32,0.11)" stroke-width="1"/>';
+      if (v !== 0) gGrid += '<text x="' + x.toFixed(1) + '" y="' + (tickBaseY + 15) + '" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--text-dim)">' + fmtTick(v) + '</text>';
+    }
+  });
+  (opts.gridY || []).forEach(v => {
+    const y = sy(v);
+    if (y >= PT && y <= H - PB) {
+      gGrid += '<line x1="' + PL + '" y1="' + y.toFixed(1) + '" x2="' + (W - PR) + '" y2="' + y.toFixed(1) + '" stroke="rgba(44,37,32,0.11)" stroke-width="1"/>';
+      if (v !== 0) gGrid += '<text x="' + (tickBaseX - 7) + '" y="' + (y.toFixed(1) - 0) + '" text-anchor="end" dominant-baseline="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--text-dim)">' + fmtTick(v) + '</text>';
+    }
+  });
+
+  if (axisXvisible) {
+    gAxes += '<line x1="' + x0.toFixed(1) + '" y1="' + PT + '" x2="' + x0.toFixed(1) + '" y2="' + (H - PB) + '" stroke="var(--text-mid)" stroke-width="1.3"/>';
+    gAxes += '<path d="M' + (x0 - 3.5).toFixed(1) + ' ' + (PT + 6) + ' L' + x0.toFixed(1) + ' ' + PT + ' L' + (x0 + 3.5).toFixed(1) + ' ' + (PT + 6) + '" fill="none" stroke="var(--text-mid)" stroke-width="1.3" stroke-linejoin="round"/>';
+    gAxes += '<text x="' + (x0 + 8).toFixed(1) + '" y="' + (PT + 9) + '" font-family="Playfair Display, serif" font-style="italic" font-size="11" fill="var(--text-mid)">y</text>';
+  }
+  if (axisYvisible) {
+    gAxes += '<line x1="' + PL + '" y1="' + y0.toFixed(1) + '" x2="' + (W - PR) + '" y2="' + y0.toFixed(1) + '" stroke="var(--text-mid)" stroke-width="1.3"/>';
+    gAxes += '<path d="M' + (W - PR - 6) + ' ' + (y0 - 3.5).toFixed(1) + ' L' + (W - PR) + ' ' + y0.toFixed(1) + ' L' + (W - PR - 6) + ' ' + (y0 + 3.5).toFixed(1) + '" fill="none" stroke="var(--text-mid)" stroke-width="1.3" stroke-linejoin="round"/>';
+    gAxes += '<text x="' + (W - PR - 5) + '" y="' + (y0 - 8).toFixed(1) + '" text-anchor="end" font-family="Playfair Display, serif" font-style="italic" font-size="11" fill="var(--text-mid)">x</text>';
+  }
+  if (axisXvisible && axisYvisible) {
+    gAxes += '<text x="' + (x0 - 5).toFixed(1) + '" y="' + (y0 + 13).toFixed(1) + '" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--text-dim)">0</text>';
+  }
+
+  (opts.asymV || []).forEach(v => {
+    const x = sx(v);
+    if (x >= PL && x <= W - PR) {
+      gAsym += '<line x1="' + x.toFixed(1) + '" y1="' + PT + '" x2="' + x.toFixed(1) + '" y2="' + (H - PB) + '" stroke="var(--danger)" stroke-width="1.4" stroke-dasharray="4,4" opacity="0.65"/>';
+      gAsym += '<text x="' + (x + 5).toFixed(1) + '" y="' + (PT + 12) + '" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--danger)">x=' + fmtTick(v) + '</text>';
+    }
+  });
+  (opts.asymH || []).forEach(v => {
+    const y = sy(v);
+    if (y >= PT && y <= H - PB) {
+      gAsym += '<line x1="' + PL + '" y1="' + y.toFixed(1) + '" x2="' + (W - PR) + '" y2="' + y.toFixed(1) + '" stroke="var(--purple)" stroke-width="1.4" stroke-dasharray="4,4" opacity="0.65"/>';
+      gAsym += '<text x="' + (W - PR - 4) + '" y="' + (y - 5).toFixed(1) + '" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--purple)">y=' + fmtTick(v) + '</text>';
+    }
+  });
+
+  (opts.fns || []).forEach(fn => {
+    const N = 500;
+    let d = '', started = false;
+    for (let i = 0; i <= N; i++) {
+      const x = xmin + (xmax - xmin) * i / N;
+      if (fn.exclude && fn.exclude.some(e => Math.abs(x - e) < (xmax - xmin) / N * 1.5)) { started = false; continue; }
+      let y;
+      try { y = fn.f(x); } catch (e) { y = NaN; }
+      if (!isFinite(y) || y < ymin - (ymax - ymin) * 0.6 || y > ymax + (ymax - ymin) * 0.6) {
+        started = false;
+        continue;
+      }
+      const X = sx(x), Y = sy(y);
+      d += (started ? 'L' : 'M') + X.toFixed(1) + ' ' + Y.toFixed(1) + ' ';
+      started = true;
+    }
+    gCurves += '<path d="' + d + '" fill="none" stroke="' + fn.color + '" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>';
+  });
+
+  (opts.points || []).forEach(p => {
+    const X = sx(p.x), Y = sy(p.y);
+    const dx = p.dx !== undefined ? p.dx : 7, dy = p.dy !== undefined ? p.dy : -8;
+    const color = p.color || 'var(--accent)';
+    gPoints += '<circle cx="' + X.toFixed(1) + '" cy="' + Y.toFixed(1) + '" r="' + (p.r || 3) + '" fill="var(--surface)" stroke="' + color + '" stroke-width="2"/>';
+    if (p.label) {
+      const lx = X + dx, ly = Y + dy;
+      const anchor = dx < 0 ? 'end' : (dx === 0 ? 'middle' : 'start');
+      const chW = p.label.length * 5.6 + 8;
+      const chX = anchor === 'end' ? lx - chW : (anchor === 'middle' ? lx - chW / 2 : lx);
+      gPoints += '<rect x="' + chX.toFixed(1) + '" y="' + (ly - 10.5).toFixed(1) + '" width="' + chW.toFixed(1) + '" height="14" rx="3" fill="var(--bg)" fill-opacity="0.92"/>';
+      gPoints += '<text x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" text-anchor="' + anchor + '" font-family="JetBrains Mono, monospace" font-size="10.5" fill="' + color + '">' + p.label + '</text>';
+    }
+  });
+
+  const g = '<rect x="' + PL + '" y="' + PT + '" width="' + pw + '" height="' + ph + '" fill="none"/>' + gGrid + gAxes + gAsym + gCurves + gPoints;
+
+  return '<div class="graph-wrap' + (opts.wide ? ' wide' : '') + '"><svg viewBox="0 0 ' + W + ' ' + H + '">' + g + '</svg>' +
+    (opts.caption ? '<div class="graph-caption">' + opts.caption + '</div>' : '') +
+    (opts.legend ? '<div class="legend">' + opts.legend.map(l => '<span><i class="' + (l.dashed ? 'dashed' : '') + '" style="' + (l.dashed ? 'color:' + l.color : 'background:' + l.color) + '"></i>' + l.label + '</span>').join('') + '</div>' : '') +
+    '</div>';
+}
+
+const graph1 = plotFn({
+  xmin: -4.5, xmax: 6.5, ymin: -6, ymax: 8, w: 460, h: 400,
+  grid: [-4,-3,-2,-1,0,1,2,3,4,5,6], gridY: [-6,-4,-2,0,2,4,6,8],
+  fns: [{ f: x => 2*x/(x-1), color: '#c2185b', exclude:[1] }],
+  asymV: [1], asymH: [2],
+  points: [ { x:0, y:0, label:'(0,0)', dx:-10, dy:14 } ],
+  caption: 'f(x) = 2x/(x−1) — dato SOLO questo grafico',
+  legend: [{ color:'#c2185b', label:'y = 2x/(x−1)' }, { color:'var(--danger)', label:'x = 1', dashed:true }, { color:'var(--purple)', label:'y = 2', dashed:true }]
+});
+
+const graph2 = plotFn({
+  xmin: -5.5, xmax: 5.5, ymin: -6, ymax: 6, w: 460, h: 400,
+  grid: [-5,-4,-3,-2,-1,0,1,2,3,4,5], gridY: [-6,-4,-2,0,2,4,6],
+  fns: [{ f: x => (x-1)/(x*x-4), color: '#7209b7', exclude:[-2,2] }],
+  asymV: [-2,2], asymH: [0],
+  points: [ { x:1, y:0, label:'(1,0)', dx:9, dy:15 } ],
+  caption: 'f(x) = (x−1)/(x²−4) — dato SOLO questo grafico',
+  legend: [{ color:'#7209b7', label:'y = (x−1)/(x²−4)' }, { color:'var(--danger)', label:'x = ±2', dashed:true }, { color:'var(--purple)', label:'y = 0', dashed:true }]
+});
+
+const graph3 = plotFn({
+  xmin: -5.5, xmax: 5.5, ymin: -3, ymax: 5, w: 460, h: 400,
+  grid: [-5,-4,-3,-2,-1,0,1,2,3,4,5], gridY: [-2,-1,0,1,2,3,4],
+  fns: [{ f: x => (x*x-1)/(x*x-4), color: '#d62828', exclude:[-2,2] }],
+  asymV: [-2,2], asymH: [1],
+  points: [ { x:-1, y:0, label:'(-1,0)', dx:-9, dy:15 }, { x:1, y:0, label:'(1,0)', dx:9, dy:15 } ],
+  caption: 'f(x) = (x²−1)/(x²−4) — dato SOLO questo grafico',
+  legend: [{ color:'#d62828', label:'y = (x²−1)/(x²−4)' }, { color:'var(--danger)', label:'x = ±2', dashed:true }, { color:'var(--purple)', label:'y = 1', dashed:true }]
+});
+
+const graph4 = plotFn({
+  xmin: -6, xmax: 8, ymin: -8, ymax: 8, w: 460, h: 400,
+  grid: [-6,-4,-2,0,2,4,6,8], gridY: [-8,-6,-4,-2,0,2,4,6,8],
+  fns: [{ f: x => (3-x)/(x+1), color: '#1d7874', exclude:[-1] }],
+  asymV: [-1], asymH: [-1],
+  points: [ { x:3, y:0, label:'(3,0)', dx:9, dy:15 }, { x:0, y:3, label:'(0,3)', dx:9, dy:-8 } ],
+  caption: 'f(x) = (3−x)/(x+1) — il grafico costruito passo per passo',
+  legend: [{ color:'#1d7874', label:'y = (3−x)/(x+1)' }, { color:'var(--danger)', label:'x = −1', dashed:true }, { color:'var(--purple)', label:'y = −1', dashed:true }]
+});
+
+const graph5 = plotFn({
+  xmin: -5, xmax: 5, ymin: -6, ymax: 6, w: 460, h: 400,
+  grid: [-5,-4,-3,-2,-1,0,1,2,3,4,5], gridY: [-6,-4,-2,0,2,4,6],
+  fns: [{ f: x => 2*x/(x*x-1), color: '#0f7b6c', exclude:[-1,1] }],
+  asymV: [-1,1], asymH: [0],
+  points: [ { x:0, y:0, label:'(0,0)', dx:9, dy:15 } ],
+  caption: 'f(x) = 2x/(x²−1) — il grafico costruito passo per passo',
+  legend: [{ color:'#0f7b6c', label:'y = 2x/(x²−1)' }, { color:'var(--danger)', label:'x = ±1', dashed:true }, { color:'var(--purple)', label:'y = 0', dashed:true }]
+});
+
+const S = [
+{
+  tag:"L'IDEA",
+  title:"Lo studio completo di funzione <em>al contrario</em> (e poi al dritto)",
+  nav:"L'idea",
+  body:
+    '<p>Hai già affrontato lo studio "al contrario" con i polinomi: dominio, segno, simmetrie, intersezioni — tutto senza mai imbatterti in un valore escluso o in un ramo che fugge all\'infinito verso una retta. Qui il gioco è lo stesso, ma con un ingrediente nuovo: le <strong>funzioni razionali fratte</strong>, dove compaiono <strong>domini limitati</strong> e <strong>asintoti</strong>.</p>' +
+    '<div class="cb"><div class="cb-label">La regola del gioco (esempi 1-3)</div><p>Vedrai <strong>prima il grafico</strong>, disegnato come se te lo avessero già consegnato — comprese le rette tratteggiate degli asintoti. Il compito è <strong>congetturare a occhio</strong> dominio, segno e comportamento vicino agli asintoti, poi <strong>verificare tutto con i limiti</strong>, passo per passo.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Cosa cambia rispetto ai polinomi</div><p>Un polinomio è definito ovunque e non ha mai asintoti. Una funzione razionale fratta \\(f(x)=\\dfrac{N(x)}{D(x)}\\) invece: (1) non esiste dove \\(D(x)=0\\); (2) vicino a quei punti il grafico può "esplodere" verso \\(+\\infty\\) o \\(-\\infty\\) — è l\'<strong>asintoto verticale</strong>; (3) lontano dall\'origine, se il grado del numeratore non supera quello del denominatore, il grafico si avvicina a una retta orizzontale — l\'<strong>asintoto orizzontale</strong>. I limiti sono lo strumento che rende preciso ciò che l\'occhio intuisce.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Livello</div><p>Le funzioni scelte sono tutte del tipo "polinomio di grado ≤2 fratto polinomio di grado ≤2", con denominatore che si annulla in una o due radici semplici e ben distinte — il livello adatto al corso serale, senza complicazioni ulteriori (niente funzioni trascendenti, niente radicali).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Gli ultimi due esercizi (esempi 4-5): direzione invertita</div><p>Negli esempi 4 e 5 il percorso è quello <strong>classico</strong>, lo stesso che farai in verifica: si parte <strong>solo dall\'espressione algebrica</strong> di \\(f(x)\\), si calcolano dominio, segno e limiti passo per passo, e <strong>solo alla fine</strong> tutte queste informazioni si mettono insieme per disegnare il grafico. Nessuna congettura visiva stavolta: il grafico è il traguardo, non il punto di partenza.</p></div>'
+},
+{
+  tag:"ESEMPIO 1",
+  title:"<em>dal grafico</em> alla dimostrazione",
+  formula:"\\(f(x) = \\dfrac{2x}{x-1}\\)",
+  nav:"Esempio 1",
+  body:
+    '<p>Osserva il grafico. Non sai ancora nulla dell\'espressione algebrica, se non che è tracciata qui sotto — comprese le due rette tratteggiate.</p>' +
+    graph1 +
+    '<div class="cb"><div class="cb-label">Cosa si può congetturare guardando il disegno</div><ul><li>Il grafico non esiste in \\(x=1\\): la curva si "spezza" in due rami vicino a quella retta tratteggiata verticale</li><li>A sinistra di \\(x=1\\) il ramo sembra precipitare verso il basso, a destra sembra schizzare verso l\'alto</li><li>Lontano dall\'origine, sia a sinistra che a destra, la curva si avvicina alla retta orizzontale \\(y=2\\) senza mai toccarla</li><li>Il grafico passa per l\'origine \\((0,0)\\); a sinistra dell\'origine sembra stare sopra l\'asse \\(x\\), tra \\(0\\) e \\(1\\) sotto</li></ul></div>' +
+    '<p>Verifichiamo ciascuna osservazione con i conti, per \\(f(x) = \\dfrac{2x}{x-1}\\).</p>' +
+    acc([
+      { t:"1 — Dominio (verifica del \"buco\" in x=1)", h:'<p>La frazione perde significato dove il denominatore si annulla: \\(x-1=0 \\Rightarrow x=1\\).</p><div class="math-block result">\\[ D = \\{x\\in\\mathbb{R} : x\\ne 1\\} = (-\\infty,1)\\cup(1,+\\infty) \\]</div><p>Coerente con la spaccatura in due rami vista nel disegno esattamente in corrispondenza della retta tratteggiata.</p>' },
+      { t:"2 — Segno e intersezioni", h:'<p>Asse \\(x\\): \\(2x=0 \\Rightarrow x=0\\), unico zero, che è anche l\'intersezione con l\'asse \\(y\\) poiché \\(f(0)=0\\).</p><p>Studio del segno di \\(\\dfrac{2x}{x-1}\\): numeratore \\(2x>0\\) per \\(x>0\\); denominatore \\(x-1>0\\) per \\(x>1\\).</p>' +
+        '<table class="ct sign"><tr><th>Intervallo</th><th>x&lt;0</th><th>x=0</th><th>0&lt;x&lt;1</th><th>x=1</th><th>x&gt;1</th></tr>' +
+        '<tr><td>2x</td><td>−</td><td>0</td><td>+</td><td>+</td><td>+</td></tr>' +
+        '<tr><td>x−1</td><td>−</td><td>−</td><td>−</td><td>0/∄</td><td>+</td></tr>' +
+        '<tr><td>f(x)</td><td>+</td><td>0</td><td>−</td><td>∄</td><td>+</td></tr></table>' +
+        '<div class="math-block result">\\[ f(x)>0 \\text{ per } x\\lt0 \\text{ e per } x>1; \\qquad f(x)<0 \\text{ per } 0\\lt x\\lt1 \\]</div><p>Esattamente il comportamento letto nel disegno: sopra l\'asse a sinistra dell\'origine, sotto tra \\(0\\) e \\(1\\).</p>' },
+      { t:"3 — Limiti vicino a x=1 (verifica dell\'asintoto verticale)", h:'<p>Il denominatore tende a \\(0\\) per \\(x\\to1\\); studiamo separatamente da sinistra e da destra.</p>' +
+        '<p>\\[ \\lim_{x\\to1^-}\\frac{2x}{x-1} = \\frac{2}{0^-} = -\\infty \\]</p>' +
+        '<p>\\[ \\lim_{x\\to1^+}\\frac{2x}{x-1} = \\frac{2}{0^+} = +\\infty \\]</p>' +
+        '<div class="math-block result">\\[ x=1 \\text{ è asintoto verticale} \\]</div><p>Il ramo di sinistra precipita a \\(-\\infty\\), quello di destra sale a \\(+\\infty\\): proprio i due comportamenti opposti visti nel grafico ai due lati della retta tratteggiata.</p>' },
+      { t:"4 — Limiti per x→±∞ (verifica dell\'asintoto orizzontale)", h:'<p>Numeratore e denominatore hanno lo stesso grado (1): si raccoglie la potenza dominante.</p>' +
+        '<p>\\[ \\lim_{x\\to\\pm\\infty}\\frac{2x}{x-1} = \\lim_{x\\to\\pm\\infty}\\frac{2x}{x\\left(1-\\frac1x\\right)} = \\lim_{x\\to\\pm\\infty}\\frac{2}{1-\\frac1x} = 2 \\]</p>' +
+        '<div class="math-block result">\\[ y=2 \\text{ è asintoto orizzontale (sia a } -\\infty \\text{ sia a } +\\infty\\text{)} \\]</div><p>Per capire da quale lato la curva si avvicina alla retta, basta un valore di prova: \\(f(-10)=\\dfrac{-20}{-11}\\approx1{,}82\\lt2\\) (si avvicina da sotto a sinistra), \\(f(10)=\\dfrac{20}{9}\\approx2{,}22>2\\) (si avvicina da sopra a destra) — coerente col disegno, dove il ramo sinistro sta sotto la retta tratteggiata e quello destro sopra.</p>' },
+      { t:"5 — Conferma finale", h:'<p>Dominio, segno, i due limiti verso \\(x=1\\) e i due limiti all\'infinito riproducono <strong>esattamente</strong> ogni tratto del grafico iniziale: il buco in \\(x=1\\), i due rami che fuggono in direzioni opposte, l\'avvicinamento alla retta \\(y=2\\) da lati diversi. La congettura visiva era corretta, e ora è dimostrata.</p>' }
+    ])
+},
+{
+  tag:"ESEMPIO 2",
+  title:"<em>dal grafico</em> alla dimostrazione",
+  formula:"\\(f(x) = \\dfrac{x-1}{x^2-4}\\)",
+  nav:"Esempio 2",
+  body:
+    '<p>Un secondo grafico, questa volta con <strong>due</strong> rette verticali tratteggiate.</p>' +
+    graph2 +
+    '<div class="cb"><div class="cb-label">Cosa si può congetturare</div><ul><li>Il grafico si interrompe due volte, vicino a \\(x=-2\\) e vicino a \\(x=2\\): tre rami distinti</li><li>Lontano dall\'origine la curva sembra appiattirsi sull\'asse \\(x\\) stesso</li><li>Il ramo centrale, tra le due rette tratteggiate, sembra tutto sopra l\'asse \\(x\\)</li><li>C\'è un solo zero, poco a destra dell\'origine</li></ul></div>' +
+    '<p>Verifica per \\(f(x) = \\dfrac{x-1}{x^2-4}\\).</p>' +
+    acc([
+      { t:"1 — Dominio (verifica dei due \"buchi\")", h:'<p>\\(x^2-4=0 \\Rightarrow (x-2)(x+2)=0 \\Rightarrow x=-2 \\text{ o } x=2\\).</p><div class="math-block result">\\[ D = \\mathbb{R}\\setminus\\{-2,2\\} \\]</div><p>Due valori esclusi, coerenti con le due rette tratteggiate e i tre rami visti nel disegno.</p>' },
+      { t:"2 — Segno e intersezioni", h:'<p>Asse \\(x\\): \\(x-1=0 \\Rightarrow x=1\\), poco a destra dell\'origine, come nel disegno. Asse \\(y\\): \\(f(0)=\\dfrac{-1}{-4}=\\dfrac14\\).</p><p>Fattorizzando completamente: \\(f(x)=\\dfrac{x-1}{(x-2)(x+2)}\\).</p>' +
+        '<table class="ct sign"><tr><th>Intervallo</th><th>x&lt;−2</th><th>x=−2</th><th>−2&lt;x&lt;1</th><th>x=1</th><th>1&lt;x&lt;2</th><th>x=2</th><th>x&gt;2</th></tr>' +
+        '<tr><td>x−1</td><td>−</td><td>−</td><td>−</td><td>0</td><td>+</td><td>+</td><td>+</td></tr>' +
+        '<tr><td>x−2</td><td>−</td><td>−</td><td>−</td><td>−</td><td>−</td><td>0/∄</td><td>+</td></tr>' +
+        '<tr><td>x+2</td><td>−</td><td>0/∄</td><td>+</td><td>+</td><td>+</td><td>+</td><td>+</td></tr>' +
+        '<tr><td>f(x)</td><td>−</td><td>∄</td><td>+</td><td>0</td><td>−</td><td>∄</td><td>+</td></tr></table>' +
+        '<div class="math-block result">\\[ f>0 \\text{ per } -2\\lt x\\lt1 \\text{ e } x>2; \\qquad f<0 \\text{ per } x\\lt-2 \\text{ e } 1\\lt x\\lt2 \\]</div><p>Il ramo centrale (tra \\(-2\\) e \\(2\\)) è positivo fino a \\(x=1\\) e poi negativo — non "tutto sopra l\'asse" come poteva sembrare a un primo sguardo impreciso, ma cambia segno esattamente in \\(x=1\\), dove la curva incrocia l\'asse.</p>' },
+      { t:"3 — Limiti vicino a x=−2 e x=2 (i due asintoti verticali)", h:'<p>Da sinistra e da destra di ciascun punto escluso:</p>' +
+        '<p>\\[ \\lim_{x\\to-2^-}\\frac{x-1}{(x-2)(x+2)} = \\frac{-3}{(-4)(0^-)} = \\frac{-3}{0^+} = -\\infty \\]</p>' +
+        '<p>\\[ \\lim_{x\\to-2^+}\\frac{x-1}{(x-2)(x+2)} = \\frac{-3}{(-4)(0^+)} = \\frac{-3}{0^-} = +\\infty \\]</p>' +
+        '<p>\\[ \\lim_{x\\to2^-}\\frac{x-1}{(x-2)(x+2)} = \\frac{1}{(0^-)(4)} = \\frac{1}{0^-} = -\\infty \\]</p>' +
+        '<p>\\[ \\lim_{x\\to2^+}\\frac{x-1}{(x-2)(x+2)} = \\frac{1}{(0^+)(4)} = \\frac{1}{0^+} = +\\infty \\]</p>' +
+        '<div class="math-block result">\\[ x=-2 \\text{ e } x=2 \\text{ sono entrambi asintoti verticali} \\]</div><p>I quattro segni trovati (\\(-\\infty,+\\infty,-\\infty,+\\infty\\)) coincidono esattamente con la direzione dei quattro "bracci" che si vedono nel disegno accanto alle due rette tratteggiate.</p>' },
+      { t:"4 — Limiti per x→±∞ (verifica dell\'asintoto orizzontale)", h:'<p>Il numeratore ha grado \\(1\\), il denominatore grado \\(2\\): il denominatore "vince".</p>' +
+        '<p>\\[ \\lim_{x\\to\\pm\\infty}\\frac{x-1}{x^2-4} = \\lim_{x\\to\\pm\\infty}\\frac{x\\left(1-\\frac1x\\right)}{x^2\\left(1-\\frac4{x^2}\\right)} = \\lim_{x\\to\\pm\\infty}\\frac{1}{x}\\cdot\\frac{1-\\frac1x}{1-\\frac4{x^2}} = 0 \\]</p>' +
+        '<div class="math-block result">\\[ y=0 \\text{ (l\'asse x stesso) è asintoto orizzontale} \\]</div><p>Coerente col disegno: i due rami esterni si appiattiscono proprio sull\'asse \\(x\\), che è la retta \\(y=0\\).</p>' },
+      { t:"5 — Conferma finale", h:'<p>Tre rami, due asintoti verticali con segni opposti da ciascun lato, un asintoto orizzontale coincidente con l\'asse \\(x\\): ogni elemento del disegno iniziale trova ora una giustificazione algebrica precisa attraverso lo studio del segno e il calcolo dei limiti.</p>' }
+    ])
+},
+{
+  tag:"ESEMPIO 3",
+  title:"<em>dal grafico</em> alla dimostrazione",
+  formula:"\\(f(x) = \\dfrac{x^2-1}{x^2-4}\\)",
+  nav:"Esempio 3",
+  body:
+    '<p>Il terzo grafico è simmetrico rispetto all\'asse \\(y\\): un caso particolare da riconoscere subito.</p>' +
+    graph3 +
+    '<div class="cb"><div class="cb-label">Cosa si può congetturare</div><ul><li>Simmetria rispetto all\'asse \\(y\\) — funzione pari?</li><li>Ancora due asintoti verticali, in \\(x=-2\\) e \\(x=2\\), simmetrici</li><li>Questa volta l\'asintoto orizzontale non sembra essere l\'asse \\(x\\), ma una retta più in alto</li><li>Due zeri, simmetrici rispetto all\'asse \\(y\\)</li></ul></div>' +
+    '<p>Verifica per \\(f(x) = \\dfrac{x^2-1}{x^2-4}\\).</p>' +
+    acc([
+      { t:"1 — Dominio", h:'<p>\\(x^2-4=0 \\Rightarrow x=\\pm2\\).</p><div class="math-block result">\\[ D = \\mathbb{R}\\setminus\\{-2,2\\} \\]</div>' },
+      { t:"2 — Parità (verifica della simmetria)", h:'<p>\\(f(-x)=\\dfrac{(-x)^2-1}{(-x)^2-4}=\\dfrac{x^2-1}{x^2-4}=f(x)\\).</p><div class="math-block result">\\[ \\text{funzione pari — confermata la simmetria rispetto all\'asse y} \\]</div><p>Anche il dominio è simmetrico rispetto a \\(0\\) (\\(\\pm2\\) esclusi insieme), condizione necessaria perché la parità abbia senso.</p>' },
+      { t:"3 — Segno e intersezioni", h:'<p>Asse \\(x\\): \\(x^2-1=0 \\Rightarrow x=\\pm1\\), simmetrici come nel disegno. Asse \\(y\\): \\(f(0)=\\dfrac{-1}{-4}=\\dfrac14\\).</p><p>\\(f(x)=\\dfrac{(x-1)(x+1)}{(x-2)(x+2)}>0\\):</p>' +
+        '<table class="ct sign"><tr><th>Intervallo</th><th>x&lt;−2</th><th>−2&lt;x&lt;−1</th><th>−1&lt;x&lt;1</th><th>1&lt;x&lt;2</th><th>x&gt;2</th></tr>' +
+        '<tr><td>f(x)</td><td>+</td><td>−</td><td>+</td><td>−</td><td>+</td></tr></table>' +
+        '<div class="math-block result">\\[ f>0 \\text{ per } x\\lt-2,\\ -1\\lt x\\lt1,\\ x>2; \\qquad f<0 \\text{ per } -2\\lt x\\lt-1,\\ 1\\lt x\\lt2 \\]</div><p>Il segno alterna simmetricamente attorno all\'asse \\(y\\), come richiesto da una funzione pari.</p>' },
+      { t:"4 — Limiti vicino a x=−2 e x=2 (asintoti verticali)", h:'<p>\\[ \\lim_{x\\to-2^-}\\frac{x^2-1}{x^2-4} = \\frac{3}{0^+} = +\\infty \\qquad \\lim_{x\\to-2^+}\\frac{x^2-1}{x^2-4} = \\frac{3}{0^-} = -\\infty \\]</p>' +
+        '<p>\\[ \\lim_{x\\to2^-}\\frac{x^2-1}{x^2-4} = \\frac{3}{0^-} = -\\infty \\qquad \\lim_{x\\to2^+}\\frac{x^2-1}{x^2-4} = \\frac{3}{0^+} = +\\infty \\]</p>' +
+        '<div class="math-block result">\\[ x=-2 \\text{ e } x=2 \\text{ sono asintoti verticali, con comportamento simmetrico} \\]</div><p>I segni ottenuti sono l\'esatto specchio l\'uno dell\'altro rispetto all\'asse \\(y\\) — come deve essere per una funzione pari, e come mostra il disegno.</p>' },
+      { t:"5 — Limiti per x→±∞ (asintoto orizzontale non nullo)", h:'<p>Numeratore e denominatore hanno lo stesso grado (2): il rapporto dei coefficienti direttori dà il limite.</p>' +
+        '<p>\\[ \\lim_{x\\to\\pm\\infty}\\frac{x^2-1}{x^2-4} = \\lim_{x\\to\\pm\\infty}\\frac{x^2\\left(1-\\frac1{x^2}\\right)}{x^2\\left(1-\\frac4{x^2}\\right)} = \\lim_{x\\to\\pm\\infty}\\frac{1-\\frac1{x^2}}{1-\\frac4{x^2}} = 1 \\]</p>' +
+        '<div class="math-block result">\\[ y=1 \\text{ è asintoto orizzontale (diverso da } y=0\\text{, a differenza dell\'esempio precedente)} \\]</div><p>Un\'ulteriore verifica: \\(f(x)-1=\\dfrac{x^2-1}{x^2-4}-1=\\dfrac{3}{x^2-4}\\), che è positivo per \\(|x|>2\\) — quindi lontano dall\'origine la curva si avvicina a \\(y=1\\) rimanendo <em>sopra</em> quella retta, esattamente come si vede nel disegno.</p>' },
+      { t:"6 — Conferma finale", h:'<p>Parità, due asintoti verticali simmetrici, un asintoto orizzontale non nullo avvicinato da sopra: tutte le proprietà congetturate osservando il grafico trovano qui una dimostrazione algebrica completa, che unisce lo studio del segno (già noto dallo scorso anno) al calcolo dei limiti (lo strumento nuovo di quest\'anno).</p>' }
+    ]) +
+    '<div class="cb success"><div class="cb-label">Il punto degli esercizi 1-3</div><p>Con le funzioni razionali fratte lo studio di funzione acquista un tassello che ai polinomi mancava: il comportamento <strong>vicino ai punti esclusi dal dominio</strong> e <strong>all\'infinito</strong>, catturato interamente dai limiti. Dominio e segno restano gli stessi strumenti già padroneggiati; i limiti aggiungono la capacità di prevedere — e poi dimostrare — dove il grafico "fugge" e a quale retta si avvicina senza mai toccarla.</p><p style="margin-top:10px">Nei prossimi due esercizi rifacciamo lo stesso percorso <strong>al contrario</strong>: partendo solo dall\'espressione di \\(f(x)\\), arriviamo al grafico — il modo in cui affronterai lo studio di funzione in verifica.</p></div>'
+},
+{
+  tag:"ESEMPIO 4",
+  title:"<em>dall\'equazione</em> al grafico",
+  formula:"\\(f(x) = \\dfrac{3-x}{x+1}\\)",
+  nav:"Esempio 4",
+  body:
+    '<p>Stavolta si parte al contrario: conosci solo l\'espressione di \\(f(x)\\), il grafico non esiste ancora. Costruiamolo passo per passo, come faresti in una verifica.</p>' +
+    acc([
+      { t:"1 — Dominio", h:'<p>La frazione perde significato dove il denominatore si annulla: \\(x+1=0 \\Rightarrow x=-1\\).</p><div class="math-block result">\\[ D = \\{x\\in\\mathbb{R} : x\\ne -1\\} \\]</div>' },
+      { t:"2 — Segno e intersezioni con gli assi", h:'<p>Asse \\(x\\): \\(3-x=0 \\Rightarrow x=3\\). Asse \\(y\\): \\(f(0)=\\dfrac{3}{1}=3\\).</p><p>Studio del segno di \\(\\dfrac{3-x}{x+1}\\): numeratore \\(3-x>0\\) per \\(x\\lt3\\); denominatore \\(x+1>0\\) per \\(x>-1\\).</p>' +
+        '<table class="ct sign"><tr><th>Intervallo</th><th>x&lt;−1</th><th>x=−1</th><th>−1&lt;x&lt;3</th><th>x=3</th><th>x&gt;3</th></tr>' +
+        '<tr><td>3−x</td><td>+</td><td>+</td><td>+</td><td>0</td><td>−</td></tr>' +
+        '<tr><td>x+1</td><td>−</td><td>0/∄</td><td>+</td><td>+</td><td>+</td></tr>' +
+        '<tr><td>f(x)</td><td>−</td><td>∄</td><td>+</td><td>0</td><td>−</td></tr></table>' +
+        '<div class="math-block result">\\[ f(x)>0 \\text{ per } -1\\lt x\\lt3; \\qquad f(x)<0 \\text{ per } x\\lt-1 \\text{ e per } x>3 \\]</div>' },
+      { t:"3 — Limiti vicino a x=−1 (asintoto verticale)", h:'<p>Il denominatore tende a \\(0\\) per \\(x\\to-1\\); studiamo da sinistra e da destra, aiutandoci con la tabella del segno appena costruita.</p>' +
+        '<p>\\[ \\lim_{x\\to-1^-}\\frac{3-x}{x+1} = \\frac{4}{0^-} = -\\infty \\]</p>' +
+        '<p>\\[ \\lim_{x\\to-1^+}\\frac{3-x}{x+1} = \\frac{4}{0^+} = +\\infty \\]</p>' +
+        '<div class="math-block result">\\[ x=-1 \\text{ è asintoto verticale} \\]</div>' },
+      { t:"4 — Limiti per x→±∞ (asintoto orizzontale)", h:'<p>Numeratore e denominatore hanno lo stesso grado (1): si raccoglie la potenza dominante.</p>' +
+        '<p>\\[ \\lim_{x\\to\\pm\\infty}\\frac{3-x}{x+1} = \\lim_{x\\to\\pm\\infty}\\frac{x\\left(\\frac3x-1\\right)}{x\\left(1+\\frac1x\\right)} = \\lim_{x\\to\\pm\\infty}\\frac{\\frac3x-1}{1+\\frac1x} = -1 \\]</p>' +
+        '<div class="math-block result">\\[ y=-1 \\text{ è asintoto orizzontale} \\]</div><p>Per capire da quale lato ci si avvicina: \\(f(10)=\\dfrac{-7}{11}\\approx-0{,}64>-1\\) (da sopra, a destra); \\(f(-10)=\\dfrac{13}{-9}\\approx-1{,}44\\lt-1\\) (da sotto, a sinistra).</p>' },
+      { t:"5 — Il grafico (finalmente)", h:'<p>Mettiamo insieme tutto quello che abbiamo dimostrato: dominio \\(x\\ne-1\\), zero in \\(x=3\\), passaggio per \\((0,3)\\), segno positivo tra \\(-1\\) e \\(3\\), asintoto verticale \\(x=-1\\) (ramo sinistro a \\(-\\infty\\), ramo destro a \\(+\\infty\\)), asintoto orizzontale \\(y=-1\\) (avvicinato da sotto a sinistra, da sopra a destra).</p>' +
+        graph4 +
+        '<p>Nessuna sorpresa: ogni tratto del disegno — la posizione dei due rami, dove il grafico taglia gli assi, verso quali rette si avvicina — è la conseguenza diretta dei calcoli appena fatti.</p>' }
+    ])
+},
+{
+  tag:"ESEMPIO 5",
+  title:"<em>dall\'equazione</em> al grafico",
+  formula:"\\(f(x) = \\dfrac{2x}{x^2-1}\\)",
+  nav:"Esempio 5",
+  body:
+    '<p>Ultimo esercizio, stesso metodo dell\'esempio precedente, con un denominatore di secondo grado: due punti esclusi invece di uno.</p>' +
+    acc([
+      { t:"1 — Dominio", h:'<p>\\(x^2-1=0 \\Rightarrow x=\\pm1\\).</p><div class="math-block result">\\[ D = \\mathbb{R}\\setminus\\{-1,1\\} \\]</div>' },
+      { t:"2 — Parità (prima di tutto il resto)", h:'<p>Conviene controllare subito la simmetria: \\(f(-x)=\\dfrac{2(-x)}{(-x)^2-1}=\\dfrac{-2x}{x^2-1}=-f(x)\\).</p><div class="math-block result">\\[ \\text{funzione dispari — grafico simmetrico rispetto all\'origine} \\]</div><p>Il dominio è simmetrico rispetto a \\(0\\) (coerente, condizione necessaria), e da qui in avanti basta studiare \\(x>0\\): per \\(x\\lt0\\) il grafico si ottiene per simmetria centrale.</p>' },
+      { t:"3 — Segno e intersezioni", h:'<p>Asse \\(x\\) e asse \\(y\\): \\(2x=0 \\Rightarrow x=0\\), che è anche l\'unico zero.</p><p>\\(f(x)=\\dfrac{2x}{(x-1)(x+1)}\\):</p>' +
+        '<table class="ct sign"><tr><th>Intervallo</th><th>x&lt;−1</th><th>−1&lt;x&lt;0</th><th>0&lt;x&lt;1</th><th>x&gt;1</th></tr>' +
+        '<tr><td>f(x)</td><td>−</td><td>+</td><td>−</td><td>+</td></tr></table>' +
+        '<div class="math-block result">\\[ f>0 \\text{ per } -1\\lt x\\lt0 \\text{ e } x>1; \\qquad f<0 \\text{ per } x\\lt-1 \\text{ e } 0\\lt x\\lt1 \\]</div><p>Il segno è antisimmetrico rispetto all\'origine, come deve essere per una funzione dispari.</p>' },
+      { t:"4 — Limiti vicino a x=−1 e x=1 (asintoti verticali)", h:'<p>\\[ \\lim_{x\\to-1^-}\\frac{2x}{x^2-1} = \\frac{-2}{0^+} = -\\infty \\qquad \\lim_{x\\to-1^+}\\frac{2x}{x^2-1} = \\frac{-2}{0^-} = +\\infty \\]</p>' +
+        '<p>\\[ \\lim_{x\\to1^-}\\frac{2x}{x^2-1} = \\frac{2}{0^-} = -\\infty \\qquad \\lim_{x\\to1^+}\\frac{2x}{x^2-1} = \\frac{2}{0^+} = +\\infty \\]</p>' +
+        '<div class="math-block result">\\[ x=-1 \\text{ e } x=1 \\text{ sono asintoti verticali} \\]</div><p>Lo stesso schema (sinistra \\(-\\infty\\), destra \\(+\\infty\\)) attorno a entrambi i punti esclusi: coerente con la simmetria dispari già trovata.</p>' },
+      { t:"5 — Limiti per x→±∞ (asintoto orizzontale nullo)", h:'<p>Il grado del numeratore (1) è minore di quello del denominatore (2): il limite è \\(0\\).</p>' +
+        '<p>\\[ \\lim_{x\\to\\pm\\infty}\\frac{2x}{x^2-1} = \\lim_{x\\to\\pm\\infty}\\frac{2/x}{1-\\frac1{x^2}} = 0 \\]</p>' +
+        '<div class="math-block result">\\[ y=0 \\text{ è asintoto orizzontale} \\]</div><p>Da quale lato? \\(f(10)=\\dfrac{20}{99}\\approx0{,}202>0\\) (sopra l\'asse, a destra); per la simmetria dispari, a sinistra sarà sotto l\'asse.</p>' },
+      { t:"6 — Il grafico (finalmente)", h:'<p>Riassunto: dominio \\(x\\ne\\pm1\\), funzione dispari, unico zero in \\(x=0\\), due asintoti verticali con lo stesso schema di segni, asintoto orizzontale \\(y=0\\) avvicinato da sopra a destra (da sotto a sinistra, per simmetria).</p>' +
+        graph5 +
+        '<p>Il grafico conferma tutto, inclusa la simmetria: ruotando il disegno di 180° attorno all\'origine, il ramo di destra si sovrappone esattamente a quello di sinistra.</p>' }
+    ]) +
+    '<div class="cb success"><div class="cb-label">Il punto di questi due ultimi esercizi</div><p>Stesso identico metodo — dominio, segno, limiti — ma percorso in ordine inverso: dall\'espressione algebrica al disegno, invece che dal disegno alla dimostrazione. In una verifica lavorerai quasi sempre in questa direzione: è per questo che vale la pena essersi allenati in entrambi i sensi.</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1>' +
+    (s.formula ? '<div class="math-block hero-formula" style="font-size:1.3em;margin-top:10px">' + s.formula + '</div>' : '') +
+    '</div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>

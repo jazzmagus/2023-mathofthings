@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problema — Disequazioni di 2° Grado: Utile di Produzione</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Georgia:ital,wght@0,400;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#ed6f5c; --accent-light:#fce4ec;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.topbar-home{font-family:'Fira Code',monospace;font-size:.75rem;color:var(--text-dim);text-decoration:none;cursor:pointer;white-space:nowrap;margin-left:auto}
+.topbar-home:hover{color:var(--accent)}
+
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;font-family:'Georgia',serif}
+
+.problem-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow);margin-bottom:24px}
+.p-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:16px}
+.p-text{font-size:1.02rem;line-height:1.8;margin-bottom:20px;color:var(--text);font-family:'Georgia',serif}
+.p-text strong{font-weight:700}
+
+.progress-bar-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;font-family:'Fira Code',monospace;font-size:.7rem}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px;display:none}
+.q-badge.show{display:block}
+.q-text{font-size:1.02rem;font-weight:500;line-height:1.65;margin-bottom:22px;color:var(--text);font-family:'Georgia',serif}
+
+.step-guide{background:var(--surface-alt);border-left:3px solid var(--accent);padding:16px 20px;border-radius:4px;margin-bottom:24px;font-family:'Georgia',serif;font-size:.98rem;line-height:1.7}
+
+.options{display:flex;flex-direction:column;gap:9px;margin-top:24px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5;font-family:'Georgia',serif}
+
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none;font-family:'Georgia',serif}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.btn-next{font-family:'Fira Code',monospace;font-size:.95rem;font-weight:600;padding:0;background:none;border:none;cursor:pointer;display:none;color:var(--accent);text-decoration:none;letter-spacing:.3px}
+.btn-next.show{display:inline}
+.btn-next:hover{color:var(--text)}
+
+.results-section{display:none}
+.results-section.show{display:block}
+.res-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:800;margin:32px 0 16px;color:var(--text)}
+.sol-step{margin:20px 0;padding:16px 0;border-bottom:1px solid var(--border-light);font-family:'Georgia',serif}
+.sol-step:last-child{border-bottom:none}
+.step-num{font-family:'Fira Code',monospace;font-size:.75rem;color:var(--accent);font-weight:600;margin-bottom:8px}
+.step-desc{font-size:.98rem;line-height:1.7;color:var(--text)}
+.considerations{background:var(--surface-alt);border-left:3px solid var(--accent);padding:18px 20px;border-radius:4px;margin:24px 0;font-family:'Georgia',serif;font-size:.98rem;line-height:1.7}
+
+.btn-restart{font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:12px 24px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;margin-top:24px}
+.btn-restart:hover{background:#d65545}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .problem-card{padding:20px 18px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Problema — Disequazioni di 2° Grado</div>
+  <div class="topbar-tag">Corso Serale</div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+
+<div class="container">
+  <div class="hero">
+    <div class="hero-tag">Applicazione pratica</div>
+    <h1>L'Utile di una <em>Piccola Impresa</em></h1>
+    <p class="hero-sub">Risolvi il problema passo dopo passo. Ogni domanda riguarda un singolo step della soluzione della disequazione.</p>
+  </div>
+
+  <div class="problem-card" id="problem-container">
+    <div class="progress-bar-wrap">
+      <div class="progress-info">
+        <span>Progresso</span>
+        <span id="prog-frac">0 / 5</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="p-title" id="p-title">Il Problema</div>
+    <div class="p-text" id="p-text" style="margin-bottom:28px">
+      Un artigiano ha avviato una piccola attività di produzione di scatole di legno personalizzate. Studiando i costi di materiale e manodopera e i ricavi delle vendite, ha stimato che l'<strong>utile giornaliero</strong> (in euro), in funzione del numero \(x\) di scatole prodotte e vendute in un giorno, è descritto dalla funzione:<br><br>
+      \[U(x) = -x^2 + 40x - 300\]<br>
+      <strong>Per quali quantità giornaliere di scatole prodotte l'attività è in attivo (utile positivo)?</strong>
+    </div>
+
+    <div id="setup-guide" style="background:var(--surface-alt);border-left:3px solid var(--accent);padding:18px 20px;border-radius:4px;margin-bottom:28px;font-family:'Georgia',serif;font-size:.98rem;line-height:1.7">
+      <strong style="color:var(--accent)">Come impostare il modello:</strong><br><br>
+      Per risolvere questo problema con una disequazione di secondo grado, devi:<br>
+      1. Identificare la variabile e il suo significato nel contesto<br>
+      2. Tradurre la condizione "utile positivo" in una disequazione<br>
+      3. Risolvere l'equazione associata per trovare le radici<br>
+      4. Studiare il segno della parabola e determinare l'intervallo soluzione<br><br>
+      Rispondi alle domande seguenti per costruire la soluzione.
+    </div>
+
+    <div class="q-badge" id="q-badge" style="display:none"></div>
+    <div class="step-guide" id="step-guide" style="display:none"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="q-opts"></div>
+
+    <div class="feedback" id="q-feedback">
+      <div class="fb-label" id="fb-label"></div>
+      <div id="fb-text"></div>
+    </div>
+
+    <p style="margin-top:28px;font-family:'Georgia',serif">
+      <a href="#" class="btn-next" id="btn-next" onclick="nextStep(event)">Inizia →</a>
+    </p>
+
+    <!-- RISULTATI FINALI -->
+    <div class="results-section" id="results">
+      <div class="res-title">Soluzione Completa</div>
+
+      <div class="sol-step">
+        <div class="step-num">Passo 1: Definire la variabile e la condizione</div>
+        <div class="step-desc">
+          Sia \(x\) = numero di scatole prodotte e vendute in un giorno (con \(x \geq 0\)).<br><br>
+          L'attività è in attivo quando l'utile è positivo, cioè quando \(U(x) \gt 0\).
+        </div>
+      </div>
+
+      <div class="sol-step">
+        <div class="step-num">Passo 2: Scrivere la disequazione</div>
+        <div class="step-desc">
+          \[-x^2 + 40x - 300 \gt 0\]
+          Moltiplicando entrambi i membri per \(-1\) (e invertendo il verso della disequazione):
+          \[x^2 - 40x + 300 \lt 0\]
+        </div>
+      </div>
+
+      <div class="sol-step">
+        <div class="step-num">Passo 3: Risolvere l'equazione associata</div>
+        <div class="step-desc">
+          \[x^2 - 40x + 300 = 0\]
+          Discriminante: \(\Delta = (-40)^2 - 4 \cdot 1 \cdot 300 = 1600 - 1200 = 400\)<br><br>
+          \[x = \frac{40 \pm \sqrt{400}}{2} = \frac{40 \pm 20}{2}\]
+          Le radici sono \(x_1 = 10\) e \(x_2 = 30\).
+        </div>
+      </div>
+
+      <div class="sol-step">
+        <div class="step-num">Passo 4: Studiare il segno della parabola</div>
+        <div class="step-desc">
+          La parabola associata a \(x^2 - 40x + 300\) ha concavità verso l'alto (coefficiente di \(x^2\) positivo). Quindi è negativa (sotto l'asse \(x\)) tra le due radici:
+          \[10 \lt x \lt 30\]
+        </div>
+      </div>
+
+      <div class="sol-step">
+        <div class="step-num">Passo 5: Verifica della soluzione</div>
+        <div class="step-desc">
+          Per \(x = 20\) (interno all'intervallo): \(U(20) = -400 + 800 - 300 = 100 \gt 0\) ✓<br>
+          Per \(x = 5\) (esterno all'intervallo): \(U(5) = -25 + 200 - 300 = -125 \lt 0\) ✓ (coerente: fuori dall'intervallo l'utile è negativo)
+        </div>
+      </div>
+
+      <div class="res-title">Interpretazione della Soluzione</div>
+      <div class="considerations">
+        <strong>Cosa significa questa soluzione nel contesto reale?</strong><br><br>
+        L'attività dell'artigiano è redditizia (utile positivo) solo se produce e vende <strong>tra 11 e 29 scatole al giorno</strong> (i valori interi strettamente compresi tra 10 e 30, dato che il numero di scatole è una quantità intera).<br><br>
+        Al di sotto di 10 scatole, i costi fissi giornalieri non vengono coperti dai ricavi. Al di sopra di 30 scatole, invece, l'utile torna negativo: probabilmente perché l'artigiano deve ricorrere a straordinari, manodopera aggiuntiva o sconti sui prezzi per smaltire una produzione troppo alta, facendo lievitare i costi più velocemente dei ricavi.<br><br>
+        In pratica, questa analisi aiuta l'artigiano a pianificare una produzione giornaliera "sostenibile", né troppo bassa né troppo alta, per massimizzare la redditività della sua attività.
+      </div>
+
+      <button class="btn-restart" onclick="restartProblem()">Ricomincia</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const steps = [
+  {
+    badge: "Step 1: Identificare la variabile",
+    guide: "In un problema di questo tipo, la variabile rappresenta la quantità che possiamo scegliere o controllare, e da cui dipende il risultato che vogliamo studiare (in questo caso l'utile).\n\n• Individua la grandezza incognita descritta nel testo\n• Nota che \\(U(x)\\) è già una funzione di \\(x\\): quindi \\(x\\) è la variabile del problema\n• Ricorda il vincolo naturale della grandezza (qui, un numero di scatole non può essere negativo)",
+    q: "Cosa rappresenta la variabile \\(x\\) in questo problema?",
+    opts: [
+      { text: "L'utile giornaliero dell'attività, in euro", correct: false, feedback: "No, l'utile è il risultato della funzione, cioè \\(U(x)\\), non la variabile \\(x\\). La variabile è ciò da cui l'utile dipende." },
+      { text: "Il numero di scatole prodotte e vendute in un giorno", correct: true, feedback: "Esatto! \\(x\\) è il numero di scatole prodotte e vendute in un giorno: è la quantità che l'artigiano può decidere, e da essa dipende l'utile \\(U(x)\\)." },
+      { text: "Il prezzo di vendita di ogni scatola", correct: false, feedback: "No, il prezzo di vendita non compare esplicitamente come incognita nel problema: la funzione \\(U(x)\\) dipende dal numero di scatole prodotte, non dal loro prezzo." },
+      { text: "Il numero di giorni di attività dell'impresa", correct: false, feedback: "No, il problema riguarda l'utile di un singolo giorno in funzione della produzione di quel giorno, non il numero di giorni di attività." }
+    ]
+  },
+  {
+    badge: "Step 2: Tradurre la condizione in disequazione",
+    guide: "\"Attivo\" o \"redditizio\" significa che l'utile è maggiore di zero. Per tradurre questa condizione in matematica:\n\n• Scrivi la funzione utile \\(U(x)\\)\n• Imponi la condizione \\(U(x) \\gt 0\\)\n• Ottieni così una disequazione di secondo grado nella variabile \\(x\\)",
+    q: "Quale disequazione traduce correttamente la condizione \"l'attività è in attivo\"?",
+    opts: [
+      { text: "\\(-x^2 + 40x - 300 \\gt 0\\)", correct: true, feedback: "Corretto! L'attività è in attivo quando l'utile è positivo, cioè quando \\(U(x) \\gt 0\\), ovvero \\(-x^2 + 40x - 300 \\gt 0\\)." },
+      { text: "\\(-x^2 + 40x - 300 = 0\\)", correct: false, feedback: "No, un'uguaglianza a zero descriverebbe il pareggio (utile nullo), non un'attività in attivo. Serve una disequazione con \\(\\gt 0\\), non un'equazione." },
+      { text: "\\(-x^2 + 40x - 300 \\lt 0\\)", correct: false, feedback: "No, questa disequazione descriverebbe l'utile negativo, cioè l'attività in perdita, non in attivo. Il verso è invertito." },
+      { text: "\\(x^2 + 40x - 300 \\gt 0\\)", correct: false, feedback: "No, hai cambiato il segno del termine \\(x^2\\): la funzione data è \\(U(x) = -x^2 + 40x - 300\\), con il coefficiente di \\(x^2\\) negativo." }
+    ]
+  },
+  {
+    badge: "Step 3: Risolvere l'equazione associata",
+    guide: "Per studiare il segno di una disequazione di secondo grado, conviene prima portarla in forma con coefficiente di \\(x^2\\) positivo, poi risolvere l'equazione associata:\n\n• Moltiplica per \\(-1\\) entrambi i membri, ricordando di invertire il verso della disequazione\n• Risolvi l'equazione di secondo grado associata con la formula risolutiva\n• Calcola il discriminante \\(\\Delta = b^2 - 4ac\\)",
+    q: "Moltiplicando per \\(-1\\) (e invertendo il verso) si ottiene \\(x^2 - 40x + 300 \\lt 0\\). Quali sono le radici dell'equazione associata \\(x^2 - 40x + 300 = 0\\)?",
+    opts: [
+      { text: "\\(x_1 = 10\\), \\(x_2 = 30\\)", correct: true, feedback: "Esatto! Con \\(\\Delta = (-40)^2 - 4 \\cdot 1 \\cdot 300 = 1600 - 1200 = 400\\), si ha \\(x = \\frac{40 \\pm \\sqrt{400}}{2} = \\frac{40 \\pm 20}{2}\\), quindi \\(x_1 = 10\\) e \\(x_2 = 30\\)." },
+      { text: "\\(x_1 = -10\\), \\(x_2 = -30\\)", correct: false, feedback: "No, controlla i segni: la formula risolutiva dà \\(x = \\frac{40 \\pm 20}{2}\\), che produce due valori positivi, non negativi." },
+      { text: "L'equazione non ha soluzioni reali", correct: false, feedback: "No, il discriminante \\(\\Delta = 1600 - 1200 = 400\\) è positivo, quindi l'equazione ha due soluzioni reali e distinte." },
+      { text: "\\(x_1 = 15\\), \\(x_2 = 25\\)", correct: false, feedback: "No, questi valori non risolvono l'equazione. Applica correttamente la formula: \\(x = \\frac{40 \\pm \\sqrt{400}}{2} = \\frac{40 \\pm 20}{2}\\), che dà 10 e 30." }
+    ]
+  },
+  {
+    badge: "Step 4: Studiare il segno della parabola",
+    guide: "Una volta trovate le radici, si studia il segno della parabola associata:\n\n• Se il coefficiente di \\(x^2\\) è positivo, la parabola ha concavità verso l'alto: è negativa tra le radici, positiva fuori\n• La disequazione \\(x^2 - 40x + 300 \\lt 0\\) chiede dove la parabola è negativa\n• Confronta con il grafico: la parte \"sotto\" l'asse delle \\(x\\) sta tra le due radici",
+    q: "La disequazione è \\(x^2 - 40x + 300 \\lt 0\\), con radici \\(x_1 = 10\\) e \\(x_2 = 30\\). Qual è la soluzione?",
+    opts: [
+      { text: "\\(10 \\lt x \\lt 30\\)", correct: true, feedback: "Corretto! Il coefficiente di \\(x^2\\) è positivo (concavità verso l'alto), quindi la parabola è negativa (sotto l'asse \\(x\\)) proprio tra le due radici: la soluzione è \\(10 \\lt x \\lt 30\\)." },
+      { text: "\\(x \\lt 10\\) oppure \\(x \\gt 30\\)", correct: false, feedback: "No, questa sarebbe la soluzione se cercassimo dove la parabola è positiva. Ma la disequazione chiede dove è negativa (\\(\\lt 0\\)), cioè tra le radici." },
+      { text: "\\(x \\leq 10\\)", correct: false, feedback: "No, questa risposta considera solo una delle due radici e usa il segno \\(\\leq\\), che non corrisponde né alla disequazione stretta né all'intervallo corretto." },
+      { text: "Ogni valore di \\(x\\) è soluzione", correct: false, feedback: "No, la parabola con concavità verso l'alto è negativa solo in un intervallo limitato tra le radici, non per tutti i valori di \\(x\\)." }
+    ]
+  },
+  {
+    badge: "Step 5: Interpretare la soluzione nel contesto",
+    guide: "L'ultimo passo è tradurre la soluzione matematica in un'informazione utile per il problema reale:\n\n• Ricorda cosa rappresenta \\(x\\) nel contesto (numero di scatole)\n• Verifica se l'intervallo trovato ha senso fisicamente (qui, \\(x \\geq 0\\) è già rispettato)\n• Considera che \\(x\\) rappresenta un numero di oggetti, quindi in pratica è un numero intero" +
+      "<div style=\"margin:22px 0 6px;text-align:center\">" +
+        "<svg viewBox=\"0 0 340 210\" width=\"340\" height=\"210\" style=\"max-width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px\">" +
+          "<rect x=\"100\" y=\"14\" width=\"140\" height=\"116\" fill=\"var(--accent)\" opacity=\".07\"/>" +
+          "<line x1=\"10\" y1=\"130\" x2=\"330\" y2=\"130\" stroke=\"#c9c1b2\" stroke-width=\"1.3\"/>" +
+          "<line x1=\"30\" y1=\"14\" x2=\"30\" y2=\"200\" stroke=\"#c9c1b2\" stroke-width=\"1.3\"/>" +
+          "<path d=\"M322,126 L330,130 L322,134\" fill=\"none\" stroke=\"#c9c1b2\" stroke-width=\"1.3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>" +
+          "<path d=\"M26,22 L30,14 L34,22\" fill=\"none\" stroke=\"#c9c1b2\" stroke-width=\"1.3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>" +
+          "<text x=\"324\" y=\"122\" font-size=\"11\" font-style=\"italic\" text-anchor=\"end\" fill=\"#8a8172\">x</text>" +
+          "<text x=\"38\" y=\"24\" font-size=\"11\" font-style=\"italic\" fill=\"#8a8172\">U(x)</text>" +
+          "<text x=\"22\" y=\"142\" font-size=\"9\" font-family=\"'Fira Code',monospace\" text-anchor=\"end\" fill=\"#8a8172\">O</text>" +
+          "<polyline points=\"44,186 58,166 72,149 86,136 100,127 114,120 128,116 142,113 156,112 170,112 184,113 198,116 212,120 226,127 240,136 254,149 268,166 282,186\" fill=\"none\" stroke=\"var(--accent)\" stroke-width=\"2.5\"/>" +
+          "<circle cx=\"100\" cy=\"130\" r=\"3.5\" fill=\"var(--accent)\"/>" +
+          "<circle cx=\"240\" cy=\"130\" r=\"3.5\" fill=\"var(--accent)\"/>" +
+          "<text x=\"100\" y=\"148\" font-size=\"10.5\" font-family=\"'Fira Code',monospace\" text-anchor=\"middle\" fill=\"var(--accent)\">x=10</text>" +
+          "<text x=\"240\" y=\"148\" font-size=\"10.5\" font-family=\"'Fira Code',monospace\" text-anchor=\"middle\" fill=\"var(--accent)\">x=30</text>" +
+          "<circle cx=\"170\" cy=\"112\" r=\"2.8\" fill=\"#8a8172\"/>" +
+          "<text x=\"170\" y=\"100\" font-size=\"9.5\" font-family=\"'Fira Code',monospace\" text-anchor=\"middle\" fill=\"#8a8172\">max ~100€ (x=20)</text>" +
+        "</svg>" +
+        "<div style=\"font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);margin-top:6px\">La zona colorata è dove \\(U(x) \\gt 0\\): l'attività è in attivo solo tra \\(x=10\\) e \\(x=30\\)</div>" +
+      "</div>",
+    q: "Cosa significa concretamente il risultato \\(10 \\lt x \\lt 30\\) per l'artigiano?",
+    opts: [
+      { text: "L'attività è in attivo solo producendo strettamente tra 10 e 30 scatole al giorno (in pratica, un numero intero di scatole compreso tra 11 e 29)", correct: true, feedback: "Esatto! L'utile è positivo solo per valori di \\(x\\) compresi strettamente tra 10 e 30. Poiché \\(x\\) conta scatole, in pratica i valori validi sono i numeri interi da 11 a 29." },
+      { text: "L'attività è sempre in attivo, qualunque sia la produzione", correct: false, feedback: "No, fuori dall'intervallo \\(10 \\lt x \\lt 30\\) l'utile diventa negativo: producendo troppo poco o troppo, l'attività va in perdita." },
+      { text: "L'artigiano deve produrre esattamente 10 o esattamente 30 scatole al giorno", correct: false, feedback: "No, \\(x = 10\\) e \\(x = 30\\) sono i valori di pareggio (utile nullo, \\(U(x) = 0\\)), non i valori ottimali: l'attivo si ha strettamente tra questi due valori." },
+      { text: "Il risultato non ha alcun significato pratico, è solo un calcolo astratto", correct: false, feedback: "No, il risultato è molto concreto: indica esattamente l'intervallo di produzione giornaliera per cui l'attività genera profitto, un'informazione utile per pianificare il lavoro." }
+    ]
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function init() {
+  showStep(0);
+}
+
+function showStep(idx) {
+  answered = false;
+
+  if (idx === 0) {
+    document.getElementById('prog-frac').textContent = '0 / 5';
+    document.getElementById('prog-fill').style.width = '0%';
+    document.getElementById('p-title').style.display = 'block';
+    document.getElementById('p-text').style.display = 'block';
+    document.getElementById('setup-guide').style.display = 'block';
+    document.getElementById('q-badge').style.display = 'none';
+    document.getElementById('step-guide').style.display = 'none';
+    document.getElementById('q-text').style.display = 'none';
+    document.getElementById('q-opts').style.display = 'none';
+    document.getElementById('btn-next').textContent = 'Inizia →';
+    document.getElementById('btn-next').classList.add('show');
+    return;
+  }
+
+  const step = steps[idx - 1];
+  document.getElementById('prog-frac').textContent = idx + ' / 5';
+  document.getElementById('prog-fill').style.width = ((idx / 5) * 100) + '%';
+
+  document.getElementById('p-title').style.display = 'none';
+  document.getElementById('p-text').style.display = 'none';
+  document.getElementById('setup-guide').style.display = 'none';
+  document.getElementById('q-badge').style.display = 'block';
+  document.getElementById('step-guide').style.display = 'block';
+  document.getElementById('q-text').style.display = 'block';
+  document.getElementById('q-opts').style.display = 'flex';
+
+  document.getElementById('q-badge').textContent = step.badge;
+  document.getElementById('step-guide').innerHTML = step.guide.replace(/\n/g, '<br>');
+  document.getElementById('q-text').textContent = step.q;
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  let shuffled = [...step.opts].sort(() => Math.random() - 0.5);
+  let correctIdx = shuffled.findIndex(o => o.correct);
+
+  const letters = ['A', 'B', 'C', 'D'];
+  document.getElementById('q-opts').innerHTML = shuffled.map((opt, i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i}, ${correctIdx}, ${shuffled[i].correct}, '${shuffled[i].feedback.replace(/'/g, "\\'")}')" data-correct-feedback="${steps[idx - 1].opts[correctIdx].feedback.replace(/"/g, '&quot;')}">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${opt.text}</span>
+     </div>`
+  ).join('');
+
+  MathJax.typesetPromise([document.getElementById('problem-container')]).catch(err => console.log(err));
+}
+
+function pick(i, correctIdx, isCorrect, feedback) {
+  if (answered) return;
+  answered = true;
+
+  if (isCorrect) score++;
+
+  const opts = document.querySelectorAll('.opt');
+  opts.forEach(o => o.classList.add('locked'));
+
+  const selected = opts[i];
+  selected.classList.add(isCorrect ? 'correct' : 'wrong');
+
+  if (!isCorrect) {
+    opts[correctIdx].classList.add('correct');
+  }
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isCorrect ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isCorrect ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = feedback;
+
+  const btn = document.getElementById('btn-next');
+  btn.classList.add('show');
+  btn.textContent = current < 5 ? 'Prossimo step →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([document.getElementById('problem-container')]);
+}
+
+function nextStep(e) {
+  e.preventDefault();
+  current++;
+  if (current > 5) {
+    document.getElementById('results').classList.add('show');
+    document.getElementById('p-title').style.display = 'none';
+    document.getElementById('p-text').style.display = 'none';
+    document.getElementById('q-badge').style.display = 'none';
+    document.getElementById('step-guide').style.display = 'none';
+    document.getElementById('q-text').style.display = 'none';
+    document.getElementById('q-opts').style.display = 'none';
+    document.getElementById('q-feedback').style.display = 'none';
+    document.getElementById('btn-next').style.display = 'none';
+
+    const pb = document.querySelector('.progress-bar-wrap');
+    if (pb) pb.style.display = 'none';
+
+    MathJax.typesetPromise([document.getElementById('results')]);
+  } else {
+    showStep(current);
+  }
+}
+
+function restartProblem() {
+  current = 0;
+  score = 0;
+  answered = false;
+  document.getElementById('results').classList.remove('show');
+  document.querySelector('.progress-bar-wrap').style.display = 'block';
+  showStep(0);
+}
+
+init();
+</script>
+</body>
+</html>
