@@ -1,5 +1,5 @@
 ---
-title: "Il ponte che imparò a ballare, e la matematica che (in parte) lo spiega"
+title: "Il ponte che imparò a _ballare_, e la matematica che (in parte) lo _spiega_"
 subtitle: "Dal crollo di Tacoma Narrows alle equazioni differenziali del secondo ordine"
 summary: "Il crollo del ponte di Tacoma Narrows nel 1940 è la porta d'ingresso più spettacolare verso oscillatori, risonanza e sistemi dinamici — con tutte le cautele storiche del caso."
 authors: [diego fantinelli]
