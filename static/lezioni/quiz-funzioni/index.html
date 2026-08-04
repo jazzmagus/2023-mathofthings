@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Le Funzioni</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#ed6f5c; --accent-light:#fdeeeb;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+
+.level-picker{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
+.level-card{flex:1;min-width:160px;border:1.5px solid var(--border);border-radius:10px;padding:16px 18px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s}
+.level-card:hover{border-color:var(--accent);background:var(--accent-light)}
+.level-card.active{border-color:var(--accent);background:var(--accent-light)}
+.level-name{font-family:'Fira Code',monospace;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+.level-card.active .level-name{color:var(--accent)}
+.level-desc{font-size:.85rem;color:var(--text-mid);line-height:1.5}
+
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.btn-start{margin-top:8px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-start:hover{background:#d85a46}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px;color:var(--text)}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{background:#d85a46}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-retry:hover{background:#d85a46}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(5,1fr)}
+  .level-picker{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quiz · Le Funzioni</div>
+  <div class="topbar-tag">LB13</div>
+</div>
+
+<div class="container">
+
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Test di preparazione</div>
+      <h1>Le <em>Funzioni</em></h1>
+      <p class="hero-sub">30 domande a risposta multipla su concetto di funzione, dominio, codominio, monotonia, simmetrie, massimi/minimi, studio del segno e grafico probabile — solo funzioni algebriche razionali, intere e fratte. Tre livelli: Base, Avanzato, Pro. Per ogni risposta sbagliata trovi la spiegazione dell'errore.</p>
+    </div>
+
+    <div class="level-picker">
+      <div class="level-card active" id="lvl-0" onclick="selectLevel(0)">
+        <div class="level-name">Base</div>
+        <div class="level-desc">Concetto di funzione, dominio di razionali intere e fratte, lettura di un grafico.</div>
+      </div>
+      <div class="level-card" id="lvl-1" onclick="selectLevel(1)">
+        <div class="level-name">Avanzato</div>
+        <div class="level-desc">Simmetrie, monotonia, massimi/minimi, intersezioni con gli assi, studio del segno.</div>
+      </div>
+      <div class="level-card" id="lvl-2" onclick="selectLevel(2)">
+        <div class="level-name">Pro</div>
+        <div class="level-desc">Proprietà combinate, grafico probabile completo, esercizi "al contrario".</div>
+      </div>
+    </div>
+
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">10 per livello</span></div>
+      <div class="meta-item"><span class="meta-label">Tipo</span><span class="meta-value">Risposta multipla</span></div>
+      <div class="meta-item"><span class="meta-label">Feedback</span><span class="meta-value">Immediato</span></div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia il test</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso</span>
+        <span class="progress-frac" id="prog-frac">1 / 10</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag" id="res-tag">Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den" id="res-den">su 10 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova questo livello</button>
+      <a class="btn-lesson" href="#" onclick="backToLevels();return false;">Cambia livello</a>
+      <a class="btn-lesson" href="/lezioni/lb11-studio-funzione/lezione.html">Torna alla lezione</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const LEVELS = ["Base","Avanzato","Pro"];
+
+const QSETS = [
+
+// ══════════════ LIVELLO BASE ══════════════
+[
+  {
+    badge: "Concetto di funzione",
+    q: "Che cos'è una funzione \\(f: A \\to B\\)?",
+    opts: [
+      "Una relazione che associa ad ogni elemento di \\(A\\) uno e un solo elemento di \\(B\\)",
+      "Una relazione che associa ad ogni elemento di \\(A\\) tutti gli elementi di \\(B\\)",
+      "Una relazione tra alcuni elementi di \\(A\\) e alcuni di \\(B\\), senza vincoli",
+      "Un insieme di coppie ordinate scelte a caso"
+    ],
+    ans: 0,
+    exp: "Per definizione, una funzione fa corrispondere a ogni elemento del dominio \\(A\\) un unico elemento del codominio \\(B\\): non può mancare la corrispondenza, né essercene più di una."
+  },
+  {
+    badge: "Notazione",
+    q: "Nella scrittura \\(f(x) = 2x - 1\\), cosa rappresenta \\(f(3)\\)?",
+    opts: [
+      "Il valore che la funzione assume quando \\(x=3\\), cioè \\(5\\)",
+      "Il valore di \\(x\\) per cui \\(f(x)=3\\)",
+      "Il prodotto tra \\(f\\) e \\(3\\)",
+      "Il dominio della funzione"
+    ],
+    ans: 0,
+    exp: "\\(f(3)\\) significa sostituire \\(x=3\\) nell'espressione: \\(f(3)=2\\cdot 3 - 1 = 5\\). È il valore (immagine) corrispondente a \\(x=3\\)."
+  },
+  {
+    badge: "Dominio",
+    q: "Qual è il dominio della funzione \\(f(x) = x^2 - 3x + 5\\)?",
+    opts: [
+      "Tutto \\(\\mathbb{R}\\)",
+      "Solo i numeri positivi",
+      "\\(\\mathbb{R}\\) tranne \\(x=0\\)",
+      "Solo i numeri interi"
+    ],
+    ans: 0,
+    exp: "Una funzione polinomiale (razionale intera) è definita per ogni valore reale della \\(x\\): il dominio è sempre \\(\\mathbb{R}\\), non ci sono condizioni da imporre."
+  },
+  {
+    badge: "Dominio — fratte",
+    q: "Qual è il dominio di \\(f(x) = \\dfrac{1}{x-2}\\)?",
+    opts: [
+      "\\(\\mathbb{R}\\) tranne \\(x=2\\)",
+      "Tutto \\(\\mathbb{R}\\)",
+      "\\(\\mathbb{R}\\) tranne \\(x=-2\\)",
+      "Solo \\(x \\gt 2\\)"
+    ],
+    ans: 0,
+    exp: "In una funzione razionale fratta il denominatore non può annullarsi: \\(x-2 \\ne 0 \\Rightarrow x \\ne 2\\). Il dominio è \\(\\mathbb{R}\\) tranne il punto che annulla il denominatore."
+  },
+  {
+    badge: "Dominio — fratte",
+    q: "Qual è il dominio di \\(f(x) = \\dfrac{x+1}{x^2-9}\\)?",
+    opts: [
+      "\\(\\mathbb{R}\\) tranne \\(x=3\\) e \\(x=-3\\)",
+      "\\(\\mathbb{R}\\) tranne \\(x=9\\)",
+      "\\(\\mathbb{R}\\) tranne \\(x=-1\\)",
+      "Tutto \\(\\mathbb{R}\\)"
+    ],
+    ans: 0,
+    exp: "Si impone \\(x^2-9 \\ne 0\\), cioè \\(x^2 \\ne 9\\), quindi \\(x \\ne \\pm 3\\). Il dominio esclude entrambi i valori che annullano il denominatore."
+  },
+  {
+    badge: "Grafico — dominio",
+    q: "Osservando il grafico di una funzione, come si legge il <strong>dominio</strong>?",
+    opts: [
+      "È l'insieme delle ascisse (proiezione del grafico sull'asse \\(x\\)) dove esiste almeno un punto del grafico",
+      "È l'insieme delle ordinate del grafico",
+      "È sempre tutto l'asse \\(x\\)",
+      "È il punto più alto del grafico"
+    ],
+    ans: 0,
+    exp: "Il dominio si legge proiettando il grafico sull'asse delle ascisse: sono i valori di \\(x\\) per cui esiste almeno un punto della curva."
+  },
+  {
+    badge: "Grafico — codominio",
+    q: "Osservando il grafico di una funzione, come si legge il <strong>codominio</strong> (insieme immagine)?",
+    opts: [
+      "È l'insieme delle ordinate (proiezione del grafico sull'asse \\(y\\)) effettivamente raggiunte",
+      "È l'insieme delle ascisse del grafico",
+      "Coincide sempre con il dominio",
+      "È il punto più a destra del grafico"
+    ],
+    ans: 0,
+    exp: "L'insieme immagine si legge proiettando il grafico sull'asse delle ordinate: sono i valori di \\(y\\) effettivamente assunti dalla funzione."
+  },
+  {
+    badge: "Funzione o non funzione",
+    q: "Una curva nel piano cartesiano rappresenta il grafico di una funzione se e solo se:",
+    opts: [
+      "Ogni retta verticale la interseca al più in un punto",
+      "Ogni retta orizzontale la interseca al più in un punto",
+      "È simmetrica rispetto all'asse \\(y\\)",
+      "Passa sempre per l'origine"
+    ],
+    ans: 0,
+    exp: "È il test della retta verticale: se una verticale \\(x=k\\) incontra la curva in più punti, a quel valore di \\(x\\) corrisponderebbero più immagini, e questo viola la definizione di funzione."
+  },
+  {
+    badge: "Dominio — fratte",
+    q: "Qual è la condizione di esistenza per \\(f(x) = \\dfrac{3x}{x^2+4}\\)?",
+    opts: [
+      "Nessuna: il dominio è tutto \\(\\mathbb{R}\\)",
+      "\\(x \\ne 2\\) e \\(x \\ne -2\\)",
+      "\\(x \\ne -4\\)",
+      "\\(x \\ne 0\\)"
+    ],
+    ans: 0,
+    exp: "L'equazione \\(x^2+4=0\\) non ha soluzioni reali (un quadrato più \\(4\\) è sempre positivo), quindi il denominatore non si annulla mai: il dominio è tutto \\(\\mathbb{R}\\)."
+  },
+  {
+    badge: "Lettura grafico",
+    q: "Un grafico passa per i punti \\((-2,3)\\) e \\((1,3)\\). Cosa si può dire?",
+    opts: [
+      "\\(f(-2)=3\\) e \\(f(1)=3\\): la funzione assume lo stesso valore in due punti diversi del dominio, il che è del tutto possibile",
+      "Non può essere il grafico di una funzione",
+      "La funzione è pari",
+      "La funzione non è definita in \\(x=1\\)"
+    ],
+    ans: 0,
+    exp: "Non c'è nessun problema: una funzione può assumere lo stesso valore \\(y\\) per due valori diversi di \\(x\\) (basta che ogni \\(x\\) abbia una sola immagine, non il contrario)."
+  }
+],
+
+// ══════════════ LIVELLO AVANZATO ══════════════
+[
+  {
+    badge: "Simmetrie — pari",
+    q: "Una funzione si dice <strong>pari</strong> quando, per ogni \\(x\\) del dominio, vale:",
+    opts: [
+      "\\(f(-x) = f(x)\\)",
+      "\\(f(-x) = -f(x)\\)",
+      "\\(f(x) = x\\)",
+      "\\(f(-x) = -x\\)"
+    ],
+    ans: 0,
+    exp: "Una funzione pari è simmetrica rispetto all'asse \\(y\\): sostituendo \\(-x\\) al posto di \\(x\\) si riottiene la funzione originale, \\(f(-x)=f(x)\\)."
+  },
+  {
+    badge: "Simmetrie — dispari",
+    q: "Una funzione si dice <strong>dispari</strong> quando, per ogni \\(x\\) del dominio, vale:",
+    opts: [
+      "\\(f(-x) = -f(x)\\)",
+      "\\(f(-x) = f(x)\\)",
+      "\\(f(x) = -x\\)",
+      "\\(f(0) = 0\\) sempre e comunque"
+    ],
+    ans: 0,
+    exp: "Una funzione dispari è simmetrica rispetto all'origine: sostituendo \\(-x\\) si ottiene l'opposto della funzione originale, \\(f(-x)=-f(x)\\)."
+  },
+  {
+    badge: "Simmetrie — verifica",
+    q: "Verifica la parità di \\(f(x) = x^2 - 4\\).",
+    opts: [
+      "È pari, perché \\(f(-x) = (-x)^2-4 = x^2-4 = f(x)\\)",
+      "È dispari, perché contiene una potenza pari",
+      "Non è né pari né dispari",
+      "È pari solo per \\(x \\gt 0\\)"
+    ],
+    ans: 0,
+    exp: "Sostituendo \\(-x\\): \\((-x)^2-4 = x^2-4\\), identico a \\(f(x)\\). Vale \\(f(-x)=f(x)\\) per ogni \\(x\\), quindi la funzione è pari."
+  },
+  {
+    badge: "Simmetrie — verifica",
+    q: "Verifica la parità di \\(f(x) = x^3 - 2x\\).",
+    opts: [
+      "È dispari, perché \\(f(-x) = -x^3+2x = -(x^3-2x) = -f(x)\\)",
+      "È pari, perché tutti gli esponenti sono interi",
+      "Non è né pari né dispari",
+      "È pari, perché \\(f(-x)=f(x)\\)"
+    ],
+    ans: 0,
+    exp: "\\(f(-x) = (-x)^3 - 2(-x) = -x^3+2x = -(x^3-2x) = -f(x)\\). Vale la condizione di disparità, quindi la funzione è dispari (simmetrica rispetto all'origine)."
+  },
+  {
+    badge: "Simmetrie — né pari né dispari",
+    q: "La funzione \\(f(x) = x^2 + x\\) è pari, dispari o nessuna delle due?",
+    opts: [
+      "Non è né pari né dispari",
+      "È pari",
+      "È dispari",
+      "È sia pari che dispari"
+    ],
+    ans: 0,
+    exp: "\\(f(-x) = x^2 - x\\): non è uguale a \\(f(x)=x^2+x\\) (quindi non pari), né al suo opposto \\(-f(x)=-x^2-x\\) (quindi non dispari). La presenza di un termine di grado pari e uno dispari rompe entrambe le simmetrie."
+  },
+  {
+    badge: "Monotonia",
+    q: "Una funzione è <strong>crescente</strong> in un intervallo se, per ogni \\(x_1, x_2\\) di quell'intervallo con \\(x_1 \\lt x_2\\), risulta:",
+    opts: [
+      "\\(f(x_1) \\lt f(x_2)\\)",
+      "\\(f(x_1) \\gt f(x_2)\\)",
+      "\\(f(x_1) = f(x_2)\\)",
+      "\\(x_1 \\lt f(x_2)\\)"
+    ],
+    ans: 0,
+    exp: "Crescente significa che a input maggiori corrispondono output maggiori: se \\(x_1 \\lt x_2\\) allora anche \\(f(x_1) \\lt f(x_2)\\)."
+  },
+  {
+    badge: "Massimi e minimi",
+    q: "Osservando un grafico, un punto è di <strong>massimo relativo</strong> se:",
+    opts: [
+      "In un intorno del punto, la funzione non assume valori superiori a quello del punto stesso",
+      "È il punto più a destra del grafico",
+      "È dove la funzione si annulla",
+      "È sempre il punto più alto di tutto il grafico"
+    ],
+    ans: 0,
+    exp: "Un massimo relativo (o locale) è un punto dove, guardando solo un intorno, la funzione non supera mai il valore raggiunto lì — a differenza del massimo assoluto, che vale su tutto il dominio."
+  },
+  {
+    badge: "Intersezioni con gli assi",
+    q: "Come si trova l'intersezione del grafico di \\(f(x)=2x-6\\) con l'asse \\(x\\)?",
+    opts: [
+      "Si pone \\(f(x)=0\\): \\(2x-6=0 \\Rightarrow x=3\\), punto \\((3,0)\\)",
+      "Si pone \\(x=0\\): il punto è \\((0,-6)\\)",
+      "Si calcola \\(f(0)\\) e basta",
+      "Non esiste intersezione con l'asse \\(x\\)"
+    ],
+    ans: 0,
+    exp: "L'intersezione con l'asse \\(x\\) (dove \\(y=0\\)) si trova risolvendo \\(f(x)=0\\): \\(2x-6=0 \\Rightarrow x=3\\), quindi il punto è \\((3,0)\\)."
+  },
+  {
+    badge: "Intersezioni con gli assi",
+    q: "Come si trova l'intersezione del grafico di \\(f(x) = \\dfrac{x-1}{x+2}\\) con l'asse \\(y\\)?",
+    opts: [
+      "Si calcola \\(f(0) = \\dfrac{-1}{2}\\), punto \\(\\left(0,-\\dfrac{1}{2}\\right)\\)",
+      "Si pone \\(f(x)=0\\)",
+      "Si pone \\(x=1\\)",
+      "Non esiste, perché è una funzione fratta"
+    ],
+    ans: 0,
+    exp: "L'intersezione con l'asse \\(y\\) si trova calcolando \\(f(0)\\) (se \\(x=0\\) appartiene al dominio): \\(f(0)=\\dfrac{0-1}{0+2}=-\\dfrac{1}{2}\\)."
+  },
+  {
+    badge: "Studio del segno",
+    q: "Studia il segno di \\(f(x) = \\dfrac{x-3}{x+1}\\): per quali \\(x\\) è \\(f(x) \\gt 0\\)?",
+    opts: [
+      "Per \\(x \\lt -1\\) oppure \\(x \\gt 3\\)",
+      "Per \\(-1 \\lt x \\lt 3\\)",
+      "Per ogni \\(x\\) reale",
+      "Mai, la funzione è sempre negativa"
+    ],
+    ans: 0,
+    exp: "Il numeratore \\(x-3\\) è positivo per \\(x \\gt 3\\), il denominatore \\(x+1\\) è positivo per \\(x \\gt -1\\). La frazione è positiva quando numeratore e denominatore hanno lo stesso segno: \\(x \\lt -1\\) oppure \\(x \\gt 3\\)."
+  }
+],
+
+// ══════════════ LIVELLO PRO ══════════════
+[
+  {
+    badge: "Studio completo",
+    q: "Data \\(f(x) = \\dfrac{x^2-1}{x}\\), qual è il dominio?",
+    opts: [
+      "\\(\\mathbb{R}\\) tranne \\(x=0\\)",
+      "\\(\\mathbb{R}\\) tranne \\(x=1\\) e \\(x=-1\\)",
+      "Tutto \\(\\mathbb{R}\\)",
+      "Solo \\(x \\gt 0\\)"
+    ],
+    ans: 0,
+    exp: "Il denominatore è \\(x\\), quindi va escluso solo \\(x=0\\). Il numeratore \\(x^2-1\\) non pone condizioni sul dominio: è solo lì che va studiato il segno o le intersezioni."
+  },
+  {
+    badge: "Studio completo",
+    q: "Per la stessa \\(f(x) = \\dfrac{x^2-1}{x}\\), verifica se è pari, dispari o nessuna delle due.",
+    opts: [
+      "È dispari, perché \\(f(-x) = \\dfrac{x^2-1}{-x} = -f(x)\\)",
+      "È pari, perché il numeratore è pari",
+      "Non è né pari né dispari",
+      "È pari, perché \\(f(-x)=f(x)\\)"
+    ],
+    ans: 0,
+    exp: "\\(f(-x) = \\dfrac{(-x)^2-1}{-x} = \\dfrac{x^2-1}{-x} = -\\dfrac{x^2-1}{x} = -f(x)\\). La funzione è dispari, e il dominio (\\(\\mathbb{R}\\) tranne \\(0\\)) è simmetrico rispetto all'origine, condizione necessaria perché la simmetria abbia senso."
+  },
+  {
+    badge: "Studio completo",
+    q: "Sempre per \\(f(x) = \\dfrac{x^2-1}{x}\\), dove sono le intersezioni con l'asse \\(x\\)?",
+    opts: [
+      "In \\(x=1\\) e \\(x=-1\\), dove si annulla il numeratore",
+      "In \\(x=0\\)",
+      "Non ci sono intersezioni",
+      "Solo in \\(x=1\\)"
+    ],
+    ans: 0,
+    exp: "Si pone il numeratore uguale a zero (con denominatore diverso da zero): \\(x^2-1=0 \\Rightarrow x=\\pm 1\\), entrambi accettabili perché diversi da \\(0\\)."
+  },
+  {
+    badge: "Studio completo",
+    q: "Per \\(f(x) = \\dfrac{x^2-1}{x}\\), studia il segno: dove \\(f(x) \\gt 0\\)?",
+    opts: [
+      "Per \\(-1 \\lt x \\lt 0\\) oppure \\(x \\gt 1\\)",
+      "Per \\(x \\lt -1\\) oppure \\(0 \\lt x \\lt 1\\)",
+      "Per ogni \\(x\\) del dominio",
+      "Mai"
+    ],
+    ans: 0,
+    exp: "Il numeratore \\(x^2-1\\) è positivo per \\(x \\lt -1\\) o \\(x \\gt 1\\); il denominatore \\(x\\) è positivo per \\(x \\gt 0\\). Confrontando i segni sulla retta si trova che la frazione è positiva per \\(-1 \\lt x \\lt 0\\) oppure \\(x \\gt 1\\)."
+  },
+  {
+    badge: "Grafico al contrario",
+    q: "Un grafico è simmetrico rispetto all'origine, si annulla in \\(x=-2, 0, 2\\) ed è definito su tutto \\(\\mathbb{R}\\). Quale proprietà algebrica ha sicuramente la funzione?",
+    opts: [
+      "È dispari, perché la simmetria rispetto all'origine equivale a \\(f(-x)=-f(x)\\)",
+      "È pari, perché passa per tre punti sull'asse \\(x\\)",
+      "Non ha dominio reale",
+      "È sicuramente una funzione fratta"
+    ],
+    ans: 0,
+    exp: "La simmetria rispetto all'origine è, per definizione, la proprietà delle funzioni dispari. Il fatto che si annulli in tre punti simmetrici rispetto a \\(0\\) (\\(-2\\) e \\(2\\), oltre a \\(0\\)) è coerente con questa simmetria, ma non implica nulla sul tipo (intera o fratta)."
+  },
+  {
+    badge: "Grafico al contrario",
+    q: "Un grafico è simmetrico rispetto all'asse \\(y\\), ha un minimo in \\(x=0\\) con \\(f(0)=-1\\), ed è sempre \\(\\ge -1\\). Cosa puoi dedurre?",
+    opts: [
+      "La funzione è pari e limitata inferiormente da \\(-1\\), che è il suo minimo assoluto",
+      "La funzione è dispari",
+      "La funzione non ha minimo",
+      "La funzione è sempre negativa"
+    ],
+    ans: 0,
+    exp: "Simmetria rispetto all'asse \\(y\\) significa \\(f(-x)=f(x)\\), cioè funzione pari. Poiché \\(f(x) \\ge -1\\) per ogni \\(x\\) e il valore \\(-1\\) viene effettivamente raggiunto in \\(x=0\\), quel valore è il minimo assoluto."
+  },
+  {
+    badge: "Grafico probabile",
+    q: "Nella costruzione del <strong>grafico probabile</strong> di \\(f(x)=\\dfrac{x-2}{x+1}\\) (senza limiti), quali informazioni vanno raccolte prima di disegnare?",
+    opts: [
+      "Dominio, eventuale simmetria, intersezioni con gli assi e studio del segno",
+      "Solo il dominio",
+      "Solo le intersezioni con gli assi",
+      "Solo il segno della derivata"
+    ],
+    ans: 0,
+    exp: "Il metodo per il grafico probabile (senza limiti, riservato a LB14) combina sempre: dominio (C.E.), simmetrie se presenti, intersezioni con gli assi, e studio del segno per capire dove il grafico sta sopra o sotto l'asse \\(x\\)."
+  },
+  {
+    badge: "Grafico probabile",
+    q: "Studiando \\(f(x) = \\dfrac{x-2}{x+1}\\): dominio, intersezioni e segno. Qual è l'intersezione con l'asse \\(x\\)?",
+    opts: [
+      "\\((2,0)\\), ponendo il numeratore uguale a zero",
+      "\\((-1,0)\\)",
+      "\\((0,-2)\\)",
+      "Non esiste intersezione con l'asse \\(x\\)"
+    ],
+    ans: 0,
+    exp: "Si annulla il numeratore (con denominatore diverso da zero): \\(x-2=0 \\Rightarrow x=2\\), accettabile perché \\(2 \\ne -1\\). Il punto è \\((2,0)\\)."
+  },
+  {
+    badge: "Massimi e minimi da grafico",
+    q: "Da un grafico osservi che la funzione cresce fino a \\(x=1\\), poi decresce fino a \\(x=4\\), poi torna a crescere. Cosa puoi dire dei punti \\(x=1\\) e \\(x=4\\)?",
+    opts: [
+      "\\(x=1\\) è un massimo relativo, \\(x=4\\) è un minimo relativo",
+      "\\(x=1\\) è un minimo relativo, \\(x=4\\) è un massimo relativo",
+      "Sono entrambi massimi relativi",
+      "Sono entrambi minimi relativi"
+    ],
+    ans: 0,
+    exp: "Dove la funzione passa da crescente a decrescente c'è un massimo relativo (\\(x=1\\)); dove passa da decrescente a crescente c'è un minimo relativo (\\(x=4\\)). Il comportamento intorno al punto è ciò che ne determina la natura."
+  },
+  {
+    badge: "Sintesi combinata",
+    q: "Una funzione razionale fratta ha dominio \\(\\mathbb{R}\\) tranne \\(x=3\\), è positiva per \\(x \\lt 0\\) e per \\(x \\gt 3\\), negativa per \\(0 \\lt x \\lt 3\\), e si annulla solo in \\(x=0\\). Quale affermazione è coerente con questi dati?",
+    opts: [
+      "Il grafico attraversa l'asse \\(x\\) in \\((0,0)\\) e si avvicina indefinitamente alla retta \\(x=3\\) senza mai toccarla",
+      "Il grafico non tocca mai l'asse \\(x\\)",
+      "La funzione è definita anche in \\(x=3\\)",
+      "La funzione è positiva ovunque"
+    ],
+    ans: 0,
+    exp: "Un'unica intersezione con l'asse \\(x\\) in \\(x=0\\) è coerente col cambio di segno lì; il fatto che \\(x=3\\) sia escluso dal dominio e sia proprio il punto di cambio segno (da negativa a positiva) è il segnale tipico di una funzione fratta con quel valore escluso — il comportamento vicino a \\(x=3\\) si approfondirà poi con i limiti (LB14)."
+  }
+]
+
+];
+
+// ── STATO ──
+let level = 0, Q = QSETS[0];
+let cur = 0, score = 0, answered = false, results = [];
+
+function selectLevel(i) {
+  level = i;
+  document.querySelectorAll('.level-card').forEach((el,idx) => el.classList.toggle('active', idx===i));
+}
+
+// ── LOGICA ──
+function startQuiz() {
+  Q = QSETS[level];
+  cur = 0; score = 0; answered = false; results = [];
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function backToLevels() {
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-intro').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx], total = Q.length;
+  document.getElementById('prog-frac').textContent = (idx+1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('q-badge').textContent = LEVELS[level] + ' — ' + q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const letters = ['A','B','C','D'];
+  document.getElementById('q-opts').innerHTML = q.opts.map((o,i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${o}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === q.ans;
+  if (isOk) score++;
+  results.push(isOk);
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('opt-' + i).classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) document.getElementById('opt-' + q.ans).classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur+1);
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next show';
+  btn.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  document.getElementById('res-tag').textContent = 'Livello ' + LEVELS[level] + ' — Risultato';
+  document.getElementById('res-den').textContent = 'su ' + Q.length + ' domande';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+
+  const msgs = [
+    [9, "Eccellente! Le funzioni non hanno più segreti — prova un livello più avanzato."],
+    [7, "Ottimo lavoro. Un piccolo ripasso finale e sei al top."],
+    [5, "Sei sulla buona strada. Ricontrolla le domande sbagliate e riprova."],
+    [3, "C'è ancora del lavoro da fare. Rileggi la lezione e riprova il test."],
+    [0, "Non mollare. Parti dalla teoria, studia con calma e riprova."]
+  ];
+  document.getElementById('res-msg').textContent = (msgs.find(m => score >= m[0]) || msgs[4])[1];
+
+  document.getElementById('res-grid').innerHTML = results.map((ok,i) =>
+    `<div class="rev-cell ${ok?'ok':'err'}" title="Domanda ${i+1}: ${ok?'corretta':'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) pick(parseInt(e.key)-1);
+  if ((e.key==='Enter'||e.key===' ') && answered) { e.preventDefault(); nextQ(); }
+});
+</script>
+</body>
+</html>

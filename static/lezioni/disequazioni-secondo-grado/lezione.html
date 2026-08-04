@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disequazioni di Secondo Grado — Lezione interattiva</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']]
+  },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready() {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --purple:#6a1b9a; --purple-light:#f3e5f5;
+  --gold:#b8860b;
+  --teal:#4f6d7a; --teal-light:#e8eff2;
+  --danger:#b33a3a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);white-space:nowrap;flex-shrink:0}
+.topbar-nav{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;flex:1}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill{background:none;border:none;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--text-dim);padding:6px 14px;cursor:pointer;white-space:nowrap;transition:color .2s;border-bottom:2px solid transparent}
+.nav-pill:hover{color:var(--text)}
+.nav-pill.active{color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
+.topbar-home{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-dim);text-decoration:none;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.topbar-home:hover{color:var(--accent)}
+
+/* LAYOUT */
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 60px}
+.section{display:none;animation:appear .4s ease}
+.section.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.65rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);line-height:1.7;text-wrap:pretty}
+
+/* CALLOUT */
+.cb{background:var(--surface-alt);border-left:2px solid var(--accent);border-radius:0 8px 8px 0;padding:16px 18px;margin:18px 0}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600;color:var(--accent)}
+.cb.tip .cb-label{color:var(--blue)}
+.cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)}
+.cb.success .cb-label{color:var(--green)}
+.cb.purple .cb-label{color:var(--purple)}
+.cb.teal .cb-label{color:var(--teal)}
+
+/* MATH */
+.math-block{background:rgba(0,0,0,.025);padding:12px 16px;margin:10px 0;overflow-x:auto;border-radius:2px}
+.math-block.center{text-align:center}
+.math-block.result{border-left:2px solid var(--green);background:rgba(74,124,89,.04)}
+.math-block.warn{border-left:2px solid var(--danger);background:rgba(179,58,58,.04)}
+mjx-container[jax="SVG"]{direction:ltr}
+mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%}
+
+/* ACCORDION */
+.accordion{margin:16px 0}
+.acc-item{border-bottom:1px solid rgba(0,0,0,.08)}
+.acc-item:last-child{border-bottom:none}
+.acc-header{display:flex;align-items:center;gap:12px;padding:14px 0;cursor:pointer;user-select:none;background:none;border:none;width:100%;text-align:left}
+.acc-num{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.7rem;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.acc-title{font-weight:600;font-size:.93rem;flex:1;color:var(--text);font-family:Georgia,serif;text-align:left;line-height:1.4}
+.acc-arrow{width:16px;height:16px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.acc-item.open .acc-body{max-height:9000px}
+.acc-inner{padding:8px 0 18px 36px}
+
+/* TABLE */
+.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.88rem}
+.ct th{text-align:left;padding:10px 14px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--border-light);font-size:.74rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct td{padding:9px 14px;border-bottom:1px solid var(--border-light);vertical-align:top;line-height:1.65}
+.ct tr:last-child td{border-bottom:none}
+
+/* SVG / GRAPH */
+.graph-box{background:none;border:1px solid var(--border-light);border-radius:0;padding:20px;margin:18px 0;overflow-x:auto;text-align:center}
+
+/* SEGNO STRIP */
+.segno-strip{font-family:'JetBrains Mono',monospace;font-size:.9rem;background:rgba(0,0,0,.025);padding:14px 16px;margin:10px 0;overflow-x:auto;border-radius:2px;line-height:2}
+.segno-strip .pos{color:var(--green);font-weight:700}
+.segno-strip .neg{color:var(--danger);font-weight:700}
+
+/* BOTTOM NAV */
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:44px;padding-top:20px;border-top:1px solid var(--border-light)}
+.bb{font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:0;border:none;background:none;color:var(--text);transition:all .2s;cursor:pointer}
+.bb:hover{color:var(--accent);text-decoration:underline}
+.bb:disabled{opacity:.35;cursor:not-allowed}
+.bb:disabled:hover{color:var(--text);text-decoration:none}
+.dots{display:flex;gap:6px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--border);transition:all .3s;cursor:pointer;border:none;padding:0;flex-shrink:0}
+.dot.active{background:var(--accent);width:20px;border-radius:4px}
+
+/* TYPOGRAPHY */
+p{margin:6px 0}
+ul,ol{margin:8px 0 8px 24px}
+li{margin:3px 0;line-height:1.7}
+strong{font-weight:700}
+.dim{color:var(--text-dim)}
+h2{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin:26px 0 10px;color:var(--text)}
+h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;margin:18px 0 8px;color:var(--text)}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  body{font-size:15.5px}
+  .hero h1{font-size:1.65rem}
+  .cb{padding:14px 14px}
+  .container{padding:80px 18px 60px}
+  .topbar-brand{font-size:.9rem}
+  .acc-inner{padding:8px 0 16px 24px}
+  .acc-title{font-size:.88rem}
+  .ct{font-size:.82rem}
+  .ct th,.ct td{padding:8px 10px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Disequazioni · 2° grado</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+
+/* ═══════════════ ACCORDION ═══════════════ */
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) => `
+    <div class="acc-item">
+      <button class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-num">${i + 1}</div>
+        <div class="acc-title">${it.t}</div>
+        <svg class="acc-arrow" viewBox="0 0 20 20" fill="none">
+          <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="acc-body"><div class="acc-inner">${it.h}</div></div>
+    </div>`).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.closest('.acc-item');
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+/* ═══════════════ SVG HELPERS ═══════════════ */
+function svgParabolaSegno(caso) {
+  // caso: 'pos-2rad' | 'pos-tang' | 'pos-norad' | 'neg-2rad' | 'neg-tang' | 'neg-norad'
+  const w=300, h=170, ox=30, oy=90, sx=40, sy=1;
+  const up = caso.startsWith('pos');
+  const c = '#c2185b';
+  const ac = '#c9c1b2';
+  let pts=[], shade='', dots='', labels='';
+  const xLeft=10, xRight=w-10, yTop=12, yBottom=h-10;
+  if (caso==='pos-2rad') {
+    for(let i=0;i<=60;i++){const x=-2+i*7/60; const y=(x-0.5)*(x-3.5); pts.push(`${ox+x*sx},${oy-y*22}`);}
+    shade = `<rect x="${ox+(-2)*sx}" y="10" width="${(0.5-(-2))*sx}" height="${oy-10}" fill="${c}" opacity=".06"/>
+              <rect x="${ox+3.5*sx}" y="10" width="${(5-3.5)*sx}" height="${oy-10}" fill="${c}" opacity=".06"/>`;
+    dots = `<circle cx="${ox+0.5*sx}" cy="${oy}" r="3.5" fill="${c}"/><circle cx="${ox+3.5*sx}" cy="${oy}" r="3.5" fill="${c}"/>`;
+    labels = `<text x="${ox+0.5*sx}" y="${oy+16}" fill="${c}" font-size="11" font-family="'JetBrains Mono',monospace" text-anchor="middle">x₁</text>
+              <text x="${ox+3.5*sx}" y="${oy+16}" fill="${c}" font-size="11" font-family="'JetBrains Mono',monospace" text-anchor="middle">x₂</text>`;
+  } else if (caso==='pos-tang') {
+    for(let i=0;i<=60;i++){const x=-1.5+i*6/60; const y=(x-2)*(x-2); pts.push(`${ox+x*sx},${oy-y*22}`);}
+    dots = `<circle cx="${ox+2*sx}" cy="${oy}" r="3.5" fill="${c}"/>`;
+    labels = `<text x="${ox+2*sx}" y="${oy+16}" fill="${c}" font-size="11" font-family="'JetBrains Mono',monospace" text-anchor="middle">x</text>`;
+  } else if (caso==='pos-norad') {
+    for(let i=0;i<=60;i++){const x=-1+i*6/60; const y=(x-2)*(x-2)+0.6; pts.push(`${ox+x*sx},${oy-y*22}`);}
+    shade = `<rect x="10" y="10" width="${w-40}" height="${oy-10}" fill="${c}" opacity=".05"/>`;
+  } else if (caso==='neg-2rad') {
+    for(let i=0;i<=60;i++){const x=-2+i*7/60; const y=-(x-0.5)*(x-3.5); pts.push(`${ox+x*sx},${oy-y*22}`);}
+    shade = `<rect x="${ox+0.5*sx}" y="${oy}" width="${(3.5-0.5)*sx}" height="60" fill="${c}" opacity=".06"/>`;
+    dots = `<circle cx="${ox+0.5*sx}" cy="${oy}" r="3.5" fill="${c}"/><circle cx="${ox+3.5*sx}" cy="${oy}" r="3.5" fill="${c}"/>`;
+    labels = `<text x="${ox+0.5*sx}" y="${oy+16}" fill="${c}" font-size="11" font-family="'JetBrains Mono',monospace" text-anchor="middle">x₁</text>
+              <text x="${ox+3.5*sx}" y="${oy+16}" fill="${c}" font-size="11" font-family="'JetBrains Mono',monospace" text-anchor="middle">x₂</text>`;
+  } else if (caso==='neg-tang') {
+    for(let i=0;i<=60;i++){const x=-1.5+i*6/60; const y=-(x-2)*(x-2); pts.push(`${ox+x*sx},${oy-y*22}`);}
+    dots = `<circle cx="${ox+2*sx}" cy="${oy}" r="3.5" fill="${c}"/>`;
+    labels = `<text x="${ox+2*sx}" y="${oy+16}" fill="${c}" font-size="11" font-family="'JetBrains Mono',monospace" text-anchor="middle">x</text>`;
+  } else {
+    for(let i=0;i<=60;i++){const x=-1+i*6/60; const y=-((x-2)*(x-2)+0.6); pts.push(`${ox+x*sx},${oy-y*22}`);}
+    shade = `<rect x="10" y="${oy}" width="${w-40}" height="70" fill="${c}" opacity=".05"/>`;
+  }
+  const axes = `
+    <line x1="${xLeft}" y1="${oy}" x2="${xRight}" y2="${oy}" stroke="${ac}" stroke-width="1.3"/>
+    <line x1="${ox}" y1="${yTop}" x2="${ox}" y2="${yBottom}" stroke="${ac}" stroke-width="1.3"/>
+    <path d="M${xRight-8},${oy-4} L${xRight},${oy} L${xRight-8},${oy+4}" fill="none" stroke="${ac}" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M${ox-4},${yTop+8} L${ox},${yTop} L${ox+4},${yTop+8}" fill="none" stroke="${ac}" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="${xRight-6}" y="${oy-8}" fill="${ac}" font-size="12" font-style="italic" text-anchor="end">x</text>
+    <text x="${ox+8}" y="${yTop+10}" fill="${ac}" font-size="12" font-style="italic">y</text>
+    <text x="${ox-8}" y="${oy+14}" fill="${ac}" font-size="10" font-family="'JetBrains Mono',monospace" text-anchor="end">O</text>`;
+  return `<div class="graph-box"><svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
+    ${shade}${axes}<polyline points="${pts.join(' ')}" fill="none" stroke="${c}" stroke-width="2.5"/>${dots}${labels}
+  </svg></div>`;
+}
+
+/* ═══════════════ SCHERMATE ═══════════════ */
+const S = [
+
+/* ──── 0 · INTRODUZIONE ──── */
+{
+  tag: `MOTIVAZIONE`,
+  title: `Dalla <em>parabola</em> al segno`,
+  nav: `Motivazione`,
+  sub: `Conosci già la parabola e sai risolvere le equazioni di secondo grado. Ora usiamo lo stesso grafico per rispondere a una domanda diversa: non "dove tocca l'asse x?" ma "dove sta sopra o sotto l'asse x?".`,
+  body: `
+    <div class="cb tip">
+      <div class="cb-label">Dal punto all'intervallo</div>
+      <p>Un'<strong>equazione</strong> di 2° grado, \\(ax^2+bx+c=0\\), chiede: "in quali punti la parabola tocca l'asse \\(x\\)?" Una <strong>disequazione</strong>, come \\(ax^2+bx+c>0\\), chiede invece: "per quali \\(x\\) la parabola sta <em>sopra</em> l'asse \\(x\\)?"</p>
+      <p>La risposta non è più un punto isolato, ma un <strong>intervallo</strong> (o un'unione di intervalli) di valori.</p>
+    </div>
+
+    <p>Il metodo che useremo è sempre lo stesso, in tre passi: <strong>risolvi l'equazione associata</strong>, <strong>traccia (anche solo mentalmente) la parabola</strong>, <strong>leggi il segno dal grafico</strong>. Nessuna formula nuova da imparare a memoria: solo la parabola, che già conosci.</p>
+
+    <div class="cb">
+      <div class="cb-label">Mappa della lezione</div>
+      <table class="ct">
+        <tr><th>#</th><th>Argomento</th></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">1</td><td>Il metodo grafico: parabola e segno</td></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">2</td><td>Il caso generale, con \\(\\Delta>0\\) (4 esempi)</td></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">3</td><td>Casi particolari: pure, spurie, \\(\\Delta=0\\), \\(\\Delta<0\\)</td></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">4</td><td>Studio del segno di prodotti e quozienti</td></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">5</td><td>Applicazioni pratiche</td></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">6</td><td>Sintesi e ricapitolazione</td></tr>
+      </table>
+    </div>
+
+    <div class="cb warn">
+      <div class="cb-label">Nota per il corso serale</div>
+      <p>In questa lezione non affrontiamo i <strong>sistemi</strong> di disequazioni di secondo grado. Ci concentriamo sulla singola disequazione e, nell'ultima parte, sullo studio del segno di prodotti e quozienti di fattori di 2° grado — la base per le disequazioni fratte che vedrai in seguito.</p>
+    </div>
+  `
+},
+
+/* ──── 1 · METODO GRAFICO ──── */
+{
+  tag: `TEORIA`,
+  title: `Il <em>metodo grafico</em>`,
+  nav: `Metodo`,
+  sub: `Tre passi sempre uguali: risolvi, traccia, leggi il segno.`,
+  body: `
+    <div class="cb">
+      <div class="cb-label">Definizione</div>
+      <p>Una <strong>disequazione di secondo grado</strong> ha forma \\(ax^2+bx+c \\gtrless 0\\) (con \\(>,<,\\geq,\\leq\\)) e \\(a \\neq 0\\). Risolverla significa trovare tutti i valori di \\(x\\) per cui il trinomio \\(ax^2+bx+c\\) ha il segno richiesto.</p>
+    </div>
+
+    <h2>I tre passi</h2>
+    <ol>
+      <li><strong>Risolvi l'equazione associata</strong> \\(ax^2+bx+c=0\\): trova le radici (o scopri che non esistono)</li>
+      <li><strong>Determina la concavità</strong>: guarda il segno di \\(a\\) (\\(a>0 \\Rightarrow \\cup\\), \\(a<0 \\Rightarrow \\cap\\))</li>
+      <li><strong>Leggi il segno dal grafico</strong>: dove la parabola sta sopra l'asse \\(x\\) il trinomio è positivo, dove sta sotto è negativo</li>
+    </ol>
+
+    <div class="cb tip">
+      <div class="cb-label">Il legame fondamentale</div>
+      <p>Le radici dell'equazione associata sono i punti in cui la parabola <strong>attraversa</strong> l'asse \\(x\\): lì il segno del trinomio <em>può cambiare</em>. Tra una radice e l'altra il segno resta costante.</p>
+    </div>
+
+    <h2>Caso \\(a>0\\) — parabola \\(\\cup\\), due radici \\(x_1 \\lt x_2\\)</h2>
+    ${svgParabolaSegno('pos-2rad')}
+    <table class="ct">
+      <tr><th>Zona</th><th>Posizione parabola</th><th>Segno del trinomio</th></tr>
+      <tr><td>\\(x \\lt x_1\\)</td><td>sopra l'asse</td><td style="color:var(--green)">positivo</td></tr>
+      <tr><td>\\(x_1 \\lt x \\lt x_2\\)</td><td>sotto l'asse</td><td style="color:var(--danger)">negativo</td></tr>
+      <tr><td>\\(x>x_2\\)</td><td>sopra l'asse</td><td style="color:var(--green)">positivo</td></tr>
+    </table>
+
+    <div class="cb warn">
+      <div class="cb-label">Trucco mnemonico</div>
+      <p>Se \\(a>0\\): il trinomio è <strong>positivo fuori</strong> dalle radici (esterno) e <strong>negativo dentro</strong> (tra le radici). Se \\(a<0\\) vale il contrario. Basta ricordare "esterno positivo se \\(a>0\\)" e la concavità fa il resto.</p>
+    </div>
+  `
+},
+
+/* ──── 2 · CASO GENERALE Δ>0 ──── */
+{
+  tag: `METODO`,
+  title: `Il caso generale: \\(\\Delta>0\\)`,
+  nav: `Caso generale`,
+  sub: `Quattro esempi guidati: >, <, ≥, ≤, con a positivo e negativo.`,
+  body: `
+    <p>Quando il discriminante è positivo, la parabola incontra l'asse \\(x\\) in <strong>due punti distinti</strong> \\(x_1 \\lt x_2\\), e il piano si divide in tre zone: esterna, interna, esterna.</p>
+
+    ${acc([
+      {
+        t: `Es. 1: \\(x^2 - x - 6 > 0\\) (\\(a>0\\), disuguaglianza stretta)`,
+        h: `<p><strong>Passo 1 — equazione associata:</strong></p>
+            <div class="math-block">\\[x^2 - x - 6 = 0\\]\\[\\Delta = 1 + 24 = 25 > 0\\]\\[x_{1,2} = \\frac{1 \\pm 5}{2}\\]\\[x_1 = -2, \\quad x_2 = 3\\]</div>
+            <p><strong>Passo 2 — concavità:</strong> \\(a = 1 > 0\\), parabola \\(\\cup\\).</p>
+            ${svgParabolaSegno('pos-2rad')}
+            <p><strong>Passo 3 — segno richiesto \\(>0\\):</strong> esterno alle radici (disuguaglianza stretta, radici escluse).</p>
+            <div class="math-block result">\\[x < -2 \\quad \\text{oppure} \\quad x > 3\\]</div>`
+      },
+      {
+        t: `Es. 2: \\(x^2 - x - 6 < 0\\) (stesso trinomio, verso opposto)`,
+        h: `<p>Stessa equazione associata di prima: \\(x_1 = -2\\), \\(x_2 = 3\\), \\(a>0\\).</p>
+            <p><strong>Segno richiesto \\(<0\\):</strong> interno alle radici.</p>
+            <div class="math-block result">\\[-2 < x < 3\\]</div>
+            <div class="cb tip" style="margin-top:10px">
+              <div class="cb-label">Osservazione</div>
+              <p>Lo stesso trinomio dà soluzioni <em>complementari</em> a seconda del verso: se \\(>0\\) dà l'esterno, se \\(<0\\) dà l'interno delle radici.</p>
+            </div>`
+      },
+      {
+        t: `Es. 3: \\(-x^2 + 2x + 3 \\geq 0\\) (\\(a<0\\), disuguaglianza non stretta)`,
+        h: `<p><strong>Passo 1:</strong></p>
+            <div class="math-block">\\[-x^2 + 2x + 3 = 0\\]\\[\\Delta = 4 + 12 = 16 > 0\\]\\[x_{1,2} = \\frac{-2 \\pm 4}{-2}\\]\\[x_1 = -1, \\quad x_2 = 3\\]</div>
+            <p><strong>Passo 2:</strong> \\(a = -1 < 0\\), parabola \\(\\cap\\).</p>
+            ${svgParabolaSegno('neg-2rad')}
+            <p><strong>Passo 3 — segno richiesto \\(\\geq0\\):</strong> con \\(a<0\\) il trinomio è positivo <em>tra</em> le radici; il \\(\\geq\\) include gli estremi.</p>
+            <div class="math-block result">\\[-1 \\leq x \\leq 3\\]</div>`
+      },
+      {
+        t: `Es. 4: \\(-x^2 + 2x + 3 \\leq 0\\) (stesso trinomio, verso opposto)`,
+        h: `<p>Stesse radici: \\(x_1=-1\\), \\(x_2=3\\), \\(a<0\\).</p>
+            <p><strong>Segno richiesto \\(\\leq0\\):</strong> esterno alle radici, estremi inclusi.</p>
+            <div class="math-block result">\\[x \\leq -1 \\quad \\text{oppure} \\quad x \\geq 3\\]</div>
+            <div class="cb warn" style="margin-top:10px">
+              <div class="cb-label">Attenzione al verso non stretto</div>
+              <p>Con \\(\\geq\\) o \\(\\leq\\) le radici <strong>fanno parte</strong> della soluzione (il trinomio vale esattamente 0 in quei punti, che soddisfa "\\(\\geq 0\\)" o "\\(\\leq 0\\)").</p>
+            </div>`
+      }
+    ])}
+  `
+},
+
+/* ──── 3 · CASI PARTICOLARI ──── */
+{
+  tag: `CASI PARTICOLARI`,
+  title: `Disequazioni <em>incomplete</em> e casi limite`,
+  nav: `Casi particolari`,
+  sub: `Pure, spurie, discriminante nullo o negativo: come riconoscerle e risolverle più in fretta.`,
+  body: `
+    <p>Come per le equazioni, anche le disequazioni di secondo grado possono presentarsi in forma <strong>incompleta</strong> (manca \\(b\\) oppure \\(c\\)), oppure avere \\(\\Delta = 0\\) o \\(\\Delta < 0\\): in questi casi il ragionamento grafico resta identico, ma porta a soluzioni particolari.</p>
+
+    ${acc([
+      {
+        t: `Disequazione pura: \\(2x^2 - 8 > 0\\)`,
+        h: `<p>Manca il termine in \\(x\\) (\\(b=0\\)). Si isola \\(x^2\\) senza passare per la formula generale:</p>
+            <div class="math-block">\\[2x^2 > 8\\]\\[x^2 > 4\\]\\[x < -2 \\quad \\text{oppure} \\quad x > 2\\]</div>
+            <p>Le radici dell'equazione associata sono \\(x=\\pm 2\\); \\(a>0\\) quindi il segno \\(>0\\) corrisponde all'esterno.</p>
+            <div class="math-block result">\\[x < -2 \\quad \\text{oppure} \\quad x > 2\\]</div>`
+      },
+      {
+        t: `Disequazione spuria: \\(x^2 - 5x \\leq 0\\)`,
+        h: `<p>Manca il termine noto (\\(c=0\\)). Si raccoglie \\(x\\):</p>
+            <div class="math-block">\\[x(x - 5) \\leq 0\\]</div>
+            <p>Le radici sono \\(x_1=0\\), \\(x_2=5\\); \\(a>0\\) quindi il trinomio è \\(\\leq 0\\) <em>tra</em> le radici, estremi inclusi.</p>
+            <div class="math-block result">\\[0 \\leq x \\leq 5\\]</div>`
+      },
+      {
+        t: `Discriminante nullo: \\(x^2 - 6x + 9 > 0\\)`,
+        h: `<p><strong>Equazione associata:</strong></p>
+            <div class="math-block">\\[\\Delta = 36 - 36 = 0\\]\\[x_V = 3 \\quad \\text{(radice doppia)}\\]</div>
+            <p>La parabola (\\(a>0\\)) è <strong>tangente</strong> all'asse \\(x\\) in \\(x=3\\): sta sopra l'asse ovunque, tranne che in quel punto dove vale esattamente 0.</p>
+            ${svgParabolaSegno('pos-tang')}
+            <p><strong>Segno richiesto \\(>0\\)</strong> (stretto, quindi il punto in cui vale 0 va escluso):</p>
+            <div class="math-block result">\\[x \\neq 3 \\quad \\text{cioè} \\quad \\forall x \\in \\mathbb{R},\\ x \\neq 3\\]</div>`
+      },
+      {
+        t: `Discriminante nullo, verso opposto: \\(x^2 - 6x + 9 \\leq 0\\)`,
+        h: `<p>Stesso trinomio: \\(\\Delta=0\\), \\(x_V=3\\), \\(a>0\\). Il trinomio non è mai negativo (è sempre \\(\\geq 0\\), un quadrato), quindi \\(\\leq 0\\) è vera <strong>solo</strong> dove vale esattamente 0.</p>
+            <div class="math-block result">\\[x = 3 \\quad \\text{(unica soluzione)}\\]</div>`
+      },
+      {
+        t: `Discriminante negativo: \\(x^2 + x + 1 > 0\\)`,
+        h: `<p><strong>Equazione associata:</strong></p>
+            <div class="math-block">\\[\\Delta = 1 - 4 = -3 < 0\\]</div>
+            <p>Nessuna radice reale: la parabola (\\(a>0\\)) non tocca mai l'asse \\(x\\), sta <strong>tutta sopra</strong>.</p>
+            ${svgParabolaSegno('pos-norad')}
+            <div class="math-block result">\\[\\forall x \\in \\mathbb{R} \\quad \\text{(sempre vera)}\\]</div>`
+      },
+      {
+        t: `Discriminante negativo, verso opposto: \\(x^2 + x + 1 < 0\\)`,
+        h: `<p>Stesso trinomio, sempre positivo: non esiste alcun \\(x\\) che lo renda negativo.</p>
+            <div class="math-block warn">\\[\\emptyset \\quad \\text{(nessuna soluzione — impossibile)}\\]</div>`
+      }
+    ])}
+
+    <h2>Riepilogo — caso \\(a>0\\)</h2>
+    <table class="ct">
+      <tr><th>\\(\\Delta\\)</th><th>\\(ax^2+bx+c>0\\)</th><th>\\(ax^2+bx+c<0\\)</th></tr>
+      <tr><td>\\(>0\\)</td><td>\\(x \\lt x_1\\) oppure \\(x>x_2\\)</td><td>\\(x_1 \\lt x \\lt x_2\\)</td></tr>
+      <tr><td>\\(=0\\)</td><td>\\(\\forall x \\neq x_V\\)</td><td>impossibile</td></tr>
+      <tr><td>\\(<0\\)</td><td>\\(\\forall x \\in \\mathbb{R}\\)</td><td>impossibile</td></tr>
+    </table>
+    <p class="dim">Per \\(a<0\\) le conclusioni si invertono: basta immaginare la parabola capovolta.</p>
+  `
+},
+
+/* ──── 4 · SEGNO DI PRODOTTI/QUOZIENTI ──── */
+{
+  tag: `METODO`,
+  title: `Studio del segno di <em>prodotti e quozienti</em>`,
+  nav: `Studio del segno`,
+  sub: `Quando la disequazione ha più fattori di secondo grado: la tecnica dello schema dei segni.`,
+  body: `
+    <div class="cb">
+      <div class="cb-label">Il problema</div>
+      <p>Cosa succede se la disequazione non è un unico trinomio, ma un <strong>prodotto</strong> o un <strong>quoziente</strong> di più fattori, ciascuno di secondo grado? Esempio:</p>
+      <div class="math-block">\\[(x^2 - 4)(x^2 - x - 2) > 0\\]</div>
+      <p>Studiare il segno di ogni fattore separatamente e poi <strong>combinarli</strong> con la regola dei segni.</p>
+    </div>
+
+    <h2>Procedura</h2>
+    <ol>
+      <li>Studia il <strong>segno di ciascun fattore</strong> separatamente (metodo grafico visto prima)</li>
+      <li>Disegna uno <strong>schema dei segni</strong>: una riga per fattore, con i segni nelle varie zone</li>
+      <li><strong>Moltiplica i segni</strong> colonna per colonna (regola dei segni: concordi → \\(+\\), discordi → \\(-\\))</li>
+      <li>Leggi la soluzione dall'ultima riga (il segno del prodotto/quoziente)</li>
+    </ol>
+
+    <div class="cb warn">
+      <div class="cb-label">Attenzione ai quozienti</div>
+      <p>Se un fattore è al <strong>denominatore</strong>, i suoi zeri vanno <strong>sempre esclusi</strong> dalla soluzione (annullerebbero il denominatore), indipendentemente dal verso della disequazione.</p>
+    </div>
+
+    ${acc([
+      {
+        t: `Es. 1: \\((x^2-4)(x^2-x-2) > 0\\) — prodotto di due fattori`,
+        h: `<p><strong>Fattore 1:</strong> \\(x^2 - 4 > 0\\)</p>
+            <div class="math-block">\\[x^2 = 4 \\;\\Rightarrow\\; x = \\pm 2\\]\\[a>0 \\;\\Rightarrow\\; x < -2 \\ \\text{oppure} \\ x > 2\\]</div>
+            <p><strong>Fattore 2:</strong> \\(x^2 - x - 2 > 0\\)</p>
+            <div class="math-block">\\[\\Delta = 1+8=9 \\;\\Rightarrow\\; x_{1,2}=\\frac{1\\pm3}{2} \\;\\Rightarrow\\; x_1=-1,\\ x_2=2\\]\\[a>0 \\;\\Rightarrow\\; x < -1 \\ \\text{oppure} \\ x > 2\\]</div>
+            <div class="segno-strip">
+              zone:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x&lt;-2&nbsp;&nbsp;|&nbsp;&nbsp;-2&lt;x&lt;-1&nbsp;&nbsp;|&nbsp;&nbsp;-1&lt;x&lt;2&nbsp;&nbsp;|&nbsp;&nbsp;x&gt;2<br>
+              fatt.1:&nbsp;&nbsp;<span class="pos">+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="neg">−</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="neg">−</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pos">+</span><br>
+              fatt.2:&nbsp;&nbsp;<span class="pos">+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pos">+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="neg">−</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pos">+</span><br>
+              prod.:&nbsp;&nbsp;&nbsp;<span class="pos">+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="neg">−</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pos">+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pos">+</span>
+            </div>
+            <p><strong>Segno richiesto \\(>0\\):</strong> dove il prodotto è positivo.</p>
+            <div class="math-block result">\\[x < -2 \\quad \\text{oppure} \\quad x > -1\\]</div>
+            <p class="dim">Nota: nell'ultima zona \\((-1,2)\\) e \\((2,+\\infty)\\) il prodotto resta positivo, quindi si uniscono in \\(x>-1\\) escludendo solo \\((-2,-1)\\).</p>`
+      },
+      {
+        t: `Es. 2: \\(\\dfrac{x^2-1}{x^2-9} \\geq 0\\) — quoziente di due fattori`,
+        h: `<p><strong>Numeratore:</strong> \\(x^2-1 \\geq 0 \\;\\Rightarrow\\; x \\leq -1 \\ \\text{oppure} \\ x \\geq 1\\) (radici \\(\\pm1\\), incluse)</p>
+            <p><strong>Denominatore:</strong> \\(x^2-9 > 0 \\;\\Rightarrow\\; x < -3 \\ \\text{oppure} \\ x > 3\\) (radici \\(\\pm3\\), <strong>sempre escluse</strong> perché al denominatore)</p>
+            <div class="segno-strip">
+              zone:&nbsp;&nbsp;x&lt;-3&nbsp;|&nbsp;-3&lt;x≤-1&nbsp;|&nbsp;-1≤x&lt;1&nbsp;|&nbsp;1≤x&lt;3&nbsp;|&nbsp;x&gt;3<br>
+              num.:&nbsp;&nbsp;&nbsp;<span class="pos">+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pos">+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="neg">−</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pos">+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pos">+</span><br>
+              den.:&nbsp;&nbsp;&nbsp;<span class="pos">+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="neg">−</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="neg">−</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="neg">−</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pos">+</span><br>
+              quoz.:&nbsp;&nbsp;<span class="pos">+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="neg">−</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pos">+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="neg">−</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pos">+</span>
+            </div>
+            <p><strong>Segno richiesto \\(\\geq0\\):</strong> quoziente positivo o nullo (numeratore nullo ammesso, denominatore nullo <strong>mai</strong>).</p>
+            <div class="math-block result">\\[x < -3 \\quad \\text{oppure} \\quad -1 \\leq x \\leq 1 \\quad \\text{oppure} \\quad x > 3\\]</div>`
+      },
+      {
+        t: `Es. 3: \\((x^2-2x)(4-x^2) \\leq 0\\) — attenzione al segno "nascosto"`,
+        h: `<p><strong>Fattore 1:</strong> \\(x^2-2x \\leq 0 \\;\\Rightarrow\\; x(x-2)\\leq0 \\;\\Rightarrow\\; 0 \\leq x \\leq 2\\)</p>
+            <p><strong>Fattore 2:</strong> riscriviamolo come \\(-(x^2-4)\\), quindi il segno di \\(4-x^2\\) è <strong>opposto</strong> a quello di \\(x^2-4\\): \\(4-x^2 > 0 \\Leftrightarrow -2 \\lt x \\lt 2\\).</p>
+            <div class="segno-strip">
+              zone:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x&lt;-2&nbsp;&nbsp;|&nbsp;&nbsp;-2&lt;x&lt;0&nbsp;&nbsp;|&nbsp;&nbsp;0&lt;x&lt;2&nbsp;&nbsp;|&nbsp;&nbsp;x&gt;2<br>
+              fatt.1:&nbsp;&nbsp;<span class="pos">+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pos">+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="neg">−</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pos">+</span><br>
+              fatt.2:&nbsp;&nbsp;<span class="neg">−</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pos">+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pos">+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="neg">−</span><br>
+              prod.:&nbsp;&nbsp;&nbsp;<span class="neg">−</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pos">+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="neg">−</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="neg">−</span>
+            </div>
+            <p><strong>Segno richiesto \\(\\leq0\\):</strong> prodotto negativo o nullo. Radici incluse: \\(x=-2\\) (fatt.2), \\(x=0\\) e \\(x=2\\) (fatt.1).</p>
+            <div class="math-block result">\\[x \\leq -2 \\quad \\text{oppure} \\quad 0 \\leq x \\leq 2\\]</div>
+            <div class="cb warn" style="margin-top:10px">
+              <div class="cb-label">Occhio al segno nascosto</div>
+              <p>Quando un fattore è scritto come \\(k - x^2\\) invece di \\(x^2 - k\\), il suo segno è <strong>invertito</strong> rispetto alla forma standard. Riscriverlo esplicitamente evita errori.</p>
+            </div>`
+      }
+    ])}
+  `
+},
+
+/* ──── 5 · APPLICAZIONI ──── */
+{
+  tag: `APPLICAZIONI`,
+  title: `Disequazioni di 2° grado nel <em>mondo reale</em>`,
+  nav: `Applicazioni`,
+  sub: `Problemi concreti: aree, traiettorie, vincoli quadratici.`,
+  body: `
+    <p>Le disequazioni di secondo grado compaiono ogni volta che un vincolo dipende dal <strong>quadrato</strong> di una grandezza: aree, traiettorie paraboliche, costi che crescono più che proporzionalmente.</p>
+
+    ${acc([
+      {
+        t: `Problema 1: Area di un recinto`,
+        h: `<p><strong>Scenario:</strong> Un recinto rettangolare ha un lato lungo \\(x\\) metri e l'altro \\((10-x)\\) metri (perimetro fissato). Per quali valori di \\(x\\) l'area supera 21 m²?</p>
+            <p><strong>Modello:</strong></p>
+            <div class="math-block">\\[x(10-x) > 21\\]\\[10x - x^2 > 21\\]\\[-x^2 + 10x - 21 > 0\\]\\[x^2 - 10x + 21 < 0\\]</div>
+            <p><strong>Risoluzione:</strong> \\(\\Delta = 100-84=16\\), \\(x_{1,2}=\\frac{10\\pm4}{2}\\), \\(x_1=3\\), \\(x_2=7\\). Con \\(a>0\\), \\(<0\\) è l'interno.</p>
+            <div class="math-block result">\\[3 < x < 7\\]</div>
+            <p><strong>Risposta pratica:</strong> il lato \\(x\\) deve misurare <strong>tra 3 e 7 metri</strong> (esclusi) perché l'area superi 21 m².</p>`
+      },
+      {
+        t: `Problema 2: Traiettoria di un lancio`,
+        h: `<p><strong>Scenario:</strong> Un pallone lanciato segue la traiettoria \\(h(t) = -5t^2 + 20t\\) (altezza in metri, tempo in secondi). Per quanto tempo il pallone resta ad altezza superiore a 15 m?</p>
+            <p><strong>Modello:</strong></p>
+            <div class="math-block">\\[-5t^2 + 20t > 15\\]\\[-5t^2+20t-15>0\\]\\[t^2 - 4t + 3 < 0 \\quad \\text{(dividendo per } -5 \\text{, verso invertito)}\\]</div>
+            <p><strong>Risoluzione:</strong> \\(\\Delta=16-12=4\\), \\(t_{1,2}=\\frac{4\\pm2}{2}\\), \\(t_1=1\\), \\(t_2=3\\). Con \\(a>0\\), \\(<0\\) è l'interno.</p>
+            <div class="math-block result">\\[1 < t < 3\\]</div>
+            <p><strong>Risposta pratica:</strong> il pallone resta sopra i 15 m <strong>tra il primo e il terzo secondo</strong> di volo (2 secondi in totale).</p>`
+      },
+      {
+        t: `Problema 3: Utile di un'attività`,
+        h: `<p><strong>Scenario:</strong> L'utile mensile di un'attività (in migliaia di euro) in funzione del numero \\(x\\) di prodotti venduti (in centinaia) è \\(U(x) = -x^2 + 8x - 7\\). Per quali valori di \\(x\\) l'attività è in perdita (\\(U<0\\))?</p>
+            <p><strong>Modello:</strong></p>
+            <div class="math-block">\\[-x^2+8x-7<0\\]\\[x^2-8x+7>0\\]</div>
+            <p><strong>Risoluzione:</strong> \\(\\Delta=64-28=36\\), \\(x_{1,2}=\\frac{8\\pm6}{2}\\), \\(x_1=1\\), \\(x_2=7\\). Con \\(a>0\\), \\(>0\\) è l'esterno.</p>
+            <div class="math-block result">\\[x < 1 \\quad \\text{oppure} \\quad x > 7\\]</div>
+            <p><strong>Risposta pratica:</strong> l'attività è in perdita se vende <strong>meno di 100</strong> o <strong>più di 700</strong> prodotti al mese; tra 100 e 700 è in utile.</p>`
+      }
+    ])}
+
+    <h2>Il metodo applicativo</h2>
+    <div class="cb success">
+      <div class="cb-label">Come trasformare un problema reale in una disequazione di 2° grado</div>
+      <ol>
+        <li><strong>Identifica la variabile</strong> e scrivi l'espressione quadratica che modella il fenomeno</li>
+        <li><strong>Traduci il vincolo</strong> ("supera", "non oltre", "in perdita") in un simbolo di disuguaglianza</li>
+        <li><strong>Porta tutto a un membro</strong> e risolvi con il metodo grafico</li>
+        <li><strong>Interpreta la soluzione</strong> nel contesto — a volte va anche verificato che i valori abbiano senso fisico (es. \\(t \\geq 0\\))</li>
+      </ol>
+    </div>
+  `
+},
+
+/* ──── 6 · SINTESI ──── */
+{
+  tag: `SINTESI`,
+  title: `Dal <em>grafico</em> al segno: ricapitoliamo`,
+  nav: `Sintesi`,
+  sub: `Il metodo grafico funziona sempre: parabola, radici, lettura del segno.`,
+  body: `
+    <div class="cb success">
+      <div class="cb-label">Che cosa abbiamo imparato</div>
+      <ul>
+        <li>Una disequazione di 2° grado si risolve con il <strong>metodo grafico</strong>: risolvi l'equazione associata, determina la concavità, leggi il segno dal grafico della parabola.</li>
+        <li>Con \\(\\Delta>0\\): tre zone, segno alternato attorno alle due radici.</li>
+        <li>Con \\(\\Delta=0\\): la parabola è tangente all'asse — un solo punto "speciale" da trattare a parte.</li>
+        <li>Con \\(\\Delta<0\\): la parabola non tocca mai l'asse — soluzione sempre vera o sempre impossibile, a seconda del segno di \\(a\\).</li>
+        <li>Disequazioni pure e spurie si risolvono più rapidamente, senza passare dalla formula generale.</li>
+        <li>Con <strong>prodotti e quozienti</strong> di più fattori: studia il segno di ciascuno, poi combina con lo <strong>schema dei segni</strong>. Nei quozienti, gli zeri del denominatore sono sempre esclusi.</li>
+      </ul>
+    </div>
+
+    <h2>Tavola riassuntiva finale</h2>
+    <table class="ct">
+      <tr><th>\\(\\Delta\\)</th><th>Parabola</th><th>\\(a>0,\\ >0\\)</th><th>\\(a>0,\\ <0\\)</th></tr>
+      <tr><td>\\(>0\\)</td><td>2 intersezioni</td><td>esterno alle radici</td><td>interno alle radici</td></tr>
+      <tr><td>\\(=0\\)</td><td>tangente</td><td>\\(\\forall x \\neq x_V\\)</td><td>impossibile</td></tr>
+      <tr><td>\\(<0\\)</td><td>non interseca</td><td>\\(\\forall x \\in \\mathbb{R}\\)</td><td>impossibile</td></tr>
+    </table>
+
+    <div class="cb tip">
+      <div class="cb-label">La lezione prossima</div>
+      <p>Metteremo insieme quanto visto qui con le <strong>frazioni algebriche</strong>: le disequazioni fratte, dove numeratore e denominatore possono essere polinomi di primo o secondo grado, useranno esattamente lo schema dei segni introdotto in questa lezione.</p>
+    </div>
+  `
+}
+
+]; // fine schermate
+
+/* ═══════════════ APP ═══════════════ */
+let cur = 0;
+const tot = S.length;
+
+function render() {
+  // nav pills
+  document.getElementById('topNav').innerHTML = S.map((s, i) =>
+    `<button class="nav-pill ${i === cur ? 'active' : ''}" onclick="goTo(${i})">${s.nav}</button>`
+  ).join('');
+
+  // screens
+  document.getElementById('app').innerHTML = S.map((s, i) => `
+    <div class="section ${i === cur ? 'active' : ''}">
+      <div class="hero">
+        <div class="hero-tag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p class="hero-sub">${s.sub}</p>
+      </div>
+      ${s.body}
+      <div class="bottom-nav">
+        <button class="bb" onclick="goTo(${i - 1})" ${i === 0 ? 'disabled' : ''}>← Indietro</button>
+        <div class="dots">
+          ${S.map((_, j) =>
+            `<button class="dot ${j === i ? 'active' : ''}" onclick="goTo(${j})"
+             title="Sezione ${j + 1} di ${tot}"></button>`
+          ).join('')}
+        </div>
+        <button class="bb" onclick="goTo(${i + 1})" ${i === tot - 1 ? 'disabled' : ''}>Avanti →</button>
+      </div>
+    </div>
+  `).join('');
+
+  // typeset active section
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    const active = document.querySelector('.section.active');
+    if (active) MathJax.typesetPromise([active]);
+  }
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= tot) return;
+  cur = idx;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(cur + 1);
+  if (e.key === 'ArrowLeft')  goTo(cur - 1);
+});
+
+// avvia dopo MathJax
+if (typeof MathJax !== 'undefined' && MathJax.startup && MathJax.startup.promise) {
+  MathJax.startup.promise.then(() => render());
+} else {
+  render();
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>

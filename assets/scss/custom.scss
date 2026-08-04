@@ -1125,6 +1125,23 @@ html:has(body.dark) {
     color: $primary;
     font-weight: 600;
   }
+
+  li.content-optional {
+    .content-title {
+      font-style: italic;
+      opacity: 0.65;
+
+      &::after {
+        content: ' (facoltativo)';
+        font-style: italic;
+        font-weight: 400;
+      }
+    }
+
+    .content-hours {
+      opacity: 0.65;
+    }
+  }
 }
 
 .contents-total {
