@@ -265,10 +265,149 @@
         background-color: rgba(240, 142, 124, 0.08);
       }
     }
+
+    /* --- Toolbar: link indietro, toggle tema, download PDF --- */
+    .page-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .page-toolbar .back-link {
+      margin-bottom: 0;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .theme-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(237, 111, 92, 0.3);
+      background-color: rgba(237, 111, 92, 0.06);
+      border-radius: 6px;
+      color: var(--primary);
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: rgba(237, 111, 92, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .theme-toggle-btn .icon-sun { display: none; }
+
+    html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
+    html[data-theme="dark"] .theme-toggle-btn .icon-sun { display: block; }
+
+    @media (prefers-color-scheme: dark) {
+      .theme-toggle-btn .icon-moon { display: none; }
+      .theme-toggle-btn .icon-sun { display: block; }
+      html[data-theme="light"] .theme-toggle-btn .icon-moon { display: block; }
+      html[data-theme="light"] .theme-toggle-btn .icon-sun { display: none; }
+    }
+
+    .pdf-download-btn {
+      display: inline-block;
+      border: 1px solid rgba(237, 111, 92, 0.3);
+      background-color: rgba(237, 111, 92, 0.06);
+      color: var(--primary);
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .pdf-download-btn:hover {
+      border-color: rgba(237, 111, 92, 0.5);
+      transform: translateY(-1px);
+    }
+
+    /* --- Override manuale del tema, indipendente dal sistema operativo --- */
+    html[data-theme="dark"] {
+      --bg: #1a1a1a;
+      --text: #d0d0d0;
+      --border: var(--border-dark);
+    }
+
+    html[data-theme="dark"] .module-header {
+      background-color: rgba(240, 142, 124, 0.08);
+    }
+
+    html[data-theme="dark"] .module-header:hover {
+      background-color: rgba(240, 142, 124, 0.12);
+    }
+
+    html[data-theme="dark"] .objectives {
+      background-color: rgba(240, 142, 124, 0.08);
+    }
+
+    html[data-theme="light"] {
+      --bg: #f7f1e6;
+      --text: #1a1a1a;
+      --border: rgba(21, 20, 15, 0.1);
+    }
+
+    html[data-theme="light"] .module-header {
+      background-color: rgba(237, 111, 92, 0.04);
+    }
+
+    html[data-theme="light"] .module-header:hover {
+      background-color: rgba(237, 111, 92, 0.08);
+    }
+
+    html[data-theme="light"] .objectives {
+      background-color: rgba(237, 111, 92, 0.05);
+    }
+
+    /* --- Stampa: sempre chiaro, moduli sempre aperti, niente controlli --- */
+    @media print {
+      .page-toolbar,
+      .theme-toggle-btn,
+      .pdf-download-btn,
+      .back-link {
+        display: none !important;
+      }
+
+      body {
+        background-color: #ffffff;
+        color: #1a1a1a;
+      }
+
+      .module.collapsed .module-content {
+        display: block !important;
+      }
+
+      .toggle-icon {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body>
-  <a href="/" class="back-link">← torna al sito</a>
+  <div class="page-toolbar">
+    <a href="/" class="back-link">← torna al sito</a>
+    <div class="toolbar-actions">
+      <button type="button" class="theme-toggle-btn" id="themeToggleBtn" aria-label="Cambia tema chiaro/scuro" title="Cambia tema chiaro/scuro">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="programma-quinta.pdf" class="pdf-download-btn" download>Scarica PDF</a>
+    </div>
+  </div>
 
   <header>
     <h1 style="font-size: 4rem; font-weight: 700; line-height: 1.15; margin-bottom: 0.2rem; font-family: Georgia, serif;">Programmazione</h1>
@@ -461,6 +600,32 @@
 
     // Load state on page load
     loadCheckboxState();
+
+    // Tema chiaro/scuro manuale (indipendente dal sistema operativo)
+    (function () {
+      var THEME_KEY = 'programmi-theme';
+      var root = document.documentElement;
+      var btn = document.getElementById('themeToggleBtn');
+
+      function apply(theme) {
+        if (theme === 'light' || theme === 'dark') {
+          root.setAttribute('data-theme', theme);
+        } else {
+          root.removeAttribute('data-theme');
+        }
+      }
+
+      apply(localStorage.getItem(THEME_KEY));
+
+      btn.addEventListener('click', function () {
+        var current = root.getAttribute('data-theme');
+        var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var effectiveDark = current ? current === 'dark' : systemDark;
+        var next = effectiveDark ? 'light' : 'dark';
+        apply(next);
+        localStorage.setItem(THEME_KEY, next);
+      });
+    })();
   </script>
 </body>
 </html>
