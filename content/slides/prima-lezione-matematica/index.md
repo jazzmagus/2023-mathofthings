@@ -95,6 +95,10 @@ slides:
 <section>
   <p class="mot-kicker">come lavoriamo</p>
   <h2>Le regole del <em>gioco</em></h2>
+  <blockquote class="mot-quote">
+    <em>Questi sono i miei principi. Se non vi piacciono, ne ho altri.</em>
+    <span class="quote-attr">&mdash; Groucho Marx</span>
+  </blockquote>
   <p class="fragment">Come si svolge una lezione tipo, quali sono gli strumenti didattici che useremo insieme durante l'anno, e cosa mi aspetto da voi in classe.</p>
 </section>
 
