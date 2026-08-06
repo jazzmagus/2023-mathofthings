@@ -114,6 +114,23 @@ slides:
   <p class="mot-joke fragment">il "mago" non ha nessun potere: ha solo scritto un'equazione al contrario</p>
 </section>
 
+<section>
+  <p class="mot-kicker">divisione mentale, senza calcoli a memoria</p>
+  <h2>Dividi come un <em>bambino</em></h2>
+  <p style="font-size: 2.2em; text-align: center; margin: 0.6em 0;">91 &divide; 7 = <span class="mot-result">?</span></p>
+  <p class="fragment">Il riflesso di molti è chiedersi "quante volte il 7 sta nel 91?" — un conto che si fa a fatica a mente. Un bambino, spesso, farebbe di meglio.</p>
+</section>
+
+<section>
+  <p class="mot-kicker">passo per passo</p>
+  <h2>Conti alla <em>mano</em></h2>
+  <p class="fragment">Spezziamo 91 in due pezzi più comodi da dividere per 7.</p>
+  <p class="fragment">Primo tentativo: $91 = 80 + 11$. Ma né 80 né 11 sono multipli di 7 — vicolo cieco.</p>
+  <p class="fragment">Secondo tentativo: $91 = 70 + 21$. Questa volta sì: sono entrambi multipli di 7.</p>
+  <p class="mot-def fragment">$\dfrac{91}{7} = \dfrac{70+21}{7} = \dfrac{70}{7} + \dfrac{21}{7} = 10 + 3 = \mathbf{13}$</p>
+  <p class="mot-joke fragment">non è un trucco: è la proprietà distributiva della divisione, travestita da furbizia</p>
+</section>
+
 ---
 
 <section class="mot-divider" data-transition="zoom">
