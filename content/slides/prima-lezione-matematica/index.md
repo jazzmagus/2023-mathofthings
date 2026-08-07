@@ -133,7 +133,7 @@ slides:
   <h2>La verifica <em>scritta</em></h2>
   <ul class="fragment">
     <li class="fragment">una verifica per ogni modulo/argomento</li>
-    <li class="fragment"><a href="first-math-lesson.pdf" target="_blank" class="mono">esempio di verifica</a></li>
+    <li class="fragment"><a href="/uploads/verifiche/LB01-insiemi.pdf" target="_blank" class="mono">esempio di verifica</a></li>
   </ul>
   <p class="mot-def fragment"><b>D:</b> come viene calcolato il punteggio e come si trasforma nel voto finale?</p>
   <p class="mot-def fragment"><b>R:</b> è un algoritmo che tiene conto di diverse variabili.</p>
