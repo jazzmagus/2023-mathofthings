@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Teoremi di Weierstrass e Bolzano applicati</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#ed6f5c; --accent-light:#fdeeeb;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+
+.level-picker{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
+.level-card{flex:1;min-width:160px;border:1.5px solid var(--border);border-radius:10px;padding:16px 18px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s}
+.level-card:hover{border-color:var(--accent);background:var(--accent-light)}
+.level-card.active{border-color:var(--accent);background:var(--accent-light)}
+.level-name{font-family:'Fira Code',monospace;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+.level-card.active .level-name{color:var(--accent)}
+.level-desc{font-size:.85rem;color:var(--text-mid);line-height:1.5}
+
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.btn-start{margin-top:8px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-start:hover{background:#d85a46}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px;color:var(--text)}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{background:#d85a46}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-retry:hover{background:#d85a46}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(5,1fr)}
+  .level-picker{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quiz · Teoremi applicati</div>
+  <div class="topbar-tag">LA09</div>
+</div>
+
+<div class="container">
+
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Test di preparazione</div>
+      <h1>Weierstrass e <em>Bolzano</em>, applicati</h1>
+      <p class="hero-sub">30 domande a risposta multipla per imparare ad applicare — non solo enunciare — i teoremi di Weierstrass e di Bolzano: ipotesi, cosa garantiscono davvero, controesempi quando le ipotesi cadono, ed esercizi su funzioni concrete. Tre livelli: Base, Avanzato, Pro.</p>
+    </div>
+
+    <div class="level-picker">
+      <div class="level-card active" id="lvl-0" onclick="selectLevel(0)">
+        <div class="level-name">Base</div>
+        <div class="level-desc">Ipotesi e tesi dei due teoremi, cosa garantiscono e cosa no.</div>
+      </div>
+      <div class="level-card" id="lvl-1" onclick="selectLevel(1)">
+        <div class="level-name">Avanzato</div>
+        <div class="level-desc">Verificare le ipotesi su funzioni concrete, localizzare zeri, controesempi.</div>
+      </div>
+      <div class="level-card" id="lvl-2" onclick="selectLevel(2)">
+        <div class="level-name">Pro</div>
+        <div class="level-desc">Punto fisso, applicazioni doppie, sottigliezze su esistenza e unicità.</div>
+      </div>
+    </div>
+
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">10 per livello</span></div>
+      <div class="meta-item"><span class="meta-label">Tipo</span><span class="meta-value">Risposta multipla</span></div>
+      <div class="meta-item"><span class="meta-label">Feedback</span><span class="meta-value">Immediato</span></div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia il test</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso</span>
+        <span class="progress-frac" id="prog-frac">1 / 10</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag" id="res-tag">Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den" id="res-den">su 10 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova questo livello</button>
+      <a class="btn-lesson" href="#" onclick="backToLevels();return false;">Cambia livello</a>
+      <a class="btn-lesson" href="/lezioni/la07-continuita-teoremi/lezione.html">Torna alla lezione</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const LEVELS = ["Base","Avanzato","Pro"];
+
+const QSETS = [
+
+// ══════════════ LIVELLO BASE ══════════════
+[
+  {
+    badge: "Ipotesi di Weierstrass",
+    q: "Quali ipotesi richiede il teorema di Weierstrass su una funzione \\(f\\)?",
+    opts: [
+      "continua su un intervallo aperto",
+      "continua su un intervallo chiuso e limitato \\([a,b]\\)",
+      "derivabile su tutto \\(\\mathbb{R}\\)",
+      "monotona su \\([a,b]\\)"
+    ],
+    ans: 1,
+    exp: "Il teorema di Weierstrass richiede che \\(f\\) sia continua su un intervallo chiuso e limitato: senza queste due condizioni (chiusura e limitatezza), il teorema può non valere."
+  },
+  {
+    badge: "Cosa garantisce Weierstrass",
+    q: "Cosa garantisce il teorema di Weierstrass?",
+    opts: [
+      "che \\(f\\) ha un unico zero in \\([a,b]\\)",
+      "che \\(f\\) ammette massimo e minimo assoluti su \\([a,b]\\)",
+      "che \\(f\\) è monotona su \\([a,b]\\)",
+      "che \\(f\\) è derivabile in ogni punto di \\([a,b]\\)"
+    ],
+    ans: 1,
+    exp: "Weierstrass garantisce l'esistenza di un valore massimo e di un valore minimo assoluti, entrambi effettivamente raggiunti da \\(f\\) in almeno un punto di \\([a,b]\\)."
+  },
+  {
+    badge: "Ipotesi di Bolzano",
+    q: "Quali ipotesi richiede il teorema di Bolzano (esistenza degli zeri)?",
+    opts: [
+      "\\(f\\) continua su un intervallo aperto",
+      "\\(f\\) monotona con \\(f(a)=f(b)\\)",
+      "\\(f\\) derivabile su \\([a,b]\\)",
+      "\\(f\\) continua su \\([a,b]\\) con \\(f(a)\\) e \\(f(b)\\) di segno discorde"
+    ],
+    ans: 3,
+    exp: "Bolzano richiede continuità su un intervallo chiuso e che i valori agli estremi abbiano segno opposto: sono le due condizioni che garantiscono l'esistenza di uno zero interno."
+  },
+  {
+    badge: "Cosa garantisce Bolzano",
+    q: "Se \\(f\\) è continua su \\([a,b]\\) e \\(f(a) \\lt 0 \\lt f(b)\\), cosa garantisce il teorema di Bolzano?",
+    opts: [
+      "che esiste un unico punto \\(c\\) con \\(f(c)=0\\)",
+      "che esiste almeno un punto \\(c\\) in \\((a,b)\\) con \\(f(c)=0\\)",
+      "che \\(f(a)=f(b)\\)",
+      "che \\(f\\) è crescente su \\([a,b]\\)"
+    ],
+    ans: 1,
+    exp: "Bolzano garantisce l'esistenza di almeno uno zero, non l'unicità: la funzione potrebbe annullarsi più volte nell'intervallo."
+  },
+  {
+    badge: "Perché serve la chiusura",
+    q: "Perché il teorema di Weierstrass richiede un intervallo chiuso (non aperto)?",
+    opts: [
+      "perché serve per calcolare la derivata",
+      "perché altrimenti \\(f\\) non sarebbe continua",
+      "perché altrimenti \\(f\\) non sarebbe definita",
+      "perché su un intervallo aperto il massimo o il minimo potrebbe non essere mai raggiunto, restando un estremo non incluso"
+    ],
+    ans: 3,
+    exp: "Su \\((0,1)\\), \\(f(x)=x\\) è continua ma non ha massimo: si avvicina a 1 senza mai raggiungerlo. La chiusura dell'intervallo garantisce che gli estremi siano inclusi e raggiungibili."
+  },
+  {
+    badge: "Perché serve la limitatezza",
+    q: "Perché serve anche che l'intervallo sia limitato?",
+    opts: [
+      "su un intervallo illimitato una funzione continua può non avere massimo, ad esempio \\(f(x)=x\\) su \\([0,+\\infty)\\)",
+      "perché altrimenti la funzione non è continua",
+      "perché altrimenti non esistono i limiti agli estremi",
+      "non serve, basta la chiusura"
+    ],
+    ans: 0,
+    exp: "\\(f(x)=x\\) è continua e chiusa a sinistra su \\([0,+\\infty)\\), ma cresce senza limite: non ha massimo. Serve sia la chiusura sia la limitatezza, cioè un intervallo compatto."
+  },
+  {
+    badge: "Esempio diretto",
+    q: "La funzione \\(f(x)=x^2-4\\) è continua su \\([0,3]\\). Poiché \\(f(0)=-4\\) e \\(f(3)=5\\) hanno segno discorde, cosa possiamo concludere?",
+    opts: [
+      "che \\(f\\) è decrescente",
+      "che esiste almeno uno zero di \\(f\\) in \\((0,3)\\), per il teorema di Bolzano",
+      "che \\(f(0)=f(3)\\)",
+      "che \\(f\\) non ha zeri"
+    ],
+    ans: 1,
+    exp: "\\(f(0)\\) e \\(f(3)\\) hanno segno opposto: per Bolzano esiste almeno un punto in cui \\(f\\) si annulla — infatti è \\(x=2\\)."
+  },
+  {
+    badge: "Massimo e minimo, non dove",
+    q: "Il teorema di Weierstrass dice anche in quali punti si trovano massimo e minimo?",
+    opts: [
+      "no, garantisce solo che esistono: per localizzarli servono altri strumenti, come lo studio della derivata",
+      "sì, sono sempre nei punti di flesso",
+      "no, il teorema non è mai applicabile in pratica",
+      "sì, sono sempre negli estremi dell'intervallo"
+    ],
+    ans: 0,
+    exp: "Il teorema è un teorema di esistenza: assicura che massimo e minimo esistono, ma per localizzarli servono altre tecniche, come lo studio del segno della derivata."
+  },
+  {
+    badge: "Discontinuità e Weierstrass",
+    q: "Se \\(f\\) non è continua su \\([a,b]\\), il teorema di Weierstrass...",
+    opts: [
+      "non cambia nulla",
+      "non si può applicare, e infatti esistono funzioni discontinue su un chiuso senza massimo o minimo",
+      "si applica comunque, la continuità non è necessaria",
+      "garantisce comunque l'esistenza di uno zero"
+    ],
+    ans: 1,
+    exp: "La continuità è un'ipotesi essenziale: una funzione discontinua su \\([a,b]\\) può non avere massimo, ad esempio se presenta un \"buco\" verso cui tende senza mai raggiungerlo."
+  },
+  {
+    badge: "Bolzano e il segno",
+    q: "Se \\(f\\) è continua su \\([a,b]\\) e \\(f(a)\\) e \\(f(b)\\) hanno lo stesso segno, cosa possiamo dire?",
+    opts: [
+      "nulla di certo: il teorema di Bolzano non si applica, ma \\(f\\) potrebbe comunque avere zeri interni",
+      "\\(f\\) ha sicuramente un numero pari di zeri",
+      "\\(f\\) non ha sicuramente zeri in \\((a,b)\\)",
+      "\\(f\\) è sicuramente costante"
+    ],
+    ans: 0,
+    exp: "Bolzano nella sua forma base richiede segni discordi agli estremi; se non c'è discordanza il teorema semplicemente non si applica, ma questo non esclude che possano comunque esserci zeri interni."
+  }
+],
+
+// ══════════════ LIVELLO AVANZATO ══════════════
+[
+  {
+    badge: "Verificare le ipotesi",
+    q: "Per applicare Weierstrass a \\(f(x)=\\dfrac{1}{x}\\) su \\([1,3]\\), cosa dobbiamo verificare per prima cosa?",
+    opts: [
+      "che \\(f(1)=f(3)\\)",
+      "che \\(f\\) sia derivabile due volte",
+      "che l'intervallo sia aperto",
+      "che \\(f\\) sia continua su tutto \\([1,3]\\) — e lo è, perché \\(x=0\\) (l'unico punto di discontinuità) non appartiene all'intervallo"
+    ],
+    ans: 3,
+    exp: "Il primo passo è sempre verificare la continuità sull'intero intervallo: \\(1/x\\) è continua ovunque tranne che in \\(x=0\\), che qui non è compreso in \\([1,3]\\)."
+  },
+  {
+    badge: "Un caso limite",
+    q: "Perché Weierstrass NON si può applicare direttamente a \\(f(x)=\\dfrac{1}{x}\\) su \\((0,1]\\)?",
+    opts: [
+      "perché \\(f\\) è negativa",
+      "perché \\(f\\) non è continua in nessun punto di \\((0,1]\\)",
+      "perché l'intervallo non è chiuso a sinistra (manca lo 0) e \\(f\\) non è nemmeno definita fino a quell'estremo",
+      "perché l'intervallo è troppo piccolo"
+    ],
+    ans: 2,
+    exp: "\\((0,1]\\) non è chiuso: manca l'estremo 0, dove \\(f\\) non sarebbe comunque definita. Infatti \\(f(x)=1/x\\) su \\((0,1]\\) non ha massimo: cresce senza limite avvicinandosi a 0."
+  },
+  {
+    badge: "Localizzare uno zero",
+    q: "\\(f(x)=x^3-x-2\\) è continua su \\([1,2]\\). Da \\(f(1)=-2\\) e \\(f(2)=4\\), cosa puoi concludere sull'esistenza di soluzioni di \\(x^3-x-2=0\\)?",
+    opts: [
+      "\\(f(1)=f(2)=0\\), quindi l'equazione ha infinite soluzioni",
+      "il teorema non si applica perché il grado è dispari",
+      "segni discordi \\(\\Rightarrow\\) per Bolzano esiste una soluzione in \\((1,2)\\)",
+      "\\(f\\) è sempre positiva, quindi non ci sono soluzioni"
+    ],
+    ans: 2,
+    exp: "\\(f(1)=1-1-2=-2\\), \\(f(2)=8-2-2=4\\): segno discorde, quindi Bolzano garantisce almeno una soluzione dell'equazione in \\((1,2)\\)."
+  },
+  {
+    badge: "Bisezione",
+    q: "Il metodo di bisezione per approssimare uno zero di \\(f\\) su \\([a,b]\\) si basa su quale idea?",
+    opts: [
+      "calcolare la derivata di \\(f\\) in ogni punto",
+      "applicare Weierstrass per trovare il massimo",
+      "applicare ripetutamente Bolzano su intervalli sempre più piccoli, dimezzando ogni volta quello in cui il segno cambia",
+      "risolvere l'equazione \\(f(x)=0\\) algebricamente"
+    ],
+    ans: 2,
+    exp: "A ogni passo si valuta \\(f\\) nel punto medio e si sceglie la metà dell'intervallo dove il segno resta discorde, restringendo progressivamente la posizione dello zero garantito da Bolzano."
+  },
+  {
+    badge: "Valori intermedi",
+    q: "Il teorema dei valori intermedi (generalizzazione di Bolzano) afferma che una funzione continua su \\([a,b]\\)...",
+    opts: [
+      "assume solo i valori \\(f(a)\\) e \\(f(b)\\)",
+      "non assume mai valori negativi se \\(f(a)\\gt0\\)",
+      "è sempre invertibile",
+      "assume tutti i valori compresi tra \\(f(a)\\) e \\(f(b)\\), almeno una volta"
+    ],
+    ans: 3,
+    exp: "Non solo lo zero: una funzione continua passa per tutti i valori intermedi tra \\(f(a)\\) e \\(f(b)\\), conseguenza diretta di Bolzano applicato a \\(f(x)-k\\) per ogni valore \\(k\\) intermedio."
+  },
+  {
+    badge: "Applicazione pratica",
+    q: "Un termometro misura 2°C alle 8:00 e 14°C alle 14:00, con temperatura che varia con continuità. Possiamo concludere che a un certo istante la temperatura ha toccato esattamente 8°C?",
+    opts: [
+      "sì, per il teorema dei valori intermedi, essendo 8 compreso tra 2 e 14",
+      "no, non c'è modo di saperlo",
+      "no, servirebbe conoscere la funzione esplicita",
+      "sì, ma solo se la temperatura cresce in modo costante"
+    ],
+    ans: 0,
+    exp: "È un'applicazione diretta del teorema dei valori intermedi: la temperatura, variando con continuità, assume necessariamente tutti i valori tra 2°C e 14°C, incluso 8°C."
+  },
+  {
+    badge: "Controesempio",
+    q: "\\(f(x)=1\\) se \\(x\\ge0\\), \\(f(x)=-1\\) se \\(x\\lt0\\), su \\([-1,1]\\). \\(f(-1)=-1\\) e \\(f(1)=1\\): perché Bolzano non garantisce uno zero qui?",
+    opts: [
+      "perché l'intervallo non è chiuso",
+      "il teorema si applica comunque e infatti c'è uno zero",
+      "perché \\(f(-1)\\) e \\(f(1)\\) hanno lo stesso segno",
+      "perché \\(f\\) non è continua in \\(x=0\\) (ha un salto): l'ipotesi di continuità non è soddisfatta"
+    ],
+    ans: 3,
+    exp: "\\(f\\) ha una discontinuità a salto in 0: non essendo continua, l'ipotesi del teorema cade, e infatti \\(f\\) non si annulla mai — salta direttamente da -1 a 1."
+  },
+  {
+    badge: "Unicità",
+    q: "Se \\(f\\) fosse anche strettamente crescente su \\([a,b]\\), oltre all'esistenza garantita da Bolzano cosa potremmo aggiungere sullo zero?",
+    opts: [
+      "che si trova nel punto medio dell'intervallo",
+      "che ce ne sono esattamente due",
+      "che è anche unico, perché una funzione strettamente monotona può annullarsi al più una volta",
+      "nulla, la monotonia non aggiunge informazioni"
+    ],
+    ans: 2,
+    exp: "Bolzano da solo garantisce solo l'esistenza; la stretta monotonia implica che la funzione è iniettiva, quindi lo zero — se esiste — è unico."
+  },
+  {
+    badge: "Weierstrass su funzione composta",
+    q: "Se \\(f\\) e \\(g\\) sono entrambe continue su \\([a,b]\\), la funzione somma \\(f+g\\) soddisfa le ipotesi di Weierstrass su \\([a,b]\\)?",
+    opts: [
+      "sì, perché la somma di funzioni continue è continua, e l'intervallo resta chiuso e limitato",
+      "solo se \\(f=g\\)",
+      "solo se \\(f\\) e \\(g\\) hanno lo stesso segno",
+      "no, mai"
+    ],
+    ans: 0,
+    exp: "La continuità si conserva per somma (e prodotto) di funzioni continue: \\(f+g\\) resta continua su \\([a,b]\\), quindi Weierstrass si applica normalmente."
+  },
+  {
+    badge: "Un'equazione trascendente",
+    q: "Vogliamo mostrare che l'equazione \\(\\cos x = x\\) ha almeno una soluzione in \\([0,1]\\). Quale funzione ausiliaria conviene studiare?",
+    opts: [
+      "\\(h(x)=\\cos x+x\\)",
+      "\\(h(x) = \\cos x - x\\), verificando che \\(h(0)\\) e \\(h(1)\\) abbiano segno discorde",
+      "direttamente \\(\\cos x\\), senza modificarla",
+      "\\(h(x)=x^2\\), che non ha nulla a che fare col problema"
+    ],
+    ans: 1,
+    exp: "Per applicare Bolzano a un'equazione \\(f(x)=g(x)\\), si studia la funzione ausiliaria \\(h(x)=f(x)-g(x)\\): qui \\(h(0)=1\\gt0\\) e \\(h(1)=\\cos1-1\\lt0\\), segno discorde, quindi esiste una soluzione in \\((0,1)\\)."
+  }
+],
+
+// ══════════════ LIVELLO PRO ══════════════
+[
+  {
+    badge: "Punto fisso",
+    q: "Il teorema del punto fisso su \\([a,b]\\) (per \\(f\\) continua con \\(f([a,b])\\subseteq[a,b]\\)) è una conseguenza di quale teorema?",
+    opts: [
+      "del teorema di Weierstrass, applicato direttamente a \\(f\\)",
+      "non è collegato a nessun teorema sulla continuità",
+      "del teorema di Bolzano, applicato alla funzione ausiliaria \\(h(x)=f(x)-x\\)",
+      "del teorema di Rolle"
+    ],
+    ans: 2,
+    exp: "Ponendo \\(h(x)=f(x)-x\\), si ha \\(h(a)\\ge0\\) e \\(h(b)\\le0\\) (dato che \\(f\\) manda \\([a,b]\\) in sé): per Bolzano \\(h\\) si annulla in qualche punto, cioè \\(f(x)=x\\)."
+  },
+  {
+    badge: "Esistenza vs costruzione",
+    q: "Qual è il limite pratico dei teoremi di esistenza come Weierstrass e Bolzano?",
+    opts: [
+      "richiedono sempre di conoscere la derivata",
+      "non hanno alcun limite pratico",
+      "si applicano solo a polinomi",
+      "garantiscono che una soluzione esiste, ma non dicono come calcolarla esplicitamente: serve un metodo numerico separato"
+    ],
+    ans: 3,
+    exp: "Sono teoremi puramente di esistenza: stabiliscono che una soluzione (zero, massimo, minimo) esiste, ma il \"dove\" richiede strumenti aggiuntivi come la bisezione o il calcolo differenziale."
+  },
+  {
+    badge: "Continuità agli estremi",
+    q: "\\(f\\) è continua su \\((a,b)\\) ma i limiti agli estremi \\(a\\) e \\(b\\) non esistono finiti. Weierstrass si applica su \\([a,b]\\)?",
+    opts: [
+      "non è possibile dirlo senza il grafico",
+      "sì, ma solo se \\(f\\) è pari",
+      "sì, il teorema si applica comunque per estensione automatica",
+      "no, perché \\(f\\) non è nemmeno continua su un intervallo chiuso che includa \\(a\\) e \\(b\\): manca proprio il dominio"
+    ],
+    ans: 3,
+    exp: "Se \\(f\\) non è definita né estendibile con continuità agli estremi, non è nemmeno continua sull'intervallo chiuso \\([a,b]\\): l'ipotesi cade alla radice, prima ancora di parlare di chiusura o limitatezza."
+  },
+  {
+    badge: "Doppia applicazione",
+    q: "\\(f\\) è continua su \\([0,4]\\), con \\(f(0)=-3\\), \\(f(2)=5\\), \\(f(4)=-1\\). Quanti zeri possiamo garantire almeno, applicando Bolzano più volte?",
+    opts: [
+      "nessuno, perché \\(f(0)\\) e \\(f(4)\\) hanno lo stesso segno",
+      "almeno due: uno in \\((0,2)\\) e uno in \\((2,4)\\), dove il segno cambia in entrambi i casi",
+      "uno solo, sempre",
+      "esattamente due, non di più"
+    ],
+    ans: 1,
+    exp: "Applicando Bolzano separatamente ai due sotto-intervalli dove il segno effettivamente cambia si garantiscono almeno due zeri distinti: applicarlo al solo intervallo globale \\([0,4]\\) non basterebbe, perché \\(f(0)\\) e \\(f(4)\\) hanno lo stesso segno."
+  },
+  {
+    badge: "Weierstrass non basta",
+    q: "Sapere che \\(f\\) ammette massimo su \\([a,b]\\) (Weierstrass) implica che il punto di massimo sia unico?",
+    opts: [
+      "no, Weierstrass garantisce sempre almeno due punti di massimo",
+      "sì, se \\(f\\) è continua allora è anche iniettiva",
+      "no, il teorema non dice nulla sull'unicità: una funzione può raggiungere lo stesso valore massimo in più punti",
+      "sì, il punto di massimo è sempre unico"
+    ],
+    ans: 2,
+    exp: "Il teorema garantisce solo l'esistenza del valore massimo, non l'unicità del punto in cui viene raggiunto: pensa a una funzione costante, che lo raggiunge in ogni punto del dominio."
+  },
+  {
+    badge: "Un controesempio estremo",
+    q: "La funzione di Dirichlet (1 sui razionali, 0 sugli irrazionali) su \\([0,1]\\) è limitata; perché questo non contraddice il fatto che, se fosse continua, Weierstrass ne garantirebbe il massimo raggiunto in modo \"regolare\"?",
+    opts: [
+      "in realtà contraddice Weierstrass, che quindi sarebbe falso in questo caso",
+      "perché la funzione di Dirichlet non è continua in nessun punto: le ipotesi di Weierstrass non sono affatto soddisfatte",
+      "perché Weierstrass non vale per funzioni limitate",
+      "perché l'intervallo \\([0,1]\\) non è chiuso"
+    ],
+    ans: 1,
+    exp: "Weierstrass richiede continuità, non solo limitatezza: la funzione di Dirichlet è discontinua ovunque, quindi è del tutto coerente che un teorema che richiede continuità non le si applichi."
+  },
+  {
+    badge: "Bolzano e grado del polinomio",
+    q: "Ogni polinomio di grado dispari ha almeno una radice reale: quale teorema lo garantisce, e perché?",
+    opts: [
+      "Bolzano, perché un polinomio di grado dispari tende a \\(+\\infty\\) da un lato e a \\(-\\infty\\) dall'altro, quindi assume valori di segno opposto",
+      "nessun teorema: è un fatto indipendente",
+      "Weierstrass, perché ogni polinomio ha un massimo",
+      "Rolle, perché il polinomio ha sempre una derivata nulla"
+    ],
+    ans: 0,
+    exp: "Un polinomio di grado dispari tende a \\(-\\infty\\) da un lato e a \\(+\\infty\\) dall'altro (o viceversa): scegliendo un intervallo \\([a,b]\\) abbastanza ampio, \\(f(a)\\) e \\(f(b)\\) hanno segno discorde, e Bolzano garantisce una radice."
+  },
+  {
+    badge: "Minimo assoluto vincolato",
+    q: "Perché nei problemi di ottimizzazione (es. minimizzare un costo su un intervallo chiuso e limitato) è utile invocare Weierstrass prima di derivare?",
+    opts: [
+      "per essere sicuri che il minimo esista davvero, prima di cercarlo: altrimenti la ricerca coi punti critici potrebbe non portare a nulla",
+      "perché altrimenti la funzione non sarebbe derivabile",
+      "perché Weierstrass calcola direttamente il valore del minimo",
+      "non serve mai, si può sempre derivare direttamente"
+    ],
+    ans: 0,
+    exp: "Prima di usare la derivata per trovare il minimo, conviene sapere che il minimo esiste: Weierstrass fornisce questa garanzia teorica quando il dominio è un intervallo chiuso e limitato."
+  },
+  {
+    badge: "Bolzano non basta per l'unicità",
+    q: "In un problema economico, un'equazione di equilibrio ha una soluzione garantita da Bolzano. Perché in economia si aggiunge spesso l'ipotesi di monotonia stretta?",
+    opts: [
+      "per garantire che l'equilibrio, oltre a esistere, sia anche unico",
+      "perché altrimenti la funzione non sarebbe continua",
+      "per rendere il problema più difficile, senza motivo pratico",
+      "perché Bolzano richiede la monotonia come ipotesi"
+    ],
+    ans: 0,
+    exp: "Bolzano garantisce solo l'esistenza; l'unicità, cruciale per un modello economico ben posto, richiede un'ipotesi aggiuntiva come la stretta monotonia, che esclude soluzioni multiple."
+  },
+  {
+    badge: "Sintesi",
+    q: "Qual è la differenza concettuale principale tra Weierstrass e Bolzano?",
+    opts: [
+      "sono lo stesso teorema con nomi diversi",
+      "Weierstrass riguarda solo i polinomi, Bolzano tutte le funzioni",
+      "Weierstrass garantisce l'esistenza di estremi su un compatto, Bolzano l'esistenza di zeri quando il segno cambia agli estremi: entrambi teoremi di esistenza, ma su oggetti diversi",
+      "Bolzano richiede la derivabilità, Weierstrass no"
+    ],
+    ans: 2,
+    exp: "Entrambi sono teoremi di esistenza basati sulla continuità, ma rispondono a domande diverse: Weierstrass su \"esiste un punto di massimo/minimo?\", Bolzano su \"esiste un punto dove la funzione si annulla?\"."
+  }
+]
+
+];
+
+// ── STATO ──
+let level = 0, Q = QSETS[0];
+let cur = 0, score = 0, answered = false, results = [];
+
+function selectLevel(i) {
+  level = i;
+  document.querySelectorAll('.level-card').forEach((el,idx) => el.classList.toggle('active', idx===i));
+}
+
+// ── LOGICA ──
+function startQuiz() {
+  Q = QSETS[level];
+  cur = 0; score = 0; answered = false; results = [];
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function backToLevels() {
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-intro').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx], total = Q.length;
+  document.getElementById('prog-frac').textContent = (idx+1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('q-badge').textContent = LEVELS[level] + ' — ' + q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const letters = ['A','B','C','D'];
+  document.getElementById('q-opts').innerHTML = q.opts.map((o,i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${o}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === q.ans;
+  if (isOk) score++;
+  results.push(isOk);
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('opt-' + i).classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) document.getElementById('opt-' + q.ans).classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur+1);
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next show';
+  btn.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  document.getElementById('res-tag').textContent = 'Livello ' + LEVELS[level] + ' — Risultato';
+  document.getElementById('res-den').textContent = 'su ' + Q.length + ' domande';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+
+  const msgs = [
+    [9, "Eccellente! Weierstrass e Bolzano non hanno più segreti — prova un livello più avanzato."],
+    [7, "Ottimo lavoro. Un piccolo ripasso finale e sei al top."],
+    [5, "Sei sulla buona strada. Ricontrolla le domande sbagliate e riprova."],
+    [3, "C'è ancora del lavoro da fare. Rileggi la lezione e riprova il test."],
+    [0, "Non mollare. Riparti dalle ipotesi dei due teoremi, studia con calma e riprova."]
+  ];
+  document.getElementById('res-msg').textContent = (msgs.find(m => score >= m[0]) || msgs[4])[1];
+
+  document.getElementById('res-grid').innerHTML = results.map((ok,i) =>
+    `<div class="rev-cell ${ok?'ok':'err'}" title="Domanda ${i+1}: ${ok?'corretta':'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) pick(parseInt(e.key)-1);
+  if ((e.key==='Enter'||e.key===' ') && answered) { e.preventDefault(); nextQ(); }
+});
+
+// avvia dopo MathJax
+if (typeof MathJax !== 'undefined' && MathJax.startup && MathJax.startup.promise) {
+  MathJax.startup.promise.then(() => {});
+}
+</script>
+</body>
+</html>
