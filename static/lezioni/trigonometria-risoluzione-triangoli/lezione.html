@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trigonometria: Risoluzione dei Triangoli — Lezione interattiva</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']]
+  },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready() {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --purple:#6a1b9a; --purple-light:#f3e5f5;
+  --gold:#b8860b;
+  --teal:#4f6d7a; --teal-light:#e8eff2;
+  --danger:#b33a3a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);white-space:nowrap;flex-shrink:0}
+.topbar-nav{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;flex:1}
+.topbar-nav::-webkit-scrollbar{display:none}
+.nav-pill{background:none;border:none;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--text-dim);padding:6px 14px;cursor:pointer;white-space:nowrap;transition:color .2s;border-bottom:2px solid transparent}
+.nav-pill:hover{color:var(--text)}
+.nav-pill.active{color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
+.topbar-home{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-dim);text-decoration:none;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.topbar-home:hover{color:var(--accent)}
+
+/* LAYOUT */
+.container{max-width:780px;margin:0 auto;padding:84px clamp(20px,5vw,48px) 60px}
+.section{display:none;animation:appear .4s ease}
+.section.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.73rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.65rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.02rem;color:var(--text-mid);line-height:1.7;text-wrap:pretty}
+
+/* CALLOUT */
+.cb{background:var(--surface-alt);border-left:2px solid var(--accent);border-radius:0 8px 8px 0;padding:16px 18px;margin:18px 0}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600;color:var(--accent)}
+.cb.tip .cb-label{color:var(--blue)}
+.cb.warn .cb-label{color:var(--gold)}
+.cb.danger .cb-label{color:var(--danger)}
+.cb.success .cb-label{color:var(--green)}
+.cb.purple .cb-label{color:var(--purple)}
+.cb.teal .cb-label{color:var(--teal)}
+
+/* MATH */
+.math-block{background:rgba(0,0,0,.025);padding:12px 16px;margin:10px 0;overflow-x:auto;border-radius:2px}
+.math-block.center{text-align:center}
+.math-block.result{border-left:2px solid var(--green);background:rgba(74,124,89,.04)}
+.math-block.warn{border-left:2px solid var(--danger);background:rgba(179,58,58,.04)}
+mjx-container[jax="SVG"]{direction:ltr}
+mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%}
+
+/* ACCORDION */
+.accordion{margin:16px 0}
+.acc-item{border-bottom:1px solid rgba(0,0,0,.08)}
+.acc-item:last-child{border-bottom:none}
+.acc-header{display:flex;align-items:center;gap:12px;padding:14px 0;cursor:pointer;user-select:none;background:none;border:none;width:100%;text-align:left}
+.acc-num{width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.7rem;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.acc-title{font-weight:600;font-size:.93rem;flex:1;color:var(--text);font-family:Georgia,serif;text-align:left;line-height:1.4}
+.acc-arrow{width:16px;height:16px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.acc-item.open .acc-body{max-height:9000px}
+.acc-inner{padding:8px 0 18px 36px}
+
+/* TABLE */
+.ct{width:100%;border-collapse:collapse;margin:14px 0;font-size:.88rem}
+.ct th{text-align:left;padding:10px 14px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--border-light);font-size:.74rem;letter-spacing:.5px;text-transform:uppercase;font-family:'Fira Code',monospace}
+.ct td{padding:9px 14px;border-bottom:1px solid var(--border-light);vertical-align:top;line-height:1.65}
+.ct tr:last-child td{border-bottom:none}
+
+/* SVG / GRAPH */
+.graph-box{background:var(--surface);border:1px solid var(--border-light);border-radius:12px;padding:22px;margin:18px 0;overflow-x:auto;text-align:center;box-shadow:0 2px 10px rgba(44,37,32,.05)}
+.graph-box svg{max-width:100%;height:auto}
+.graph-cap{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--text-dim);margin-top:10px;letter-spacing:.3px}
+
+/* BOTTOM NAV */
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;margin-top:44px;padding-top:20px;border-top:1px solid var(--border-light)}
+.bb{font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:0;border:none;background:none;color:var(--text);transition:all .2s;cursor:pointer}
+.bb:hover{color:var(--accent);text-decoration:underline}
+.bb:disabled{opacity:.35;cursor:not-allowed}
+.bb:disabled:hover{color:var(--text);text-decoration:none}
+.dots{display:flex;gap:6px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--border);transition:all .3s;cursor:pointer;border:none;padding:0;flex-shrink:0}
+.dot.active{background:var(--accent);width:20px;border-radius:4px}
+
+/* TYPOGRAPHY */
+p{margin:6px 0}
+ul,ol{margin:8px 0 8px 24px}
+li{margin:3px 0;line-height:1.7}
+strong{font-weight:700}
+.dim{color:var(--text-dim)}
+h2{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin:26px 0 10px;color:var(--text)}
+h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;margin:18px 0 8px;color:var(--text)}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  body{font-size:15.5px}
+  .hero h1{font-size:1.65rem}
+  .cb{padding:14px 14px}
+  .container{padding:80px 18px 60px}
+  .topbar-brand{font-size:.9rem}
+  .acc-inner{padding:8px 0 16px 24px}
+  .acc-title{font-size:.88rem}
+  .ct{font-size:.82rem}
+  .ct th,.ct td{padding:8px 10px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Trigonometria · Triangoli</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+
+/* ═══════════════ ACCORDION ═══════════════ */
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) => `
+    <div class="acc-item">
+      <button class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-num">${i + 1}</div>
+        <div class="acc-title">${it.t}</div>
+        <svg class="acc-arrow" viewBox="0 0 20 20" fill="none">
+          <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="acc-body"><div class="acc-inner">${it.h}</div></div>
+    </div>`).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.closest('.acc-item');
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+/* ═══════════════ SCHERMATE ═══════════════ */
+const S = [
+
+/* ──── 0 · MOTIVAZIONE ──── */
+{
+  tag: `MOTIVAZIONE`,
+  title: `Oltre il triangolo <em>rettangolo</em>`,
+  nav: `Motivazione`,
+  sub: `Finora hai risolto solo triangoli rettangoli, dove un angolo di 90&deg; semplifica tutto. Ma la maggior parte dei triangoli — nella topografia, nella navigazione, in un rilevamento GPS — non ha nessun angolo retto. Servono strumenti nuovi.`,
+  body: `
+    <div class="cb tip">
+      <div class="cb-label">Un problema concreto</div>
+      <p>Un rilevatore misura la distanza da due antenne e l'angolo tra le due direzioni di visuale: come calcola la distanza tra le antenne, se non può misurarla direttamente? Il triangolo che si forma quasi certamente non è rettangolo: qui i teoremi che già conosci non bastano.</p>
+    </div>
+
+    <p>In questa lezione costruiamo, un passo alla volta, gli strumenti per risolvere <strong>qualunque</strong> triangolo, cioè per calcolare tutti i suoi lati e angoli a partire da un numero minimo di informazioni. Il percorso parte da un risultato sulla circonferenza — il <strong>teorema della corda</strong> — che porta quasi per mano al <strong>teorema dei seni</strong>; poi arriva al <strong>teorema del coseno</strong> (o di Carnot), che generalizza Pitagora.</p>
+
+    <div class="cb">
+      <div class="cb-label">Mappa della lezione</div>
+      <table class="ct">
+        <tr><th>#</th><th>Argomento</th></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">1</td><td>Richiami: i teoremi sui triangoli rettangoli</td></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">2</td><td>Il teorema della corda</td></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">3</td><td>Il teorema dei seni</td></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">4</td><td>Il teorema del coseno (Carnot)</td></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">5</td><td>Risolvere un triangolo qualunque: i quattro casi</td></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600">6</td><td>Formulario riepilogativo</td></tr>
+      </table>
+    </div>
+
+    <div class="cb warn">
+      <div class="cb-label">Notazione che useremo</div>
+      <p>Indichiamo i vertici del triangolo con <strong>A, B, C</strong>, gli angoli in quei vertici con le stesse lettere, e i lati con le lettere minuscole <strong>a, b, c</strong> — dove ogni lato prende il nome dell'angolo <em>opposto</em>: il lato \\(a\\) è opposto ad \\(A\\), e così via. Gli angoli sono sempre espressi in <strong>radianti</strong>: un angolo retto è \\(\\dfrac{\\pi}{2}\\), un angolo piatto è \\(\\pi\\).</p>
+    </div>
+  `
+},
+
+/* ──── 1 · TRIANGOLI RETTANGOLI ──── */
+{
+  tag: `RICHIAMI`,
+  title: `I teoremi sui triangoli <em>rettangoli</em>`,
+  nav: `Triangoli rettangoli`,
+  sub: `Prima di affrontare il caso generale, ripassiamo le relazioni che già conosci: sono il mattone su cui costruiamo tutto il resto.`,
+  body: `
+    <div class="graph-box"><img src="rettangolo.jpg" alt="Triangolo rettangolo con angolo retto in C, angolo α in A, angolo β in B, cateti a e b, ipotenusa c" style="max-width:100%;border-radius:6px"></div>
+    <p class="graph-cap">Angolo retto in C, angolo α in A, angolo β in B, ipotenusa c</p>
+    <p>In un triangolo rettangolo con angolo retto in \\(C\\), ipotenusa \\(c\\) e angolo \\(\\alpha\\) in \\(A\\):</p>
+    <div class="math-block center">\\[a = c \\cdot \\sin\\alpha \\qquad b = c \\cdot \\cos\\alpha \\qquad a = b \\cdot \\tan\\alpha\\]</div>
+    <p>In parole: <strong>un cateto è uguale all'ipotenusa per il seno dell'angolo opposto</strong> (o per il coseno dell'angolo adiacente), e <strong>un cateto è uguale all'altro cateto per la tangente dell'angolo opposto</strong>.</p>
+
+    <div class="cb">
+      <div class="cb-label">Da non dimenticare</div>
+      <p>L'<strong>area</strong> del triangolo rettangolo è, come sempre, metà del prodotto dei due cateti: \\(\\text{Area} = \\dfrac{a\\cdot b}{2}\\).</p>
+    </div>
+
+    ${acc([
+      {
+        t: `Esempio: un cateto e un angolo`,
+        h: `<p>Un triangolo rettangolo ha ipotenusa \\(c=10\\) e un angolo \\(\\alpha=\\dfrac{\\pi}{6}\\). Calcoliamo i cateti.</p>
+            <div class="math-block">\\[a = 10 \\cdot \\sin\\frac{\\pi}{6} = 10 \\cdot \\frac{1}{2} = 5\\]</div>
+            <div class="math-block">\\[b = 10 \\cdot \\cos\\frac{\\pi}{6} = 10 \\cdot \\frac{\\sqrt{3}}{2} = 5\\sqrt{3} \\approx 8{,}66\\]</div>
+            <p class="dim">Verifica con Pitagora: \\(5^2+(5\\sqrt3)^2 = 25+75=100=10^2\\). ✓ esatto, senza arrotondamenti.</p>`
+      }
+    ])}
+  `
+},
+
+/* ──── 2 · TEOREMA DELLA CORDA ──── */
+{
+  tag: `TEOREMA 1`,
+  title: `Il teorema della <em>corda</em>`,
+  nav: `Corda`,
+  sub: `Il ponte tra la circonferenza e i triangoli: ci servirà tra poco per dimostrare, in modo quasi immediato, il teorema dei seni.`,
+  body: `
+    <div class="cb">
+      <div class="cb-label">Enunciato</div>
+      <p>In una circonferenza di raggio \\(R\\), la misura di una <strong>corda</strong> è uguale al prodotto del <strong>diametro</strong> per il <strong>seno</strong> di uno qualsiasi degli angoli alla circonferenza che insistono su di essa:</p>
+    </div>
+    <div class="math-block center result">\\[\\overline{AB} = 2R \\cdot \\sin\\gamma\\]</div>
+
+    <div class="graph-box"><img src="corda.jpg" alt="Circonferenza con diametro AD, corda AB, angolo γ in D, angolo retto in B per il teorema di Talete" style="max-width:100%;border-radius:6px"></div>
+    <p class="graph-cap">AD è diametro ⇒ per Talete l'angolo in B è retto</p>
+
+    ${acc([
+      {
+        t: `Dimostrazione`,
+        h: `<p>Tracciamo il diametro \\(\\overline{AD}\\) passante per l'estremo \\(A\\) della corda. Il triangolo \\(ABD\\) ha l'ipotenusa \\(\\overline{AD}=2R\\) sul diametro, quindi per il <strong>teorema di Talete</strong> l'angolo \\(A\\hat{B}D\\) è retto: \\(ABD\\) è un triangolo rettangolo.</p>
+            <p>Nel triangolo rettangolo \\(ABD\\), il cateto \\(\\overline{AB}\\) è opposto all'angolo \\(A\\hat{D}B\\). Per i teoremi sui triangoli rettangoli appena ripassati:</p>
+            <div class="math-block center">\\[\\overline{AB} = \\overline{AD}\\cdot \\sin(A\\hat{D}B) = 2R\\sin\\gamma\\]</div>
+            <p>Resta da giustificare perché l'angolo in un punto \\(D\\) qualunque dell'arco maggiore dia lo stesso risultato che in ogni altro punto \\(C\\): per il <strong>teorema degli angoli alla circonferenza</strong>, tutti gli angoli alla circonferenza che insistono sullo stesso arco \\(AB\\) sono <strong>congruenti</strong>. Possiamo quindi scegliere il punto più comodo — quello diametralmente opposto ad \\(A\\) — senza perdere generalità.</p>`
+      },
+      {
+        t: `Esempio numerico`,
+        h: `<p>Una corda vede un angolo alla circonferenza di \\(\\dfrac{\\pi}{6}\\) in una circonferenza di raggio \\(R=6\\text{ cm}\\). Quanto misura la corda?</p>
+            <div class="math-block">\\[\\overline{AB} = 2\\cdot 6\\cdot \\sin\\frac{\\pi}{6} = 12\\cdot\\frac{1}{2} = 6\\text{ cm}\\]</div>`
+      }
+    ])}
+  `
+},
+
+/* ──── 3 · TEOREMA DEI SENI ──── */
+{
+  tag: `TEOREMA 2`,
+  title: `Il teorema dei <em>seni</em>`,
+  nav: `Teorema dei seni`,
+  sub: `Una conseguenza quasi immediata del teorema della corda, applicato a ciascun lato del triangolo inscritto nella sua circonferenza circoscritta.`,
+  body: `
+    <div class="cb">
+      <div class="cb-label">Enunciato</div>
+      <p>In un triangolo qualunque, il rapporto tra ciascun lato e il seno dell'angolo opposto è costante, ed è uguale al diametro della circonferenza circoscritta al triangolo:</p>
+    </div>
+    <div class="math-block center result">\\[\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C} = 2R\\]</div>
+
+    <div class="graph-box"><img src="seni.jpg" alt="Triangolo ABC inscritto nella sua circonferenza circoscritta di raggio R, con lati a, b, c opposti ai rispettivi vertici" style="max-width:100%;border-radius:6px"></div>
+    <p class="graph-cap">Ogni lato è una corda della circonferenza circoscritta</p>
+
+    ${acc([
+      {
+        t: `Dimostrazione`,
+        h: `<p>Inscriviamo il triangolo \\(ABC\\) nella sua circonferenza circoscritta, di raggio \\(R\\). Il lato \\(a=\\overline{BC}\\) è una <strong>corda</strong> di questa circonferenza, e l'angolo \\(A\\) — con vertice sulla circonferenza stessa — è proprio un angolo alla circonferenza che insiste su quella corda.</p>
+            <p>Per il teorema della corda, appena dimostrato:</p>
+            <div class="math-block center">\\[a = 2R\\sin A \\quad\\Longrightarrow\\quad \\frac{a}{\\sin A}=2R\\]</div>
+            <p>Lo stesso ragionamento, applicato al lato \\(b\\) (corda che vede l'angolo \\(B\\)) e al lato \\(c\\) (corda che vede l'angolo \\(C\\)), dà \\(\\dfrac{b}{\\sin B}=2R\\) e \\(\\dfrac{c}{\\sin C}=2R\\). I tre rapporti sono quindi tutti uguali a \\(2R\\), e dunque uguali tra loro.</p>`
+      },
+      {
+        t: `Esempio: due angoli e un lato (caso ALA)`,
+        h: `<p>In un triangolo, \\(A=\\dfrac{\\pi}{4}\\), \\(B=\\dfrac{5\\pi}{12}\\) e \\(a=12\\). Troviamo \\(b\\).</p>
+            <p>Prima ricaviamo l'angolo mancante: \\(C=\\pi-A-B=\\pi-\\dfrac{\\pi}{4}-\\dfrac{5\\pi}{12}=\\dfrac{\\pi}{3}\\).</p>
+            <div class="math-block">\\[\\frac{a}{\\sin A}=\\frac{b}{\\sin B} \\;\\Longrightarrow\\; b = a\\cdot\\frac{\\sin B}{\\sin A} = 12\\cdot\\frac{\\sin\\frac{5\\pi}{12}}{\\sin\\frac{\\pi}{4}} \\approx 12\\cdot\\frac{0{,}966}{0{,}707}\\approx 16{,}39\\]</div>
+            <p class="dim">Con lo stesso metodo si ricava anche \\(c\\), usando \\(\\sin C=\\sin\\frac{\\pi}{3}\\).</p>`
+      }
+    ])}
+  `
+},
+
+/* ──── 4 · TEOREMA DEL COSENO ──── */
+{
+  tag: `TEOREMA 3`,
+  title: `Il teorema del <em>coseno</em>`,
+  nav: `Teorema del coseno`,
+  sub: `Detto anche teorema di Carnot: generalizza Pitagora a un triangolo qualunque, tenendo conto dell'angolo compreso tra due lati.`,
+  body: `
+    <div class="cb">
+      <div class="cb-label">Enunciato</div>
+      <p>In un triangolo qualunque, il quadrato di un lato è uguale alla somma dei quadrati degli altri due, diminuita del doppio prodotto di quei due lati per il coseno dell'angolo tra essi compreso:</p>
+    </div>
+    <div class="math-block center result">\\[c^2 = a^2+b^2-2ab\\cos\\gamma\\]</div>
+
+    <div class="graph-box"><img src="coseno.jpg" alt="Triangolo ABC con proiezione del lato b sul lato a, altezza h da A, angolo γ in C" style="max-width:100%;border-radius:6px"></div>
+    <p class="graph-cap">H è il piede della proiezione di A su CB: CH = b·cos γ</p>
+
+    <div class="cb tip">
+      <div class="cb-label">Perché generalizza Pitagora</div>
+      <p>Se \\(\\gamma=\\dfrac{\\pi}{2}\\), allora \\(\\cos\\gamma=0\\) e la formula diventa \\(c^2=a^2+b^2\\): il teorema di Pitagora è il caso particolare del teorema del coseno per un triangolo rettangolo.</p>
+    </div>
+
+    ${acc([
+      {
+        t: `Dimostrazione (per proiezione)`,
+        h: `<p>Proiettiamo il vertice \\(A\\) sulla retta del lato \\(a=\\overline{CB}\\): sia \\(H\\) il piede della perpendicolare. Nel triangolo rettangolo \\(ACH\\):</p>
+            <div class="math-block">\\[\\overline{CH} = b\\cos\\gamma \\qquad \\overline{AH} = b\\sin\\gamma\\]</div>
+            <p>Il segmento \\(\\overline{CH}=b\\cos\\gamma\\) è la <strong>proiezione</strong> del lato \\(b\\) sul lato \\(a\\). Il segmento \\(\\overline{HB}\\) misura allora \\(a-b\\cos\\gamma\\).</p>
+            <p>Applicando il teorema di Pitagora al triangolo rettangolo \\(AHB\\), di ipotenusa \\(c\\):</p>
+            <div class="math-block">\\[c^2 = \\overline{AH}^2+\\overline{HB}^2 = (b\\sin\\gamma)^2+(a-b\\cos\\gamma)^2\\]</div>
+            <p>Sviluppando:</p>
+            <div class="math-block">\\[c^2 = b^2\\sin^2\\gamma + a^2 -2ab\\cos\\gamma+b^2\\cos^2\\gamma = a^2+b^2(\\sin^2\\gamma+\\cos^2\\gamma)-2ab\\cos\\gamma\\]</div>
+            <p>Poiché \\(\\sin^2\\gamma+\\cos^2\\gamma=1\\), resta \\(c^2=a^2+b^2-2ab\\cos\\gamma\\), come volevamo dimostrare.</p>`
+      },
+      {
+        t: `Esempio: due lati e l'angolo compreso (caso LAL)`,
+        h: `<p>In un triangolo, \\(a=8\\), \\(b=5\\) e l'angolo compreso \\(\\gamma=\\dfrac{\\pi}{3}\\). Troviamo il terzo lato.</p>
+            <div class="math-block">\\[c^2 = 8^2+5^2-2\\cdot 8\\cdot 5\\cdot\\cos\\frac{\\pi}{3} = 64+25-80\\cdot 0{,}5 = 89-40=49\\]</div>
+            <div class="math-block result">\\[c = 7\\]</div>
+            <p class="dim">Da qui, con il teorema dei seni, si ricavano anche gli altri due angoli.</p>`
+      }
+    ])}
+  `
+},
+
+/* ──── 5 · RISOLUZIONE DI TRIANGOLI QUALUNQUE ──── */
+{
+  tag: `METODO`,
+  title: `Risolvere un triangolo <em>qualunque</em>`,
+  nav: `Risoluzione`,
+  sub: `Quattro casi, quattro strategie: quale teorema usare dipende da quali elementi conosci già.`,
+  body: `
+    <table class="ct">
+      <tr><th>Dati noti</th><th>Sigla</th><th>Strategia</th></tr>
+      <tr><td>Tre lati</td><td style="font-family:'JetBrains Mono',monospace">LLL</td><td>Teorema del coseno per trovare un angolo, poi teorema dei seni per gli altri due</td></tr>
+      <tr><td>Due lati e l'angolo compreso</td><td style="font-family:'JetBrains Mono',monospace">LAL</td><td>Teorema del coseno per il terzo lato, poi teorema dei seni</td></tr>
+      <tr><td>Un lato e due angoli</td><td style="font-family:'JetBrains Mono',monospace">ALA</td><td>Somma degli angoli interni per il terzo angolo, poi teorema dei seni</td></tr>
+      <tr><td>Due lati e un angolo non compreso</td><td style="font-family:'JetBrains Mono',monospace">LLA</td><td>Teorema dei seni — attenzione al <strong>caso ambiguo</strong></td></tr>
+    </table>
+
+    <div class="cb danger">
+      <div class="cb-label">Il caso ambiguo (LLA)</div>
+      <p>Conoscendo due lati e un angolo <em>non</em> compreso tra essi, il triangolo non è sempre determinato in modo unico: a seconda dei dati, possono esistere <strong>due</strong> triangoli distinti, <strong>uno solo</strong>, oppure <strong>nessuno</strong>.</p>
+    </div>
+
+    <div class="graph-box"><img src="ambiguo.jpg" alt="Due triangoli candidati A-C-B₁ e A-C-B₂ con lo stesso angolo A e lo stesso lato CB, ma vertice B in due posizioni diverse sulla base" style="max-width:100%;border-radius:6px"></div>
+    <p class="graph-cap">Stesso angolo A, stesso lato CB: due posizioni possibili per B</p>
+
+    <p>Dati l'angolo \\(A\\) e i lati \\(b\\) (adiacente) e \\(a\\) (opposto ad \\(A\\)), il vertice \\(C\\) e la direzione da \\(A\\) sono fissati, ma il lato \\(a\\), di lunghezza fissata, può "toccare" quella direzione in <strong>due punti diversi</strong> (\\(B_1\\) e \\(B_2\\) in figura): entrambi i triangoli \\(AB_1C\\) e \\(AB_2C\\) sono validi, con lo stesso angolo \\(A\\) e lo stesso lato \\(b\\), ma angoli \\(B\\) supplementari tra loro.</p>
+
+    ${acc([
+      {
+        t: `Come riconoscere quante soluzioni ci sono`,
+        h: `<p>Chiamando \\(h=b\\sin A\\) l'altezza dal vertice \\(C\\) rispetto alla direzione di \\(a\\):</p>
+            <ul>
+              <li>se \\(a &lt; h\\): <strong>nessuna soluzione</strong> (il lato \\(a\\) è troppo corto per raggiungere la direzione)</li>
+              <li>se \\(a = h\\): <strong>una sola soluzione</strong>, con angolo retto in \\(B\\)</li>
+              <li>se \\(h &lt; a &lt; b\\): <strong>due soluzioni</strong> (il caso ambiguo vero e proprio)</li>
+              <li>se \\(a \\ge b\\): <strong>una sola soluzione</strong> (il secondo punto d'intersezione cade fuori dal triangolo)</li>
+            </ul>
+            <p class="dim">In pratica: quando risolvi un LLA con il teorema dei seni, dopo aver trovato un angolo con l'arcoseno, ricordati di controllare anche il suo <strong>supplementare</strong> — potrebbe dare una seconda soluzione valida.</p>`
+      },
+      {
+        t: `Problema applicato: la larghezza di un fiume`,
+        h: `<p>Per misurare la larghezza di un fiume senza attraversarlo, un topografo sceglie due punti \\(A\\) e \\(B\\) sulla stessa riva, distanti \\(50\\text{ m}\\), e un punto \\(C\\) sull'altra riva (ad esempio un albero isolato). Misura gli angoli \\(A=\\dfrac{5\\pi}{12}\\) e \\(B=\\dfrac{\\pi}{3}\\).</p>
+            <div class="graph-box"><img src="fiume.jpg" alt="Schizzo del problema del fiume: punti A e B sulla riva vicina, punto C sulla riva opposta, angoli 5π/12 in A e π/3 in B" style="max-width:100%;border-radius:6px"></div>
+            <p class="graph-cap">A e B sulla stessa riva, C sulla riva opposta (un albero isolato)</p>
+            <p>Prima ricava l'angolo mancante: \\(C=\\pi-A-B=\\pi-\\dfrac{5\\pi}{12}-\\dfrac{\\pi}{3}=\\dfrac{\\pi}{4}\\). Poi usa il teorema dei seni per trovare, ad esempio, il lato \\(\\overline{AC}\\) (opposto a \\(B\\)):</p>
+            <div class="math-block">\\[\\frac{\\overline{AC}}{\\sin B}=\\frac{\\overline{AB}}{\\sin C} \\;\\Longrightarrow\\; \\overline{AC}=50\\cdot\\frac{\\sin\\frac{\\pi}{3}}{\\sin\\frac{\\pi}{4}}\\approx 50\\cdot\\frac{0{,}866}{0{,}707}\\approx 61{,}2\\text{ m}\\]</div>
+            <p class="dim">Da \\(\\overline{AC}\\) e dall'angolo \\(A\\), un'ultima proiezione trigonometrica (come nei triangoli rettangoli) dà la larghezza effettiva del fiume, misurata perpendicolarmente alla riva.</p>`
+      }
+    ])}
+  `
+},
+
+/* ──── 6 · SINTESI ──── */
+{
+  tag: `RIEPILOGO`,
+  title: `Il <em>formulario</em>`,
+  nav: `Sintesi`,
+  sub: `Tutte le formule di questa lezione, riunite in un'unica pagina.`,
+  body: `
+    <table class="ct">
+      <tr><th>Teorema</th><th>Formula</th></tr>
+      <tr><td>Triangolo rettangolo</td><td>\\(a=c\\sin\\alpha\\), \\(b=c\\cos\\alpha\\), \\(a=b\\tan\\alpha\\)</td></tr>
+      <tr><td>Teorema della corda</td><td>\\(\\overline{AB}=2R\\sin\\gamma\\)</td></tr>
+      <tr><td>Teorema dei seni</td><td>\\(\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}=\\dfrac{c}{\\sin C}=2R\\)</td></tr>
+      <tr><td>Teorema del coseno (Carnot)</td><td>\\(c^2=a^2+b^2-2ab\\cos\\gamma\\)</td></tr>
+      <tr><td>Area (dati due lati e l'angolo compreso)</td><td>\\(\\text{Area}=\\dfrac{1}{2}\\,ab\\sin\\gamma\\)</td></tr>
+    </table>
+
+    <div class="cb success">
+      <div class="cb-label">Il filo conduttore</div>
+      <p>Il teorema della corda porta al teorema dei seni quasi senza sforzo: ogni lato di un triangolo è una corda della sua circonferenza circoscritta. Il teorema del coseno, invece, nasce da una proiezione ed è un Pitagora "corretto" per tenere conto di un angolo qualunque. Con questi due strumenti — più la somma degli angoli interni, sempre \\(\\pi\\) — qualunque triangolo si può risolvere.</p>
+    </div>
+
+    <div class="cb warn">
+      <div class="cb-label">L'unica insidia</div>
+      <p>Il caso LLA (due lati e un angolo non compreso) può avere due soluzioni, una, o nessuna: è l'unico caso che richiede un controllo in più, non un teorema in più.</p>
+    </div>
+  `
+}
+
+]; // fine schermate
+
+/* ═══════════════ APP ═══════════════ */
+let cur = 0;
+const tot = S.length;
+
+function render() {
+  // nav pills
+  document.getElementById('topNav').innerHTML = S.map((s, i) =>
+    `<button class="nav-pill ${i === cur ? 'active' : ''}" onclick="goTo(${i})">${s.nav}</button>`
+  ).join('');
+
+  // screens
+  document.getElementById('app').innerHTML = S.map((s, i) => `
+    <div class="section ${i === cur ? 'active' : ''}">
+      <div class="hero">
+        <div class="hero-tag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p class="hero-sub">${s.sub}</p>
+      </div>
+      ${s.body}
+      <div class="bottom-nav">
+        <button class="bb" onclick="goTo(${i - 1})" ${i === 0 ? 'disabled' : ''}>← Indietro</button>
+        <div class="dots">
+          ${S.map((_, j) =>
+            `<button class="dot ${j === i ? 'active' : ''}" onclick="goTo(${j})"
+             title="Sezione ${j + 1} di ${tot}"></button>`
+          ).join('')}
+        </div>
+        <button class="bb" onclick="goTo(${i + 1})" ${i === tot - 1 ? 'disabled' : ''}>Avanti →</button>
+      </div>
+    </div>
+  `).join('');
+
+  // typeset active section
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    const active = document.querySelector('.section.active');
+    if (active) MathJax.typesetPromise([active]);
+  }
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= tot) return;
+  cur = idx;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(cur + 1);
+  if (e.key === 'ArrowLeft')  goTo(cur - 1);
+});
+
+// avvia dopo MathJax
+if (typeof MathJax !== 'undefined' && MathJax.startup && MathJax.startup.promise) {
+  MathJax.startup.promise.then(() => render());
+} else {
+  render();
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>
