@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esercizi di dimostrazione</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-tag { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--text-dim); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem; margin-left:auto;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+p { margin:6px 0; }
+strong { font-weight:600; }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:18px 0; cursor:pointer; user-select:none; }
+.acc-num { width:26px; height:26px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.78rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:1rem; flex:1; color:var(--text); font-family:'Playfair Display',serif; }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 20px 38px; }
+.sol-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--green); font-weight:600; margin:14px 0 6px; }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Esercizi</div>
+  <div class="topbar-tag">LP04</div>
+  <a href="/lezioni/lp03-limiti-dimostrazioni/lezione.html" class="topbar-home">← dispensa completa</a>
+</div>
+
+<div class="container">
+  <div class="hero">
+    <div class="hero-tag">Esercizi di dimostrazione</div>
+    <h1>Dimostra, non solo <em>calcola</em></h1>
+    <p class="hero-sub">Otto esercizi in cui la richiesta non è calcolare un limite, ma <strong>fornire una dimostrazione formale</strong>: usare la definizione \(\varepsilon\)-\(\delta\), applicare correttamente un teorema, o costruire un controesempio. Prova a risolverli prima di aprire la soluzione.</p>
+  </div>
+
+  <div id="app"></div>
+</div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const items = [
+  {
+    t: `1 — Definizione \\(\\varepsilon\\)-\\(\\delta\\) diretta`,
+    h: `<p>Dimostra, usando la definizione \\(\\varepsilon\\)-\\(\\delta\\), che \\(\\lim_{x\\to2}(3x+1)=7\\).</p>
+        <div class="sol-label">Soluzione</div>
+        <p>Fissato \\(\\varepsilon\\gt0\\), vogliamo trovare \\(\\delta\\gt0\\) tale che \\(0\\lt|x-2|\\lt\\delta \\Rightarrow |(3x+1)-7|\\lt\\varepsilon\\). Osserviamo:</p>
+        <div class="math-block">\\[ |(3x+1)-7| = |3x-6| = 3|x-2| \\]</div>
+        <p>Quindi \\(3|x-2|\\lt\\varepsilon \\iff |x-2|\\lt\\varepsilon/3\\). Basta scegliere \\(\\delta=\\varepsilon/3\\): se \\(0\\lt|x-2|\\lt\\delta\\), allora \\(|(3x+1)-7|=3|x-2|\\lt3\\delta=\\varepsilon\\). \\(\\blacksquare\\)</p>`
+  },
+  {
+    t: `2 — Permanenza del segno, caso generale`,
+    h: `<p>Dimostra che se \\(\\lim_{x\\to c}f(x)=\\ell\\neq0\\), allora esiste un intorno di \\(c\\) in cui \\(f(x)\\) ha lo stesso segno di \\(\\ell\\) (e in particolare \\(f(x)\\neq0\\)).</p>
+        <div class="sol-label">Soluzione</div>
+        <p>Supponiamo \\(\\ell\\gt0\\) (il caso \\(\\ell\\lt0\\) è analogo). Scegliamo \\(\\varepsilon=\\ell/2\\gt0\\) nella definizione di limite: esiste \\(\\delta\\gt0\\) tale che \\(0\\lt|x-c|\\lt\\delta \\Rightarrow |f(x)-\\ell|\\lt\\ell/2\\), cioè \\(\\ell/2\\lt f(x)\\lt3\\ell/2\\). In particolare \\(f(x)\\gt\\ell/2\\gt0\\): f è positiva (come \\(\\ell\\)) in tutto l'intorno \\((c-\\delta,c+\\delta)\\setminus\\{c\\}\\). \\(\\blacksquare\\)</p>`
+  },
+  {
+    t: `3 — Confronto con una variante oscillante`,
+    h: `<p>Usa il teorema del confronto per dimostrare che \\(\\lim_{x\\to0}x^2\\cos\\dfrac1{x^2}=0\\).</p>
+        <div class="sol-label">Soluzione</div>
+        <p>Per ogni \\(x\\neq0\\), \\(-1\\le\\cos\\dfrac1{x^2}\\le1\\), quindi moltiplicando per \\(x^2\\ge0\\):</p>
+        <div class="math-block">\\[ -x^2 \\le x^2\\cos\\frac1{x^2} \\le x^2 \\]</div>
+        <p>Poiché \\(\\lim_{x\\to0}(-x^2)=\\lim_{x\\to0}x^2=0\\), per il teorema del confronto \\(\\lim_{x\\to0}x^2\\cos\\dfrac1{x^2}=0\\). \\(\\blacksquare\\)</p>`
+  },
+  {
+    t: `4 — Un lemma utile: somma di funzioni limitate`,
+    h: `<p>Dimostra che se \\(f\\) e \\(g\\) sono entrambe limitate su un insieme \\(I\\), allora \\(f+g\\) è limitata su \\(I\\).</p>
+        <div class="sol-label">Soluzione</div>
+        <p>Per ipotesi esistono \\(M_1,M_2\\ge0\\) tali che \\(|f(x)|\\le M_1\\) e \\(|g(x)|\\le M_2\\) per ogni \\(x\\in I\\). Per la disuguaglianza triangolare, per ogni \\(x\\in I\\):</p>
+        <div class="math-block">\\[ |f(x)+g(x)| \\le |f(x)|+|g(x)| \\le M_1+M_2 \\]</div>
+        <p>Quindi \\(f+g\\) è limitata, con costante \\(M_1+M_2\\). \\(\\blacksquare\\)</p>
+        <div class="sol-label" style="color:var(--blue)">Perché serve</div>
+        <p>Questo è esattamente il tipo di lemma "tecnico" usato implicitamente nella dimostrazione del teorema sul limite del prodotto, dove si sfrutta la limitatezza locale di \\(f\\) vicino a \\(c\\).</p>`
+  },
+  {
+    t: `5 — Un'applicazione di Bolzano a un'equazione trigonometrica`,
+    h: `<p>Dimostra che l'equazione \\(\\cos x = x^3\\) ha almeno una soluzione in \\([0,1]\\).</p>
+        <div class="sol-label">Soluzione</div>
+        <p>Sia \\(h(x)=\\cos x - x^3\\), continua su \\([0,1]\\) (differenza di funzioni continue). Calcoliamo agli estremi:</p>
+        <div class="math-block">\\[ h(0)=\\cos0-0=1\\gt0 \\qquad h(1)=\\cos1-1\\approx0{,}54-1=-0{,}46\\lt0 \\]</div>
+        <p>Segno discorde: per il teorema di Bolzano esiste \\(c\\in(0,1)\\) con \\(h(c)=0\\), cioè \\(\\cos c=c^3\\). \\(\\blacksquare\\)</p>`
+  },
+  {
+    t: `6 — Verificare una contrazione`,
+    h: `<p>Dimostra che \\(f(x)=\\dfrac{x+3}{5}\\) è una contrazione su \\([0,1]\\), e descrivi come si troverebbe il suo punto fisso.</p>
+        <div class="sol-label">Soluzione</div>
+        <p>Per ogni \\(x,y\\in[0,1]\\):</p>
+        <div class="math-block">\\[ |f(x)-f(y)| = \\left|\\frac{x+3}{5}-\\frac{y+3}{5}\\right| = \\frac{|x-y|}{5} \\]</div>
+        <p>Quindi \\(f\\) è una contrazione con \\(k=1/5\\lt1\\). Verifichiamo anche che \\(f\\) mandi \\([0,1]\\) in sé: per \\(x\\in[0,1]\\), \\(f(x)\\in[3/5,4/5]\\subset[0,1]\\). Per Banach esiste un unico punto fisso \\(x^*\\), che soddisfa \\(x^*=(x^*+3)/5\\), cioè \\(5x^*=x^*+3\\), \\(x^*=3/4\\). Si può verificare: \\(f(3/4)=(3/4+3)/5=(15/4)/5=3/4\\). \\(\\blacksquare\\)</p>`
+  },
+  {
+    t: `7 — Segno costante di una funzione continua senza zeri`,
+    h: `<p>Dimostra che se \\(f\\) è continua su \\([a,b]\\) e non si annulla mai, allora \\(f\\) ha segno costante su tutto \\([a,b]\\).</p>
+        <div class="sol-label">Soluzione</div>
+        <p>Per assurdo, supponiamo che \\(f\\) cambi segno: esistano \\(x_1,x_2\\in[a,b]\\) con \\(f(x_1)\\gt0\\) e \\(f(x_2)\\lt0\\). Supponiamo \\(x_1\\lt x_2\\) (il caso opposto è analogo). Poiché \\(f\\) è continua su \\([x_1,x_2]\\subseteq[a,b]\\) e \\(f(x_1)\\cdot f(x_2)\\lt0\\), per il teorema di Bolzano esiste \\(c\\in(x_1,x_2)\\) con \\(f(c)=0\\) — contraddicendo l'ipotesi che \\(f\\) non si annulli mai. Dunque \\(f\\) non può cambiare segno: è sempre positiva o sempre negativa su \\([a,b]\\). \\(\\blacksquare\\)</p>
+        <div class="sol-label" style="color:var(--blue)">Nota</div>
+        <p>Questa è la ragione per cui, nello studio del segno di una funzione continua, basta un solo punto di prova per intervallo tra due zeri consecutivi: il segno non può cambiare senza passare per uno zero.</p>`
+  },
+  {
+    t: `8 — Esercizio "al contrario": costruisci tu il controesempio`,
+    h: `<p>Costruisci un esempio di funzione continua su un intervallo <strong>limitato ma non chiuso</strong> che non ammette massimo, diverso da quello visto nella pagina dei controesempi. Poi spiega perché non contraddice Weierstrass.</p>
+        <div class="sol-label">Una possibile soluzione</div>
+        <p>\\(f(x)=\\dfrac1{1-x}\\) su \\([0,1)\\): continua su tutto l'intervallo (il punto critico \\(x=1\\) non è compreso), limitata inferiormente da \\(f(0)=1\\), ma non superiormente: \\(f(x)\\to+\\infty\\) per \\(x\\to1^-\\). Non ha massimo.</p>
+        <p>Non contraddice Weierstrass perché l'intervallo \\([0,1)\\) non è chiuso: manca l'estremo \\(1\\), proprio il punto verso cui \\(f\\) "vorrebbe" divergere. L'ipotesi di chiusura è quella che cade.</p>`
+  }
+];
+
+document.getElementById('app').innerHTML = acc(items);
+
+if (typeof MathJax !== 'undefined' && MathJax.startup && MathJax.startup.promise) {
+  MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+} else {
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controesempi ed edge cases</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-tag { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--text-dim); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem; margin-left:auto;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--danger); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--danger); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+p { margin:6px 0; }
+strong { font-weight:600; }
+.ce-block { margin:0 0 8px; padding:26px 0; border-bottom:1px solid var(--border-light); }
+.ce-block:last-child { border-bottom:none; }
+.ce-num { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--danger); letter-spacing:1px; text-transform:uppercase; margin-bottom:6px; }
+.ce-name { font-family:'Playfair Display',serif; font-size:1.35rem; font-weight:700; margin-bottom:14px; }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Controesempi</div>
+  <div class="topbar-tag">LP04</div>
+  <a href="/lezioni/lp03-limiti-dimostrazioni/lezione.html" class="topbar-home">← dispensa completa</a>
+</div>
+
+<div class="container">
+  <div class="hero">
+    <div class="hero-tag">Edge cases</div>
+    <h1>Controesempi ed <em>edge cases</em></h1>
+    <p class="hero-sub">Per ciascuno dei sei teoremi, un esempio che mostra cosa succede quando un'ipotesi cade. Capire <em>dove</em> un teorema smette di funzionare è spesso più istruttivo che ripeterne l'enunciato: qui trovi il perché di ogni ipotesi, non solo il "cosa".</p>
+  </div>
+
+  <div class="ce-block">
+    <div class="ce-num">Unicità del limite</div>
+    <div class="ce-name">Quando il limite semplicemente non esiste</div>
+    <p>L'unicità è sempre vera <em>se</em> il limite esiste: non è un'ipotesi che si possa violare. Ma è istruttivo vedere cosa succede quando due "candidati" limite, ottenuti percorrendo cammini diversi verso \(c\), non coincidono: in quel caso il limite non esiste affatto, in perfetta coerenza con l'unicità.</p>
+    <div class="cb danger">
+      <div class="cb-label">Esempio</div>
+      <p>\(f(x)=\dfrac{x}{|x|}\) per \(x\neq0\). Da destra (\(x\to0^+\)): \(f(x)=1\). Da sinistra (\(x\to0^-\)): \(f(x)=-1\). I due limiti direzionali sono diversi: se il limite \(\lim_{x\to0}f(x)\) esistesse, dovrebbe uguagliare entrambi — ma per il teorema di unicità non può valere sia \(1\) che \(-1\). Conclusione corretta: il limite non esiste.</p>
+    </div>
+  </div>
+
+  <div class="ce-block">
+    <div class="ce-num">Teorema del confronto</div>
+    <div class="ce-name">Un solo confronto non basta</div>
+    <p>Il teorema richiede <strong>due</strong> funzioni di confronto, una inferiore e una superiore, con lo <em>stesso</em> limite. Un solo confronto, da un solo lato, non permette di concludere nulla sul valore del limite.</p>
+    <div class="cb danger">
+      <div class="cb-label">Esempio</div>
+      <p>\(f(x)=\sin\dfrac1x\) soddisfa \(f(x)\ge-1\) per ogni \(x\neq0\), e \(\lim_{x\to0}(-1)=-1\). Se bastasse un solo confronto dal basso, dovremmo concludere \(\lim_{x\to0}f(x)=-1\). Ma \(f\) oscilla infinite volte tra \(-1\) e \(1\) avvicinandosi a \(0\): il limite non esiste affatto. Serve anche un confronto dall'alto con lo stesso limite \(-1\) — che qui non c'è, perché \(f(x)\le1\) e \(1\neq-1\).</p>
+    </div>
+  </div>
+
+  <div class="ce-block">
+    <div class="ce-num">Algebra dei limiti</div>
+    <div class="ce-name">Il quoziente crolla se il denominatore va a zero</div>
+    <p>La formula \(\lim(f/g)=\ell_1/\ell_2\) richiede esplicitamente \(\ell_2\neq0\). Se il limite del denominatore è \(0\), la formula non si applica — e il comportamento del quoziente può essere del tutto diverso da un semplice numero.</p>
+    <div class="cb danger">
+      <div class="cb-label">Esempio</div>
+      <p>\(\lim_{x\to0}\sin x=0\) e \(\lim_{x\to0}x^2=0\). Il quoziente \(\dfrac{\sin x}{x^2}\) non tende a \(\ell_1/\ell_2\) (espressione priva di senso, \(0/0\)): in realtà \(\lim_{x\to0}\dfrac{\sin x}{x^2}\) non esiste come numero finito, perché \(\sin x\) e \(x^2\) vanno a zero a "velocità" diverse. La formula del quoziente semplicemente non si applica quando \(\ell_2=0\).</p>
+    </div>
+  </div>
+
+  <div class="ce-block">
+    <div class="ce-num">Weierstrass</div>
+    <div class="ce-name">Tre ipotesi, tre modi di far cadere il teorema</div>
+    <div class="cb danger">
+      <div class="cb-label">Senza chiusura dell'intervallo</div>
+      <p>\(f(x)=x\) su \((0,1)\): continua, limitata, ma <strong>non chiusa</strong>. \(f\) non ha né massimo né minimo: si avvicina a \(1\) e a \(0\) senza mai raggiungerli, perché quei punti non appartengono al dominio.</p>
+    </div>
+    <div class="cb danger">
+      <div class="cb-label">Senza limitatezza dell'intervallo</div>
+      <p>\(f(x)=x\) su \([0,+\infty)\): continua, chiuso a sinistra, ma <strong>illimitato</strong>. Non c'è massimo: \(f\) cresce senza sosta.</p>
+    </div>
+    <div class="cb danger">
+      <div class="cb-label">Senza continuità</div>
+      <p>\(f(x)=x\) per \(x\in[0,1)\), \(f(1)=0\), su \([0,1]\) (chiuso e limitato, ma \(f\) ha una discontinuità in \(x=1\)). L'estremo superiore \(1\) non viene mai raggiunto: \(f\) "salta" a \(0\) esattamente nel punto in cui dovrebbe toccare il suo massimo.</p>
+    </div>
+  </div>
+
+  <div class="ce-block">
+    <div class="ce-num">Bolzano</div>
+    <div class="ce-name">Una discontinuità può "saltare" oltre lo zero</div>
+    <div class="cb danger">
+      <div class="cb-label">Senza continuità</div>
+      <p>\(f(x)=-1\) per \(x\lt0\), \(f(x)=1\) per \(x\ge0\), su \([-1,1]\). \(f(-1)=-1\) e \(f(1)=1\): segno discorde. Ma \(f\) non si annulla mai — la discontinuità a salto in \(0\) fa sì che \(f\) passi direttamente da \(-1\) a \(1\) senza transitare per lo zero.</p>
+    </div>
+    <div class="cb tip">
+      <div class="cb-label">Segno concorde: il teorema non si applica, non che non ci siano zeri</div>
+      <p>\(f(x)=x^2-0{,}25\) su \([-1,1]\): \(f(-1)=0{,}75\) e \(f(1)=0{,}75\), segno concorde. Bolzano non si applica — ma \(f\) ha comunque due zeri interni, in \(x=\pm0{,}5\). L'assenza di segno discorde agli estremi non implica l'assenza di zeri: implica solo che il teorema non può garantirli.</p>
+    </div>
+  </div>
+
+  <div class="ce-block">
+    <div class="ce-num">Punto fisso di Banach</div>
+    <div class="ce-name">Senza contrazione stretta, l'unicità cade</div>
+    <div class="cb danger">
+      <div class="cb-label">Con \(k=1\) (non stretta contrazione)</div>
+      <p>\(f(x)=x\) su \([0,1]\) soddisfa \(|f(x)-f(y)|=|x-y|\), cioè la condizione di contrazione con \(k=1\) — non strettamente minore di \(1\). Ogni punto di \([0,1]\) è un punto fisso: l'unicità, garantita solo per \(k\lt1\), cade completamente.</p>
+    </div>
+    <div class="cb danger">
+      <div class="cb-label">Funzione che non manda \([a,b]\) in sé</div>
+      <p>\(f(x)=x+1\) su \([0,1]\): è una traslazione, quindi \(|f(x)-f(y)|=|x-y|\) (nemmeno contrazione, \(k=1\)), e per di più \(f(1)=2\notin[0,1]\): l'ipotesi \(f:[a,b]\to[a,b]\) cade. Non esiste infatti alcun punto fisso: \(f(x)=x\) darebbe \(x+1=x\), impossibile.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+if (typeof MathJax !== 'undefined' && MathJax.startup && MathJax.startup.promise) {
+  MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+} else {
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>

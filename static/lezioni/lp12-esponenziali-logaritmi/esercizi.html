@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esercizi commentati — Esponenziali e Logaritmi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-tag { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--text-dim); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem; margin-left:auto;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+p { margin:6px 0; }
+strong { font-weight:600; }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:18px 0; cursor:pointer; user-select:none; }
+.acc-num { width:26px; height:26px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.78rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:1rem; flex:1; color:var(--text); font-family:'Playfair Display',serif; }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 20px 38px; }
+.sol-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--green); font-weight:600; margin:14px 0 6px; }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Esercizi commentati</div>
+  <div class="topbar-tag">LP03</div>
+  <a href="/lezioni/lp12-esponenziali-logaritmi/lezione.html" class="topbar-home">← lezione</a>
+</div>
+
+<div class="container">
+  <div class="hero">
+    <div class="hero-tag">Esercizi di dimostrazione</div>
+    <h1>Dimostra, non solo <em>calcola</em></h1>
+    <p class="hero-sub">Otto esercizi in cui la richiesta è fornire una dimostrazione formale — costruzione per densità, monotonia, limiti notevoli, derivate, disuguaglianze — non solo applicare una formula. Prova a risolverli prima di aprire la soluzione.</p>
+  </div>
+
+  <div id="app"></div>
+</div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const items = [
+  {
+    t: `1 — La buona definizione di \\(2^{\\sqrt2}\\)`,
+    h: `<p>Spiega, usando la definizione per densità, perché \\(2^{\\sqrt2}\\) è un numero reale ben definito, e calcola un'approssimazione per difetto usando \\(\\sqrt2\\approx1{,}414\\).</p>
+        <div class="sol-label">Soluzione</div>
+        <p>Per definizione, \\(2^{\\sqrt2}=\\sup\\{2^q : q\\in\\mathbb{Q},\\ q\\le\\sqrt2\\}\\): l'insieme è non vuoto e limitato superiormente, quindi il suo estremo superiore esiste per l'assioma di completezza di \\(\\mathbb{R}\\).</p>
+        <p>Poiché \\(1{,}414\\le\\sqrt2\\), possiamo usare \\(q=1{,}414=707/500\\) come approssimazione razionale per difetto:</p>
+        <div class="math-block">\\[ 2^{1{,}414} = 2^{707/500} = \\sqrt[500]{2^{707}} \\approx 2{,}665 \\]</div>
+        <p>Prendendo approssimazioni razionali di \\(\\sqrt2\\) sempre più precise, ci si avvicina al valore vero \\(2^{\\sqrt2}\\approx2{,}665144\\ldots\\)</p>`
+  },
+  {
+    t: `2 — Monotonia decrescente per base minore di 1`,
+    h: `<p>Dimostra che se \\(0\\lt a\\lt1\\), allora \\(x\\mapsto a^x\\) è strettamente decrescente su \\(\\mathbb{R}\\).</p>
+        <div class="sol-label">Soluzione</div>
+        <p>Poniamo \\(b=1/a\\gt1\\). Allora \\(a^x=(1/b)^x=b^{-x}\\). Sappiamo già (dimostrato per basi \\(\\gt1\\)) che \\(t\\mapsto b^t\\) è strettamente crescente.</p>
+        <p>Se \\(x_1\\lt x_2\\), allora \\(-x_1\\gt-x_2\\); per la crescenza di \\(b^t\\):</p>
+        <div class="math-block">\\[ b^{-x_1} \\gt b^{-x_2} \\quad\\Longrightarrow\\quad a^{x_1} \\gt a^{x_2} \\]</div>
+        <p>Dunque \\(a^x\\) è strettamente decrescente. \\(\\blacksquare\\)</p>`
+  },
+  {
+    t: `3 — Un limite notevole generalizzato`,
+    h: `<p>Dimostra che \\(\\displaystyle\\lim_{x\\to0}\\frac{a^x-1}{x}=\\ln a\\), per ogni \\(a\\gt0\\), \\(a\\neq1\\), a partire dal limite notevole \\(\\lim_{h\\to0}(e^h-1)/h=1\\).</p>
+        <div class="sol-label">Soluzione</div>
+        <p>Scriviamo \\(a^x=e^{x\\ln a}\\). Ponendo \\(t=x\\ln a\\) (che tende a 0 quando \\(x\\to0\\)):</p>
+        <div class="math-block">\\[ \\frac{a^x-1}{x} = \\frac{e^{x\\ln a}-1}{x} = \\ln a\\cdot\\frac{e^{t}-1}{t} \\]</div>
+        <p>Per il limite notevole già noto, \\(\\dfrac{e^t-1}{t}\\to1\\) quando \\(t\\to0\\) (e quindi quando \\(x\\to0\\)). Perciò:</p>
+        <div class="math-block result">\\[ \\lim_{x\\to0}\\frac{a^x-1}{x} = \\ln a \\cdot 1 = \\ln a \\]</div>
+        <p>\\(\\blacksquare\\)</p>`
+  },
+  {
+    t: `4 — Monotonia di \\(\\ln x\\) dalla derivata`,
+    h: `<p>Dimostra che \\(\\ln x\\) è strettamente crescente su \\((0,+\\infty)\\), usando il segno della derivata.</p>
+        <div class="sol-label">Soluzione</div>
+        <p>Sappiamo che \\((\\ln x)'=1/x\\). Per ogni \\(x\\gt0\\), \\(1/x\\gt0\\): la derivata è strettamente positiva su tutto il dominio.</p>
+        <p>Per il teorema di monotonia (conseguenza del teorema di Lagrange): se una funzione derivabile ha derivata strettamente positiva su un intervallo, allora è strettamente crescente su quell'intervallo. Applicandolo a \\(\\ln x\\) su \\((0,+\\infty)\\), si conclude che \\(\\ln x\\) è strettamente crescente. \\(\\blacksquare\\)</p>`
+  },
+  {
+    t: `5 — Derivata del logaritmo in base generica`,
+    h: `<p>Dimostra che \\((\\log_a x)' = \\dfrac{1}{x\\ln a}\\), per \\(a\\gt0\\), \\(a\\neq1\\).</p>
+        <div class="sol-label">Soluzione</div>
+        <p>Per la formula di cambiamento di base, \\(\\log_a x = \\dfrac{\\ln x}{\\ln a}\\). Poiché \\(\\ln a\\) è una costante (non dipende da \\(x\\)), e sapendo che \\((\\ln x)'=1/x\\):</p>
+        <div class="math-block">\\[ (\\log_a x)' = \\frac{1}{\\ln a}\\cdot(\\ln x)' = \\frac{1}{\\ln a}\\cdot\\frac1x = \\frac{1}{x\\ln a} \\]</div>
+        <p>\\(\\blacksquare\\)</p>`
+  },
+  {
+    t: `6 — Una disuguaglianza collegata a \\(e^x \\ge 1+x\\)`,
+    h: `<p>Dimostra che \\(\\ln x \\le x-1\\) per ogni \\(x\\gt0\\), partendo dalla disuguaglianza fondamentale \\(e^y\\ge1+y\\) (valida per ogni \\(y\\in\\mathbb{R}\\)).</p>
+        <div class="sol-label">Soluzione</div>
+        <p>Poniamo \\(y=\\ln x\\) nella disuguaglianza nota:</p>
+        <div class="math-block">\\[ e^{\\ln x} \\ge 1+\\ln x \\quad\\Longrightarrow\\quad x \\ge 1+\\ln x \\quad\\Longrightarrow\\quad \\ln x \\le x-1 \\]</div>
+        <p>\\(\\blacksquare\\) (con uguaglianza solo per \\(x=1\\), cioè \\(y=0\\), coerentemente con il caso di uguaglianza di \\(e^y\\ge1+y\\))</p>`
+  },
+  {
+    t: `7 — Bolzano applicato: quante soluzioni ha \\(e^x = 3x\\)?`,
+    h: `<p>Dimostra che l'equazione \\(e^x=3x\\) ha almeno due soluzioni reali positive.</p>
+        <div class="sol-label">Soluzione</div>
+        <p>Studiamo \\(\\varphi(x)=e^x-3x\\), continua su tutto \\(\\mathbb{R}\\) (differenza di funzioni continue). Calcoliamo in alcuni punti:</p>
+        <div class="math-block">\\[ \\varphi(0)=1-0=1\\gt0 \\qquad \\varphi(1)=e-3\\approx-0{,}28\\lt0 \\qquad \\varphi(2)=e^2-6\\approx1{,}39\\gt0 \\]</div>
+        <p>Tra \\(x=0\\) e \\(x=1\\) il segno cambia: per Bolzano c'è una soluzione in \\((0,1)\\). Tra \\(x=1\\) e \\(x=2\\) il segno cambia di nuovo: un'altra soluzione in \\((1,2)\\). Quindi l'equazione ha almeno due soluzioni reali positive. \\(\\blacksquare\\)</p>`
+  },
+  {
+    t: `8 — Perché \\(e^x\\) è "l'unica" funzione che coincide con la propria derivata`,
+    h: `<p>Dimostra che se \\(f\\) e \\(g\\) sono derivabili su un intervallo \\(I\\) e \\(f'(x)=g'(x)\\) per ogni \\(x\\in I\\), allora esiste una costante \\(c\\) tale che \\(f(x)=g(x)+c\\) per ogni \\(x\\in I\\).</p>
+        <div class="sol-label">Soluzione</div>
+        <p>Sia \\(h(x)=f(x)-g(x)\\), derivabile su \\(I\\) con \\(h'(x)=f'(x)-g'(x)=0\\) per ogni \\(x\\in I\\).</p>
+        <p>Presi comunque \\(x_1\\lt x_2\\) in \\(I\\), per il teorema di Lagrange esiste \\(\\xi\\in(x_1,x_2)\\) tale che:</p>
+        <div class="math-block">\\[ h(x_2)-h(x_1) = h'(\\xi)\\,(x_2-x_1) = 0 \\]</div>
+        <p>Quindi \\(h(x_2)=h(x_1)\\) per ogni scelta di \\(x_1,x_2\\): \\(h\\) è costante su \\(I\\), cioè \\(h(x)=c\\), da cui \\(f(x)=g(x)+c\\). \\(\\blacksquare\\)</p>
+        <div class="sol-label" style="color:var(--blue)">Perché conta</div>
+        <p>Questo è il motivo rigoroso per cui \\(e^x\\) è, a meno di costante moltiplicativa, l'unica funzione che coincide con la propria derivata: se \\(f'(x)=f(x)\\) e \\(f(0)=1\\), confrontando \\(f\\) con \\(g(x)=e^x\\) (che ha \\((\\ln f)'=(\\ln g)'\\) sotto opportune ipotesi di positività) si arriva a \\(f\\equiv g\\).</p>`
+  }
+];
+
+document.getElementById('app').innerHTML = acc(items);
+
+if (typeof MathJax !== 'undefined' && MathJax.startup && MathJax.startup.promise) {
+  MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+} else {
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>

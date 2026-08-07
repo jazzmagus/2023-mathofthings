@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario — Teoremi con prove</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-tag { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--text-dim); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem; margin-left:auto;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+p { margin:6px 0; }
+strong { font-weight:600; }
+.theorem-block { margin:0 0 8px; padding:26px 0; border-bottom:1px solid var(--border-light); }
+.theorem-block:last-child { border-bottom:none; }
+.t-num { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--accent); letter-spacing:1px; text-transform:uppercase; margin-bottom:6px; }
+.t-name { font-family:'Playfair Display',serif; font-size:1.35rem; font-weight:700; margin-bottom:14px; }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Formulario</div>
+  <div class="topbar-tag">LP04</div>
+  <a href="/lezioni/lp03-limiti-dimostrazioni/lezione.html" class="topbar-home">← dispensa completa</a>
+</div>
+
+<div class="container">
+  <div class="hero">
+    <div class="hero-tag">Teoremi con prove</div>
+    <h1>Formulario <em>dimostrativo</em></h1>
+    <p class="hero-sub">I sei teoremi di questa unità, in forma compatta: solo enunciato e dimostrazione essenziale, senza esempi né digressioni — pensato per il ripasso veloce prima di una verifica. Per la trattazione discorsiva, con esempi e motivazioni, vedi la <a href="/lezioni/lp03-limiti-dimostrazioni/lezione.html" style="color:var(--accent)">dispensa completa</a>.</p>
+  </div>
+
+  <div class="theorem-block">
+    <div class="t-num">Teorema 1</div>
+    <div class="t-name">Unicità del limite</div>
+    <div class="cb"><p><strong>Enunciato.</strong> Se \(\lim_{x\to c}f(x)=\ell_1\) e \(\lim_{x\to c}f(x)=\ell_2\), allora \(\ell_1=\ell_2\).</p></div>
+    <div class="cb purple">
+      <div class="cb-label">Dimostrazione</div>
+      <p>Per assurdo, sia \(\ell_1\neq\ell_2\). Poniamo \(\varepsilon=\dfrac{|\ell_1-\ell_2|}{2}\gt0\). Esistono \(\delta_1,\delta_2\gt0\) tali che \(0\lt|x-c|\lt\delta_1\Rightarrow|f(x)-\ell_1|\lt\varepsilon\) e \(0\lt|x-c|\lt\delta_2\Rightarrow|f(x)-\ell_2|\lt\varepsilon\). Con \(\delta=\min(\delta_1,\delta_2)\) e un qualunque \(x\) con \(0\lt|x-c|\lt\delta\):</p>
+      <div class="math-block">\[ |\ell_1-\ell_2|\le|\ell_1-f(x)|+|f(x)-\ell_2|\lt2\varepsilon=|\ell_1-\ell_2| \]</div>
+      <p>Assurdo. Dunque \(\ell_1=\ell_2\). \(\blacksquare\)</p>
+    </div>
+  </div>
+
+  <div class="theorem-block">
+    <div class="t-num">Teorema 2</div>
+    <div class="t-name">Teorema del confronto</div>
+    <div class="cb"><p><strong>Enunciato.</strong> Se \(g(x)\le f(x)\le h(x)\) in un intorno di \(c\) (escluso al più \(c\)) e \(\lim_{x\to c}g(x)=\lim_{x\to c}h(x)=\ell\), allora \(\lim_{x\to c}f(x)=\ell\).</p></div>
+    <div class="cb purple">
+      <div class="cb-label">Dimostrazione</div>
+      <p>Fissato \(\varepsilon\gt0\): esistono \(\delta_1,\delta_2\gt0\) con \(\ell-\varepsilon\lt g(x)\lt\ell+\varepsilon\) per \(0\lt|x-c|\lt\delta_1\) e \(\ell-\varepsilon\lt h(x)\lt\ell+\varepsilon\) per \(0\lt|x-c|\lt\delta_2\). Sia \(\delta_3\) il raggio dell'intorno in cui vale \(g\le f\le h\). Con \(\delta=\min(\delta_1,\delta_2,\delta_3)\):</p>
+      <div class="math-block">\[ \ell-\varepsilon\lt g(x)\le f(x)\le h(x)\lt\ell+\varepsilon \]</div>
+      <p>Quindi \(|f(x)-\ell|\lt\varepsilon\). Per arbitrarietà di \(\varepsilon\), \(\lim_{x\to c}f(x)=\ell\). \(\blacksquare\)</p>
+    </div>
+  </div>
+
+  <div class="theorem-block">
+    <div class="t-num">Teorema 3</div>
+    <div class="t-name">Algebra dei limiti — somma, prodotto, quoziente</div>
+    <div class="cb"><p><strong>Enunciato.</strong> Se \(\lim_{x\to c}f(x)=\ell_1\) e \(\lim_{x\to c}g(x)=\ell_2\), allora \(\lim(f+g)=\ell_1+\ell_2\), \(\lim(fg)=\ell_1\ell_2\), e se \(\ell_2\neq0\) anche \(\lim(f/g)=\ell_1/\ell_2\).</p></div>
+    <div class="cb purple">
+      <div class="cb-label">Dimostrazione (somma)</div>
+      <p>Con \(\varepsilon'=\varepsilon/2\), esistono \(\delta_1,\delta_2\) tali che \(0\lt|x-c|\lt\min(\delta_1,\delta_2)\Rightarrow|f(x)-\ell_1|\lt\varepsilon'\) e \(|g(x)-\ell_2|\lt\varepsilon'\). Per la disuguaglianza triangolare:</p>
+      <div class="math-block">\[ |(f+g)(x)-(\ell_1+\ell_2)|\le|f(x)-\ell_1|+|g(x)-\ell_2|\lt\varepsilon \]</div>
+    </div>
+    <div class="cb purple">
+      <div class="cb-label">Dimostrazione (prodotto — idea chiave)</div>
+      <p>Si scrive \(f(x)g(x)-\ell_1\ell_2=f(x)(g(x)-\ell_2)+\ell_2(f(x)-\ell_1)\). Per limitatezza locale di \(f\) (conseguenza dell'esistenza del suo limite), il primo addendo è controllabile; il secondo pure. La somma dei due resta minore di \(\varepsilon\).</p>
+    </div>
+    <div class="cb purple">
+      <div class="cb-label">Dimostrazione (quoziente — schema)</div>
+      <p>Si dimostra prima \(\lim 1/g(x)=1/\ell_2\), usando la permanenza del segno per garantire che \(g(x)\) non si annulli vicino a \(c\); poi si applica il teorema del prodotto a \(f(x)\cdot\dfrac{1}{g(x)}\).</p>
+    </div>
+  </div>
+
+  <div class="theorem-block">
+    <div class="t-num">Teorema 4</div>
+    <div class="t-name">Weierstrass</div>
+    <div class="cb"><p><strong>Enunciato.</strong> Se \(f\) è continua su \([a,b]\) chiuso e limitato, allora \(f\) ammette massimo e minimo assoluti in \([a,b]\).</p></div>
+    <div class="cb purple">
+      <div class="cb-label">Dimostrazione (schema, per successioni)</div>
+      <p><strong>1.</strong> \(f\) è limitata: se non lo fosse, esisterebbe \((x_n)\subset[a,b]\) con \(f(x_n)\to+\infty\); per compattezza di \([a,b]\), una sottosuccessione converge a \(x_0\in[a,b]\), e per continuità \(f(x_{n_k})\to f(x_0)\) finito — assurdo.</p>
+      <p><strong>2.</strong> L'estremo superiore \(M=\sup f\) è raggiunto: presa \((x_n)\) con \(f(x_n)\to M\), una sottosuccessione converge a \(x_0\in[a,b]\); per continuità \(f(x_0)=M\). Analogamente per il minimo. \(\blacksquare\)</p>
+    </div>
+    <div class="cb warn"><div class="cb-label">Tutte le ipotesi servono</div><p>Vedi la pagina dedicata ai <a href="/lezioni/lp03-limiti-dimostrazioni/controesempi.html" style="color:var(--gold)">controesempi</a> per un caso in cui ciascuna ipotesi, da sola, cade.</p></div>
+  </div>
+
+  <div class="theorem-block">
+    <div class="t-num">Teorema 5</div>
+    <div class="t-name">Bolzano (esistenza degli zeri)</div>
+    <div class="cb"><p><strong>Enunciato.</strong> Se \(f\) è continua su \([a,b]\) e \(f(a)\cdot f(b)\lt0\), allora esiste \(c\in(a,b)\) con \(f(c)=0\).</p></div>
+    <div class="cb purple">
+      <div class="cb-label">Dimostrazione per bisezione</div>
+      <p>Sia \(f(a)\lt0\lt f(b)\). Si costruiscono \(a_n,b_n\) dimezzando l'intervallo: al punto medio \(m_n\), se \(f(m_n)\gt0\) si tiene \([a_n,m_n]\), se \(f(m_n)\lt0\) si tiene \([m_n,b_n]\), mantenendo sempre \(f(a_n)\lt0\lt f(b_n)\). Poiché \(b_n-a_n=(b-a)/2^n\to0\), entrambe le successioni convergono a uno stesso \(c\in[a,b]\). Per continuità, \(f(a_n)\to f(c)\le0\) e \(f(b_n)\to f(c)\ge0\), quindi \(f(c)=0\). \(\blacksquare\)</p>
+    </div>
+  </div>
+
+  <div class="theorem-block">
+    <div class="t-num">Teorema 6</div>
+    <div class="t-name">Punto fisso di Banach</div>
+    <div class="cb"><p><strong>Enunciato.</strong> Se \(f:[a,b]\to[a,b]\) è una contrazione (esiste \(k\in[0,1)\) con \(|f(x)-f(y)|\le k|x-y|\) per ogni \(x,y\)), allora esiste un unico \(x^*\in[a,b]\) con \(f(x^*)=x^*\), e la successione \(x_{n+1}=f(x_n)\) converge a \(x^*\) da ogni \(x_0\).</p></div>
+    <div class="cb purple">
+      <div class="cb-label">Dimostrazione (schema)</div>
+      <p><strong>Esistenza.</strong> \(|x_{n+1}-x_n|\le k^n|x_1-x_0|\), quindi \((x_n)\) è di Cauchy (la serie geometrica di ragione \(k\lt1\) converge) e converge a un \(x^*\); per continuità della contrazione, \(f(x^*)=x^*\).</p>
+      <p><strong>Unicità.</strong> Se \(x^*,y^*\) sono entrambi punti fissi, \(|x^*-y^*|=|f(x^*)-f(y^*)|\le k|x^*-y^*|\); poiché \(k\lt1\), l'unica possibilità è \(|x^*-y^*|=0\). \(\blacksquare\)</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+if (typeof MathJax !== 'undefined' && MathJax.startup && MathJax.startup.promise) {
+  MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+} else {
+  document.body.style.opacity = '1';
+}
+</script>
+</body>
+</html>

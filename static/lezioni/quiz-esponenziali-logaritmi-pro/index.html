@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Esponenziali e Logaritmi, approfondimento</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+
+.level-picker{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
+.level-card{flex:1;min-width:160px;border:1.5px solid var(--border);border-radius:10px;padding:16px 18px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s}
+.level-card:hover{border-color:var(--accent);background:var(--accent-light)}
+.level-card.active{border-color:var(--accent);background:var(--accent-light)}
+.level-name{font-family:'Fira Code',monospace;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+.level-card.active .level-name{color:var(--accent)}
+.level-desc{font-size:.85rem;color:var(--text-mid);line-height:1.5}
+
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.btn-start{margin-top:8px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-start:hover{background:#a01549}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px;color:var(--text)}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{background:#a01549}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-retry:hover{background:#a01549}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(5,1fr)}
+  .level-picker{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quiz · Esponenziali e Logaritmi</div>
+  <div class="topbar-tag">LP03</div>
+</div>
+
+<div class="container">
+
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Test di preparazione</div>
+      <h1>Esponenziali e <em>Logaritmi</em>, a fondo</h1>
+      <p class="hero-sub">30 domande a risposta multipla sulla costruzione rigorosa della potenza reale, il numero \(e\), il logaritmo come funzione inversa, le derivate di \(e^x\) e \(\ln x\), e le disuguaglianze fondamentali. Tre livelli: Base, Avanzato, Pro.</p>
+    </div>
+
+    <div class="level-picker">
+      <div class="level-card active" id="lvl-0" onclick="selectLevel(0)">
+        <div class="level-name">Base</div>
+        <div class="level-desc">Costruzione di \(a^x\), il numero \(e\), l'inversa, le formule di derivata.</div>
+      </div>
+      <div class="level-card" id="lvl-1" onclick="selectLevel(1)">
+        <div class="level-name">Avanzato</div>
+        <div class="level-desc">Cambiamento di base, derivata dell'inversa, regola della catena, applicazioni.</div>
+      </div>
+      <div class="level-card" id="lvl-2" onclick="selectLevel(2)">
+        <div class="level-name">Pro</div>
+        <div class="level-desc">Disuguaglianza fondamentale, concavità, crescita logaritmica, sintesi.</div>
+      </div>
+    </div>
+
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">10 per livello</span></div>
+      <div class="meta-item"><span class="meta-label">Tipo</span><span class="meta-value">Risposta multipla</span></div>
+      <div class="meta-item"><span class="meta-label">Feedback</span><span class="meta-value">Immediato</span></div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia il test</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso</span>
+        <span class="progress-frac" id="prog-frac">1 / 10</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag" id="res-tag">Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den" id="res-den">su 10 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova questo livello</button>
+      <a class="btn-lesson" href="#" onclick="backToLevels();return false;">Cambia livello</a>
+      <a class="btn-lesson" href="/lezioni/lp12-esponenziali-logaritmi/lezione.html">Torna alla lezione</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const LEVELS = ["Base","Avanzato","Pro"];
+
+const QSETS = [
+
+// ══════════════ LIVELLO BASE ══════════════
+[
+  {
+    badge: "Perché serve una nuova costruzione",
+    q: "Perché la formula \\(a^{m/n}=\\sqrt[n]{a^m}\\) non basta a definire \\(a^x\\) per ogni \\(x\\) reale?",
+    opts: [
+      "perché se \\(x\\) è irrazionale non esiste alcuna frazione \\(m/n\\) uguale a \\(x\\)",
+      "perché la formula vale solo per \\(a\\lt 0\\)",
+      "perché servirebbe conoscere prima il logaritmo",
+      "perché le potenze irrazionali non esistono in matematica"
+    ],
+    ans: 0,
+    exp: "Un numero irrazionale come \\(\\sqrt2\\) non è uguale a nessuna frazione \\(m/n\\): la formula con radice \\(n\\)-esima richiede un esponente razionale, quindi va estesa con un argomento diverso (la densità dei razionali)."
+  },
+  {
+    badge: "Densità dei razionali",
+    q: "Nella definizione \\(a^x=\\sup\\{a^q : q\\in\\mathbb{Q}, q\\le x\\}\\), a cosa serve la densità dei razionali in \\(\\mathbb{R}\\)?",
+    opts: [
+      "garantisce che l'insieme \\(\\{a^q:q\\le x\\}\\) sia non vuoto e approssimi il valore cercato con precisione arbitraria",
+      "garantisce che \\(a^x\\) sia sempre un numero razionale",
+      "serve solo quando \\(a=e\\)",
+      "non serve, è solo una curiosità storica"
+    ],
+    ans: 0,
+    exp: "La densità assicura che per ogni reale \\(x\\) esistano razionali arbitrariamente vicini a \\(x\\), rendendo l'estremo superiore un'approssimazione sempre più precisa del valore \"vero\" di \\(a^x\\)."
+  },
+  {
+    badge: "Assioma di completezza",
+    q: "Perché l'estremo superiore nella definizione di \\(a^x\\) esiste sempre?",
+    opts: [
+      "perché \\(a\\) è sempre maggiore di 1",
+      "perché ogni insieme di numeri reali ha sempre un estremo superiore, senza condizioni",
+      "perché l'insieme è non vuoto e limitato superiormente, e per l'assioma di completezza di \\(\\mathbb{R}\\) ogni insieme così ammette estremo superiore",
+      "non è garantito: a volte la definizione fallisce"
+    ],
+    ans: 2,
+    exp: "L'assioma di completezza (o dell'estremo superiore) di \\(\\mathbb{R}\\) garantisce l'esistenza del sup solo per insiemi non vuoti e limitati superiormente: entrambe le condizioni sono verificate qui."
+  },
+  {
+    badge: "Monotonia",
+    q: "Se \\(a\\gt1\\), come si comporta \\(x\\mapsto a^x\\) su \\(\\mathbb{R}\\)?",
+    opts: [
+      "è strettamente decrescente",
+      "è costante",
+      "è strettamente crescente",
+      "non è monotona"
+    ],
+    ans: 2,
+    exp: "Per \\(a\\gt1\\) la funzione esponenziale è strettamente crescente su tutto \\(\\mathbb{R}\\); per \\(0\\lt a\\lt1\\) è invece strettamente decrescente."
+  },
+  {
+    badge: "Il numero e — definizione",
+    q: "Come si definisce il numero \\(e\\)?",
+    opts: [
+      "come il più grande numero razionale minore di 3",
+      "come il rapporto tra circonferenza e diametro",
+      "come limite della successione \\(\\left(1+\\frac1n\\right)^n\\) per \\(n\\to+\\infty\\)",
+      "come la radice dell'equazione \\(x^2=2\\)"
+    ],
+    ans: 2,
+    exp: "Il numero di Nepero \\(e\\) è definito come il limite (che si dimostra esistere) della successione \\(a_n=(1+1/n)^n\\), non da una formula chiusa."
+  },
+  {
+    badge: "Perché il limite esiste",
+    q: "Quale teorema garantisce che il limite \\(\\lim(1+1/n)^n\\) esista finito?",
+    opts: [
+      "il teorema di Bolzano",
+      "il teorema di monotonia delle successioni: una successione crescente e limitata superiormente converge",
+      "nessun teorema: si verifica numericamente e basta",
+      "il teorema di Weierstrass sulle funzioni continue"
+    ],
+    ans: 1,
+    exp: "Si dimostra che la successione è strettamente crescente e limitata (ad esempio da 3): per il teorema di monotonia delle successioni, ogni successione crescente e limitata converge a un limite finito."
+  },
+  {
+    badge: "Il logaritmo come inversa",
+    q: "Perché la funzione \\(a^x\\) (con \\(a\\gt1\\)) ammette una funzione inversa continua?",
+    opts: [
+      "perché il suo grafico passa per l'origine",
+      "perché è continua e strettamente monotona su un intervallo: il teorema della funzione inversa garantisce l'esistenza di un'inversa continua e monotona",
+      "perché è una funzione pari",
+      "perché ogni funzione ammette sempre un'inversa"
+    ],
+    ans: 1,
+    exp: "Il teorema della funzione inversa per funzioni monotone continue richiede esattamente queste due ipotesi: continuità e stretta monotonia su un intervallo. L'esponenziale le soddisfa entrambe."
+  },
+  {
+    badge: "Derivata di eˣ",
+    q: "Quanto vale la derivata di \\(f(x)=e^x\\)?",
+    opts: [
+      "\\(f'(x)=1\\)",
+      "\\(f'(x)=e^{x-1}\\)",
+      "\\(f'(x)=x\\,e^{x-1}\\)",
+      "\\(f'(x)=e^x\\): coincide con la propria derivata"
+    ],
+    ans: 3,
+    exp: "È il fatto più caratteristico di \\(e^x\\): è l'unica funzione esponenziale (a meno di costante moltiplicativa) che coincide con la propria derivata, conseguenza diretta del limite notevole \\(\\lim_{h\\to0}(e^h-1)/h=1\\)."
+  },
+  {
+    badge: "Derivata di ln x",
+    q: "Quanto vale la derivata di \\(\\ln x\\), per \\(x\\gt0\\)?",
+    opts: [
+      "\\(\\dfrac1x\\)",
+      "\\(\\ln x\\)",
+      "\\(x\\)",
+      "\\(\\dfrac1{\\ln x}\\)"
+    ],
+    ans: 0,
+    exp: "\\((\\ln x)'=1/x\\): si ottiene applicando il teorema di derivazione della funzione inversa a \\(f(x)=e^x\\), il cui inverso è proprio \\(\\ln x\\)."
+  },
+  {
+    badge: "Iniettività ed equazioni",
+    q: "Perché da \\(a^{f(x)}=a^{g(x)}\\) si può concludere \\(f(x)=g(x)\\)?",
+    opts: [
+      "perché \\(x\\mapsto a^x\\) è strettamente monotona, quindi iniettiva: valori diversi dell'argomento danno sempre immagini diverse",
+      "perché ogni equazione esponenziale ha un'unica soluzione, per definizione",
+      "è solo una convenzione pratica, senza vera giustificazione",
+      "perché \\(a\\) è sempre positivo"
+    ],
+    ans: 0,
+    exp: "La stretta monotonia implica iniettività: se \\(a^{f(x)}=a^{g(x)}\\) e la funzione è iniettiva, allora necessariamente \\(f(x)=g(x)\\). Non è una regola arbitraria, ma conseguenza diretta di un teorema dimostrato."
+  }
+],
+
+// ══════════════ LIVELLO AVANZATO ══════════════
+[
+  {
+    badge: "Estensione delle proprietà",
+    q: "Le proprietà algebriche \\(a^{x+y}=a^xa^y\\), ecc., valgono ancora quando \\(x,y\\) sono reali qualunque?",
+    opts: [
+      "no, valgono solo per esponenti razionali",
+      "no, per esponenti reali le proprietà cambiano forma",
+      "sì, ma solo se \\(a=e\\)",
+      "sì, si dimostrano passando al limite sulle approssimazioni razionali di \\(x\\) e \\(y\\)"
+    ],
+    ans: 3,
+    exp: "Le proprietà note per esponenti razionali si estendono a esponenti reali qualunque tramite un argomento di limite sulle successioni di razionali che approssimano \\(x\\) e \\(y\\)."
+  },
+  {
+    badge: "Limite notevole collegato",
+    q: "Il limite \\(\\lim_{n\\to\\infty}(1+x/n)^n\\) è collegato a quale funzione?",
+    opts: [
+      "\\(e/x\\)",
+      "\\(e^x\\)",
+      "\\(x^e\\)",
+      "\\(\\ln x\\)"
+    ],
+    ans: 1,
+    exp: "È una generalizzazione diretta della definizione di \\(e\\): ponendo \\(x=1\\) si riottiene proprio \\(e\\); per \\(x\\) generico il limite vale \\(e^x\\)."
+  },
+  {
+    badge: "Cambiamento di base",
+    q: "Come si esprime \\(\\log_a x\\) in termini di logaritmi in base \\(b\\)?",
+    opts: [
+      "\\(\\log_a x=\\log_b x-\\log_b a\\)",
+      "\\(\\log_a x=\\dfrac{\\log_b x}{\\log_b a}\\)",
+      "\\(\\log_a x=\\log_b x\\cdot\\log_b a\\)",
+      "\\(\\log_a x=\\dfrac{\\log_b a}{\\log_b x}\\)"
+    ],
+    ans: 1,
+    exp: "Ponendo \\(y=\\log_a x\\) (cioè \\(a^y=x\\)) e applicando \\(\\log_b\\) a entrambi i membri: \\(y\\log_b a=\\log_b x\\), da cui \\(y=\\log_b x/\\log_b a\\)."
+  },
+  {
+    badge: "Derivata della funzione inversa",
+    q: "Qual è la formula generale per la derivata della funzione inversa \\(f^{-1}\\)?",
+    opts: [
+      "\\((f^{-1})'(y)=\\dfrac1{f'(f^{-1}(y))}\\)",
+      "\\((f^{-1})'(y)=f'(y)\\)",
+      "\\((f^{-1})'(y)=\\dfrac1{f(y)}\\)",
+      "\\((f^{-1})'(y)=-f'(f^{-1}(y))\\)"
+    ],
+    ans: 0,
+    exp: "La derivata dell'inversa nel punto \\(y\\) è il reciproco della derivata di \\(f\\) calcolata in \\(f^{-1}(y)\\): geometricamente, riflettere una tangente rispetto a \\(y=x\\) scambia il coefficiente angolare con il suo reciproco."
+  },
+  {
+    badge: "Derivata di ln x, dimostrata",
+    q: "Applicando la formula della derivata dell'inversa a \\(f(x)=e^x\\), come si ottiene \\((\\ln y)'=1/y\\)?",
+    opts: [
+      "\\((\\ln y)'=\\dfrac1{f'(\\ln y)}=\\dfrac1{e^{\\ln y}}=\\dfrac1y\\)",
+      "\\((\\ln y)'=f'(\\ln y)=e^{\\ln y}=y\\)",
+      "\\((\\ln y)'=\\ln(f'(y))\\)",
+      "si ottiene per definizione, senza dimostrazione"
+    ],
+    ans: 0,
+    exp: "Sostituendo \\(f'(x)=e^x\\) e \\(f^{-1}(y)=\\ln y\\) nella formula della derivata dell'inversa, e usando \\(e^{\\ln y}=y\\), si ottiene esattamente \\(1/y\\)."
+  },
+  {
+    badge: "Regola della catena",
+    q: "Qual è la derivata di \\(f(x)=e^{3x^2+1}\\)?",
+    opts: [
+      "\\(f'(x)=(3x^2+1)e^{3x^2}\\)",
+      "\\(f'(x)=e^{6x}\\)",
+      "\\(f'(x)=6x\\,e^{3x^2+1}\\)",
+      "\\(f'(x)=6x\\)"
+    ],
+    ans: 2,
+    exp: "Per la regola della catena, la derivata dell'esponenziale composto è \\(e^{3x^2+1}\\) (l'esterno, invariato) moltiplicato per la derivata dell'esponente, \\(6x\\)."
+  },
+  {
+    badge: "Perché il verso si inverte",
+    q: "Perché, risolvendo una disequazione con base \\(0\\lt a\\lt1\\), il verso della disuguaglianza si inverte?",
+    opts: [
+      "perché \\(a\\) è negativo",
+      "per una convenzione arbitraria",
+      "non si inverte mai, è un errore comune",
+      "perché con \\(0\\lt a\\lt1\\) la funzione \\(a^x\\) è strettamente decrescente: a valori maggiori dell'esponente corrispondono valori minori della potenza"
+    ],
+    ans: 3,
+    exp: "Con base minore di 1 la funzione è decrescente: \\(x_1\\lt x_2\\) implica \\(a^{x_1}\\gt a^{x_2}\\). È lo stesso fenomeno che si verifica moltiplicando una disuguaglianza per un numero negativo."
+  },
+  {
+    badge: "Basi generiche",
+    q: "Come si deriva \\(a^x\\) per una base generica \\(a\\gt0\\), \\(a\\neq1\\)?",
+    opts: [
+      "non è derivabile per basi diverse da \\(e\\)",
+      "si scrive \\(a^x=e^{x\\ln a}\\) e si deriva con la regola della catena, ottenendo \\(a^x\\ln a\\)",
+      "si usa \\((a^x)'=x\\,a^{x-1}\\), come per le potenze algebriche",
+      "si applica direttamente la formula \\((e^x)'=e^x\\), ignorando la base"
+    ],
+    ans: 1,
+    exp: "Riscrivendo \\(a^x\\) come \\(e^{x\\ln a}\\) e applicando la regola della catena, si ottiene \\(\\frac{d}{dx}a^x=e^{x\\ln a}\\cdot\\ln a=a^x\\ln a\\)."
+  },
+  {
+    badge: "Interesse composto continuo",
+    q: "Nel limite di composizione continua dell'interesse (\\(n\\to\\infty\\) composizioni annue), un capitale \\(C_0\\) a tasso \\(x\\) dopo un anno vale...?",
+    opts: [
+      "\\(C_0\\,x\\)",
+      "\\(C_0\\,(1+x)\\)",
+      "\\(C_0\\,e^{x}\\)",
+      "\\(C_0/e^x\\)"
+    ],
+    ans: 2,
+    exp: "È esattamente il limite \\(\\lim_{n\\to\\infty}C_0(1+x/n)^n=C_0e^x\\): la composizione continua dell'interesse porta naturalmente alla base \\(e\\)."
+  },
+  {
+    badge: "Localizzare uno zero con Bolzano",
+    q: "Per mostrare che \\(2^x=x+3\\) ha una soluzione tra \\(x=2\\) e \\(x=3\\), quale funzione ausiliaria e quale teorema si usano?",
+    opts: [
+      "si risolve algebricamente isolando \\(x\\)",
+      "\\(\\varphi(x)=2^x-x-3\\), continua, con \\(\\varphi(2)\\lt0\\) e \\(\\varphi(3)\\gt0\\): per Bolzano c'è uno zero in \\((2,3)\\)",
+      "si usa il teorema di Weierstrass sul massimo",
+      "non esiste alcun metodo per mostrarlo"
+    ],
+    ans: 1,
+    exp: "Non essendoci un metodo algebrico diretto, si studia il segno di \\(\\varphi(x)=2^x-x-3\\) agli estremi di un intervallo: il cambio di segno tra 2 e 3 garantisce, per Bolzano, l'esistenza di una soluzione in quell'intervallo."
+  }
+],
+
+// ══════════════ LIVELLO PRO ══════════════
+[
+  {
+    badge: "Disuguaglianza fondamentale",
+    q: "Come si dimostra la disuguaglianza \\(e^x\\ge1+x\\)?",
+    opts: [
+      "segue direttamente dalla definizione di \\(e\\) come limite",
+      "studiando \\(g(x)=e^x-1-x\\): \\(g(0)=0\\) è un minimo assoluto (poiché \\(g'(x)=e^x-1\\) cambia segno in 0), quindi \\(g(x)\\ge0\\) sempre",
+      "si dimostra per induzione sui numeri naturali",
+      "non si può dimostrare, è un assioma"
+    ],
+    ans: 1,
+    exp: "Studiando la funzione ausiliaria \\(g(x)=e^x-1-x\\) e la sua derivata, si mostra che \\(x=0\\) è un minimo assoluto con \\(g(0)=0\\): dunque \\(g(x)\\ge0\\) ovunque, cioè \\(e^x\\ge1+x\\)."
+  },
+  {
+    badge: "Concavità del logaritmo",
+    q: "Perché \\(\\ln x\\) è strettamente concava su \\((0,+\\infty)\\)?",
+    opts: [
+      "la concavità del logaritmo non è dimostrabile",
+      "perché la derivata prima è sempre positiva",
+      "perché la derivata seconda \\((\\ln x)''=-1/x^2\\) è sempre negativa",
+      "perché il logaritmo è una funzione crescente"
+    ],
+    ans: 2,
+    exp: "Il criterio di concavità stretta è la derivata seconda negativa: \\((\\ln x)'=1/x\\), \\((\\ln x)''=-1/x^2\\lt0\\) per ogni \\(x\\gt0\\)."
+  },
+  {
+    badge: "Crescita logaritmica vs potenze",
+    q: "Cosa afferma il teorema \\(\\lim_{x\\to+\\infty}\\dfrac{\\ln x}{x^\\alpha}=0\\) per ogni \\(\\alpha\\gt0\\)?",
+    opts: [
+      "che vale solo per \\(\\alpha=1\\)",
+      "che il logaritmo decresce per \\(x\\) grande",
+      "che il logaritmo è limitato",
+      "che il logaritmo cresce più lentamente di qualunque potenza positiva di \\(x\\), per quanto piccolo sia l'esponente"
+    ],
+    ans: 3,
+    exp: "Il risultato vale per ogni \\(\\alpha\\gt0\\), anche piccolissimo: il logaritmo, per quanto lentamente le potenze possano crescere, resta sempre \"più lento\" all'infinito."
+  },
+  {
+    badge: "Applicazione in informatica",
+    q: "Perché un algoritmo con complessità \\(O(\\log n)\\) è considerato molto efficiente rispetto a uno con complessità \\(O(n^\\alpha)\\)?",
+    opts: [
+      "perché il logaritmo è sempre negativo",
+      "perché non esiste alcuna relazione formale, è solo un'osservazione empirica",
+      "perché \\(\\log n\\) è costante",
+      "perché, per il teorema sulla crescita relativa, \\(\\log n\\) cresce più lentamente di qualunque potenza positiva di \\(n\\) al crescere di \\(n\\)"
+    ],
+    ans: 3,
+    exp: "È un'applicazione diretta del teorema di crescita relativa: \\(\\log n/n^\\alpha\\to0\\), quindi per \\(n\\) grande il tempo logaritmico diventa trascurabile rispetto a qualunque crescita polinomiale."
+  },
+  {
+    badge: "Tempo di dimezzamento",
+    q: "Una sostanza decade secondo \\(m(t)=m_0e^{-kt}\\). Se dopo 10 anni resta il 60% della massa, come si trova \\(k\\)?",
+    opts: [
+      "da \\(0{,}6=10k\\), si ricava \\(k=0{,}06\\)",
+      "da \\(0{,}6=e^{-10k}\\), si ricava \\(k=-\\dfrac{\\ln0{,}6}{10}\\)",
+      "\\(k\\) non è determinabile senza conoscere \\(m_0\\)",
+      "\\(k=0{,}6/10\\)"
+    ],
+    ans: 1,
+    exp: "Isolando \\(k\\) dall'equazione esponenziale con il logaritmo: \\(\\ln0{,}6=-10k\\), quindi \\(k=-\\ln(0{,}6)/10\\approx0{,}0511\\)."
+  },
+  {
+    badge: "AM-GM e concavità",
+    q: "Come è collegata la concavità del logaritmo alla disuguaglianza tra media aritmetica e media geometrica (AM-GM)?",
+    opts: [
+      "la disuguaglianza di Jensen applicata a una funzione concava come \\(\\ln\\) è alla base della dimostrazione di AM-GM",
+      "non c'è alcun collegamento",
+      "AM-GM si dimostra solo algebricamente, senza logaritmi",
+      "la concavità del logaritmo contraddice AM-GM"
+    ],
+    ans: 0,
+    exp: "Applicando la disuguaglianza di Jensen (valida per funzioni concave) alla funzione \\(\\ln\\), si ottiene esattamente la disuguaglianza AM-GM tra media aritmetica e media geometrica."
+  },
+  {
+    badge: "Doppio zero",
+    q: "Studiando \\(\\psi(x)=\\ln x-x+2\\), si trova \\(\\psi(0{,}1)\\lt0\\), \\(\\psi(1)\\gt0\\), \\(\\psi(3)\\gt0\\), \\(\\psi(4)\\lt0\\). Cosa si può concludere?",
+    opts: [
+      "c'è un solo zero, nel punto medio dell'intervallo",
+      "non ci sono zeri, perché \\(\\psi(1)\\) e \\(\\psi(3)\\) hanno lo stesso segno",
+      "il teorema di Bolzano non è applicabile ai logaritmi",
+      "per Bolzano, ci sono almeno due zeri: uno in \\((0{,}1,1)\\) e uno in \\((3,4)\\)"
+    ],
+    ans: 3,
+    exp: "Applicando Bolzano separatamente ai due sotto-intervalli dove il segno cambia effettivamente, si garantiscono almeno due zeri distinti dell'equazione \\(\\ln x=x-2\\)."
+  },
+  {
+    badge: "Perché il minimo è assoluto",
+    q: "Nella dimostrazione di \\(e^x\\ge1+x\\), perché \\(x=0\\) è un minimo assoluto (e non solo locale) di \\(g(x)=e^x-1-x\\)?",
+    opts: [
+      "perché \\(g'(x)=e^x-1\\) è negativa per ogni \\(x\\lt0\\) e positiva per ogni \\(x\\gt0\\): \\(g\\) decresce fino a 0 poi cresce sempre, su tutto \\(\\mathbb{R}\\)",
+      "perché \\(g\\) è una funzione limitata",
+      "perché \\(g(0)=0\\) implica automaticamente un minimo assoluto",
+      "non è un minimo assoluto, solo locale"
+    ],
+    ans: 0,
+    exp: "Il segno della derivata prima, negativo per \\(x\\lt0\\) e positivo per \\(x\\gt0\\), vale su tutto il dominio \\(\\mathbb{R}\\): questo rende \\(x=0\\) un minimo assoluto, non solo un minimo locale isolato."
+  },
+  {
+    badge: "Il ruolo della completezza di R",
+    q: "In quale punto della costruzione di \\(a^x\\) per \\(x\\) reale interviene in modo essenziale l'assioma di completezza di \\(\\mathbb{R}\\)?",
+    opts: [
+      "nel dimostrare che \\(a\\) è positivo",
+      "non interviene mai, è irrilevante",
+      "nel garantire che l'estremo superiore dell'insieme \\(\\{a^q:q\\le x\\}\\) esista effettivamente come numero reale",
+      "nel calcolare la derivata di \\(a^x\\)"
+    ],
+    ans: 2,
+    exp: "Senza l'assioma di completezza (che garantisce l'esistenza dell'estremo superiore per insiemi non vuoti e limitati superiormente), la definizione stessa di \\(a^x\\) per \\(x\\) irrazionale non avrebbe senso."
+  },
+  {
+    badge: "Sintesi finale",
+    q: "Qual è il filo conduttore che collega costruzione di \\(a^x\\), esistenza di \\(e\\), teorema della funzione inversa e derivate di \\(e^x\\)/\\(\\ln x\\)?",
+    opts: [
+      "non esiste un filo conduttore: sono risultati slegati del programma",
+      "il filo conduttore è solo il numero \\(e\\), che compare ovunque per caso",
+      "sono quattro argomenti completamente indipendenti tra loro",
+      "continuità e monotonia stretta, unite alla completezza di \\(\\mathbb{R}\\), bastano a garantire l'esistenza, la buona forma e la derivabilità di esponenziale e logaritmo"
+    ],
+    ans: 3,
+    exp: "È il principio unificante di tutto l'approfondimento: dalla completezza di \\(\\mathbb{R}\\) (che garantisce l'esistenza di \\(a^x\\) e del limite che definisce \\(e\\)) alla continuità e monotonia stretta (che garantiscono l'esistenza dell'inversa), fino al calcolo differenziale che ne deriva le proprietà — è tutto collegato."
+  }
+]
+
+];
+
+// ── STATO ──
+let level = 0, Q = QSETS[0];
+let cur = 0, score = 0, answered = false, results = [];
+
+function selectLevel(i) {
+  level = i;
+  document.querySelectorAll('.level-card').forEach((el,idx) => el.classList.toggle('active', idx===i));
+}
+
+// ── LOGICA ──
+function startQuiz() {
+  Q = QSETS[level];
+  cur = 0; score = 0; answered = false; results = [];
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function backToLevels() {
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-intro').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx], total = Q.length;
+  document.getElementById('prog-frac').textContent = (idx+1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('q-badge').textContent = LEVELS[level] + ' — ' + q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const letters = ['A','B','C','D'];
+  document.getElementById('q-opts').innerHTML = q.opts.map((o,i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${o}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === q.ans;
+  if (isOk) score++;
+  results.push(isOk);
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('opt-' + i).classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) document.getElementById('opt-' + q.ans).classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur+1);
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next show';
+  btn.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  document.getElementById('res-tag').textContent = 'Livello ' + LEVELS[level] + ' — Risultato';
+  document.getElementById('res-den').textContent = 'su ' + Q.length + ' domande';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+
+  const msgs = [
+    [9, "Eccellente! Esponenziali e logaritmi non hanno più segreti — prova un livello più avanzato."],
+    [7, "Ottimo lavoro. Un piccolo ripasso finale e sei al top."],
+    [5, "Sei sulla buona strada. Ricontrolla le domande sbagliate e riprova."],
+    [3, "C'è ancora del lavoro da fare. Rileggi la lezione e riprova il test."],
+    [0, "Non mollare. Riparti dalla costruzione di aˣ, studia con calma e riprova."]
+  ];
+  document.getElementById('res-msg').textContent = (msgs.find(m => score >= m[0]) || msgs[4])[1];
+
+  document.getElementById('res-grid').innerHTML = results.map((ok,i) =>
+    `<div class="rev-cell ${ok?'ok':'err'}" title="Domanda ${i+1}: ${ok?'corretta':'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) pick(parseInt(e.key)-1);
+  if ((e.key==='Enter'||e.key===' ') && answered) { e.preventDefault(); nextQ(); }
+});
+</script>
+</body>
+</html>
