@@ -53,6 +53,39 @@ slides:
   </dl>
 </section>
 
+<section>
+  <p class="mot-kicker">perché ci tengo al test d'ingresso</p>
+  <h2>Statistiche sulle competenze <em>in ingresso</em></h2>
+  <div class="mot-barchart">
+    <div class="fragment mot-bar" style="--bar-color:#b3503f; --target:5%;">
+      <div class="mot-bar-value">5%</div>
+      <div class="mot-bar-col"><div class="mot-bar-fill"></div></div>
+      <div class="mot-bar-label">sotto le<br>minime</div>
+    </div>
+    <div class="fragment mot-bar" style="--bar-color:#d9a441; --target:20%;">
+      <div class="mot-bar-value">20%</div>
+      <div class="mot-bar-col"><div class="mot-bar-fill"></div></div>
+      <div class="mot-bar-label">competenze<br>minime</div>
+    </div>
+    <div class="fragment mot-bar" style="--bar-color:#ed6f5c; --target:50%;">
+      <div class="mot-bar-value">50%</div>
+      <div class="mot-bar-col"><div class="mot-bar-fill"></div></div>
+      <div class="mot-bar-label">sufficienti /<br>discrete</div>
+    </div>
+    <div class="fragment mot-bar" style="--bar-color:#6f9e74; --target:20%;">
+      <div class="mot-bar-value">20%</div>
+      <div class="mot-bar-col"><div class="mot-bar-fill"></div></div>
+      <div class="mot-bar-label">buone</div>
+    </div>
+    <div class="fragment mot-bar" style="--bar-color:#c9a227; --target:5%;">
+      <div class="mot-bar-value">5%</div>
+      <div class="mot-bar-col"><div class="mot-bar-fill"></div></div>
+      <div class="mot-bar-label">ottime /<br>eccellenti</div>
+    </div>
+  </div>
+  <p class="mot-joke fragment" style="margin-top: 1.5rem;">un quarto della classe parte già sotto soglia — è per questo che il test non è una formalità</p>
+</section>
+
 <!--
 <section>
   <p class="mot-kicker">supporto</p>
@@ -183,3 +216,68 @@ slides:
   <h1>The <span class="math-word">Math</span> of <em>Things</em></h1>
   <p class="mot-meta"><a href="https://mathofthings.netlify.app/" target="_blank" class="mono">mathofthings.netlify.app</a></p>
 </section>
+
+<style>
+.mot-barchart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2.2em;
+  height: 260px;
+  margin: 2rem auto 0;
+  max-width: 700px;
+}
+
+.mot-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+}
+
+.mot-bar-value {
+  flex: 0 0 auto;
+  font-family: var(--mot-mono);
+  font-size: 0.55em;
+  font-weight: 700;
+  color: var(--bar-color);
+  margin-bottom: 0.4em;
+}
+
+.mot-bar-col {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 64px;
+  display: flex;
+  align-items: flex-end;
+  border-radius: 6px 6px 0 0;
+  background: rgba(128, 128, 128, 0.1);
+  overflow: hidden;
+}
+
+.mot-bar-fill {
+  width: 100%;
+  height: 0;
+  background: var(--bar-color);
+  border-radius: 6px 6px 0 0;
+  transition: height 1s cubic-bezier(0.22, 0.9, 0.35, 1);
+}
+
+.mot-bar.visible .mot-bar-fill {
+  height: var(--target);
+}
+
+.mot-bar-label {
+  flex: 0 0 auto;
+  font-family: var(--mot-mono);
+  font-size: 0.4em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--mot-muted);
+  text-align: center;
+  margin-top: 0.6em;
+  max-width: 90px;
+  line-height: 1.3;
+}
+</style>
