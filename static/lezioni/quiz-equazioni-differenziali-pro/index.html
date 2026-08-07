@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Equazioni Differenziali, introduzione</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+
+.level-picker{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
+.level-card{flex:1;min-width:160px;border:1.5px solid var(--border);border-radius:10px;padding:16px 18px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s}
+.level-card:hover{border-color:var(--accent);background:var(--accent-light)}
+.level-card.active{border-color:var(--accent);background:var(--accent-light)}
+.level-name{font-family:'Fira Code',monospace;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+.level-card.active .level-name{color:var(--accent)}
+.level-desc{font-size:.85rem;color:var(--text-mid);line-height:1.5}
+
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.btn-start{margin-top:8px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-start:hover{background:#a01549}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px;color:var(--text)}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{background:#a01549}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-retry:hover{background:#a01549}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(5,1fr)}
+  .level-picker{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quiz · Equazioni Differenziali</div>
+  <div class="topbar-tag">LP09</div>
+</div>
+
+<div class="container">
+
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Test di preparazione</div>
+      <h1>Equazioni <em>Differenziali</em>, introduzione</h1>
+      <p class="hero-sub">30 domande a risposta multipla su cosa sono le equazioni differenziali, variabili separabili, crescita e decadimento esponenziale, equazioni lineari del primo ordine (fattore integrante), il problema di Cauchy e le applicazioni fisiche. Tre livelli: Base, Avanzato, Pro.</p>
+    </div>
+
+    <div class="level-picker">
+      <div class="level-card active" id="lvl-0" onclick="selectLevel(0)">
+        <div class="level-name">Base</div>
+        <div class="level-desc">Definizioni, ordine, variabili separabili, fattore integrante, Cauchy.</div>
+      </div>
+      <div class="level-card" id="lvl-1" onclick="selectLevel(1)">
+        <div class="level-name">Avanzato</div>
+        <div class="level-desc">Risoluzioni complete, dimostrazioni, applicazioni fisiche (RC, raffreddamento).</div>
+      </div>
+      <div class="level-card" id="lvl-2" onclick="selectLevel(2)">
+        <div class="level-name">Pro</div>
+        <div class="level-desc">Casi non lineari, classificazione, campo di direzioni, sintesi.</div>
+      </div>
+    </div>
+
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">10 per livello</span></div>
+      <div class="meta-item"><span class="meta-label">Tipo</span><span class="meta-value">Risposta multipla</span></div>
+      <div class="meta-item"><span class="meta-label">Feedback</span><span class="meta-value">Immediato</span></div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia il test</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso</span>
+        <span class="progress-frac" id="prog-frac">1 / 10</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag" id="res-tag">Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den" id="res-den">su 10 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova questo livello</button>
+      <a class="btn-lesson" href="#" onclick="backToLevels();return false;">Cambia livello</a>
+      <a class="btn-lesson" href="/lezioni/lp09-equazioni-differenziali/lezione.html">Torna alla lezione</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const LEVELS = ["Base","Avanzato","Pro"];
+
+const QSETS = [
+
+// ══════════════ LIVELLO BASE ══════════════
+[
+  {
+    badge: "Cos'è un'equazione differenziale",
+    q: "Qual è la differenza principale tra un'equazione algebrica come \\(3x+1=7\\) e un'equazione differenziale?",
+    opts: [
+      "nell'equazione differenziale l'incognita è una funzione, non un numero",
+      "non c'è alcuna differenza sostanziale",
+      "nell'equazione differenziale non c'è mai una soluzione",
+      "un'equazione differenziale contiene sempre più di una variabile indipendente"
+    ],
+    ans: 0,
+    exp: "In un'equazione differenziale l'incognita da determinare è una funzione \\(y=y(x)\\), e l'equazione lega la funzione alle sue derivate."
+  },
+  {
+    badge: "Ordine di un'equazione",
+    q: "Come si definisce l'ordine di un'equazione differenziale?",
+    opts: [
+      "è il numero di soluzioni che ammette",
+      "è il grado massimo di \\(x\\) presente",
+      "è l'ordine massimo di derivata che compare nell'equazione",
+      "è sempre uguale a 1"
+    ],
+    ans: 2,
+    exp: "Ad esempio \\(y''=6x\\) ha ordine 2, perché la derivata di ordine più alto presente è la derivata seconda."
+  },
+  {
+    badge: "Integrale generale",
+    q: "Quante costanti arbitrarie contiene, in generale, l'integrale generale di un'equazione differenziale di ordine \\(n\\)?",
+    opts: [
+      "esattamente \\(n\\)",
+      "sempre una sola, indipendentemente dall'ordine",
+      "infinite, sempre",
+      "nessuna: l'integrale generale è un'unica funzione"
+    ],
+    ans: 0,
+    exp: "Il numero di costanti arbitrarie nell'integrale generale coincide con l'ordine dell'equazione: un'equazione del secondo ordine, ad esempio, ne ha due."
+  },
+  {
+    badge: "Equazioni a variabili separabili",
+    q: "Qual è la forma generale di un'equazione a variabili separabili?",
+    opts: [
+      "\\(y'=x+y\\)",
+      "\\(y'=\\text{costante}\\) sempre",
+      "\\(y''=y'\\)",
+      "\\(y'=g(x)\\,h(y)\\)"
+    ],
+    ans: 3,
+    exp: "Nelle equazioni a variabili separabili, il secondo membro si scompone nel prodotto di una funzione della sola \\(x\\) per una funzione della sola \\(y\\)."
+  },
+  {
+    badge: "Il modello y'=ky",
+    q: "Qual è la soluzione generale dell'equazione \\(y'=ky\\), con \\(k\\) costante?",
+    opts: [
+      "\\(y(x)=y_0^k\\)",
+      "\\(y(x)=y_0+k\\)",
+      "\\(y(x)=kx+y_0\\)",
+      "\\(y(x)=y_0e^{kx}\\)"
+    ],
+    ans: 3,
+    exp: "È il modello di crescita/decadimento esponenziale: separando le variabili si ottiene direttamente questa soluzione, con \\(y_0=y(0)\\)."
+  },
+  {
+    badge: "Segno di k",
+    q: "Nel modello \\(y=y_0e^{kx}\\), cosa rappresenta il caso \\(k\\lt0\\)?",
+    opts: [
+      "un valore indefinito",
+      "una crescita esponenziale",
+      "una funzione costante",
+      "un decadimento esponenziale"
+    ],
+    ans: 3,
+    exp: "Con \\(k\\lt0\\), la funzione \\(e^{kx}\\) tende a zero per \\(x\\to+\\infty\\): la grandezza descritta diminuisce nel tempo, come nel decadimento radioattivo."
+  },
+  {
+    badge: "Equazione lineare del primo ordine",
+    q: "Qual è la forma generale di un'equazione lineare del primo ordine?",
+    opts: [
+      "\\(y'=p(x)+q(x)\\)",
+      "\\((y')^2=q(x)\\)",
+      "\\(y'+p(x)y=q(x)\\)",
+      "\\(y\\cdot y'=p(x)\\)"
+    ],
+    ans: 2,
+    exp: "È lineare perché sia \\(y\\) che \\(y'\\) compaiono con esponente 1, senza prodotti tra loro."
+  },
+  {
+    badge: "Il fattore integrante",
+    q: "Come si definisce il fattore integrante \\(\\mu(x)\\) usato per risolvere \\(y'+p(x)y=q(x)\\)?",
+    opts: [
+      "\\(\\mu(x)=1/p(x)\\)",
+      "\\(\\mu(x)=\\int q(x)\\,dx\\)",
+      "\\(\\mu(x)=e^{\\int p(x)\\,dx}\\)",
+      "\\(\\mu(x)=p(x)\\cdot q(x)\\)"
+    ],
+    ans: 2,
+    exp: "Questa scelta rende il primo membro dell'equazione, moltiplicato per \\(\\mu\\), esattamente la derivata del prodotto \\(\\mu y\\)."
+  },
+  {
+    badge: "Il problema di Cauchy",
+    q: "Cos'è un problema di Cauchy?",
+    opts: [
+      "un'equazione algebrica con più incognite",
+      "un'equazione differenziale accoppiata a una condizione iniziale \\(y(x_0)=y_0\\)",
+      "un sistema di due equazioni differenziali",
+      "un'equazione differenziale senza soluzioni"
+    ],
+    ans: 1,
+    exp: "Il problema di Cauchy seleziona, tra le infinite curve dell'integrale generale, quella che passa per il punto assegnato \\((x_0,y_0)\\)."
+  },
+  {
+    badge: "Perché serve la condizione iniziale",
+    q: "Perché una condizione iniziale è necessaria per ottenere una soluzione particolare?",
+    opts: [
+      "perché l'integrale generale contiene una costante arbitraria, e la condizione iniziale permette di determinarne il valore",
+      "non è mai necessaria, l'integrale generale basta sempre",
+      "perché senza condizione iniziale l'equazione non ha alcuna soluzione",
+      "perché la condizione iniziale cambia l'ordine dell'equazione"
+    ],
+    ans: 0,
+    exp: "L'integrale generale rappresenta una famiglia di infinite soluzioni (una per ogni valore della costante): la condizione iniziale fissa quale valore prendere."
+  }
+],
+
+// ══════════════ LIVELLO AVANZATO ══════════════
+[
+  {
+    badge: "Risolvere y'=xy",
+    q: "Risolvendo \\(y'=xy\\) per separazione delle variabili, quale integrale generale si ottiene?",
+    opts: [
+      "\\(y(x)=C+x^2/2\\)",
+      "\\(y(x)=Ce^{x^2/2}\\)",
+      "\\(y(x)=Cx^2\\)",
+      "\\(y(x)=Ce^{-x^2/2}\\)"
+    ],
+    ans: 1,
+    exp: "Separando: \\(\\frac{dy}{y}=x\\,dx\\), da cui \\(\\ln|y|=x^2/2+c_1\\), e infine \\(y=Ce^{x^2/2}\\)."
+  },
+  {
+    badge: "Soluzioni singolari",
+    q: "Nella separazione delle variabili di \\(y'=g(x)h(y)\\), quando bisogna controllare a parte l'esistenza di soluzioni singolari?",
+    opts: [
+      "quando esiste \\(y_0\\) tale che \\(h(y_0)=0\\): in tal caso \\(y(x)=y_0\\) (costante) è anch'essa soluzione",
+      "solo se \\(g(x)\\) è costante",
+      "sempre, indipendentemente da \\(h\\)",
+      "mai, la separazione trova sempre tutte le soluzioni"
+    ],
+    ans: 0,
+    exp: "Dividere per \\(h(y)\\) è lecito solo dove \\(h(y)\\neq0\\): se \\(h(y_0)=0\\), la funzione costante \\(y=y_0\\) risolve banalmente l'equazione ma può andare persa nel procedimento."
+  },
+  {
+    badge: "Tempo di dimezzamento",
+    q: "Data l'equazione di decadimento \\(N'=-\\lambda N\\), qual è la formula del tempo di dimezzamento \\(t_{1/2}\\)?",
+    opts: [
+      "\\(t_{1/2}=\\dfrac{1}{2\\lambda}\\)",
+      "\\(t_{1/2}=\\lambda\\ln2\\)",
+      "\\(t_{1/2}=\\dfrac{\\ln2}{\\lambda}\\)",
+      "\\(t_{1/2}=2\\lambda\\)"
+    ],
+    ans: 2,
+    exp: "Imponendo \\(N_0/2=N_0e^{-\\lambda t_{1/2}}\\) e risolvendo con i logaritmi, si ottiene \\(t_{1/2}=\\ln2/\\lambda\\)."
+  },
+  {
+    badge: "Legge di raffreddamento di Newton",
+    q: "Perché la legge di raffreddamento \\(T'=-k(T-T_{amb})\\) è ancora un'equazione a variabili separabili?",
+    opts: [
+      "perché è un'equazione del secondo ordine",
+      "perché ponendo \\(u=T-T_{amb}\\) si riconduce esattamente al caso \\(u'=-ku\\)",
+      "perché la temperatura ambiente non compare nell'equazione",
+      "non è a variabili separabili, richiede il fattore integrante"
+    ],
+    ans: 1,
+    exp: "Con la sostituzione \\(u=T-T_{amb}\\) (essendo \\(T_{amb}\\) costante, \\(u'=T'\\)), l'equazione diventa \\(u'=-ku\\), lo stesso modello di crescita/decadimento già visto."
+  },
+  {
+    badge: "Dimostrazione — perché funziona il fattore integrante",
+    q: "Nella dimostrazione del metodo del fattore integrante, perché \\((\\mu y)'=\\mu q\\) dopo aver moltiplicato l'equazione per \\(\\mu(x)=e^{\\int p\\,dx}\\)?",
+    opts: [
+      "perché \\(\\mu\\) è sempre costante",
+      "perché \\(\\mu'=\\mu p\\) per costruzione, quindi \\(\\mu y'+\\mu p y=\\mu y'+\\mu' y=(\\mu y)'\\)",
+      "è un'identità che non richiede dimostrazione",
+      "perché \\(q(x)\\) si annulla sempre"
+    ],
+    ans: 1,
+    exp: "La scelta di \\(\\mu\\) è proprio quella che rende \\(\\mu'=\\mu p\\): sostituendo, il primo membro dell'equazione moltiplicata diventa esattamente la derivata del prodotto \\(\\mu y\\), per la regola di derivazione del prodotto."
+  },
+  {
+    badge: "Esempio con fattore integrante",
+    q: "Risolvendo \\(y'+2y=e^{-x}\\) col fattore integrante \\(\\mu=e^{2x}\\), qual è l'integrale generale?",
+    opts: [
+      "\\(y=e^{2x}+Ce^{-x}\\)",
+      "\\(y=e^{-x}+C\\)",
+      "\\(y=Ce^{2x}\\)",
+      "\\(y=e^{-x}+Ce^{-2x}\\)"
+    ],
+    ans: 3,
+    exp: "Moltiplicando per \\(\\mu=e^{2x}\\): \\((e^{2x}y)'=e^{x}\\); integrando: \\(e^{2x}y=e^x+C\\), quindi \\(y=e^{-x}+Ce^{-2x}\\)."
+  },
+  {
+    badge: "Ipotesi del teorema di esistenza e unicità",
+    q: "Quali ipotesi garantiscono, per il problema di Cauchy \\(y'=f(x,y)\\), \\(y(x_0)=y_0\\), l'esistenza di una e una sola soluzione?",
+    opts: [
+      "nessuna ipotesi è necessaria: vale sempre",
+      "che \\(y_0\\) sia positivo",
+      "che \\(f(x,y)\\) sia un polinomio",
+      "che \\(f(x,y)\\) e \\(\\partial f/\\partial y\\) siano continue in un intorno di \\((x_0,y_0)\\)"
+    ],
+    ans: 3,
+    exp: "Sotto queste due condizioni di continuità, il teorema di esistenza e unicità garantisce che il problema di Cauchy ammette esattamente una soluzione, almeno in un intorno di \\(x_0\\)."
+  },
+  {
+    badge: "Conseguenza geometrica dell'unicità",
+    q: "Cosa implica geometricamente l'unicità della soluzione del problema di Cauchy?",
+    opts: [
+      "le soluzioni sono sempre rette",
+      "esiste una sola curva integrale in assoluto per ogni equazione",
+      "tutte le soluzioni passano per l'origine",
+      "due soluzioni distinte della stessa equazione non si intersecano mai"
+    ],
+    ans: 3,
+    exp: "Se due curve integrali si intersecassero in un punto, in quel punto il problema di Cauchy avrebbe due soluzioni diverse, contraddicendo l'unicità garantita dal teorema."
+  },
+  {
+    badge: "Circuito RC",
+    q: "Qual è la soluzione dell'equazione del circuito RC, \\(R\\frac{dq}{dt}+\\frac{q}{C}=V_0\\), con \\(q(0)=0\\)?",
+    opts: [
+      "\\(q(t)=CV_0e^{-t/RC}\\)",
+      "\\(q(t)=CV_0(1-e^{-t/RC})\\)",
+      "\\(q(t)=CV_0t/RC\\)",
+      "\\(q(t)=V_0t\\)"
+    ],
+    ans: 1,
+    exp: "È un'equazione lineare del primo ordine con fattore integrante \\(\\mu=e^{t/RC}\\); imponendo \\(q(0)=0\\) si ottiene esattamente questa soluzione, che tende a \\(CV_0\\) per \\(t\\to\\infty\\)."
+  },
+  {
+    badge: "Costante di tempo",
+    q: "Cosa rappresenta la costante di tempo \\(\\tau=RC\\) in un circuito RC?",
+    opts: [
+      "il tempo dopo il quale la carica ha raggiunto circa il 63% del valore massimo \\(CV_0\\)",
+      "il tempo dopo il quale il condensatore è completamente scarico",
+      "il valore massimo della carica",
+      "la resistenza totale del circuito"
+    ],
+    ans: 0,
+    exp: "Sostituendo \\(t=\\tau=RC\\) nella soluzione \\(q(t)=CV_0(1-e^{-t/RC})\\), si ottiene \\(q(\\tau)=CV_0(1-e^{-1})\\approx0{,}63\\,CV_0\\)."
+  }
+],
+
+// ══════════════ LIVELLO PRO ══════════════
+[
+  {
+    badge: "Un'equazione che esplode",
+    q: "Risolvendo \\(y'=y^2\\) con \\(y(0)=1\\), si trova \\(y=\\dfrac{1}{1-x}\\). Cosa ha di sorprendente questa soluzione rispetto ai casi lineari visti prima?",
+    opts: [
+      "non soddisfa la condizione iniziale",
+      "è definita ovunque, esattamente come nei casi lineari",
+      "non è definita per ogni \\(x\\): \"esplode\" quando \\(x\\to1^-\\), un fenomeno tipico delle equazioni non lineari",
+      "è una funzione periodica"
+    ],
+    ans: 2,
+    exp: "A differenza delle equazioni lineari, le cui soluzioni sono spesso definite su tutto \\(\\mathbb{R}\\), le equazioni non lineari possono avere soluzioni che esistono solo su un intervallo limitato, con un tempo di \"esplosione\" finito."
+  },
+  {
+    badge: "Velocità limite",
+    q: "Nella caduta con attrito viscoso, \\(\\frac{dv}{dt}+\\frac{k}{m}v=g\\), qual è la velocità limite \\(v_{lim}\\) raggiunta per \\(t\\to\\infty\\)?",
+    opts: [
+      "\\(v_{lim}=\\dfrac{mg}{k}\\)",
+      "\\(v_{lim}=gt\\)",
+      "\\(v_{lim}=mg\\cdot k\\)",
+      "\\(v_{lim}=\\dfrac{k}{mg}\\)"
+    ],
+    ans: 0,
+    exp: "Per \\(t\\to\\infty\\), il termine esponenziale nella soluzione \\(v(t)=\\frac{mg}{k}(1-e^{-kt/m})\\) si annulla, e \\(v\\) tende a \\(mg/k\\): la velocità a cui la forza di attrito eguaglia esattamente il peso."
+  },
+  {
+    badge: "Il filo conduttore delle applicazioni fisiche",
+    q: "Perché carica di un condensatore, velocità di caduta con attrito e temperatura di raffreddamento condividono la stessa struttura matematica?",
+    opts: [
+      "perché descrivono tutte fenomeni elettrici",
+      "è una coincidenza senza alcuna spiegazione matematica",
+      "perché sono tutte governate da un'equazione lineare del primo ordine con termine noto costante, la cui soluzione è un avvicinamento esponenziale a un valore di equilibrio",
+      "perché hanno tutte la stessa costante di tempo numerica"
+    ],
+    ans: 2,
+    exp: "In tutti e tre i casi l'equazione ha la forma \\(y'+ky=\\text{costante}\\): la soluzione generale di questa struttura è sempre un'esponenziale che si avvicina a un valore di equilibrio, qualunque sia il significato fisico delle grandezze coinvolte."
+  },
+  {
+    badge: "Classificare un'equazione",
+    q: "L'equazione \\(y'=x+y\\) è a variabili separabili?",
+    opts: [
+      "no, ma è un'equazione lineare del primo ordine (\\(y'-y=x\\)), risolvibile col fattore integrante",
+      "sì, si separano immediatamente le variabili",
+      "sì, ma solo se \\(x=0\\)",
+      "no, non è risolvibile con alcun metodo elementare"
+    ],
+    ans: 0,
+    exp: "Il secondo membro \\(x+y\\) non si scompone nel prodotto di una funzione di \\(x\\) per una di \\(y\\): non è separabile. Riscritta come \\(y'-y=x\\), è però lineare del primo ordine, con \\(p=-1\\) e \\(q=x\\)."
+  },
+  {
+    badge: "Problema di Cauchy lineare",
+    q: "Risolvendo il problema di Cauchy \\(y'+y=1\\), \\(y(0)=0\\), quale soluzione particolare si ottiene?",
+    opts: [
+      "\\(y=e^{-x}\\)",
+      "\\(y=1-e^{-x}\\)",
+      "\\(y=1+e^{-x}\\)",
+      "\\(y=x\\)"
+    ],
+    ans: 1,
+    exp: "L'integrale generale (fattore integrante \\(\\mu=e^x\\)) è \\(y=1+Ce^{-x}\\); imponendo \\(y(0)=0\\): \\(0=1+C\\), quindi \\(C=-1\\) e \\(y=1-e^{-x}\\)."
+  },
+  {
+    badge: "Verifica diretta di una soluzione",
+    q: "Come si verifica che \\(y=Ce^{3x}\\) è soluzione di \\(y'=3y\\) per ogni valore di \\(C\\)?",
+    opts: [
+      "si integra l'equazione da capo",
+      "si calcola \\(y'=3Ce^{3x}\\) e si osserva che coincide esattamente con \\(3y=3Ce^{3x}\\)",
+      "si sostituisce \\(C=0\\) e si verifica solo quel caso",
+      "non è possibile verificarlo senza risolvere l'equazione"
+    ],
+    ans: 1,
+    exp: "La verifica diretta consiste nel calcolare la derivata della candidata soluzione e confrontarla col secondo membro dell'equazione: qui \\(y'=3Ce^{3x}=3y\\), per ogni \\(C\\), quindi la verifica ha successo."
+  },
+  {
+    badge: "Il caso C=0 nella separazione",
+    q: "Nell'equazione \\(y'=xy\\), risolta per separazione, perché la costante \\(C\\) nell'integrale generale \\(y=Ce^{x^2/2}\\) può assumere anche il valore \\(C=0\\)?",
+    opts: [
+      "perché l'equazione non ammette soluzioni singolari",
+      "perché \\(C=0\\) non è mai una soluzione valida",
+      "perché \\(C\\) deve sempre essere positivo",
+      "perché \\(C=0\\) ricostruisce la soluzione singolare \\(y=0\\), persa dividendo per \\(y\\) durante la separazione"
+    ],
+    ans: 3,
+    exp: "Includendo \\(C=0\\) nella famiglia di soluzioni \\(Ce^{x^2/2}\\), si recupera esattamente la soluzione costante \\(y=0\\) che era stata esclusa dalla divisione per \\(y\\) durante la separazione delle variabili."
+  },
+  {
+    badge: "Campo di direzioni",
+    q: "Cosa rappresenta il campo di direzioni di un'equazione \\(y'=f(x,y)\\)?",
+    opts: [
+      "il grafico dell'integrale generale",
+      "un metodo per calcolare esattamente le costanti arbitrarie",
+      "in ogni punto del piano, un segmento con pendenza \\(f(x,y)\\): ogni curva integrale è ovunque tangente al segmento locale",
+      "l'insieme dei punti in cui l'equazione non è definita"
+    ],
+    ans: 2,
+    exp: "Il campo di direzioni permette di \"vedere\" qualitativamente le soluzioni senza risolvere l'equazione: seguendo in ogni punto la direzione indicata dal segmento locale, si traccia una curva integrale approssimata."
+  },
+  {
+    badge: "Datazione al carbonio-14",
+    q: "Un reperto contiene il 25% del carbonio-14 originario. Sapendo che il 25% corrisponde esattamente a due tempi di dimezzamento, quale relazione lega l'età del reperto \\(t\\) a \\(t_{1/2}\\)?",
+    opts: [
+      "\\(t=2\\,t_{1/2}\\)",
+      "\\(t=t_{1/2}/2\\)",
+      "\\(t=4\\,t_{1/2}\\)",
+      "\\(t=t_{1/2}\\)"
+    ],
+    ans: 0,
+    exp: "Dopo un tempo di dimezzamento resta il 50%, dopo due tempi di dimezzamento resta il 50% del 50%, cioè il 25%: quindi \\(t=2\\,t_{1/2}\\)."
+  },
+  {
+    badge: "Sintesi finale",
+    q: "Qual è il filo conduttore che collega variabili separabili, equazioni lineari e problema di Cauchy in questa unità?",
+    opts: [
+      "sono tre argomenti completamente scollegati del programma",
+      "sono strumenti via via più generali per risolvere e selezionare soluzioni di leggi che descrivono \"come cambia\" una grandezza, non solo il suo valore",
+      "si applicano solo a equazioni del secondo ordine",
+      "riguardano tutti esclusivamente fenomeni elettrici"
+    ],
+    ans: 1,
+    exp: "Le equazioni differenziali traducono in matematica il concetto di legge che descrive un cambiamento; variabili separabili e fattore integrante sono i metodi per trovare l'integrale generale, mentre il problema di Cauchy fornisce il criterio per selezionare, tra le infinite soluzioni, quella fisicamente rilevante."
+  }
+]
+
+];
+
+// ── STATO ──
+let level = 0, Q = QSETS[0];
+let cur = 0, score = 0, answered = false, results = [];
+
+function selectLevel(i) {
+  level = i;
+  document.querySelectorAll('.level-card').forEach((el,idx) => el.classList.toggle('active', idx===i));
+}
+
+// ── LOGICA ──
+function startQuiz() {
+  Q = QSETS[level];
+  cur = 0; score = 0; answered = false; results = [];
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function backToLevels() {
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-intro').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx], total = Q.length;
+  document.getElementById('prog-frac').textContent = (idx+1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('q-badge').textContent = LEVELS[level] + ' — ' + q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const letters = ['A','B','C','D'];
+  document.getElementById('q-opts').innerHTML = q.opts.map((o,i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${o}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === q.ans;
+  if (isOk) score++;
+  results.push(isOk);
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('opt-' + i).classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) document.getElementById('opt-' + q.ans).classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur+1);
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next show';
+  btn.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  document.getElementById('res-tag').textContent = 'Livello ' + LEVELS[level] + ' — Risultato';
+  document.getElementById('res-den').textContent = 'su ' + Q.length + ' domande';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+
+  const msgs = [
+    [9, "Eccellente! Le equazioni differenziali non hanno più segreti — prova un livello più avanzato."],
+    [7, "Ottimo lavoro. Un piccolo ripasso finale e sei al top."],
+    [5, "Sei sulla buona strada. Ricontrolla le domande sbagliate e riprova."],
+    [3, "C'è ancora del lavoro da fare. Rileggi la lezione e riprova il test."],
+    [0, "Non mollare. Riparti dalle variabili separabili, studia con calma e riprova."]
+  ];
+  document.getElementById('res-msg').textContent = (msgs.find(m => score >= m[0]) || msgs[4])[1];
+
+  document.getElementById('res-grid').innerHTML = results.map((ok,i) =>
+    `<div class="rev-cell ${ok?'ok':'err'}" title="Domanda ${i+1}: ${ok?'corretta':'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) pick(parseInt(e.key)-1);
+  if ((e.key==='Enter'||e.key===' ') && answered) { e.preventDefault(); nextQ(); }
+});
+</script>
+</body>
+</html>

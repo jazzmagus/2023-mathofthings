@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Statistica, approfondimento</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+
+.level-picker{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
+.level-card{flex:1;min-width:160px;border:1.5px solid var(--border);border-radius:10px;padding:16px 18px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s}
+.level-card:hover{border-color:var(--accent);background:var(--accent-light)}
+.level-card.active{border-color:var(--accent);background:var(--accent-light)}
+.level-name{font-family:'Fira Code',monospace;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+.level-card.active .level-name{color:var(--accent)}
+.level-desc{font-size:.85rem;color:var(--text-mid);line-height:1.5}
+
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.btn-start{margin-top:8px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-start:hover{background:#a01549}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px;color:var(--text)}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{background:#a01549}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.68rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-retry:hover{background:#a01549}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(6,1fr)}
+  .level-picker{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quiz · Statistica</div>
+  <div class="topbar-tag">LP08</div>
+</div>
+
+<div class="container">
+
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Test di preparazione</div>
+      <h1>Statistica, <em>a fondo</em></h1>
+      <p class="hero-sub">45 domande a risposta multipla su indici di posizione e variabilità, covarianza e correlazione di Pearson, la retta dei minimi quadrati, campionamento e stima puntuale. Tre livelli: Base, Avanzato, Pro — 15 domande ciascuno.</p>
+    </div>
+
+    <div class="level-picker">
+      <div class="level-card active" id="lvl-0" onclick="selectLevel(0)">
+        <div class="level-name">Base</div>
+        <div class="level-desc">Definizioni, formule fondamentali, interpretazione dei segni.</div>
+      </div>
+      <div class="level-card" id="lvl-1" onclick="selectLevel(1)">
+        <div class="level-name">Avanzato</div>
+        <div class="level-desc">Dimostrazioni, derivazioni, applicazioni numeriche a più passi.</div>
+      </div>
+      <div class="level-card" id="lvl-2" onclick="selectLevel(2)">
+        <div class="level-name">Pro</div>
+        <div class="level-desc">Casi degeneri, gradi di libertà, sottigliezze e sintesi.</div>
+      </div>
+    </div>
+
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">15 per livello</span></div>
+      <div class="meta-item"><span class="meta-label">Tipo</span><span class="meta-value">Risposta multipla</span></div>
+      <div class="meta-item"><span class="meta-label">Feedback</span><span class="meta-value">Immediato</span></div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia il test</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso</span>
+        <span class="progress-frac" id="prog-frac">1 / 15</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag" id="res-tag">Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den" id="res-den">su 15 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova questo livello</button>
+      <a class="btn-lesson" href="#" onclick="backToLevels();return false;">Cambia livello</a>
+      <a class="btn-lesson" href="/lezioni/lp15-statistica-approfondimenti/lezione.html">Torna alla lezione</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const LEVELS = ["Base","Avanzato","Pro"];
+
+const QSETS = [
+
+// ══════════════ LIVELLO BASE ══════════════
+[
+  {
+    badge: "La media come minimizzante",
+    q: "Quale valore \\(c\\) minimizza la somma \\(S(c)=\\sum(x_i-c)^2\\)?",
+    opts: [
+      "zero, sempre",
+      "la media aritmetica \\(\\bar x\\)",
+      "la mediana",
+      "il valore massimo dei dati"
+    ],
+    ans: 1,
+    exp: "Si dimostra derivando \\(S(c)\\) rispetto a \\(c\\) e imponendo che la derivata si annulli: si ottiene esattamente \\(c=\\bar x\\)."
+  },
+  {
+    badge: "Formula alternativa della varianza",
+    q: "Qual è la formula alternativa (di calcolo) della varianza?",
+    opts: [
+      "\\(\\sigma^2=\\bar x^2\\)",
+      "\\(\\sigma^2=\\sum x_i-\\bar x\\)",
+      "\\(\\sigma^2=\\frac1N\\sum x_i^2-\\bar x^2\\)",
+      "\\(\\sigma^2=\\frac1N\\sum x_i\\)"
+    ],
+    ans: 2,
+    exp: "Espandendo il quadrato in \\(\\frac1N\\sum(x_i-\\bar x)^2\\) si ottiene questa forma equivalente, spesso più comoda per il calcolo a mano."
+  },
+  {
+    badge: "Definizione di covarianza",
+    q: "Come si definisce la covarianza \\(\\sigma_{xy}\\) tra due variabili \\(x\\) e \\(y\\)?",
+    opts: [
+      "\\(\\sigma_{xy}=\\bar x\\cdot\\bar y\\)",
+      "\\(\\sigma_{xy}=\\sigma_x+\\sigma_y\\)",
+      "\\(\\sigma_{xy}=\\frac1N\\sum x_iy_i\\)",
+      "\\(\\sigma_{xy}=\\frac1N\\sum(x_i-\\bar x)(y_i-\\bar y)\\)"
+    ],
+    ans: 3,
+    exp: "La covarianza è la media dei prodotti degli scarti dalla rispettiva media di ciascuna variabile."
+  },
+  {
+    badge: "Segno della covarianza",
+    q: "Cosa indica un segno negativo della covarianza \\(\\sigma_{xy}\\)?",
+    opts: [
+      "che una delle due variabili è sempre negativa",
+      "che non c'è alcun legame tra le variabili",
+      "che i dati contengono un errore",
+      "che, in media, quando \\(x\\) è sopra la sua media \\(y\\) tende a essere sotto la sua (e viceversa)"
+    ],
+    ans: 3,
+    exp: "Il segno della covarianza indica il tipo di legame: negativo quando le due variabili tendono a muoversi in direzioni opposte rispetto alle rispettive medie."
+  },
+  {
+    badge: "Il problema di scala",
+    q: "Perché la covarianza da sola non è un buon indice per confrontare legami tra variabili diverse?",
+    opts: [
+      "perché non si può calcolare con più di due variabili",
+      "perché è sempre positiva",
+      "perché dipende dall'unità di misura delle variabili",
+      "perché è sempre uguale a zero"
+    ],
+    ans: 2,
+    exp: "Cambiando unità di misura (es. metri invece di centimetri), il valore della covarianza cambia pur non essendo cambiato il legame reale: serve un indice indipendente dalla scala."
+  },
+  {
+    badge: "Coefficiente di Pearson",
+    q: "Come si ottiene il coefficiente di correlazione di Pearson \\(r\\) a partire dalla covarianza?",
+    opts: [
+      "dividendo la covarianza per il prodotto delle deviazioni standard, \\(r=\\sigma_{xy}/(\\sigma_x\\sigma_y)\\)",
+      "moltiplicando la covarianza per \\(N\\)",
+      "sottraendo le due medie",
+      "sommando le due varianze"
+    ],
+    ans: 0,
+    exp: "La normalizzazione tramite le deviazioni standard rende \\(r\\) indipendente dalla scala di misura delle variabili."
+  },
+  {
+    badge: "Intervallo di r",
+    q: "In quale intervallo è sempre compreso il coefficiente di correlazione \\(r\\)?",
+    opts: [
+      "\\([-1,1]\\)",
+      "\\([0,1]\\)",
+      "\\([0,100]\\)",
+      "\\([-\\infty,+\\infty]\\)"
+    ],
+    ans: 0,
+    exp: "Si dimostra, tramite la disuguaglianza di Cauchy-Schwarz, che \\(r\\) è sempre compreso tra \\(-1\\) e \\(1\\), estremi inclusi."
+  },
+  {
+    badge: "Correlazione perfetta",
+    q: "Quando si verifica \\(r=\\pm1\\)?",
+    opts: [
+      "quando \\(x\\) e \\(y\\) hanno la stessa media",
+      "non si verifica mai esattamente",
+      "quando i punti \\((x_i,y_i)\\) sono esattamente allineati su una retta",
+      "quando la covarianza è nulla"
+    ],
+    ans: 2,
+    exp: "Il caso \\(|r|=1\\) corrisponde all'uguaglianza nella disuguaglianza di Cauchy-Schwarz, che si ha se e solo se i punti sono perfettamente allineati."
+  },
+  {
+    badge: "Il criterio dei minimi quadrati",
+    q: "Cosa minimizza il metodo dei minimi quadrati nella costruzione della retta di regressione?",
+    opts: [
+      "la somma dei residui, senza elevare al quadrato",
+      "il numero di punti sopra la retta",
+      "la distanza tra le medie",
+      "la somma dei quadrati dei residui \\(\\sum(y_i-(a+bx_i))^2\\)"
+    ],
+    ans: 3,
+    exp: "Si cerca la retta \\(y=a+bx\\) che rende minima la somma dei quadrati degli scarti tra valori osservati e valori previsti."
+  },
+  {
+    badge: "Pendenza della retta di regressione",
+    q: "Qual è la formula della pendenza \\(b\\) della retta di regressione?",
+    opts: [
+      "\\(b=\\bar y/\\bar x\\)",
+      "\\(b=\\sigma_{xy}/\\sigma_x^2\\)",
+      "\\(b=\\sigma_x/\\sigma_y\\)",
+      "\\(b=\\sigma_{xy}\\cdot N\\)"
+    ],
+    ans: 1,
+    exp: "La pendenza si ottiene come rapporto tra covarianza e varianza della variabile indipendente \\(x\\)."
+  },
+  {
+    badge: "Il baricentro dei dati",
+    q: "Per quale punto passa sempre la retta di regressione?",
+    opts: [
+      "il punto \\((\\bar x,\\bar y)\\), il baricentro dei dati",
+      "il punto di massimo di \\(y\\)",
+      "non passa per nessun punto fisso",
+      "l'origine degli assi"
+    ],
+    ans: 0,
+    exp: "È una conseguenza diretta della formula \\(a=\\bar y-b\\bar x\\): sostituendo \\(x=\\bar x\\) nella retta si ottiene sempre \\(y=\\bar y\\)."
+  },
+  {
+    badge: "Campionamento casuale semplice",
+    q: "Cosa caratterizza un campione casuale semplice?",
+    opts: [
+      "il campione ha sempre dimensione fissa pari a 30",
+      "le unità sono scelte in base a un criterio soggettivo",
+      "ogni unità della popolazione ha la stessa probabilità di essere scelta, e le selezioni sono indipendenti",
+      "il campione contiene tutta la popolazione"
+    ],
+    ans: 2,
+    exp: "È l'ipotesi di base della teoria del campionamento: equiprobabilità di selezione e indipendenza tra le estrazioni."
+  },
+  {
+    badge: "Media campionaria come stimatore",
+    q: "Cosa significa dire che la media campionaria \\(\\bar X\\) è uno stimatore corretto (non distorto) di \\(\\mu\\)?",
+    opts: [
+      "che \\(\\mu\\) non esiste davvero",
+      "che \\(\\bar X\\) non varia mai da campione a campione",
+      "che \\(\\bar X\\) è sempre uguale a \\(\\mu\\), in ogni campione",
+      "che il suo valore atteso coincide esattamente con \\(\\mu\\), cioè \\(E[\\bar X]=\\mu\\)"
+    ],
+    ans: 3,
+    exp: "Non distorto significa che, in media sui possibili campioni, lo stimatore non sovrastima né sottostima sistematicamente il parametro vero."
+  },
+  {
+    badge: "Varianza campionaria corretta",
+    q: "Per quale motivo la varianza campionaria si calcola dividendo per \\(n-1\\) invece che per \\(n\\)?",
+    opts: [
+      "è solo una convenzione storica senza motivazione statistica",
+      "perché il campione deve avere sempre almeno due elementi",
+      "perché dividere per \\(n\\) produrrebbe uno stimatore distorto, che sottostima sistematicamente la varianza della popolazione",
+      "perché \\(n-1\\) rende i calcoli più semplici"
+    ],
+    ans: 2,
+    exp: "La correzione ÷(n-1) compensa il fatto che la media campionaria è calcolata dagli stessi dati, che risultano quindi \"più vicini\" ad essa rispetto alla vera media incognita \\(\\mu\\)."
+  },
+  {
+    badge: "Esercizio diretto",
+    q: "Calcola la varianza di \\(1,3,5,7\\) usando la formula alternativa.",
+    opts: [
+      "\\(\\sigma^2=5\\)",
+      "\\(\\sigma^2=16\\)",
+      "\\(\\sigma^2=4\\)",
+      "\\(\\sigma^2=21\\)"
+    ],
+    ans: 0,
+    exp: "\\(\\bar x=4\\), \\(\\frac1N\\sum x_i^2=\\frac{1+9+25+49}{4}=21\\); quindi \\(\\sigma^2=21-16=5\\)."
+  }
+],
+
+// ══════════════ LIVELLO AVANZATO ══════════════
+[
+  {
+    badge: "Dimostrazione — media minimizzante",
+    q: "Nella dimostrazione che la media minimizza \\(S(c)=\\sum(x_i-c)^2\\), come si verifica che si tratta di un minimo (e non un massimo)?",
+    opts: [
+      "si calcola \\(S''(c)=2N\\gt0\\), positivo, condizione sufficiente per un minimo",
+      "basta che \\(S'(c)=0\\)",
+      "non serve verificarlo, è sempre un minimo per definizione",
+      "si controlla che \\(S(c)\\) sia sempre positiva"
+    ],
+    ans: 0,
+    exp: "L'annullamento della derivata prima individua solo un punto critico; la derivata seconda positiva conferma che si tratta effettivamente di un minimo."
+  },
+  {
+    badge: "Dimostrazione — formula alternativa",
+    q: "Nel dimostrare \\(\\sum(x_i-\\bar x)^2=\\sum x_i^2-N\\bar x^2\\), quale passaggio algebrico è cruciale?",
+    opts: [
+      "applicare Cauchy-Schwarz",
+      "sostituire \\(\\bar x\\) con la mediana",
+      "dividere subito per \\(N\\)",
+      "espandere il quadrato e usare \\(\\sum x_i=N\\bar x\\) per semplificare il termine misto"
+    ],
+    ans: 3,
+    exp: "Espandendo \\((x_i-\\bar x)^2=x_i^2-2\\bar x x_i+\\bar x^2\\) e sommando, il termine \\(-2\\bar x\\sum x_i\\) si semplifica usando \\(\\sum x_i=N\\bar x\\), portando alla formula finale."
+  },
+  {
+    badge: "Cauchy-Schwarz e correlazione",
+    q: "Come si usa la disuguaglianza di Cauchy-Schwarz per dimostrare \\(-1\\le r\\le1\\)?",
+    opts: [
+      "non è collegata a Cauchy-Schwarz",
+      "si applica agli scarti \\(u_i=x_i-\\bar x\\) e \\(v_i=y_i-\\bar y\\), ottenendo \\(\\sigma_{xy}^2\\le\\sigma_x^2\\sigma_y^2\\)",
+      "si dimostra per casi, provando ogni possibile dataset",
+      "si applica direttamente ai dati grezzi \\(x_i,y_i\\)"
+    ],
+    ans: 1,
+    exp: "Applicando Cauchy-Schwarz ai vettori degli scarti e dividendo per \\(N^2\\), si ottiene \\(\\sigma_{xy}^2\\le\\sigma_x^2\\sigma_y^2\\), da cui \\((\\sigma_{xy}/(\\sigma_x\\sigma_y))^2\\le1\\), cioè \\(-1\\le r\\le1\\)."
+  },
+  {
+    badge: "Derivazione dei coefficienti di regressione",
+    q: "Come si ricavano i coefficienti \\(a\\) e \\(b\\) della retta di regressione?",
+    opts: [
+      "imponendo che la retta passi per il primo e l'ultimo punto",
+      "calcolando la media di \\(a\\) e \\(b\\) separatamente",
+      "risolvendo un sistema di disequazioni",
+      "annullando le derivate parziali di \\(Q(a,b)=\\sum(y_i-(a+bx_i))^2\\) rispetto ad \\(a\\) e \\(b\\)"
+    ],
+    ans: 3,
+    exp: "Il metodo dei minimi quadrati è un problema di minimizzazione in due variabili: si annullano le derivate parziali \\(\\partial Q/\\partial a\\) e \\(\\partial Q/\\partial b\\)."
+  },
+  {
+    badge: "Da dove viene a = ȳ - bx̄",
+    q: "Annullando \\(\\partial Q/\\partial a\\), quale relazione si ottiene?",
+    opts: [
+      "\\(\\bar y=a+b\\bar x\\), da cui \\(a=\\bar y-b\\bar x\\)",
+      "\\(a=\\bar x\\)",
+      "\\(a\\cdot b=1\\)",
+      "\\(a=0\\) sempre"
+    ],
+    ans: 0,
+    exp: "La derivata parziale rispetto ad \\(a\\), annullata e divisa per \\(-2N\\), dà esattamente \\(\\bar y=a+b\\bar x\\)."
+  },
+  {
+    badge: "Relazione tra b e r",
+    q: "Come sono legati la pendenza \\(b\\) della retta di regressione e il coefficiente di correlazione \\(r\\)?",
+    opts: [
+      "\\(b=r\\cdot\\sigma_y/\\sigma_x\\)",
+      "non c'è alcuna relazione tra i due",
+      "\\(b=1/r\\)",
+      "\\(b=r\\) sempre"
+    ],
+    ans: 0,
+    exp: "La pendenza eredita il segno di \\(r\\) e la sua grandezza dipende anche dal rapporto tra le variabilità delle due grandezze, secondo la formula \\(b=r\\sigma_y/\\sigma_x\\)."
+  },
+  {
+    badge: "Dimostrazione — allineamento perfetto",
+    q: "Se tutti i punti \\((x_i,y_i)\\) soddisfano \\(y_i=a+bx_i\\) con \\(b\\gt0\\), quanto vale \\(r\\)?",
+    opts: [
+      "\\(r=1\\) esattamente",
+      "dipende dal valore di \\(a\\)",
+      "\\(r=b\\)",
+      "\\(r=0\\)"
+    ],
+    ans: 0,
+    exp: "Sostituendo \\(y_i-\\bar y=b(x_i-\\bar x)\\) nella formula di \\(r\\), tutti i fattori \\(b\\) si semplificano e resta \\(r=1\\): un allineamento perfetto con pendenza positiva dà correlazione massima."
+  },
+  {
+    badge: "Caso b negativo",
+    q: "Se i punti sono allineati su una retta con \\(b\\lt0\\), quanto vale \\(r\\)?",
+    opts: [
+      "\\(r=1\\), come nel caso \\(b\\gt0\\)",
+      "\\(r=-1\\)",
+      "\\(r=0\\)",
+      "\\(r\\) non è definito"
+    ],
+    ans: 1,
+    exp: "Con \\(b\\lt0\\), \\(\\sigma_y=|b|\\sigma_x=-b\\sigma_x\\) (poiché \\(b\\) è negativo): il segno negativo non si semplifica come nel caso \\(b\\gt0\\), e si ottiene \\(r=-1\\)."
+  },
+  {
+    badge: "Verifica numerica della regressione",
+    q: "Sapendo \\(\\bar x=10\\), \\(\\bar y=50\\), \\(\\sigma_{xy}=15\\), \\(\\sigma_x^2=5\\), qual è l'equazione della retta di regressione?",
+    opts: [
+      "\\(y=10+5x\\)",
+      "\\(y=50+15x\\)",
+      "\\(y=3+20x\\)",
+      "\\(y=20+3x\\)"
+    ],
+    ans: 3,
+    exp: "\\(b=15/5=3\\); \\(a=50-3\\cdot10=20\\); quindi \\(y=20+3x\\)."
+  },
+  {
+    badge: "Interpretare un residuo",
+    q: "Cosa rappresenta il residuo \\(e_i=y_i-(a+bx_i)\\) in un modello di regressione?",
+    opts: [
+      "il valore della pendenza in quel punto",
+      "la deviazione standard dei dati",
+      "la distanza tra due punti consecutivi del dataset",
+      "la differenza tra il valore osservato \\(y_i\\) e quello previsto dalla retta per lo stesso \\(x_i\\)"
+    ],
+    ans: 3,
+    exp: "Il residuo misura quanto il modello \"sbaglia\" nella previsione di ciascun punto osservato: è ciò che il metodo dei minimi quadrati cerca di rendere complessivamente più piccolo possibile."
+  },
+  {
+    badge: "Correlazione vs regressione",
+    q: "Qual è la differenza concettuale tra il coefficiente di correlazione \\(r\\) e la pendenza \\(b\\) della retta di regressione?",
+    opts: [
+      "\\(r\\) misura la forza del legame lineare (indipendente dalla scala), \\(b\\) misura quanto cambia \\(y\\) per ogni unità di \\(x\\) (dipende dalla scala)",
+      "\\(b\\) è sempre compreso tra -1 e 1, come \\(r\\)",
+      "\\(r\\) si usa solo per dati positivi, \\(b\\) per dati negativi",
+      "sono esattamente la stessa cosa"
+    ],
+    ans: 0,
+    exp: "\\(r\\) è adimensionale e limitato tra -1 e 1; \\(b\\) ha invece le unità di \\(y\\) diviso le unità di \\(x\\), e può assumere qualunque valore reale."
+  },
+  {
+    badge: "Stimatore distorto vs corretto",
+    q: "Cosa significa, in generale, che uno stimatore \\(T\\) di un parametro \\(\\theta\\) è distorto?",
+    opts: [
+      "che \\(T\\) cambia da campione a campione",
+      "che \\(E[T]\\neq\\theta\\): il valore atteso dello stimatore non coincide con il parametro vero",
+      "che il campione è troppo piccolo",
+      "che \\(T\\) non è calcolabile"
+    ],
+    ans: 1,
+    exp: "La distorsione (bias) è per definizione la differenza \\(E[T]-\\theta\\): uno stimatore distorto ha, in media sui possibili campioni, un errore sistematico verso l'alto o verso il basso."
+  },
+  {
+    badge: "Effetto della correzione n-1",
+    q: "Rispetto alla varianza descrittiva (÷n), la varianza campionaria corretta (÷(n-1)) è sempre...?",
+    opts: [
+      "minore solo se n è pari",
+      "maggiore o uguale, perché si divide per un numero più piccolo a parità di numeratore",
+      "identica: le due formule coincidono sempre",
+      "minore, perché n-1 è minore di n"
+    ],
+    ans: 1,
+    exp: "Dividendo la stessa somma dei quadrati degli scarti per un denominatore più piccolo (\\(n-1\\) invece di \\(n\\)), il risultato è sempre maggiore o uguale, compensando la sottostima sistematica."
+  },
+  {
+    badge: "Esercizio — varianza corretta",
+    q: "Un campione di \\(n=4\\) osservazioni ha somma degli scarti quadratici dalla media campionaria pari a 10. Quanto vale la varianza campionaria corretta \\(s^2\\)?",
+    opts: [
+      "\\(s^2=10\\)",
+      "\\(s^2=10/3\\approx3{,}33\\)",
+      "\\(s^2=10/5=2\\)",
+      "\\(s^2=10/4=2{,}5\\)"
+    ],
+    ans: 1,
+    exp: "La varianza campionaria corretta divide per \\(n-1=3\\): \\(s^2=10/3\\approx3{,}33\\), maggiore della varianza descrittiva \\(10/4=2{,}5\\)."
+  },
+  {
+    badge: "Quando la covarianza non basta",
+    q: "Due dataset hanno la stessa covarianza \\(\\sigma_{xy}=5\\), ma variabilità (\\(\\sigma_x,\\sigma_y\\)) molto diverse tra loro. Cosa si può dire dei rispettivi coefficienti \\(r\\)?",
+    opts: [
+      "sono sicuramente entrambi pari a 1",
+      "sono sicuramente uguali, perché la covarianza è la stessa",
+      "possono essere molto diversi tra loro, perché \\(r\\) dipende anche dalle deviazioni standard, non solo dalla covarianza",
+      "non si può calcolare \\(r\\) se le varianze sono diverse"
+    ],
+    ans: 2,
+    exp: "Poiché \\(r=\\sigma_{xy}/(\\sigma_x\\sigma_y)\\), a parità di covarianza, dataset con deviazioni standard diverse possono avere valori di \\(r\\) anche molto lontani tra loro: è esattamente il problema di scala che la normalizzazione risolve."
+  }
+],
+
+// ══════════════ LIVELLO PRO ══════════════
+[
+  {
+    badge: "Dimostrazione completa — Cauchy-Schwarz",
+    q: "Nella dimostrazione di \\(-1\\le r\\le1\\), a cosa corrisponde l'uguaglianza nella disuguaglianza di Cauchy-Schwarz?",
+    opts: [
+      "non ha alcuna interpretazione geometrica",
+      "al caso in cui i vettori degli scarti \\(u_i\\) e \\(v_i\\) sono proporzionali, cioè i punti sono perfettamente allineati",
+      "al caso in cui \\(N\\) è pari",
+      "al caso in cui \\(\\sigma_x=0\\)"
+    ],
+    ans: 1,
+    exp: "L'uguaglianza nella disuguaglianza di Cauchy-Schwarz si verifica se e solo se i due vettori sono proporzionali: qui significa che gli scarti di \\(y\\) sono un multiplo costante degli scarti di \\(x\\), cioè i punti giacciono esattamente su una retta."
+  },
+  {
+    badge: "Caso degenere: x costante",
+    q: "Cosa succede al coefficiente \\(r\\) se tutti i valori \\(x_i\\) sono uguali (cioè \\(\\sigma_x=0\\))?",
+    opts: [
+      "\\(r\\) non è definito, perché si dividerebbe per zero nella formula \\(r=\\sigma_{xy}/(\\sigma_x\\sigma_y)\\)",
+      "\\(r=-1\\) sempre",
+      "\\(r=1\\) sempre",
+      "\\(r=0\\) per convenzione"
+    ],
+    ans: 0,
+    exp: "Se \\(\\sigma_x=0\\), il denominatore della formula di Pearson si annulla: il coefficiente di correlazione perde di significato quando una delle due variabili è costante."
+  },
+  {
+    badge: "Derivazione completa di b",
+    q: "Dopo aver sostituito \\(a=\\bar y-b\\bar x\\) nella seconda equazione normale, quale relazione permette di isolare \\(b\\)?",
+    opts: [
+      "si isola \\(b\\) senza bisogno della prima equazione",
+      "si usa il teorema di Pitagora",
+      "il riarrangiamento porta a un'equazione in cui compaiono esattamente le definizioni di covarianza e varianza di \\(x\\), da cui \\(b=\\sigma_{xy}/\\sigma_x^2\\)",
+      "\\(b\\) resta indeterminato senza ulteriori dati"
+    ],
+    ans: 2,
+    exp: "Sostituendo \\(a\\) e riorganizzando i termini, la seconda equazione normale si riscrive esattamente in termini di \\(\\sum(x_i-\\bar x)(y_i-\\bar y)\\) e \\(\\sum(x_i-\\bar x)^2\\), cioè covarianza e varianza di \\(x\\)."
+  },
+  {
+    badge: "Perché n-1 e non un altro valore",
+    q: "Nella stima della varianza da un campione, perché si corregge con \\(n-1\\) e non con un altro valore?",
+    opts: [
+      "perché \\(n-1\\) rende sempre \\(s^2\\) un numero intero",
+      "perché il campione deve avere dimensione dispari",
+      "è una scelta arbitraria, potrebbe essere qualunque numero",
+      "perché si \"perde\" un grado di libertà nel calcolare \\(\\bar X\\) dagli stessi \\(n\\) dati usati per stimare la dispersione"
+    ],
+    ans: 3,
+    exp: "Il concetto di \"gradi di libertà\": una volta fissata \\(\\bar X\\) (calcolata dagli stessi \\(n\\) dati), solo \\(n-1\\) degli scarti sono liberi di variare indipendentemente — l'ultimo è vincolato dagli altri, perché la somma degli scarti dalla media è sempre zero."
+  },
+  {
+    badge: "Collegamento tra i due teoremi di minimizzazione",
+    q: "Che relazione concettuale c'è tra \"la media minimizza \\(\\sum(x_i-c)^2\\)\" e il metodo dei minimi quadrati per la regressione?",
+    opts: [
+      "sono lo stesso principio applicato a due situazioni diverse: nel primo caso si cerca un singolo numero \\(c\\), nel secondo una retta \\(a+bx\\)",
+      "non c'è alcuna relazione tra i due risultati",
+      "il secondo dimostra che il primo è falso",
+      "si applicano solo a dataset con due variabili"
+    ],
+    ans: 0,
+    exp: "Entrambi sono casi particolari dello stesso principio di minimizzazione della somma dei quadrati degli scarti: quando il \"modello\" è una costante si trova la media, quando è una retta si trova la regressione lineare."
+  },
+  {
+    badge: "Effetto di un outlier",
+    q: "Perché un singolo valore anomalo (outlier) può influenzare fortemente la covarianza e il coefficiente \\(r\\)?",
+    opts: [
+      "perché \\(r\\) è calcolato solo sui valori centrali del dataset",
+      "gli outlier non hanno alcun effetto su questi indici",
+      "perché entrambi si basano su prodotti di scarti, e uno scarto molto grande viene elevato al quadrato o moltiplicato, amplificando il suo peso",
+      "perché la covarianza ignora automaticamente i valori anomali"
+    ],
+    ans: 2,
+    exp: "Sia la covarianza che la varianza coinvolgono prodotti o quadrati degli scarti dalla media: un valore molto distante dalla media produce uno scarto grande, il cui contributo domina la somma."
+  },
+  {
+    badge: "Simmetria della covarianza",
+    q: "È vero che \\(\\sigma_{xy}=\\sigma_{yx}\\)?",
+    opts: [
+      "sì, ma solo se \\(x\\) e \\(y\\) hanno la stessa media",
+      "no, sono sempre l'una l'opposto dell'altra",
+      "sì, perché \\((x_i-\\bar x)(y_i-\\bar y)=(y_i-\\bar y)(x_i-\\bar x)\\): il prodotto è commutativo",
+      "no, la covarianza dipende dall'ordine delle variabili"
+    ],
+    ans: 2,
+    exp: "La covarianza è simmetrica per definizione, essendo basata su un prodotto di numeri reali, che è commutativo: scambiare i ruoli di \\(x\\) e \\(y\\) non cambia il risultato."
+  },
+  {
+    badge: "Asimmetria della regressione",
+    q: "È vero che la retta di regressione di \\(y\\) su \\(x\\) coincide sempre con quella di \\(x\\) su \\(y\\) (con assi scambiati)?",
+    opts: [
+      "sì, sono sempre identiche",
+      "no, ma solo perché \\(a\\) cambia segno",
+      "sì, ma solo se \\(r=0\\)",
+      "no, in generale sono due rette diverse: la prima minimizza gli scarti verticali, la seconda quelli orizzontali"
+    ],
+    ans: 3,
+    exp: "A differenza della covarianza (simmetrica), la regressione non lo è: minimizzare i residui verticali porta in generale a una retta diversa da quella che minimizza i residui orizzontali, a meno che \\(r=\\pm1\\)."
+  },
+  {
+    badge: "Applicazione: due stime a confronto",
+    q: "Due campioni indipendenti danno le stime \\(\\hat\\mu_1=10\\) (\\(n_1=5\\)) e \\(\\hat\\mu_2=12\\) (\\(n_2=50\\)) dello stesso parametro \\(\\mu\\). Quale considerazione è corretta?",
+    opts: [
+      "la stima con \\(n_1=5\\) è automaticamente sbagliata",
+      "le due stime devono essere sempre uguali se lo stimatore è corretto",
+      "entrambe sono stime puntuali non distorte, ma quella basata su \\(n_2=50\\) è tipicamente più precisa di quella con \\(n_1=5\\)",
+      "il campione più piccolo dà sempre risultati più affidabili"
+    ],
+    ans: 2,
+    exp: "La correttezza (unbiasedness) riguarda il valore atteso su infiniti campioni, non la precisione di una singola stima: campioni più grandi riducono tipicamente la variabilità della stima, pur restando entrambe non distorte in media."
+  },
+  {
+    badge: "Dimostrazione — segno di b e segno di r",
+    q: "Perché il segno della pendenza \\(b\\) coincide sempre con il segno di \\(r\\)?",
+    opts: [
+      "perché \\(r\\) è sempre positivo quando esiste una retta di regressione",
+      "è solo una coincidenza empirica, senza dimostrazione",
+      "perché \\(b\\) è sempre positivo",
+      "perché \\(b=r\\cdot\\sigma_y/\\sigma_x\\), e le deviazioni standard sono sempre non negative"
+    ],
+    ans: 3,
+    exp: "Nella relazione \\(b=r\\sigma_y/\\sigma_x\\), il rapporto \\(\\sigma_y/\\sigma_x\\) è sempre positivo: il segno di \\(b\\) è quindi determinato interamente dal segno di \\(r\\)."
+  },
+  {
+    badge: "Esercizio multi-step",
+    q: "Dati \\((1,2),(2,4),(3,5),(4,8)\\), sapendo che \\(\\sigma_{xy}=2{,}375\\) e \\(\\sigma_x^2=1{,}25\\), qual è la pendenza \\(b\\) (arrotondata a due cifre)?",
+    opts: [
+      "\\(b\\approx0{,}53\\)",
+      "\\(b\\approx1{,}9\\)",
+      "\\(b\\approx2{,}375\\)",
+      "\\(b\\approx3{,}0\\)"
+    ],
+    ans: 1,
+    exp: "\\(b=\\sigma_{xy}/\\sigma_x^2=2{,}375/1{,}25=1{,}9\\)."
+  },
+  {
+    badge: "Interpretazione di r vicino a 0",
+    q: "Un valore di \\(r\\) molto vicino a 0 implica che non c'è alcun legame tra \\(x\\) e \\(y\\)?",
+    opts: [
+      "sì, implica sempre indipendenza completa tra le variabili",
+      "no: implica solo assenza di legame lineare; potrebbe esserci un legame non lineare forte (es. una parabola simmetrica)",
+      "no, implica che \\(x\\) e \\(y\\) sono uguali",
+      "sì, ma solo se i dati sono discreti"
+    ],
+    ans: 1,
+    exp: "Il coefficiente di Pearson misura solo la forza del legame lineare: una relazione fortemente non lineare può avere \\(r\\) vicino a zero pur essendoci un legame deterministico perfetto."
+  },
+  {
+    badge: "Descrittiva vs inferenza",
+    q: "Qual è la differenza fondamentale di obiettivo tra statistica descrittiva e inferenza statistica?",
+    opts: [
+      "la descrittiva riassume dati già raccolti, l'inferenza usa un campione per trarre conclusioni sulla popolazione più ampia da cui proviene",
+      "sono esattamente la stessa cosa con nomi diversi",
+      "l'inferenza si applica solo a variabili continue",
+      "la descrittiva si usa solo per numeri piccoli, l'inferenza per numeri grandi"
+    ],
+    ans: 0,
+    exp: "È la distinzione concettuale centrale: la descrittiva fotografa i dati che si hanno, l'inferenza cerca di generalizzare da un campione a una popolazione più ampia, con margini di incertezza da quantificare."
+  },
+  {
+    badge: "Perché serve un intervallo, non solo un punto",
+    q: "Perché una stima puntuale come \\(\\hat\\mu=10\\) non è sufficiente in molte applicazioni serie?",
+    opts: [
+      "perché serve sempre un campione di dimensione infinita",
+      "perché non comunica quanto ci si può fidare della stima: serve anche una misura della sua variabilità (es. un intervallo di confidenza)",
+      "perché le stime puntuali sono sempre sbagliate",
+      "perché la media campionaria non è mai un buon stimatore"
+    ],
+    ans: 1,
+    exp: "Un singolo numero non trasmette l'incertezza associata alla stima: un intervallo di confidenza, basato sulla variabilità dello stimatore, comunica un intervallo plausibile di valori per il parametro vero."
+  },
+  {
+    badge: "Sintesi finale",
+    q: "Qual è il filo conduttore che collega il teorema sulla media, la disuguaglianza di Cauchy-Schwarz applicata a \\(r\\), e la derivazione della retta di regressione?",
+    opts: [
+      "riguardano tutti esclusivamente la varianza, senza altri concetti",
+      "si applicano solo quando i dati sono già ordinati",
+      "sono tutti casi in cui si minimizza una somma di quadrati degli scarti, principio che unifica media, correlazione e regressione",
+      "non hanno alcun collegamento tra loro"
+    ],
+    ans: 2,
+    exp: "Il principio dei minimi quadrati è il filo conduttore: la media minimizza gli scarti da un singolo valore, la regressione minimizza gli scarti da una retta, e la disuguaglianza di Cauchy-Schwarz (che limita \\(r\\)) nasce dalla stessa struttura di somme di quadrati."
+  }
+]
+
+];
+
+// ── STATO ──
+let level = 0, Q = QSETS[0];
+let cur = 0, score = 0, answered = false, results = [];
+
+function selectLevel(i) {
+  level = i;
+  document.querySelectorAll('.level-card').forEach((el,idx) => el.classList.toggle('active', idx===i));
+}
+
+// ── LOGICA ──
+function startQuiz() {
+  Q = QSETS[level];
+  cur = 0; score = 0; answered = false; results = [];
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function backToLevels() {
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-intro').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx], total = Q.length;
+  document.getElementById('prog-frac').textContent = (idx+1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('q-badge').textContent = LEVELS[level] + ' — ' + q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const letters = ['A','B','C','D'];
+  document.getElementById('q-opts').innerHTML = q.opts.map((o,i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${o}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === q.ans;
+  if (isOk) score++;
+  results.push(isOk);
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('opt-' + i).classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) document.getElementById('opt-' + q.ans).classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur+1);
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next show';
+  btn.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  document.getElementById('res-tag').textContent = 'Livello ' + LEVELS[level] + ' — Risultato';
+  document.getElementById('res-den').textContent = 'su ' + Q.length + ' domande';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+
+  const msgs = [
+    [13, "Eccellente! Statistica avanzata senza più segreti — prova un livello più impegnativo."],
+    [10, "Ottimo lavoro. Un piccolo ripasso finale e sei al top."],
+    [7, "Sei sulla buona strada. Ricontrolla le domande sbagliate e riprova."],
+    [4, "C'è ancora del lavoro da fare. Rileggi la lezione e riprova il test."],
+    [0, "Non mollare. Riparti dalle definizioni di base, studia con calma e riprova."]
+  ];
+  document.getElementById('res-msg').textContent = (msgs.find(m => score >= m[0]) || msgs[4])[1];
+
+  document.getElementById('res-grid').innerHTML = results.map((ok,i) =>
+    `<div class="rev-cell ${ok?'ok':'err'}" title="Domanda ${i+1}: ${ok?'corretta':'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) pick(parseInt(e.key)-1);
+  if ((e.key==='Enter'||e.key===' ') && answered) { e.preventDefault(); nextQ(); }
+});
+</script>
+</body>
+</html>
