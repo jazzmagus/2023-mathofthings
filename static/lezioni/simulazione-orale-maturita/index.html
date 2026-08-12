@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulazione Orale — Leggere un grafico</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --gold:#b8860b;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.level-picker{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
+.level-card{flex:1;min-width:160px;border:1.5px solid var(--border);border-radius:10px;padding:16px 18px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s}
+.level-card:hover{border-color:var(--accent);background:var(--accent-light)}
+.level-card.active{border-color:var(--accent);background:var(--accent-light)}
+.level-name{font-family:'Fira Code',monospace;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+.level-card.active .level-name{color:var(--accent)}
+.level-desc{font-size:.85rem;color:var(--text-mid);line-height:1.5}
+.btn-start{margin-top:16px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:filter .2s}
+.btn-start:hover{filter:brightness(.92)}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px;display:flex;align-items:center;gap:8px}
+.level-pill{font-family:'Fira Code',monospace;font-size:.62rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:2px 9px;border-radius:20px;background:var(--accent-light);color:var(--accent);border:1px solid var(--accent)}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease,background .3s ease}
+
+.graph-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:16px;box-shadow:var(--shadow);text-align:center}
+.graph-panel-label{font-family:'Fira Code',monospace;font-size:.68rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px}
+.graph-panel svg{width:100%;max-width:340px;height:auto;background:var(--surface-alt);border:1px solid var(--border-light);border-radius:6px}
+.graph-legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-mid);margin-top:8px}
+.graph-legend span{display:inline-flex;align-items:center;gap:5px}
+.graph-legend i{width:14px;height:2px;display:inline-block}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:filter .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{filter:brightness(.92)}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.level-scores{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:22px 0 4px}
+.lscore{border:1px solid var(--border);border-radius:8px;padding:10px 18px;min-width:96px}
+.lscore-name{font-family:'Fira Code',monospace;font-size:.62rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.lscore-val{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:filter .2s}
+.btn-retry:hover{filter:brightness(.92)}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(6,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Simulazione Orale · Leggere un grafico</div>
+  <div class="topbar-tag">Maturità — Matematica</div>
+</div>
+
+<div class="container">
+
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Allenamento per l'esame di stato</div>
+      <h1>Se uscisse <em>matematica</em> all'orale</h1>
+      <p class="hero-sub">Niente calcoli da fare: solo un grafico da <strong>leggere</strong>, come farebbe una commissione d'esame. Dominio, intersezioni, segno, simmetrie, asintoti — tutto si ricava guardando il disegno, esattamente come dovresti saper fare a voce, senza carta e penna.</p>
+    </div>
+
+    <div class="level-picker">
+      <div class="level-card active" id="lvl-0" onclick="selectLevel(0)">
+        <div class="level-name">Base</div>
+        <div class="level-desc">Una parabola: dominio, segno, intersezioni, simmetrie, comportamento agli estremi.</div>
+      </div>
+      <div class="level-card" id="lvl-1" onclick="selectLevel(1)">
+        <div class="level-name">Avanzato</div>
+        <div class="level-desc">Una funzione fratta con asintoto verticale e orizzontale.</div>
+      </div>
+      <div class="level-card" id="lvl-2" onclick="selectLevel(2)">
+        <div class="level-name">Pro</div>
+        <div class="level-desc">Una funzione fratta con asintoto verticale e obliquo.</div>
+      </div>
+    </div>
+
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">8 per livello</span></div>
+      <div class="meta-item"><span class="meta-label">Tipo</span><span class="meta-value">Lettura di grafico</span></div>
+      <div class="meta-item"><span class="meta-label">Feedback</span><span class="meta-value">Immediato</span></div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia la simulazione</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso <span class="level-pill" id="level-pill">Base</span></span>
+        <span class="progress-frac" id="prog-frac">1 / 8</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="graph-panel" id="graph-panel"></div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag" id="res-tag">Simulazione Orale · Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den" id="res-den">su 8 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova questo livello</button>
+      <a class="btn-lesson" href="#" onclick="backToLevels();return false;">Cambia livello</a>
+      <a class="btn-lesson" href="/materiali-corso-base/">Torna al corso</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── DISEGNO GRAFICI (SVG inline, nessuna libreria esterna) ──
+function plotFn(opts) {
+  const W = opts.w || 300, H = opts.h || 300;
+  const xmin = opts.xmin, xmax = opts.xmax, ymin = opts.ymin, ymax = opts.ymax;
+  const sx = x => (x - xmin) / (xmax - xmin) * W;
+  const sy = y => H - (y - ymin) / (ymax - ymin) * H;
+  let g = '';
+
+  (opts.grid || []).forEach(v => {
+    const x = sx(v);
+    if (x >= 0 && x <= W) g += '<line x1="' + x + '" y1="0" x2="' + x + '" y2="' + H + '" stroke="var(--border-light)" stroke-width="1"/>';
+  });
+  (opts.gridY || []).forEach(v => {
+    const y = sy(v);
+    if (y >= 0 && y <= H) g += '<line x1="0" y1="' + y + '" x2="' + W + '" y2="' + y + '" stroke="var(--border-light)" stroke-width="1"/>';
+  });
+
+  (opts.asymptotes || []).forEach(a => {
+    if (a.type === 'h') {
+      const y = sy(a.at);
+      g += '<line x1="0" y1="' + y + '" x2="' + W + '" y2="' + y + '" stroke="' + (a.color || '#b8860b') + '" stroke-width="1.3" stroke-dasharray="5 4"/>';
+    } else if (a.type === 'o') {
+      const y1 = a.m * xmin + a.q, y2 = a.m * xmax + a.q;
+      g += '<line x1="' + sx(xmin) + '" y1="' + sy(y1) + '" x2="' + sx(xmax) + '" y2="' + sy(y2) + '" stroke="' + (a.color || '#b8860b') + '" stroke-width="1.3" stroke-dasharray="5 4"/>';
+    } else {
+      const x = sx(a.at);
+      g += '<line x1="' + x + '" y1="0" x2="' + x + '" y2="' + H + '" stroke="' + (a.color || '#b8860b') + '" stroke-width="1.3" stroke-dasharray="5 4"/>';
+    }
+  });
+
+  const x0 = sx(0), y0 = sy(0);
+  if (x0 >= 0 && x0 <= W) g += '<line x1="' + x0 + '" y1="0" x2="' + x0 + '" y2="' + H + '" stroke="var(--text-dim)" stroke-width="1.2"/>';
+  if (y0 >= 0 && y0 <= H) g += '<line x1="0" y1="' + y0 + '" x2="' + W + '" y2="' + y0 + '" stroke="var(--text-dim)" stroke-width="1.2"/>';
+
+  (opts.fns || []).forEach(fn => {
+    const N = 320;
+    let d = '', started = false;
+    for (let i = 0; i <= N; i++) {
+      const x = xmin + (xmax - xmin) * i / N;
+      if (fn.exclude && Math.abs(x - fn.exclude) < (xmax - xmin) / N * 1.5) { started = false; continue; }
+      let y;
+      try { y = fn.f(x); } catch (e) { y = NaN; }
+      if (!isFinite(y) || y < ymin - (ymax - ymin) * 0.6 || y > ymax + (ymax - ymin) * 0.6) {
+        started = false;
+        continue;
+      }
+      const X = sx(x), Y = sy(y);
+      d += (started ? 'L' : 'M') + X.toFixed(1) + ' ' + Y.toFixed(1) + ' ';
+      started = true;
+    }
+    g += '<path d="' + d + '" fill="none" stroke="' + fn.color + '" stroke-width="2.2" stroke-linecap="round"/>';
+  });
+
+  (opts.points || []).forEach(p => {
+    const X = sx(p.x), Y = sy(p.y);
+    g += '<circle cx="' + X + '" cy="' + Y + '" r="' + (p.r || 3.2) + '" fill="' + (p.color || 'var(--accent)') + '"/>';
+  });
+
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '">' + g + '</svg>';
+}
+
+const GRAPHS = [
+  // ── BASE: parabola f(x) = -(x+1)(x-3), dominio R ──
+  {
+    name: 'Base',
+    svg: plotFn({
+      xmin: -3, xmax: 5, ymin: -6, ymax: 6, w: 300, h: 300,
+      grid: [-3,-2,-1,0,1,2,3,4,5], gridY: [-6,-4,-2,0,2,4,6],
+      fns: [{ f: x => -(x+1)*(x-3), color: '#c2185b' }],
+      points: [{ x:-1, y:0 }, { x:3, y:0 }, { x:0, y:3 }]
+    }),
+    legend: [{ color:'#c2185b', label:'y = f(x)' }]
+  },
+  // ── AVANZATO: f(x) = 2x/(x-1), asintoto verticale x=1, orizzontale y=2 ──
+  {
+    name: 'Avanzato',
+    svg: plotFn({
+      xmin: -6, xmax: 6, ymin: -8, ymax: 8, w: 300, h: 300,
+      grid: [-6,-4,-2,0,2,4,6], gridY: [-8,-4,0,4,8],
+      asymptotes: [{ type:'v', at:1, color:'#c2185b' }, { type:'h', at:2, color:'#b8860b' }],
+      fns: [{ f: x => (2*x)/(x-1), color:'#2e6da4', exclude:1 }],
+      points: [{ x:0, y:0 }]
+    }),
+    legend: [{ color:'#2e6da4', label:'y = f(x)' }, { color:'#c2185b', label:'x = 1' }, { color:'#b8860b', label:'y = 2' }]
+  },
+  // ── PRO: f(x) = (x²-1)/(x-2), asintoto verticale x=2, obliquo y=x+2 ──
+  {
+    name: 'Pro',
+    svg: plotFn({
+      xmin: -6, xmax: 8, ymin: -8, ymax: 10, w: 300, h: 300,
+      grid: [-6,-4,-2,0,2,4,6,8], gridY: [-8,-4,0,4,8],
+      asymptotes: [{ type:'v', at:2, color:'#c2185b' }, { type:'o', m:1, q:2, color:'#b8860b' }],
+      fns: [{ f: x => (x*x-1)/(x-2), color:'#7a3fa0', exclude:2 }],
+      points: [{ x:-1, y:0 }, { x:1, y:0 }, { x:0, y:0.5 }]
+    }),
+    legend: [{ color:'#7a3fa0', label:'y = f(x)' }, { color:'#c2185b', label:'x = 2' }, { color:'#b8860b', label:'y = x + 2' }]
+  }
+];
+
+// ── DOMANDE (8 per livello, tutte a partire dalla lettura del grafico) ──
+const QSETS = [
+
+// ══════════ LIVELLO BASE — parabola f(x) = -(x+1)(x-3) ══════════
+[
+  {
+    badge: "Dominio",
+    q: "Guardando il grafico, qual è il dominio della funzione?",
+    opts: [ "\\(\\mathbb{R}\\)", "\\(\\mathbb{R}\\setminus\\{-1,3\\}\\)", "\\([-1,3]\\)", "\\(\\mathbb{R}\\setminus\\{0\\}\\)" ],
+    ans: 0,
+    exp: "La curva è disegnata senza interruzioni, buchi o rami che vanno all'infinito in un punto preciso: è definita per ogni \\(x\\) reale."
+  },
+  {
+    badge: "Intersezioni",
+    q: "In quali punti il grafico interseca l'asse x?",
+    opts: [ "\\((-1,0)\\) e \\((3,0)\\)", "Solo in \\((0,0)\\)", "\\((1,0)\\) e \\((-3,0)\\)", "Non lo interseca mai" ],
+    ans: 0,
+    exp: "La curva attraversa l'asse orizzontale esattamente in due punti, segnati sul grafico: \\(x=-1\\) e \\(x=3\\)."
+  },
+  {
+    badge: "Intersezioni",
+    q: "Qual è l'intersezione con l'asse y?",
+    opts: [ "\\((0,3)\\)", "\\((0,-1)\\)", "\\((0,0)\\)", "Non esiste" ],
+    ans: 0,
+    exp: "In corrispondenza di \\(x=0\\), il grafico passa per il punto \\((0,3)\\), come indicato dal segno sull'asse verticale."
+  },
+  {
+    badge: "Segno",
+    q: "Dove il grafico sta sopra l'asse x (funzione positiva)?",
+    opts: [ "Tra \\(-1\\) e \\(3\\)", "Per \\(x<-1\\) o \\(x>3\\)", "Sempre", "Mai" ],
+    ans: 0,
+    exp: "Guardando il disegno, la curva sale sopra l'asse orizzontale proprio nella fascia centrale, tra i due punti di intersezione."
+  },
+  {
+    badge: "Simmetrie",
+    q: "Il grafico è simmetrico rispetto all'asse y?",
+    opts: [ "No, il vertice non è sull'asse y", "Sì, è una funzione pari", "Sì, è una funzione dispari", "Non si può stabilire da un grafico" ],
+    ans: 0,
+    exp: "Una simmetria rispetto all'asse \\(y\\) richiederebbe che la parte sinistra sia lo specchio esatto di quella destra rispetto a \\(x=0\\): qui il punto più alto della curva è spostato a destra dell'asse, quindi non c'è quella simmetria."
+  },
+  {
+    badge: "Limiti",
+    q: "Cosa sembra fare il grafico quando \\(x \\to +\\infty\\)?",
+    opts: [ "Scende verso \\(-\\infty\\)", "Sale verso \\(+\\infty\\)", "Si stabilizza su un valore", "Oscilla" ],
+    ans: 0,
+    exp: "I due rami della parabola, disegnati verso i bordi del grafico, puntano entrambi verso il basso: il ramo destro scende indefinitamente."
+  },
+  {
+    badge: "Limiti",
+    q: "E quando \\(x \\to -\\infty\\)?",
+    opts: [ "Scende verso \\(-\\infty\\) anch'esso", "Sale verso \\(+\\infty\\)", "Si stabilizza su un valore", "Non è definita" ],
+    ans: 0,
+    exp: "Anche il ramo sinistro della parabola, guardando il grafico, punta verso il basso: entrambi i rami scendono verso \\(-\\infty\\), coerentemente con una parabola con la concavità rivolta verso il basso."
+  },
+  {
+    badge: "Asintoti",
+    q: "Il grafico presenta asintoti (verticali, orizzontali o obliqui)?",
+    opts: [ "No, nessun asintoto", "Sì, uno orizzontale", "Sì, uno verticale", "Sì, uno obliquo" ],
+    ans: 0,
+    exp: "Non ci sono rette tratteggiate né rami che si avvicinano a una retta senza toccarla: una parabola, essendo definita ovunque e crescendo/decrescendo senza fermarsi, non ha mai asintoti."
+  }
+],
+
+// ══════════ LIVELLO AVANZATO — f(x) = 2x/(x-1) ══════════
+[
+  {
+    badge: "Dominio",
+    q: "Osservando il grafico e la retta tratteggiata verticale, qual è il dominio?",
+    opts: [ "\\(\\mathbb{R}\\setminus\\{1\\}\\)", "\\(\\mathbb{R}\\)", "\\(\\mathbb{R}\\setminus\\{2\\}\\)", "\\([1,+\\infty)\\)" ],
+    ans: 0,
+    exp: "La retta tratteggiata verticale segna un punto che il grafico non tocca mai, \\(x=1\\): è escluso dal dominio."
+  },
+  {
+    badge: "Intersezioni",
+    q: "Dove il grafico incontra gli assi?",
+    opts: [ "Solo nell'origine \\((0,0)\\)", "In due punti distinti", "Non li incontra mai", "Solo sull'asse y, in \\((0,2)\\)" ],
+    ans: 0,
+    exp: "Il grafico passa per l'origine: un solo punto in comune con entrambi gli assi contemporaneamente."
+  },
+  {
+    badge: "Segno",
+    q: "Guardando dove il grafico sta sopra o sotto l'asse x, dove la funzione è negativa?",
+    opts: [ "Tra \\(0\\) e \\(1\\)", "Per \\(x<0\\)", "Per \\(x>1\\)", "Non è mai negativa" ],
+    ans: 0,
+    exp: "Nel tratto centrale, tra l'origine e l'asintoto verticale, il ramo del grafico scende sotto l'asse orizzontale."
+  },
+  {
+    badge: "Simmetrie",
+    q: "Il grafico ha una qualche simmetria evidente?",
+    opts: [ "No, non è né pari né dispari", "Sì, rispetto all'asse y", "Sì, rispetto all'origine", "Sì, rispetto alla retta \\(y=x\\)" ],
+    ans: 0,
+    exp: "I due rami del grafico non sono uno lo specchio dell'altro rispetto all'asse \\(y\\) né ruotando di 180° attorno all'origine: nessuna simmetria evidente."
+  },
+  {
+    badge: "Asintoto verticale",
+    q: "Cosa rappresenta la retta tratteggiata verticale \\(x=1\\)?",
+    opts: [
+      "Un asintoto verticale: il grafico esplode verso l'infinito avvicinandosi",
+      "Un punto di massimo",
+      "Un'intersezione con l'asse x",
+      "Un asse di simmetria"
+    ],
+    ans: 0,
+    exp: "Vicino a quella retta, entrambi i rami del grafico si allontanano indefinitamente dall'asse orizzontale: è la firma visiva di un asintoto verticale."
+  },
+  {
+    badge: "Limiti laterali",
+    q: "Avvicinandosi a \\(x=1\\) da sinistra, cosa fa il grafico?",
+    opts: [ "Precipita verso \\(-\\infty\\)", "Sale verso \\(+\\infty\\)", "Si ferma in un punto", "Torna verso l'origine" ],
+    ans: 0,
+    exp: "Il ramo a sinistra della retta tratteggiata scende sempre più in basso man mano che si avvicina a \\(x=1\\): tende a \\(-\\infty\\)."
+  },
+  {
+    badge: "Asintoto orizzontale",
+    q: "Cosa rappresenta la retta tratteggiata orizzontale \\(y=2\\)?",
+    opts: [
+      "Un asintoto orizzontale: il grafico si avvicina a quel valore per \\(x\\) molto grande",
+      "Il valore massimo della funzione",
+      "Un'intersezione con l'asse y",
+      "Un punto escluso dal dominio"
+    ],
+    ans: 0,
+    exp: "Lontano dall'origine, sia a destra che a sinistra, i due rami del grafico si appiattiscono avvicinandosi sempre di più a quella retta orizzontale: è l'asintoto orizzontale."
+  },
+  {
+    badge: "Limiti",
+    q: "Quanto valgono, guardando il grafico, i limiti per \\(x \\to \\pm\\infty\\)?",
+    opts: [ "Entrambi tendono a \\(2\\)", "Uno tende a \\(2\\), l'altro a \\(-2\\)", "Entrambi tendono a \\(+\\infty\\)", "Non si può stabilire" ],
+    ans: 0,
+    exp: "Entrambi i rami esterni del grafico si appiattiscono sulla stessa retta orizzontale \\(y=2\\): sia per \\(x\\to+\\infty\\) che per \\(x\\to-\\infty\\) il limite è \\(2\\)."
+  }
+],
+
+// ══════════ LIVELLO PRO — f(x) = (x²-1)/(x-2) ══════════
+[
+  {
+    badge: "Dominio",
+    q: "Qual è il dominio della funzione in questo grafico?",
+    opts: [ "\\(\\mathbb{R}\\setminus\\{2\\}\\)", "\\(\\mathbb{R}\\)", "\\(\\mathbb{R}\\setminus\\{-1,1\\}\\)", "\\((-\\infty,2)\\)" ],
+    ans: 0,
+    exp: "L'unica retta tratteggiata verticale è in \\(x=2\\): è l'unico punto escluso dal dominio."
+  },
+  {
+    badge: "Intersezioni",
+    q: "In quanti punti il grafico interseca l'asse x?",
+    opts: [ "Due", "Uno", "Tre", "Nessuno" ],
+    ans: 0,
+    exp: "Il grafico attraversa l'asse orizzontale in due punti distinti, entrambi visibili sul disegno."
+  },
+  {
+    badge: "Asintoto verticale",
+    q: "Cosa succede al grafico avvicinandosi a \\(x=2\\) da destra?",
+    opts: [ "Sale verso \\(+\\infty\\)", "Scende verso \\(-\\infty\\)", "Si stabilizza", "Torna indietro" ],
+    ans: 0,
+    exp: "Il ramo a destra della retta tratteggiata verticale schizza verso l'alto man mano che si avvicina a \\(x=2\\)."
+  },
+  {
+    badge: "Asintoto obliquo",
+    q: "La retta tratteggiata inclinata che equazione ha?",
+    opts: [ "\\(y=x+2\\)", "\\(y=2x\\)", "\\(y=x-2\\)", "\\(y=-x+2\\)" ],
+    ans: 0,
+    exp: "La retta ha pendenza positiva (sale da sinistra a destra) e interseca l'asse y sopra l'origine, in \\(y=2\\): è la retta \\(y=x+2\\)."
+  },
+  {
+    badge: "Confronto con l'orizzontale",
+    q: "Perché qui il grafico ha un asintoto obliquo e non uno orizzontale?",
+    opts: [
+      "Perché il grado del numeratore supera di uno quello del denominatore",
+      "Perché la funzione non ha un dominio completo",
+      "Perché non ci sono intersezioni con gli assi",
+      "Perché il grafico è simmetrico"
+    ],
+    ans: 0,
+    exp: "Visivamente, il grafico non si appiattisce mai su un valore costante come nel caso precedente: continua a salire e scendere seguendo una retta inclinata, il segnale tipico di un numeratore di grado superiore di uno al denominatore."
+  },
+  {
+    badge: "Comportamento lontano",
+    q: "Per \\(x\\) molto grande e positivo, il grafico si comporta come:",
+    opts: [ "Una retta di pendenza 1 (segue l'asintoto obliquo)", "Una retta orizzontale", "Una curva che oscilla", "Un ramo che torna verso zero" ],
+    ans: 0,
+    exp: "Il ramo destro del grafico, per \\(x\\) grande, si sovrappone quasi perfettamente alla retta tratteggiata obliqua: si comporta come una retta di pendenza \\(1\\)."
+  },
+  {
+    badge: "Segno",
+    q: "Subito a sinistra di \\(x=2\\), il grafico è sopra o sotto l'asse x?",
+    opts: [ "Sotto (va verso \\(-\\infty\\))", "Sopra (va verso \\(+\\infty\\))", "Esattamente sull'asse", "Non è definito lì vicino" ],
+    ans: 0,
+    exp: "Il ramo a sinistra della retta tratteggiata verticale precipita verso il basso avvicinandosi a \\(x=2\\): è negativo in quella zona."
+  },
+  {
+    badge: "Sintesi",
+    q: "In totale, quanti asintoti diversi (di qualunque tipo) mostra questo grafico?",
+    opts: [ "Due: uno verticale, uno obliquo", "Uno solo, verticale", "Tre: verticale, orizzontale e obliquo", "Nessuno" ],
+    ans: 0,
+    exp: "Le due rette tratteggiate visibili sono esattamente due: quella verticale in \\(x=2\\) e quella obliqua \\(y=x+2\\). Un asintoto orizzontale, qui, non può coesistere con quello obliquo."
+  }
+]
+
+];
+
+// ── LIVELLI ──
+const LEVELS = [
+  { name:'Base',     a:'#c2185b', l:'#fce4ec' },
+  { name:'Avanzato', a:'#2e6da4', l:'#e3edf7' },
+  { name:'Pro',      a:'#7a3fa0', l:'#f1e8f7' }
+];
+function applyAccent(lv) {
+  const L = LEVELS[lv];
+  document.documentElement.style.setProperty('--accent', L.a);
+  document.documentElement.style.setProperty('--accent-light', L.l);
+  return L;
+}
+
+function renderGraph(lv) {
+  const G = GRAPHS[lv];
+  document.getElementById('graph-panel').innerHTML =
+    '<div class="graph-panel-label">Grafico · Livello ' + G.name + '</div>' +
+    G.svg +
+    '<div class="graph-legend">' + G.legend.map(l => '<span><i style="background:' + l.color + '"></i>' + l.label + '</span>').join('') + '</div>';
+}
+
+// ── STATO ──
+let level = 0, Q = QSETS[0];
+let cur = 0, score = 0, answered = false, results = [], curAns = 0;
+
+function selectLevel(i) {
+  level = i;
+  document.querySelectorAll('.level-card').forEach((el,idx) => el.classList.toggle('active', idx===i));
+}
+
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ── LOGICA ──
+function startQuiz() {
+  Q = QSETS[level];
+  cur = 0; score = 0; answered = false; results = [];
+  applyAccent(level);
+  renderGraph(level);
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function backToLevels() {
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-intro').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx], total = Q.length;
+  const L = LEVELS[level];
+  document.getElementById('level-pill').textContent = L.name;
+  document.getElementById('prog-frac').textContent = (idx+1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('q-badge').textContent = q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const letters = ['A','B','C','D'];
+  const order = shuffle(q.opts.map((_,i) => i));
+  curAns = order.indexOf(q.ans);
+  document.getElementById('q-opts').innerHTML = order.map((orig,i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${q.opts[orig]}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === curAns;
+  if (isOk) score++;
+  results.push(isOk);
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('opt-' + i).classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) document.getElementById('opt-' + curAns).classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur+1);
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next show';
+  btn.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  document.getElementById('res-tag').textContent = 'Livello ' + LEVELS[level].name + ' — Risultato';
+  document.getElementById('res-den').textContent = 'su ' + Q.length + ' domande';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+
+  const msgs = [
+    [7, "Ottima prova. Se uscisse un grafico da leggere all'orale, sapresti gestirlo con sicurezza."],
+    [5, "Molto bene. Ripassa le poche domande sbagliate e sei pronto."],
+    [3, "Buona base. Rivedi con calma dominio, segno e asintoti prima della prossima simulazione."],
+    [0, "Serve altro allenamento: nessun problema, riparti da questo livello con calma."]
+  ];
+  document.getElementById('res-msg').textContent = (msgs.find(m => score >= m[0]) || msgs[3])[1];
+
+  document.getElementById('res-grid').innerHTML = results.map((ok,i) =>
+    `<div class="rev-cell ${ok?'ok':'err'}" title="Domanda ${i+1}: ${ok?'corretta':'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) pick(parseInt(e.key)-1);
+  if ((e.key==='Enter'||e.key===' ') && answered) { e.preventDefault(); nextQ(); }
+});
+</script>
+</body>
+</html>

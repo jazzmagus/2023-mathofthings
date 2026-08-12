@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Numeri naturali e numeri interi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.level-legend{display:flex;gap:18px;flex-wrap:wrap;margin:20px 0 4px}
+.level-key{display:flex;align-items:center;gap:8px;font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-mid)}
+.level-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.btn-start{margin-top:16px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:filter .2s}
+.btn-start:hover{filter:brightness(.92)}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px;display:flex;align-items:center;gap:8px}
+.level-pill{font-family:'Fira Code',monospace;font-size:.62rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:2px 9px;border-radius:20px;background:var(--accent-light);color:var(--accent);border:1px solid var(--accent)}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease,background .3s ease}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:filter .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{filter:brightness(.92)}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.level-scores{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:22px 0 4px}
+.lscore{border:1px solid var(--border);border-radius:8px;padding:10px 18px;min-width:96px}
+.lscore-name{font-family:'Fira Code',monospace;font-size:.62rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.lscore-val{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:filter .2s}
+.btn-retry:hover{filter:brightness(.92)}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(6,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quiz · Numeri naturali e interi</div>
+  <div class="topbar-tag">LB01</div>
+</div>
+
+<div class="container">
+
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Allenamento</div>
+      <h1>Numeri <em>naturali</em> e numeri <em>interi</em></h1>
+      <p class="hero-sub">30 domande semplici e dirette, per allenarsi con calma su \(\mathbb{N}\) e \(\mathbb{Z}\): operazioni, divisibilità, numeri primi, valore assoluto, ordinamento sulla retta numerica. Nessuna difficoltà nascosta: è un quiz pensato per prendere confidenza, non per mettere in difficoltà.</p>
+    </div>
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">30</span></div>
+      <div class="meta-item"><span class="meta-label">Tipo</span><span class="meta-value">Risposta multipla</span></div>
+      <div class="meta-item"><span class="meta-label">Feedback</span><span class="meta-value">Immediato</span></div>
+    </div>
+    <div class="level-legend">
+      <span class="level-key"><span class="level-dot" style="background:#c2185b"></span>Base · 1–10</span>
+      <span class="level-key"><span class="level-dot" style="background:#2e6da4"></span>Avanzato · 11–20</span>
+      <span class="level-key"><span class="level-dot" style="background:#7a3fa0"></span>Pro · 21–30</span>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia il test</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso <span class="level-pill" id="level-pill">Base</span></span>
+        <span class="progress-frac" id="prog-frac">1 / 30</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag">LB01 · Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den">su 30 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+      <div class="level-scores" id="res-levels"></div>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova il test</button>
+      <a class="btn-lesson" href="../numeri-naturali/lezione.html">Torna alla lezione</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const Q = [
+
+  // ══════════ BASE (1–10) — Numeri naturali ══════════
+  {
+    badge: "Insieme N",
+    q: "Quale tra questi NON è un numero naturale?",
+    opts: [ "0", "7", "-3", "42" ],
+    ans: 2,
+    exp: "I numeri naturali sono \\(0, 1, 2, 3, \\dots\\): mai negativi. \\(-3\\) appartiene a \\(\\mathbb{Z}\\), non a \\(\\mathbb{N}\\)."
+  },
+  {
+    badge: "Addizione",
+    q: "Quanto vale \\(23 + 19\\)?",
+    opts: [ "42", "40", "44", "32" ],
+    ans: 0,
+    exp: "\\(23 + 19 = 42\\)."
+  },
+  {
+    badge: "Moltiplicazione",
+    q: "Quanto vale \\(7 \\times 8\\)?",
+    opts: [ "54", "56", "58", "48" ],
+    ans: 1,
+    exp: "\\(7 \\times 8 = 56\\)."
+  },
+  {
+    badge: "Divisori",
+    q: "Quali sono i divisori di 12?",
+    opts: [
+      "1, 2, 3, 4, 6, 12",
+      "1, 2, 4, 6, 12",
+      "2, 3, 4, 6",
+      "1, 12"
+    ],
+    ans: 0,
+    exp: "12 si divide esattamente per 1, 2, 3, 4, 6 e 12: sono tutti i suoi divisori."
+  },
+  {
+    badge: "Multipli",
+    q: "Quale numero è un multiplo di 5?",
+    opts: [ "27", "35", "42", "13" ],
+    ans: 1,
+    exp: "\\(35 = 5 \\times 7\\): è un multiplo di 5. Gli altri non lo sono."
+  },
+  {
+    badge: "Numeri primi",
+    q: "Un numero primo è:",
+    opts: [
+      "Un numero divisibile solo per 1 e per sé stesso (ed è maggiore di 1)",
+      "Un numero pari",
+      "Un numero divisibile per tutti i numeri",
+      "Un numero minore di 10"
+    ],
+    ans: 0,
+    exp: "Definizione di numero primo: maggiore di 1, ha esattamente due divisori, 1 e sé stesso."
+  },
+  {
+    badge: "Numeri primi",
+    q: "Quale di questi numeri è primo?",
+    opts: [ "9", "15", "17", "21" ],
+    ans: 2,
+    exp: "17 è divisibile solo per 1 e per 17. Gli altri hanno divisori intermedi (9=3×3, 15=3×5, 21=3×7)."
+  },
+  {
+    badge: "Potenze",
+    q: "Quanto vale \\(2^4\\)?",
+    opts: [ "8", "16", "6", "12" ],
+    ans: 1,
+    exp: "\\(2^4 = 2\\times2\\times2\\times2 = 16\\)."
+  },
+  {
+    badge: "Divisione con resto",
+    q: "Nella divisione \\(29 : 6\\), quali sono quoziente e resto?",
+    opts: [
+      "Quoziente 4, resto 5",
+      "Quoziente 5, resto 4",
+      "Quoziente 4, resto 4",
+      "Quoziente 5, resto 5"
+    ],
+    ans: 0,
+    exp: "\\(6 \\times 4 = 24\\), e \\(29 - 24 = 5\\): quoziente 4, resto 5."
+  },
+  {
+    badge: "Ordine delle operazioni",
+    q: "Quanto vale \\(3 + 4 \\times 2\\)?",
+    opts: [ "14", "11", "10", "24" ],
+    ans: 1,
+    exp: "Prima la moltiplicazione: \\(4\\times2=8\\), poi la somma: \\(3+8=11\\)."
+  },
+
+  // ══════════ AVANZATO (11–20) — Interi relativi ══════════
+  {
+    badge: "Insieme Z",
+    q: "L'insieme dei numeri interi relativi \\(\\mathbb{Z}\\) comprende:",
+    opts: [
+      "Solo i numeri positivi",
+      "I numeri naturali, i loro opposti negativi, e lo zero",
+      "Solo le frazioni",
+      "Solo i numeri pari"
+    ],
+    ans: 1,
+    exp: "\\(\\mathbb{Z} = \\{\\dots,-2,-1,0,1,2,\\dots\\}\\): naturali, opposti negativi, e zero."
+  },
+  {
+    badge: "Valore assoluto",
+    q: "Quanto vale \\(|-7|\\)?",
+    opts: [ "-7", "7", "0", "14" ],
+    ans: 1,
+    exp: "Il valore assoluto è sempre la distanza da zero, quindi un numero non negativo: \\(|-7| = 7\\)."
+  },
+  {
+    badge: "Confronto",
+    q: "Quale disuguaglianza è corretta?",
+    opts: [ "\\(-5 > -2\\)", "\\(-2 > -5\\)", "\\(-5 > 0\\)", "\\(-2 = -5\\)" ],
+    ans: 1,
+    exp: "Sulla retta numerica, più un numero negativo è vicino allo zero, più è grande: \\(-2 > -5\\)."
+  },
+  {
+    badge: "Somma con segni concordi",
+    q: "Quanto vale \\((-4) + (-6)\\)?",
+    opts: [ "-10", "10", "-2", "2" ],
+    ans: 0,
+    exp: "Segni concordi (entrambi negativi): si sommano i valori assoluti e si mantiene il segno: \\(-10\\)."
+  },
+  {
+    badge: "Somma con segni discordi",
+    q: "Quanto vale \\((+9) + (-4)\\)?",
+    opts: [ "5", "-5", "13", "-13" ],
+    ans: 0,
+    exp: "Segni discordi: si fa la differenza dei valori assoluti e si mantiene il segno del maggiore: \\(9-4=5\\), positivo perché 9 vince."
+  },
+  {
+    badge: "Sottrazione",
+    q: "Quanto vale \\((-3) - (-8)\\)?",
+    opts: [ "-11", "5", "-5", "11" ],
+    ans: 1,
+    exp: "Sottrarre un negativo equivale a sommare il suo opposto: \\((-3) - (-8) = -3+8 = 5\\)."
+  },
+  {
+    badge: "Moltiplicazione con segni",
+    q: "Quanto vale \\((-3) \\times (-5)\\)?",
+    opts: [ "-15", "15", "-8", "8" ],
+    ans: 1,
+    exp: "Meno per meno dà più: \\((-3)\\times(-5) = 15\\)."
+  },
+  {
+    badge: "Moltiplicazione con segni",
+    q: "Quanto vale \\((-6) \\times (+2)\\)?",
+    opts: [ "12", "-12", "-4", "4" ],
+    ans: 1,
+    exp: "Meno per più dà meno: \\((-6)\\times 2 = -12\\)."
+  },
+  {
+    badge: "Divisione con segni",
+    q: "Quanto vale \\((-20) : (-4)\\)?",
+    opts: [ "5", "-5", "16", "-16" ],
+    ans: 0,
+    exp: "Meno diviso meno dà più: \\((-20):(-4) = 5\\)."
+  },
+  {
+    badge: "Potenze con base negativa",
+    q: "Quanto vale \\((-2)^3\\)?",
+    opts: [ "8", "-8", "6", "-6" ],
+    ans: 1,
+    exp: "Esponente dispari: il segno negativo si mantiene. \\((-2)^3 = -2\\times-2\\times-2 = -8\\)."
+  },
+
+  // ══════════ PRO (21–30) — Espressioni ed esercizi misti ══════════
+  {
+    badge: "Potenze con base negativa",
+    q: "Quanto vale \\((-2)^4\\)?",
+    opts: [ "16", "-16", "8", "-8" ],
+    ans: 0,
+    exp: "Esponente pari: il segno diventa positivo. \\((-2)^4 = 16\\)."
+  },
+  {
+    badge: "Espressione",
+    q: "Quanto vale \\((-5) + 3 \\times (-2)\\)?",
+    opts: [ "-11", "-1", "16", "1" ],
+    ans: 0,
+    exp: "Prima la moltiplicazione: \\(3\\times(-2)=-6\\). Poi \\(-5+(-6) = -11\\)."
+  },
+  {
+    badge: "Espressione con parentesi",
+    q: "Quanto vale \\(-(3-8)\\)?",
+    opts: [ "-5", "5", "11", "-11" ],
+    ans: 1,
+    exp: "Dentro la parentesi: \\(3-8=-5\\). Il segno meno davanti cambia il risultato: \\(-(-5)=5\\)."
+  },
+  {
+    badge: "MCD",
+    q: "Qual è il Massimo Comune Divisore tra 18 e 24?",
+    opts: [ "2", "6", "12", "72" ],
+    ans: 1,
+    exp: "Divisori di 18: 1,2,3,6,9,18. Divisori di 24: 1,2,3,4,6,8,12,24. Il più grande in comune è 6."
+  },
+  {
+    badge: "mcm",
+    q: "Qual è il minimo comune multiplo tra 4 e 6?",
+    opts: [ "10", "24", "12", "2" ],
+    ans: 2,
+    exp: "Multipli di 4: 4,8,12,16... Multipli di 6: 6,12,18... Il più piccolo in comune è 12."
+  },
+  {
+    badge: "Scomposizione in fattori primi",
+    q: "Qual è la scomposizione in fattori primi di 60?",
+    opts: [
+      "\\(2^2 \\times 3 \\times 5\\)",
+      "\\(2 \\times 3 \\times 5^2\\)",
+      "\\(2^3 \\times 3 \\times 5\\)",
+      "\\(2 \\times 3^2 \\times 5\\)"
+    ],
+    ans: 0,
+    exp: "\\(60 = 4 \\times 15 = 2^2 \\times 3 \\times 5\\)."
+  },
+  {
+    badge: "Valore assoluto ed espressioni",
+    q: "Quanto vale \\(|-3| + |-5|\\)?",
+    opts: [ "-8", "8", "2", "-2" ],
+    ans: 1,
+    exp: "\\(|-3|=3\\) e \\(|-5|=5\\): la somma dei valori assoluti è \\(3+5=8\\)."
+  },
+  {
+    badge: "Ordinamento",
+    q: "Metti in ordine crescente: \\(-8,\\ 3,\\ -1,\\ 0,\\ -5\\).",
+    opts: [
+      "\\(-8, -5, -1, 0, 3\\)",
+      "\\(3, 0, -1, -5, -8\\)",
+      "\\(-1, -5, -8, 0, 3\\)",
+      "\\(0, -1, -5, -8, 3\\)"
+    ],
+    ans: 0,
+    exp: "Sulla retta numerica, crescente vuol dire da sinistra (più negativo) verso destra (più positivo): \\(-8, -5, -1, 0, 3\\)."
+  },
+  {
+    badge: "Espressione mista",
+    q: "Quanto vale \\(2 \\times (-3)^2 - 4\\)?",
+    opts: [ "14", "2", "-14", "-22" ],
+    ans: 0,
+    exp: "Prima la potenza: \\((-3)^2=9\\). Poi \\(2\\times9=18\\), infine \\(18-4=14\\)."
+  },
+  {
+    badge: "Espressione mista",
+    q: "Quanto vale \\(-3 \\times (2-5) + (-1)^3\\)?",
+    opts: [ "8", "10", "-8", "-10" ],
+    ans: 0,
+    exp: "Parentesi: \\(2-5=-3\\). Poi \\(-3\\times(-3)=9\\). Potenza: \\((-1)^3=-1\\). Infine \\(9+(-1)=8\\)."
+  }
+
+];
+
+// ── LIVELLI (colori per fascia) ──
+const LEVELS = [
+  { name:'Base',     a:'#c2185b', l:'#fce4ec' },
+  { name:'Avanzato', a:'#2e6da4', l:'#e3edf7' },
+  { name:'Pro',      a:'#7a3fa0', l:'#f1e8f7' }
+];
+function levelOf(idx) { return idx < 10 ? 0 : idx < 20 ? 1 : 2; }
+function applyAccent(lv) {
+  const L = LEVELS[lv];
+  document.documentElement.style.setProperty('--accent', L.a);
+  document.documentElement.style.setProperty('--accent-light', L.l);
+  return L;
+}
+
+// ── STATO ──
+let cur = 0, score = 0, answered = false, results = [], curAns = 0;
+
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ── LOGICA ──
+function startQuiz() {
+  cur = 0; score = 0; answered = false; results = [];
+  applyAccent(0);
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx], total = Q.length;
+  const L = applyAccent(levelOf(idx));
+  document.getElementById('level-pill').textContent = L.name;
+  document.getElementById('prog-frac').textContent = (idx+1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('q-badge').textContent = q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const letters = ['A','B','C','D'];
+  const order = shuffle(q.opts.map((_,i) => i));   // mescola le opzioni
+  curAns = order.indexOf(q.ans);                    // nuova posizione della corretta
+  document.getElementById('q-opts').innerHTML = order.map((orig,i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${q.opts[orig]}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === curAns;
+  if (isOk) score++;
+  results.push(isOk);
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('opt-' + i).classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) document.getElementById('opt-' + curAns).classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur+1);
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next show';
+  btn.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  applyAccent(0);
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+
+  const msgs = [
+    [27, "Ottimo lavoro! Numeri naturali e interi non hanno più segreti."],
+    [22, "Molto bene. Rivedi le poche domande sbagliate e sei a posto."],
+    [16, "Buona base, con qualche incertezza. Ripassa i segni e riprova con calma."],
+    [10, "Serve un ripasso più attento della lezione: niente fretta, si può rifare quante volte serve."],
+    [0,  "Riparti dalle definizioni di base: nessun problema, è proprio a questo che serve allenarsi."]
+  ];
+  document.getElementById('res-msg').textContent = (msgs.find(m => score >= m[0]) || msgs[4])[1];
+
+  // punteggio per livello
+  const lv = [0,0,0];
+  results.forEach((ok,i) => { if (ok) lv[levelOf(i)]++; });
+  document.getElementById('res-levels').innerHTML = LEVELS.map((L,k) =>
+    `<div class="lscore" style="border-color:${L.a}">
+       <div class="lscore-name" style="color:${L.a}">${L.name}</div>
+       <div class="lscore-val" style="color:${L.a}">${lv[k]}<span style="font-size:.9rem;color:var(--text-dim)">/10</span></div>
+     </div>`
+  ).join('');
+
+  document.getElementById('res-grid').innerHTML = results.map((ok,i) =>
+    `<div class="rev-cell ${ok?'ok':'err'}" title="Domanda ${i+1}: ${ok?'corretta':'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) pick(parseInt(e.key)-1);
+  if ((e.key==='Enter'||e.key===' ') && answered) { e.preventDefault(); nextQ(); }
+});
+</script>
+</body>
+</html>

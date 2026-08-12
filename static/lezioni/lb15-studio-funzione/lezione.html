@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Completo di Funzione: Guidato</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.ct.sign td { text-align:center; font-family:'JetBrains Mono',monospace; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.graph-wrap { margin:18px 0; text-align:center; }
+.graph-wrap svg { width:100%; max-width:400px; height:auto; background:var(--surface); border:1px solid var(--border-light); border-radius:6px; }
+.graph-wrap.wide svg { max-width:560px; }
+.graph-caption { font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--text-dim); margin-top:6px; text-align:center; }
+.legend { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--text-mid); margin-top:8px; }
+.legend span { display:inline-flex; align-items:center; gap:5px; }
+.legend i { width:14px; height:2px; display:inline-block; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Studio Completo di Funzione: Guidato</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+function plotFn(opts) {
+  const W = opts.w || 320, H = opts.h || 320;
+  const xmin = opts.xmin, xmax = opts.xmax, ymin = opts.ymin, ymax = opts.ymax;
+  const sx = x => (x - xmin) / (xmax - xmin) * W;
+  const sy = y => H - (y - ymin) / (ymax - ymin) * H;
+  let g = '';
+
+  (opts.grid || []).forEach(v => {
+    const x = sx(v);
+    if (x >= 0 && x <= W) g += '<line x1="' + x + '" y1="0" x2="' + x + '" y2="' + H + '" stroke="var(--border-light)" stroke-width="1"/>';
+  });
+  (opts.gridY || []).forEach(v => {
+    const y = sy(v);
+    if (y >= 0 && y <= H) g += '<line x1="0" y1="' + y + '" x2="' + W + '" y2="' + y + '" stroke="var(--border-light)" stroke-width="1"/>';
+  });
+
+  (opts.asymptotes || []).forEach(a => {
+    if (a.type === 'h') {
+      const y = sy(a.at);
+      g += '<line x1="0" y1="' + y + '" x2="' + W + '" y2="' + y + '" stroke="' + (a.color || '#b8860b') + '" stroke-width="1.3" stroke-dasharray="5 4"/>';
+    } else if (a.type === 'o') {
+      const x1 = xmin, x2 = xmax;
+      const y1 = a.m * x1 + a.q, y2 = a.m * x2 + a.q;
+      g += '<line x1="' + sx(x1) + '" y1="' + sy(y1) + '" x2="' + sx(x2) + '" y2="' + sy(y2) + '" stroke="' + (a.color || '#b8860b') + '" stroke-width="1.3" stroke-dasharray="5 4"/>';
+    } else {
+      const x = sx(a.at);
+      g += '<line x1="' + x + '" y1="0" x2="' + x + '" y2="' + H + '" stroke="' + (a.color || '#b8860b') + '" stroke-width="1.3" stroke-dasharray="5 4"/>';
+    }
+  });
+
+  const x0 = sx(0), y0 = sy(0);
+  if (x0 >= 0 && x0 <= W) g += '<line x1="' + x0 + '" y1="0" x2="' + x0 + '" y2="' + H + '" stroke="var(--text-dim)" stroke-width="1.2"/>';
+  if (y0 >= 0 && y0 <= H) g += '<line x1="0" y1="' + y0 + '" x2="' + W + '" y2="' + y0 + '" stroke="var(--text-dim)" stroke-width="1.2"/>';
+
+  (opts.fns || []).forEach(fn => {
+    const N = 300;
+    let d = '', started = false;
+    for (let i = 0; i <= N; i++) {
+      const x = xmin + (xmax - xmin) * i / N;
+      if (fn.exclude && Math.abs(x - fn.exclude) < (xmax - xmin) / N * 1.5) { started = false; continue; }
+      let y;
+      try { y = fn.f(x); } catch (e) { y = NaN; }
+      if (!isFinite(y) || y < ymin - (ymax - ymin) * 0.6 || y > ymax + (ymax - ymin) * 0.6) {
+        started = false;
+        continue;
+      }
+      const X = sx(x), Y = sy(y);
+      d += (started ? 'L' : 'M') + X.toFixed(1) + ' ' + Y.toFixed(1) + ' ';
+      started = true;
+    }
+    g += '<path d="' + d + '" fill="none" stroke="' + fn.color + '" stroke-width="2.2" stroke-linecap="round"/>';
+  });
+
+  (opts.points || []).forEach(p => {
+    const X = sx(p.x), Y = sy(p.y);
+    g += '<circle cx="' + X + '" cy="' + Y + '" r="' + (p.r || 3.2) + '" fill="' + (p.color || 'var(--accent)') + '"/>';
+    if (p.label) g += '<text x="' + (X + 6) + '" y="' + (Y - 6) + '" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--text)">' + p.label + '</text>';
+  });
+
+  return '<div class="graph-wrap' + (opts.wide ? ' wide' : '') + '"><svg viewBox="0 0 ' + W + ' ' + H + '">' + g + '</svg>' +
+    (opts.caption ? '<div class="graph-caption">' + opts.caption + '</div>' : '') +
+    (opts.legend ? '<div class="legend">' + opts.legend.map(l => '<span><i style="background:' + l.color + '"></i>' + l.label + '</span>').join('') + '</div>' : '') +
+    '</div>';
+}
+
+const graphVerticale = plotFn({
+  xmin: -6, xmax: 6, ymin: -8, ymax: 8, w: 320, h: 320,
+  grid: [-6,-4,-2,0,2,4,6], gridY: [-8,-4,0,4,8],
+  asymptotes: [{ type: 'v', at: 1, color: '#c2185b' }, { type: 'h', at: 2, color: '#b8860b' }],
+  fns: [{ f: x => (2*x)/(x-1), color: '#3a6b8c', exclude: 1 }],
+  caption: "f(x) = 2x/(x-1): asintoto verticale x=1, asintoto orizzontale y=2.",
+  legend: [{ color: '#3a6b8c', label: 'y = 2x/(x-1)' }, { color: '#c2185b', label: 'asintoto verticale x=1' }, { color: '#b8860b', label: 'asintoto orizzontale y=2' }]
+});
+
+const graphObliquo = plotFn({
+  xmin: -6, xmax: 8, ymin: -8, ymax: 10, w: 320, h: 320,
+  grid: [-6,-4,-2,0,2,4,6,8], gridY: [-8,-4,0,4,8],
+  asymptotes: [{ type: 'v', at: 2, color: '#c2185b' }, { type: 'o', m: 1, q: 2, color: '#b8860b' }],
+  fns: [{ f: x => (x*x - 1)/(x-2), color: '#4a7c59', exclude: 2 }],
+  points: [{ x: -1, y: 0, label: '(-1,0)' }, { x: 1, y: 0, label: '(1,0)' }, { x: 0, y: 0.5, label: '(0,1/2)' }],
+  caption: "f(x) = (x²-1)/(x-2): asintoto verticale x=2, asintoto obliquo y=x+2.",
+  legend: [{ color: '#4a7c59', label: 'y = (x²-1)/(x-2)' }, { color: '#c2185b', label: 'x=2' }, { color: '#b8860b', label: 'y=x+2' }]
+});
+
+const S = [
+{
+  tag:"IL TASSELLO MANCANTE",
+  title:"Dal <em>grafico probabile</em> al grafico <em>rigoroso</em>",
+  nav:"Obiettivo",
+  body:
+    '<p>Nella lezione precedente abbiamo imparato a costruire il <strong>grafico probabile</strong> di una funzione: dominio, simmetrie, intersezioni con gli assi, segno. Con questi ingredienti si arriva a un disegno plausibile, ma con due domande lasciate aperte apposta.</p>' +
+    '<div class="cb warn"><div class="cb-label">Le due domande in sospeso</div><ul><li>Cosa succede al grafico <strong>vicino ai punti esclusi dal dominio</strong> (per esempio, dove si annulla un denominatore)? Sale all\'infinito? Scende? Da che parte?</li><li>Cosa succede al grafico quando \\(x\\) diventa <strong>molto grande</strong>, in positivo o in negativo? La curva si stabilizza, cresce per sempre, o si avvicina a una retta?</li></ul></div>' +
+    '<p>Entrambe le domande hanno la stessa risposta tecnica: bisogna calcolare un <strong>limite</strong>. Questa lezione è un ripasso completo, guidato da esempi numerici, di tutto il percorso: dall\'equazione al grafico, includendo finalmente anche i limiti.</p>' +
+    '<h3>Il percorso completo, in otto tappe</h3>' +
+    '<ol><li><strong>Ripasso dei punti principali</strong> — i quattro passi già noti, in sintesi veloce;</li><li><strong>Dominio</strong> — dove la funzione esiste;</li><li><strong>Intersezioni con gli assi</strong> — i primi punti esatti del grafico;</li><li><strong>Simmetrie</strong> — quando conviene disegnare solo metà curva;</li><li><strong>Segno</strong> — dove il grafico sta sopra o sotto l\'asse;</li><li><strong>Limiti</strong> — cosa succede ai bordi del dominio e all\'infinito;</li><li><strong>Resoconto finale</strong> — lo studio completo, con il grafico.</li></ol>' +
+    '<div class="cb tip"><div class="cb-label">Perché questa lezione fa la differenza</div><p>Il grafico probabile ti dice <em>dove</em> la curva sta sopra o sotto l\'asse. Il grafico completo ti dice anche <em>come</em> ci arriva e <em>come</em> se ne va. È l\'ultimo tassello prima dello studio di funzione "vero", quello che affronterai fino alla maturità.</p></div>'
+},
+{
+  tag:"1 · RIPASSO",
+  title:"I punti principali, <em>in sintesi</em>",
+  nav:"Ripasso",
+  body:
+    '<p>Prima di riprendere ogni passo nel dettaglio, un rapido promemoria di cosa abbiamo già imparato nella lezione precedente — così sappiamo sempre a che punto siamo del percorso.</p>' +
+    '<div class="cb"><div class="cb-label">Esempio guida di tutta la lezione</div><p>Lavoreremo su \\(f(x) = \\dfrac{2x}{x-1}\\): una funzione razionale fratta, scelta apposta perché semplice da seguire in ogni passaggio.</p></div>' +
+    '<table class="ct"><tr><th>Passo</th><th>Cosa fa</th></tr>' +
+    '<tr><td>Dominio</td><td>trova dove la funzione esiste</td></tr>' +
+    '<tr><td>Intersezioni</td><td>trova i punti esatti in cui il grafico attraversa gli assi</td></tr>' +
+    '<tr><td>Simmetrie</td><td>controlla se il grafico è a specchio (asse \\(y\\) o origine)</td></tr>' +
+    '<tr><td>Segno</td><td>stabilisce dove il grafico sta sopra o sotto l\'asse \\(x\\)</td></tr>' +
+    '<tr><td>Limiti</td><td>precisano cosa succede ai bordi del dominio e all\'infinito</td></tr></table>' +
+    '<div class="cb success"><div class="cb-label">Il piano di lavoro</div><p>Nelle prossime sezioni riprendiamo ciascun passo, uno alla volta, applicandolo sempre allo stesso esempio guida — così a fine lezione avrai visto l\'intero percorso, dall\'equazione al grafico completo, su un caso solo.</p></div>'
+},
+{
+  tag:"2 · DOMINIO",
+  title:"Il <em>dominio</em>: dove la funzione esiste",
+  nav:"Dominio",
+  body:
+    '<p>Il dominio è sempre il primo passo: se non sappiamo dove la funzione vive, non possiamo dire nient\'altro su di lei.</p>' +
+    '<p>Per \\(f(x) = \\dfrac{2x}{x-1}\\), la condizione è che il denominatore non si annulli:</p>' +
+    '\\[ x - 1 \\neq 0 \\quad \\Rightarrow \\quad D = \\mathbb{R}\\setminus\\{1\\} \\]' +
+    '<div class="cb success"><div class="cb-label">Cosa significa per il grafico</div><p>In \\(x=1\\) il grafico non può esistere: è un punto "di confine" che terremo d\'occhio più avanti, quando arriveremo ai limiti.</p></div>' +
+    acc([
+      { t:"Ripasso lampo — le tre condizioni classiche", h:'<table class="ct"><tr><th>Tipo di funzione</th><th>Condizione</th></tr><tr><td>Razionale intera (polinomio)</td><td>nessuna condizione — dominio \\(\\mathbb{R}\\)</td></tr><tr><td>Razionale fratta</td><td>denominatore \\(\\neq 0\\)</td></tr><tr><td>Irrazionale, indice pari</td><td>radicando \\(\\geq 0\\)</td></tr></table><p class="dim">Se compaiono più condizioni insieme, il dominio è la loro intersezione.</p>' }
+    ])
+},
+{
+  tag:"3 · INTERSEZIONI",
+  title:"<em>Intersezioni</em> con gli assi",
+  nav:"Intersezioni",
+  body:
+    '<p>Le intersezioni con gli assi sono i primi punti <strong>certi</strong> del grafico: coordinate esatte, non approssimazioni.</p>' +
+    '<div class="cb"><div class="cb-label">Con l\'asse y</div><p>Si pone \\(x=0\\) (se appartiene al dominio) e si calcola \\(f(0)\\).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Con l\'asse x</div><p>Si risolve \\(f(x)=0\\): per una frazione, basta annullare il numeratore (con il denominatore diverso da zero).</p></div>' +
+    '<p>Per il nostro esempio \\(f(x) = \\dfrac{2x}{x-1}\\):</p>' +
+    '\\[ f(0) = \\frac{0}{-1} = 0 \\ \\Rightarrow \\ (0,0), \\qquad 2x = 0 \\ \\Rightarrow \\ x=0 \\ \\Rightarrow \\ (0,0) \\]' +
+    '<div class="cb success"><div class="cb-label">Un solo punto, due ragioni</div><p>Qui asse \\(x\\) e asse \\(y\\) si incontrano nello stesso punto, l\'origine: capita quando \\(f(0)=0\\). È del tutto normale, e va semplicemente registrato.</p></div>'
+},
+{
+  tag:"4 · SIMMETRIE",
+  title:"<em>Simmetrie</em>: funzioni pari e dispari",
+  nav:"Simmetrie",
+  body:
+    '<p>Un controllo veloce che, quando dà esito positivo, dimezza il lavoro: basta guardare il segno di \\(f(-x)\\).</p>' +
+    '<div class="cb"><div class="cb-label">Funzione pari</div><p>Se \\(f(-x) = f(x)\\), il grafico è simmetrico rispetto all\'asse \\(y\\).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Funzione dispari</div><p>Se \\(f(-x) = -f(x)\\), il grafico è simmetrico rispetto all\'origine.</p></div>' +
+    '<p>Verifichiamo sul nostro esempio, \\(f(x) = \\dfrac{2x}{x-1}\\):</p>' +
+    '\\[ f(-x) = \\frac{-2x}{-x-1} = \\frac{2x}{x+1} \\]' +
+    '<p>Questo risultato non è uguale né a \\(f(x)\\) né a \\(-f(x)\\): la funzione non è né pari né dispari, e si prosegue senza questa scorciatoia.</p>' +
+    '<div class="cb warn"><div class="cb-label">Il caso più comune</div><p>La maggior parte delle funzioni razionali fratte non è simmetrica: niente panico, è la situazione più frequente. Il test si fa comunque, perché quando la simmetria c\'è, conviene sempre sfruttarla.</p></div>'
+},
+{
+  tag:"5 · SEGNO",
+  title:"Lo studio del <em>segno</em>",
+  nav:"Segno",
+  body:
+    '<p>Sapere dove il grafico sta sopra l\'asse \\(x\\) (funzione positiva) e dove sta sotto (negativa) restringe molto le forme possibili del grafico.</p>' +
+    '<p>Per \\(f(x) = \\dfrac{2x}{x-1}\\): numeratore \\(2x&gt;0\\) per \\(x&gt;0\\); denominatore \\(x-1&gt;0\\) per \\(x&gt;1\\).</p>' +
+    '<table class="ct sign"><tr><th>Intervallo</th><th>x &lt; 0</th><th>0 &lt; x &lt; 1</th><th>x &gt; 1</th></tr>' +
+    '<tr><td>N: 2x</td><td>−</td><td>+</td><td>+</td></tr>' +
+    '<tr><td>D: x−1</td><td>−</td><td>−</td><td>+</td></tr>' +
+    '<tr><td>f(x)</td><td>+</td><td>−</td><td>+</td></tr></table>' +
+    '<div class="math-block result">\\[ f(x) &gt; 0 \\ \\text{ per } x&lt;0 \\ \\lor\\ x&gt;1, \\qquad f(x) &lt; 0 \\ \\text{ per } 0&lt;x&lt;1 \\]</div>' +
+    '<div class="cb success"><div class="cb-label">Cosa sappiamo ormai</div><p>Il grafico passa per l\'origine, sta sopra l\'asse per \\(x&lt;0\\) e per \\(x&gt;1\\), sotto per \\(0&lt;x&lt;1\\), ed è escluso in \\(x=1\\). Manca solo capire <strong>come</strong> si comporta vicino a \\(x=1\\) e per \\(x \\to \\pm\\infty\\): è il compito della prossima sezione.</p></div>'
+},
+{
+  tag:"6 · LIMITI",
+  title:"I <em>limiti</em>: cosa succede ai bordi",
+  nav:"Limiti",
+  body:
+    '<p>Restano due domande, entrambe risolte con un limite: cosa fa il grafico vicino a un punto escluso dal dominio, e cosa fa quando \\(x\\) diventa enorme.</p>' +
+    '<div class="cb"><div class="cb-label">Vicino al punto escluso \\(x=1\\)</div>' +
+    '\\[ \\lim_{x \\to 1^-} \\frac{2x}{x-1} = \\frac{2}{0^-} = -\\infty, \\qquad \\lim_{x \\to 1^+} \\frac{2x}{x-1} = \\frac{2}{0^+} = +\\infty \\]' +
+    '<p>Il numeratore tende a \\(2\\) (fisso, diverso da zero), il denominatore tende a \\(0\\) cambiando segno: un numero fisso diviso per qualcosa che tende a zero dà infinito, con il segno dettato dal denominatore. Questo rende \\(x=1\\) un <strong>asintoto verticale</strong>: la curva precipita a \\(-\\infty\\) da sinistra, schizza a \\(+\\infty\\) da destra.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Per \\(x \\to \\pm\\infty\\)</div>' +
+    '\\[ \\lim_{x \\to \\pm\\infty} \\frac{2x}{x-1} = \\lim_{x \\to \\pm\\infty} \\frac{2}{1 - \\frac{1}{x}} = 2 \\]' +
+    '<p>Il rapporto si stabilizza su \\(2\\): la retta \\(y=2\\) è un <strong>asintoto orizzontale</strong>, sia a destra che a sinistra.</p></div>' +
+    acc([
+      { t:"Regola pratica per i limiti all\'infinito", h:'<p>Per una funzione razionale fratta \\(N(x)/D(x)\\), il limite per \\(x \\to \\pm\\infty\\) dipende solo dal grado dei due polinomi:</p><table class="ct"><tr><th>Confronto gradi</th><th>Limite</th><th>Conseguenza</th></tr><tr><td>grado(N) &lt; grado(D)</td><td>\\(0\\)</td><td>asintoto orizzontale \\(y=0\\)</td></tr><tr><td>grado(N) = grado(D)</td><td>rapporto dei coefficienti direttori</td><td>asintoto orizzontale \\(y=\\ell\\neq0\\)</td></tr><tr><td>grado(N) = grado(D)+1</td><td>\\(\\pm\\infty\\), ma "in modo ordinato"</td><td>asintoto <strong>obliquo</strong> \\(y=mx+q\\)</td></tr><tr><td>grado(N) &gt; grado(D)+1</td><td>\\(\\pm\\infty\\)</td><td>nessun asintoto</td></tr></table><p class="dim">Nel nostro esempio grado(N)=grado(D)=1: il limite è il rapporto dei coefficienti, \\(2/1=2\\) — esattamente quanto trovato sopra.</p>' },
+      { t:"E l\'asintoto obliquo? Un esempio veloce", h:'<p>Se il grado del numeratore supera di uno quello del denominatore, come in \\(g(x) = \\dfrac{x^2-1}{x-2}\\), il grafico non si stabilizza ma segue comunque una retta inclinata. Con la divisione tra polinomi, \\(g(x) = x+2+\\dfrac{3}{x-2}\\): il termine \\(\\dfrac{3}{x-2}\\) tende a \\(0\\) per \\(x\\to\\pm\\infty\\), quindi \\(g(x)\\) si avvicina sempre di più alla retta \\(y=x+2\\), l\'asintoto obliquo.</p>' }
+    ])
+},
+{
+  tag:"7 · RESOCONTO FINALE",
+  title:"Il grafico <em>completo</em>, passo per passo",
+  nav:"Grafico completo",
+  body:
+    '<p>Rimettiamo insieme tutti i pezzi raccolti sezione per sezione, sui due esempi guida di questa lezione: prima quello con asintoto orizzontale, poi quello con asintoto obliquo.</p>' +
+    '<h3>Esempio 1 — \\(f(x) = \\dfrac{2x}{x-1}\\)</h3>' +
+    '<table class="ct"><tr><th>Elemento</th><th>Risultato</th></tr>' +
+    '<tr><td>Dominio</td><td>\\(\\mathbb{R}\\setminus\\{1\\}\\)</td></tr>' +
+    '<tr><td>Segno</td><td>positiva per \\(x&lt;0\\) o \\(x&gt;1\\); negativa per \\(0&lt;x&lt;1\\)</td></tr>' +
+    '<tr><td>Intersezione assi</td><td>\\((0,0)\\)</td></tr>' +
+    '<tr><td>Asintoto verticale</td><td>\\(x=1\\) (\\(-\\infty\\) a sinistra, \\(+\\infty\\) a destra)</td></tr>' +
+    '<tr><td>Asintoto orizzontale</td><td>\\(y=2\\) (sia a \\(-\\infty\\) che a \\(+\\infty\\))</td></tr></table>' +
+    graphVerticale +
+    '<div class="cb tip"><div class="cb-label">Lettura del grafico</div><p>La curva parte vicina alla retta \\(y=2\\) per \\(x\\) molto negativo, scende sotto l\'asse tra \\(0\\) e \\(1\\) (coerente col segno), precipita a \\(-\\infty\\) avvicinandosi a \\(x=1\\) da sinistra, poi riparte da \\(+\\infty\\) subito dopo \\(x=1\\) e si stabilizza di nuovo verso \\(y=2\\). Ogni curva è ormai completamente vincolata: non resta spazio per disegnare "a caso".</p></div>' +
+    '<h3>Esempio 2 — \\(f(x) = \\dfrac{x^2-1}{x-2}\\)</h3>' +
+    '<table class="ct"><tr><th>Elemento</th><th>Risultato</th></tr>' +
+    '<tr><td>Dominio</td><td>\\(\\mathbb{R}\\setminus\\{2\\}\\)</td></tr>' +
+    '<tr><td>Intersezioni con l\'asse x</td><td>\\(x^2-1=0 \\Rightarrow x=\\pm1\\)</td></tr>' +
+    '<tr><td>Intersezione con l\'asse y</td><td>\\(f(0) = -1/-2 = 1/2\\)</td></tr>' +
+    '<tr><td>Asintoto verticale</td><td>\\(x=2\\)</td></tr>' +
+    '<tr><td>Asintoto obliquo</td><td>\\(y=x+2\\)</td></tr></table>' +
+    graphObliquo +
+    '<div class="cb success"><div class="cb-label">Lettura del grafico</div><p>Lontano da \\(x=2\\), la curva viaggia praticamente appoggiata alla retta \\(y=x+2\\); vicino a \\(x=2\\) si stacca bruscamente, precipitando o schizzando all\'infinito a seconda del lato. Nessun asintoto orizzontale qui: la funzione cresce indefinitamente, ma in modo <strong>ordinato</strong>, seguendo la retta obliqua.</p></div>' +
+    acc([
+      { t:"Esercizio guidato — completa tu il quadro", h:'<p>\\(f(x) = \\dfrac{x-3}{x^2-4}\\). Dominio: \\(x \\neq \\pm2\\). Grado(N)=1 &lt; grado(D)=2, quindi asintoto orizzontale \\(y=0\\). Ci sono due punti esclusi, quindi <strong>due</strong> asintoti verticali candidati: \\(x=-2\\) e \\(x=2\\).</p><p class="dim">Prova a calcolare tu i quattro limiti laterali (uno per lato, per ciascun asintoto verticale) usando lo stesso metodo del segno numeratore/denominatore visto nella sezione sul Segno: è l\'esatta preparazione al tipo di esercizio che troverai nel quiz.</p>' }
+    ]) +
+    '<div class="cb purple"><div class="cb-label">Il filo conduttore di tutto il corso</div><p>Da un\'espressione algebrica siamo arrivati, in questa lezione, a un grafico che non è più "probabile" ma <strong>rigoroso</strong>: ogni tratto della curva — dove sale, dove scende, verso quale retta tende, dove esplode — ha ora una giustificazione precisa basata su un calcolo. È il traguardo naturale di tutto il percorso sullo studio di funzione iniziato con dominio e segno, e la base su cui si costruirà, più avanti, lo studio con le derivate.</p></div>'
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>
