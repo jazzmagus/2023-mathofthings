@@ -406,6 +406,12 @@ h2.display {
     opacity: 0.8;
   }
 
+  .hero-icon-anim {
+    width: 140px;
+    height: 50px;
+    opacity: 1;
+  }
+
   .hero-title {
     font-family: $sta-font-heading, serif;
     font-size: clamp(2.5rem, 8vw, 5.5rem);

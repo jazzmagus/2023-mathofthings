@@ -6,11 +6,48 @@
   <section class="hero-landing">
     {{ partial "particles-bg.html" (dict "id" "particles-home" "count" 80 "links" true) }}
 
-    <div class="hero-icon">
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5"/>
+    <div class="hero-icon hero-icon-anim">
+      <svg width="140" height="50" viewBox="0 0 140 50" aria-hidden="true">
+        <defs>
+          <filter id="hero-goo" x="-30" y="-30" width="200" height="110" filterUnits="userSpaceOnUse">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+            <feColorMatrix in="blur" mode="matrix"
+              values="1 0 0 0 0
+                      0 1 0 0 0
+                      0 0 1 0 0
+                      0 0 0 20 -9" result="goo" />
+            <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+          </filter>
+        </defs>
+        <g filter="url(#hero-goo)" fill="currentColor">
+          <circle cx="70" cy="25" r="16" />
+          <circle id="hero-icon-ball" cx="70" cy="25" r="6.5" />
+        </g>
       </svg>
     </div>
+    <script>
+      (function () {
+        var ball = document.getElementById('hero-icon-ball');
+        if (!ball) return;
+        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduceMotion) return;
+        var centerX = 70;
+        var amplitude = 40;
+        var duration = 1600;
+        var start = null;
+        function frame(ts) {
+          if (start === null) start = ts;
+          var elapsed = (ts - start) % (duration * 2);
+          var t = elapsed / duration;
+          var x = t < 1
+            ? -amplitude + amplitude * 2 * t
+            : amplitude - amplitude * 2 * (t - 1);
+          ball.setAttribute('cx', centerX + x);
+          requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      })();
+    </script>
 
     <h1 class="hero-title">
       The <span class="math-word">Math</span> of <em>Things</em>
