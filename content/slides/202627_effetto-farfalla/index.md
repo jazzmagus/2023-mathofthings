@@ -13,6 +13,43 @@ slides:
 ---
 
 <section class="mot-hero" data-background-color="#2a2a3d" data-background-video="butterfly-home.mp4" data-background-video-loop data-background-video-muted data-background-opacity="0.32" data-transition="zoom">
+  <div class="hero-icon hero-icon-anim" style="margin: 0 auto 16px; width: 140px;">
+    <svg width="140" height="50" viewBox="0 0 140 50" aria-hidden="true">
+      <defs>
+        <filter id="hero-goo" x="-30" y="-30" width="200" height="110" filterUnits="userSpaceOnUse">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+          <feColorMatrix in="blur" mode="matrix"
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 20 -9" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+      </defs>
+      <g filter="url(#hero-goo)" fill="currentColor">
+        <circle cx="70" cy="25" r="16" />
+        <circle id="hero-icon-ball" cx="70" cy="25" r="6.5" />
+      </g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      var ball = document.getElementById('hero-icon-ball');
+      if (!ball) return;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) return;
+      var centerX = 70, amplitude = 40, duration = 1600, start = null;
+      function frame(ts) {
+        if (start === null) start = ts;
+        var elapsed = (ts - start) % (duration * 2);
+        var t = elapsed / duration;
+        var x = t < 1 ? -amplitude + amplitude * 2 * t : amplitude - amplitude * 2 * (t - 1);
+        ball.setAttribute('cx', centerX + x);
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+  </script>
   <div id="particles-ef-hero" class="bg-particles" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
   <p class="mot-kicker" style="color: white; position: relative; z-index: 10;">conferenza serale, 2027</p>
   <h1 style="color: white; position: relative; z-index: 10;">Il <span class="math-word" style="color: white; font-style: italic;">battito d'ali</span></h1>
@@ -78,7 +115,11 @@ slides:
   <p class="mot-kicker">1889, la prima crepa (e nessuno se ne accorge)</p>
   <h2>Poincaré e il <em>problema dei tre corpi</em></h2>
   <p class="mot-def fragment">Il re Oscar II di Svezia mette in palio un premio per chi risolve il moto di tre corpi celesti soggetti solo alla gravità reciproca (Sole, Terra, Luna, per dire).</p>
-  <p class="fragment" style="margin-top: 1.5rem;">Poincaré vince. Poi, mentre il suo saggio è già in stampa, si accorge di un errore: il sistema può essere <b>sensibilissimo</b> a variazioni minime. Deve farsi ristampare tutta la tiratura della rivista, a proprie spese.</p>
+  <ul style="margin-top: 1.5rem;">
+    <li class="fragment" style="margin-bottom:0.5em;">Poincaré vince</li>
+    <li class="fragment" style="margin-bottom:0.5em;">Poi, mentre il suo saggio è già in stampa, si accorge di un errore: il sistema può essere <b>sensibilissimo</b> a variazioni minime</li>
+    <li class="fragment" style="margin-bottom:0;">Deve farsi ristampare tutta la tiratura della rivista, a proprie spese</li>
+  </ul>
   <p class="fragment mot-joke" style="margin-top: 1.5rem;">Il caos entra ufficialmente nella storia della scienza costando a un matematico più della cifra del premio che aveva appena vinto.</p>
   <aside class="notes">
     Il concorso matematico per il 60° compleanno di Oscar II di Svezia (1889) chiedeva di dimostrare la stabilità del sistema solare risolvendo il problema dei tre corpi. Poincaré presenta un lavoro che vince il premio, ma un revisore (Phragmén) nota un'incongruenza nella dimostrazione mentre il saggio è già in fase di stampa sulla rivista Acta Mathematica. Poincaré scava a fondo per correggere l'errore e scopre qualcosa di molto più profondo e sconvolgente di quanto pensasse: anche in un sistema di sole 3 masse soggette solo alla gravità (niente attrito, niente turbolenza, niente "rumore" esterno), piccolissime differenze nelle condizioni iniziali possono portare a evoluzioni completamente diverse nel tempo. Deve pagare di tasca propria per far ristampare l'intera tiratura della rivista già distribuita, con la versione corretta. Questo lavoro contiene, in nuce, tutti gli ingredienti della moderna teoria del caos — settant'anni prima di Lorenz — ma resta un episodio isolato, poco compreso, sepolto in un trattato di meccanica celeste che quasi nessuno legge fino in fondo. Ottimo aneddoto per creare suspense verso l'Atto II: "la crepa c'era già, semplicemente per settant'anni nessuno ci ha ripensato".

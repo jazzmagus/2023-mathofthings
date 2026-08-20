@@ -13,6 +13,43 @@ slides:
 ---
 
 <section class="mot-hero" data-transition="zoom">
+  <div class="hero-icon hero-icon-anim" style="margin: 0 auto 16px; width: 140px;">
+    <svg width="140" height="50" viewBox="0 0 140 50" aria-hidden="true">
+      <defs>
+        <filter id="hero-goo" x="-30" y="-30" width="200" height="110" filterUnits="userSpaceOnUse">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+          <feColorMatrix in="blur" mode="matrix"
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 20 -9" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+      </defs>
+      <g filter="url(#hero-goo)" fill="currentColor">
+        <circle cx="70" cy="25" r="16" />
+        <circle id="hero-icon-ball" cx="70" cy="25" r="6.5" />
+      </g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      var ball = document.getElementById('hero-icon-ball');
+      if (!ball) return;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) return;
+      var centerX = 70, amplitude = 40, duration = 1600, start = null;
+      function frame(ts) {
+        if (start === null) start = ts;
+        var elapsed = (ts - start) % (duration * 2);
+        var t = elapsed / duration;
+        var x = t < 1 ? -amplitude + amplitude * 2 * t : amplitude - amplitude * 2 * (t - 1);
+        ball.setAttribute('cx', centerX + x);
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+  </script>
   <p class="mot-kicker">quinto anno · avanzato</p>
   <h1>Il Calcolo <span class="math-word">Integrale</span></h1>
   <p class="mot-tagline">dalla domanda inversa della derivata all'<em>area sotto una curva</em></p>
@@ -53,7 +90,10 @@ slides:
   <p class="mot-kicker">un dettaglio cruciale</p>
   <h2>Infinite <em>primitive</em></h2>
   <p class="mot-def fragment">Se \(F(x)\) è una primitiva di \(f(x)\), anche \(F(x)+c\) lo è, per <b>qualunque</b> costante \(c\).</p>
-  <p class="fragment" style="font-size:0.78em">La derivata di una costante è zero: aggiungere \(c\) non cambia \(F'(x)\). Tutte le primitive di \(f\) differiscono solo per una costante additiva.</p>
+  <ul style="font-size:0.78em">
+    <li class="fragment" style="margin-bottom:0.5em;">La derivata di una costante è zero: aggiungere \(c\) non cambia \(F'(x)\)</li>
+    <li class="fragment" style="margin-bottom:0;">Tutte le primitive di \(f\) differiscono solo per una costante additiva</li>
+  </ul>
   <p class="mot-joke fragment">infinite curve, tutte "parallele" tra loro</p>
 </section>
 

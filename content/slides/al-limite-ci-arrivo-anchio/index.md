@@ -13,6 +13,43 @@ slides:
 ---
 
 <section class="mot-hero" data-transition="zoom">
+  <div class="hero-icon hero-icon-anim" style="margin: 0 auto 16px; width: 140px;">
+    <svg width="140" height="50" viewBox="0 0 140 50" aria-hidden="true">
+      <defs>
+        <filter id="hero-goo" x="-30" y="-30" width="200" height="110" filterUnits="userSpaceOnUse">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+          <feColorMatrix in="blur" mode="matrix"
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 20 -9" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+      </defs>
+      <g filter="url(#hero-goo)" fill="currentColor">
+        <circle cx="70" cy="25" r="16" />
+        <circle id="hero-icon-ball" cx="70" cy="25" r="6.5" />
+      </g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      var ball = document.getElementById('hero-icon-ball');
+      if (!ball) return;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) return;
+      var centerX = 70, amplitude = 40, duration = 1600, start = null;
+      function frame(ts) {
+        if (start === null) start = ts;
+        var elapsed = (ts - start) % (duration * 2);
+        var t = elapsed / duration;
+        var x = t < 1 ? -amplitude + amplitude * 2 * t : amplitude - amplitude * 2 * (t - 1);
+        ball.setAttribute('cx', centerX + x);
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+  </script>
   <p class="mot-kicker">un'introduzione poco seria</p>
   <h1>Al <span class="math-word">Limite</span>, Ci Arrivo Anch'io</h1>
   <p class="mot-tagline">tutto quello che sai già sui limiti, senza saperlo</p>
@@ -47,9 +84,11 @@ slides:
   <p class="mot-kicker">Elea, 450 a.C. circa</p>
   <h2>Achille e la Tartaruga</h2>
   <p class="mot-def fragment"><b>Zenone</b> propone una sfida: Achille, il più veloce dei Greci, fa una gara con una tartaruga. Per gentilezza, le dà 100 metri di vantaggio.</p>
-  <p class="fragment" style="font-size:0.8em">Achille corre. Ma quando raggiunge il punto dove partiva la tartaruga, lei si è già mossa un po' più avanti.</p>
-  <p class="fragment" style="font-size:0.8em">Quando Achille raggiunge <em>quel</em> punto, la tartaruga si è mossa ancora, anche se pochissimo.</p>
-  <p class="fragment" style="font-size:0.8em">E così via, <b>all'infinito</b>.</p>
+  <ul style="font-size:0.8em">
+    <li class="fragment" style="margin-bottom:0.5em;">Achille corre. Ma quando raggiunge il punto dove partiva la tartaruga, lei si è già mossa un po' più avanti</li>
+    <li class="fragment" style="margin-bottom:0.5em;">Quando Achille raggiunge <em>quel</em> punto, la tartaruga si è mossa ancora, anche se pochissimo</li>
+    <li class="fragment" style="margin-bottom:0;">E così via, <b>all'infinito</b></li>
+  </ul>
 </section>
 
 <section>

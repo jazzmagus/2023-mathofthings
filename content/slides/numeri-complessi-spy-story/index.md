@@ -13,6 +13,43 @@ slides:
 ---
 
 <section class="mot-hero" data-transition="zoom">
+  <div class="hero-icon hero-icon-anim" style="margin: 0 auto 16px; width: 140px;">
+    <svg width="140" height="50" viewBox="0 0 140 50" aria-hidden="true">
+      <defs>
+        <filter id="hero-goo" x="-30" y="-30" width="200" height="110" filterUnits="userSpaceOnUse">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+          <feColorMatrix in="blur" mode="matrix"
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 20 -9" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+      </defs>
+      <g filter="url(#hero-goo)" fill="currentColor">
+        <circle cx="70" cy="25" r="16" />
+        <circle id="hero-icon-ball" cx="70" cy="25" r="6.5" />
+      </g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      var ball = document.getElementById('hero-icon-ball');
+      if (!ball) return;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) return;
+      var centerX = 70, amplitude = 40, duration = 1600, start = null;
+      function frame(ts) {
+        if (start === null) start = ts;
+        var elapsed = (ts - start) % (duration * 2);
+        var t = elapsed / duration;
+        var x = t < 1 ? -amplitude + amplitude * 2 * t : amplitude - amplitude * 2 * (t - 1);
+        ball.setAttribute('cx', centerX + x);
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+  </script>
   <p class="mot-kicker">una storia di tradimenti e segreti</p>
   <h1>The <span class="math-word">Complex</span> Case</h1>
   <p class="mot-tagline">dalla scoperta dei numeri complessi al 1800</p>
@@ -39,8 +76,10 @@ slides:
   <p class="mot-kicker">Bologna, 1520</p>
   <h2>Il Segreto di Dal Ferro</h2>
   <p class="mot-def fragment">Un matematico bolognese, <b>Scipione Dal Ferro</b>, scopre come risolvere le equazioni cubiche della forma $x^3 + px = q$.</p>
-  <p class="fragment" style="font-size:0.8em">I Greci hanno risolto le equazioni di secondo grado duemila anni prima. Ma le <b>cubiche</b>? Ancora un mistero.</p>
-  <p class="fragment" style="font-size:0.8em">Dal Ferro scopre il metodo. Poi — e qui comincia la storia — <b>non lo pubblica</b>. Lo trasmette segretamente al suo allievo <b>Antonio Maria Fior</b>.</p>
+  <ul>
+    <li class="fragment" style="margin-bottom:0.5em; font-size:0.8em">I Greci hanno risolto le equazioni di secondo grado duemila anni prima. Ma le <b>cubiche</b>? Ancora un mistero.</li>
+    <li class="fragment" style="margin-bottom:0; font-size:0.8em">Dal Ferro scopre il metodo. Poi — e qui comincia la storia — <b>non lo pubblica</b>. Lo trasmette segretamente al suo allievo <b>Antonio Maria Fior</b>.</li>
+  </ul>
 </section>
 
 <section>
@@ -58,8 +97,10 @@ slides:
   <p class="mot-kicker">il colpo di scena</p>
   <h2>Perché le cubiche?</h2>
   <p class="mot-def fragment">Le equazioni di terzo grado non sono un capriccio accademico.</p>
-  <p class="fragment" style="font-size:0.8em">Gli eserciti le usano per <b>calcolare le traiettorie delle catapulte</b>. Nel Rinascimento, il controllo militare passa per la matematica.</p>
-  <p class="fragment" style="font-size:0.8em">Chi possiede la formula ha un vantaggio strategico. Da Ferro lo sa. Per questo la protegge.</p>
+  <ul>
+    <li class="fragment" style="margin-bottom:0.5em; font-size:0.8em">Gli eserciti le usano per <b>calcolare le traiettorie delle catapulte</b>. Nel Rinascimento, il controllo militare passa per la matematica.</li>
+    <li class="fragment" style="margin-bottom:0; font-size:0.8em">Chi possiede la formula ha un vantaggio strategico. Da Ferro lo sa. Per questo la protegge.</li>
+  </ul>
 </section>
 
 ---
@@ -93,8 +134,10 @@ slides:
 <section>
   <p class="mot-kicker">il risultato</p>
   <h2>La Vittoria Assoluta</h2>
-  <p class="fragment">Tartaglia vince tutte e trenta le sfide.</p>
-  <p class="fragment" style="font-size:0.8em">Fior? Zero su trenta. La matematica ha il suo vincitore.</p>
+  <ul>
+    <li class="fragment" style="margin-bottom:0.5em;">Tartaglia vince tutte e trenta le sfide.</li>
+    <li class="fragment" style="margin-bottom:0; font-size:0.8em">Fior? Zero su trenta. La matematica ha il suo vincitore.</li>
+  </ul>
   <p class="mot-joke fragment">Ma Tartaglia, con una saggezza che contrassegnerà tutta la sua vita, <b>non pubblica la formula</b>. La tiene per sé — per ora.</p>
 </section>
 
@@ -181,8 +224,10 @@ slides:
   <p class="mot-kicker">il colpo di scena</p>
   <h2>Il Tunnel Buio</h2>
   <p class="mot-def fragment">La formula contiene <b>radici quadrate di numeri negativi</b>.</p>
-  <p class="fragment" style="font-size:0.8em;">Eppure, l'equazione ha una soluzione reale: $x = 4$.</p>
-  <p class="fragment" style="font-size:0.8em;">È come se la formula passasse per un tunnel buio e imperscrutabile, e ne uscisse con la risposta corretta.</p>
+  <ul>
+    <li class="fragment" style="margin-bottom:0.5em; font-size:0.8em;">Eppure, l'equazione ha una soluzione reale: $x = 4$.</li>
+    <li class="fragment" style="margin-bottom:0; font-size:0.8em;">È come se la formula passasse per un tunnel buio e imperscrutabile, e ne uscisse con la risposta corretta.</li>
+  </ul>
   <p class="mot-joke fragment" style="font-size:0.75em;">Un'anomalia nel codice della realtà.</p>
 </section>
 
@@ -250,7 +295,10 @@ slides:
   <p class="mot-kicker">la conseguenza</p>
   <h2>Il Reale e l'Immaginario sono Intrecciati</h2>
   <p class="mot-def fragment">Bombelli riconosce una verità profonda: i numeri complessi non sono invenzioni. Sono strumenti per scoprire verità nascoste.</p>
-  <p class="fragment" style="font-size:0.8em; margin-top:1.5em;">Ma il mondo scientifico rimane scettico. Cartesio chiama questi numeri "immaginari" con tono dispregiativo. Significa: "Figmenti dell'immaginazione, non veri numeri".</p>
+  <ul style="margin-top:1.5em;">
+    <li class="fragment" style="margin-bottom:0.5em; font-size:0.8em;">Ma il mondo scientifico rimane scettico: Cartesio chiama questi numeri "immaginari" con tono dispregiativo.</li>
+    <li class="fragment" style="margin-bottom:0; font-size:0.8em;">Significa: "Figmenti dell'immaginazione, non veri numeri".</li>
+  </ul>
 </section>
 
 ---

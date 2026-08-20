@@ -13,6 +13,43 @@ slides:
 ---
 
 <section class="mot-hero" data-background-color="#ed6f5c" data-transition="zoom">
+  <div class="hero-icon hero-icon-anim" style="margin: 0 auto 16px; width: 140px;">
+    <svg width="140" height="50" viewBox="0 0 140 50" aria-hidden="true">
+      <defs>
+        <filter id="hero-goo" x="-30" y="-30" width="200" height="110" filterUnits="userSpaceOnUse">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+          <feColorMatrix in="blur" mode="matrix"
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 20 -9" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+      </defs>
+      <g filter="url(#hero-goo)" fill="currentColor">
+        <circle cx="70" cy="25" r="16" />
+        <circle id="hero-icon-ball" cx="70" cy="25" r="6.5" />
+      </g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      var ball = document.getElementById('hero-icon-ball');
+      if (!ball) return;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) return;
+      var centerX = 70, amplitude = 40, duration = 1600, start = null;
+      function frame(ts) {
+        if (start === null) start = ts;
+        var elapsed = (ts - start) % (duration * 2);
+        var t = elapsed / duration;
+        var x = t < 1 ? -amplitude + amplitude * 2 * t : amplitude - amplitude * 2 * (t - 1);
+        ball.setAttribute('cx', centerX + x);
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+  </script>
   <div id="particles-prob-hero" class="bg-particles" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
   <p class="mot-kicker" style="color: white; position: relative; z-index: 10;">matematica per il triennio</p>
   <h1 style="color: white; position: relative; z-index: 10;">Calcolo delle <span class="math-word" style="color: white; font-style: italic;">Probabilità</span></h1>
@@ -157,7 +194,10 @@ slides:
     <p class="mot-result" style="font-size: 1.1em">$$P(\text{vinci}) = \frac{1}{37} \approx 2.7\%$$</p>
     <p style="font-size: 0.9em; margin-top: 0.5rem;">Ma se vinci, il casinò ti paga solo 35 volte la puntata!</p>
   </div>
-  <p class="fragment" style="font-size: 0.85em; margin-top: 1.5rem;"><b>Dovrebbe pagarti 36 volte</b> (37 − 1 per la puntata). Lui ne paga solo 35. Ecco il guadagno del casinò!</p>
+  <ul style="margin-top: 1.5rem;">
+    <li class="fragment" style="margin-bottom:0.5em; font-size: 0.85em;"><b>Dovrebbe pagarti 36 volte</b> (37 − 1 per la puntata)</li>
+    <li class="fragment" style="margin-bottom:0; font-size: 0.85em;">Lui ne paga solo 35: ecco il guadagno del casinò!</li>
+  </ul>
   <p class="mot-joke fragment" style="margin-top: 1rem;">Il casinò non è truccato. È matematicamente sleale.</p>
 </section>
 
@@ -172,7 +212,10 @@ slides:
   </div>
   <p class="fragment mot-result">$$E = \frac{1}{37} \cdot 35 + \frac{36}{37} \cdot (-1) =$$</p>
   <p class="fragment mot-result">$$= \frac{35 - 36}{37} = -\frac{1}{37} \approx -0.027$$</p>
-  <p class="fragment" style="font-size: 0.85em; margin-top: 1rem;">In media, <b>perdi 2.7 centesimi ogni volta</b> che punti 1 euro. Su 1000 scommesse: 27 euro in meno.</p>
+  <ul style="margin-top: 1rem;">
+    <li class="fragment" style="margin-bottom:0.5em; font-size: 0.85em;">In media, <b>perdi 2.7 centesimi ogni volta</b> che punti 1 euro</li>
+    <li class="fragment" style="margin-bottom:0; font-size: 0.85em;">Su 1000 scommesse: 27 euro in meno</li>
+  </ul>
 </section>
 
 <section>

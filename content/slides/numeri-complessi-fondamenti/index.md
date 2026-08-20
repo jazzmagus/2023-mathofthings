@@ -13,6 +13,43 @@ slides:
 ---
 
 <section class="mot-hero" data-transition="zoom">
+  <div class="hero-icon hero-icon-anim" style="margin: 0 auto 16px; width: 140px;">
+    <svg width="140" height="50" viewBox="0 0 140 50" aria-hidden="true">
+      <defs>
+        <filter id="hero-goo" x="-30" y="-30" width="200" height="110" filterUnits="userSpaceOnUse">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+          <feColorMatrix in="blur" mode="matrix"
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 20 -9" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+      </defs>
+      <g filter="url(#hero-goo)" fill="currentColor">
+        <circle cx="70" cy="25" r="16" />
+        <circle id="hero-icon-ball" cx="70" cy="25" r="6.5" />
+      </g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      var ball = document.getElementById('hero-icon-ball');
+      if (!ball) return;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) return;
+      var centerX = 70, amplitude = 40, duration = 1600, start = null;
+      function frame(ts) {
+        if (start === null) start = ts;
+        var elapsed = (ts - start) % (duration * 2);
+        var t = elapsed / duration;
+        var x = t < 1 ? -amplitude + amplitude * 2 * t : amplitude - amplitude * 2 * (t - 1);
+        ball.setAttribute('cx', centerX + x);
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+  </script>
   <p class="mot-kicker">quinto anno — corso pro</p>
   <h1>I Numeri <span class="math-word">Complessi</span></h1>
   <p class="mot-tagline">dalla necessit&agrave; algebrica alla struttura <em>geometrica</em></p>
@@ -38,7 +75,10 @@ slides:
   <p class="mot-kicker">un'equazione impossibile</p>
   <h2>$x^2 + 1 = 0$</h2>
   <p class="mot-def fragment">Nell'insieme $\mathbb{R}$ questa equazione <b>non ha soluzioni</b>: nessun quadrato reale &egrave; negativo.</p>
-  <p class="fragment" style="font-size:0.8em">Ma i Greci gi&agrave; risolvevano le equazioni di secondo grado. Nel Rinascimento, con le equazioni <b>cubiche</b>, il problema diventa urgente: certe formule richiedono radici di numeri negativi anche quando la soluzione finale &egrave; reale.</p>
+  <ul>
+    <li class="fragment" style="margin-bottom:0.5em;">Ma i Greci gi&agrave; risolvevano le equazioni di secondo grado</li>
+    <li class="fragment" style="margin-bottom:0;">Nel Rinascimento, con le equazioni <b>cubiche</b>, il problema diventa urgente: certe formule richiedono radici di numeri negativi anche quando la soluzione finale &egrave; reale</li>
+  </ul>
   <p class="mot-joke fragment">un'equazione che chiede aiuto a un numero che non esiste — ancora</p>
 </section>
 
@@ -176,8 +216,10 @@ slides:
 <section>
   <p class="mot-kicker">geometria delle radici</p>
   <h2>Vertici di un poligono regolare</h2>
-  <p class="fragment" style="font-size:0.8em">Le $n$ radici $n$-esime hanno tutte lo stesso modulo $\sqrt[n]\rho$, e i loro argomenti differiscono di $2\pi/n$: formano i vertici di un <b>poligono regolare</b> di $n$ lati.</p>
-  <p class="fragment" style="font-size:0.75em">Esempio: le radici quarte di 1 sono $1, i, -1, -i$ — i vertici di un quadrato inscritto nella circonferenza unitaria.</p>
+  <ul>
+    <li class="fragment" style="margin-bottom:0.5em;">Le $n$ radici $n$-esime hanno tutte lo stesso modulo $\sqrt[n]\rho$, e i loro argomenti differiscono di $2\pi/n$: formano i vertici di un <b>poligono regolare</b> di $n$ lati</li>
+    <li class="fragment" style="margin-bottom:0;">Esempio: le radici quarte di 1 sono $1, i, -1, -i$ — i vertici di un quadrato inscritto nella circonferenza unitaria</li>
+  </ul>
 </section>
 
 ---

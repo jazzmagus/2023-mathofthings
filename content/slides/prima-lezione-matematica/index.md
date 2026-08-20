@@ -13,6 +13,43 @@ slides:
 ---
 
 <section class="mot-hero" data-transition="zoom">
+  <div class="hero-icon hero-icon-anim" style="margin: 0 auto 16px; width: 140px;">
+    <svg width="140" height="50" viewBox="0 0 140 50" aria-hidden="true">
+      <defs>
+        <filter id="hero-goo" x="-30" y="-30" width="200" height="110" filterUnits="userSpaceOnUse">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+          <feColorMatrix in="blur" mode="matrix"
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 20 -9" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+      </defs>
+      <g filter="url(#hero-goo)" fill="currentColor">
+        <circle cx="70" cy="25" r="16" />
+        <circle id="hero-icon-ball" cx="70" cy="25" r="6.5" />
+      </g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      var ball = document.getElementById('hero-icon-ball');
+      if (!ball) return;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) return;
+      var centerX = 70, amplitude = 40, duration = 1600, start = null;
+      function frame(ts) {
+        if (start === null) start = ts;
+        var elapsed = (ts - start) % (duration * 2);
+        var t = elapsed / duration;
+        var x = t < 1 ? -amplitude + amplitude * 2 * t : amplitude - amplitude * 2 * (t - 1);
+        ball.setAttribute('cx', centerX + x);
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+  </script>
   <p class="mot-kicker">inizio anno scolastico</p>
   <h1>La <em>prima</em> <span class="math-word">lezione</span> di matematica</h1>
   <p class="mot-tagline">la matematica non è imparare formule a memoria, ma collegare <em>concetti</em></p>
@@ -132,7 +169,11 @@ slides:
     <em>Questi sono i miei principi. Se non vi piacciono, ne ho altri.</em>
     <span class="quote-attr">&mdash; Groucho Marx</span>
   </blockquote>
-  <p class="fragment">Come si svolge una lezione tipo, quali sono gli strumenti didattici che useremo insieme durante l'anno, e cosa mi aspetto da voi in classe.</p>
+  <ul>
+    <li class="fragment" style="margin-bottom:0.5em;">Come si svolge una lezione tipo</li>
+    <li class="fragment" style="margin-bottom:0.5em;">Quali sono gli strumenti didattici che useremo insieme durante l'anno</li>
+    <li class="fragment" style="margin-bottom:0;">Cosa mi aspetto da voi in classe</li>
+  </ul>
 </section>
 
 <section>

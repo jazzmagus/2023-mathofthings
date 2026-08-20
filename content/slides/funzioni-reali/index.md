@@ -13,6 +13,43 @@ slides:
 ---
 
 <section class="mot-hero" data-transition="zoom">
+  <div class="hero-icon hero-icon-anim" style="margin: 0 auto 16px; width: 140px;">
+    <svg width="140" height="50" viewBox="0 0 140 50" aria-hidden="true">
+      <defs>
+        <filter id="hero-goo" x="-30" y="-30" width="200" height="110" filterUnits="userSpaceOnUse">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+          <feColorMatrix in="blur" mode="matrix"
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 20 -9" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+      </defs>
+      <g filter="url(#hero-goo)" fill="currentColor">
+        <circle cx="70" cy="25" r="16" />
+        <circle id="hero-icon-ball" cx="70" cy="25" r="6.5" />
+      </g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      var ball = document.getElementById('hero-icon-ball');
+      if (!ball) return;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) return;
+      var centerX = 70, amplitude = 40, duration = 1600, start = null;
+      function frame(ts) {
+        if (start === null) start = ts;
+        var elapsed = (ts - start) % (duration * 2);
+        var t = elapsed / duration;
+        var x = t < 1 ? -amplitude + amplitude * 2 * t : amplitude - amplitude * 2 * (t - 1);
+        ball.setAttribute('cx', centerX + x);
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+  </script>
   <p class="mot-kicker">matematica per il biennio</p>
   <h1>Relazioni e <span class="math-word">Funzioni</span></h1>
   <p class="mot-tagline">di variabile <em>reale</em></p>
@@ -120,8 +157,11 @@ slides:
 <section>
   <p class="mot-kicker">dividere il lavoro</p>
   <h2>Come riconosciamo una funzione</h2>
-  <p class="fragment">Lo studio di una funzione è il percorso che va da un'equazione matematica al suo <b>grafico</b>. Per affrontarlo con metodo, prima classifichiamo la funzione: sapere che cosa stiamo cercando facilita la ricerca.</p>
-  <p class="fragment" style="font-size:0.75em">La classificazione risponde a una semplice domanda: <em>che tipo di operazioni contiene?</em> Una funzione può essere <b>algebrica</b> (solo operazioni algebriche) oppure <b>trascendente</b> (esponenziali, logaritmi, trigonometria).</p>
+  <ul>
+    <li class="fragment" style="margin-bottom:0.5em;">Lo studio di una funzione è il percorso che va da un'equazione matematica al suo <b>grafico</b></li>
+    <li class="fragment" style="margin-bottom:0.5em;">Per affrontarlo con metodo, prima classifichiamo la funzione: sapere che cosa stiamo cercando facilita la ricerca</li>
+    <li class="fragment" style="margin-bottom:0;">La classificazione risponde a una semplice domanda, <em>che tipo di operazioni contiene?</em> Una funzione può essere <b>algebrica</b> (solo operazioni algebriche) oppure <b>trascendente</b> (esponenziali, logaritmi, trigonometria)</li>
+  </ul>
 </section>
 
 <section>
@@ -152,9 +192,11 @@ slides:
 <section>
   <p class="mot-kicker">il perché</p>
   <h2>Lo studio di <em>funzione</em></h2>
-  <p class="fragment">Partire da un'equazione — magari complicata — e arrivare a un grafico è il cuore dell'analisi: vedere la forma della curva è capire il comportamento della funzione.</p>
-  <p class="fragment" style="font-size:0.8em">Chiediti sempre: dove cresce? Dove decresce? Ha simmetrie? Ha asintoti? Che cosa accade agli estremi del dominio? La risposta a queste domande è il <b>disegno del grafico</b>.</p>
-  <p class="fragment" style="font-size:0.8em">E il disegno, a sua volta, è lo strumento che <em>spiega</em> la realtà: modelli di popolazione, curve di raffreddamento, ondate di prezzo — tutto ciò che oscilla, cresce, decresce o tende a un limite ha una funzione dietro.</p>
+  <ul>
+    <li class="fragment" style="margin-bottom:0.5em;">Partire da un'equazione — magari complicata — e arrivare a un grafico è il cuore dell'analisi: vedere la forma della curva è capire il comportamento della funzione</li>
+    <li class="fragment" style="margin-bottom:0.5em;">Chiediti sempre: dove cresce? Dove decresce? Ha simmetrie? Ha asintoti? Che cosa accade agli estremi del dominio? La risposta a queste domande è il <b>disegno del grafico</b></li>
+    <li class="fragment" style="margin-bottom:0;">E il disegno, a sua volta, è lo strumento che <em>spiega</em> la realtà: modelli di popolazione, curve di raffreddamento, ondate di prezzo — tutto ciò che oscilla, cresce, decresce o tende a un limite ha una funzione dietro</li>
+  </ul>
 </section>
 
 <section>
