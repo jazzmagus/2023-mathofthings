@@ -91,6 +91,10 @@ body.dark-mode .example {
 
 ul, ol { margin: 10px 0 10px 22px; }
 li { margin: 4px 0; }
+
+a { color: #ed6f5c; }
+a:hover { text-decoration: none; }
+body.dark-mode a { color: #f08e7c; }
 strong { font-weight: 700; }
 
 table {
