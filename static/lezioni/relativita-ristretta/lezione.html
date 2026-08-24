@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Relatività Ristretta — Quinto anno</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #3a6b8c; --accent-light: #e8f0f5;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:2px; overflow-x:auto; flex:1; align-items:center; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.78rem; color:var(--text-dim); padding:6px 11px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.nav-group {
+  font-family:'Fira Code',monospace; font-size:.62rem; color:var(--text-dim);
+  padding:0 8px; letter-spacing:1px; border-left:1px solid var(--border); margin-left:4px;
+  white-space:nowrap;
+}
+.nav-group:first-child { border-left:none; margin-left:0; }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.part-label { font-family:'Fira Code',monospace; font-size:.68rem; text-transform:uppercase; color:var(--purple); letter-spacing:1.5px; margin-bottom:6px; font-weight:600; }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.1rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.87rem; }
+.ct th { text-align:left; padding:10px 12px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.72rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 12px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.hero-img-wrap { margin:0 0 28px; border-radius:var(--radius); overflow:hidden; }
+.hero-img-wrap img { width:100%; display:block; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.6rem; } .acc-inner { padding:4px 0 16px 14px; } .ct { font-size:.8rem; } }
+@media print {
+  .topbar, .bottom-nav { display:none !important; }
+  .container { padding:20px 24px; max-width:100%; }
+  .section { display:block !important; page-break-after: always; }
+  .section:last-child { page-break-after: auto; }
+  .acc-body { max-height:none !important; }
+  .acc-arrow { display:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quinto anno · Relatività ristretta</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/lezioni/relativita-ristretta/relativita-ristretta.pdf" class="topbar-home" target="_blank">PDF ↓</a>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+
+{
+  part:"Parte I — La crisi e i postulati",
+  tag:"1887 · UN RISULTATO NEGATIVO",
+  title:"L'enigma dell'<em>etere</em>",
+  nav:"L'etere",
+  body:
+    '<div class="hero-img-wrap"><img src="featured.jpg" alt="Cono di luce nello spaziotempo"></div>' +
+    '<p>Nella lezione sulle equazioni di Maxwell abbiamo visto come, verso la fine dell\'Ottocento, la teoria elettromagnetica avesse previsto l\'esistenza della luce come onda elettromagnetica, con una velocità nel vuoto \\(c=1/\\sqrt{\\mu_0\\varepsilon_0}\\approx3\\times10^8\\) m/s. Ma un\'onda, si pensava allora, ha sempre bisogno di un mezzo in cui propagarsi — il suono ha bisogno dell\'aria, le onde del mare hanno bisogno dell\'acqua. Di cosa aveva bisogno la luce?</p>' +
+    '<div class="cb"><div class="cb-label">L\'ipotesi dell\'etere luminifero</div><p>I fisici ottocenteschi postularono l\'esistenza di un mezzo invisibile e impalpabile, che permeava tutto lo spazio (persino il vuoto interplanetario): l\'<strong>etere luminifero</strong>. La luce, secondo questa ipotesi, si sarebbe propagata rispetto all\'etere esattamente come il suono si propaga rispetto all\'aria — e la velocità \\(c\\) prevista da Maxwell sarebbe stata la velocità della luce <em>rispetto all\'etere</em>, non rispetto a un osservatore qualunque.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Un\'idea verificabile</div><p>Se l\'etere esiste ed è (più o meno) fermo nello spazio, e la Terra vi orbita attraverso muovendosi a circa \\(30\\) km/s attorno al Sole, allora un osservatore terrestre dovrebbe misurare velocità della luce leggermente diverse a seconda della direzione di misura: un po\' più veloce "controvento" rispetto al moto della Terra nell\'etere, un po\' più lenta "sottovento" — esattamente come un nuotatore in un fiume è più lento a risalire la corrente che a scenderla.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">1887 — l\'esperimento di Michelson e Morley</div><p>Albert Michelson ed Edward Morley costruirono uno strumento estremamente sensibile (un interferometro) capace di rilevare differenze minime nella velocità della luce lungo direzioni diverse, confrontando i tempi di andata e ritorno di due raggi di luce perpendicolari. Il risultato, ripetuto in mesi diversi dell\'anno (quindi con la Terra in punti diversi della sua orbita) fu, con enorme sorpresa dei due sperimentatori: <strong>nessuna differenza misurabile</strong>, entro la precisione dello strumento. La luce sembrava viaggiare esattamente alla stessa velocità in ogni direzione, indipendentemente dal moto della Terra.</p></div>' +
+    '<p>Fu uno dei risultati sperimentali "negativi" più famosi e più fecondi della storia della fisica: un esperimento pensato per <em>confermare</em> l\'esistenza dell\'etere finì, invece, per minarne le fondamenta. Per quasi vent\'anni i fisici tentarono spiegazioni sempre più complicate (contrazioni dell\'apparato, trascinamento parziale dell\'etere) per salvare l\'ipotesi. La soluzione definitiva sarebbe arrivata da tutt\'altra direzione.</p>' +
+    acc([
+      { t:"Domanda concettuale — l\'analogia del nuotatore", h:'<p>Perché l\'analogia del nuotatore in un fiume rende bene l\'idea di cosa ci si aspettava dall\'esperimento di Michelson-Morley, e perché il risultato ottenuto fu così sorprendente rispetto a questa aspettativa? <em>Traccia</em>: un nuotatore misura velocità diverse a seconda che nuoti a favore o contro corrente rispetto alla riva; ci si aspettava lo stesso per la luce rispetto all\'"etere in movimento" visto dalla Terra — ma la misura non mostrò alcuna differenza, come se non ci fosse nessuna corrente da tener conto.</p>' },
+      { t:"Per chi vuole andare oltre il programma", h:'<p>Cerca cosa si intende per "ipotesi ad hoc" in filosofia della scienza, e prova a collegarla ai tentativi (come la contrazione di Lorentz-FitzGerald, proposta prima di Einstein) di salvare l\'ipotesi dell\'etere aggiustandola per farla coincidere col risultato nullo di Michelson-Morley, invece di abbandonarla del tutto.</p>' }
+    ])
+},
+
+{
+  part:"Parte I — La crisi e i postulati",
+  tag:"1905 · L'ANNO MIRABILE",
+  title:"I due postulati di <em>Einstein</em>",
+  nav:"I postulati",
+  body:
+    '<p>Nel 1905 — lo stesso anno in cui pubblicò anche il lavoro sull\'effetto fotoelettrico e quello sul moto browniano — un impiegato ventiseienne dell\'ufficio brevetti di Berna, Albert Einstein, propose una soluzione radicale: non serviva salvare l\'etere con ipotesi sempre più artificiose. Bisognava semplicemente <strong>abbandonarlo</strong>, e prendere sul serio, fino in fondo, il risultato nullo di Michelson-Morley.</p>' +
+    '<div class="cb"><div class="cb-label">Primo postulato — principio di relatività</div><p>Le leggi della fisica hanno la <strong>stessa forma</strong> in tutti i sistemi di riferimento inerziali (cioè non accelerati). Non esiste nessun esperimento, condotto interamente all\'interno di un laboratorio chiuso, capace di rivelare se quel laboratorio è "fermo" o si muove di moto rettilineo uniforme — non esiste, insomma, un sistema di riferimento privilegiato, un "etere" a riposo assoluto rispetto a cui misurare ogni altro moto.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Secondo postulato — costanza della velocità della luce</div><p>La velocità della luce nel vuoto, \\(c\\), ha lo <strong>stesso valore per tutti gli osservatori inerziali</strong>, indipendentemente dal moto della sorgente che l\'ha emessa o dal moto dell\'osservatore che la misura.</p></div>' +
+    '<div class="cb danger"><div class="cb-label">Perché questo è così strano</div><p>Nella meccanica di Newton, le velocità si sommano semplicemente: se lanci una palla a \\(10\\) m/s da un treno che viaggia a \\(20\\) m/s, un osservatore a terra la vede muoversi a \\(30\\) m/s. Il secondo postulato dice che questo <strong>non vale per la luce</strong>: se accendi una torcia su un\'astronave che viaggia al \\(90\\%\\) della velocità della luce, sia tu (sull\'astronave) sia un osservatore fermo a terra misurate <em>esattamente la stessa</em> velocità \\(c\\) per quella luce — non \\(c\\) più la velocità dell\'astronave. È un\'affermazione che sembra logicamente assurda, eppure è stata confermata da ogni esperimento condotto da più di un secolo a questa parte.</p></div>' +
+    '<p>Einstein non stava proponendo una piccola correzione tecnica: stava chiedendo di riscrivere da zero i concetti di spazio e tempo, considerati fino ad allora assoluti e universali fin dai tempi di Newton. Le conseguenze di questi due postulati, apparentemente innocui, si sarebbero rivelate radicali, ed è a queste conseguenze che sono dedicate le prossime schede.</p>' +
+    acc([
+      { t:"Domanda concettuale — perché serviva abbandonare l\'etere", h:'<p>In che modo il primo postulato di Einstein rende superfluo il concetto di etere come "sistema di riferimento a riposo assoluto"? <em>Traccia</em>: se nessun esperimento può mai distinguere un sistema di riferimento inerziale "fermo" da uno "in moto uniforme", non ha più senso cercare un sistema privilegiato (l\'etere) rispetto a cui definire il moto assoluto — ogni sistema inerziale è ugualmente legittimo.</p>' },
+      { t:"Esercizio concettuale — la torcia sull\'astronave", h:'<p>Un\'astronave viaggia al \\(80\\%\\) di \\(c\\) rispetto alla Terra. Un passeggero a bordo accende una torcia puntata in avanti. Quale velocità misura, per quella luce, il passeggero a bordo? E quale velocità la misura un osservatore fermo sulla Terra? <em>Traccia</em>: entrambi misurano esattamente \\(c\\) — non \\(c+0{,}8c=1{,}8c\\) come direbbe l\'intuizione newtoniana. È proprio questo il contenuto (sorprendente) del secondo postulato.</p>' }
+    ])
+},
+
+{
+  part:"Parte I — La crisi e i postulati",
+  tag:"CONSEGUENZA IMMEDIATA",
+  title:"La relatività della <em>simultaneità</em>",
+  nav:"Simultaneità",
+  body:
+    '<p>La prima e più immediata vittima dei due postulati è un\'idea che sembrava ovvia a chiunque: che due eventi possano essere oggettivamente "simultanei", cioè accadere nello stesso istante, indipendentemente da chi li osserva.</p>' +
+    '<div class="cb"><div class="cb-label">L\'esperimento mentale del treno di Einstein</div><p>Immagina un treno molto lungo, in moto a velocità costante, con un osservatore \\(M\'\\) seduto esattamente al centro della carrozza. Nell\'istante in cui \\(M\'\\) passa davanti a un osservatore \\(M\'\'\\) fermo sul marciapiede, due fulmini colpiscono contemporaneamente le due estremità del treno — contemporaneamente, cioè, <strong>secondo l\'osservatore a terra</strong> \\(M\'\'\\), che si trova a uguale distanza da entrambi i punti d\'impatto.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Cosa vede l\'osservatore sul treno</div><p>La luce dei due lampi impiega lo stesso tempo per raggiungere \\(M\'\'\\) (fermo, a uguale distanza da entrambi), quindi \\(M\'\'\\) li percepisce davvero come simultanei. Ma \\(M\'\\), seduto al centro del treno, nel frattempo si sta muovendo <em>verso</em> il lampo anteriore e <em>allontanandosi</em> da quello posteriore: la luce del lampo anteriore ha meno strada da percorrere per raggiungerlo, quella del lampo posteriore ne ha di più. Risultato: \\(M\'\) vede il lampo anteriore <strong>prima</strong> di quello posteriore — per lui, i due eventi <em>non</em> sono simultanei.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Non è un\'illusione ottica</div><p>Questo non è un semplice "ritardo apparente" dovuto al tempo di percorrenza della luce, correggibile con un calcolo — è una conclusione più profonda: <strong>la simultaneità di due eventi dipende dallo stato di moto dell\'osservatore</strong>. Non esiste un "adesso" universale, condiviso da tutti gli osservatori dell\'universo, come pensava implicitamente Newton. Ogni osservatore inerziale ha il proprio, legittimo, giudizio su quali eventi siano simultanei — e osservatori in moto relativo tra loro, in generale, non sono d\'accordo.</p></div>' +
+    '<p>Questa scoperta, di per sé, potrebbe già bastare per una lezione intera. Ma è solo l\'inizio: se la simultaneità è relativa, anche la misura del <strong>tempo trascorso</strong> tra due eventi e la misura delle <strong>lunghezze</strong> nello spazio devono, per coerenza, dipendere dall\'osservatore. Sono le prossime due schede.</p>' +
+    acc([
+      { t:"Domanda concettuale — chi ha ragione?", h:'<p>Nell\'esperimento del treno, chi ha "ragione" sulla simultaneità dei due fulmini: l\'osservatore a terra o quello sul treno? <em>Traccia</em>: nessuno dei due sbaglia. Entrambi applicano correttamente gli stessi due postulati al proprio sistema di riferimento; la simultaneità stessa, semplicemente, non è una proprietà assoluta degli eventi, ma dipende da chi la misura.</p>' },
+      { t:"Per chi vuole andare oltre il programma", h:'<p>Prova a ricostruire, con parole tue, perché nell\'esperimento del treno la conclusione dipenderebbe in modo cruciale dal fatto che la velocità della luce sia la stessa per entrambi gli osservatori (secondo postulato) — cosa cambierebbe, nel ragionamento, se le velocità si sommassero "alla Newton"?</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Dilatazione, contrazione, trasformazioni",
+  tag:"L'OROLOGIO CHE RALLENTA",
+  title:"La dilatazione dei <em>tempi</em>",
+  nav:"Dilatazione tempi",
+  body:
+    '<p>Se la simultaneità è relativa, anche la durata di un intervallo di tempo tra due eventi deve dipendere dall\'osservatore. La conseguenza — verificata sperimentalmente innumerevoli volte — è tanto sorprendente quanto ben definita quantitativamente.</p>' +
+    '<div class="cb"><div class="cb-label">Tempo proprio</div><p>Si chiama <strong>tempo proprio</strong> \\(\\Delta t_0\\) l\'intervallo di tempo tra due eventi misurato da un osservatore per cui i due eventi accadono <em>nello stesso punto dello spazio</em> (per esempio, il tempo segnato da un orologio che porti con sé, senza bisogno di confrontarlo con un altro orologio lontano).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Dilatazione dei tempi</div><p>Un osservatore rispetto a cui quell\'orologio si muove con velocità \\(v\\) misura, per lo stesso intervallo, un tempo <strong>più lungo</strong>:</p><div class="math-block hero-formula">\\[ \\Delta t = \\gamma\\,\\Delta t_0 \\qquad \\text{con}\\quad \\gamma = \\frac{1}{\\sqrt{1-v^2/c^2}} \\]</div><p>Il fattore \\(\\gamma\\) (detto <strong>fattore di Lorentz</strong>) è sempre \\(\\geq 1\\), e cresce rapidamente man mano che \\(v\\) si avvicina a \\(c\\): per velocità ordinarie (auto, aerei) \\(\\gamma\\) è indistinguibile da \\(1\\), ma per velocità prossime a \\(c\\) diverge verso l\'infinito.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Non è un difetto dell\'orologio</div><p>Non si tratta di un orologio che "funziona male" per effetto del moto: ogni fenomeno fisico — il battito cardiaco, il decadimento radioattivo, l\'invecchiamento biologico — rallenta allo stesso modo, visto da un osservatore rispetto a cui l\'oggetto si muove. È il <strong>tempo stesso</strong>, per quell\'osservatore, a scorrere più lentamente per l\'oggetto in moto — non un difetto meccanico di un singolo strumento di misura.</p></div>' +
+    '<img src="orologio-luce.png" alt="Orologio a luce: un fotone rimbalza tra due specchi, visto da un osservatore a bordo e da uno a terra rispetto a cui l\'orologio si muove" style="width:100%;height:auto;display:block;margin:1.5rem 0;">' +
+    '<div class="cb tip"><div class="cb-label">Un modo semplice per "vedere" perché accade — l\'orologio a luce</div><p>Immagina un orologio fatto da un fotone che rimbalza avanti e indietro tra due specchi paralleli, a distanza \\(d\\): ogni "tic" corrisponde a un rimbalzo. Per un osservatore a bordo, il fotone percorre semplicemente \\(2d\\) ad ogni tic. Per un osservatore rispetto a cui l\'orologio si muove lateralmente, il fotone deve percorrere un tragitto <em>a zig-zag</em>, più lungo di \\(2d\\) — ma la sua velocità resta \\(c\\) per entrambi gli osservatori (secondo postulato!). Un percorso più lungo, alla stessa velocità, richiede più tempo: è esattamente la dilatazione dei tempi, ricavata qui con un semplice teorema di Pitagora invece che con le trasformazioni di Lorentz complete.</p></div>' +
+    '<div class="cb success"><div class="cb-label">Una conferma già "in natura" — i muoni cosmici</div><p>I muoni sono particelle instabili, prodotte in alta atmosfera (a circa \\(15\\) km di quota) dall\'impatto dei raggi cosmici, con un tempo di vita medio proprio di soli \\(\\tau_0\\approx2{,}2\\ \\mu\\)s e velocità tipiche attorno a \\(v\\approx0{,}98\\,c\\). Senza dilatazione dei tempi, nella loro breve vita percorrerebbero in media meno di un chilometro — troppo poco per raggiungere la superficie terrestre in quantità apprezzabile. Ma calcolando \\(\\gamma\\approx5\\) per questa velocità, il loro tempo di vita <em>misurato da un osservatore a terra</em> si dilata a circa \\(11\\ \\mu\\)s, sufficiente a percorrere oltre \\(3\\) km — ed è esattamente per questo che i rivelatori di muoni a livello del mare ne registrano un numero enorme ogni giorno.</p></div>' +
+    acc([
+      { t:"Esercizio — dilatazione dei tempi", h:'<p>Un\'astronave viaggia a \\(v=0{,}8\\,c\\) rispetto alla Terra. Per un osservatore a terra passano \\(\\Delta t=10\\) s. Quanto tempo proprio \\(\\Delta t_0\\) è trascorso, nello stesso intervallo, per un orologio a bordo dell\'astronave? <em>Traccia</em>: \\(\\gamma=1/\\sqrt{1-0{,}64}=1/\\sqrt{0{,}36}=1/0{,}6\\approx1{,}667\\); da \\(\\Delta t=\\gamma\\Delta t_0\\) si ricava \\(\\Delta t_0=\\Delta t/\\gamma=10\\cdot0{,}6=6\\) s.</p>' },
+      { t:"Domanda concettuale — chi invecchia di meno?", h:'<p>Se tu resti sulla Terra e un gemello parte su un\'astronave a velocità prossima a \\(c\\), tornando poi indietro, chi dei due sarà più giovane al ritrovo? <em>Traccia</em>: è il celebre "paradosso dei gemelli" — il gemello che viaggia (che deve accelerare per invertire la rotta, uscendo quindi dal caso puramente inerziale trattato in questa lezione) risulta più giovane al ritorno. Non è un vero paradosso logico, ma richiede di considerare con attenzione l\'asimmetria tra i due gemelli.</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Dilatazione, contrazione, trasformazioni",
+  tag:"IL RIGHELLO CHE SI ACCORCIA",
+  title:"La contrazione delle <em>lunghezze</em>",
+  nav:"Contrazione lunghezze",
+  body:
+    '<p>Se il tempo misurato dipende dall\'osservatore, per coerenza logica (e per la struttura stessa dei due postulati) anche le lunghezze spaziali devono dipendere da chi le misura.</p>' +
+    '<div class="cb"><div class="cb-label">Lunghezza propria</div><p>Si chiama <strong>lunghezza propria</strong> \\(L_0\\) la lunghezza di un oggetto misurata da un osservatore <em>a riposo</em> rispetto all\'oggetto stesso (per esempio, la lunghezza di un\'astronave misurata da un passeggero a bordo, con un metro portato con sé).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Contrazione delle lunghezze</div><p>Un osservatore rispetto a cui l\'oggetto si muove con velocità \\(v\\), <strong>nella direzione del moto</strong>, misura una lunghezza <strong>più corta</strong>:</p><div class="math-block hero-formula">\\[ L = \\frac{L_0}{\\gamma} = L_0\\sqrt{1-\\frac{v^2}{c^2}} \\]</div><p>La contrazione avviene <strong>solo</strong> nella direzione del moto: le dimensioni perpendicolari al moto restano invariate (un\'astronave in moto "si accorcia" nella direzione di volo, ma non cambia larghezza né altezza).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Due facce della stessa medaglia</div><p>Dilatazione dei tempi e contrazione delle lunghezze non sono due effetti indipendenti: sono due manifestazioni della stessa, unica ridefinizione di spazio e tempo imposta dai postulati di Einstein. Non è un caso che in entrambe le formule compaia lo stesso identico fattore \\(\\gamma\\).</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Anche questa non è un\'illusione</div><p>Come per la dilatazione dei tempi, non si tratta di un effetto ottico o di un errore di misura correggibile: è lo spazio stesso, per l\'osservatore rispetto a cui l\'oggetto si muove, a essere "più corto" in quella direzione. Un osservatore a bordo dell\'astronave, dal canto suo, non nota nessuna contrazione su di sé — per lui è il mondo esterno, in moto rispetto a lui, ad apparire contratto.</p></div>' +
+    acc([
+      { t:"Esercizio — contrazione di un\'astronave", h:'<p>Un\'astronave, lunga \\(L_0=100\\) m quando è a riposo, viaggia a \\(v=0{,}6\\,c\\). Quale lunghezza misura, per l\'astronave, un osservatore fermo a terra? <em>Traccia</em>: \\(\\gamma=1/\\sqrt{1-0{,}36}=1/\\sqrt{0{,}64}=1/0{,}8=1{,}25\\); \\(L=L_0/\\gamma=100/1{,}25=80\\) m.</p>' },
+      { t:"Domanda concettuale — la simmetria della relatività", h:'<p>Un osservatore sull\'astronave dell\'esercizio precedente guarda invece la Terra allontanarsi a \\(v=0{,}6\\,c\\): misura anche lui una contrazione, applicata questa volta alla Terra (e alla distanza percorsa)? <em>Traccia</em>: sì — per il principio di relatività (primo postulato), non esiste un osservatore "privilegiato": ciascuno dei due vede l\'altro (e le distanze nel sistema dell\'altro) contratte, in modo perfettamente simmetrico.</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Dilatazione, contrazione, trasformazioni",
+  tag:"OLTRE GALILEO",
+  title:"Le trasformazioni di <em>Lorentz</em>",
+  nav:"Trasformazioni",
+  body:
+    '<p>Dilatazione dei tempi e contrazione delle lunghezze sono casi particolari di una trasformazione più generale, che sostituisce le vecchie <strong>trasformazioni di Galileo</strong> della meccanica classica (dove semplicemente \\(x\'=x-vt\\) e \\(t\'=t\\), col tempo considerato universale) con una versione compatibile con i due postulati di Einstein.</p>' +
+    '<div class="cb"><div class="cb-label">Le trasformazioni di Lorentz</div><p>Per un sistema \\(S\'\\) che si muove con velocità \\(v\\) lungo l\'asse \\(x\\) rispetto a un sistema \\(S\\), le coordinate di uno stesso evento nei due sistemi sono legate da:</p><div class="math-block hero-formula">\\[ x\' = \\gamma\\,(x - v t) \\qquad\\qquad t\' = \\gamma\\left(t - \\frac{v x}{c^2}\\right) \\]</div><p>Non si tratta di formule da imparare a memoria in questa sede, ma della struttura da cui, con un po\' di algebra, discendono sia la dilatazione dei tempi sia la contrazione delle lunghezze viste nelle due schede precedenti — sono conseguenze matematiche di queste trasformazioni, non ipotesi indipendenti aggiunte a mano.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Un dettaglio da non perdere — il tempo compare nello spazio</div><p>Guarda la seconda equazione: la coordinata temporale \\(t\'\\) dipende anche dalla posizione spaziale \\(x\\) del sistema \\(S\\). Questo formalizza esattamente la relatività della simultaneità: due eventi con lo stesso \\(t\\) ma \\(x\\) diverso (simultanei in \\(S\\)) in generale <em>non</em> hanno lo stesso \\(t\'\\) — non sono simultanei in \\(S\'\\).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Composizione relativistica delle velocità</div><p>Dalle trasformazioni di Lorentz discende anche una nuova regola per sommare le velocità, che sostituisce la semplice addizione newtoniana. Se un oggetto si muove con velocità \\(u\'\\) rispetto a un sistema \\(S\'\\), che a sua volta si muove con velocità \\(v\\) rispetto a \\(S\\), la velocità dell\'oggetto misurata in \\(S\\) è:</p><div class="math-block hero-formula">\\[ u = \\frac{u\' + v}{1 + \\dfrac{u\'v}{c^2}} \\]</div><p>Per velocità piccole rispetto a \\(c\\), il termine \\(u\'v/c^2\\) al denominatore è trascurabile, e si ritrova l\'approssimazione familiare \\(u\\approx u\'+v\\). Ma questa formula garantisce anche, matematicamente, che sommando due velocità mai superiori a \\(c\\) non si può <strong>mai</strong> ottenere un risultato superiore a \\(c\\) — un limite di velocità incorporato nella struttura stessa dello spaziotempo, non imposto "a mano".</p></div>' +
+    acc([
+      { t:"Esercizio — composizione delle velocità", h:'<p>Due astronavi si allontanano in direzioni opposte da un punto fisso, ciascuna a \\(0{,}6\\,c\\) rispetto a un osservatore fermo. Qual è la velocità di allontanamento di un\'astronave rispetto all\'altra? <em>Traccia</em>: applica la formula di composizione con \\(u\'=v=0{,}6\\,c\\): \\(u=(0{,}6c+0{,}6c)/(1+0{,}36)=1{,}2c/1{,}36\\approx0{,}88\\,c\\) — non \\(1{,}2\\,c\\) come direbbe l\'addizione newtoniana, e comunque sempre minore di \\(c\\).</p>' },
+      { t:"Domanda concettuale — il limite incorporato", h:'<p>Perché, guardando la formula di composizione delle velocità, non è mai possibile ottenere \\(u>c\\) partendo da \\(u\'<c\\) e \\(v<c\\)? <em>Traccia</em>: prova a immaginare cosa succederebbe al denominatore se sia \\(u\'\\) sia \\(v\\) si avvicinassero a \\(c\\) — il denominatore cresce proprio nella giusta misura per "frenare" la somma e mantenerla sotto \\(c\\).</p>' }
+    ])
+},
+
+{
+  part:"Parte III — Massa, energia, spaziotempo",
+  tag:"NIENTE PUÒ SUPERARE C",
+  title:"Quantità di moto <em>relativistica</em>",
+  nav:"Quantità di moto",
+  body:
+    '<p>Anche una grandezza fondamentale come la quantità di moto deve essere ridefinita in ambito relativistico, perché la sua vecchia forma newtoniana \\(p=mv\\) non si conserva più correttamente negli urti, una volta applicate le trasformazioni di Lorentz.</p>' +
+    '<div class="cb"><div class="cb-label">Quantità di moto relativistica</div><div class="math-block hero-formula">\\[ p = \\gamma\\,m\\,v \\]</div><p>dove \\(m\\) è la <strong>massa a riposo</strong> (o massa invariante) del corpo — la stessa in ogni sistema di riferimento, misurata da un osservatore rispetto a cui il corpo è fermo. È questa definizione di \\(p\\), non quella newtoniana, a conservarsi correttamente in ogni urto, in ogni sistema di riferimento inerziale.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Perché niente con massa può raggiungere c</div><p>Guarda cosa succede al fattore \\(\\gamma\\) quando \\(v\\) si avvicina a \\(c\\): il denominatore \\(\\sqrt{1-v^2/c^2}\\) tende a zero, e \\(\\gamma\\) tende a infinito. Di conseguenza, anche la quantità di moto \\(p=\\gamma m v\\) tenderebbe a infinito — e, come vedremo nella prossima scheda, servirebbe una quantità infinita di energia per accelerare ulteriormente il corpo. Per questo nessun oggetto dotato di massa può mai raggiungere (né tantomeno superare) la velocità della luce: non per un divieto imposto dall\'esterno, ma come conseguenza matematica diretta della struttura stessa della teoria.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">E i fotoni, allora?</div><p>La luce stessa (i fotoni) viaggia proprio a \\(c\\), ma i fotoni hanno <strong>massa a riposo nulla</strong>: per un oggetto con \\(m=0\\), il prodotto \\(\\gamma m\\) può restare finito anche quando \\(\\gamma\\to\\infty\\), a patto che sia proprio \\(v=c\\). È un caso limite speciale, coerente con la teoria solo per particelle a massa nulla.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — accelerare all\'infinito", h:'<p>Un\'astronave con motori potentissimi accelera in modo continuo, senza mai fermarsi. Raggiungerà mai la velocità della luce? <em>Traccia</em>: no — man mano che \\(v\\) si avvicina a \\(c\\), \\(\\gamma\\) cresce sempre più rapidamente, e a parità di forza applicata l\'accelerazione ottenuta diventa sempre più piccola: l\'astronave si avvicina a \\(c\\) asintoticamente, senza mai raggiungerla in un tempo finito.</p>' },
+      { t:"Per chi vuole andare oltre il programma", h:'<p>Cerca cosa si intende, negli acceleratori di particelle come il Large Hadron Collider, per "energia del fascio" espressa in elettronvolt (eV), e prova a collegare il fatto che le particelle vengano accelerate fino al \\(99{,}9999...\\%\\) di \\(c\\), ma mai esattamente a \\(c\\), a quanto visto in questa scheda.</p>' }
+    ])
+},
+
+{
+  part:"Parte III — Massa, energia, spaziotempo",
+  tag:"LA FORMULA PIÙ FAMOSA DELLA FISICA",
+  title:"\\(E=mc^2\\) — l'equivalenza <em>massa-energia</em>",
+  nav:"E = mc²",
+  body:
+    '<p>Dalla stessa analisi che porta alla quantità di moto relativistica, Einstein derivò (in un breve articolo dello stesso 1905, quasi un poscritto al lavoro principale sulla relatività) una delle conclusioni più profonde e più citate di tutta la fisica.</p>' +
+    '<div class="cb"><div class="cb-label">Energia a riposo</div><p>Anche un corpo <strong>fermo</strong>, con massa a riposo \\(m\\), possiede un\'energia intrinseca, legata alla sua massa stessa:</p><div class="math-block hero-formula">\\[ E_0 = m\\,c^2 \\]</div><p>Massa ed energia non sono più due grandezze conservate separatamente, come nella fisica classica: sono due aspetti della <strong>stessa</strong> grandezza fisica, convertibili l\'una nell\'altra. Data l\'enormità del fattore \\(c^2\\approx9\\times10^{16}\\ \\text{m}^2/\\text{s}^2\\), anche una quantità piccolissima di massa corrisponde a una quantità enorme di energia.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Energia totale ed energia cinetica</div><p>Per un corpo in moto a velocità \\(v\\), l\'energia totale (a riposo più cinetica) vale:</p><div class="math-block hero-formula">\\[ E = \\gamma\\,m\\,c^2 \\]</div><p>e l\'energia cinetica relativistica è la differenza tra l\'energia totale e quella a riposo:</p><div class="math-block hero-formula">\\[ K = E - E_0 = (\\gamma - 1)\\,m\\,c^2 \\]</div><p>Per velocità piccole rispetto a \\(c\\), sviluppando \\(\\gamma\\) in serie, questa espressione si riduce con ottima approssimazione alla familiare formula newtoniana \\(K\\approx\\frac12 mv^2\\) — la relatività non "cancella" la meccanica classica, la contiene come caso limite a basse velocità.</p></div>' +
+    '<div class="cb success"><div class="cb-label">Non è solo teoria — il difetto di massa nucleare</div><p>Nelle reazioni di fissione e fusione nucleare, la massa totale dei prodotti finali è misurabilmente <strong>minore</strong> della massa totale dei reagenti iniziali. Questa differenza di massa, il cosiddetto <strong>difetto di massa</strong> \\(\\Delta m\\), si converte in energia rilasciata secondo esattamente \\(E=\\Delta m\\,c^2\\) — è il principio fisico alla base delle centrali nucleari, delle armi nucleari, e del meccanismo che tiene acceso il Sole (fusione dell\'idrogeno in elio) da miliardi di anni.</p></div>' +
+    acc([
+      { t:"Esercizio — energia da un grammo di materia", h:'<p>Calcola l\'energia corrispondente alla completa conversione in energia di \\(m=1\\) g \\(=0{,}001\\) kg di materia. <em>Traccia</em>: \\(E=mc^2=0{,}001\\cdot(3\\times10^8)^2=0{,}001\\cdot9\\times10^{16}=9\\times10^{13}\\) J — per confronto, è più energia di quella rilasciata da diverse migliaia di tonnellate di tritolo.</p>' },
+      { t:"Domanda concettuale — perché non lo notiamo nella vita quotidiana", h:'<p>Se ogni reazione chimica (una combustione, per esempio) rilascia energia, dovrebbe in linea di principio comportare anche una minima perdita di massa. Perché questa perdita non è mai misurabile con una normale bilancia da laboratorio? <em>Traccia</em>: confronta l\'ordine di grandezza dell\'energia tipica di una reazione chimica (elettronvolt per legame) con quello di una reazione nucleare (milioni di elettronvolt) — la perdita di massa corrispondente a un\'energia chimica è così minuscola da risultare del tutto trascurabile rispetto alla precisione di qualunque bilancia reale.</p>' }
+    ])
+},
+
+{
+  part:"Parte III — Massa, energia, spaziotempo",
+  tag:"UN NUOVO MODO DI PENSARE LO SPAZIO",
+  title:"Lo spaziotempo e le <em>conferme sperimentali</em>",
+  nav:"Spaziotempo",
+  body:
+    '<p>Nel 1908 il matematico Hermann Minkowski, che era stato uno degli insegnanti universitari di Einstein, propose una riformulazione geometrica elegante di tutta la relatività ristretta, con parole che sono rimaste celebri: "D\'ora in avanti lo spazio da solo e il tempo da solo sono condannati a svanire in pure ombre, e solo una sorta di unione dei due preserverà una realtà indipendente".</p>' +
+    '<div class="cb"><div class="cb-label">Lo spaziotempo di Minkowski</div><p>Invece di trattare spazio e tempo come due entità separate (tre coordinate spaziali più un tempo universale, come in Newton), Minkowski propose di unirli in un\'unica struttura a quattro dimensioni: lo <strong>spaziotempo</strong>. Un evento non è più definito solo da "dove" accade, ma da "dove e quando" insieme — un singolo punto in questo spazio a quattro dimensioni.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Il cono di luce</div><p>Da un evento dato, tutti i possibili raggi di luce emessi in ogni direzione tracciano, nello spaziotempo, una superficie chiamata <strong>cono di luce</strong>. Poiché nulla può muoversi più velocemente della luce, ogni evento che può essere causalmente influenzato da quell\'evento iniziale deve trovarsi <em>dentro</em> il cono di luce futuro; ogni evento che può averlo influenzato deve trovarsi dentro il cono di luce passato. Eventi "fuori dal cono" non possono avere alcuna relazione di causa-effetto con l\'evento centrale — non c\'è tempo sufficiente perché nemmeno la luce li colleghi.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Conferme sperimentali, oltre i muoni cosmici</div><ul style="margin-left:18px"><li><strong>Hafele–Keating (1971)</strong>: orologi atomici fatti viaggiare su voli di linea attorno al mondo, poi confrontati con orologi identici rimasti a terra, mostrarono differenze di tempo in perfetto accordo (entro l\'errore sperimentale) con le previsioni della relatività.</li><li><strong>Il GPS</strong>: i satelliti della costellazione GPS, in orbita ad alta velocità, richiedono correzioni relativistiche quotidiane ai propri orologi atomici di bordo — senza tali correzioni, gli errori di posizionamento accumulerebbero chilometri di scarto nel giro di poche ore.</li><li><strong>Acceleratori di particelle</strong>: ogni giorno, in laboratori come il CERN, particelle vengono accelerate fino a velocità prossime a \\(c\\), e i loro tempi di vita, le loro energie e le loro quantità di moto seguono esattamente le formule relativistiche viste in questa lezione, non quelle newtoniane.</li></ul></div>' +
+    '<div class="cb warn"><div class="cb-label">Un cerchio che si chiude</div><p>Ricorda da dove siamo partiti, nella lezione sulle equazioni di Maxwell: fu proprio la costanza della velocità della luce \\(c\\), che compariva nelle equazioni di Maxwell senza fare riferimento a nessun sistema di riferimento particolare, a mettere in moto tutto questo ragionamento. In un certo senso, la relatività ristretta non è altro che l\'aver preso le equazioni di Maxwell — scritte trent\'anni prima da uno scozzese schivo che non poteva immaginarne tutte le conseguenze — più sul serio di quanto chiunque, incluso lo stesso Maxwell, avesse mai osato fare.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — causalità e cono di luce", h:'<p>Perché un evento "fuori dal cono di luce" di un altro evento non può in alcun modo essere la sua causa o il suo effetto? <em>Traccia</em>: collegarli causalmente richiederebbe che qualcosa viaggiasse tra i due eventi più velocemente della luce, il che è escluso dai postulati della relatività.</p>' },
+      { t:"Per chi vuole andare oltre il programma", h:'<p>Cerca, come approfondimento personale, in cosa consiste la relatività <em>generale</em> di Einstein (1915) e in che senso essa estenda la relatività ristretta trattata in questa lezione anche ai sistemi di riferimento accelerati e alla gravità — è, tra le altre cose, la teoria che permette al GPS di funzionare con la precisione che conosciamo, insieme alle correzioni della relatività ristretta appena viste.</p>' }
+    ])
+}
+
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="part-label">' + s.part + '</div>' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const romans = ['I','II','III'];
+  let pills = '';
+  S.forEach((sec, i) => {
+    if (i % 3 === 0) {
+      pills += '<span class="nav-group">' + romans[i / 3] + '</span>';
+    }
+    pills += '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + sec.nav + '</button>';
+  });
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+function renderAll() {
+  document.querySelector('.topbar').style.display = 'none';
+  const html = S.map(s =>
+    '<div class="section active">' +
+      '<div class="hero">' +
+        '<div class="part-label">' + s.part + '</div>' +
+        '<div class="hero-tag">' + s.tag + '</div>' +
+        '<h1>' + s.title + '</h1></div>' +
+      '<div class="section-body">' + s.body + '</div>' +
+    '</div>'
+  ).join('');
+  document.getElementById('app').innerHTML = html;
+  document.querySelectorAll('.acc-item').forEach(el => el.classList.add('open'));
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+if (new URLSearchParams(location.search).get('print') === '1') {
+  renderAll();
+} else {
+  render();
+}
+</script>
+</body>
+</html>

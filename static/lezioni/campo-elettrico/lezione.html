@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il Campo Elettrico — Quarto anno</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #3a6b8c; --accent-light: #e8f0f5;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:2px; overflow-x:auto; flex:1; align-items:center; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.78rem; color:var(--text-dim); padding:6px 11px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.nav-group {
+  font-family:'Fira Code',monospace; font-size:.62rem; color:var(--text-dim);
+  padding:0 8px; letter-spacing:1px; border-left:1px solid var(--border); margin-left:4px;
+  white-space:nowrap;
+}
+.nav-group:first-child { border-left:none; margin-left:0; }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.part-label { font-family:'Fira Code',monospace; font-size:.68rem; text-transform:uppercase; color:var(--purple); letter-spacing:1.5px; margin-bottom:6px; font-weight:600; }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.1rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.87rem; }
+.ct th { text-align:left; padding:10px 12px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.72rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 12px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.hero-img-wrap { margin:0 0 28px; border-radius:var(--radius); overflow:hidden; }
+.hero-img-wrap img { width:100%; display:block; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.6rem; } .acc-inner { padding:4px 0 16px 14px; } .ct { font-size:.8rem; } }
+@media print {
+  .topbar, .bottom-nav { display:none !important; }
+  .container { padding:20px 24px; max-width:100%; }
+  .section { display:block !important; page-break-after: always; }
+  .section:last-child { page-break-after: auto; }
+  .acc-body { max-height:none !important; }
+  .acc-arrow { display:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quarto anno · Campo elettrico</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/lezioni/campo-elettrico/campo-elettrico.pdf" class="topbar-home" target="_blank">PDF ↓</a>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+
+{
+  part:"Parte I — Dalla forza al campo",
+  tag:"ELETTRIZZAZIONE",
+  title:"La carica <em>elettrica</em>",
+  nav:"La carica",
+  body:
+    '<div class="hero-img-wrap"><img src="featured.jpg" alt="Linee di campo elettrico di un dipolo"></div>' +
+    '<p>Strofina una penna di plastica su un maglione di lana e avvicinala a piccoli pezzetti di carta: li vedrai saltare verso la penna. È lo stesso fenomeno, in fondo, dell\'ambra strofinata dell\'antica Grecia (da cui il termine "elettrico", da <em>elektron</em>, ambra in greco): sfregando due materiali, si trasferiscono elettroni dall\'uno all\'altro, e i due oggetti restano <strong>carichi elettricamente</strong> con cariche di segno opposto.</p>' +
+    '<div class="cb"><div class="cb-label">Due tipi di carica</div><p>Benjamin Franklin chiamò arbitrariamente <strong>positiva</strong> la carica che rimane sul vetro strofinato con la seta, e <strong>negativa</strong> quella sulla plastica strofinata con la lana. Sappiamo oggi che a muoversi, nella maggior parte dei casi, sono gli elettroni (carica negativa): un oggetto che ne perde diventa positivo, uno che ne acquista diventa negativo. La scelta di Franklin, fatta prima ancora che si sapesse dell\'esistenza dell\'elettrone, è rimasta — con qualche piccolo scomodo storico — la convenzione universale.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Legge fondamentale</div><p>Cariche dello <strong>stesso segno si respingono</strong>, cariche di <strong>segno opposto si attraggono</strong>. È il punto di partenza di tutta l\'elettrostatica.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">La carica è quantizzata</div><p>Ogni carica elettrica osservabile in natura è un multiplo intero della <strong>carica elementare</strong>, quella di un singolo elettrone (o protone, in modulo):</p><div class="math-block hero-formula">\\[ e = 1{,}602 \\times 10^{-19}\\ \\text{C} \\]</div><p>Non esiste, nella materia ordinaria, una carica pari a mezzo elettrone: la carica di qualunque oggetto vale sempre \\(q = n\\,e\\), con \\(n\\) intero (positivo, negativo, o zero).</p></div>' +
+    '<div class="cb warn"><div class="cb-label">La carica si conserva</div><p>In un sistema isolato, la carica elettrica totale non si crea né si distrugge: si trasferisce soltanto da un corpo all\'altro. Strofinando penna e maglione, la carica negativa guadagnata dalla penna è esattamente uguale, in modulo, alla carica positiva rimasta sul maglione — il totale, prima e dopo, resta zero.</p></div>' +
+    '<p>I materiali si comportano in modo molto diverso rispetto al trasferimento di carica. Nei <strong>conduttori</strong> (metalli, soprattutto) gli elettroni più esterni sono liberi di muoversi da un atomo all\'altro, e la carica si ridistribuisce facilmente su tutto il corpo. Negli <strong>isolanti</strong> (vetro, plastica, gomma, aria secca) gli elettroni restano legati ai propri atomi, e una carica depositata in un punto vi resta localizzata.</p>' +
+    acc([
+      { t:"Esercizio — quanti elettroni?", h:'<p>Un corpo possiede una carica netta \\(q = -3{,}2 \\times 10^{-9}\\) C. Quanti elettroni in eccesso ha rispetto ai protoni? <em>Traccia</em>: dividi \\(|q|\\) per la carica elementare \\(e\\): \\(n = |q|/e = 3{,}2\\times10^{-9}/1{,}602\\times10^{-19} \\approx 2\\times10^{10}\\) elettroni in eccesso.</p>' },
+      { t:"Domanda concettuale — perché il vetro non funziona come una penna", h:'<p>Perché un tergicristallo di plastica si carica facilmente strofinandolo su un tessuto, mentre un cucchiaio di metallo tenuto in mano no, anche se strofinato allo stesso modo? <em>Traccia</em>: pensa a cosa succede alla carica trasferita al metallo se questo è tenuto in mano — dove può andare, visto che il corpo umano è a sua volta un conduttore collegato (tramite i piedi) al grande "serbatoio" di carica che è la Terra?</p>' }
+    ])
+},
+
+{
+  part:"Parte I — Dalla forza al campo",
+  tag:"1785 · COULOMB",
+  title:"La legge di <em>Coulomb</em>",
+  nav:"Legge di Coulomb",
+  body:
+    '<p>Nel 1785 Charles-Augustin de Coulomb misurò, con una sensibilissima bilancia di torsione, la forza tra due sfere cariche a distanze diverse, trovando una legge che ricorda molto da vicino quella della gravitazione universale di Newton.</p>' +
+    '<div class="cb"><div class="cb-label">Legge di Coulomb</div><p>La forza tra due cariche puntiformi \\(q_1\\) e \\(q_2\\), poste a distanza \\(r\\) nel vuoto, ha modulo:</p><div class="math-block hero-formula">\\[ F = k\\,\\frac{|q_1\\,q_2|}{r^2} \\qquad k \\approx 8{,}99\\times10^{9}\\ \\frac{\\text{N}\\,\\text{m}^2}{\\text{C}^2} \\]</div><p>La costante \\(k\\) si scrive spesso come \\(k = 1/(4\\pi\\varepsilon_0)\\), dove \\(\\varepsilon_0 \\approx 8{,}85\\times10^{-12}\\ \\text{F/m}\\) è la <strong>costante dielettrica del vuoto</strong> — la ritroverai più avanti parlando di condensatori.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Attrazione o repulsione</div><p>La legge di Coulomb dà solo il <strong>modulo</strong> della forza; la direzione è sempre lungo la retta che congiunge le due cariche, e il verso dipende dai segni: <strong>repulsiva</strong> se le cariche hanno lo stesso segno, <strong>attrattiva</strong> se hanno segni opposti. In questo la forza elettrica differisce in modo essenziale dalla gravità, che è sempre e solo attrattiva.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Un confronto che lascia sempre stupiti</div><p>Confronta un protone e un elettrone in un atomo di idrogeno: la forza elettrica di Coulomb tra loro è circa \\(2\\times10^{39}\\) volte più intensa della forza gravitazionale tra le stesse due particelle. Se la gravità tiene insieme i pianeti e le galassie, è solo perché su scala cosmica la materia è elettricamente neutra — altrimenti la forza elettrica dominerebbe su tutto, schiacciando ogni altra interazione.</p></div>' +
+    acc([
+      { t:"Esercizio — forza tra due cariche", h:'<p>Due cariche puntiformi \\(q_1=3\\,\\mu C\\) e \\(q_2=-5\\,\\mu C\\) distano \\(r=0{,}2\\) m. Calcola modulo e natura (attrattiva/repulsiva) della forza tra loro. <em>Traccia</em>: \\(F=k\\,|q_1 q_2|/r^2 = 8{,}99\\times10^9 \\cdot (3\\times10^{-6})(5\\times10^{-6})/0{,}04 \\approx 3{,}37\\) N, attrattiva (segni opposti).</p>' },
+      { t:"Domanda concettuale — Coulomb e Newton", h:'<p>In che senso la legge di Coulomb e quella di gravitazione di Newton hanno "la stessa forma"? Elenca almeno una somiglianza e una differenza fondamentale. <em>Traccia</em>: entrambe dipendono dall\'inverso del quadrato della distanza; la differenza principale è che la gravità è sempre attrattiva, la forza elettrica può essere anche repulsiva.</p>' }
+    ])
+},
+
+{
+  part:"Parte I — Dalla forza al campo",
+  tag:"L'IDEA DI FARADAY",
+  title:"Il campo elettrico e le sue <em>linee</em>",
+  nav:"Campo e linee",
+  body:
+    '<p>La legge di Coulomb descrive un\'azione a distanza: due cariche si "sentono" istantaneamente, senza che nulla viaggi fisicamente tra loro. Michael Faraday propose un\'idea più fisica e più feconda: ogni carica modifica lo spazio attorno a sé, creando un <strong>campo elettrico</strong> — una proprietà dello spazio stesso, presente anche dove non c\'è nessun\'altra carica a "sentirlo".</p>' +
+    '<div class="cb"><div class="cb-label">Definizione di campo elettrico</div><p>Il campo elettrico in un punto si definisce tramite la forza che agirebbe su una piccola <strong>carica di prova</strong> \\(q_0\\) (positiva, per convenzione) posta in quel punto:</p><div class="math-block hero-formula">\\[ \\vec{E} = \\frac{\\vec{F}}{q_0} \\]</div><p>Il campo elettrico si misura in newton su coulomb (N/C), oppure, equivalentemente, in volt su metro (V/m) — un\'unità che ritroverai parlando di potenziale.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Il campo di una carica puntiforme</div><p>Combinando la definizione di campo con la legge di Coulomb, il campo generato da una carica puntiforme \\(Q\\) a distanza \\(r\\) vale:</p><div class="math-block hero-formula">\\[ E = k\\,\\frac{|Q|}{r^2} \\]</div><p>diretto radialmente: uscente da \\(Q\\) se \\(Q>0\\), entrante verso \\(Q\\) se \\(Q<0\\).</p></div>' +
+    '<img src="linee-di-campo.png" alt="Linee di campo elettrico attorno a una carica puntiforme positiva e a un dipolo elettrico" style="width:100%;height:auto;display:block;margin:1.5rem 0;">' +
+    '<div class="cb purple"><div class="cb-label">Le linee di campo — regole per disegnarle</div><ul style="margin-left:18px"><li>Escono dalle cariche positive, entrano in quelle negative (o vanno all\'infinito, se la carica è isolata);</li><li>La <strong>densità</strong> delle linee in una regione è proporzionale all\'intensità del campo lì: linee fitte = campo forte, linee rade = campo debole;</li><li>In ogni punto, il campo è tangente alla linea che vi passa;</li><li>Due linee di campo <strong>non si incrociano mai</strong> — se lo facessero, nel punto d\'incrocio il campo avrebbe due direzioni diverse contemporaneamente, il che non ha senso.</li></ul></div>' +
+    acc([
+      { t:"Esercizio — campo di una carica puntiforme", h:'<p>Calcola il campo elettrico generato da una carica \\(Q=2\\,\\mu C\\) a una distanza \\(r=0{,}1\\) m. <em>Traccia</em>: \\(E=kQ/r^2 = 8{,}99\\times10^9 \\cdot 2\\times10^{-6}/0{,}01 \\approx 1{,}8\\times10^{6}\\) N/C.</p>' },
+      { t:"Domanda concettuale — dentro un campo", h:'<p>Un elettrone viene lasciato libero in una regione dove il campo elettrico vale \\(E=500\\) N/C, uniforme e diretto verso destra. In che direzione accelera l\'elettrone? <em>Traccia</em>: la forza su una carica è \\(\\vec F = q\\vec E\\); poiché la carica dell\'elettrone è negativa, la forza (e quindi l\'accelerazione) ha verso <em>opposto</em> a \\(\\vec E\\) — l\'elettrone accelera verso sinistra.</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Distribuzioni di carica e teorema di Gauss",
+  tag:"SOVRAPPOSIZIONE",
+  title:"Più cariche insieme: il campo del <em>dipolo</em>",
+  nav:"Sovrapposizione",
+  body:
+    '<p>Cosa succede quando più cariche agiscono insieme sullo stesso punto dello spazio? La risposta, sperimentalmente verificata, è la più semplice possibile.</p>' +
+    '<div class="cb"><div class="cb-label">Principio di sovrapposizione</div><p>Il campo elettrico totale generato da un insieme di cariche è la <strong>somma vettoriale</strong> dei campi che ciascuna carica genererebbe da sola, come se le altre non ci fossero:</p><div class="math-block hero-formula">\\[ \\vec{E}_{tot} = \\vec{E}_1 + \\vec{E}_2 + \\vec{E}_3 + \\dots \\]</div><p>Ogni carica "ignora" le altre nel produrre il proprio campo; è solo <em>dopo</em>, sommando vettorialmente i contributi, che si ottiene l\'effetto complessivo. È lo stesso principio che vale per le forze in meccanica.</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Un caso importante — il dipolo elettrico</div><p>Una coppia di cariche uguali e opposte, \\(+q\\) e \\(-q\\), separate da una piccola distanza \\(d\\), si chiama <strong>dipolo elettrico</strong> ed è caratterizzata dal <strong>momento di dipolo</strong>:</p><div class="math-block hero-formula">\\[ \\vec{p} = q\\,\\vec{d} \\]</div><p>diretto dalla carica negativa verso quella positiva. Molte molecole (l\'acqua, per esempio) si comportano come piccoli dipoli elettrici permanenti, ed è proprio questo a spiegare molte delle loro proprietà chimiche e fisiche, dalla tensione superficiale alla capacità di sciogliere i sali.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Lontano dal dipolo</div><p>A grande distanza rispetto a \\(d\\), il campo del dipolo si indebolisce molto più rapidamente (come \\(1/r^3\\)) di quello di una singola carica puntiforme (che va come \\(1/r^2\\)): le due cariche, viste da lontano, "quasi" si annullano a vicenda, e resta solo un effetto residuo, tanto più debole quanto più ci si allontana.</p></div>' +
+    acc([
+      { t:"Esercizio — campo lungo l\'asse del dipolo", h:'<p>Due cariche \\(+4\\,\\mu C\\) e \\(-4\\,\\mu C\\) distano \\(2\\) cm. Un punto \\(P\\) si trova sulla retta che le congiunge, a \\(10\\) cm dalla carica positiva (quindi a \\(12\\) cm da quella negativa), dalla parte opposta rispetto alla negativa. Calcola il campo totale in \\(P\\) (solo modulo, sommando algebricamente i due contributi diretti nella stessa direzione). <em>Traccia</em>: calcola separatamente \\(E_+=kQ/r_+^2\\) e \\(E_-=kQ/r_-^2\\) con \\(r_+=0{,}10\\) m e \\(r_-=0{,}12\\) m, poi somma i moduli (i due campi puntano nello stesso verso, allontanandosi da \\(+\\) e allontanandosi da... verifica il verso di ciascuno prima di sommare).</p>' },
+      { t:"Domanda concettuale — perché l\'acqua è un buon solvente", h:'<p>La molecola d\'acqua è un dipolo elettrico permanente. Come pensi che questo aiuti a "sciogliere" un cristallo di sale (NaCl), fatto di ioni Na⁺ e Cl⁻ tenuti insieme dall\'attrazione elettrica? <em>Traccia</em>: pensa a come le molecole d\'acqua, orientando il proprio dipolo, possono circondare e "isolare" elettricamente ciascuno ione dal resto del cristallo.</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Distribuzioni di carica e teorema di Gauss",
+  tag:"1835 · GAUSS",
+  title:"Il flusso e il <em>teorema di Gauss</em>",
+  nav:"Teorema di Gauss",
+  body:
+    '<p>Per distribuzioni di carica semplici e simmetriche (una sfera, un filo, un piano) esiste una scorciatoia molto più rapida della somma diretta di tanti campi puntiformi: il teorema di Gauss.</p>' +
+    '<div class="cb"><div class="cb-label">Il flusso del campo elettrico</div><p>Immagina una superficie chiusa immaginaria (una "scatola" di forma qualsiasi) immersa nel campo. Il <strong>flusso</strong> \\(\\Phi(\\vec E)\\) attraverso quella superficie misura, intuitivamente, quante linee di campo la attraversano nel complesso, contate col segno (uscenti positive, entranti negative).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Teorema di Gauss</div><div class="math-block hero-formula">\\[ \\Phi(\\vec{E}) = \\frac{Q_{int}}{\\varepsilon_0} \\]</div><p>Il flusso attraverso una qualunque superficie chiusa dipende <strong>solo</strong> dalla carica netta racchiusa all\'interno — non da come è distribuita, non dalla forma della superficie scelta, non dalle cariche esterne (il loro contributo netto è sempre nullo, perché ogni linea che entra prima o poi esce di nuovo).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Un esempio che vale la pena vedere — la sfera carica</div><p>Una sfera di raggio \\(R\\) porta una carica \\(Q\\) distribuita uniformemente. Scegliendo come superficie di Gauss una sfera concentrica di raggio \\(r>R\\) (dove, per simmetria, \\(E\\) è costante in modulo su tutta la superficie), si trova:</p><div class="math-block hero-formula">\\[ E\\cdot 4\\pi r^2 = \\frac{Q}{\\varepsilon_0} \\quad\\Rightarrow\\quad E = k\\,\\frac{Q}{r^2} \\]</div><p>Esattamente la legge di Coulomb, come se tutta la carica fosse concentrata in un punto al centro! Questo vale per <em>qualunque</em> distribuzione a simmetria sferica, non solo per una carica puntiforme — è uno dei tanti motivi per cui il teorema di Gauss è così utile.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — cariche fuori dalla superficie", h:'<p>Una superficie chiusa racchiude una carica \\(Q_1=+5\\,\\mu C\\); una seconda carica \\(Q_2=-3\\,\\mu C\\) si trova poco fuori dalla superficie. Il flusso attraverso la superficie dipende da \\(Q_2\\)? <em>Traccia</em>: no — il teorema di Gauss coinvolge solo la carica <em>interna</em> alla superficie; ogni linea di campo generata da \\(Q_2\\) che entra nella superficie deve necessariamente uscirne di nuovo, dando contributo netto nullo al flusso.</p>' },
+      { t:"Esercizio — sfera cava", h:'<p>Una sfera metallica cava, di raggio interno \\(R_1\\) ed esterno \\(R_2\\), porta una carica netta \\(Q=+10\\,\\mu C\\) distribuita sulla sua superficie esterna. Quanto vale il campo elettrico in un punto interno alla cavità (a distanza \\(r<R_1\\) dal centro)? <em>Traccia</em>: qualunque superficie di Gauss sferica scelta all\'interno della cavità racchiude carica nulla (\\(Q_{int}=0\\), perché tutta la carica sta sulla superficie esterna del metallo), quindi \\(E=0\\) in ogni punto della cavità.</p>' }
+    ])
+},
+
+{
+  part:"Parte II — Distribuzioni di carica e teorema di Gauss",
+  tag:"ELETTROSTATICA DEI METALLI",
+  title:"Conduttori in equilibrio <em>elettrostatico</em>",
+  nav:"Conduttori",
+  body:
+    '<p>Nei conduttori, come i metalli, gli elettroni sono liberi di muoversi. Questo ha conseguenze notevoli — e tutte sorprendentemente eleganti — sulla distribuzione della carica e sul campo elettrico, una volta raggiunto l\'<strong>equilibrio elettrostatico</strong> (nessuna carica netta più in movimento).</p>' +
+    '<div class="cb"><div class="cb-label">Il campo interno è nullo</div><p>All\'equilibrio, il campo elettrico <strong>all\'interno</strong> di un conduttore è sempre zero. Se non lo fosse, gli elettroni liberi continuerebbero a muoversi sotto l\'effetto di quel campo — ma per definizione, all\'equilibrio, nessuna carica netta è più in moto. La conseguenza logica è una sola: \\(E_{interno}=0\\).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">La carica sta tutta in superficie</div><p>Applicando il teorema di Gauss a una superficie appena sotto la superficie reale del conduttore (dove \\(E=0\\)): il flusso è nullo, quindi la carica racchiusa è nulla. L\'unico posto dove può stare la carica netta di un conduttore isolato, allora, è la sua <strong>superficie esterna</strong>.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Il campo appena fuori dalla superficie</div><p>Subito fuori dalla superficie di un conduttore carico, il campo elettrico è sempre <strong>perpendicolare</strong> alla superficie stessa (se avesse una componente parallela, le cariche libere in superficie si muoverebbero lungo di essa, contraddicendo di nuovo l\'equilibrio).</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Il potere delle punte</div><p>Nelle zone a curvatura più accentuata (le "punte" di un conduttore), la carica tende ad addensarsi maggiormente, e il campo elettrico appena fuori dalla superficie diventa localmente molto più intenso. È il principio su cui si basa il <strong>parafulmine</strong>: la punta metallica, concentrando il campo, favorisce l\'innesco controllato della scarica prima che possa colpire punti più pericolosi dell\'edificio.</p></div>' +
+    '<div class="cb success"><div class="cb-label">La gabbia di Faraday</div><p>Poiché il campo elettrico all\'interno di un conduttore cavo è nullo (anche se il conduttore stesso è immerso in un campo esterno molto intenso, come durante un temporale), una struttura metallica chiusa — una <strong>gabbia di Faraday</strong> — protegge tutto ciò che sta al suo interno da qualunque campo elettrico esterno statico. È il motivo per cui un\'automobile (la sua carrozzeria metallica) è uno dei posti relativamente più sicuri in cui trovarsi durante un temporale con fulmini.</p></div>' +
+    acc([
+      { t:"Domanda concettuale — la cavità nel conduttore", h:'<p>Un conduttore carico ha una cavità vuota al suo interno, senza cariche dentro la cavità. Quanto vale il campo elettrico in un punto qualsiasi della cavità? <em>Traccia</em>: applica lo stesso ragionamento con Gauss visto nella scheda precedente — nessuna carica interna alla cavità implica campo nullo al suo interno, indipendentemente da quanto sia intenso il campo esterno al conduttore.</p>' },
+      { t:"Esercizio — punta e sfera a confronto", h:'<p>Uno stesso conduttore ha una zona quasi piatta e una zona a punta molto acuta, entrambe cariche allo stesso potenziale. In quale delle due zone ti aspetti un campo elettrico più intenso appena all\'esterno? Motiva la risposta collegandola alla densità di carica superficiale. <em>Traccia</em>: la carica tende ad addensarsi dove il raggio di curvatura è minore (le punte); una densità di carica superficiale maggiore produce, localmente, un campo più intenso appena fuori dalla superficie.</p>' }
+    ])
+},
+
+{
+  part:"Parte III — Energia e potenziale",
+  tag:"LAVORO CONSERVATIVO",
+  title:"Energia potenziale <em>elettrica</em>",
+  nav:"Energia potenziale",
+  body:
+    '<p>Come la forza gravitazionale, anche la forza elettrica è <strong>conservativa</strong>: il lavoro che compie spostando una carica da un punto a un altro non dipende dal percorso seguito, ma solo dai punti di partenza e arrivo. Questo permette di associare al campo elettrico un\'energia potenziale, esattamente come si fa in meccanica con la gravità.</p>' +
+    '<div class="cb"><div class="cb-label">Energia potenziale di due cariche puntiformi</div><p>Per due cariche puntiformi \\(q_1\\) e \\(q_2\\) a distanza \\(r\\), l\'energia potenziale elettrica del sistema vale:</p><div class="math-block hero-formula">\\[ U = k\\,\\frac{q_1\\,q_2}{r} \\]</div><p>A differenza della gravità (dove \\(U\\) è sempre negativa), qui il segno di \\(U\\) dipende dai segni delle due cariche: positivo se sono concordi (repulsione: serve energia per avvicinarle), negativo se sono discordi (attrazione: l\'energia diminuisce avvicinandole, come una palla che rotola in una buca).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Lavoro e variazione di energia potenziale</div><p>Come sempre in un campo conservativo, il lavoro compiuto dalla forza elettrica per spostare una carica è uguale, cambiato di segno, alla variazione di energia potenziale:</p><div class="math-block hero-formula">\\[ L_{A\\to B} = -\\Delta U = U_A - U_B \\]</div><p>Se la carica si muove "spontaneamente" verso una configurazione a energia più bassa (come un corpo che cade), il campo compie lavoro positivo su di essa.</p></div>' +
+    acc([
+      { t:"Esercizio — energia di due cariche", h:'<p>Due cariche \\(q_1=4\\,\\mu C\\) e \\(q_2=-2\\,\\mu C\\) si trovano a distanza \\(r=0{,}05\\) m. Calcola l\'energia potenziale elettrica del sistema. <em>Traccia</em>: \\(U=k\\,q_1 q_2/r = 8{,}99\\times10^9 \\cdot (4\\times10^{-6})(-2\\times10^{-6})/0{,}05 \\approx -1{,}44\\) J. Il segno negativo è coerente con cariche di segno opposto (configurazione attrattiva).</p>' },
+      { t:"Domanda concettuale — segno dell\'energia", h:'<p>Perché ha senso che l\'energia potenziale di due cariche dello stesso segno sia sempre positiva, mentre quella di due cariche di segno opposto sia sempre negativa? <em>Traccia</em>: pensa al lavoro necessario per portare le due cariche dall\'infinito (dove per convenzione \\(U=0\\)) alla distanza \\(r\\): se si respingono, serve lavoro positivo dall\'esterno (energia immagazzinata, positiva); se si attraggono, il campo stesso compie lavoro positivo avvicinandole (l\'energia diminuisce, diventa negativa).</p>' }
+    ])
+},
+
+{
+  part:"Parte III — Energia e potenziale",
+  tag:"VOLT",
+  title:"Il potenziale <em>elettrico</em>",
+  nav:"Potenziale",
+  body:
+    '<p>Così come il campo elettrico \\(\\vec E\\) è la forza "per unità di carica di prova", il <strong>potenziale elettrico</strong> \\(V\\) è l\'energia potenziale "per unità di carica di prova" — una grandezza che, come il campo, descrive lo spazio attorno alle cariche indipendentemente da quale carica venga poi effettivamente collocata lì.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione</div><div class="math-block hero-formula">\\[ V = \\frac{U}{q_0} \\]</div><p>Il potenziale si misura in <strong>volt</strong> (V), dove \\(1\\ \\text{V} = 1\\ \\text{J/C}\\). Per una carica puntiforme \\(Q\\), a distanza \\(r\\):</p><div class="math-block hero-formula">\\[ V = k\\,\\frac{Q}{r} \\]</div></div>' +
+    '<div class="cb tip"><div class="cb-label">Differenza di potenziale (d.d.p.)</div><p>Ciò che conta fisicamente, quasi sempre, è la <strong>differenza</strong> di potenziale tra due punti, non il valore assoluto (che dipende da dove si sceglie \\(V=0\\), di solito all\'infinito o a terra):</p><div class="math-block hero-formula">\\[ \\Delta V = V_B - V_A = -\\frac{L_{A\\to B}}{q_0} \\]</div><p>Una pila da \\(1{,}5\\) V, per esempio, mantiene tra i suoi due poli una d.d.p. costante di \\(1{,}5\\) V — è il "dislivello elettrico" che spinge le cariche a muoversi in un circuito, esattamente come un dislivello di quota spinge l\'acqua a scorrere.</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Superfici equipotenziali</div><p>L\'insieme dei punti a potenziale costante forma una <strong>superficie equipotenziale</strong>. Due proprietà utili da ricordare: le superfici equipotenziali sono sempre <strong>perpendicolari</strong> alle linee di campo elettrico (perché il campo, in ogni punto, indica la direzione di massima variazione del potenziale), e nessun lavoro viene compiuto spostando una carica <em>lungo</em> una superficie equipotenziale.</p></div>' +
+    '<div class="cb warn"><div class="cb-label">Campo uniforme: la relazione più usata in pratica</div><p>Nel caso particolare (ma molto frequente, per esempio tra le armature di un condensatore piano) di un campo elettrico uniforme, la relazione tra campo e potenziale si semplifica in:</p><div class="math-block hero-formula">\\[ E = \\frac{\\Delta V}{d} \\]</div><p>dove \\(d\\) è la distanza, misurata lungo la direzione del campo, tra le due superfici equipotenziali considerate. Questa è la formula che userai più spesso nella scheda successiva.</p></div>' +
+    acc([
+      { t:"Esercizio — potenziale di una carica puntiforme", h:'<p>Calcola il potenziale generato da una carica \\(Q=5\\,\\mu C\\) a una distanza \\(r=0{,}3\\) m. <em>Traccia</em>: \\(V=kQ/r=8{,}99\\times10^9\\cdot5\\times10^{-6}/0{,}3\\approx1{,}5\\times10^5\\) V.</p>' },
+      { t:"Esercizio — campo uniforme tra due piastre", h:'<p>Tra due piastre parallele, distanti \\(d=1\\) cm, è applicata una d.d.p. di \\(200\\) V. Calcola l\'intensità del campo elettrico uniforme tra le piastre. <em>Traccia</em>: \\(E=\\Delta V/d = 200/0{,}01 = 2\\times10^4\\) V/m.</p>' }
+    ])
+},
+
+{
+  part:"Parte III — Energia e potenziale",
+  tag:"IMMAGAZZINARE CARICA",
+  title:"Condensatori e <em>capacità</em>",
+  nav:"Condensatori",
+  body:
+    '<p>Un <strong>condensatore</strong> è un dispositivo formato da due conduttori (le <strong>armature</strong>), separati da un isolante, capace di immagazzinare carica elettrica — e, con essa, energia. Si trova, in una forma o nell\'altra, in praticamente ogni circuito elettronico che usi ogni giorno.</p>' +
+    '<div class="cb"><div class="cb-label">Capacità elettrica</div><p>Caricando le due armature con cariche uguali e opposte \\(+Q\\) e \\(-Q\\), si stabilisce tra loro una differenza di potenziale \\(V\\). Il rapporto tra la carica accumulata e la d.d.p. è una costante che dipende solo dalla geometria del condensatore, chiamata <strong>capacità</strong>:</p><div class="math-block hero-formula">\\[ C = \\frac{Q}{V} \\]</div><p>misurata in <strong>farad</strong> (F), dove \\(1\\ \\text{F} = 1\\ \\text{C/V}\\) — un\'unità enorme nella pratica: la maggior parte dei condensatori reali si misura in microfarad (\\(\\mu\\)F) o addirittura picofarad (pF).</p></div>' +
+    '<div class="cb tip"><div class="cb-label">Il condensatore piano</div><p>Per un condensatore a facce piane parallele, di area \\(A\\) ciascuna e distanza \\(d\\) tra le armature (nel vuoto):</p><div class="math-block hero-formula">\\[ C = \\varepsilon_0\\,\\frac{A}{d} \\]</div><p>La capacità cresce con l\'area delle armature (più spazio per "ospitare" carica) e diminuisce con la distanza tra loro (armature più vicine si "sentono" di più, per lo stesso \\(Q\\) la d.d.p. risultante è minore).</p></div>' +
+    '<div class="cb purple"><div class="cb-label">Energia immagazzinata</div><p>Caricare un condensatore richiede lavoro (bisogna "spingere" via via più carica contro una d.d.p. crescente), lavoro che resta immagazzinato come energia potenziale elettrica nel campo tra le armature:</p><div class="math-block hero-formula">\\[ U = \\frac{1}{2}\\,C\\,V^2 \\]</div></div>' +
+    '<div class="cb success"><div class="cb-label">Dove si incontrano, nella vita reale</div><p>I condensatori accendono il flash di una vecchia fotocamera (caricandosi lentamente da una batteria debole, poi scaricandosi in una frazione di secondo per produrre un lampo di luce intenso), fanno funzionare i defibrillatori (che devono erogare un impulso di corrente molto intenso in pochi millisecondi), stabilizzano l\'alimentazione di quasi ogni scheda elettronica, e — nella loro forma più miniaturizzata — costituiscono le celle di memoria delle RAM dinamiche dei computer.</p></div>' +
+    acc([
+      { t:"Esercizio — condensatore piano", h:'<p>Un condensatore piano ha armature di area \\(A=0{,}02\\ \\text{m}^2\\), distanti \\(d=1\\) mm, nel vuoto. Calcola la capacità, poi la carica accumulata se viene caricato a \\(V=100\\) V. <em>Traccia</em>: \\(C=\\varepsilon_0 A/d = 8{,}85\\times10^{-12}\\cdot0{,}02/0{,}001 \\approx 1{,}77\\times10^{-10}\\) F \\(= 177\\) pF; \\(Q=CV \\approx 1{,}77\\times10^{-8}\\) C.</p>' },
+      { t:"Esercizio — energia immagazzinata", h:'<p>Usando i dati dell\'esercizio precedente (\\(C\\approx177\\) pF, \\(V=100\\) V), calcola l\'energia immagazzinata nel condensatore. <em>Traccia</em>: \\(U=\\frac12 C V^2 \\approx 0{,}5\\cdot1{,}77\\times10^{-10}\\cdot10^4 \\approx 8{,}85\\times10^{-7}\\) J.</p>' }
+    ])
+}
+
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="part-label">' + s.part + '</div>' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const romans = ['I','II','III'];
+  let pills = '';
+  S.forEach((sec, i) => {
+    if (i % 3 === 0) {
+      pills += '<span class="nav-group">' + romans[i / 3] + '</span>';
+    }
+    pills += '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + sec.nav + '</button>';
+  });
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+function renderAll() {
+  document.querySelector('.topbar').style.display = 'none';
+  const html = S.map(s =>
+    '<div class="section active">' +
+      '<div class="hero">' +
+        '<div class="part-label">' + s.part + '</div>' +
+        '<div class="hero-tag">' + s.tag + '</div>' +
+        '<h1>' + s.title + '</h1></div>' +
+      '<div class="section-body">' + s.body + '</div>' +
+    '</div>'
+  ).join('');
+  document.getElementById('app').innerHTML = html;
+  document.querySelectorAll('.acc-item').forEach(el => el.classList.add('open'));
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+if (new URLSearchParams(location.search).get('print') === '1') {
+  renderAll();
+} else {
+  render();
+}
+</script>
+</body>
+</html>
