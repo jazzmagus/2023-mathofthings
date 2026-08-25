@@ -177,6 +177,21 @@ h1, h2, h3, h4, h5, h6 {
   a:not(.navbar-brand), .nav-link, .dropdown-item, .navbar-text {
     font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', monospace !important;
   }
+
+  // Center the main menu on the true page center, not just the leftover
+  // flex space (which skews right since the brand is wider than the icons).
+  .container-xl {
+    position: relative;
+  }
+
+  @media (min-width: 992px) {
+    #navbar-content.justify-content-center {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
 }
 
 // --- Landing page (custom homepage) -----------------------------------
@@ -1961,14 +1976,15 @@ body {
       }
 
       .cv-icon-footer {
-        border-radius: 50%;
-        background: $primary;
-        color: #fff;
+        color: $primary;
         opacity: 1;
 
+        .dark & {
+          color: $primary;
+        }
+
         &:hover {
-          color: #fff;
-          opacity: 0.82;
+          opacity: 0.75;
           transform: scale(1.15);
         }
       }
