@@ -25,11 +25,15 @@ Il 7 novembre 1940, il ponte sospeso di Tacoma Narrows, nello stato di Washingto
 
 Il soprannome che i cronisti dell'epoca diedero al ponte — "Galloping Gertie", Gertie la galoppante — era già stato coniato prima del crollo: la struttura era nota per ondeggiare vistosamente fin dai primi giorni di apertura, qualche mese prima. Non era un difetto nascosto: era un difetto che si vedeva a occhio nudo, e che nessuno prese abbastanza sul serio.
 
+![Il crollo del ponte di Tacoma Narrows, 7 novembre 1940](crollo-storico.jpg "Il momento del crollo, 7 novembre 1940")
+
 ### La spiegazione da manuale (e perché è incompleta)
 
 Per decenni, i libri di testo hanno raccontato questa storia come l'esempio per eccellenza della **risonanza**: il vento avrebbe soffiato a una frequenza vicina a una delle frequenze proprie di oscillazione del ponte, pompando energia nel sistema oscillante finché l'ampiezza non è diventata distruttiva. È una spiegazione elegante, facile da visualizzare, e — va detto con onestà — **non del tutto corretta**.
 
 Gli studi di ingegneria aerodinamica successivi al crollo hanno mostrato che il meccanismo reale è più sottile e si chiama **flutter aeroelastico**: non è il vento che "spinge a tempo" come qualcuno che dondola un'altalena, ma è l'oscillazione stessa del ponte a modificare il flusso d'aria attorno a sé in un modo che alimenta ulteriormente l'oscillazione — un ciclo che si autosostiene, invece di una semplice forza esterna periodica. La differenza è importante per chi progetta ponti, ma per chi si affaccia per la prima volta alla matematica delle oscillazioni, l'intuizione di partenza — un sistema che oscilla, e che può farlo in modo incontrollato se qualcosa lo alimenta alla frequenza "giusta" — resta un ottimo punto di partenza.
+
+![Illustrazione della progressione dell'oscillazione fino al collasso](crollo-illustrazione-ai.jpg "Ricostruzione illustrata (generata con IA) della progressione del flutter, non una fotografia d'epoca")
 
 ### Dall'aneddoto all'equazione
 
