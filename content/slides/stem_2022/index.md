@@ -251,7 +251,7 @@ slides:
 <h3 style="color:#8A4117; font-size: 44px"><em>In fisica e in matematica è impressionante la sproporzione tra lo sforzo per capire una cosa nuova per la prima volta e la semplicità e naturalezza del risultato una volta che i vari passaggi sono stati compiuti.
 <br>Nel prodotto finito, nelle scienze come in poesia, non c'è traccia della fatica del processo creativo e dei dubbi e delle esitazioni che lo accompagnano.<br>
 <br>&mdash; Giorgio Parisi </h3>
-<p style="color:#3B2F2F; font-size: 38px;">"In un volo di storni" - ed. Bompiani - 2022</p></em>
+<p style="color:#3B2F2F; font-size: 38px;">"In un volo di storni" - ed. Rizzoli - 2021</p></em>
 </section>
 
 ---
