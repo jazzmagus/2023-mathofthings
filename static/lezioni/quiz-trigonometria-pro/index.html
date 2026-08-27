@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Trigonometria, approfondimento</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+
+.level-picker{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
+.level-card{flex:1;min-width:160px;border:1.5px solid var(--border);border-radius:10px;padding:16px 18px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s}
+.level-card:hover{border-color:var(--accent);background:var(--accent-light)}
+.level-card.active{border-color:var(--accent);background:var(--accent-light)}
+.level-name{font-family:'Fira Code',monospace;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+.level-card.active .level-name{color:var(--accent)}
+.level-desc{font-size:.85rem;color:var(--text-mid);line-height:1.5}
+
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.btn-start{margin-top:8px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-start:hover{background:#a01549}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px;color:var(--text)}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{background:#a01549}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-retry:hover{background:#a01549}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(5,1fr)}
+  .level-picker{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quiz · Trigonometria</div>
+  <div class="topbar-tag">LP07</div>
+</div>
+
+<div class="container">
+
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Test di preparazione</div>
+      <h1>Trigonometria, a <em>fondo</em></h1>
+      <p class="hero-sub">30 domande a risposta multipla sulle dimostrazioni rigorose dei teoremi sui triangoli: teorema della corda, teorema dei seni, teorema del coseno (Carnot), e la discussione completa del caso ambiguo LLA. Tre livelli: Base, Avanzato, Pro.</p>
+    </div>
+
+    <div class="level-picker">
+      <div class="level-card active" id="lvl-0" onclick="selectLevel(0)">
+        <div class="level-name">Base</div>
+        <div class="level-desc">Enunciati dei teoremi, relazione angolo al centro/alla circonferenza, casi particolari.</div>
+      </div>
+      <div class="level-card" id="lvl-1" onclick="selectLevel(1)">
+        <div class="level-name">Avanzato</div>
+        <div class="level-desc">Le dimostrazioni passo per passo: corda, seni, Carnot (sintetica e vettoriale), caso ambiguo.</div>
+      </div>
+      <div class="level-card" id="lvl-2" onclick="selectLevel(2)">
+        <div class="level-name">Pro</div>
+        <div class="level-desc">Discussione completa, casi limite, collegamenti tra i teoremi, problemi numerici.</div>
+      </div>
+    </div>
+
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">10 per livello</span></div>
+      <div class="meta-item"><span class="meta-label">Tipo</span><span class="meta-value">Risposta multipla</span></div>
+      <div class="meta-item"><span class="meta-label">Feedback</span><span class="meta-value">Immediato</span></div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia il test</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso</span>
+        <span class="progress-frac" id="prog-frac">1 / 10</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag" id="res-tag">Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den" id="res-den">su 10 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova questo livello</button>
+      <a class="btn-lesson" href="#" onclick="backToLevels();return false;">Cambia livello</a>
+      <a class="btn-lesson" href="/lezioni/lp10-trigonometria-dimostrazioni/lezione.html">Torna alla lezione</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const LEVELS = ["Base","Avanzato","Pro"];
+
+const QSETS = [
+
+// ══════════════ LIVELLO BASE ══════════════
+[
+  {
+    badge: "Angolo al centro e alla circonferenza",
+    q: "In una circonferenza, come si relaziona un angolo al centro con un angolo alla circonferenza che insistono sullo stesso arco?",
+    opts: [
+      "sono sempre uguali",
+      "l'angolo al centro è il doppio dell'angolo alla circonferenza",
+      "l'angolo alla circonferenza è il doppio di quello al centro",
+      "non c'è alcuna relazione fissa"
+    ],
+    ans: 1,
+    exp: "È il teorema fondamentale da cui discende il teorema della corda: l'angolo al centro è sempre doppio di un angolo alla circonferenza che insiste sullo stesso arco."
+  },
+  {
+    badge: "Teorema della corda — enunciato",
+    q: "Una corda \\(AB\\) di una circonferenza di raggio \\(R\\) sottende un angolo alla circonferenza \\(\\gamma\\). Quanto vale \\(AB\\)?",
+    opts: [
+      "\\(AB = R\\sin\\gamma\\)",
+      "\\(AB = 2R\\sin\\gamma\\)",
+      "\\(AB = 2R\\cos\\gamma\\)",
+      "\\(AB = R\\tan\\gamma\\)"
+    ],
+    ans: 1,
+    exp: "Il teorema della corda afferma \\(AB=2R\\sin\\gamma\\), dove \\(\\gamma\\) è l'angolo alla circonferenza che insiste sulla corda."
+  },
+  {
+    badge: "Caso limite: il diametro",
+    q: "Cosa succede al teorema della corda quando \\(\\gamma = 90°\\)?",
+    opts: [
+      "la corda diventa nulla",
+      "la formula non è più valida",
+      "la corda coincide con un diametro, coerente col teorema di Talete",
+      "la corda diventa tangente alla circonferenza"
+    ],
+    ans: 2,
+    exp: "Con \\(\\gamma=90°\\), \\(AB=2R\\sin90°=2R\\): esattamente un diametro, in accordo col teorema di Talete (angolo retto inscritto in una semicirconferenza)."
+  },
+  {
+    badge: "Teorema dei seni — enunciato",
+    q: "In un triangolo \\(ABC\\) inscritto in una circonferenza di raggio \\(R\\), cosa afferma il teorema dei seni?",
+    opts: [
+      "\\(a+b+c = 2R\\)",
+      "\\(\\dfrac{a}{\\sin A} = \\dfrac{b}{\\sin B} = \\dfrac{c}{\\sin C} = 2R\\)",
+      "\\(a\\cdot\\sin A = b\\cdot\\sin B = c\\cdot\\sin C\\)",
+      "\\(\\dfrac{a}{\\cos A} = \\dfrac{b}{\\cos B}\\)"
+    ],
+    ans: 1,
+    exp: "Il teorema dei seni lega ogni lato al seno dell'angolo opposto: il rapporto comune è sempre \\(2R\\), il diametro della circonferenza circoscritta."
+  },
+  {
+    badge: "Teorema del coseno — enunciato",
+    q: "Cosa afferma il teorema del coseno (Carnot) per un triangolo con lati \\(a,b,c\\) e angolo \\(\\hat C\\) tra \\(a\\) e \\(b\\)?",
+    opts: [
+      "\\(c^2 = a^2+b^2\\)",
+      "\\(c^2 = a^2+b^2-2ab\\cos C\\)",
+      "\\(c^2 = a^2-b^2+2ab\\cos C\\)",
+      "\\(c = a+b-2\\cos C\\)"
+    ],
+    ans: 1,
+    exp: "Il teorema di Carnot generalizza Pitagora: \\(c^2=a^2+b^2-2ab\\cos C\\), dove \\(\\hat C\\) è l'angolo compreso tra i lati \\(a\\) e \\(b\\)."
+  },
+  {
+    badge: "Pitagora come caso particolare",
+    q: "Perché il teorema di Pitagora è un caso particolare del teorema del coseno?",
+    opts: [
+      "non lo è, sono teoremi indipendenti",
+      "perché se \\(\\hat C=90°\\), \\(\\cos C=0\\) e la formula si riduce a \\(c^2=a^2+b^2\\)",
+      "perché Pitagora vale solo per angoli ottusi",
+      "perché il coseno di un angolo retto vale 1"
+    ],
+    ans: 1,
+    exp: "Con \\(\\hat C=90°\\) si ha \\(\\cos C=0\\), quindi il termine \\(-2ab\\cos C\\) si annulla e resta esattamente \\(c^2=a^2+b^2\\)."
+  },
+  {
+    badge: "Il caso lato-lato-angolo",
+    q: "Nella risoluzione dei triangoli, quale caso può dare 0, 1 o 2 soluzioni a seconda dei dati?",
+    opts: [
+      "lato-lato-lato (LLL)",
+      "lato-angolo-lato (LAL)",
+      "lato-lato-angolo (LLA), con l'angolo non compreso tra i due lati noti",
+      "angolo-lato-angolo (ALA)"
+    ],
+    ans: 2,
+    exp: "Il caso LLA (due lati e l'angolo opposto a uno di essi) è l'unico che può avere un numero variabile di soluzioni: 0, 1 o 2, a seconda dei valori numerici."
+  },
+  {
+    badge: "Condizione di impossibilità",
+    q: "Nel caso LLA, quando il problema non ammette alcuna soluzione?",
+    opts: [
+      "quando i due lati sono uguali",
+      "quando il lato opposto all'angolo noto è troppo corto, cioè minore di \\(b\\sin A\\)",
+      "quando l'angolo noto è retto",
+      "il problema ha sempre almeno una soluzione"
+    ],
+    ans: 1,
+    exp: "Se \\(a \\lt b\\sin A\\), l'equazione \\(\\sin B = b\\sin A/a\\) darebbe un valore maggiore di 1: impossibile, quindi nessun triangolo esiste con quei dati."
+  },
+  {
+    badge: "Teorema della corda in fisica/topografia",
+    q: "Il teorema dei seni, oltre che in geometria, a cosa si applica tipicamente?",
+    opts: [
+      "solo a problemi di algebra pura",
+      "a problemi di triangolazione in topografia e ad alcuni problemi di fisica",
+      "esclusivamente al calcolo di aree",
+      "non ha applicazioni pratiche"
+    ],
+    ans: 1,
+    exp: "Il teorema dei seni e del coseno sono strumenti standard per problemi di triangolazione (topografia, navigazione) e per la risoluzione di problemi fisici che coinvolgono vettori e forze."
+  },
+  {
+    badge: "Numero di soluzioni: caso semplice",
+    q: "Nel caso LLA, se il lato opposto all'angolo noto è maggiore o uguale all'altro lato noto (\\(a \\ge b\\)), quante soluzioni ci sono?",
+    opts: [
+      "sempre due",
+      "sempre zero",
+      "esattamente una",
+      "dipende sempre dal valore dell'angolo"
+    ],
+    ans: 2,
+    exp: "Se \\(a\\ge b\\), delle due soluzioni possibili per l'angolo \\(B\\) (supplementari tra loro) solo una soddisfa la condizione che la somma degli angoli resti minore di \\(180°\\): quindi una sola soluzione."
+  }
+],
+
+// ══════════════ LIVELLO AVANZATO ══════════════
+[
+  {
+    badge: "Dimostrazione del teorema della corda",
+    q: "Nella dimostrazione del teorema della corda, come si usa l'isoscelia del triangolo \\(OAB\\) (con \\(O\\) centro)?",
+    opts: [
+      "non si usa l'isoscelia",
+      "l'altezza da \\(O\\) relativa alla base \\(AB\\) è anche bisettrice e mediana, dividendo il triangolo in due triangoli rettangoli congruenti",
+      "si usa solo per calcolare l'area del triangolo",
+      "serve a dimostrare che il triangolo è equilatero"
+    ],
+    ans: 1,
+    exp: "Poiché \\(OA=OB=R\\), il triangolo \\(OAB\\) è isoscele: l'altezza da \\(O\\) coincide con bisettrice e mediana, dividendo il triangolo in due rettangoli congruenti con angolo \\(\\gamma\\) al vertice \\(O\\) e ipotenusa \\(R\\)."
+  },
+  {
+    badge: "Dal teorema della corda al teorema dei seni",
+    q: "Come si dimostra il teorema dei seni a partire dal teorema della corda?",
+    opts: [
+      "sono teoremi indipendenti, non collegati",
+      "applicando il teorema della corda a ciascun lato del triangolo, che sottende l'angolo opposto come angolo alla circonferenza",
+      "usando solo il teorema di Pitagora",
+      "per via puramente algebrica, senza geometria"
+    ],
+    ans: 1,
+    exp: "Ogni lato del triangolo è una corda della circonferenza circoscritta, che sottende in ciascun vertice l'angolo alla circonferenza opposto: applicando il teorema della corda a ciascun lato si ottengono le tre uguaglianze del teorema dei seni."
+  },
+  {
+    badge: "Dimostrazione vettoriale di Carnot",
+    q: "Nella dimostrazione vettoriale del teorema del coseno, ponendo l'origine in \\(C\\) con \\(\\vec u=\\overrightarrow{CA}\\) e \\(\\vec v=\\overrightarrow{CB}\\), come si esprime \\(c^2\\)?",
+    opts: [
+      "\\(c^2 = |\\vec u|^2 - |\\vec v|^2\\)",
+      "\\(c^2 = |\\vec v-\\vec u|^2 = |\\vec u|^2+|\\vec v|^2-2\\vec u\\cdot\\vec v\\)",
+      "\\(c^2 = \\vec u\\cdot\\vec v\\)",
+      "\\(c^2 = |\\vec u+\\vec v|^2\\)"
+    ],
+    ans: 1,
+    exp: "Poiché \\(\\overrightarrow{AB}=\\vec v-\\vec u\\), sviluppando il prodotto scalare \\((\\vec v-\\vec u)\\cdot(\\vec v-\\vec u)\\) si ottiene \\(a^2+b^2-2ab\\cos C\\), usando \\(\\vec u\\cdot\\vec v=ab\\cos C\\)."
+  },
+  {
+    badge: "Vantaggio della dimostrazione vettoriale",
+    q: "Perché la dimostrazione vettoriale del teorema del coseno è preferibile a quella sintetica per angoli ottusi?",
+    opts: [
+      "non è preferibile, sono equivalenti in ogni aspetto",
+      "perché la formula del prodotto scalare vale per qualunque angolo tra 0 e π, senza dover distinguere il caso in cui il piede dell'altezza cade fuori dal segmento",
+      "perché evita di usare il teorema di Pitagora",
+      "perché funziona solo per triangoli rettangoli"
+    ],
+    ans: 1,
+    exp: "La dimostrazione sintetica con l'altezza richiede di distinguere il caso acutangolo da quello ottusangolo (piede dell'altezza interno o esterno al segmento); la dimostrazione vettoriale copre entrambi i casi in un solo passaggio."
+  },
+  {
+    badge: "Caso ambiguo — la condizione esatta",
+    q: "Nel caso LLA, qual è la condizione esatta su \\(a\\) e \\(b\\) affinché si abbiano esattamente due triangoli?",
+    opts: [
+      "\\(a = b\\)",
+      "\\(b\\sin A \\lt a \\lt b\\)",
+      "\\(a \\gt b\\)",
+      "\\(a = b\\sin A\\)"
+    ],
+    ans: 1,
+    exp: "Il caso ambiguo si presenta esattamente quando \\(b\\sin A \\lt a \\lt b\\): entrambe le soluzioni \\(B_1\\) e \\(B_2=\\pi-B_1\\) dell'equazione \\(\\sin B=b\\sin A/a\\) soddisfano \\(A+B\\lt\\pi\\)."
+  },
+  {
+    badge: "Perché B1 e B2 sono supplementari",
+    q: "Perché l'equazione \\(\\sin B = k\\) (con \\(0\\lt k\\lt1\\)) ha esattamente due soluzioni supplementari in \\((0,\\pi)\\)?",
+    opts: [
+      "per una proprietà specifica del seno: \\(\\sin(\\pi-x)=\\sin x\\), quindi se \\(B_1\\) è soluzione anche \\(\\pi-B_1\\) lo è",
+      "perché ogni equazione trigonometrica ha sempre due soluzioni",
+      "non è vero, ha sempre un'unica soluzione",
+      "perché il seno è una funzione pari"
+    ],
+    ans: 0,
+    exp: "La proprietà \\(\\sin(\\pi-x)=\\sin x\\) garantisce che se \\(B_1\\in(0,\\pi)\\) risolve \\(\\sin B=k\\), anche \\(\\pi-B_1\\) la risolve: sono le uniche due soluzioni in quell'intervallo."
+  },
+  {
+    badge: "Perché il caso a≥b ha una sola soluzione",
+    q: "Nel caso ambiguo, perché se \\(a\\ge b\\) resta solo una soluzione anche se matematicamente \\(\\sin B=k\\) ha ancora due radici?",
+    opts: [
+      "perché in quel caso l'equazione non ha soluzioni",
+      "perché la soluzione \\(B_2=\\pi-B_1\\), sommata all'angolo \\(A\\) noto, supererebbe \\(\\pi\\): geometricamente impossibile per un triangolo",
+      "perché \\(B_1\\) diventa negativo",
+      "perché il lato \\(a\\) non esiste più"
+    ],
+    ans: 1,
+    exp: "Anche se l'equazione trigonometrica ammette due radici, solo quelle compatibili con \\(A+B\\lt\\pi\\) (somma degli angoli interni) corrispondono a un triangolo reale: se \\(a\\ge b\\), solo \\(B_1\\) soddisfa questo vincolo."
+  },
+  {
+    badge: "Ruolo della circonferenza nel caso ambiguo",
+    q: "Geometricamente, cosa rappresentano i due punti \\(B_1\\) e \\(B_2\\) nel caso ambiguo?",
+    opts: [
+      "due centri di circonferenze diverse",
+      "le due intersezioni tra la circonferenza di raggio \\(a\\) centrata nel terzo vertice \\(C\\) e la retta che porta il lato opposto",
+      "i punti medi dei lati del triangolo",
+      "non hanno un significato geometrico preciso"
+    ],
+    ans: 1,
+    exp: "Fissati il vertice \\(A\\), l'angolo \\(\\hat A\\) e il vertice \\(C\\) (a distanza \\(b\\)), la circonferenza di raggio \\(a\\) centrata in \\(C\\) può intersecare la retta che contiene il lato \\(c\\) in zero, uno o due punti: sono proprio \\(B_1\\) e \\(B_2\\)."
+  },
+  {
+    badge: "Dimostrazione sintetica di Carnot — il caso ottuso",
+    q: "Nella dimostrazione sintetica del teorema del coseno con angolo \\(\\hat C\\) ottuso, cosa cambia rispetto al caso acuto?",
+    opts: [
+      "nulla, la dimostrazione è identica",
+      "il piede dell'altezza da \\(A\\) cade esternamente al segmento \\(BC\\), richiedendo di ricalcolare \\(BH\\) con un segno diverso",
+      "il teorema non vale più",
+      "occorre usare un raggio diverso"
+    ],
+    ans: 1,
+    exp: "Con angolo ottuso, il piede dell'altezza \\(H\\) cade fuori dal segmento \\(BC\\): il calcolo di \\(BH\\) cambia forma (usando \\(\\cos(\\pi-C)=-\\cos C\\)), ma il risultato finale coincide con quello del caso acutangolo."
+  },
+  {
+    badge: "Il raggio nella formula del teorema dei seni",
+    q: "Da cosa deriva il fatto che il rapporto comune nel teorema dei seni sia esattamente \\(2R\\) e non un altro valore?",
+    opts: [
+      "è una scelta convenzionale arbitraria",
+      "deriva direttamente dal teorema della corda applicato a ciascun lato del triangolo",
+      "dipende dal tipo di triangolo (acutangolo, rettangolo, ottusangolo)",
+      "si dimostra solo per triangoli equilateri"
+    ],
+    ans: 1,
+    exp: "Il valore \\(2R\\) emerge naturalmente dalla dimostrazione: applicando il teorema della corda \\(a=2R\\sin A\\) a ciascun lato, il valore comune del rapporto è sempre \\(2R\\), qualunque sia il triangolo."
+  }
+],
+
+// ══════════════ LIVELLO PRO ══════════════
+[
+  {
+    badge: "Sintesi: i tre teoremi collegati",
+    q: "Qual è il filo conduttore che collega teorema della corda, teorema dei seni e teorema del coseno?",
+    opts: [
+      "non c'è alcun collegamento, sono risultati indipendenti",
+      "il teorema della corda genera il teorema dei seni (applicandolo a ciascun lato); il teorema del coseno è indipendente ma complementare, e insieme permettono di risolvere qualunque triangolo",
+      "sono tutti casi particolari del teorema di Pitagora",
+      "valgono solo per triangoli equilateri"
+    ],
+    ans: 1,
+    exp: "Il teorema della corda è il fatto geometrico primitivo da cui discende il teorema dei seni; il teorema del coseno, dimostrato indipendentemente (per via sintetica o vettoriale), copre i casi (come LAL e LLL) in cui il teorema dei seni da solo non basta."
+  },
+  {
+    badge: "Discussione numerica del caso ambiguo",
+    q: "Dati \\(a=6\\), \\(\\hat A=30°\\), per quali valori di \\(b\\) si ha il caso ambiguo (due triangoli)?",
+    opts: [
+      "per ogni \\(b\\gt0\\)",
+      "per \\(6 \\lt b \\lt 12\\) (poiché \\(b\\sin A = b/2 \\lt 6 \\lt b\\))",
+      "per \\(b \\lt 6\\)",
+      "il caso ambiguo non si presenta mai con \\(A=30°\\)"
+    ],
+    ans: 1,
+    exp: "La condizione è \\(b\\sin A \\lt a \\lt b\\), cioè \\(b/2 \\lt 6 \\lt b\\): dalla prima disuguaglianza \\(b\\lt12\\), dalla seconda \\(b\\gt6\\). Quindi il caso ambiguo vale per \\(6\\lt b\\lt12\\)."
+  },
+  {
+    badge: "Verifica di un caso limite",
+    q: "Con \\(a=6\\), \\(\\hat A=30°\\) e \\(b=12\\), quanti triangoli esistono?",
+    opts: [
+      "due",
+      "zero",
+      "esattamente uno, rettangolo in \\(B\\), perché \\(a=b\\sin A\\)",
+      "infiniti"
+    ],
+    ans: 2,
+    exp: "\\(b\\sin A = 12\\cdot0{,}5=6=a\\): siamo nel caso limite \\(a=b\\sin A\\), che dà \\(\\sin B=1\\), cioè \\(B=90°\\): un solo triangolo, rettangolo in \\(B\\)."
+  },
+  {
+    badge: "Formula generale via corda, dimostrazione completa",
+    q: "Per dimostrare rigorosamente \\(a=2R\\sin A\\), quale ipotesi sull'angolo \\(\\hat A\\) è necessaria rispetto al teorema della corda?",
+    opts: [
+      "nessuna: basta che \\(A\\) sia l'angolo alla circonferenza sull'arco \\(BC\\) che non contiene \\(A\\) stesso, condizione sempre vera per un angolo interno di un triangolo inscritto",
+      "che il triangolo sia acutangolo",
+      "che il triangolo sia isoscele",
+      "che l'angolo sia ottuso"
+    ],
+    ans: 0,
+    exp: "Il teorema della corda si applica a qualunque angolo alla circonferenza che insista sull'arco corretto: per un triangolo inscritto, l'angolo interno in \\(A\\) è sempre l'angolo alla circonferenza sull'arco \\(BC\\) non contenente \\(A\\), quindi l'ipotesi è automaticamente soddisfatta, qualunque sia la forma del triangolo."
+  },
+  {
+    badge: "Confronto tra le due dimostrazioni di Carnot",
+    q: "In termini di generalità, qual è la differenza sostanziale tra la dimostrazione sintetica e quella vettoriale del teorema del coseno?",
+    opts: [
+      "non c'è alcuna differenza, sono identiche",
+      "la dimostrazione sintetica richiede due casi (acuto/ottuso) basati sulla posizione del piede dell'altezza, mentre quella vettoriale unifica entrambi i casi in un unico calcolo del prodotto scalare",
+      "la dimostrazione vettoriale funziona solo per triangoli rettangoli",
+      "la dimostrazione sintetica è più generale di quella vettoriale"
+    ],
+    ans: 1,
+    exp: "È il punto centrale del confronto tra i due metodi: la formula del prodotto scalare \\(\\vec u\\cdot\\vec v=|\\vec u||\\vec v|\\cos\\theta\\) vale per qualsiasi \\(\\theta\\in(0,\\pi)\\), eliminando la necessità di distinguere geometricamente i casi."
+  },
+  {
+    badge: "Problema misto: LAL con Carnot poi seni",
+    q: "Dati \\(a=5\\), \\(b=7\\), \\(\\hat C=60°\\) (caso LAL), qual è la strategia corretta per risolvere completamente il triangolo?",
+    opts: [
+      "si usa solo il teorema dei seni fin da subito",
+      "si calcola prima \\(c\\) con Carnot, poi si usano i seni per trovare gli altri due angoli",
+      "non è possibile risolvere il triangolo con questi dati",
+      "si usa solo il teorema della corda"
+    ],
+    ans: 1,
+    exp: "Nel caso LAL, il teorema dei seni da solo non basta (nessun lato è associato a un angolo noto): si calcola prima il terzo lato con Carnot, poi si passa al teorema dei seni (ora applicabile) per gli angoli rimanenti."
+  },
+  {
+    badge: "Il ruolo della limitatezza del seno",
+    q: "Nella discussione del caso LLA, quale proprietà strutturale del seno rende possibile l'intera classificazione (0, 1 o 2 soluzioni)?",
+    opts: [
+      "il fatto che il seno sia una funzione periodica",
+      "il fatto che il seno sia limitato tra \\(-1\\) e \\(1\\), e positivo per angoli tra \\(0\\) e \\(\\pi\\)",
+      "il fatto che il seno sia una funzione dispari",
+      "il fatto che il seno abbia derivata continua"
+    ],
+    ans: 1,
+    exp: "È la limitatezza (\\(-1\\le\\sin\\le1\\)) unita alla positività su \\((0,\\pi)\\) a determinare se l'equazione \\(\\sin B=k\\) ha soluzione, e quante: se \\(k\\gt1\\) nessuna, se \\(k=1\\) una, se \\(0\\lt k\\lt1\\) due (salvo il vincolo geometrico sulla somma degli angoli)."
+  },
+  {
+    badge: "Caso ambiguo e teorema del coseno come alternativa",
+    q: "Il caso ambiguo LLA si presenta anche se si tenta di risolvere il triangolo con il teorema del coseno invece che con i seni?",
+    opts: [
+      "sì, esattamente nello stesso modo",
+      "no: impostando l'equazione di secondo grado in \\(a\\) (o nel lato incognito) tramite Carnot, l'ambiguità si manifesta come due radici reali positive dell'equazione, non come un'ambiguità nascosta",
+      "il teorema del coseno non è applicabile al caso LLA",
+      "il teorema del coseno elimina sempre l'ambiguità"
+    ],
+    ans: 1,
+    exp: "Impostando Carnot come equazione di secondo grado nel lato incognito, il caso ambiguo si manifesta esplicitamente come due soluzioni positive dell'equazione quadratica: stessa ambiguità, vista da un'altra via."
+  },
+  {
+    badge: "Estensione: il caso degenere",
+    q: "Cosa succede al caso LLA quando \\(a = b\\sin A\\) esattamente, dal punto di vista del triangolo risultante?",
+    opts: [
+      "il triangolo non esiste",
+      "si ottiene un triangolo rettangolo, con l'angolo retto in \\(B\\): è il caso limite tra 'nessuna soluzione' e 'due soluzioni'",
+      "si ottengono infiniti triangoli",
+      "il triangolo diventa equilatero"
+    ],
+    ans: 1,
+    exp: "È il caso limite esatto: la circonferenza di raggio \\(a\\) centrata in \\(C\\) è tangente alla retta che porta il lato \\(c\\), toccandola in un solo punto — il triangolo risultante è rettangolo in \\(B\\)."
+  },
+  {
+    badge: "Sintesi finale: unificazione dei metodi",
+    q: "Qual è, in sintesi, il principio che rende teorema della corda, teorema dei seni e teorema del coseno strumenti tra loro coerenti per risolvere qualunque triangolo?",
+    opts: [
+      "sono strumenti scollegati, ciascuno utile solo in casi isolati",
+      "tutti derivano, direttamente o indirettamente, dalla relazione tra angoli e distanze in una circonferenza (corda/seni) o dalla struttura vettoriale del piano (coseno): insieme coprono ogni combinazione di dati nota (LLL, LAL, ALA/AAL, LLA)",
+      "solo il teorema di Pitagora è realmente necessario",
+      "servono soltanto per triangoli inscritti in una circonferenza"
+    ],
+    ans: 1,
+    exp: "È il principio unificante dell'intero approfondimento: il teorema della corda fonda il teorema dei seni sulla geometria della circonferenza circoscritta; il teorema del coseno, di natura algebrico-vettoriale, copre i casi in cui il solo teorema dei seni non basta. Insieme, i due teoremi risolvono ogni caso classico di risoluzione dei triangoli."
+  }
+]
+
+];
+
+// ── STATO ──
+let level = 0, Q = QSETS[0];
+let cur = 0, score = 0, answered = false, results = [];
+
+function selectLevel(i) {
+  level = i;
+  document.querySelectorAll('.level-card').forEach((el,idx) => el.classList.toggle('active', idx===i));
+}
+
+// ── LOGICA ──
+function startQuiz() {
+  Q = QSETS[level];
+  cur = 0; score = 0; answered = false; results = [];
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function backToLevels() {
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-intro').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx], total = Q.length;
+  document.getElementById('prog-frac').textContent = (idx+1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('q-badge').textContent = LEVELS[level] + ' — ' + q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const letters = ['A','B','C','D'];
+  document.getElementById('q-opts').innerHTML = q.opts.map((o,i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${o}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === q.ans;
+  if (isOk) score++;
+  results.push(isOk);
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('opt-' + i).classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) document.getElementById('opt-' + q.ans).classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur+1);
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next show';
+  btn.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  document.getElementById('res-tag').textContent = 'Livello ' + LEVELS[level] + ' — Risultato';
+  document.getElementById('res-den').textContent = 'su ' + Q.length + ' domande';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+
+  const msgs = [
+    [9, "Eccellente! I teoremi sui triangoli non hanno più segreti — prova un livello più avanzato."],
+    [7, "Ottimo lavoro. Un piccolo ripasso finale e sei al top."],
+    [5, "Sei sulla buona strada. Ricontrolla le domande sbagliate e riprova."],
+    [3, "C'è ancora del lavoro da fare. Rileggi la lezione e riprova il test."],
+    [0, "Non mollare. Riparti dal teorema della corda, studia con calma e riprova."]
+  ];
+  document.getElementById('res-msg').textContent = (msgs.find(m => score >= m[0]) || msgs[4])[1];
+
+  document.getElementById('res-grid').innerHTML = results.map((ok,i) =>
+    `<div class="rev-cell ${ok?'ok':'err'}" title="Domanda ${i+1}: ${ok?'corretta':'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) pick(parseInt(e.key)-1);
+  if ((e.key==='Enter'||e.key===' ') && answered) { e.preventDefault(); nextQ(); }
+});
+</script>
+</body>
+</html>

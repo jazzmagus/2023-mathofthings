@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento Pro — Geometria Analitica nello Spazio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.ct.sign td { text-align:center; font-family:'JetBrains Mono',monospace; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Pro · Geometria Analitica nello Spazio</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+{
+  tag:"IL PIANO",
+  title:"L'equazione del piano, dal <em>vettore normale</em>",
+  nav:"Equazione del piano",
+  body:
+    '<p>Nella lezione base, l\'equazione \\(ax+by+cz+d=0\\) viene spesso presentata come "la formula del piano". Qui la ricaviamo dalla proprietà geometrica che definisce un piano: l\'insieme dei punti la cui direzione rispetto a un punto fissato è ortogonale a un vettore dato.</p>' +
+    '<div class="cb"><div class="cb-label">Definizione operativa</div><p>Un piano \\(\\pi\\) è individuato da un punto \\(P_0=(x_0,y_0,z_0)\\) e da un vettore \\(\\vec n=(a,b,c)\\neq\\vec 0\\), detto <strong>vettore normale</strong>: \\(\\pi\\) è l\'insieme dei punti \\(P=(x,y,z)\\) tali che \\(\\overrightarrow{P_0P} \\perp \\vec n\\).</p></div>' +
+    '<p><strong>Dimostrazione dell\'equazione.</strong> La condizione di ortogonalità si scrive come annullamento del prodotto scalare:</p>' +
+    '<div class="math-block">\\[ \\overrightarrow{P_0P}\\cdot\\vec n = 0 \\quad\\Longleftrightarrow\\quad a(x-x_0)+b(y-y_0)+c(z-z_0)=0 \\]</div>' +
+    '<p>Sviluppando e ponendo \\(d = -(ax_0+by_0+cz_0)\\), si ottiene la forma generale:</p>' +
+    '<div class="math-block hero-formula">\\[ ax+by+cz+d=0 \\]</div>' +
+    '<p>Viceversa, ogni equazione lineare in \\(x,y,z\\) con \\((a,b,c)\\ne(0,0,0)\\) rappresenta un piano: basta leggere \\((a,b,c)\\) come vettore normale e trovare un punto qualunque che soddisfi l\'equazione. \\(\\blacksquare\\)</p>' +
+    '<div class="cb tip"><div class="cb-label">Il significato dei coefficienti</div><p>I coefficienti \\(a,b,c\\) non sono numeri arbitrari: sono esattamente le componenti del vettore perpendicolare al piano. Questo è il motivo per cui, dati due piani, basta confrontare i vettori \\((a,b,c)\\) per stabilirne il parallelismo — la sezione successiva lo useremo esplicitamente.</p></div>'
+},
+{
+  tag:"LA RETTA",
+  title:"Retta come <em>intersezione</em> o in forma <em>parametrica</em>",
+  nav:"La retta",
+  body:
+    '<p>A differenza del piano (che nello spazio ha un\'unica equazione), una retta nello spazio richiede <strong>due</strong> equazioni — è l\'intersezione di due piani non paralleli — oppure una descrizione parametrica basata sul vettore direttore. Dimostriamo che le due rappresentazioni sono equivalenti.</p>' +
+    '<div class="cb"><div class="cb-label">Retta come intersezione di piani</div><div class="math-block hero-formula">\\[ r: \\begin{cases} a_1x+b_1y+c_1z+d_1=0 \\\\ a_2x+b_2y+c_2z+d_2=0 \\end{cases} \\]</div><p>a condizione che i vettori normali \\(\\vec{n_1}=(a_1,b_1,c_1)\\) e \\(\\vec{n_2}=(a_2,b_2,c_2)\\) non siano paralleli (altrimenti i piani sono paralleli o coincidenti, e l\'intersezione non è una retta).</p></div>' +
+    '<div class="cb"><div class="cb-label">Retta in forma parametrica</div><p>Dato un punto \\(P_0\\) della retta e un vettore direttore \\(\\vec v=(l,m,n)\\):</p><div class="math-block hero-formula">\\[ \\begin{cases} x = x_0+lt \\\\ y = y_0+mt \\\\ z = z_0+nt \\end{cases}, \\quad t\\in\\mathbb{R} \\]</div></div>' +
+    '<p><strong>Equivalenza delle due forme.</strong> Dato il sistema dei due piani, un vettore direttore della retta intersezione è ortogonale a <em>entrambi</em> i vettori normali \\(\\vec{n_1}\\) e \\(\\vec{n_2}\\): l\'unico vettore (a meno di multipli) con questa proprietà è il <strong>prodotto vettoriale</strong>:</p>' +
+    '<div class="math-block">\\[ \\vec v = \\vec{n_1}\\times\\vec{n_2} \\]</div>' +
+    '<p>Infatti, per definizione, \\(\\vec{n_1}\\times\\vec{n_2}\\) è ortogonale sia a \\(\\vec{n_1}\\) sia a \\(\\vec{n_2}\\), quindi giace su entrambi i piani — cioè è parallelo alla loro intersezione. Basta poi trovare un punto \\(P_0\\) che soddisfi entrambe le equazioni (risolvendo il sistema per un valore arbitrario di una coordinata) per ottenere la forma parametrica completa. \\(\\blacksquare\\)</p>' +
+    acc([
+      { t:"Esempio — dalla forma cartesiana alla parametrica", h:'<p>Data \\(r:\\begin{cases}x+y-z=0\\\\2x-y=1\\end{cases}\\): \\(\\vec{n_1}=(1,1,-1)\\), \\(\\vec{n_2}=(2,-1,0)\\). Il prodotto vettoriale dà \\(\\vec v = \\vec{n_1}\\times\\vec{n_2} = (1\\cdot0-(-1)(-1),\\ (-1)\\cdot2-1\\cdot0,\\ 1\\cdot(-1)-1\\cdot2) = (-1,-2,-3)\\). Ponendo \\(z=0\\) nel sistema si trova \\(x=\\tfrac13, y=-\\tfrac13\\): un punto della retta.</p>' }
+    ])
+},
+{
+  tag:"PARALLELISMO E PERPENDICOLARITÀ",
+  title:"Condizioni con il metodo <em>vettoriale</em>",
+  nav:"Parallelismo/Perp.",
+  body:
+    '<p>Le condizioni di parallelismo e perpendicolarità tra rette, piani, e tra retta e piano, si dimostrano tutte confrontando vettori direttori e vettori normali — senza distinguere casi particolari.</p>' +
+    '<table class="ct"><tr><th>Relazione</th><th>Condizione</th><th>Perché</th></tr>' +
+    '<tr><td>Piano \\(\\pi_1 \\parallel \\pi_2\\)</td><td>\\(\\vec{n_1} = k\\,\\vec{n_2}\\)</td><td>Stessa direzione ortogonale</td></tr>' +
+    '<tr><td>Piano \\(\\pi_1 \\perp \\pi_2\\)</td><td>\\(\\vec{n_1}\\cdot\\vec{n_2}=0\\)</td><td>Normali ortogonali \\(\\Leftrightarrow\\) piani ortogonali</td></tr>' +
+    '<tr><td>Retta \\(r \\parallel s\\)</td><td>\\(\\vec{v_r} = k\\,\\vec{v_s}\\)</td><td>Stessa direzione</td></tr>' +
+    '<tr><td>Retta \\(r \\perp s\\)</td><td>\\(\\vec{v_r}\\cdot\\vec{v_s}=0\\)</td><td>Direttori ortogonali</td></tr>' +
+    '<tr><td>Retta \\(r \\parallel \\pi\\)</td><td>\\(\\vec{v_r}\\cdot\\vec n = 0\\)</td><td>Direttore ortogonale alla normale</td></tr>' +
+    '<tr><td>Retta \\(r \\perp \\pi\\)</td><td>\\(\\vec{v_r} = k\\,\\vec n\\)</td><td>Direttore parallelo alla normale</td></tr></table>' +
+    '<p><strong>Dimostrazione del caso retta-piano.</strong> La retta \\(r\\) è parallela al piano \\(\\pi\\) (o contenuta in esso) se e solo se il suo vettore direttore \\(\\vec{v_r}\\) giace, come vettore libero, "dentro" la direzione del piano — cioè è ortogonale al vettore normale \\(\\vec n\\), che per definizione è ortogonale a ogni direzione del piano. Da qui \\(\\vec{v_r}\\cdot\\vec n=0\\). Viceversa, \\(r\\perp\\pi\\) significa che \\(r\\) è parallela alla normale, dato che l\'unica direzione ortogonale a <em>tutte</em> le direzioni del piano è proprio quella di \\(\\vec n\\): da qui \\(\\vec{v_r}=k\\vec n\\). \\(\\blacksquare\\)</p>' +
+    '<div class="cb warn"><div class="cb-label">Un errore frequente</div><p>Per il parallelismo tra retta e piano si usa il <strong>prodotto scalare</strong> (nullo), non il prodotto vettoriale: sono relazioni concettualmente diverse, e scambiarle produce condizioni sbagliate. La tabella va letta come corrispondenza tra "stesso tipo di oggetto → stessa direzione" e "tipo diverso → ortogonalità delle direzioni caratteristiche".</p></div>'
+},
+{
+  tag:"DISTANZE",
+  title:"Distanza punto-<em>piano</em> e punto-<em>retta</em>",
+  nav:"Distanze",
+  body:
+    '<p>Le formule di distanza, spesso applicate come ricette, si derivano proiettando ortogonalmente sul vettore normale (per il piano) o usando il prodotto vettoriale (per la retta).</p>' +
+    '<div class="cb"><div class="cb-label">Distanza punto-piano</div><p>Dato \\(Q=(x_1,y_1,z_1)\\) e il piano \\(ax+by+cz+d=0\\):</p><div class="math-block hero-formula">\\[ d(Q,\\pi) = \\frac{|ax_1+by_1+cz_1+d|}{\\sqrt{a^2+b^2+c^2}} \\]</div></div>' +
+    '<p><strong>Dimostrazione.</strong> Sia \\(P_0\\) un punto qualunque del piano. Il vettore \\(\\overrightarrow{P_0Q}\\) si decompone in una componente parallela al piano e una parallela a \\(\\vec n\\); la distanza cercata è il modulo di quest\'ultima, cioè il modulo della proiezione di \\(\\overrightarrow{P_0Q}\\) su \\(\\vec n\\):</p>' +
+    '<div class="math-block">\\[ d(Q,\\pi) = \\left|\\overrightarrow{P_0Q}\\cdot\\frac{\\vec n}{|\\vec n|}\\right| = \\frac{|\\overrightarrow{P_0Q}\\cdot\\vec n|}{|\\vec n|} \\]</div>' +
+    '<p>Sviluppando il prodotto scalare con \\(P_0=(x_0,y_0,z_0)\\) sul piano (quindi \\(ax_0+by_0+cz_0=-d\\)):</p>' +
+    '<div class="math-block">\\[ \\overrightarrow{P_0Q}\\cdot\\vec n = a(x_1-x_0)+b(y_1-y_0)+c(z_1-z_0) = ax_1+by_1+cz_1 - (ax_0+by_0+cz_0) = ax_1+by_1+cz_1+d \\]</div>' +
+    '<p>da cui la formula, indipendente dalla scelta di \\(P_0\\) (come deve essere, trattandosi di una distanza). \\(\\blacksquare\\)</p>' +
+    '<div class="cb"><div class="cb-label">Distanza punto-retta, con il prodotto vettoriale</div><p>Data la retta \\(r\\) per \\(P_0\\) con direttore \\(\\vec v\\), e un punto \\(Q\\):</p><div class="math-block hero-formula">\\[ d(Q,r) = \\frac{|\\overrightarrow{P_0Q}\\times\\vec v|}{|\\vec v|} \\]</div><p>Questa è l\'altezza del parallelogramma generato da \\(\\overrightarrow{P_0Q}\\) e \\(\\vec v\\): l\'area del parallelogramma è \\(|\\overrightarrow{P_0Q}\\times\\vec v|\\) (per definizione geometrica del prodotto vettoriale) ed è anche base \\(\\times\\) altezza \\(= |\\vec v|\\cdot d(Q,r)\\); uguagliando le due espressioni si isola \\(d(Q,r)\\).</p></div>'
+},
+{
+  tag:"SINTESI",
+  title:"Mappa dei <em>metodi</em>",
+  nav:"Sintesi",
+  body:
+    '<p>Tutta la geometria analitica dello spazio si riconduce a due soli strumenti algebrici: il prodotto scalare (per ortogonalità e proiezioni) e il prodotto vettoriale (per direzioni comuni e distanze da rette).</p>' +
+    '<table class="ct"><tr><th>Oggetto/Relazione</th><th>Strumento</th></tr>' +
+    '<tr><td>Equazione del piano</td><td>Prodotto scalare = 0 (ortogonalità a \\(\\vec n\\))</td></tr>' +
+    '<tr><td>Direttore della retta intersezione</td><td>Prodotto vettoriale \\(\\vec{n_1}\\times\\vec{n_2}\\)</td></tr>' +
+    '<tr><td>Parallelismo/perpendicolarità piano-piano, retta-retta</td><td>Prodotto scalare o proporzionalità</td></tr>' +
+    '<tr><td>Parallelismo/perpendicolarità retta-piano</td><td>Prodotto scalare (invertito rispetto al caso precedente)</td></tr>' +
+    '<tr><td>Distanza punto-piano</td><td>Proiezione scalare su \\(\\vec n\\)</td></tr>' +
+    '<tr><td>Distanza punto-retta</td><td>Prodotto vettoriale (area del parallelogramma)</td></tr></table>' +
+    acc([
+      { t:"Problema 1 — dimostrazione richiesta", h:'<p>Dimostra che due piani \\(\\pi_1: a_1x+b_1y+c_1z+d_1=0\\) e \\(\\pi_2: a_2x+b_2y+c_2z+d_2=0\\) sono paralleli e distinti se e solo se \\((a_1,b_1,c_1)=k(a_2,b_2,c_2)\\) ma \\(d_1\\neq k\\,d_2\\).</p>' },
+      { t:"Problema 2 — retta e piano", h:'<p>Verifica se la retta \\(r:(x,y,z)=(1,0,2)+t(2,-1,1)\\) è parallela, perpendicolare o incidente obliqua al piano \\(\\pi: x+2y-3z+5=0\\), calcolando esplicitamente \\(\\vec{v_r}\\cdot\\vec n\\).</p>' },
+      { t:"Problema 3 — distanza punto-retta", h:'<p>Calcola la distanza del punto \\(Q=(1,1,1)\\) dalla retta \\(r\\) per \\(P_0=(0,0,0)\\) con direttore \\(\\vec v=(1,1,0)\\), usando la formula del prodotto vettoriale.</p><div class="math-block result">\\[ \\overrightarrow{P_0Q}\\times\\vec v = (1,1,1)\\times(1,1,0) = (-1,1,0), \\quad d = \\frac{\\sqrt2}{\\sqrt2}=1 \\]</div>' }
+    ])
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>

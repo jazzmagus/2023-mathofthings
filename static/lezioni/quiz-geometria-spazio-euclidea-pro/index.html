@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Geometria Euclidea nello Spazio, approfondimento</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+
+.level-picker{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
+.level-card{flex:1;min-width:160px;border:1.5px solid var(--border);border-radius:10px;padding:16px 18px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s}
+.level-card:hover{border-color:var(--accent);background:var(--accent-light)}
+.level-card.active{border-color:var(--accent);background:var(--accent-light)}
+.level-name{font-family:'Fira Code',monospace;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+.level-card.active .level-name{color:var(--accent)}
+.level-desc{font-size:.85rem;color:var(--text-mid);line-height:1.5}
+
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.btn-start{margin-top:8px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-start:hover{background:#a01549}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px;color:var(--text)}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{background:#a01549}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-retry:hover{background:#a01549}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(5,1fr)}
+  .level-picker{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quiz · Geometria Euclidea nello Spazio</div>
+  <div class="topbar-tag">LP08</div>
+</div>
+
+<div class="container">
+
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Test di preparazione</div>
+      <h1>Geometria Euclidea nello <em>Spazio</em>, a fondo</h1>
+      <p class="hero-sub">30 domande a risposta multipla sul criterio di perpendicolarità retta-piano, il principio di Cavalieri, la classificazione dei cinque poliedri regolari e i solidi di rotazione. Tre livelli: Base, Avanzato, Pro.</p>
+    </div>
+
+    <div class="level-picker">
+      <div class="level-card active" id="lvl-0" onclick="selectLevel(0)">
+        <div class="level-name">Base</div>
+        <div class="level-desc">Criterio retta-piano, enunciato di Cavalieri, formule di volume, i cinque solidi platonici.</div>
+      </div>
+      <div class="level-card" id="lvl-1" onclick="selectLevel(1)">
+        <div class="level-name">Avanzato</div>
+        <div class="level-desc">Le dimostrazioni: perché due rette bastano, Cavalieri applicato a piramide e sfera, relazione di Eulero.</div>
+      </div>
+      <div class="level-card" id="lvl-2" onclick="selectLevel(2)">
+        <div class="level-name">Pro</div>
+        <div class="level-desc">Sintesi, casi limite, collegamenti tra i risultati, problemi di applicazione.</div>
+      </div>
+    </div>
+
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">10 per livello</span></div>
+      <div class="meta-item"><span class="meta-label">Tipo</span><span class="meta-value">Risposta multipla</span></div>
+      <div class="meta-item"><span class="meta-label">Feedback</span><span class="meta-value">Immediato</span></div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia il test</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso</span>
+        <span class="progress-frac" id="prog-frac">1 / 10</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag" id="res-tag">Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den" id="res-den">su 10 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova questo livello</button>
+      <a class="btn-lesson" href="#" onclick="backToLevels();return false;">Cambia livello</a>
+      <a class="btn-lesson" href="/lezioni/lp11-geometria-spazio-euclidea/lezione.html">Torna alla lezione</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const LEVELS = ["Base","Avanzato","Pro"];
+
+const QSETS = [
+
+// ══════════════ LIVELLO BASE ══════════════
+[
+  {
+    badge: "Criterio di perpendicolarità retta-piano",
+    q: "Cosa serve, secondo il criterio dimostrato in questa lezione, perché una retta \\(r\\) sia perpendicolare a un intero piano \\(\\pi\\)?",
+    opts: [
+      "basta che \\(r\\) sia perpendicolare a una sola retta di \\(\\pi\\)",
+      "\\(r\\) deve essere perpendicolare a due rette incidenti di \\(\\pi\\), nel loro punto comune",
+      "basta che \\(r\\) tocchi il piano in un punto",
+      "\\(r\\) deve essere parallela a due rette di \\(\\pi\\)"
+    ],
+    ans: 1,
+    exp: "Il criterio richiede che \\(r\\) sia perpendicolare a due rette del piano, incidenti nello stesso punto: questo basta a garantire che \\(r\\) sia perpendicolare a ogni retta del piano passante per quel punto."
+  },
+  {
+    badge: "Perché due rette e non una",
+    q: "Perché una sola retta perpendicolare non basta a garantire che \\(r\\perp\\pi\\)?",
+    opts: [
+      "perché esistono infinite rette del piano perpendicolari a \\(r\\) in un punto, senza che \\(r\\) sia perpendicolare a tutto il piano",
+      "perché una retta non può mai essere perpendicolare a un piano",
+      "perché serve sempre almeno un terzo elemento",
+      "in realtà una retta è sufficiente"
+    ],
+    ans: 0,
+    exp: "Con una sola retta perpendicolare, ci sono ancora infinite direzioni nel piano non controllate: solo due rette incidenti, che generano l'intero piano, bastano a fissare tutte le direzioni."
+  },
+  {
+    badge: "Principio di Cavalieri — enunciato",
+    q: "Cosa afferma il principio di Cavalieri?",
+    opts: [
+      "due solidi con lo stesso volume hanno sempre la stessa forma",
+      "se due solidi tra due piani paralleli hanno sezioni di area uguale a ogni quota, allora hanno lo stesso volume",
+      "il volume di un solido dipende solo dalla sua altezza",
+      "due solidi con la stessa base hanno sempre lo stesso volume"
+    ],
+    ans: 1,
+    exp: "Il principio di Cavalieri: uguaglianza delle aree di sezione a ogni quota (tra due piani paralleli) implica uguaglianza dei volumi, indipendentemente dalla forma delle sezioni."
+  },
+  {
+    badge: "Volume della piramide",
+    q: "Qual è la formula del volume di una piramide con area di base \\(A\\) e altezza \\(h\\)?",
+    opts: [
+      "\\(V = A\\cdot h\\)",
+      "\\(V = \\dfrac{1}{2}A\\cdot h\\)",
+      "\\(V = \\dfrac{1}{3}A\\cdot h\\)",
+      "\\(V = 2A\\cdot h\\)"
+    ],
+    ans: 2,
+    exp: "Il volume della piramide è un terzo del prodotto tra area di base e altezza: \\(V=\\frac13 A h\\), conseguenza della decomposizione del prisma in tre piramidi equivalenti."
+  },
+  {
+    badge: "Volume della sfera",
+    q: "Qual è la formula del volume di una sfera di raggio \\(R\\)?",
+    opts: [
+      "\\(V=\\pi R^2\\)",
+      "\\(V=\\dfrac{4}{3}\\pi R^3\\)",
+      "\\(V=4\\pi R^2\\)",
+      "\\(V=\\dfrac{1}{3}\\pi R^3\\)"
+    ],
+    ans: 1,
+    exp: "Il volume della sfera è \\(V=\\frac43\\pi R^3\\), dimostrabile tramite Cavalieri confrontando la semisfera con un cilindro privato di un cono."
+  },
+  {
+    badge: "Poliedri regolari — quanti sono",
+    q: "Quanti sono i poliedri regolari (solidi platonici)?",
+    opts: [
+      "tre",
+      "quattro",
+      "esattamente cinque",
+      "infiniti"
+    ],
+    ans: 2,
+    exp: "I poliedri regolari sono esattamente cinque: tetraedro, cubo, ottaedro, dodecaedro, icosaedro. Il numero preciso si dimostra con la relazione di Eulero."
+  },
+  {
+    badge: "Relazione di Eulero",
+    q: "Cosa afferma la relazione di Eulero per un poliedro convesso?",
+    opts: [
+      "\\(V+S+F=0\\)",
+      "\\(V-S+F=2\\)",
+      "\\(V\\cdot S\\cdot F=1\\)",
+      "\\(V=S=F\\)"
+    ],
+    ans: 1,
+    exp: "La relazione di Eulero lega vertici (\\(V\\)), spigoli (\\(S\\)) e facce (\\(F\\)) di un poliedro convesso: \\(V-S+F=2\\), qualunque sia il poliedro."
+  },
+  {
+    badge: "Volume del cono",
+    q: "Qual è la formula del volume di un cono di raggio \\(r\\) e altezza \\(h\\)?",
+    opts: [
+      "\\(V=\\pi r^2h\\)",
+      "\\(V=\\dfrac13\\pi r^2h\\)",
+      "\\(V=2\\pi rh\\)",
+      "\\(V=\\dfrac13\\pi rh^2\\)"
+    ],
+    ans: 1,
+    exp: "Il cono ha la stessa formula di volume della piramide (un terzo di area di base per altezza): \\(V=\\frac13\\pi r^2h\\), dimostrabile con Cavalieri confrontandolo con una piramide equivalente."
+  },
+  {
+    badge: "Superficie laterale del cono",
+    q: "Qual è la formula della superficie laterale di un cono con raggio di base \\(r\\) e apotema \\(a\\)?",
+    opts: [
+      "\\(S_{lat}=\\pi r^2\\)",
+      "\\(S_{lat}=\\pi r a\\)",
+      "\\(S_{lat}=2\\pi r a\\)",
+      "\\(S_{lat}=\\pi a^2\\)"
+    ],
+    ans: 1,
+    exp: "Sviluppando la superficie laterale del cono in un settore circolare di raggio \\(a\\), si ottiene \\(S_{lat}=\\pi r a\\)."
+  },
+  {
+    badge: "Superficie della sfera",
+    q: "Qual è la formula della superficie di una sfera di raggio \\(R\\)?",
+    opts: [
+      "\\(S=\\pi R^2\\)",
+      "\\(S=2\\pi R^2\\)",
+      "\\(S=4\\pi R^2\\)",
+      "\\(S=\\frac43\\pi R^2\\)"
+    ],
+    ans: 2,
+    exp: "La superficie della sfera è \\(S=4\\pi R^2\\), pari alla superficie laterale del cilindro circoscritto — risultato anch'esso dovuto ad Archimede."
+  }
+],
+
+// ══════════════ LIVELLO AVANZATO ══════════════
+[
+  {
+    badge: "Dimostrazione del criterio retta-piano",
+    q: "Nella dimostrazione del criterio di perpendicolarità, come si usa l'isoscelia dei triangoli \\(Q_1AQ_2\\) e \\(Q_1BQ_2\\)?",
+    opts: [
+      "non si usa alcuna isoscelia",
+      "\\(Q_1,Q_2\\) sono scelti simmetrici rispetto a \\(P\\) su \\(r\\): la perpendicolarità di \\(r\\) ad \\(a\\) e \\(b\\) rende isosceli quei triangoli per ogni punto di \\(a\\) e \\(b\\), da cui \\(AQ_1=AQ_2\\) e \\(BQ_1=BQ_2\\)",
+      "serve solo a calcolare l'area del piano",
+      "dimostra che il piano è un quadrato"
+    ],
+    ans: 1,
+    exp: "Scegliendo \\(Q_1,Q_2\\) simmetrici rispetto a \\(P\\) su \\(r\\), la perpendicolarità di \\(r\\) rispetto ad \\(a\\) e \\(b\\) fa sì che ogni punto di \\(a\\) o \\(b\\) sia equidistante da \\(Q_1\\) e \\(Q_2\\): questo è il passo chiave per estendere la proprietà a ogni retta \\(c\\) del piano."
+  },
+  {
+    badge: "Il ruolo della disuguaglianza triangolare",
+    q: "Nella dimostrazione del criterio retta-piano, a cosa serve applicare ripetutamente la disuguaglianza triangolare a un punto \\(C\\) esprimibile come combinazione di \\(A\\) e \\(B\\)?",
+    opts: [
+      "a dimostrare che il triangolo \\(ABC\\) è equilatero",
+      "a estendere l'uguaglianza delle distanze \\(CQ_1=CQ_2\\) a un punto qualunque \\(C\\) di una terza retta \\(c\\) del piano, non solo ai punti di \\(a\\) e \\(b\\)",
+      "a calcolare l'area del piano \\(\\pi\\)",
+      "non ha alcun ruolo nella dimostrazione"
+    ],
+    ans: 1,
+    exp: "Poiché \\(a\\) e \\(b\\) generano il piano, ogni punto \\(C\\) di una retta \\(c\\) per \\(P\\) può essere collegato ad \\(A\\in a\\) e \\(B\\in b\\): applicando la disuguaglianza triangolare si estende \\(CQ_1=CQ_2\\) a \\(C\\), rendendo isoscele anche il triangolo \\(CQ_1Q_2\\)."
+  },
+  {
+    badge: "Cavalieri per la piramide — la decomposizione",
+    q: "Come si dimostra che il volume della piramide è \\(\\frac13 A h\\) usando la decomposizione del prisma?",
+    opts: [
+      "un prisma triangolare si decompone in tre piramidi di volume uguale, quindi ciascuna ha un terzo del volume del prisma \\(Ah\\)",
+      "si usa direttamente il teorema di Pitagora",
+      "si confronta la piramide con una sfera di volume noto",
+      "non esiste una dimostrazione elementare di questo fatto"
+    ],
+    ans: 0,
+    exp: "Decomponendo un prisma triangolare in tre piramidi di volume uguale a due a due (dimostrato con Cavalieri), ciascuna piramide ha volume \\(\\frac13\\) del volume del prisma, cioè \\(\\frac13 Ah\\)."
+  },
+  {
+    badge: "Cavalieri per la sfera — il confronto",
+    q: "Nella dimostrazione del volume della sfera, con quale solido si confronta la semisfera per applicare Cavalieri?",
+    opts: [
+      "con un cono soltanto",
+      "con un cubo di lato pari al raggio",
+      "con un cilindro di raggio e altezza \\(R\\), privato di un cono con stessa base e altezza",
+      "con un'altra sfera di raggio doppio"
+    ],
+    ans: 2,
+    exp: "Si confronta la semisfera con un cilindro (raggio e altezza \\(R\\)) a cui è stato tolto un cono con la stessa base e altezza: a ogni quota \\(z\\), le due sezioni hanno la stessa area \\(\\pi(R^2-z^2)\\)."
+  },
+  {
+    badge: "Perché le aree di sezione coincidono",
+    q: "A quota \\(z\\), perché la sezione della semisfera e quella del cilindro-meno-cono hanno la stessa area?",
+    opts: [
+      "per una coincidenza numerica priva di spiegazione",
+      "perché entrambe valgono \\(\\pi(R^2-z^2)\\): la prima per il teorema di Pitagora applicato al raggio della sezione circolare, la seconda come differenza tra l'area del cerchio di raggio \\(R\\) e quella del cerchio di raggio \\(z\\) (sezione del cono)",
+      "perché entrambe sono nulle",
+      "solo per \\(z=0\\)"
+    ],
+    ans: 1,
+    exp: "La sezione della semisfera a quota \\(z\\) ha raggio \\(\\sqrt{R^2-z^2}\\) (Pitagora), quindi area \\(\\pi(R^2-z^2)\\); la sezione del cilindro-meno-cono è un anello di raggio esterno \\(R\\) e interno \\(z\\) (il cono ha raggio \\(z\\) a quota \\(z\\)), quindi area \\(\\pi R^2-\\pi z^2\\): le due espressioni coincidono."
+  },
+  {
+    badge: "Dimostrazione della relazione di Eulero applicata",
+    q: "Ponendo \\(p\\) = lati per faccia e \\(q\\) = facce per vertice, quale disuguaglianza si ricava sostituendo \\(F=2S/p\\) e \\(V=2S/q\\) nella relazione di Eulero?",
+    opts: [
+      "\\(\\dfrac1p+\\dfrac1q>\\dfrac12\\)",
+      "\\(\\dfrac1p+\\dfrac1q<\\dfrac12\\)",
+      "\\(p+q=2\\)",
+      "\\(pq=2\\)"
+    ],
+    ans: 0,
+    exp: "Sostituendo nella relazione di Eulero e semplificando (con \\(S>0\\)), si ottiene la disuguaglianza \\(\\frac1p+\\frac1q>\\frac12\\), che ammette solo cinque soluzioni con \\(p,q\\ge3\\) interi."
+  },
+  {
+    badge: "Il caso escluso (3,6)",
+    q: "Perché la coppia \\((p,q)=(3,6)\\) (triangoli, 6 per vertice) non dà un poliedro regolare?",
+    opts: [
+      "perché non esistono triangoli regolari",
+      "perché \\(\\frac13+\\frac16=\\frac12\\) esattamente, non soddisfa la disuguaglianza stretta: corrisponde a una tassellazione piana, non a un solido chiuso",
+      "perché il numero di facce sarebbe negativo",
+      "in realtà (3,6) è un poliedro valido, il tetraedro"
+    ],
+    ans: 1,
+    exp: "Con \\(\\frac1p+\\frac1q=\\frac12\\) esattamente (non maggiore), la formula di Eulero darebbe \\(S=\\infty\\) o un valore non finito: geometricamente, questa configurazione tassella un piano infinito (6 triangoli equilateri per vertice), non chiude un solido."
+  },
+  {
+    badge: "Dimostrazione del volume del cono via Cavalieri",
+    q: "Come si dimostra che il cono ha la stessa formula di volume della piramide, usando Cavalieri?",
+    opts: [
+      "non è dimostrabile con Cavalieri",
+      "confrontando il cono con una piramide di base equivalente (stessa area) e stessa altezza: le sezioni a ogni quota hanno la stessa area, per la stessa legge di scala quadratica",
+      "il cono e la piramide hanno formule diverse",
+      "si usa solo il teorema di Pitagora"
+    ],
+    ans: 1,
+    exp: "A quota \\(z\\), la sezione del cono ha area che scala col quadrato di \\((1-z/h)\\), esattamente come una piramide con base di area equivalente: per Cavalieri, i volumi coincidono, dando la stessa formula \\(\\frac13 A h\\)."
+  },
+  {
+    badge: "Sviluppo piano del cono",
+    q: "Perché sviluppando la superficie laterale del cono si ottiene un settore circolare di raggio pari all'apotema?",
+    opts: [
+      "perché tagliando lungo una generatrice, la superficie curva si 'srotola' in un settore piano il cui raggio è la generatrice (apotema) del cono",
+      "per una scelta arbitraria di rappresentazione",
+      "perché il cono è in realtà un cilindro",
+      "non è vero, si ottiene un rettangolo"
+    ],
+    ans: 0,
+    exp: "Ogni generatrice del cono ha la stessa lunghezza (l'apotema \\(a\\)): tagliando lungo una di esse, la superficie laterale si sviluppa in un settore circolare di raggio \\(a\\), il cui arco corrisponde alla circonferenza di base."
+  },
+  {
+    badge: "Teorema delle tre perpendicolari — utilità",
+    q: "A cosa serve, in pratica, il teorema delle tre perpendicolari nei problemi sui solidi?",
+    opts: [
+      "a nulla di pratico, è solo un risultato teorico",
+      "a ricondurre il calcolo di distanze e angoli diedri (un problema 3D) a un problema sul piano, lavorando sulla proiezione ortogonale",
+      "a dimostrare che tutti i solidi sono equivalenti",
+      "solo a calcolare volumi di sfere"
+    ],
+    ans: 1,
+    exp: "Il teorema permette di verificare la perpendicolarità tra una retta obliqua e una retta del piano lavorando sulla proiezione ortogonale: è lo strumento pratico per calcolare angoli diedri e distanze nei problemi sui solidi."
+  }
+],
+
+// ══════════════ LIVELLO PRO ══════════════
+[
+  {
+    badge: "Sintesi: un solo principio per tre formule",
+    q: "Quale unico principio permette di dimostrare, con lo stesso schema logico, le formule di volume di piramide, cono e sfera?",
+    opts: [
+      "il teorema di Pitagora, applicato tre volte separatamente",
+      "il principio di Cavalieri: confrontare il solido con un altro di volume noto, verificando che le sezioni a ogni quota abbiano area uguale",
+      "non esiste un principio comune, sono tre dimostrazioni indipendenti",
+      "la formula di Erone"
+    ],
+    ans: 1,
+    exp: "È il filo conduttore dell'intera lezione: Cavalieri permette di confrontare piramide/prisma, cono/piramide, semisfera/cilindro-meno-cono, dimostrando l'uguaglianza dei volumi dal solo confronto delle aree di sezione."
+  },
+  {
+    badge: "Applicazione numerica di Cavalieri",
+    q: "Una semisfera di raggio \\(R=6\\) e un cilindro di raggio 6 e altezza 6 (privato del cono interno) hanno, a quota \\(z=3\\), sezioni di area...?",
+    opts: [
+      "diverse tra loro",
+      "uguali, entrambe pari a \\(\\pi(36-9)=27\\pi\\)",
+      "uguali, entrambe pari a \\(36\\pi\\)",
+      "non calcolabili senza altri dati"
+    ],
+    ans: 1,
+    exp: "Per Cavalieri, a ogni quota le due aree coincidono: \\(\\pi(R^2-z^2)=\\pi(36-9)=27\\pi\\), sia per la semisfera sia per il cilindro-meno-cono."
+  },
+  {
+    badge: "Collegamento tra Eulero e i poliedri semiregolari",
+    q: "La relazione di Eulero \\(V-S+F=2\\) vale solo per i poliedri regolari?",
+    opts: [
+      "sì, è specifica dei cinque solidi platonici",
+      "no, vale per qualunque poliedro convesso; il vincolo \\(\\frac1p+\\frac1q>\\frac12\\) con \\(p,q\\) costanti è invece specifico della regolarità",
+      "vale solo per il cubo",
+      "non è mai stata dimostrata in generale"
+    ],
+    ans: 1,
+    exp: "La relazione di Eulero è generale per tutti i poliedri convessi; è l'ulteriore richiesta che ogni faccia abbia lo stesso numero di lati \\(p\\) e ogni vertice lo stesso numero di facce \\(q\\) a restringere le soluzioni a sole cinque configurazioni."
+  },
+  {
+    badge: "Verifica numerica sui poliedri",
+    q: "Verificando la relazione di Eulero per il dodecaedro (\\(V=20\\), \\(S=30\\), \\(F=12\\)), il risultato è coerente?",
+    opts: [
+      "no, il dodecaedro viola la relazione di Eulero",
+      "sì: \\(20-30+12=2\\), coerente",
+      "il dodecaedro non è un poliedro convesso",
+      "la verifica richiede dati aggiuntivi"
+    ],
+    ans: 1,
+    exp: "\\(V-S+F=20-30+12=2\\): la relazione di Eulero è verificata, come per ogni poliedro convesso."
+  },
+  {
+    badge: "Perché il criterio retta-piano non richiede rette perpendicolari tra loro",
+    q: "Nel criterio di perpendicolarità retta-piano, le due rette \\(a,b\\) del piano devono essere perpendicolari tra loro?",
+    opts: [
+      "sì, è una condizione necessaria",
+      "no: devono solo essere incidenti (per generare il piano); il criterio funziona anche se \\(a\\) e \\(b\\) formano un angolo qualunque",
+      "devono essere parallele",
+      "devono avere la stessa lunghezza"
+    ],
+    ans: 1,
+    exp: "La dimostrazione non richiede che \\(a\\) e \\(b\\) siano perpendicolari tra loro: basta che siano incidenti (e quindi generino il piano), qualunque sia l'angolo tra esse."
+  },
+  {
+    badge: "Estensione: solido di rotazione generico",
+    q: "Il metodo con cui si dimostra il volume del cono (confronto con piramide equivalente via Cavalieri) si può generalizzare a quali altri solidi di rotazione?",
+    opts: [
+      "solo al cono, è un caso isolato",
+      "a qualunque solido di rotazione le cui sezioni orizzontali abbiano un'area calcolabile esplicitamente e confrontabile con un solido di volume noto: è l'idea che anticipa l'integrazione per sezioni",
+      "solo alla sfera",
+      "il metodo non è generalizzabile"
+    ],
+    ans: 1,
+    exp: "Il principio di Cavalieri, applicato a sezioni con area nota, è il precursore concettuale del metodo di integrazione per sezioni (dischi/anelli) usato in analisi per calcolare volumi di solidi di rotazione generici."
+  },
+  {
+    badge: "Superficie della sfera: dimostrazione di Archimede",
+    q: "Su quale confronto si basa la dimostrazione (attribuita ad Archimede) che la superficie della sfera è uguale alla superficie laterale del cilindro circoscritto?",
+    opts: [
+      "sul confronto tra fasce sferiche e le corrispondenti fasce cilindriche, che si dimostra abbiano la stessa area",
+      "sul teorema di Pitagora applicato al raggio",
+      "su un argomento puramente algebrico, senza geometria",
+      "sul principio di Cavalieri applicato ai volumi"
+    ],
+    ans: 0,
+    exp: "Si dimostra che ogni fascia orizzontale della sfera ha la stessa area della corrispondente fascia del cilindro circoscritto (un risultato sorprendente, indipendente dalla larghezza della fascia): sommando su tutte le fasce si ottiene l'uguaglianza delle superfici totali."
+  },
+  {
+    badge: "Confronto tra le due dimostrazioni del volume del cono",
+    q: "Qual è la differenza tra dimostrare il volume del cono 'per approssimazione con piramidi inscritte' e dimostrarlo 'con Cavalieri'?",
+    opts: [
+      "sono la stessa identica dimostrazione",
+      "l'approssimazione con piramidi a base poligonale con \\(n\\to\\infty\\) è un argomento di limite; Cavalieri invece confronta direttamente le aree di sezione senza bisogno di un processo di limite",
+      "solo l'approssimazione con piramidi è valida",
+      "Cavalieri non si può applicare al cono"
+    ],
+    ans: 1,
+    exp: "L'approccio per approssimazione richiede un argomento di limite (piramidi con sempre più lati che tendono al cono); Cavalieri, confrontando direttamente le aree di sezione a ogni quota, arriva alla stessa conclusione senza passare per un limite."
+  },
+  {
+    badge: "Un solido con stesso volume ma sezioni diverse",
+    q: "Cavalieri richiede che le sezioni abbiano la stessa area a ogni quota. È necessario che abbiano anche la stessa forma?",
+    opts: [
+      "sì, altrimenti il principio non si applica",
+      "no: cono e piramide hanno sezioni di forma diversa (cerchio contro poligono) ma di area uguale, e questo basta per concludere l'uguaglianza dei volumi",
+      "le sezioni devono avere lo stesso perimetro",
+      "le sezioni devono essere entrambe circolari"
+    ],
+    ans: 1,
+    exp: "È un punto sottile ma cruciale: Cavalieri richiede solo l'uguaglianza delle AREE di sezione, non della forma. Cono e piramide equivalente hanno sezioni di forma diversa ma area uguale a ogni quota: questo è sufficiente."
+  },
+  {
+    badge: "Sintesi finale",
+    q: "Qual è il collegamento più profondo tra il criterio di perpendicolarità retta-piano e il principio di Cavalieri, pur trattando argomenti diversi?",
+    opts: [
+      "nessun collegamento, sono argomenti completamente indipendenti",
+      "entrambi riducono un problema tridimensionale a un problema più semplice (piano o bidimensionale) tramite un confronto strutturale — proiezioni nel primo caso, sezioni nel secondo — invece di ricorrere a calcoli diretti nello spazio",
+      "entrambi richiedono il teorema di Pitagora come unico strumento",
+      "entrambi si applicano solo a poliedri regolari"
+    ],
+    ans: 1,
+    exp: "È il principio metodologico che attraversa tutta la geometria dello spazio: ricondurre problemi 3D a strumenti 2D già noti — tramite proiezioni ortogonali (perpendicolarità, teorema delle tre perpendicolari) o tramite sezioni piane (Cavalieri) — invece di affrontare direttamente la complessità tridimensionale."
+  }
+]
+
+];
+
+// ── STATO ──
+let level = 0, Q = QSETS[0];
+let cur = 0, score = 0, answered = false, results = [];
+
+function selectLevel(i) {
+  level = i;
+  document.querySelectorAll('.level-card').forEach((el,idx) => el.classList.toggle('active', idx===i));
+}
+
+// ── LOGICA ──
+function startQuiz() {
+  Q = QSETS[level];
+  cur = 0; score = 0; answered = false; results = [];
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function backToLevels() {
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-intro').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx], total = Q.length;
+  document.getElementById('prog-frac').textContent = (idx+1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('q-badge').textContent = LEVELS[level] + ' — ' + q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const letters = ['A','B','C','D'];
+  document.getElementById('q-opts').innerHTML = q.opts.map((o,i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${o}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === q.ans;
+  if (isOk) score++;
+  results.push(isOk);
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('opt-' + i).classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) document.getElementById('opt-' + q.ans).classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur+1);
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next show';
+  btn.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  document.getElementById('res-tag').textContent = 'Livello ' + LEVELS[level] + ' — Risultato';
+  document.getElementById('res-den').textContent = 'su ' + Q.length + ' domande';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+
+  const msgs = [
+    [9, "Eccellente! Geometria dello spazio euclidea senza segreti — prova un livello più avanzato."],
+    [7, "Ottimo lavoro. Un piccolo ripasso finale e sei al top."],
+    [5, "Sei sulla buona strada. Ricontrolla le domande sbagliate e riprova."],
+    [3, "C'è ancora del lavoro da fare. Rileggi la lezione e riprova il test."],
+    [0, "Non mollare. Riparti dal criterio di perpendicolarità, studia con calma e riprova."]
+  ];
+  document.getElementById('res-msg').textContent = (msgs.find(m => score >= m[0]) || msgs[4])[1];
+
+  document.getElementById('res-grid').innerHTML = results.map((ok,i) =>
+    `<div class="rev-cell ${ok?'ok':'err'}" title="Domanda ${i+1}: ${ok?'corretta':'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) pick(parseInt(e.key)-1);
+  if ((e.key==='Enter'||e.key===' ') && answered) { e.preventDefault(); nextQ(); }
+});
+</script>
+</body>
+</html>

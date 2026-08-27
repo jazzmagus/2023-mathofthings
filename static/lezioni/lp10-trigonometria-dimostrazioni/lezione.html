@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento Pro — Trigonometria</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.ct.sign td { text-align:center; font-family:'JetBrains Mono',monospace; }
+.fig { margin:22px 0; text-align:center; }
+.fig svg { max-width:100%; height:auto; }
+.fig-caption { font-family:'Fira Code',monospace; font-size:.72rem; color:var(--text-dim); margin-top:10px; letter-spacing:.2px; }
+.fig-legend { display:flex; justify-content:center; gap:20px; margin-top:6px; flex-wrap:wrap; }
+.fig-legend span { font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--text-mid); display:flex; align-items:center; gap:6px; }
+.fig-legend .sw { width:14px; height:3px; display:inline-block; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Pro · Trigonometria</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+{
+  tag:"FONDAMENTI",
+  title:"Il teorema della <em>corda</em>",
+  nav:"Corda",
+  body:
+    '<p>Nella lezione base, il teorema della corda viene spesso introdotto come una formula da ricordare. Qui lo ricaviamo dal fatto geometrico più semplice possibile: la relazione tra angolo al centro e angolo alla circonferenza che insistono sullo stesso arco.</p>' +
+    '<div class="cb"><div class="cb-label">Teorema — angolo al centro e angolo alla circonferenza</div><p>In una circonferenza, un angolo al centro è <strong>doppio</strong> di un angolo alla circonferenza che insiste sullo stesso arco.</p></div>' +
+    '<p>Da questo fatto segue il teorema della corda: se una corda \\(AB\\) di una circonferenza di raggio \\(R\\) sottende un angolo alla circonferenza \\(\\gamma\\), allora l\'angolo al centro corrispondente è \\(2\\gamma\\).</p>' +
+    '<div class="fig"><svg viewBox="0 0 600 500" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Teorema della corda: circonferenza R=5, angolo alla circonferenza 35 gradi, angolo al centro 70 gradi"><circle cx="300" cy="250" r="225" fill="none" stroke="#2c2520" stroke-width="1.4"></circle><line x1="204.91" y1="46.08" x2="300" y2="250" stroke="#c2b5a8" stroke-width="1" stroke-dasharray="4 4"></line><line x1="300" y1="250" x2="170.94" y2="434.31" stroke="#3a6b8c" stroke-width="1.7"></line><line x1="300" y1="250" x2="429.06" y2="434.31" stroke="#3a6b8c" stroke-width="1.7"></line><line x1="204.91" y1="46.08" x2="170.94" y2="434.31" stroke="#c2185b" stroke-width="1.7"></line><line x1="204.91" y1="46.08" x2="429.06" y2="434.31" stroke="#c2185b" stroke-width="1.7"></line><line x1="170.94" y1="434.31" x2="429.06" y2="434.31" stroke="#c2185b" stroke-width="2.6"></line><path d="M 239.91 106.71 A 70 70 0 0 1 198.81 115.81" fill="none" stroke="#c2185b" stroke-width="1.3"></path><path d="M 334.41 299.15 A 60 60 0 0 1 265.59 299.15" fill="none" stroke="#3a6b8c" stroke-width="1.3"></path><path d="M 340.02 308.87 A 72 72 0 0 1 259.98 308.87" fill="none" stroke="#3a6b8c" stroke-width="1.3"></path><line x1="232" y1="183" x2="221.5" y2="120" stroke="#c2185b" stroke-width="0.8"></line><circle cx="300" cy="250" r="3.6" fill="#2c2520"></circle><circle cx="170.94" cy="434.31" r="3.6" fill="#2c2520"></circle><circle cx="429.06" cy="434.31" r="3.6" fill="#2c2520"></circle><circle cx="204.91" cy="46.08" r="3.6" fill="#2c2520"></circle><g font-family="\'JetBrains Mono\', monospace" font-size="15" font-weight="600" fill="#2c2520"><text x="313" y="243" text-anchor="start">O</text><text x="152" y="462" text-anchor="middle">A</text><text x="448" y="462" text-anchor="middle">B</text><text x="190" y="32" text-anchor="middle">D</text></g><g font-family="\'JetBrains Mono\', monospace" font-size="13" font-weight="500"><text x="232" y="196" text-anchor="middle" fill="#c2185b">γ = 35°</text><text x="300" y="344" text-anchor="middle" fill="#3a6b8c">2γ = 70°</text></g><text x="382" y="331" text-anchor="start" font-family="Georgia, serif" font-size="17" fill="#3a6b8c"><tspan font-style="italic">R</tspan> = 5</text></svg>' +
+    '<div class="fig-caption">Angolo alla circonferenza \\(\\gamma\\) in \\(D\\) e angolo al centro \\(2\\gamma\\) in \\(O\\), sullo stesso arco \\(AB\\): il primo è sempre la metà del secondo.</div>' +
+    '</div>' +
+    '<div class="cb"><div class="cb-label">Teorema della corda</div><div class="math-block hero-formula">\\[ AB = 2R\\sin\\gamma \\]</div></div>' +
+    '<p><strong>Dimostrazione.</strong> Sia \\(O\\) il centro della circonferenza. Il triangolo \\(OAB\\) è isoscele, con \\(OA=OB=R\\) e angolo al vertice \\(O\\) pari a \\(2\\gamma\\). Tracciando l\'altezza da \\(O\\) relativa alla base \\(AB\\), questa altezza è anche bisettrice e mediana (per l\'isoscelia), quindi divide il triangolo in due triangoli rettangoli congruenti, ciascuno con angolo al vertice \\(O\\) pari a \\(\\gamma\\) e ipotenusa \\(R\\). In ciascuno di essi, il cateto opposto all\'angolo \\(\\gamma\\) è metà della corda:</p>' +
+    '<div class="math-block">\\[ \\frac{AB}{2} = R\\sin\\gamma \\quad\\Longrightarrow\\quad AB = 2R\\sin\\gamma \\]</div>' +
+    '<p>Il risultato vale qualunque sia la posizione della corda: è il ponte tra la circonferenza e il triangolo che permetterà, nella prossima sezione, di dimostrare il teorema dei seni. \\(\\blacksquare\\)</p>' +
+    '<div class="cb tip"><div class="cb-label">Caso limite</div><p>Se \\(\\gamma = \\tfrac{\\pi}{2}\\), la corda è un diametro: infatti \\(AB = 2R\\sin\\tfrac{\\pi}{2} = 2R\\), coerente con il teorema di Talete (angolo retto inscritto in una semicirconferenza).</p></div>'
+},
+{
+  tag:"TEOREMA DEI SENI",
+  title:"Dalla corda al <em>teorema dei seni</em>",
+  nav:"Teorema dei seni",
+  body:
+    '<p>Consideriamo un triangolo qualunque \\(ABC\\), inscritto nella sua circonferenza circoscritta di raggio \\(R\\). Il lato \\(a = BC\\), opposto al vertice \\(A\\), è una corda che sottende in \\(A\\) proprio l\'angolo \\(\\hat A\\) (angolo alla circonferenza sull\'arco \\(BC\\) non contenente \\(A\\)).</p>' +
+    '<div class="fig"><svg viewBox="0 0 600 500" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Triangolo ABC inscritto in circonferenza di raggio 4, angoli 50, 70 e 60 gradi"><circle cx="300" cy="260" r="220" fill="none" stroke="#2c2520" stroke-width="1.4"></circle><line x1="300" y1="260" x2="224.76" y2="53.27" stroke="#c2b5a8" stroke-width="1.1" stroke-dasharray="5 4"></line><path d="M 224.76 53.27 L 158.59 428.53 L 490.53 370.00 Z" fill="none" stroke="#c2185b" stroke-width="2.2"></path><path d="M 258.18 93.11 A 52 52 0 0 1 215.73 104.48" fill="none" stroke="#3a6b8c" stroke-width="1.3"></path><path d="M 166.92 381.26 A 48 48 0 0 1 205.86 420.19" fill="none" stroke="#3a6b8c" stroke-width="1.3"></path><path d="M 441.29 378.68 A 50 50 0 0 1 458.39 331.70" fill="none" stroke="#3a6b8c" stroke-width="1.3"></path><circle cx="300" cy="260" r="3.6" fill="#2c2520"></circle><circle cx="224.76" cy="53.27" r="3.6" fill="#2c2520"></circle><circle cx="158.59" cy="428.53" r="3.6" fill="#2c2520"></circle><circle cx="490.53" cy="370.00" r="3.6" fill="#2c2520"></circle><g font-family="\'JetBrains Mono\', monospace" font-size="15" font-weight="600" fill="#2c2520"><text x="216.6" y="35" text-anchor="middle">A</text><text x="143" y="452" text-anchor="middle">B</text><text x="513" y="387" text-anchor="start">C</text><text x="309" y="278" text-anchor="start">O</text></g><g font-family="\'JetBrains Mono\', monospace" font-size="13" font-weight="500" fill="#3a6b8c"><text x="232" y="145" text-anchor="middle">50°</text><text x="209.5" y="382" text-anchor="middle">70°</text><text x="421" y="349" text-anchor="middle">60°</text></g><g font-family="Georgia, serif" font-size="18" font-style="italic" fill="#c2185b"><text x="326" y="425" text-anchor="middle">a</text><text x="374.5" y="203" text-anchor="middle">b</text><text x="170" y="243" text-anchor="middle">c</text></g><text x="310" y="456" text-anchor="middle" font-family="Georgia, serif" font-size="15" fill="#c2185b"><tspan font-style="italic">a</tspan> = 2<tspan font-style="italic">R</tspan> sin <tspan font-style="italic">A</tspan></text><text x="294.4" y="191.8" text-anchor="start" font-family="Georgia, serif" font-size="16" fill="#2c2520"><tspan font-style="italic">R</tspan> = 4</text></svg>' +
+    '<div class="fig-caption">Triangolo \\(ABC\\) inscritto in una circonferenza di raggio \\(R=4\\), con \\(\\hat A=50°\\), \\(\\hat B=70°\\), \\(\\hat C=60°\\): ogni lato è il doppio del raggio per il seno dell\'angolo opposto.</div>' +
+    '</div>' +
+    '<div class="cb"><div class="cb-label">Teorema dei seni</div><div class="math-block hero-formula">\\[ \\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C} = 2R \\]</div></div>' +
+    '<p><strong>Dimostrazione.</strong> Applichiamo il teorema della corda al lato \\(a\\), che sottende l\'angolo alla circonferenza \\(\\hat A\\):</p>' +
+    '<div class="math-block">\\[ a = 2R\\sin A \\quad\\Longrightarrow\\quad \\frac{a}{\\sin A} = 2R \\]</div>' +
+    '<p>Lo stesso argomento, applicato al lato \\(b\\) (che sottende l\'angolo \\(\\hat B\\)) e al lato \\(c\\) (che sottende l\'angolo \\(\\hat C\\)), dà \\(\\dfrac{b}{\\sin B}=2R\\) e \\(\\dfrac{c}{\\sin C}=2R\\). Le tre uguaglianze condividono lo stesso valore \\(2R\\), da cui la catena di uguaglianze. \\(\\blacksquare\\)</p>' +
+    '<div class="cb warn"><div class="cb-label">Un dettaglio da non saltare</div><p>Il teorema della corda richiede che l\'angolo sia <em>alla circonferenza</em>, cioè con vertice sulla circonferenza stessa: ecco perché la dimostrazione funziona esattamente per i tre angoli del triangolo, che per costruzione hanno vertice sulla circonferenza circoscritta.</p></div>' +
+    acc([
+      { t:"Perché il rapporto è proprio 2R e non un altro valore", h:'<p>Il valore comune \\(2R\\) non è un\'invenzione: emerge naturalmente dalla dimostrazione, come conseguenza diretta del teorema della corda applicato a ciascun lato. Questo è anche il modo più rapido per calcolare il raggio della circonferenza circoscritta a un triangolo di cui si conoscano un lato e l\'angolo opposto: \\(R = \\dfrac{a}{2\\sin A}\\).</p>' }
+    ])
+},
+{
+  tag:"TEOREMA DEL COSENO",
+  title:"Il teorema di <em>Carnot</em>: due dimostrazioni",
+  nav:"Carnot",
+  body:
+    '<p>Il teorema del coseno generalizza il teorema di Pitagora a triangoli qualunque. Ne vediamo due dimostrazioni indipendenti: una sintetica (per casi, con l\'altezza), una vettoriale (in un solo passaggio, senza distinguere casi).</p>' +
+    '<div class="cb"><div class="cb-label">Teorema del coseno (Carnot)</div><div class="math-block hero-formula">\\[ c^2 = a^2+b^2-2ab\\cos C \\]</div></div>' +
+    '<h3>Dimostrazione sintetica (caso acutangolo)</h3>' +
+    '<p>Sia \\(H\\) il piede dell\'altezza da \\(A\\) sul lato \\(a=BC\\). Posto \\(CH = b\\cos C\\) e \\(AH = b\\sin C\\) (dal triangolo rettangolo \\(ACH\\)), nel triangolo rettangolo \\(ABH\\) si ha \\(BH = a - b\\cos C\\), e per Pitagora:</p>' +
+    '<div class="math-block">\\[ c^2 = AH^2+BH^2 = b^2\\sin^2C + (a-b\\cos C)^2 = b^2\\sin^2C + a^2 - 2ab\\cos C + b^2\\cos^2C \\]</div>' +
+    '<p>Raccogliendo \\(b^2(\\sin^2C+\\cos^2C)=b^2\\), si ottiene \\(c^2=a^2+b^2-2ab\\cos C\\). Se l\'angolo \\(C\\) è ottuso, il piede \\(H\\) cade esternamente al segmento \\(BC\\) e occorre ripetere il calcolo con \\(BH=a+b\\cos(\\pi-C) = a - b\\cos C\\) (poiché \\(\\cos(\\pi - C)=-\\cos C\\)): il risultato è identico, ma la dimostrazione richiede due casi.</p>' +
+    '<h3>Dimostrazione vettoriale (un solo caso)</h3>' +
+    '<p>Poniamo l\'origine in \\(C\\) e siano \\(\\vec u = \\overrightarrow{CA}\\), \\(\\vec v = \\overrightarrow{CB}\\), con \\(|\\vec u|=b\\), \\(|\\vec v|=a\\) e angolo tra loro pari a \\(\\hat C\\). Allora \\(\\overrightarrow{AB} = \\vec v - \\vec u\\), e:</p>' +
+    '<div class="math-block">\\[ c^2 = |\\vec v - \\vec u|^2 = (\\vec v-\\vec u)\\cdot(\\vec v-\\vec u) = |\\vec v|^2+|\\vec u|^2-2\\vec u\\cdot\\vec v = a^2+b^2-2ab\\cos C \\]</div>' +
+    '<p>avendo usato \\(\\vec u\\cdot\\vec v = |\\vec u||\\vec v|\\cos C = ab\\cos C\\). Il vantaggio: la formula del prodotto scalare vale per qualunque angolo tra \\(0\\) e \\(\\pi\\), quindi la dimostrazione copre in un solo passaggio triangoli acutangoli, rettangoli e ottusangoli. \\(\\blacksquare\\)</p>' +
+    '<div class="cb success"><div class="cb-label">Il teorema di Pitagora come caso particolare</div><p>Se \\(\\hat C = \\tfrac{\\pi}{2}\\), allora \\(\\cos C = 0\\) e la formula si riduce a \\(c^2=a^2+b^2\\): il teorema di Carnot <em>contiene</em> il teorema di Pitagora come caso particolare, non è solo un\'analogia.</p></div>'
+},
+{
+  tag:"CASO AMBIGUO",
+  title:"Risoluzione dei triangoli: il caso <em>ambiguo</em>",
+  nav:"Caso ambiguo",
+  body:
+    '<p>Nella risoluzione dei triangoli, il caso più delicato è quello <strong>lato-lato-angolo</strong> (si conoscono due lati e un angolo non compreso tra essi): a differenza degli altri casi, qui il numero di triangoli possibili non è sempre uno solo.</p>' +
+    '<div class="cb"><div class="cb-label">Il problema</div><p>Sono noti \\(a\\), \\(b\\) e l\'angolo \\(\\hat A\\) opposto ad \\(a\\) (non compreso tra i lati noti). Quanti triangoli soddisfano questi dati?</p></div>' +
+    '<p>Dal teorema dei seni, \\(\\sin B = \\dfrac{b\\sin A}{a}\\). Poiché il seno è compreso tra \\(-1\\) e \\(1\\) ed è positivo per angoli tra \\(0\\) e \\(\\pi\\), il numero di soluzioni dipende dal confronto tra \\(a\\) e \\(b\\sin A\\):</p>' +
+    '<div class="fig"><svg viewBox="0 0 580 370" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Caso ambiguo LLA: due triangoli possibili con A=40 gradi, b=9, a=7"><line x1="70" y1="300" x2="558" y2="300" stroke="#c2b5a8" stroke-width="1"></line><path d="M 134.5 252.3 A 280 280 0 0 0 557.1 252.3" fill="none" stroke="#c2b5a8" stroke-width="1" stroke-dasharray="3 4"></path><line x1="70" y1="300" x2="345.78" y2="68.60" stroke="#2c2520" stroke-width="1.8"></line><line x1="70" y1="300" x2="503.42" y2="300" stroke="#c2185b" stroke-width="1.8"></line><line x1="345.78" y1="68.60" x2="503.42" y2="300" stroke="#c2185b" stroke-width="1.8"></line><line x1="70" y1="300" x2="188.13" y2="300" stroke="#3a6b8c" stroke-width="1.8" stroke-dasharray="7 5"></line><line x1="345.78" y1="68.60" x2="188.13" y2="300" stroke="#3a6b8c" stroke-width="1.8" stroke-dasharray="7 5"></line><path d="M 116 300 A 46 46 0 0 0 105.24 270.43" fill="none" stroke="#2c2520" stroke-width="1.2"></path><path d="M 463.42 300 A 40 40 0 0 1 480.90 266.94" fill="none" stroke="#c2185b" stroke-width="1.2"></path><path d="M 154.13 300 A 34 34 0 0 1 207.27 271.90" fill="none" stroke="#3a6b8c" stroke-width="1.2"></path><circle cx="70" cy="300" r="3.4" fill="#2c2520"></circle><circle cx="345.78" cy="68.60" r="3.4" fill="#2c2520"></circle><circle cx="503.42" cy="300" r="3.4" fill="#c2185b"></circle><circle cx="188.13" cy="300" r="3.4" fill="#3a6b8c"></circle><g font-family="\'JetBrains Mono\', monospace" font-size="15" font-weight="600" fill="#2c2520"><text x="58" y="320" text-anchor="end">A</text><text x="345.78" y="50" text-anchor="middle">C</text><text x="514" y="322" text-anchor="start" fill="#c2185b">B₁</text><text x="180" y="324" text-anchor="middle" fill="#3a6b8c">B₂</text></g><g font-family="\'JetBrains Mono\', monospace" font-size="12.5" font-weight="500"><text x="130" y="282" fill="#2c2520">40°</text><text x="452" y="277" text-anchor="middle" fill="#c2185b">55,7°</text><text x="160" y="258" text-anchor="middle" fill="#3a6b8c">124,3°</text></g><g font-family="Georgia, serif" font-size="17"><text x="197.6" y="172.0" text-anchor="middle" fill="#2c2520"><tspan font-style="italic">b</tspan> = 9</text><text x="443" y="175.3" text-anchor="start" fill="#c2185b"><tspan font-style="italic">a</tspan> = 7</text><text x="296" y="203" text-anchor="start" fill="#3a6b8c"><tspan font-style="italic">a</tspan> = 7</text></g><line x1="292" y1="199" x2="272" y2="187" stroke="#3a6b8c" stroke-width="0.9"></line></svg>' +
+    '<div class="fig-legend">' +
+      '<span><i class="sw" style="background:#c2185b"></i>triangolo A–B₁–C</span>' +
+      '<span><i class="sw" style="background:#3a6b8c;border-top:2px dashed #3a6b8c;height:0"></i>triangolo A–B₂–C</span>' +
+    '</div>' +
+    '<div class="fig-caption">Stessi dati \\(a=7\\), \\(b=9\\), \\(\\hat A=40^\\circ\\): il vertice \\(C\\) è fissato, ma la circonferenza di raggio \\(a\\) centrata in \\(C\\) incontra la retta \\(AB\\) in due punti distinti, \\(B_1\\) e \\(B_2\\) — da cui due triangoli diversi, con angoli \\(B\\) supplementari (\\(55{,}7°\\) e \\(124{,}3°\\)), che soddisfano gli stessi dati iniziali.</div>' +
+    '</div>' +
+    '<table class="ct"><tr><th>Condizione</th><th>Numero di triangoli</th><th>Perché</th></tr>' +
+    '<tr><td>\\(a < b\\sin A\\)</td><td>0 (nessuno)</td><td>\\(\\sin B > 1\\): impossibile</td></tr>' +
+    '<tr><td>\\(a = b\\sin A\\)</td><td>1 (rettangolo in B)</td><td>\\(\\sin B = 1 \\Rightarrow B=\\tfrac{\\pi}{2}\\)</td></tr>' +
+    '<tr><td>\\(b\\sin A < a < b\\)</td><td>2 (ambiguo)</td><td>due valori di \\(B\\) validi: \\(B_1=\\arcsin(\\cdot)\\), \\(B_2=\\pi-B_1\\), entrambi con \\(A+B<\\pi\\)</td></tr>' +
+    '<tr><td>\\(a \\geq b\\)</td><td>1</td><td>solo \\(B_1\\) soddisfa \\(A+B_1<\\pi\\); \\(B_2=\\pi-B_1\\) darebbe \\(A+B_2\\geq\\pi\\)</td></tr></table>' +
+    '<p><strong>Perché il caso intermedio dà due triangoli.</strong> L\'equazione \\(\\sin B = k\\) (con \\(0&lt;k&lt;1\\)) ha, per \\(B\\in(0,\\pi)\\), esattamente due soluzioni supplementari \\(B_1\\) e \\(B_2=\\pi-B_1\\). Entrambe sono geometricamente accettabili come angolo di un triangolo solo se, sommate ad \\(A\\), restano sotto \\(\\pi\\) (somma degli angoli interni). Quando \\(a&lt;b\\), è possibile che entrambe superino questo vincolo positivamente: da qui i due triangoli distinti.</p>' +
+    acc([
+      { t:"Esempio numerico — il caso ambiguo realizzato", h:'<p>Dati \\(a=7\\), \\(b=9\\), \\(\\hat A = 40°\\). Si ha \\(b\\sin A = 9\\sin40° \\approx 5{,}79\\), e \\(5{,}79 < 7 < 9\\): siamo nel caso ambiguo, due triangoli. Infatti \\(\\sin B = \\tfrac{9\\sin40°}{7}\\approx 0{,}827\\), da cui \\(B_1\\approx 55{,}9°\\) oppure \\(B_2 = 180°-55{,}9°\\approx124{,}1°\\); in entrambi i casi \\(A+B<180°\\), quindi entrambi i triangoli esistono.</p>' },
+      { t:"Esempio numerico — un solo triangolo", h:'<p>Dati \\(a=9\\), \\(b=7\\), \\(\\hat A=40°\\): qui \\(a>b\\), quindi un solo triangolo. Il valore \\(B_2=\\pi-B_1\\) darebbe \\(A+B_2>180°\\), geometricamente impossibile.</p>' }
+    ])
+},
+{
+  tag:"SINTESI",
+  title:"Mappa dei <em>teoremi</em>",
+  nav:"Sintesi",
+  body:
+    '<p>I tre teoremi visti non sono indipendenti: il teorema della corda genera il teorema dei seni, e insieme al teorema del coseno permettono di risolvere qualunque triangolo, a patto di prestare attenzione al caso ambiguo.</p>' +
+    '<table class="ct"><tr><th>Dati noti</th><th>Teorema da usare</th><th>Attenzione a…</th></tr>' +
+    '<tr><td>Tre lati (LLL)</td><td>Coseno, per trovare ciascun angolo</td><td>—</td></tr>' +
+    '<tr><td>Due lati e l\'angolo compreso (LAL)</td><td>Coseno, per il terzo lato; poi seni</td><td>—</td></tr>' +
+    '<tr><td>Un lato e due angoli (ALA/AAL)</td><td>Seni, dopo aver ricavato il terzo angolo</td><td>Somma angoli \\(=\\pi\\)</td></tr>' +
+    '<tr><td>Due lati e l\'angolo opposto a uno di essi (LLA)</td><td>Seni</td><td><strong>Caso ambiguo</strong>: 0, 1 o 2 soluzioni</td></tr></table>' +
+    acc([
+      { t:"Problema 1 — dimostrazione richiesta", h:'<p>Dimostra, usando il teorema della corda, che in un triangolo rettangolo l\'ipotenusa è pari al diametro della circonferenza circoscritta.</p><p><em>Traccia:</em> l\'angolo retto sottende l\'ipotenusa come corda; applica direttamente la formula \\(AB=2R\\sin\\gamma\\) con \\(\\gamma=\\tfrac{\\pi}{2}\\).</p>' },
+      { t:"Problema 2 — Carnot in un caso ottusangolo", h:'<p>Verifica con la dimostrazione vettoriale che il teorema del coseno resta valido anche quando \\(\\hat C\\) è ottuso, calcolando esplicitamente \\(\\vec u\\cdot\\vec v\\) per \\(\\hat C = 120°\\), \\(a=b=1\\).</p>' },
+      { t:"Problema 3 — discussione del caso ambiguo", h:'<p>Dati \\(a=5\\), \\(\\hat A=30°\\), determina per quali valori di \\(b\\) il problema ha 0, 1 o 2 soluzioni.</p><div class="math-block result">\\[ b\\sin30° = \\tfrac{b}{2}: \\quad \\text{ambiguo se } \\tfrac{b}{2}&lt;5&lt;b, \\text{ cioè } 5&lt;b&lt;10 \\]</div>' }
+    ])
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>

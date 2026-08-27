@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento Pro — Geometria Euclidea nello Spazio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.ct.sign td { text-align:center; font-family:'JetBrains Mono',monospace; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Pro · Geometria nello Spazio</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+{
+  tag:"FONDAMENTI",
+  title:"Assiomi e primi <em>teoremi</em> nello spazio",
+  nav:"Assiomi",
+  body:
+    '<p>La geometria dello spazio non aggiunge nuovi assiomi di incidenza rispetto al piano: li estende. Da pochi fatti di base (per tre punti non allineati passa un solo piano; se due punti di una retta appartengono a un piano, tutta la retta vi appartiene) derivano tutte le relazioni tra rette e piani che nella lezione base vengono usate senza dimostrazione.</p>' +
+    '<div class="cb"><div class="cb-label">Criterio di perpendicolarità retta-piano</div><p>Se una retta \\(r\\) è perpendicolare a <strong>due</strong> rette incidenti \\(a, b\\) di un piano \\(\\pi\\) nel loro punto comune \\(P\\), allora \\(r\\) è perpendicolare a <strong>ogni</strong> retta di \\(\\pi\\) passante per \\(P\\) — cioè \\(r \\perp \\pi\\).</p></div>' +
+    '<div class="fig"><svg viewBox="50 90 550 320" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Retta r perpendicolare in P a due rette incidenti a e b del piano pi"><path d="M 275 215 L 575 293 L 385 385 L 85 307 Z" fill="rgba(44,37,32,0.05)" stroke="#2c2520" stroke-width="1.4"></path><line x1="330" y1="300" x2="330" y2="366" stroke="#c2b5a8" stroke-width="1.4" stroke-dasharray="5 4"></line><line x1="207" y1="268" x2="453" y2="332" stroke="#3a6b8c" stroke-width="1.8"></line><line x1="413.6" y1="259.5" x2="246.4" y2="340.5" stroke="#3a6b8c" stroke-width="1.8"></line><line x1="330" y1="300" x2="330" y2="118" stroke="#c2185b" stroke-width="2.2"></line><polyline points="349.35,305.03 349.35,285.03 330,280" fill="none" stroke="#c2185b" stroke-width="1.4"></polyline><polyline points="306.60,311.34 306.60,285.34 330,274" fill="none" stroke="#c2185b" stroke-width="1.4"></polyline><circle cx="330" cy="300" r="3.8" fill="#c2185b"></circle><g font-family="\'JetBrains Mono\', monospace" font-size="16" font-weight="600" fill="#2c2520"><text x="346" y="326" text-anchor="start">P</text><text x="120" y="332" text-anchor="start">π</text></g><g font-family="Georgia, serif" font-size="19" font-style="italic"><text x="460" y="318" text-anchor="middle" fill="#3a6b8c">a</text><text x="239" y="328" text-anchor="middle" fill="#3a6b8c">b</text><text x="344" y="158" text-anchor="start" fill="#c2185b">r</text></g></svg>' +
+    '<div class="fig-caption">La retta \\(r\\), perpendicolare in \\(P\\) sia ad \\(a\\) sia a \\(b\\) (angoli retti marcati), risulta perpendicolare a tutto il piano \\(\\pi\\).</div>' +
+    '</div>' +
+    '<p><strong>Dimostrazione.</strong> Sia \\(c\\) una qualunque retta di \\(\\pi\\) per \\(P\\), diversa da \\(a\\) e \\(b\\). Scegliamo su \\(r\\) due punti \\(Q_1, Q_2\\) simmetrici rispetto a \\(P\\) (cioè \\(PQ_1=PQ_2\\)). Poiché \\(r\\perp a\\) e \\(r\\perp b\\), i triangoli \\(Q_1AQ_2\\) e \\(Q_1BQ_2\\) sono isosceli per ogni punto \\(A\\in a\\) e \\(B\\in b\\): dunque \\(AQ_1=AQ_2\\) e \\(BQ_1=BQ_2\\). Presa una retta \\(c\\) per \\(P\\) e un punto \\(C\\) su di essa esprimibile come combinazione di \\(A\\) e \\(B\\) (poiché \\(a,b\\) generano il piano), per la disuguaglianza triangolare applicata ripetutamente si ottiene \\(CQ_1=CQ_2\\): il triangolo \\(CQ_1Q_2\\) è isoscele, quindi la mediana da \\(C\\) è anche altezza, cioè \\(c\\perp r\\). \\(\\blacksquare\\)</p>' +
+    '<div class="cb tip"><div class="cb-label">Perché serve esattamente due rette</div><p>Una sola retta non basta: esistono infinite rette del piano perpendicolari a \\(r\\) in un solo punto senza che \\(r\\) sia perpendicolare al piano. Il criterio funziona perché due rette incidenti <strong>determinano</strong> il piano — è lo stesso principio per cui due vettori non paralleli generano un piano vettoriale.</p></div>' +
+    '<div class="cb"><div class="cb-label">Teorema delle tre perpendicolari</div><p>Sia \\(r\\perp\\pi\\) con piede \\(H\\), e sia \\(s\\) una retta di \\(\\pi\\). Se la proiezione ortogonale \\(t\\) su \\(\\pi\\) di una retta obliqua per \\(H\\)... più precisamente: una retta \\(g\\) non giacente su \\(\\pi\\) ma incidente in un punto \\(K\\in\\pi\\) è perpendicolare a \\(s\\) se e solo se la sua proiezione ortogonale su \\(\\pi\\) è perpendicolare a \\(s\\).</p></div>' +
+    '<p>Questo teorema è lo strumento pratico per calcolare distanze e angoli diedri nei solidi: riconduce un problema tridimensionale a uno piano, lavorando sulla proiezione.</p>'
+},
+{
+  tag:"CAVALIERI",
+  title:"Il principio di <em>Cavalieri</em>",
+  nav:"Cavalieri",
+  body:
+    '<p>Le formule di volume di piramidi, coni e sfere, presentate nella lezione base come risultati da applicare, si dimostrano tutte a partire da un unico principio, di natura sorprendentemente elementare.</p>' +
+    '<div class="cb"><div class="cb-label">Principio di Cavalieri</div><p>Se due solidi, posti tra due piani paralleli, sono tali che ogni piano parallelo ad essi interseca i due solidi in sezioni di <strong>area uguale</strong>, allora i due solidi hanno <strong>volume uguale</strong>.</p></div>' +
+    '<p>L\'idea intuitiva: immaginando i solidi come pile di "fette" infinitamente sottili, se ogni fetta ha la stessa area alla stessa altezza, le due pile hanno lo stesso volume complessivo — indipendentemente da come le fette siano disposte lateralmente.</p>' +
+    '<div class="fig"><svg viewBox="0 0 800 490" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Principio di Cavalieri: sezione della semisfera e del cilindro meno cono alla stessa quota z"><g font-family="\'JetBrains Mono\', monospace" font-size="13" font-weight="600" fill="#2c2520" text-anchor="middle" letter-spacing="1.5"><text x="200" y="170">SEMISFERA</text><text x="600" y="170">CILINDRO − CONO</text></g><path d="M 80 350 A 120 38.4 0 0 0 320 350" fill="none" stroke="#c2b5a8" stroke-width="1.2" stroke-dasharray="5 4"></path><path d="M 80 350 A 120 120 0 0 1 320 350" fill="none" stroke="#2c2520" stroke-width="1.5"></path><path d="M 80 350 A 120 38.4 0 0 1 320 350" fill="none" stroke="#2c2520" stroke-width="1.5"></path><ellipse cx="200" cy="278" rx="96" ry="30.72" fill="rgba(194,24,91,0.16)" stroke="#c2185b" stroke-width="1.8"></ellipse><line x1="200" y1="350" x2="200" y2="278" stroke="#c2b5a8" stroke-width="1.2" stroke-dasharray="5 4"></line><line x1="200" y1="350" x2="320" y2="350" stroke="#c2b5a8" stroke-width="1.2" stroke-dasharray="5 4"></line><line x1="200" y1="278" x2="296" y2="278" stroke="#c2b5a8" stroke-width="1.2" stroke-dasharray="5 4"></line><circle cx="200" cy="350" r="2.6" fill="#2c2520"></circle><circle cx="200" cy="278" r="2.6" fill="#c2185b"></circle><path d="M 480 350 A 120 38.4 0 0 0 720 350" fill="none" stroke="#c2b5a8" stroke-width="1.2" stroke-dasharray="5 4"></path><path d="M 480 350 A 120 38.4 0 0 1 720 350" fill="none" stroke="#2c2520" stroke-width="1.5"></path><line x1="480" y1="230" x2="480" y2="350" stroke="#2c2520" stroke-width="1.5"></line><line x1="720" y1="230" x2="720" y2="350" stroke="#2c2520" stroke-width="1.5"></line><line x1="600" y1="350" x2="480" y2="230" stroke="#2c2520" stroke-width="1.3"></line><line x1="600" y1="350" x2="720" y2="230" stroke="#2c2520" stroke-width="1.3"></line><ellipse cx="600" cy="230" rx="120" ry="38.4" fill="none" stroke="#2c2520" stroke-width="1.5"></ellipse><path fill-rule="evenodd" fill="rgba(58,107,140,0.18)" stroke="#3a6b8c" stroke-width="1.8" d="M 720 278 A 120 38.4 0 0 0 480 278 A 120 38.4 0 0 0 720 278 Z M 672 278 A 72 23.04 0 0 0 528 278 A 72 23.04 0 0 0 672 278 Z"></path><line x1="600" y1="350" x2="600" y2="278" stroke="#c2b5a8" stroke-width="1.2" stroke-dasharray="5 4"></line><line x1="600" y1="350" x2="720" y2="350" stroke="#c2b5a8" stroke-width="1.2" stroke-dasharray="5 4"></line><line x1="600" y1="278" x2="672" y2="278" stroke="#c2b5a8" stroke-width="1.2" stroke-dasharray="5 4"></line><circle cx="600" cy="350" r="2.6" fill="#2c2520"></circle><circle cx="600" cy="278" r="2.6" fill="#3a6b8c"></circle><g font-family="Georgia, serif" font-size="16" fill="#2c2520"><text x="186" y="320" text-anchor="end"><tspan font-style="italic">z</tspan></text><text x="256" y="368" text-anchor="middle"><tspan font-style="italic">R</tspan> = 4</text><text x="586" y="298" text-anchor="end"><tspan font-style="italic">z</tspan></text><text x="656" y="368" text-anchor="middle"><tspan font-style="italic">R</tspan> = 4</text><text x="690" y="282" text-anchor="start" fill="#3a6b8c"><tspan font-style="italic">z</tspan></text></g><line x1="296" y1="273" x2="336" y2="264" stroke="#c2185b" stroke-width="0.8"></line><text x="340" y="262" text-anchor="start" font-family="Georgia, serif" font-size="14" fill="#c2185b">√(<tspan font-style="italic">R</tspan>² − <tspan font-style="italic">z</tspan>²)</text><g font-family="Georgia, serif" font-size="18" text-anchor="middle"><text x="200" y="428" fill="#c2185b"><tspan font-style="italic">A</tspan>(<tspan font-style="italic">z</tspan>) = π(<tspan font-style="italic">R</tspan>² − <tspan font-style="italic">z</tspan>²)</text><text x="600" y="428" fill="#3a6b8c"><tspan font-style="italic">A</tspan>(<tspan font-style="italic">z</tspan>) = π<tspan font-style="italic">R</tspan>² − π<tspan font-style="italic">z</tspan>² = π(<tspan font-style="italic">R</tspan>² − <tspan font-style="italic">z</tspan>²)</text></g><text x="400" y="466" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="12" fill="#6e6760">z = 2,4 → entrambe le sezioni misurano 10,24 π</text></svg>' +
+    '<div class="fig-caption">Sezione orizzontale alla stessa quota \\(z\\): la semisfera (sinistra) e il cilindro privato del cono (destra) hanno sempre la stessa area di sezione, quindi lo stesso volume.</div>' +
+    '</div>' +
+    '<h3>Applicazione 1 — volume della piramide</h3>' +
+    '<p>Un prisma triangolare si decompone in <strong>tre piramidi</strong> di uguale volume (si dimostra a coppie, applicando Cavalieri a coppie di piramidi con basi e altezze corrispondentemente uguali). Poiché il prisma ha volume \\(V_{\\text{prisma}} = A_{\\text{base}}\\cdot h\\), ciascuna delle tre piramidi ha volume:</p>' +
+    '<div class="math-block hero-formula">\\[ V_{\\text{piramide}} = \\frac{1}{3} A_{\\text{base}} \\cdot h \\]</div>' +
+    '<p>Per estensione (ogni piramide a base poligonale si decompone in piramidi a base triangolare), la formula vale per ogni piramide, qualunque sia il poligono di base.</p>' +
+    '<h3>Applicazione 2 — volume della sfera (metodo di Archimede)</h3>' +
+    '<p>Confrontiamo una semisfera di raggio \\(R\\) con un cilindro di raggio \\(R\\) e altezza \\(R\\), a cui è stato tolto un cono di stesso raggio e altezza (con vertice nel centro della base superiore). A quota \\(z\\) dal centro:</p>' +
+    '<div class="math-block">\\[ A_{\\text{semisfera}}(z) = \\pi(R^2-z^2), \\qquad A_{\\text{cil.-cono}}(z) = \\pi R^2 - \\pi z^2 = \\pi(R^2-z^2) \\]</div>' +
+    '<p>Le due sezioni hanno <strong>sempre</strong> la stessa area: per Cavalieri, i due solidi hanno lo stesso volume. Quindi:</p>' +
+    '<div class="math-block">\\[ V_{\\text{semisfera}} = V_{\\text{cilindro}} - V_{\\text{cono}} = \\pi R^3 - \\frac13\\pi R^3 = \\frac23\\pi R^3 \\quad\\Longrightarrow\\quad V_{\\text{sfera}} = \\frac{4}{3}\\pi R^3 \\]</div>' +
+    '<div class="cb success"><div class="cb-label">Un risultato di 2200 anni fa</div><p>Questo confronto è attribuito ad Archimede, che lo considerava la sua scoperta più importante: fece incidere sulla propria tomba la figura di una sfera inscritta in un cilindro, proprio a memoria di questo rapporto \\(2:3\\) tra i volumi.</p></div>'
+},
+{
+  tag:"POLIEDRI REGOLARI",
+  title:"Perché sono <em>esattamente cinque</em>",
+  nav:"Poliedri regolari",
+  body:
+    '<p>Che i poliedri regolari (solidi platonici) siano esattamente cinque non è un fatto empirico, ma una conseguenza dimostrabile della relazione di Eulero e di un vincolo puramente aritmetico sugli angoli.</p>' +
+    '<div class="fig"><svg viewBox="0 0 860 205" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="I cinque solidi platonici a fil di ferro con i simboli di Schläfli"><g fill="none" stroke="#c2185b" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M 125 31.44 L 86.82 79.95 M 125 31.44 L 15 18.84 M 125 31.44 L 53.18 121.16 M 86.82 79.95 L 15 18.84 M 86.82 79.95 L 53.18 121.16 M 15 18.84 L 53.18 121.16"></path><path transform="translate(180,0)" d="M 121.88 40.38 L 85.86 15 M 121.88 40.38 L 121.88 111.51 M 121.88 40.38 L 54.14 53.87 M 85.86 15 L 85.86 86.13 M 85.86 15 L 18.12 28.49 M 121.88 111.51 L 85.86 86.13 M 121.88 111.51 L 54.14 125 M 85.86 86.13 L 18.12 99.62 M 54.14 53.87 L 18.12 28.49 M 54.14 53.87 L 54.14 125 M 18.12 28.49 L 18.12 99.62 M 54.14 125 L 18.12 99.62"></path><path transform="translate(360,0)" d="M 122.38 59.57 L 70 15 M 122.38 59.57 L 70 125 M 122.38 59.57 L 97.85 89.62 M 122.38 59.57 L 42.15 50.38 M 17.62 80.43 L 70 15 M 17.62 80.43 L 70 125 M 17.62 80.43 L 97.85 89.62 M 17.62 80.43 L 42.15 50.38 M 70 15 L 97.85 89.62 M 70 15 L 42.15 50.38 M 70 125 L 97.85 89.62 M 70 125 L 42.15 50.38"></path><path transform="translate(540,0)" d="M 113.28 45.29 L 94.31 68.79 M 113.28 45.29 L 87.46 18.52 M 113.28 45.29 L 125 67.44 M 83.23 24.12 L 45.69 34.54 M 83.23 24.12 L 87.46 18.52 M 83.23 24.12 L 106.43 54.35 M 113.28 104.63 L 94.31 105.46 M 113.28 104.63 L 87.46 114.53 M 113.28 104.63 L 125 67.44 M 83.23 83.46 L 45.69 71.21 M 83.23 83.46 L 87.46 114.53 M 83.23 83.46 L 106.43 54.35 M 56.77 56.54 L 94.31 68.79 M 56.77 56.54 L 52.54 25.47 M 56.77 56.54 L 33.57 85.65 M 26.72 35.37 L 45.69 34.54 M 26.72 35.37 L 52.54 25.47 M 26.72 35.37 L 15 72.56 M 56.77 115.88 L 94.31 105.46 M 56.77 115.88 L 52.54 121.48 M 56.77 115.88 L 33.57 85.65 M 26.72 94.71 L 45.69 71.21 M 26.72 94.71 L 52.54 121.48 M 26.72 94.71 L 15 72.56 M 94.31 68.79 L 94.31 105.46 M 45.69 34.54 L 45.69 71.21 M 87.46 18.52 L 52.54 25.47 M 87.46 114.53 L 52.54 121.48 M 125 67.44 L 106.43 54.35 M 33.57 85.65 L 15 72.56"></path><path transform="translate(720,0)" d="M 92.01 58.64 L 92.01 112.37 M 92.01 58.64 L 95.58 21.43 M 92.01 58.64 L 44.42 31.63 M 92.01 58.64 L 125 71.34 M 92.01 58.64 L 42.21 87.83 M 47.99 27.63 L 47.99 81.36 M 47.99 27.63 L 95.58 21.43 M 47.99 27.63 L 44.42 31.63 M 47.99 27.63 L 97.79 52.17 M 47.99 27.63 L 15 68.66 M 92.01 112.37 L 95.58 108.37 M 92.01 112.37 L 44.42 118.57 M 92.01 112.37 L 125 71.34 M 92.01 112.37 L 42.21 87.83 M 47.99 81.36 L 95.58 108.37 M 47.99 81.36 L 44.42 118.57 M 47.99 81.36 L 97.79 52.17 M 47.99 81.36 L 15 68.66 M 95.58 21.43 L 44.42 31.63 M 95.58 21.43 L 125 71.34 M 95.58 21.43 L 97.79 52.17 M 95.58 108.37 L 44.42 118.57 M 95.58 108.37 L 125 71.34 M 95.58 108.37 L 97.79 52.17 M 44.42 31.63 L 42.21 87.83 M 44.42 31.63 L 15 68.66 M 44.42 118.57 L 42.21 87.83 M 44.42 118.57 L 15 68.66 M 125 71.34 L 97.79 52.17 M 42.21 87.83 L 15 68.66"></path></g><g font-family="\'JetBrains Mono\', monospace" font-size="13" font-weight="600" fill="#2c2520" text-anchor="middle"><text x="70" y="163">Tetraedro</text><text x="250" y="163">Cubo</text><text x="430" y="163">Ottaedro</text><text x="610" y="163">Dodecaedro</text><text x="790" y="163">Icosaedro</text></g><g font-family="\'JetBrains Mono\', monospace" font-size="12" font-weight="400" fill="#6e6760" text-anchor="middle"><text x="70" y="185">(3, 3)</text><text x="250" y="185">(4, 3)</text><text x="430" y="185">(3, 4)</text><text x="610" y="185">(5, 3)</text><text x="790" y="185">(3, 5)</text></g></svg>' +
+    '<div class="fig-caption">I cinque poliedri regolari, con la coppia \\((p,q)\\) — lati per faccia, facce per vertice — che soddisfa \\(\\tfrac1p+\\tfrac1q>\\tfrac12\\).</div>' +
+    '</div>' +
+    '<div class="cb"><div class="cb-label">Relazione di Eulero</div><div class="math-block hero-formula">\\[ V - S + F = 2 \\]</div><p>dove \\(V\\) = vertici, \\(S\\) = spigoli, \\(F\\) = facce di un poliedro convesso.</p></div>' +
+    '<p>Sia \\(p\\) il numero di lati di ogni faccia (tutte le facce sono poligoni regolari con \\(p\\) lati uguali) e \\(q\\) il numero di facce che si incontrano in ogni vertice. Contando gli spigoli in due modi — per facce e per vertici — si ottengono due relazioni:</p>' +
+    '<div class="math-block">\\[ pF = 2S \\qquad (\\text{ogni faccia ha } p \\text{ lati, ogni spigolo condiviso da 2 facce}) \\]' +
+    '\\[ qV = 2S \\qquad (\\text{ogni vertice incide su } q \\text{ facce, ogni spigolo condiviso da 2 vertici}) \\]</div>' +
+    '<p><strong>Dimostrazione del vincolo.</strong> Sostituendo \\(F = \\tfrac{2S}{p}\\) e \\(V=\\tfrac{2S}{q}\\) nella relazione di Eulero:</p>' +
+    '<div class="math-block">\\[ \\frac{2S}{q} - S + \\frac{2S}{p} = 2 \\quad\\Longrightarrow\\quad S\\Big(\\frac{2}{q}+\\frac{2}{p}-1\\Big) = 2 \\]</div>' +
+    '<p>Poiché \\(S>0\\), deve essere \\(\\tfrac{2}{q}+\\tfrac{2}{p}-1 > 0\\), cioè:</p>' +
+    '<div class="math-block hero-formula">\\[ \\frac{1}{p}+\\frac{1}{q} > \\frac{1}{2} \\]</div>' +
+    '<p>Con il vincolo geometrico \\(p\\geq3\\) (una faccia ha almeno 3 lati) e \\(q\\geq3\\) (in un vertice si incontrano almeno 3 facce), si cercano tutte le coppie \\((p,q)\\) che soddisfano la disuguaglianza:</p>' +
+    '<table class="ct"><tr><th>(p, q)</th><th>Solido</th><th>V, S, F</th></tr>' +
+    '<tr><td>(3,3)</td><td>Tetraedro</td><td>4, 6, 4</td></tr>' +
+    '<tr><td>(4,3)</td><td>Cubo (esaedro)</td><td>8, 12, 6</td></tr>' +
+    '<tr><td>(3,4)</td><td>Ottaedro</td><td>6, 12, 8</td></tr>' +
+    '<tr><td>(5,3)</td><td>Dodecaedro</td><td>20, 30, 12</td></tr>' +
+    '<tr><td>(3,5)</td><td>Icosaedro</td><td>12, 30, 20</td></tr></table>' +
+    '<p>Ogni altra coppia (es. \\(p=3,q=6\\): \\(\\tfrac13+\\tfrac16=\\tfrac12\\), non soddisfa la disuguaglianza stretta; \\(p=4,q=4\\): stesso valore \\(\\tfrac12\\)) è esclusa: quelle configurazioni corrispondono a tassellazioni <strong>piane</strong> (come la griglia quadrata o esagonale), non a poliedri chiusi. \\(\\blacksquare\\)</p>'
+},
+{
+  tag:"SOLIDI DI ROTAZIONE",
+  title:"Superfici e volumi dei <em>solidi di rotazione</em>",
+  nav:"Solidi di rotazione",
+  body:
+    '<p>Cilindro, cono e sfera sono casi particolari di solidi generati dalla rotazione di una figura piana attorno a un asse. Le loro formule si ottengono tutte con Cavalieri o con argomenti di decomposizione elementare, senza ricorrere al calcolo integrale.</p>' +
+    '<div class="cb"><div class="cb-label">Volume del cono, per confronto con la piramide</div><p>Un cono di raggio \\(r\\) e altezza \\(h\\) può essere approssimato da piramidi a base poligonale regolare inscritte nella base circolare, con \\(n\\) sempre più grande. Ogni sezione a quota \\(z\\) del cono ha raggio \\(r(1-z/h)\\) e quindi area \\(\\pi r^2(1-z/h)^2\\): la stessa legge di scala di una piramide con base di area \\(\\pi r^2\\). Per Cavalieri (confrontando il cono con una piramide equivalente), si ottiene la stessa formula della piramide:</p><div class="math-block hero-formula">\\[ V_{\\text{cono}} = \\frac13 \\pi r^2 h \\]</div></div>' +
+    '<div class="cb"><div class="cb-label">Superficie laterale del cono: lo sviluppo piano</div><p>Tagliando la superficie laterale lungo una generatrice \\(a\\) (l\'apotema), essa si "srotola" in un settore circolare di raggio \\(a\\) e arco pari alla circonferenza di base \\(2\\pi r\\). L\'area del settore, proporzionale all\'arco rispetto all\'intera circonferenza di raggio \\(a\\):</p><div class="math-block">\\[ S_{\\text{lat}} = \\pi a^2 \\cdot \\frac{2\\pi r}{2\\pi a} = \\pi r a \\]</div></div>' +
+    '<p>La superficie della sfera, \\(4\\pi R^2\\), si ottiene con un argomento simile a quello del volume: confrontando fasce sferiche con le corrispondenti fasce del cilindro circoscritto, si dimostra (teorema di Archimede) che hanno la stessa area — da cui la superficie totale della sfera coincide con la superficie laterale del cilindro circoscritto, \\(2\\pi R \\cdot 2R = 4\\pi R^2\\).</p>' +
+    acc([
+      { t:"Perché l'argomento di Cavalieri per il cono non è una semplice analogia", h:'<p>Cavalieri richiede che le sezioni abbiano la stessa <em>area</em> a ogni quota, non la stessa forma. Cono e piramide hanno sezioni di forma diversa (cerchio contro poligono) ma della stessa area, se le basi hanno la stessa area e le altezze coincidono: questo è sufficiente per concludere l\'uguaglianza dei volumi, indipendentemente dalla forma della base.</p>' }
+    ])
+},
+{
+  tag:"SINTESI",
+  title:"Mappa dei <em>risultati</em>",
+  nav:"Sintesi",
+  body:
+    '<p>Un solo principio — Cavalieri — genera le formule di volume di piramide, cono e sfera; un solo vincolo aritmetico — la disuguaglianza sui poligoni di Eulero — determina l\'intera classificazione dei poliedri regolari.</p>' +
+    '<table class="ct"><tr><th>Risultato</th><th>Strumento usato</th></tr>' +
+    '<tr><td>\\(V_{\\text{piramide}} = \\tfrac13 A h\\)</td><td>Decomposizione del prisma in 3 piramidi equivalenti</td></tr>' +
+    '<tr><td>\\(V_{\\text{sfera}} = \\tfrac43\\pi R^3\\)</td><td>Cavalieri: confronto semisfera / cilindro-cono</td></tr>' +
+    '<tr><td>Esattamente 5 poliedri regolari</td><td>Eulero + vincolo \\(\\tfrac1p+\\tfrac1q>\\tfrac12\\)</td></tr>' +
+    '<tr><td>\\(V_{\\text{cono}} = \\tfrac13\\pi r^2h\\)</td><td>Cavalieri: confronto con piramide equivalente</td></tr></table>' +
+    acc([
+      { t:"Problema 1 — dimostrazione richiesta", h:'<p>Dimostra, usando il criterio di perpendicolarità retta-piano, che due rette entrambe perpendicolari allo stesso piano sono parallele tra loro.</p><p><em>Traccia:</em> supponi per assurdo che non lo siano, e usa il teorema dell\'angolo esterno del triangolo formato dalle due rette e da un segmento del piano.</p>' },
+      { t:"Problema 2 — applicare Cavalieri", h:'<p>Un solido è ottenuto da un cilindro di raggio \\(r\\) e altezza \\(h\\) rimuovendo un cono con stessa base e stessa altezza. Dimostra, con Cavalieri e senza calcolare direttamente il volume, che il solido ottenuto ha lo stesso volume di una semisfera di raggio \\(r\\) se \\(h=r\\).</p>' },
+      { t:"Problema 3 — il caso escluso (p,q)=(3,6)", h:'<p>Verifica che la coppia \\((p,q)=(3,6)\\) soddisfa \\(\\tfrac1p+\\tfrac1q=\\tfrac12\\) esattamente (non \\(>\\tfrac12\\)), e interpreta geometricamente perché questo produce una tassellazione piana (esagoni... anzi triangoli, 6 per vertice) invece di un poliedro chiuso.</p>' }
+    ])
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>

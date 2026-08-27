@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimento Pro — Calcolo Combinatorio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+  },
+  svg: {fontCache: 'global'}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface-alt: #f5f0e8;
+  --border: #e4ddd4; --border-light: #ece7de;
+  --text: #2c2520; --text-mid: #5a524a; --text-dim: #6e6760;
+  --accent: #c2185b; --accent-light: #fce4ec;
+  --blue: #3a6b8c; --green: #4a7c59; --gold: #b8860b;
+  --danger: #b33a3a; --purple: #7a5197; --radius: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Georgia',serif; background:var(--bg); color:var(--text);
+  line-height:1.75; font-size:17px; opacity:0; transition:opacity .3s;
+}
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(250,247,242,.96); border-bottom:1px solid var(--border-light);
+  height:52px; display:flex; align-items:center; padding:0 clamp(16px,4vw,40px); gap:16px;
+}
+.topbar-brand { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.topbar-nav { display:flex; gap:3px; overflow-x:auto; flex:1; }
+.nav-pill {
+  background:none; border:none; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; color:var(--text-dim); padding:6px 14px;
+  cursor:pointer; white-space:nowrap; transition:all .2s; border-bottom:2px solid transparent;
+}
+.nav-pill:hover { color:var(--text); }
+.nav-pill.active { color:var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
+.topbar-home {
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+  color:var(--text-dim); text-decoration:none; white-space:nowrap;
+}
+.topbar-home:hover { color:var(--accent); }
+.container { max-width:780px; margin:0 auto; padding:84px clamp(20px,5vw,48px) 60px; }
+.section { display:none; animation:appear .4s ease; }
+.section.active { display:block; }
+@keyframes appear { from { opacity:0; transform:translateY(14px); } to { opacity:1; } }
+.hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-light); }
+.hero-tag { font-family:'Fira Code',monospace; font-size:.73rem; text-transform:uppercase; color:var(--accent); letter-spacing:1px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; margin:8px 0; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1rem; color:var(--text-mid); line-height:1.7; }
+.cb { background:var(--surface-alt); padding:16px 0 16px 18px; margin:18px 0; border-left:3px solid var(--accent); }
+.cb-label { font-family:'Fira Code',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; font-weight:600; color:var(--accent); }
+.cb.tip { border-left-color:var(--blue); } .cb.tip .cb-label { color:var(--blue); }
+.cb.warn { border-left-color:var(--gold); } .cb.warn .cb-label { color:var(--gold); }
+.cb.danger { border-left-color:var(--danger); } .cb.danger .cb-label { color:var(--danger); }
+.cb.success { border-left-color:var(--green); } .cb.success .cb-label { color:var(--green); }
+.cb.purple { border-left-color:var(--purple); } .cb.purple .cb-label { color:var(--purple); }
+.math-block { background:rgba(0,0,0,.02); padding:12px 16px; margin:10px 0; overflow-x:auto; }
+.math-block.hero-formula { background:var(--surface-alt); text-align:center; }
+.math-block.result { border-left:2px solid var(--green); background:rgba(74,124,89,.04); }
+.math-block.warning { border-left:2px solid var(--danger); background:rgba(179,58,58,.04); }
+p { margin:6px 0; }
+ul, ol { margin:8px 0 8px 20px; }
+li { margin:2px 0; }
+strong { font-weight:600; }
+h3 { margin:18px 0 8px; font-family:'Playfair Display',serif; font-size:1.15rem; }
+.dim { color:var(--text-dim); }
+.accordion { margin:16px 0; }
+.acc-item { border-bottom:1px solid rgba(0,0,0,.08); }
+.acc-item:last-child { border-bottom:none; }
+.acc-header { display:flex; align-items:center; gap:12px; padding:14px 0; cursor:pointer; user-select:none; }
+.acc-num { width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
+.acc-title { font-weight:600; font-size:.95rem; flex:1; color:var(--text); }
+.acc-arrow { width:16px; height:16px; color:var(--text-dim); transition:transform .3s; flex-shrink:0; }
+.acc-item.open .acc-arrow { transform:rotate(180deg); }
+.acc-body { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.acc-item.open .acc-body { max-height:8000px; }
+.acc-inner { padding:4px 0 16px 36px; }
+.ct { width:100%; border-collapse:collapse; margin:14px 0; font-size:.9rem; }
+.ct th { text-align:left; padding:10px 14px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--border-light); font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; font-family:'Fira Code',monospace; }
+.ct td { padding:9px 14px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.ct.sign td { text-align:center; font-family:'JetBrains Mono',monospace; }
+.bottom-nav { display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--border-light); }
+.bb { font-family:'JetBrains Mono',monospace; font-size:.85rem; background:none; border:none; color:var(--text); cursor:pointer; }
+.bb:hover { color:var(--accent); text-decoration:underline; }
+.bb:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media(max-width:640px) { body { font-size:16px; } .hero h1 { font-size:1.7rem; } .acc-inner { padding:4px 0 16px 14px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Pro · Calcolo Combinatorio</div>
+  <div class="topbar-nav" id="topNav"></div>
+  <a href="/" class="topbar-home">← home</a>
+</div>
+<div class="container" id="app"></div>
+
+<script>
+function acc(items) {
+  return '<div class="accordion">' + items.map((it, i) =>
+    '<div class="acc-item">' +
+      '<div class="acc-header" onclick="toggleAcc(this)">' +
+        '<div class="acc-num">' + (i + 1) + '</div>' +
+        '<div class="acc-title">' + it.t + '</div>' +
+        '<svg class="acc-arrow" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      '</div>' +
+      '<div class="acc-body"><div class="acc-inner">' + it.h + '</div></div>' +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function toggleAcc(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  if (item.classList.contains('open') && typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([item]);
+  }
+}
+
+const S = [
+{
+  tag:"FONDAMENTI",
+  title:"Disposizioni e permutazioni: il <em>principio di moltiplicazione</em>",
+  nav:"Disposizioni",
+  body:
+    '<p>Tutto il calcolo combinatorio discende da un unico principio elementare, spesso dato per scontato: se una scelta si compone di \\(k\\) decisioni successive, e la \\(i\\)-esima decisione ha \\(n_i\\) possibilità indipendenti dalle precedenti, il numero totale di esiti è il prodotto \\(n_1\\cdot n_2\\cdots n_k\\).</p>' +
+    '<div class="cb"><div class="cb-label">Principio fondamentale del conteggio</div><p>Se un\'operazione consiste di \\(k\\) fasi successive, e la fase \\(i\\) può essere eseguita in \\(n_i\\) modi indipendentemente dalle scelte fatte nelle fasi precedenti, il numero totale di esiti possibili è \\(\\prod_{i=1}^{k} n_i\\).</p></div>' +
+    '<p><strong>Dimostrazione (per induzione su \\(k\\)).</strong> Per \\(k=1\\) l\'enunciato è banale: ci sono \\(n_1\\) esiti. Supponiamo vero per \\(k-1\\) fasi (ipotesi induttiva: \\(N_{k-1}=\\prod_{i=1}^{k-1}n_i\\) esiti). Ad ogni esito delle prime \\(k-1\\) fasi si associano \\(n_k\\) possibili scelte per la fase \\(k\\), e queste combinazioni sono tutte distinte (esiti diversi delle prime fasi, o scelte diverse nell\'ultima, danno sequenze diverse): quindi il totale è \\(N_{k-1}\\cdot n_k = \\prod_{i=1}^{k}n_i\\). \\(\\blacksquare\\)</p>' +
+    '<div class="cb"><div class="cb-label">Disposizioni semplici, come conseguenza diretta</div><p>Disporre \\(k\\) oggetti scelti (senza ripetizione, con ordine) da un insieme di \\(n\\) elementi equivale a \\(k\\) scelte successive: \\(n\\) possibilità per il primo posto, \\(n-1\\) per il secondo (un elemento è già usato), ..., \\(n-k+1\\) per il \\(k\\)-esimo:</p><div class="math-block hero-formula">\\[ D_{n,k} = n(n-1)(n-2)\\cdots(n-k+1) = \\frac{n!}{(n-k)!} \\]</div></div>' +
+    '<p>Le permutazioni sono il caso particolare \\(k=n\\): \\(P_n = D_{n,n} = \\dfrac{n!}{0!} = n!\\), coerente con l\'intuizione che ordinare \\(n\\) oggetti distinti dia \\(n!\\) sequenze possibili.</p>' +
+    acc([
+      { t:"Permutazioni con ripetizione", h:'<p>Se tra gli \\(n\\) oggetti da ordinare ci sono gruppi di elementi indistinguibili (\\(n_1\\) di un tipo, \\(n_2\\) di un altro, ..., con \\(n_1+n_2+\\cdots=n\\)), il numero di permutazioni distinte si ottiene dividendo \\(n!\\) per il numero di modi di permutare ciascun gruppo indistinguibile al suo interno (che non produce sequenze nuove):</p><div class="math-block hero-formula">\\[ P_n^{(n_1,n_2,\\ldots)} = \\frac{n!}{n_1!\\,n_2!\\cdots} \\]</div><p>Esempio: le permutazioni distinte della parola "MATEMATICA" (10 lettere, con M×2, A×3, T×2) sono \\(\\dfrac{10!}{2!\\,3!\\,2!}\\).</p>' }
+    ])
+},
+{
+  tag:"COMBINAZIONI",
+  title:"Combinazioni e <em>coefficienti binomiali</em>",
+  nav:"Combinazioni",
+  body:
+    '<p>Una combinazione è una disposizione in cui l\'<strong>ordine non conta</strong>. La formula del coefficiente binomiale si dimostra confrontando il conteggio delle disposizioni con quello delle combinazioni.</p>' +
+    '<div class="cb"><div class="cb-label">Teorema — formula delle combinazioni</div><div class="math-block hero-formula">\\[ \\binom{n}{k} = \\frac{n!}{k!(n-k)!} \\]</div></div>' +
+    '<p><strong>Dimostrazione.</strong> Ogni combinazione di \\(k\\) oggetti scelti tra \\(n\\) può essere trasformata in una disposizione ordinandone gli elementi in uno dei \\(k!\\) modi possibili (permutazioni degli stessi \\(k\\) oggetti). Quindi, per ogni combinazione, si ottengono esattamente \\(k!\\) disposizioni distinte, e queste esauriscono tutte le \\(D_{n,k}\\) disposizioni possibili senza sovrapposizioni tra combinazioni diverse:</p>' +
+    '<div class="math-block">\\[ D_{n,k} = \\binom{n}{k}\\cdot k! \\quad\\Longrightarrow\\quad \\binom{n}{k} = \\frac{D_{n,k}}{k!} = \\frac{n!}{k!(n-k)!} \\]</div>' +
+    '<p>\\(\\blacksquare\\)</p>' +
+    '<div class="cb tip"><div class="cb-label">Simmetria dei coefficienti binomiali</div><p>Dalla formula segue immediatamente \\(\\binom{n}{k}=\\binom{n}{n-k}\\): scegliere \\(k\\) elementi da includere equivale a scegliere \\(n-k\\) elementi da escludere. È lo stesso conteggio visto da due prospettive — un argomento <strong>combinatorio</strong>, non solo algebrico, per la simmetria.</p></div>' +
+    '<div class="cb"><div class="cb-label">Formula di Stifel (identità del triangolo di Tartaglia)</div><div class="math-block hero-formula">\\[ \\binom{n}{k} = \\binom{n-1}{k-1}+\\binom{n-1}{k} \\]</div><p><strong>Dimostrazione combinatoria.</strong> Fissiamo un elemento speciale \\(x\\) tra gli \\(n\\). Ogni sottoinsieme di \\(k\\) elementi o contiene \\(x\\) (e allora si scelgono i restanti \\(k-1\\) tra gli altri \\(n-1\\): \\(\\binom{n-1}{k-1}\\) modi) oppure non lo contiene (si scelgono tutti e \\(k\\) tra gli altri \\(n-1\\): \\(\\binom{n-1}{k}\\) modi). Le due categorie sono disgiunte ed esauriscono tutti i casi, quindi si sommano. \\(\\blacksquare\\)</p></div>'
+},
+{
+  tag:"BINOMIO DI NEWTON",
+  title:"Il binomio di Newton, per <em>induzione</em>",
+  nav:"Binomio di Newton",
+  body:
+    '<p>La formula dello sviluppo di \\((a+b)^n\\) è forse la conseguenza più celebre del coefficiente binomiale. La dimostriamo per induzione su \\(n\\), usando l\'identità di Stifel appena vista.</p>' +
+    '<div class="cb"><div class="cb-label">Binomio di Newton</div><div class="math-block hero-formula">\\[ (a+b)^n = \\sum_{k=0}^{n} \\binom{n}{k} a^{n-k}b^k \\]</div></div>' +
+    '<p><strong>Dimostrazione per induzione.</strong> <em>Base:</em> per \\(n=1\\), \\((a+b)^1 = a+b = \\binom{1}{0}a^1b^0+\\binom{1}{1}a^0b^1\\). Vero.</p>' +
+    '<p><em>Passo induttivo.</em> Supponiamo vera la formula per \\(n-1\\):</p>' +
+    '<div class="math-block">\\[ (a+b)^{n-1} = \\sum_{k=0}^{n-1}\\binom{n-1}{k}a^{n-1-k}b^k \\]</div>' +
+    '<p>Moltiplicando per \\((a+b)\\):</p>' +
+    '<div class="math-block">\\[ (a+b)^n = a\\sum_{k=0}^{n-1}\\binom{n-1}{k}a^{n-1-k}b^k + b\\sum_{k=0}^{n-1}\\binom{n-1}{k}a^{n-1-k}b^k = \\sum_{k=0}^{n-1}\\binom{n-1}{k}a^{n-k}b^k + \\sum_{k=0}^{n-1}\\binom{n-1}{k}a^{n-1-k}b^{k+1} \\]</div>' +
+    '<p>Nel secondo termine sostituiamo l\'indice \\(j=k+1\\) (così \\(k=j-1\\)) e riscriviamo entrambe le somme in funzione di uno stesso indice, isolando i termini estremi \\(k=0\\) e \\(k=n\\) (dove uno dei due addendi manca):</p>' +
+    '<div class="math-block">\\[ (a+b)^n = a^n + \\sum_{k=1}^{n-1}\\Big[\\binom{n-1}{k}+\\binom{n-1}{k-1}\\Big]a^{n-k}b^k + b^n \\]</div>' +
+    '<p>Per l\'identità di Stifel, la parentesi quadra è esattamente \\(\\binom{n}{k}\\); riconoscendo anche \\(\\binom{n}{0}=\\binom{n}{n}=1\\), si ottiene la formula per \\(n\\), completando l\'induzione. \\(\\blacksquare\\)</p>' +
+    acc([
+      { t:"Perché la somma dei coefficienti di riga è 2ⁿ", h:'<p>Ponendo \\(a=b=1\\) nel binomio di Newton: \\((1+1)^n = \\sum_{k=0}^n\\binom{n}{k} = 2^n\\). Questo ha anche un significato combinatorio diretto: \\(2^n\\) è il numero di sottoinsiemi di un insieme di \\(n\\) elementi, e sommare \\(\\binom nk\\) su tutti i \\(k\\) conta gli stessi sottoinsiemi, raggruppati per cardinalità.</p>' }
+    ])
+},
+{
+  tag:"RAGGRUPPAMENTI CON RIPETIZIONE",
+  title:"Disposizioni e combinazioni <em>con ripetizione</em>",
+  nav:"Con ripetizione",
+  body:
+    '<p>Quando gli elementi possono ripetersi, il conteggio cambia natura. Le disposizioni con ripetizione seguono ancora il principio di moltiplicazione; le combinazioni con ripetizione richiedono un argomento più sottile, noto come "stelle e barre".</p>' +
+    '<div class="cb"><div class="cb-label">Disposizioni con ripetizione</div><p>Scegliere \\(k\\) oggetti in sequenza da un insieme di \\(n\\), con ripetizione ammessa: ogni posizione ha \\(n\\) possibilità indipendenti, quindi per il principio di moltiplicazione:</p><div class="math-block hero-formula">\\[ D^{\\,r}_{n,k} = n^k \\]</div></div>' +
+    '<div class="cb"><div class="cb-label">Combinazioni con ripetizione — il metodo "stelle e barre"</div><p>Scegliere \\(k\\) oggetti tra \\(n\\) tipi, senza ordine, con ripetizione ammessa, equivale a distribuire \\(k\\) oggetti indistinguibili (stelle) in \\(n\\) categorie: rappresentiamo la scelta come una sequenza di \\(k\\) stelle e \\(n-1\\) barre separatrici, che marcano il confine tra una categoria e la successiva.</p></div>' +
+    '<p><strong>Dimostrazione.</strong> Una sequenza di \\(k\\) stelle e \\(n-1\\) barre ha lunghezza totale \\(k+n-1\\); ogni disposizione distinta di questi simboli corrisponde esattamente a una combinazione con ripetizione (il numero di stelle prima della prima barra è il numero di oggetti scelti del primo tipo, e così via). Il numero di sequenze distinte è il numero di modi di scegliere le \\(k\\) posizioni delle stelle tra le \\(k+n-1\\) posizioni totali (le rimanenti sono barre):</p>' +
+    '<div class="math-block hero-formula">\\[ C^{\\,r}_{n,k} = \\binom{n+k-1}{k} \\]</div>' +
+    '<p>\\(\\blacksquare\\)</p>' +
+    acc([
+      { t:"Esempio — il conteggio reso concreto", h:'<p>Quanti modi ci sono di scegliere 5 gelati da una gelateria con 3 gusti disponibili (potendo ripetere gusti)? \\(n=3\\) gusti, \\(k=5\\) scelte: \\(\\binom{3+5-1}{5}=\\binom{7}{5}=21\\). La sequenza di stelle e barre per, ad esempio, "3 al cioccolato, 0 alla vaniglia, 2 alla fragola" è ★★★|/|★★.</p>' }
+    ])
+},
+{
+  tag:"SINTESI",
+  title:"Mappa dei <em>conteggi</em>",
+  nav:"Sintesi",
+  body:
+    '<p>Tutti i risultati del calcolo combinatorio derivano da un unico principio (moltiplicazione) applicato in modo diverso a seconda che l\'ordine conti o no, e che la ripetizione sia ammessa o no.</p>' +
+    '<table class="ct"><tr><th>Ordine conta?</th><th>Ripetizione ammessa?</th><th>Formula</th></tr>' +
+    '<tr><td>Sì (disposizioni)</td><td>No</td><td>\\(D_{n,k} = \\dfrac{n!}{(n-k)!}\\)</td></tr>' +
+    '<tr><td>Sì (disposizioni)</td><td>Sì</td><td>\\(D^r_{n,k} = n^k\\)</td></tr>' +
+    '<tr><td>No (combinazioni)</td><td>No</td><td>\\(\\binom{n}{k} = \\dfrac{n!}{k!(n-k)!}\\)</td></tr>' +
+    '<tr><td>No (combinazioni)</td><td>Sì</td><td>\\(\\binom{n+k-1}{k}\\)</td></tr></table>' +
+    acc([
+      { t:"Problema 1 — dimostrazione richiesta", h:'<p>Dimostra, con un argomento combinatorio (non algebrico), l\'identità \\(\\binom{n}{0}+\\binom{n}{1}+\\cdots+\\binom{n}{n}=2^n\\), interpretando entrambi i membri come conteggio dei sottoinsiemi di un insieme di \\(n\\) elementi.</p>' },
+      { t:"Problema 2 — Stifel applicata", h:'<p>Usa la formula di Stifel per calcolare \\(\\binom{6}{3}\\) a partire da \\(\\binom{5}{2}=10\\) e \\(\\binom{5}{3}=10\\), senza calcolare direttamente il fattoriale.</p>' },
+      { t:"Problema 3 — stelle e barre", h:'<p>In quanti modi si possono distribuire 10 caramelle identiche tra 4 bambini (un bambino può anche non riceverne)? Applica la formula \\(\\binom{n+k-1}{k}\\) con \\(n=4\\), \\(k=10\\).</p><div class="math-block result">\\[ \\binom{4+10-1}{10} = \\binom{13}{10} = \\binom{13}{3} = 286 \\]</div>' }
+    ])
+}
+];
+
+let currentIdx = 0;
+
+function render() {
+  const s = S[currentIdx];
+  const html = '<div class="hero">' +
+    '<div class="hero-tag">' + s.tag + '</div>' +
+    '<h1>' + s.title + '</h1></div>' +
+    '<div class="section-body">' + s.body + '</div>' +
+    '<div class="bottom-nav">' +
+    '<button class="bb" onclick="prev()" ' + (currentIdx === 0 ? 'disabled' : '') + '>← Indietro</button>' +
+    '<div class="page-info">' + (currentIdx + 1) + ' / ' + S.length + '</div>' +
+    '<button class="bb" onclick="next()" ' + (currentIdx === S.length - 1 ? 'disabled' : '') + '>Avanti →</button>' +
+    '</div>';
+
+  document.getElementById('app').innerHTML = html;
+
+  const pills = S.map((s, i) =>
+    '<button class="nav-pill ' + (i === currentIdx ? 'active' : '') + '" onclick="go(' + i + ')">' + s.nav + '</button>'
+  ).join('');
+  document.getElementById('topNav').innerHTML = pills;
+
+  if (typeof MathJax !== 'undefined') {
+    MathJax.typesetPromise([document.getElementById('app')]);
+  }
+  document.body.style.opacity = '1';
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; render(); window.scrollTo(0, 0); } }
+function next() { if (currentIdx < S.length - 1) { currentIdx++; render(); window.scrollTo(0, 0); } }
+function go(i) { currentIdx = i; render(); window.scrollTo(0, 0); }
+
+render();
+</script>
+</body>
+</html>

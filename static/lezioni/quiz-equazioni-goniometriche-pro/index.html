@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Equazioni Goniometriche, approfondimento</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+
+.level-picker{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
+.level-card{flex:1;min-width:160px;border:1.5px solid var(--border);border-radius:10px;padding:16px 18px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s}
+.level-card:hover{border-color:var(--accent);background:var(--accent-light)}
+.level-card.active{border-color:var(--accent);background:var(--accent-light)}
+.level-name{font-family:'Fira Code',monospace;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+.level-card.active .level-name{color:var(--accent)}
+.level-desc{font-size:.85rem;color:var(--text-mid);line-height:1.5}
+
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.btn-start{margin-top:8px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-start:hover{background:#a01549}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px;color:var(--text)}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{background:#a01549}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-retry:hover{background:#a01549}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(5,1fr)}
+  .level-picker{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quiz · Equazioni Goniometriche</div>
+  <div class="topbar-tag">LP06</div>
+</div>
+
+<div class="container">
+
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Test di preparazione</div>
+      <h1>Equazioni Goniometriche, a <em>fondo</em></h1>
+      <p class="hero-sub">30 domande a risposta multipla sulle dimostrazioni dei metodi risolutivi: perché le soluzioni sono infinite, il metodo dell'angolo aggiunto, le equazioni omogenee, le formule parametriche e la discussione con parametro. Tre livelli: Base, Avanzato, Pro.</p>
+    </div>
+
+    <div class="level-picker">
+      <div class="level-card active" id="lvl-0" onclick="selectLevel(0)">
+        <div class="level-name">Base</div>
+        <div class="level-desc">Insieme delle soluzioni, forma R-φ, divisione per cos²x, sostituzione t=tan(x/2).</div>
+      </div>
+      <div class="level-card" id="lvl-1" onclick="selectLevel(1)">
+        <div class="level-name">Avanzato</div>
+        <div class="level-desc">Le dimostrazioni passo per passo, i casi esclusi da verificare, la discussione parametrica.</div>
+      </div>
+      <div class="level-card" id="lvl-2" onclick="selectLevel(2)">
+        <div class="level-name">Pro</div>
+        <div class="level-desc">Sintesi dei metodi, problemi misti, collegamenti con l'analisi (limitatezza, continuità).</div>
+      </div>
+    </div>
+
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">10 per livello</span></div>
+      <div class="meta-item"><span class="meta-label">Tipo</span><span class="meta-value">Risposta multipla</span></div>
+      <div class="meta-item"><span class="meta-label">Feedback</span><span class="meta-value">Immediato</span></div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia il test</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso</span>
+        <span class="progress-frac" id="prog-frac">1 / 10</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag" id="res-tag">Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den" id="res-den">su 10 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova questo livello</button>
+      <a class="btn-lesson" href="#" onclick="backToLevels();return false;">Cambia livello</a>
+      <a class="btn-lesson" href="/lezioni/lp13-equazioni-goniometriche/lezione.html">Torna alla lezione</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const LEVELS = ["Base","Avanzato","Pro"];
+
+const QSETS = [
+
+// ══════════════ LIVELLO BASE ══════════════
+[
+  {
+    badge: "Perché le soluzioni sono infinite",
+    q: "Perché l'equazione \\(\\sin x = \\sin\\alpha\\) ha infinite soluzioni?",
+    opts: [
+      "per un errore di impostazione dell'equazione",
+      "perché seno e coseno sono funzioni periodiche e non iniettive su \\(\\mathbb{R}\\)",
+      "solo perché \\(x\\) è misurato in radianti",
+      "non è vero, ha sempre un'unica soluzione"
+    ],
+    ans: 1,
+    exp: "Seno e coseno hanno periodo \\(2\\pi\\) e non sono iniettivi su \\(\\mathbb{R}\\): più valori di \\(x\\) (differenti per multipli del periodo, o simmetrici) danno lo stesso valore del seno."
+  },
+  {
+    badge: "Insieme delle soluzioni — seno",
+    q: "Qual è la forma generale delle soluzioni di \\(\\sin x = \\sin\\alpha\\)?",
+    opts: [
+      "\\(x = \\alpha + 2k\\pi\\) soltanto",
+      "\\(x = \\alpha + 2k\\pi \\ \\lor\\ x = \\pi-\\alpha+2k\\pi\\), \\(k\\in\\mathbb{Z}\\)",
+      "\\(x = \\alpha + k\\pi\\)",
+      "\\(x = -\\alpha + k\\pi\\)"
+    ],
+    ans: 1,
+    exp: "Le soluzioni corrispondono ai due angoli con lo stesso seno sul cerchio goniometrico: \\(\\alpha\\) stesso, oppure il suo supplementare \\(\\pi-\\alpha\\), entrambi a meno di multipli di \\(2\\pi\\)."
+  },
+  {
+    badge: "Insieme delle soluzioni — tangente",
+    q: "Perché l'insieme delle soluzioni di \\(\\tan x = \\tan\\alpha\\) è \\(x=\\alpha+k\\pi\\) e non \\(x=\\alpha+2k\\pi\\)?",
+    opts: [
+      "perché la tangente ha periodo \\(\\pi\\), non \\(2\\pi\\)",
+      "è un errore comune, in realtà il periodo è \\(2\\pi\\) anche per la tangente",
+      "perché la tangente non è mai periodica",
+      "perché \\(\\alpha\\) deve essere sempre un multiplo di \\(\\pi\\)"
+    ],
+    ans: 0,
+    exp: "La tangente ha periodo \\(\\pi\\) (non \\(2\\pi\\) come seno e coseno): è iniettiva su ogni intervallo di ampiezza \\(\\pi\\), quindi le sue soluzioni si ripetono ogni \\(\\pi\\), non ogni \\(2\\pi\\)."
+  },
+  {
+    badge: "Metodo dell'angolo aggiunto — enunciato",
+    q: "L'espressione \\(a\\sin x+b\\cos x\\) può sempre essere riscritta come...?",
+    opts: [
+      "\\(R\\sin(x+\\varphi)\\), con \\(R=\\sqrt{a^2+b^2}\\)",
+      "\\((a+b)\\sin x\\)",
+      "\\(ab\\sin(2x)\\)",
+      "non può essere semplificata in generale"
+    ],
+    ans: 0,
+    exp: "Il metodo dell'angolo aggiunto riscrive \\(a\\sin x+b\\cos x\\) come un'unica funzione sinusoidale \\(R\\sin(x+\\varphi)\\), con ampiezza \\(R=\\sqrt{a^2+b^2}\\)."
+  },
+  {
+    badge: "Condizione di risolubilità",
+    q: "L'equazione \\(a\\sin x+b\\cos x=c\\), riscritta come \\(R\\sin(x+\\varphi)=c\\), ha soluzione se e solo se...?",
+    opts: [
+      "sempre, per qualunque \\(c\\)",
+      "\\(|c| \\le R\\), cioè \\(|c|\\le\\sqrt{a^2+b^2}\\)",
+      "\\(c=0\\)",
+      "\\(c \\ge R\\)"
+    ],
+    ans: 1,
+    exp: "Poiché \\(\\sin(x+\\varphi)\\) è compreso tra \\(-1\\) e \\(1\\), l'equazione \\(R\\sin(x+\\varphi)=c\\) ha soluzione solo se \\(|c|\\le R\\); altrimenti è impossibile."
+  },
+  {
+    badge: "Equazioni omogenee — il metodo",
+    q: "Come si risolve tipicamente un'equazione omogenea di secondo grado \\(a\\sin^2x+b\\sin x\\cos x+c\\cos^2x=0\\)?",
+    opts: [
+      "si sviluppano i quadrati con le formule di duplicazione",
+      "si divide per \\(\\cos^2x\\) (verificando a parte il caso \\(\\cos x=0\\)), ottenendo un'equazione di secondo grado in \\(\\tan x\\)",
+      "si applicano direttamente le formule parametriche",
+      "non è risolvibile elementarmente"
+    ],
+    ans: 1,
+    exp: "Dividendo per \\(\\cos^2x\\) (dopo aver verificato se \\(\\cos x=0\\) è soluzione), l'equazione diventa \\(a\\tan^2x+b\\tan x+c=0\\), risolvibile con le formule note per le equazioni di secondo grado."
+  },
+  {
+    badge: "Il caso da verificare a parte",
+    q: "Perché, nelle equazioni omogenee, bisogna controllare separatamente se \\(\\cos x=0\\) è soluzione?",
+    opts: [
+      "perché altrimenti l'equazione non ha senso",
+      "perché dividendo per \\(\\cos^2x\\) si perderebbero eventuali soluzioni con \\(\\cos x=0\\), che non si possono ottenere dall'equazione in \\(\\tan x\\)",
+      "non serve mai controllarlo",
+      "perché il coefficiente \\(a\\) deve essere nullo"
+    ],
+    ans: 1,
+    exp: "La divisione per \\(\\cos^2x\\) presuppone \\(\\cos x\\ne0\\): se \\(\\cos x=0\\) fosse effettivamente soluzione, andrebbe persa nel passaggio e va quindi verificata separatamente prima di dividere."
+  },
+  {
+    badge: "Formule parametriche — la sostituzione",
+    q: "Su cosa si basa il metodo delle formule parametriche per le equazioni goniometriche?",
+    opts: [
+      "sulla sostituzione \\(t=\\tan(x/2)\\), che esprime seno, coseno e tangente di \\(x\\) come funzioni razionali di \\(t\\)",
+      "sulla sostituzione \\(t=\\sin x\\)",
+      "sull'uso esclusivo delle formule di duplicazione",
+      "sulla sostituzione \\(t=x^2\\)"
+    ],
+    ans: 0,
+    exp: "Ponendo \\(t=\\tan(x/2)\\), si ottengono le formule \\(\\sin x=\\frac{2t}{1+t^2}\\), \\(\\cos x=\\frac{1-t^2}{1+t^2}\\): qualunque equazione razionale in seno e coseno diventa un'equazione algebrica in \\(t\\)."
+  },
+  {
+    badge: "Il caso escluso dalle parametriche",
+    q: "Quale valore di \\(x\\) è escluso dalla sostituzione \\(t=\\tan(x/2)\\) e va verificato a parte?",
+    opts: [
+      "\\(x=0\\)",
+      "\\(x=\\pi+2k\\pi\\), dove \\(\\cos(x/2)=0\\)",
+      "\\(x=\\pi/2\\)",
+      "nessun valore è escluso"
+    ],
+    ans: 1,
+    exp: "La sostituzione richiede \\(\\cos(x/2)\\ne0\\), condizione che esclude \\(x=\\pi+2k\\pi\\): questo valore va controllato separatamente nell'equazione originale."
+  },
+  {
+    badge: "Equazioni con parametro",
+    q: "Cosa significa 'discutere' un'equazione goniometrica con un parametro \\(k\\)?",
+    opts: [
+      "risolvere l'equazione per un singolo valore di \\(k\\) a scelta",
+      "determinare per quali valori di \\(k\\) l'equazione ammette soluzioni, e quante",
+      "dimostrare che l'equazione non ha mai soluzioni",
+      "sostituire \\(k\\) con un valore numerico arbitrario"
+    ],
+    ans: 1,
+    exp: "Discutere un'equazione parametrica significa studiare, al variare del parametro, l'esistenza e il numero delle soluzioni — non risolvere per un singolo valore fissato."
+  }
+],
+
+// ══════════════ LIVELLO AVANZATO ══════════════
+[
+  {
+    badge: "Dimostrazione — insieme soluzioni seno",
+    q: "Nella dimostrazione di \\(\\sin x=\\sin\\alpha \\Leftrightarrow x=\\alpha+2k\\pi \\lor x=\\pi-\\alpha+2k\\pi\\), quale identità si usa per fattorizzare \\(\\sin x-\\sin\\alpha\\)?",
+    opts: [
+      "la formula di duplicazione del seno",
+      "le formule di prostaferesi: \\(\\sin x-\\sin\\alpha=2\\cos\\left(\\frac{x+\\alpha}{2}\\right)\\sin\\left(\\frac{x-\\alpha}{2}\\right)\\)",
+      "il teorema di Carnot",
+      "la disuguaglianza triangolare"
+    ],
+    ans: 1,
+    exp: "Le formule di prostaferesi trasformano la differenza \\(\\sin x-\\sin\\alpha\\) in un prodotto: annullando ciascun fattore separatamente si ottengono le due famiglie di soluzioni."
+  },
+  {
+    badge: "Perché la dimostrazione è anche di completezza",
+    q: "Perché la dimostrazione con le formule di prostaferesi garantisce anche che non esistano altre soluzioni oltre alle due famiglie note?",
+    opts: [
+      "non lo garantisce, servirebbe un argomento aggiuntivo",
+      "perché il prodotto di due fattori è nullo se e solo se almeno uno dei due fattori è nullo: non ci sono altre possibilità",
+      "perché si è verificato numericamente per alcuni casi",
+      "perché il seno è una funzione continua"
+    ],
+    ans: 1,
+    exp: "Una volta scritta l'equazione come prodotto nullo, la legge di annullamento del prodotto (valida nei numeri reali) assicura che le uniche soluzioni siano quelle che annullano uno dei due fattori: non ce ne sono altre."
+  },
+  {
+    badge: "Dimostrazione della forma R-φ",
+    q: "Nella dimostrazione di \\(a\\sin x+b\\cos x=R\\sin(x+\\varphi)\\), come si determinano \\(\\cos\\varphi\\) e \\(\\sin\\varphi\\)?",
+    opts: [
+      "si pone \\(\\cos\\varphi=a/R\\) e \\(\\sin\\varphi=b/R\\), sfruttando che il punto \\((a,b)\\) ha modulo \\(R\\)",
+      "si pone \\(\\varphi=a+b\\)",
+      "si risolve un sistema di equazioni di secondo grado",
+      "\\(\\varphi\\) non è determinabile in generale"
+    ],
+    ans: 0,
+    exp: "Il punto \\((a,b)\\) nel piano ha modulo \\(R=\\sqrt{a^2+b^2}\\): scrivendo \\(a=R\\cos\\varphi\\), \\(b=R\\sin\\varphi\\) (coordinate polari del punto), sostituendo si ottiene proprio la formula di addizione del seno."
+  },
+  {
+    badge: "Il passaggio chiave della dimostrazione R-φ",
+    q: "Qual è il passaggio cruciale che permette di concludere \\(a\\sin x+b\\cos x=R\\sin(x+\\varphi)\\)?",
+    opts: [
+      "applicare la formula di addizione del seno 'a ritroso': \\(R\\cos\\varphi\\sin x+R\\sin\\varphi\\cos x=R\\sin(x+\\varphi)\\)",
+      "applicare il teorema di Pitagora ai coefficienti",
+      "sostituire \\(x\\) con un valore numerico",
+      "usare le formule di bisezione"
+    ],
+    ans: 0,
+    exp: "Dopo aver sostituito \\(a=R\\cos\\varphi\\), \\(b=R\\sin\\varphi\\), l'espressione diventa \\(R(\\sin x\\cos\\varphi+\\cos x\\sin\\varphi)\\), che è esattamente lo sviluppo di \\(R\\sin(x+\\varphi)\\) letto al contrario."
+  },
+  {
+    badge: "Verifica del caso escluso nelle omogenee",
+    q: "Per l'equazione omogenea \\(\\sin^2x-3\\sin x\\cos x+2\\cos^2x=0\\), perché \\(\\cos x=0\\) non è soluzione?",
+    opts: [
+      "perché non si può verificare senza risolvere l'intera equazione",
+      "perché sostituendo \\(\\cos x=0\\) resta \\(\\sin^2x=0\\), ma se \\(\\cos x=0\\) allora \\(\\sin x=\\pm1\\ne0\\): condizione falsa",
+      "perché il coefficiente di \\(\\cos^2x\\) è positivo",
+      "\\(\\cos x=0\\) è sempre soluzione delle omogenee"
+    ],
+    ans: 1,
+    exp: "Sostituendo \\(\\cos x=0\\) nell'equazione originale resta la condizione \\(\\sin^2x=0\\); ma se \\(\\cos x=0\\) allora necessariamente \\(\\sin x=\\pm1\\), quindi \\(\\sin^2x=1\\ne0\\): la condizione è falsa, si può dividere senza perdere soluzioni."
+  },
+  {
+    badge: "Dimostrazione delle formule parametriche",
+    q: "Come si dimostra che \\(\\sin x=\\dfrac{2t}{1+t^2}\\) con \\(t=\\tan(x/2)\\)?",
+    opts: [
+      "si parte da \\(\\sin x=2\\sin(x/2)\\cos(x/2)\\), si divide numeratore e denominatore per \\(\\cos^2(x/2)\\) e si usa l'identità fondamentale",
+      "si applica direttamente la definizione di tangente",
+      "si usa il teorema di Carnot",
+      "è un assioma, non richiede dimostrazione"
+    ],
+    ans: 0,
+    exp: "Partendo dalla duplicazione \\(\\sin x=2\\sin(x/2)\\cos(x/2)\\), si divide per \\(\\cos^2(x/2)=\\sin^2(x/2)+\\cos^2(x/2)\\) (identità fondamentale), ottenendo \\(2\\tan(x/2)/(1+\\tan^2(x/2))=2t/(1+t^2)\\)."
+  },
+  {
+    badge: "Discussione parametrica — il ruolo della limitatezza",
+    q: "Discutendo \\(\\sin x=k-1\\) al variare di \\(k\\), quale proprietà del seno determina l'intervallo di \\(k\\) per cui esistono soluzioni?",
+    opts: [
+      "la periodicità del seno",
+      "la limitatezza del seno: \\(\\sin x\\in[-1,1]\\) per ogni \\(x\\), quindi serve \\(k-1\\in[-1,1]\\)",
+      "la continuità del seno",
+      "la parità del coseno"
+    ],
+    ans: 1,
+    exp: "Poiché il seno è sempre compreso tra \\(-1\\) e \\(1\\), l'equazione ha soluzione se e solo se \\(k-1\\) appartiene a quell'intervallo, cioè \\(0\\le k\\le2\\)."
+  },
+  {
+    badge: "Equazioni lineari: quando sono impossibili",
+    q: "L'equazione \\(3\\sin x+4\\cos x=6\\) ha soluzioni?",
+    opts: [
+      "sì, sempre",
+      "no: \\(R=\\sqrt{3^2+4^2}=5\\lt6\\), quindi \\(|c|>R\\) e l'equazione è impossibile",
+      "sì, ma solo per \\(x=0\\)",
+      "dipende da un parametro non specificato"
+    ],
+    ans: 1,
+    exp: "Calcolando \\(R=\\sqrt{9+16}=5\\), poiché il termine noto \\(6\\) supera \\(R\\), l'equazione \\(5\\sin(x+\\varphi)=6\\) non può avere soluzione: il seno non supera mai 1 in valore assoluto."
+  },
+  {
+    badge: "Confronto tra metodi",
+    q: "Perché per un'equazione omogenea di secondo grado non conviene usare le formule parametriche invece della divisione per cos²x?",
+    opts: [
+      "perché le formule parametriche non sono mai applicabili alle omogenee",
+      "si può usare comunque, ma la divisione per cos²x è più diretta ed efficiente per questo tipo specifico di equazione",
+      "perché le formule parametriche danno un risultato sbagliato",
+      "non c'è alcuna differenza di efficienza tra i due metodi"
+    ],
+    ans: 1,
+    exp: "Entrambi i metodi sono in linea di principio applicabili, ma per equazioni omogenee la divisione per \\(\\cos^2x\\) porta direttamente a un'equazione di secondo grado, mentre le formule parametriche introducono più complessità algebrica senza vantaggi."
+  },
+  {
+    badge: "Verifica esplicita del caso x=π",
+    q: "Nell'equazione \\(3\\sin x-4\\cos x=4\\), perché si verifica esplicitamente \\(x=\\pi\\) prima di applicare le formule parametriche?",
+    opts: [
+      "per abitudine, senza motivo tecnico",
+      "perché \\(x=\\pi+2k\\pi\\) è escluso dalla sostituzione \\(t=\\tan(x/2)\\) e potrebbe essere una soluzione persa",
+      "perché \\(x=\\pi\\) è sempre soluzione di ogni equazione goniometrica",
+      "perché il coefficiente 4 lo richiede"
+    ],
+    ans: 1,
+    exp: "La sostituzione parametrica richiede \\(\\cos(x/2)\\ne0\\), condizione violata proprio in \\(x=\\pi+2k\\pi\\): questo valore va controllato a parte, prima di applicare la sostituzione, per non perdere un'eventuale soluzione."
+  }
+],
+
+// ══════════════ LIVELLO PRO ══════════════
+[
+  {
+    badge: "Sintesi dei metodi",
+    q: "Qual è il criterio generale per scegliere il metodo risolutivo più adatto a un'equazione goniometrica non elementare?",
+    opts: [
+      "si usa sempre lo stesso metodo, indipendentemente dalla forma dell'equazione",
+      "la forma dell'equazione (lineare, omogenea, razionale generale, con parametro) suggerisce il metodo: angolo aggiunto, divisione per cos²x, formule parametriche, o discussione via limitatezza/segno",
+      "si risolve sempre per via numerica",
+      "le formule parametriche sostituiscono sempre tutti gli altri metodi"
+    ],
+    ans: 1,
+    exp: "Ogni tipo di equazione ha un metodo naturale: lineare → angolo aggiunto; omogenea → divisione per cos²x; razionale generale → formule parametriche; con parametro → discussione strutturale (limitatezza, segno)."
+  },
+  {
+    badge: "Problema misto: lineare con verifica",
+    q: "Risolvendo \\(\\sqrt3\\sin x+\\cos x=1\\) con l'angolo aggiunto, quali sono \\(R\\) e \\(\\varphi\\)?",
+    opts: [
+      "\\(R=2\\), \\(\\varphi=\\pi/6\\)",
+      "\\(R=1\\), \\(\\varphi=\\pi/3\\)",
+      "\\(R=2\\), \\(\\varphi=\\pi/3\\)",
+      "\\(R=\\sqrt3\\), \\(\\varphi=\\pi/6\\)"
+    ],
+    ans: 0,
+    exp: "\\(R=\\sqrt{3+1}=2\\); da \\(\\cos\\varphi=\\sqrt3/2\\), \\(\\sin\\varphi=1/2\\) si ricava \\(\\varphi=\\pi/6\\). L'equazione diventa \\(2\\sin(x+\\pi/6)=1\\), risolvibile elementarmente."
+  },
+  {
+    badge: "Collegamento con l'analisi: limitatezza",
+    q: "La discussione di equazioni goniometriche con parametro, basata sulla limitatezza di seno e coseno, anticipa quale concetto dell'analisi matematica del quinto anno?",
+    opts: [
+      "il concetto di derivata",
+      "il ragionamento per cui l'esistenza di soluzioni di un'equazione dipende dalle proprietà globali (limitatezza, immagine) della funzione coinvolta — utile anche per equazioni esponenziali o logaritmiche",
+      "il teorema fondamentale del calcolo",
+      "nessun collegamento, sono argomenti indipendenti"
+    ],
+    ans: 1,
+    exp: "Come evidenziato nella lezione, il tipo di ragionamento — usare le proprietà globali di una funzione anziché risolvere equazione per equazione — è lo stesso che si applica, in seguito, a equazioni con funzioni esponenziali o logaritmiche."
+  },
+  {
+    badge: "Caso limite: tangenza",
+    q: "Discutendo \\(2\\cos x=k+1\\) al variare di \\(k\\), cosa succede esattamente ai valori estremi \\(k=-3\\) e \\(k=1\\)?",
+    opts: [
+      "l'equazione è impossibile anche in quei punti",
+      "corrispondono ai casi limite \\(\\cos x=-1\\) e \\(\\cos x=1\\): soluzioni uniche (a meno di periodicità), non due distinte",
+      "corrispondono sempre a due soluzioni distinte",
+      "l'equazione non è definita per quei valori"
+    ],
+    ans: 1,
+    exp: "Con \\(k=-3\\): \\(\\cos x=-1\\), soluzione \\(x=\\pi+2k\\pi\\) (unica classe); con \\(k=1\\): \\(\\cos x=1\\), soluzione \\(x=2k\\pi\\) (unica classe). Sono i casi limite dell'intervallo \\([-3,1]\\) in cui l'equazione ha soluzione."
+  },
+  {
+    badge: "Equazione mista: omogenea generalizzata",
+    q: "Un'equazione della forma \\(a\\sin^2x+b\\sin x\\cos x+c\\cos^2x=d\\) (con \\(d\\ne0\\)) come si riconduce a un'omogenea?",
+    opts: [
+      "non è possibile ricondurla a un'omogenea",
+      "sostituendo \\(d\\) con \\(d(\\sin^2x+\\cos^2x)\\) (identità fondamentale), si riporta tutto a un'unica equazione omogenea di secondo grado",
+      "dividendo direttamente per \\(d\\)",
+      "applicando le formule di bisezione"
+    ],
+    ans: 1,
+    exp: "Sfruttando \\(\\sin^2x+\\cos^2x=1\\), si scrive \\(d=d\\sin^2x+d\\cos^2x\\): portando tutto a sinistra si ottiene \\((a-d)\\sin^2x+b\\sin x\\cos x+(c-d)\\cos^2x=0\\), un'omogenea vera e propria, risolvibile con il metodo consueto."
+  },
+  {
+    badge: "Perché prostaferesi e non altre formule",
+    q: "Perché la dimostrazione dell'insieme delle soluzioni usa le formule di prostaferesi e non, ad esempio, le formule di duplicazione?",
+    opts: [
+      "sarebbe equivalente usare la duplicazione",
+      "perché le formule di prostaferesi trasformano una differenza di seni (o coseni) in un prodotto, condizione necessaria per applicare la legge di annullamento del prodotto",
+      "le formule di duplicazione non esistono per differenze",
+      "è una scelta arbitraria senza motivazione tecnica"
+    ],
+    ans: 1,
+    exp: "L'obiettivo è ottenere un prodotto nullo (per poter concludere che almeno un fattore è zero): solo le formule di prostaferesi trasformano \\(\\sin x-\\sin\\alpha\\) in un prodotto di due fattori, mentre la duplicazione non produce questa struttura."
+  },
+  {
+    badge: "Equazione con due parametri",
+    q: "Discutendo \\(k\\sin x = h\\) al variare di due parametri \\(k\\ne0\\) e \\(h\\), qual è la condizione generale di risolubilità?",
+    opts: [
+      "\\(h=0\\) sempre",
+      "\\(|h/k|\\le1\\), cioè \\(|h|\\le|k|\\)",
+      "\\(k=h\\)",
+      "l'equazione ha sempre soluzione, qualunque siano \\(h,k\\)"
+    ],
+    ans: 1,
+    exp: "Riscrivendo come \\(\\sin x=h/k\\), la condizione di esistenza è che il rapporto \\(h/k\\) sia compreso tra \\(-1\\) e \\(1\\): \\(|h/k|\\le1\\), equivalente a \\(|h|\\le|k|\\)."
+  },
+  {
+    badge: "Equazione trascendente mista",
+    q: "Un'equazione come \\(\\sin x = x/2\\) (dove \\(x\\) compare sia dentro sia fuori dal seno) può essere risolta con i metodi algebrici visti in questa lezione (angolo aggiunto, omogenee, parametriche)?",
+    opts: [
+      "sì, con le formule parametriche",
+      "no: non è un'equazione goniometrica algebrica nella forma standard, ma un'equazione trascendente mista, che richiede metodi grafici o numerici (es. Bolzano) invece che le tecniche algebriche di questa lezione",
+      "sì, con la divisione per cos²x",
+      "sì, sempre con l'angolo aggiunto"
+    ],
+    ans: 1,
+    exp: "I metodi visti (angolo aggiunto, omogenee, parametriche) si applicano a equazioni puramente goniometriche; quando l'incognita compare anche fuori dalle funzioni trigonometriche, l'equazione diventa trascendente e va affrontata con strumenti diversi (analisi grafica, teorema di Bolzano)."
+  },
+  {
+    badge: "Verifica di completezza nella discussione",
+    q: "Nella discussione di un'equazione con parametro, perché non basta trovare un valore di \\(k\\) per cui esiste soluzione, ma serve determinare l'intero intervallo?",
+    opts: [
+      "perché un singolo valore non fornisce informazione sufficiente sul comportamento generale dell'equazione al variare del parametro",
+      "basta un singolo valore, il resto è ridondante",
+      "perché il parametro deve essere sempre intero",
+      "non è necessario, è solo una convenzione didattica"
+    ],
+    ans: 0,
+    exp: "Lo scopo della discussione è descrivere completamente il comportamento dell'equazione per ogni valore del parametro: un singolo caso verificato non garantisce nulla sugli altri valori, serve l'analisi strutturale completa (basata su limitatezza o segno)."
+  },
+  {
+    badge: "Sintesi finale: unificazione dei metodi",
+    q: "Cosa hanno in comune, in fondo, tutti i metodi visti per le equazioni goniometriche non elementari?",
+    opts: [
+      "nessun principio comune: sono tecniche isolate e indipendenti tra loro",
+      "tutti riconducono l'equazione goniometrica non elementare a un'equazione elementare o algebrica già nota (angolo aggiunto → elementare; omogenea/parametriche → algebrica in una nuova incognita), verificando sempre eventuali casi esclusi dalla trasformazione",
+      "richiedono tutti l'uso del teorema di Pitagora",
+      "funzionano solo per equazioni con soluzioni intere"
+    ],
+    ans: 1,
+    exp: "È il principio unificante dell'intera lezione: ogni metodo trasforma l'equazione in una forma già risolvibile (elementare o algebrica), a patto di verificare sempre i casi che la trasformazione stessa esclude (cos x=0 nelle omogenee, x=π+2kπ nelle parametriche)."
+  }
+]
+
+];
+
+// ── STATO ──
+let level = 0, Q = QSETS[0];
+let cur = 0, score = 0, answered = false, results = [];
+
+function selectLevel(i) {
+  level = i;
+  document.querySelectorAll('.level-card').forEach((el,idx) => el.classList.toggle('active', idx===i));
+}
+
+// ── LOGICA ──
+function startQuiz() {
+  Q = QSETS[level];
+  cur = 0; score = 0; answered = false; results = [];
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function backToLevels() {
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-intro').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx], total = Q.length;
+  document.getElementById('prog-frac').textContent = (idx+1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('q-badge').textContent = LEVELS[level] + ' — ' + q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const letters = ['A','B','C','D'];
+  document.getElementById('q-opts').innerHTML = q.opts.map((o,i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${o}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === q.ans;
+  if (isOk) score++;
+  results.push(isOk);
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('opt-' + i).classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) document.getElementById('opt-' + q.ans).classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur+1);
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next show';
+  btn.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  document.getElementById('res-tag').textContent = 'Livello ' + LEVELS[level] + ' — Risultato';
+  document.getElementById('res-den').textContent = 'su ' + Q.length + ' domande';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+
+  const msgs = [
+    [9, "Eccellente! Le equazioni goniometriche non hanno più segreti — prova un livello più avanzato."],
+    [7, "Ottimo lavoro. Un piccolo ripasso finale e sei al top."],
+    [5, "Sei sulla buona strada. Ricontrolla le domande sbagliate e riprova."],
+    [3, "C'è ancora del lavoro da fare. Rileggi la lezione e riprova il test."],
+    [0, "Non mollare. Riparti dalla periodicità del seno e del coseno, studia con calma e riprova."]
+  ];
+  document.getElementById('res-msg').textContent = (msgs.find(m => score >= m[0]) || msgs[4])[1];
+
+  document.getElementById('res-grid').innerHTML = results.map((ok,i) =>
+    `<div class="rev-cell ${ok?'ok':'err'}" title="Domanda ${i+1}: ${ok?'corretta':'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) pick(parseInt(e.key)-1);
+  if ((e.key==='Enter'||e.key===' ') && answered) { e.preventDefault(); nextQ(); }
+});
+</script>
+</body>
+</html>
