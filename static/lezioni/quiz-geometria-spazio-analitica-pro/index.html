@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Geometria Analitica nello Spazio, approfondimento</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.05 },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { document.body.style.opacity = '1'; });
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+:root {
+  --bg:#faf7f2; --surface:#fff; --surface-alt:#f5f0e8;
+  --border:#e4ddd4; --border-light:#ece7de;
+  --text:#2c2520; --text-mid:#5a524a; --text-dim:#6e6760;
+  --accent:#c2185b; --accent-light:#fce4ec;
+  --blue:#3a6b8c; --blue-light:#e8f0f5;
+  --green:#4a7c59; --green-light:#eaf5ed;
+  --danger:#b33a3a; --danger-light:#fdf0f0;
+  --radius:8px; --shadow:0 1px 3px rgba(44,37,32,.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3','Georgia',serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:17px;opacity:0;transition:opacity .3s}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);height:52px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);gap:16px}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.topbar-tag{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1px}
+.container{max-width:700px;margin:0 auto;padding:84px clamp(20px,5vw,40px) 80px}
+
+.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.hero-tag{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800;line-height:1.2;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:.97rem;color:var(--text-mid);line-height:1.65;max-width:540px}
+
+.level-picker{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
+.level-card{flex:1;min-width:160px;border:1.5px solid var(--border);border-radius:10px;padding:16px 18px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s}
+.level-card:hover{border-color:var(--accent);background:var(--accent-light)}
+.level-card.active{border-color:var(--accent);background:var(--accent-light)}
+.level-name{font-family:'Fira Code',monospace;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+.level-card.active .level-name{color:var(--accent)}
+.level-desc{font-size:.85rem;color:var(--text-mid);line-height:1.5}
+
+.intro-meta{display:flex;gap:24px;margin:24px 0;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+.meta-value{font-size:.95rem;font-weight:600}
+.btn-start{margin-top:8px;font-family:'Source Sans 3',sans-serif;font-size:1rem;font-weight:700;padding:14px 36px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-start:hover{background:#a01549}
+
+.progress-wrap{margin-bottom:24px}
+.progress-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.5px}
+.progress-frac{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--accent);font-weight:600}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow)}
+.q-badge{font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.q-text{font-size:1.03rem;font-weight:500;line-height:1.65;margin-bottom:22px;color:var(--text)}
+
+.options{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s;user-select:none}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-light)}
+.opt-letter{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:600;color:var(--text-dim);min-width:18px;padding-top:2px;flex-shrink:0}
+.opt-text{font-size:.95rem;line-height:1.5}
+.opt.correct{border-color:var(--green);background:var(--green-light)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong{border-color:var(--danger);background:var(--danger-light)}
+.opt.wrong .opt-letter{color:var(--danger)}
+.opt.locked{cursor:default}
+
+.feedback{margin-top:18px;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-ok{background:var(--green-light);border:1px solid var(--green)}
+.feedback.fb-err{background:var(--danger-light);border:1px solid var(--danger)}
+.fb-label{font-family:'Fira Code',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.feedback.fb-ok .fb-label{color:var(--green)}
+.feedback.fb-err .fb-label{color:var(--danger)}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn-next{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:11px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;display:none}
+.btn-next.show{display:inline-block}
+.btn-next:hover{background:#a01549}
+.score-live{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text-dim)}
+
+.results-hero{text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border-light)}
+.results-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;line-height:1;color:var(--accent)}
+.results-den{font-family:'Fira Code',monospace;font-size:1.2rem;color:var(--text-dim);margin-top:4px}
+.results-pct{font-family:'Fira Code',monospace;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+.results-bar-wrap{height:8px;background:var(--border);border-radius:4px;margin:20px auto;max-width:320px;overflow:hidden}
+.results-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+.results-msg{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--text-mid);margin:20px auto;max-width:440px;line-height:1.5}
+
+.review-title{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:28px 0 12px}
+.review-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:32px}
+.rev-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-size:.72rem;font-weight:600}
+.rev-cell.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green)}
+.rev-cell.err{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+
+.results-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.btn-retry{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:700;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+.btn-retry:hover{background:#a01549}
+.btn-lesson{font-family:'Source Sans 3',sans-serif;font-size:.92rem;padding:12px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s}
+.btn-lesson:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero h1{font-size:1.55rem}
+  .q-card{padding:20px 18px}
+  .results-num{font-size:3.5rem}
+  .review-grid{grid-template-columns:repeat(5,1fr)}
+  .level-picker{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Quiz · Geometria Analitica nello Spazio</div>
+  <div class="topbar-tag">LP09</div>
+</div>
+
+<div class="container">
+
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="hero-tag">Test di preparazione</div>
+      <h1>Geometria Analitica nello <em>Spazio</em>, a fondo</h1>
+      <p class="hero-sub">30 domande a risposta multipla sul metodo vettoriale nello spazio: equazione del piano dal vettore normale, retta come intersezione di piani, condizioni di parallelismo/perpendicolarità, distanze punto-piano e punto-retta. Tre livelli: Base, Avanzato, Pro.</p>
+    </div>
+
+    <div class="level-picker">
+      <div class="level-card active" id="lvl-0" onclick="selectLevel(0)">
+        <div class="level-name">Base</div>
+        <div class="level-desc">Equazione del piano, retta come intersezione, condizioni fondamentali, formule di distanza.</div>
+      </div>
+      <div class="level-card" id="lvl-1" onclick="selectLevel(1)">
+        <div class="level-name">Avanzato</div>
+        <div class="level-desc">Le dimostrazioni: prodotto scalare, prodotto vettoriale, derivazione delle formule di distanza.</div>
+      </div>
+      <div class="level-card" id="lvl-2" onclick="selectLevel(2)">
+        <div class="level-name">Pro</div>
+        <div class="level-desc">Sintesi del metodo vettoriale, problemi misti, collegamenti tra i risultati.</div>
+      </div>
+    </div>
+
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-label">Domande</span><span class="meta-value">10 per livello</span></div>
+      <div class="meta-item"><span class="meta-label">Tipo</span><span class="meta-value">Risposta multipla</span></div>
+      <div class="meta-item"><span class="meta-label">Feedback</span><span class="meta-value">Immediato</span></div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Inizia il test</button>
+  </div>
+
+  <div id="screen-quiz" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">Progresso</span>
+        <span class="progress-frac" id="prog-frac">1 / 10</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-badge" id="q-badge"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback">
+        <div class="fb-label" id="fb-label"></div>
+        <div id="fb-text"></div>
+      </div>
+      <div class="q-nav">
+        <span class="score-live" id="score-live"></span>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Prossima domanda →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-results" style="display:none">
+    <div class="results-hero">
+      <div class="hero-tag" id="res-tag">Risultato</div>
+      <div class="results-num" id="res-score">--</div>
+      <div class="results-den" id="res-den">su 10 domande</div>
+      <div class="results-pct" id="res-pct"></div>
+      <div class="results-bar-wrap"><div class="results-bar-fill" id="res-bar" style="width:0%"></div></div>
+      <p class="results-msg" id="res-msg"></p>
+    </div>
+    <div class="review-title">Dettaglio risposta per risposta</div>
+    <div class="review-grid" id="res-grid"></div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restart()">Riprova questo livello</button>
+      <a class="btn-lesson" href="#" onclick="backToLevels();return false;">Cambia livello</a>
+      <a class="btn-lesson" href="/lezioni/lp12-geometria-spazio-analitica/lezione.html">Torna alla lezione</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const LEVELS = ["Base","Avanzato","Pro"];
+
+const QSETS = [
+
+// ══════════════ LIVELLO BASE ══════════════
+[
+  {
+    badge: "Equazione del piano",
+    q: "Qual è la forma generale dell'equazione di un piano nello spazio?",
+    opts: [
+      "\\(ax+by+d=0\\)",
+      "\\(ax+by+cz+d=0\\)",
+      "\\(ax+by+cz=0\\) soltanto",
+      "\\(x+y+z=d\\)"
+    ],
+    ans: 1,
+    exp: "Un piano nello spazio è rappresentato da un'unica equazione lineare \\(ax+by+cz+d=0\\), dove \\((a,b,c)\\) è il vettore normale al piano."
+  },
+  {
+    badge: "Il vettore normale",
+    q: "Nell'equazione \\(ax+by+cz+d=0\\), cosa rappresentano i coefficienti \\((a,b,c)\\)?",
+    opts: [
+      "le coordinate di un punto del piano",
+      "le componenti del vettore normale al piano",
+      "il centro del piano",
+      "non hanno un significato geometrico particolare"
+    ],
+    ans: 1,
+    exp: "\\((a,b,c)\\) sono esattamente le componenti del vettore \\(\\vec n\\) perpendicolare al piano: è la chiave per leggere direttamente parallelismo e perpendicolarità tra piani."
+  },
+  {
+    badge: "Retta nello spazio",
+    q: "Come si rappresenta tipicamente una retta nello spazio in forma cartesiana?",
+    opts: [
+      "con un'unica equazione lineare",
+      "come intersezione di due piani, cioè un sistema di due equazioni lineari",
+      "con un'equazione di secondo grado",
+      "non è possibile rappresentarla in forma cartesiana"
+    ],
+    ans: 1,
+    exp: "A differenza del piano, una retta nello spazio richiede due equazioni: è l'intersezione di due piani non paralleli."
+  },
+  {
+    badge: "Forma parametrica della retta",
+    q: "Cosa serve per scrivere una retta in forma parametrica?",
+    opts: [
+      "solo un punto della retta",
+      "un punto della retta e un vettore direttore",
+      "tre punti non allineati",
+      "il vettore normale a un piano qualunque"
+    ],
+    ans: 1,
+    exp: "La forma parametrica richiede un punto \\(P_0\\) sulla retta e un vettore direttore \\(\\vec v\\): ogni punto della retta si scrive come \\(P_0+t\\vec v\\)."
+  },
+  {
+    badge: "Condizione di parallelismo tra piani",
+    q: "Due piani con vettori normali \\(\\vec{n_1}\\) e \\(\\vec{n_2}\\) sono paralleli quando...?",
+    opts: [
+      "\\(\\vec{n_1}\\cdot\\vec{n_2}=0\\)",
+      "\\(\\vec{n_1}=k\\,\\vec{n_2}\\), cioè i vettori normali sono proporzionali",
+      "hanno lo stesso punto in comune",
+      "non esiste una condizione semplice"
+    ],
+    ans: 1,
+    exp: "Due piani sono paralleli se e solo se i loro vettori normali sono proporzionali, cioè hanno la stessa direzione (a meno di un fattore scalare)."
+  },
+  {
+    badge: "Condizione di perpendicolarità tra piani",
+    q: "Due piani sono perpendicolari quando...?",
+    opts: [
+      "i loro vettori normali sono proporzionali",
+      "il prodotto scalare dei vettori normali è nullo: \\(\\vec{n_1}\\cdot\\vec{n_2}=0\\)",
+      "hanno la stessa equazione",
+      "non si intersecano mai"
+    ],
+    ans: 1,
+    exp: "Due piani sono perpendicolari se e solo se i loro vettori normali sono ortogonali tra loro, cioè il loro prodotto scalare è zero."
+  },
+  {
+    badge: "Distanza punto-piano",
+    q: "Qual è la formula della distanza tra un punto \\(Q=(x_1,y_1,z_1)\\) e il piano \\(ax+by+cz+d=0\\)?",
+    opts: [
+      "\\(d(Q,\\pi) = ax_1+by_1+cz_1+d\\)",
+      "\\(d(Q,\\pi) = \\dfrac{|ax_1+by_1+cz_1+d|}{\\sqrt{a^2+b^2+c^2}}\\)",
+      "\\(d(Q,\\pi) = \\sqrt{a^2+b^2+c^2}\\)",
+      "\\(d(Q,\\pi) = a+b+c\\)"
+    ],
+    ans: 1,
+    exp: "La distanza punto-piano si calcola sostituendo le coordinate del punto nell'equazione del piano e dividendo per la norma del vettore normale."
+  },
+  {
+    badge: "Prodotto vettoriale — utilizzo",
+    q: "A cosa serve tipicamente il prodotto vettoriale nella geometria analitica dello spazio?",
+    opts: [
+      "solo a calcolare distanze tra punti",
+      "a trovare un vettore perpendicolare a due vettori dati, ad esempio il direttore di una retta intersezione di due piani",
+      "a verificare se due piani sono uguali",
+      "non ha alcun utilizzo in questo contesto"
+    ],
+    ans: 1,
+    exp: "Il prodotto vettoriale \\(\\vec{n_1}\\times\\vec{n_2}\\) fornisce un vettore perpendicolare a entrambi i vettori normali, cioè parallelo alla retta intersezione dei due piani."
+  },
+  {
+    badge: "Retta parallela a un piano",
+    q: "Una retta con vettore direttore \\(\\vec v\\) è parallela (o contenuta nel) piano con normale \\(\\vec n\\) quando...?",
+    opts: [
+      "\\(\\vec v = k\\vec n\\)",
+      "\\(\\vec v \\cdot \\vec n = 0\\)",
+      "\\(\\vec v \\times \\vec n = \\vec 0\\)",
+      "non esiste una condizione semplice"
+    ],
+    ans: 1,
+    exp: "Se il direttore della retta è ortogonale alla normale del piano, la retta è parallela al piano (o contenuta in esso): la condizione è \\(\\vec v\\cdot\\vec n=0\\)."
+  },
+  {
+    badge: "Retta perpendicolare a un piano",
+    q: "Una retta con vettore direttore \\(\\vec v\\) è perpendicolare al piano con normale \\(\\vec n\\) quando...?",
+    opts: [
+      "\\(\\vec v \\cdot \\vec n = 0\\)",
+      "\\(\\vec v = k\\,\\vec n\\), cioè direttore e normale sono paralleli",
+      "\\(\\vec v \\perp \\vec n\\) in ogni caso",
+      "questa condizione non è mai verificabile"
+    ],
+    ans: 1,
+    exp: "Se il direttore della retta è parallelo alla normale del piano, la retta è perpendicolare al piano: geometricamente, l'unica direzione ortogonale a tutte le direzioni del piano è proprio quella della normale."
+  }
+],
+
+// ══════════════ LIVELLO AVANZATO ══════════════
+[
+  {
+    badge: "Dimostrazione dell'equazione del piano",
+    q: "Come si arriva all'equazione \\(ax+by+cz+d=0\\) a partire dalla definizione di piano come luogo ortogonale a un vettore normale?",
+    opts: [
+      "imponendo che il prodotto scalare \\(\\overrightarrow{P_0P}\\cdot\\vec n=0\\), che sviluppato dà \\(a(x-x_0)+b(y-y_0)+c(z-z_0)=0\\), e ponendo \\(d=-(ax_0+by_0+cz_0)\\)",
+      "per definizione, senza alcuna dimostrazione possibile",
+      "usando il teorema di Pitagora nello spazio",
+      "imponendo che tre punti siano allineati"
+    ],
+    ans: 0,
+    exp: "La condizione di ortogonalità tra \\(\\overrightarrow{P_0P}\\) e \\(\\vec n\\) si scrive come annullamento del prodotto scalare; sviluppando e riordinando i termini si ottiene esattamente la forma generale, con \\(d\\) che raccoglie i termini noti."
+  },
+  {
+    badge: "Equivalenza tra le due forme della retta",
+    q: "Come si dimostra che il vettore direttore di una retta scritta come intersezione di due piani è \\(\\vec{n_1}\\times\\vec{n_2}\\)?",
+    opts: [
+      "per convenzione, senza motivazione geometrica",
+      "perché il prodotto vettoriale è per definizione ortogonale sia a \\(\\vec{n_1}\\) sia a \\(\\vec{n_2}\\), quindi giace su entrambi i piani, cioè è parallelo alla loro intersezione",
+      "perché il prodotto vettoriale ha sempre modulo unitario",
+      "perché coincide sempre con uno dei due vettori normali"
+    ],
+    ans: 1,
+    exp: "\\(\\vec{n_1}\\times\\vec{n_2}\\) è per definizione perpendicolare a entrambi i vettori: essendo ortogonale a entrambe le normali, giace parallelamente a entrambi i piani, cioè lungo la loro retta di intersezione."
+  },
+  {
+    badge: "Derivazione della formula di distanza punto-piano",
+    q: "Come si deriva la formula della distanza punto-piano dalla proiezione del vettore \\(\\overrightarrow{P_0Q}\\) su \\(\\vec n\\)?",
+    opts: [
+      "la distanza è il modulo della componente di \\(\\overrightarrow{P_0Q}\\) parallela a \\(\\vec n\\), cioè \\(|\\overrightarrow{P_0Q}\\cdot\\vec n|/|\\vec n|\\), che sviluppato dà la formula con \\(ax_1+by_1+cz_1+d\\)",
+      "si deriva dal teorema dei seni",
+      "è un valore sempre uguale a \\(d\\)",
+      "non esiste una derivazione, è solo una formula empirica"
+    ],
+    ans: 0,
+    exp: "Scomponendo \\(\\overrightarrow{P_0Q}\\) in una componente parallela al piano (che non conta per la distanza) e una parallela a \\(\\vec n\\), la distanza è proprio il modulo di quest'ultima proiezione, che sviluppata dà la formula nota."
+  },
+  {
+    badge: "Perché il risultato non dipende dal punto P0 scelto",
+    q: "Nella dimostrazione della formula di distanza punto-piano, perché il risultato finale non dipende da quale punto \\(P_0\\) del piano si sceglie per il calcolo?",
+    opts: [
+      "in realtà dipende dalla scelta di \\(P_0\\), è un'approssimazione",
+      "perché nello sviluppo algebrico i termini con le coordinate di \\(P_0\\) si semplificano esattamente con \\(d\\), lasciando solo le coordinate di \\(Q\\) e i coefficienti del piano",
+      "perché si sceglie sempre \\(P_0\\) coincidente con l'origine",
+      "perché \\(P_0\\) non compare nella formula finale per definizione"
+    ],
+    ans: 1,
+    exp: "Nello sviluppo, il termine \\(ax_0+by_0+cz_0\\) (dipendente da \\(P_0\\)) si combina esattamente con \\(d=-(ax_0+by_0+cz_0)\\), cancellandosi: il risultato finale dipende solo da \\(Q\\) e dai coefficienti del piano, come deve essere per una vera distanza."
+  },
+  {
+    badge: "Derivazione della distanza punto-retta",
+    q: "Come si deriva la formula \\(d(Q,r)=\\dfrac{|\\overrightarrow{P_0Q}\\times\\vec v|}{|\\vec v|}\\) per la distanza punto-retta?",
+    opts: [
+      "interpretando \\(|\\overrightarrow{P_0Q}\\times\\vec v|\\) come area del parallelogramma generato dai due vettori, e uguagliandola a base (\\(|\\vec v|\\)) per altezza (la distanza cercata)",
+      "usando direttamente il teorema di Carnot",
+      "è una formula assiomatica, senza derivazione",
+      "si deriva dal teorema di Talete"
+    ],
+    ans: 0,
+    exp: "L'area del parallelogramma generato da \\(\\overrightarrow{P_0Q}\\) e \\(\\vec v\\) è, per definizione geometrica del prodotto vettoriale, \\(|\\overrightarrow{P_0Q}\\times\\vec v|\\); la stessa area è anche base per altezza, cioè \\(|\\vec v|\\cdot d(Q,r)\\): uguagliando le due espressioni si isola la distanza."
+  },
+  {
+    badge: "Condizione retta-piano: perché il prodotto scalare",
+    q: "Perché per la condizione di parallelismo retta-piano si usa il prodotto scalare (\\(\\vec v\\cdot\\vec n=0\\)) e non il prodotto vettoriale?",
+    opts: [
+      "il direttore della retta deve essere ortogonale alla normale del piano (che è per definizione ortogonale a ogni direzione del piano): questa è esattamente la condizione di prodotto scalare nullo",
+      "è una convenzione arbitraria, si potrebbe usare anche il prodotto vettoriale",
+      "perché il prodotto vettoriale non è definito per rette",
+      "perché il piano non ha una normale ben definita"
+    ],
+    ans: 0,
+    exp: "Il direttore della retta parallela al piano deve giacere, come direzione, all'interno del piano stesso: essendo la normale ortogonale a ogni direzione del piano, la condizione di parallelismo retta-piano diventa proprio l'ortogonalità tra direttore e normale (prodotto scalare nullo)."
+  },
+  {
+    badge: "Il caso retta-piano perpendicolare, dimostrato",
+    q: "Perché \\(r\\perp\\pi\\) implica che il direttore \\(\\vec v\\) sia parallelo alla normale \\(\\vec n\\)?",
+    opts: [
+      "perché l'unica direzione ortogonale a TUTTE le direzioni del piano è proprio quella della normale: se \\(r\\) è perpendicolare al piano, il suo direttore deve coincidere (a meno di un fattore) con questa direzione",
+      "per una scelta di convenzione",
+      "non è vero, sono condizioni indipendenti",
+      "perché il piano ha una sola direzione possibile"
+    ],
+    ans: 0,
+    exp: "La normale è, per definizione, l'unica direzione (a meno di scalari) ortogonale a ogni direzione del piano: se la retta è perpendicolare a tutto il piano, il suo direttore deve necessariamente essere parallelo a questa direzione unica."
+  },
+  {
+    badge: "Esempio di calcolo del direttore",
+    q: "Dati i piani \\(\\pi_1: x+y-z=0\\) e \\(\\pi_2: 2x-y=1\\), qual è (a meno di proporzionalità) il vettore direttore della retta intersezione?",
+    opts: [
+      "\\((1,1,-1)\\)",
+      "\\((-1,-2,-3)\\), calcolato come \\(\\vec{n_1}\\times\\vec{n_2}\\) con \\(\\vec{n_1}=(1,1,-1)\\), \\(\\vec{n_2}=(2,-1,0)\\)",
+      "\\((2,-1,0)\\)",
+      "\\((1,0,0)\\)"
+    ],
+    ans: 1,
+    exp: "Calcolando il prodotto vettoriale \\((1,1,-1)\\times(2,-1,0)\\), si ottiene \\((1\\cdot0-(-1)(-1),\\ (-1)\\cdot2-1\\cdot0,\\ 1\\cdot(-1)-1\\cdot2)=(-1,-2,-3)\\)."
+  },
+  {
+    badge: "Distinzione tra le condizioni",
+    q: "Perché è importante non confondere la condizione di parallelismo piano-piano con quella retta-piano?",
+    opts: [
+      "non fa differenza, sono la stessa condizione",
+      "perché piano-piano richiede proporzionalità dei vettori normali (stesso tipo di oggetto → stessa direzione), mentre retta-piano richiede ortogonalità tra direttore e normale (tipo diverso → direzioni ortogonali): scambiarle produce condizioni sbagliate",
+      "perché il parallelismo non esiste per rette e piani",
+      "perché serve sempre il prodotto vettoriale in entrambi i casi"
+    ],
+    ans: 1,
+    exp: "È un errore frequente: la corrispondenza corretta è 'stesso tipo di oggetto → stessa direzione' (piano-piano, retta-retta) e 'tipo diverso → direzioni ortogonali' (retta-piano). Scambiare le condizioni porta a risultati sbagliati."
+  },
+  {
+    badge: "Verifica numerica di perpendicolarità tra piani",
+    q: "I piani \\(\\pi_1: x+y+z=1\\) e \\(\\pi_2: x-y=2\\) sono perpendicolari?",
+    opts: [
+      "sì: \\(\\vec{n_1}\\cdot\\vec{n_2}=(1)(1)+(1)(-1)+(1)(0)=0\\)",
+      "no, non sono perpendicolari",
+      "sono paralleli",
+      "non è possibile determinarlo senza altri dati"
+    ],
+    ans: 0,
+    exp: "Calcolando il prodotto scalare tra i vettori normali \\((1,1,1)\\) e \\((1,-1,0)\\): \\(1-1+0=0\\), quindi i piani sono perpendicolari."
+  }
+],
+
+// ══════════════ LIVELLO PRO ══════════════
+[
+  {
+    badge: "Sintesi: i due soli strumenti",
+    q: "Qual è il principio unificante di tutta la geometria analitica dello spazio, secondo questa lezione?",
+    opts: [
+      "ogni problema richiede una formula diversa, senza struttura comune",
+      "tutto si riconduce a due soli strumenti algebrici: il prodotto scalare (per ortogonalità e proiezioni) e il prodotto vettoriale (per direzioni comuni e distanze da rette)",
+      "solo il teorema di Pitagora è realmente necessario",
+      "serve sempre e solo il calcolo differenziale"
+    ],
+    ans: 1,
+    exp: "È la sintesi esplicita della lezione: equazione del piano, condizioni di parallelismo/perpendicolarità e distanza punto-piano si basano sul prodotto scalare; direttore della retta intersezione e distanza punto-retta si basano sul prodotto vettoriale."
+  },
+  {
+    badge: "Problema misto: retta e piano",
+    q: "Data la retta \\(r:(x,y,z)=(1,0,2)+t(2,-1,1)\\) e il piano \\(\\pi: x+2y-3z+5=0\\), che relazione hanno?",
+    opts: [
+      "sono perpendicolari, perché \\(\\vec v \\cdot \\vec n = 2-2-3=-3\\ne0\\) e non paralleli al direttore",
+      "sono paralleli, perché \\(\\vec v\\cdot\\vec n=2(1)+(-1)(2)+1(-3)=2-2-3=-3\\ne0\\): quindi in realtà NON sono paralleli, ma incidenti obliqui",
+      "la retta è contenuta nel piano",
+      "non si può determinare la relazione senza ulteriori calcoli"
+    ],
+    ans: 1,
+    exp: "Calcolando \\(\\vec v\\cdot\\vec n=(2)(1)+(-1)(2)+(1)(-3)=2-2-3=-3\\ne0\\): il direttore non è ortogonale alla normale, quindi la retta non è parallela al piano, ma lo interseca in un punto (incidente obliqua)."
+  },
+  {
+    badge: "Distanza punto-retta calcolata",
+    q: "Dato \\(Q=(1,1,1)\\) e la retta per \\(P_0=(0,0,0)\\) con direttore \\(\\vec v=(1,1,0)\\), quanto vale \\(d(Q,r)\\)?",
+    opts: [
+      "\\(d = 1\\)",
+      "\\(d = \\sqrt2\\)",
+      "\\(d = 0\\)",
+      "\\(d = 2\\)"
+    ],
+    ans: 0,
+    exp: "\\(\\overrightarrow{P_0Q}\\times\\vec v=(1,1,1)\\times(1,1,0)=(1\\cdot0-1\\cdot1,\\ 1\\cdot1-1\\cdot0,\\ 1\\cdot1-1\\cdot1)=(-1,1,0)\\), modulo \\(\\sqrt2\\); \\(|\\vec v|=\\sqrt2\\); quindi \\(d=\\sqrt2/\\sqrt2=1\\)."
+  },
+  {
+    badge: "Discussione: piani paralleli e distinti",
+    q: "Sotto quale condizione precisa due piani \\(\\pi_1: a_1x+b_1y+c_1z+d_1=0\\) e \\(\\pi_2: a_2x+b_2y+c_2z+d_2=0\\) sono paralleli e distinti (non coincidenti)?",
+    opts: [
+      "\\((a_1,b_1,c_1)=k(a_2,b_2,c_2)\\) per qualche \\(k\\), ma \\(d_1\\ne k\\,d_2\\)",
+      "\\((a_1,b_1,c_1)=(a_2,b_2,c_2)\\) sempre",
+      "\\(d_1=d_2\\) indipendentemente dai coefficienti direttivi",
+      "non c'è modo di distinguere piani paralleli da piani coincidenti"
+    ],
+    ans: 0,
+    exp: "Se i vettori normali sono proporzionali con costante \\(k\\), i piani sono paralleli; sono distinti (non coincidenti) se il termine noto non rispetta la stessa proporzionalità, cioè \\(d_1\\ne k\\,d_2\\)."
+  },
+  {
+    badge: "Perché la normale determina univocamente la giacitura",
+    q: "Perché conoscere il vettore normale \\(\\vec n\\) di un piano, a meno di un fattore di scala, determina completamente la sua 'giacitura' (orientamento nello spazio)?",
+    opts: [
+      "perché ci sono infiniti piani con la stessa normale, ma tutti paralleli tra loro: la normale fissa la direzione ortogonale comune a tutti questi piani, e un punto fissa quale specifico piano della famiglia si sta considerando",
+      "perché la normale determina anche la posizione esatta del piano, senza bisogno di altri dati",
+      "non è vero, la normale non ha relazione con l'orientamento del piano",
+      "perché ogni piano ha una normale diversa da quella di ogni altro piano nello spazio"
+    ],
+    ans: 0,
+    exp: "Tutti i piani con la stessa direzione normale (a meno di scala) sono paralleli tra loro: la normale fissa l'orientamento comune a un'intera famiglia di piani paralleli; serve poi un punto (o il termine noto \\(d\\)) per selezionare quale piano specifico della famiglia si sta descrivendo."
+  },
+  {
+    badge: "Collegamento con la geometria euclidea dello spazio",
+    q: "Come si collega il criterio di perpendicolarità retta-piano (dimostrato per via sintetica in geometria euclidea) con la condizione vettoriale \\(\\vec v=k\\vec n\\)?",
+    opts: [
+      "sono risultati completamente indipendenti tra loro",
+      "sono lo stesso risultato espresso in due linguaggi diversi: il criterio sintetico stabilisce quando una retta è perpendicolare a un piano tramite due rette del piano, mentre la formulazione vettoriale lo traduce nella condizione algebrica sul direttore",
+      "il criterio sintetico è più generale di quello vettoriale",
+      "solo la formulazione vettoriale è corretta, quella sintetica è superata"
+    ],
+    ans: 1,
+    exp: "I due approcci descrivono lo stesso fenomeno geometrico: il criterio sintetico (due rette incidenti nel piano) fornisce la caratterizzazione geometrica, mentre il metodo vettoriale la traduce in una condizione algebrica diretta e operativa (\\(\\vec v\\parallel\\vec n\\))."
+  },
+  {
+    badge: "Problema con parametro",
+    q: "Per quale valore di \\(k\\) il piano \\(kx+2y-z+1=0\\) è perpendicolare al piano \\(x-y+3z=0\\)?",
+    opts: [
+      "\\(k=1\\), da \\(k\\cdot1+2\\cdot(-1)+(-1)\\cdot3=0 \\Rightarrow k-2-3=0 \\Rightarrow k=5\\)",
+      "\\(k=5\\), imponendo \\(\\vec{n_1}\\cdot\\vec{n_2}=0\\): \\(k(1)+2(-1)+(-1)(3)=k-5=0\\)",
+      "\\(k=-5\\)",
+      "\\(k=2\\)"
+    ],
+    ans: 1,
+    exp: "Imponendo il prodotto scalare nullo tra \\((k,2,-1)\\) e \\((1,-1,3)\\): \\(k-2-3=0\\), da cui \\(k=5\\)."
+  },
+  {
+    badge: "Distanza tra rette sghembe (estensione)",
+    q: "Il metodo del prodotto vettoriale usato per la distanza punto-retta può essere esteso, con opportuni adattamenti, a quale altro problema?",
+    opts: [
+      "al calcolo della distanza tra due rette sghembe (non complanari), tramite un prodotto misto con il vettore che congiunge un punto di ciascuna retta",
+      "solo al calcolo di aree di triangoli piani",
+      "non è estendibile ad altri problemi",
+      "al calcolo del volume di una sfera"
+    ],
+    ans: 0,
+    exp: "La distanza tra due rette sghembe si calcola con un prodotto misto (scalare triplo) tra il vettore che congiunge un punto di ciascuna retta e i due vettori direttori: è una naturale estensione del metodo usato per la distanza punto-retta."
+  },
+  {
+    badge: "Verifica di complanarità con il prodotto misto",
+    q: "Come si può verificare, con gli strumenti di questa lezione, se due rette nello spazio sono complanari (giacciono sullo stesso piano)?",
+    opts: [
+      "non è possibile verificarlo algebricamente",
+      "calcolando il prodotto misto tra il vettore che congiunge un punto di ciascuna retta e i due vettori direttori: se è nullo, le rette sono complanari",
+      "verificando solo che i direttori siano paralleli",
+      "controllando che le rette abbiano la stessa lunghezza"
+    ],
+    ans: 1,
+    exp: "Il prodotto misto (scalare triplo) di tre vettori è nullo se e solo se sono complanari: applicato al vettore congiungente e ai due direttori, questo criterio distingue rette complanari (incidenti o parallele) da rette sghembe."
+  },
+  {
+    badge: "Sintesi finale",
+    q: "In sintesi, qual è il vantaggio metodologico del linguaggio vettoriale rispetto a un approccio puramente sintetico per la geometria dello spazio?",
+    opts: [
+      "nessun vantaggio, i due approcci sono equivalenti in ogni aspetto pratico",
+      "il linguaggio vettoriale traduce relazioni geometriche (parallelismo, perpendicolarità, distanza) in operazioni algebriche standard (prodotto scalare, prodotto vettoriale), rendendo i calcoli sistematici e generalizzabili, anche a problemi come rette sghembe che sarebbero complessi da trattare sinteticamente",
+      "il linguaggio sintetico è sempre superiore per motivi di rigore",
+      "il linguaggio vettoriale funziona solo per casi particolari, non in generale"
+    ],
+    ans: 1,
+    exp: "È il punto centrale della lezione: tradurre condizioni geometriche in operazioni vettoriali standard permette di risolvere sistematicamente problemi (come la distanza tra rette sghembe) che sarebbero molto più complessi da trattare con la sola geometria sintetica."
+  }
+]
+
+];
+
+// ── STATO ──
+let level = 0, Q = QSETS[0];
+let cur = 0, score = 0, answered = false, results = [];
+
+function selectLevel(i) {
+  level = i;
+  document.querySelectorAll('.level-card').forEach((el,idx) => el.classList.toggle('active', idx===i));
+}
+
+// ── LOGICA ──
+function startQuiz() {
+  Q = QSETS[level];
+  cur = 0; score = 0; answered = false; results = [];
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ(0);
+}
+
+function backToLevels() {
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-intro').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function showQ(idx) {
+  answered = false;
+  const q = Q[idx], total = Q.length;
+  document.getElementById('prog-frac').textContent = (idx+1) + ' / ' + total;
+  document.getElementById('prog-fill').style.width = (idx / total * 100) + '%';
+  document.getElementById('q-badge').textContent = LEVELS[level] + ' — ' + q.badge;
+  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + idx;
+
+  const letters = ['A','B','C','D'];
+  document.getElementById('q-opts').innerHTML = q.opts.map((o,i) =>
+    `<div class="opt" id="opt-${i}" onclick="pick(${i})">
+       <span class="opt-letter">${letters[i]}</span>
+       <span class="opt-text">${o}</span>
+     </div>`
+  ).join('');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  document.getElementById('fb-text').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  MathJax.typesetPromise([document.getElementById('q-card')]);
+}
+
+function pick(i) {
+  if (answered) return;
+  answered = true;
+  const q = Q[cur];
+  const isOk = i === q.ans;
+  if (isOk) score++;
+  results.push(isOk);
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('opt-' + i).classList.add(isOk ? 'correct' : 'wrong');
+  if (!isOk) document.getElementById('opt-' + q.ans).classList.add('correct');
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isOk ? 'fb-ok' : 'fb-err');
+  document.getElementById('fb-label').textContent = isOk ? 'Corretto' : 'Non corretto';
+  document.getElementById('fb-text').innerHTML = q.exp;
+
+  document.getElementById('score-live').textContent = 'Punti: ' + score + '/' + (cur+1);
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next show';
+  btn.textContent = cur < Q.length - 1 ? 'Prossima domanda →' : 'Vedi il risultato →';
+
+  MathJax.typesetPromise([fb]);
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= Q.length) { showResults(); return; }
+  showQ(cur);
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  document.getElementById('res-tag').textContent = 'Livello ' + LEVELS[level] + ' — Risultato';
+  document.getElementById('res-den').textContent = 'su ' + Q.length + ' domande';
+
+  const pct = Math.round(score / Q.length * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('res-bar').style.width = pct + '%'; }, 100);
+
+  const msgs = [
+    [9, "Eccellente! Il metodo vettoriale nello spazio non ha più segreti — prova un livello più avanzato."],
+    [7, "Ottimo lavoro. Un piccolo ripasso finale e sei al top."],
+    [5, "Sei sulla buona strada. Ricontrolla le domande sbagliate e riprova."],
+    [3, "C'è ancora del lavoro da fare. Rileggi la lezione e riprova il test."],
+    [0, "Non mollare. Riparti dall'equazione del piano, studia con calma e riprova."]
+  ];
+  document.getElementById('res-msg').textContent = (msgs.find(m => score >= m[0]) || msgs[4])[1];
+
+  document.getElementById('res-grid').innerHTML = results.map((ok,i) =>
+    `<div class="rev-cell ${ok?'ok':'err'}" title="Domanda ${i+1}: ${ok?'corretta':'sbagliata'}">${i+1}</div>`
+  ).join('');
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() { startQuiz(); }
+
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4'].includes(e.key) && !answered) pick(parseInt(e.key)-1);
+  if ((e.key==='Enter'||e.key===' ') && answered) { e.preventDefault(); nextQ(); }
+});
+</script>
+</body>
+</html>
