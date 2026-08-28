@@ -285,7 +285,7 @@ function toggleAcc(el) {
 
 // Function with a hole at x=a, approaching L
 function svgLimite() {
-  const w=360, h=212, ox=46, oy=176, sx=56, sy=52;
+  const w=560, h=300, ox=70, oy=250, sx=88, sy=74;
   const c='#c2185b';
   const g = x => 0.5 + 0.55*x - 0.05*x*x;   // curva liscia, sempre positiva nel range
   const a = 2.6, L = g(a);                    // il buco cade ESATTAMENTE sulla curva
@@ -296,7 +296,7 @@ function svgLimite() {
   const full = seg(xmin,xmax);
   const hx=X(a), hy=Y(L);
   const area = `M ${X(xmin)},${oy} L ${full.split(' ').join(' L ')} L ${X(xmax)},${oy} Z`;
-  return `<div class="graph-box"><svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img" aria-label="Funzione con un buco nel punto (a, L): il limite per x che tende ad a vale L">
+  return `<div class="graph-box"><svg viewBox="0 0 ${w} ${h}" style="width:100%;max-width:500px;height:auto;display:block;margin:0 auto" role="img" aria-label="Funzione con un buco nel punto (a, L): il limite per x che tende ad a vale L">
     <defs>
       <linearGradient id="limGrad" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" stop-color="${c}" stop-opacity=".15"/>
@@ -304,55 +304,41 @@ function svgLimite() {
       </linearGradient>
     </defs>
     <path d="${area}" fill="url(#limGrad)" stroke="none"/>
-    <line x1="${ox}" y1="18" x2="${ox}" y2="${oy+14}" stroke="#cfc7bb" stroke-width="1.2"/>
-    <line x1="${ox-12}" y1="${oy}" x2="${w-8}" y2="${oy}" stroke="#cfc7bb" stroke-width="1.2"/>
-    <polygon points="${ox},10 ${ox-4},20 ${ox+4},20" fill="#cfc7bb"/>
-    <polygon points="${w-4},${oy} ${w-14},${oy-4} ${w-14},${oy+4}" fill="#cfc7bb"/>
-    <text x="${ox-8}" y="16" fill="#8a827a" font-size="12" font-style="italic">y</text>
-    <text x="${w-6}" y="${oy+16}" fill="#8a827a" font-size="12" font-style="italic">x</text>
-    <line x1="${ox}" y1="${hy}" x2="${hx}" y2="${hy}" stroke="${c}" stroke-width="1.1" stroke-dasharray="3,3" opacity=".5"/>
-    <line x1="${hx}" y1="${oy}" x2="${hx}" y2="${hy}" stroke="${c}" stroke-width="1.1" stroke-dasharray="3,3" opacity=".5"/>
-    <line x1="${hx}" y1="${oy-3.5}" x2="${hx}" y2="${oy+3.5}" stroke="#8a827a" stroke-width="1.2"/>
-    <text x="${hx}" y="${oy+17}" fill="#8a827a" font-size="12" text-anchor="middle" font-style="italic">a</text>
-    <line x1="${ox-3.5}" y1="${hy}" x2="${ox+3.5}" y2="${hy}" stroke="#8a827a" stroke-width="1.2"/>
-    <text x="${ox-9}" y="${(+hy)+4}" fill="#8a827a" font-size="12" text-anchor="end" font-style="italic">L</text>
-    <polyline points="${seg(xmin, a-gap)}" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-    <polyline points="${seg(a+gap, xmax)}" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="${hx}" cy="${hy}" r="4.5" fill="var(--surface)" stroke="${c}" stroke-width="2"/>
-    <text x="${(+hx)+30}" y="30" fill="var(--text)" font-size="12" text-anchor="end" font-style="italic">f(x) → L per x → a</text>
+    <line x1="${ox}" y1="24" x2="${ox}" y2="${oy+18}" stroke="#cfc7bb" stroke-width="1.4"/>
+    <line x1="${ox-16}" y1="${oy}" x2="${w-10}" y2="${oy}" stroke="#cfc7bb" stroke-width="1.4"/>
+    <polygon points="${ox},13 ${ox-5},25 ${ox+5},25" fill="#cfc7bb"/>
+    <polygon points="${w-5},${oy} ${w-18},${oy-5} ${w-18},${oy+5}" fill="#cfc7bb"/>
+    <text x="${ox-11}" y="21" fill="#8a827a" font-size="17" font-style="italic">y</text>
+    <text x="${w-8}" y="${oy+22}" fill="#8a827a" font-size="17" font-style="italic">x</text>
+    <line x1="${ox}" y1="${hy}" x2="${hx}" y2="${hy}" stroke="${c}" stroke-width="1.3" stroke-dasharray="4,4" opacity=".5"/>
+    <line x1="${hx}" y1="${oy}" x2="${hx}" y2="${hy}" stroke="${c}" stroke-width="1.3" stroke-dasharray="4,4" opacity=".5"/>
+    <line x1="${hx}" y1="${oy-4.5}" x2="${hx}" y2="${oy+4.5}" stroke="#8a827a" stroke-width="1.4"/>
+    <text x="${hx}" y="${oy+26}" fill="#8a827a" font-size="17" text-anchor="middle" font-style="italic">a</text>
+    <line x1="${ox-4.5}" y1="${hy}" x2="${ox+4.5}" y2="${hy}" stroke="#8a827a" stroke-width="1.4"/>
+    <text x="${ox-13}" y="${(+hy)+6}" fill="#8a827a" font-size="17" text-anchor="end" font-style="italic">L</text>
+    <polyline points="${seg(xmin, a-gap)}" fill="none" stroke="${c}" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="${seg(a+gap, xmax)}" fill="none" stroke="${c}" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${hx}" cy="${hy}" r="6" fill="var(--surface)" stroke="${c}" stroke-width="2.6"/>
+    <text x="${(+hx)+42}" y="42" fill="var(--text)" font-size="16" text-anchor="end" font-style="italic">f(x) → L per x → a</text>
   </svg></div>`;
 }
 
 // Jump discontinuity
 function svgSalto() {
-  const w=260, h=160, ox=40, oy=120, sx=55, sy=35;
-  const a=2.5;
-  const c1='#4a7c59', c2='#c2185b';
-  let ptsL=[], ptsR=[];
-  for(let i=0;i<=20;i++){
-    const x=0.3+i*2.0/20;
-    const y=0.8*x+0.5;
-    ptsL.push(`${ox+x*sx},${oy-y*sy}`);
-  }
-  for(let i=0;i<=20;i++){
-    const x=2.6+i*1.8/20;
-    const y=0.6*x+1.8;
-    ptsR.push(`${ox+x*sx},${oy-y*sy}`);
-  }
-  const ax=ox+a*sx;
-  const yL=0.8*a+0.5, yR=0.6*a+1.8;
-  return `<div class="graph-box"><svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
-    <line x1="${ox}" y1="10" x2="${ox}" y2="${oy+12}" stroke="#e2dcd2" stroke-width="1"/>
-    <line x1="${ox-10}" y1="${oy}" x2="${w-10}" y2="${oy}" stroke="#e2dcd2" stroke-width="1"/>
-    <line x1="${ax}" y1="${oy-5}" x2="${ax}" y2="${oy+5}" stroke="#8a827a" stroke-width="1"/>
-    <text x="${ax}" y="${oy+17}" fill="#8a827a" font-size="10" text-anchor="middle">a</text>
-    <polyline points="${ptsL.join(' ')}" fill="none" stroke="${c1}" stroke-width="2.5"/>
-    <polyline points="${ptsR.join(' ')}" fill="none" stroke="${c2}" stroke-width="2.5"/>
-    <circle cx="${ax}" cy="${oy-yL*sy}" r="4.5" fill="white" stroke="${c1}" stroke-width="2"/>
-    <circle cx="${ax}" cy="${oy-yR*sy}" r="4.5" fill="white" stroke="${c2}" stroke-width="2"/>
-    <text x="${ax+8}" y="${oy-yL*sy+4}" fill="${c1}" font-size="10">lim⁻</text>
-    <text x="${ax+8}" y="${oy-yR*sy+4}" fill="${c2}" font-size="10">lim⁺</text>
-    <text x="${ox+8}" y="22" fill="#b33a3a" font-size="10" font-weight="600">salto: lim⁻ ≠ lim⁺</text>
+  return `<div class="graph-box"><svg viewBox="0 0 700 560" style="width:100%;max-width:500px;height:auto;display:block;margin:0 auto" shape-rendering="geometricPrecision" role="img" aria-label="Funzione con un salto nel punto a: il limite sinistro e il limite destro sono diversi">
+    <path d="M 90 500 L 90 60 M 84 74 L 90 58 L 96 74" fill="none" stroke="#cfc7bb" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="miter"></path>
+    <path d="M 50 470 L 660 470 M 646 464 L 662 470 L 646 476" fill="none" stroke="#cfc7bb" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="miter"></path>
+    <path d="M 380 470 L 380 480" stroke="#cfc7bb" stroke-width="2.2"></path>
+    <path d="M 380 316 L 380 232" stroke="#a89f92" stroke-width="1.6" stroke-dasharray="7 6"></path>
+    <path d="M 140 420 L 372 327" fill="none" stroke="#4a7c59" stroke-width="4" stroke-linecap="round"></path>
+    <path d="M 388 220 L 620 128" fill="none" stroke="#ed6f5c" stroke-width="4" stroke-linecap="round"></path>
+    <circle cx="380" cy="324" r="8.5" fill="#f7f1e6" stroke="#4a7c59" stroke-width="3.4"></circle>
+    <circle cx="380" cy="224" r="8.5" fill="#f7f1e6" stroke="#ed6f5c" stroke-width="3.4"></circle>
+    <text x="108" y="52" text-anchor="middle" dominant-baseline="hanging" style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:30px;fill:#5d5040">y</text>
+    <text x="678" y="452" text-anchor="middle" dominant-baseline="middle" style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:30px;fill:#5d5040">x</text>
+    <text x="380" y="508" text-anchor="middle" dominant-baseline="hanging" style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:30px;fill:#5d5040">a</text>
+    <text x="336" y="396" text-anchor="end" dominant-baseline="middle" style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:27px;fill:#4a7c59">lim⁻</text>
+    <text x="432" y="150" text-anchor="start" dominant-baseline="middle" style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:27px;fill:#ed6f5c">lim⁺</text>
   </svg></div>`;
 }
 
@@ -380,6 +366,54 @@ function svgAsintotoV() {
     <polyline points="${ptsR.join(' ')}" fill="none" stroke="${c}" stroke-width="2.5"/>
     <text x="14" y="${h-8}" fill="${c}" font-size="10" font-weight="600">asintoto verticale</text>
   </svg></div>`;
+}
+
+// Mini icons for the 3 discontinuity types (used inside the disc-cards)
+function svgDiscMini(type) {
+  const w=160, h=100, ox=20, oy=78, sx=17, sy=13;
+  if (type === 'eliminabile') {
+    const c = '#4a7c59';
+    const g = x => 1.2 + 0.55*x - 0.06*x*x;
+    const a = 4.2, gap = 0.35;
+    const seg = (x0,x1,n=20) => { let p=[]; for(let i=0;i<=n;i++){ const x=x0+(x1-x0)*i/n; p.push(`${(ox+x*sx).toFixed(1)},${(oy-g(x)*sy).toFixed(1)}`);} return p.join(' '); };
+    const hx=(ox+a*sx).toFixed(1), hy=(oy-g(a)*sy).toFixed(1);
+    return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;max-width:150px;display:block;margin:0 auto">
+      <line x1="${ox}" y1="10" x2="${ox}" y2="${oy}" stroke="#e2dcd2" stroke-width="1.4"/>
+      <line x1="${ox}" y1="${oy}" x2="${w-8}" y2="${oy}" stroke="#e2dcd2" stroke-width="1.4"/>
+      <polyline points="${seg(0.3,a-gap)}" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round"/>
+      <polyline points="${seg(a+gap,7.3)}" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round"/>
+      <circle cx="${hx}" cy="${hy}" r="4" fill="var(--surface)" stroke="${c}" stroke-width="2"/>
+    </svg>`;
+  }
+  if (type === 'salto') {
+    const c1='#4a7c59', c2='#b8860b';
+    const a=4, m=0.32, q=0.6, drop=1.6;
+    const fL = x => m*x+q, fR = x => m*x+q+drop, gap=0.35;
+    const seg = (f,x0,x1,n=14) => { let p=[]; for(let i=0;i<=n;i++){ const x=x0+(x1-x0)*i/n; p.push(`${(ox+x*sx).toFixed(1)},${(oy-f(x)*sy).toFixed(1)}`);} return p.join(' '); };
+    const ax=(ox+a*sx).toFixed(1), yL=(oy-fL(a)*sy).toFixed(1), yR=(oy-fR(a)*sy).toFixed(1);
+    return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;max-width:150px;display:block;margin:0 auto">
+      <line x1="${ox}" y1="10" x2="${ox}" y2="${oy}" stroke="#e2dcd2" stroke-width="1.4"/>
+      <line x1="${ox}" y1="${oy}" x2="${w-8}" y2="${oy}" stroke="#e2dcd2" stroke-width="1.4"/>
+      <line x1="${ax}" y1="${yL}" x2="${ax}" y2="${yR}" stroke="#c9bfae" stroke-width="1.2" stroke-dasharray="3,3"/>
+      <polyline points="${seg(fL,0.3,a-gap)}" fill="none" stroke="${c1}" stroke-width="2.6" stroke-linecap="round"/>
+      <polyline points="${seg(fR,a+gap,7.3)}" fill="none" stroke="${c2}" stroke-width="2.6" stroke-linecap="round"/>
+      <circle cx="${ax}" cy="${yL}" r="3.6" fill="var(--surface)" stroke="${c1}" stroke-width="2"/>
+      <circle cx="${ax}" cy="${yR}" r="3.6" fill="var(--surface)" stroke="${c2}" stroke-width="2"/>
+    </svg>`;
+  }
+  // infinita
+  const c='#b33a3a';
+  const ax = ox + 4*sx;
+  let ptsL=[], ptsR=[];
+  for (let i=0;i<=20;i++){ const x=0.3+i*(3.6-0.3)/20; const y=1.4/(4-x); if(y<6.2) ptsL.push(`${(ox+x*sx).toFixed(1)},${(oy-y*sy).toFixed(1)}`); }
+  for (let i=0;i<=20;i++){ const x=4.4+i*(7.3-4.4)/20; const y=-1.4/(4-x); if(Math.abs(y)<6.2) ptsR.push(`${(ox+x*sx).toFixed(1)},${(oy-y*sy).toFixed(1)}`); }
+  return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;max-width:150px;display:block;margin:0 auto">
+    <line x1="${ox}" y1="10" x2="${ox}" y2="${oy}" stroke="#e2dcd2" stroke-width="1.4"/>
+    <line x1="${ox}" y1="${oy}" x2="${w-8}" y2="${oy}" stroke="#e2dcd2" stroke-width="1.4"/>
+    <line x1="${ax}" y1="8" x2="${ax}" y2="${oy+6}" stroke="${c}" stroke-width="1.4" stroke-dasharray="3,3" opacity=".7"/>
+    <polyline points="${ptsL.join(' ')}" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round"/>
+    <polyline points="${ptsR.join(' ')}" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round"/>
+  </svg>`;
 }
 
 // Horizontal asymptote
@@ -549,13 +583,13 @@ const S = [
       <p>Se i due limiti laterali sono diversi, il limite <strong>non esiste</strong>.</p>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0" class="svg-pair">
+    <div style="display:flex;flex-direction:column;gap:28px;margin:18px 0" class="svg-pair">
       <div>
-        <p style="font-size:.88rem;font-weight:600;margin-bottom:4px;color:var(--green)">Limite esiste: lim⁻ = lim⁺</p>
+        <p style="font-size:.92rem;font-weight:600;margin-bottom:8px;color:var(--green);text-align:center">Limite esiste: lim⁻ = lim⁺</p>
         ${svgLimite()}
       </div>
       <div>
-        <p style="font-size:.88rem;font-weight:600;margin-bottom:4px;color:var(--danger)">Salto: lim⁻ ≠ lim⁺</p>
+        <p style="font-size:.92rem;font-weight:600;margin-bottom:8px;color:var(--danger);text-align:center">Salto: lim⁻ ≠ lim⁺</p>
         ${svgSalto()}
       </div>
     </div>
@@ -620,6 +654,10 @@ const S = [
       </div>
     </div>
 
+    <div style="text-align:center;margin:18px 0">
+      <img src="/lezioni/limiti/img/epsilon-delta.jpg" alt="Definizione epsilon-delta di limite: fasce di tolleranza attorno a L e a x0" style="width:100%;max-width:600px;height:auto;display:inline-block;border:1px solid var(--border);border-radius:6px">
+    </div>
+
     <div class="cb tip">
       <div class="cb-label">Lettura in parole</div>
       <p>Puoi rendere \\(f(x)\\) <strong>vicina quanto vuoi</strong> a \\(L\\) (entro \\(\\varepsilon\\)), purché prenda \\(x\\) <strong>abbastanza vicino</strong> ad \\(a\\) (entro \\(\\delta\\)), senza starci sopra (\\(x \\neq a\\)).</p>
@@ -656,19 +694,33 @@ const S = [
   nav:"Continuità",
   body:`
     <div class="cb method">
-      <div class="cb-label">Regola d'oro — sostituzione diretta</div>
-      <p>Se \\(f\\) è <strong>continua</strong> in \\(a\\), allora:</p>
+      <div class="cb-label">Continuità in un punto — definizione</div>
+      <p>La continuità è anzitutto un concetto <strong>puntuale</strong>: si parla di continuità <em>in un punto</em> \\(x_0\\), non della funzione "in generale" (anche se poi si può estendere a tutto il dominio).</p>
+      <p>Una funzione \\(f\\) è <strong>continua in \\(x_0\\)</strong> quando il limite sinistro e il limite destro esistono, sono uguali tra loro, e sono uguali al valore della funzione nel punto:</p>
       <div class="math-block hero-formula">
-        \\[ \\lim_{x \\to a} f(x) = f(a) \\]
+        \\[ \\lim_{x \\to x_0^-} f(x) = \\lim_{x \\to x_0^+} f(x) = f(x_0) \\]
       </div>
-      <p>Sostituisci \\(x = a\\) direttamente nell'espressione.</p>
+    </div>
+
+    <div class="cb tip">
+      <div class="cb-label">L'idea intuitiva</div>
+      <p>Nella pratica, una funzione è continua (nel suo dominio) quando riesci a <strong>tracciarne il grafico senza mai staccare la penna dal foglio</strong>. Ogni volta che devi sollevarla — per un buco, un salto o un ramo che schizza all'infinito — lì la funzione non è continua.</p>
+    </div>
+
+    <div class="cb method">
+      <div class="cb-label">Regola d'oro — sostituzione diretta</div>
+      <p>Se \\(f\\) è <strong>continua</strong> in \\(x_0\\), allora:</p>
+      <div class="math-block hero-formula">
+        \\[ \\lim_{x \\to x_0} f(x) = f(x_0) \\]
+      </div>
+      <p>Sostituisci \\(x = x_0\\) direttamente nell'espressione.</p>
     </div>
 
     <div class="cb tip">
       <div class="cb-label">Funzioni continue nel loro dominio</div>
       <ul style="margin-left:1.4em;margin-top:4px">
         <li><strong>Polinomi</strong> — continui ovunque in \\(\\mathbb{R}\\)</li>
-        <li><strong>Razionali fratte</strong> \\(P(x)/Q(x)\\) — continui dove \\(Q(a) \\neq 0\\)</li>
+        <li><strong>Razionali fratte</strong> \\(P(x)/Q(x)\\) — continui dove \\(Q(x_0) \\neq 0\\)</li>
         <li><strong>Radicali</strong> \\(\\sqrt{g(x)}\\) — continui dove \\(g(x) \\geq 0\\)</li>
         <li><strong>Logaritmi</strong> — continui dove l'argomento è \\(> 0\\)</li>
         <li><strong>Funzioni trigonometriche</strong> — continue nel loro dominio</li>
@@ -821,6 +873,7 @@ const S = [
           \\[ \\lim_{x\\to a} f = L \\]
           ma \\(f(a) \\neq L\\) o non esiste
         </div>
+        ${svgDiscMini('eliminabile')}
         <p style="font-size:.82rem">"Buco" — si potrebbe tappare ponendo \\(f(a)=L\\)</p>
       </div>
       <div class="disc-card" style="border-color:var(--gold)">
@@ -829,6 +882,7 @@ const S = [
           \\[ \\lim_{x\\to a^-} f \\neq \\lim_{x\\to a^+} f \\]
           entrambi finiti
         </div>
+        ${svgDiscMini('salto')}
         <p style="font-size:.82rem">Il grafico "salta" da una quota all'altra</p>
       </div>
       <div class="disc-card" style="border-color:var(--danger)">
@@ -836,11 +890,10 @@ const S = [
         <div style="margin:10px 0;font-size:.85rem">
           \\[ \\lim_{x\\to a^\\pm} f = \\pm\\infty \\]
         </div>
+        ${svgDiscMini('infinita')}
         <p style="font-size:.82rem">Almeno un limite laterale è \\(\\pm\\infty\\) → asintoto verticale</p>
       </div>
     </div>
-
-    ${svgSalto()}
 
     ${acc([
       {

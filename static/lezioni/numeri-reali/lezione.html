@@ -287,15 +287,30 @@ function toggleAcc(el) {
 /* ═══════════════ FIGURA: QUADRATO E DIAGONALE ═══════════════ */
 function quadratoSVG() {
   return `<div class="semiretta-wrap">
-    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg"
-         style="width:100%;max-width:240px;display:block"
-         aria-label="Quadrato di lato 1 con diagonale radice di due">
-      <rect x="40" y="30" width="120" height="120" fill="#c2185b" fill-opacity="0.06" stroke="#5a524a" stroke-width="1.4"/>
-      <line x1="40" y1="150" x2="160" y2="30" stroke="#c2185b" stroke-width="0.8"/>
-      <text x="100" y="170" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#2c2520">1</text>
-      <text x="24" y="95" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#2c2520">1</text>
-      <text x="112" y="84" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#c2185b" font-style="italic">&#8730;2</text>
-    </svg>
+    <div style="position:relative;width:100%;max-width:380px">
+      <svg viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg"
+           style="width:100%;display:block"
+           shape-rendering="geometricPrecision"
+           aria-label="Quadrato di lato 1 con diagonale radice di due">
+        <rect x="100" y="40" width="200" height="200" fill="none" stroke="#5d5040" stroke-width="2.2"/>
+        <line x1="100" y1="240" x2="300" y2="40" stroke="#ed6f5c" stroke-width="2.6"/>
+
+        <g stroke="#5d5040" stroke-width="1.1" fill="none">
+          <line x1="70" y1="40" x2="70" y2="240"/>
+          <path d="M64 46 L70 40 L76 46"/>
+          <path d="M64 234 L70 240 L76 234"/>
+        </g>
+        <text x="46" y="145" text-anchor="middle" font-family="'Playfair Display',Georgia,serif" font-size="20" fill="#2c2520">1</text>
+
+        <g stroke="#5d5040" stroke-width="1.1" fill="none">
+          <line x1="100" y1="270" x2="300" y2="270"/>
+          <path d="M106 264 L100 270 L106 276"/>
+          <path d="M294 264 L300 270 L294 276"/>
+        </g>
+        <text x="200" y="300" text-anchor="middle" font-family="'Playfair Display',Georgia,serif" font-size="20" fill="#2c2520">1</text>
+      </svg>
+      <span style="position:absolute;left:44%;top:26%;color:#ed6f5c;font-size:1.15rem">\\(\\sqrt{2}\\)</span>
+    </div>
     <span class="semiretta-cap">la diagonale del quadrato di lato 1 misura \\(\\sqrt{2}\\)</span>
   </div>`;
 }
