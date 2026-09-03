@@ -5,7 +5,10 @@ authors: [Diego Fantinelli]
 tags: [organizzazione, prima-lezione]
 categories: [lesson]
 date: "2026-07-09T00:00:00Z"
-draft: true
+draft: false
+unlisted: true
+sitemap:
+  disable: true
 slides:
   theme: mathofthings
   transition: convex
@@ -145,6 +148,17 @@ slides:
   <p class="mot-joke fragment" style="margin-top: 1.5rem;">un quarto della classe parte già sotto soglia — è per questo che il test non è una formalità</p>
 </section>
 
+<section>
+  <p class="mot-kicker">test d'ingresso</p>
+  <h2>Come userò <em>i risultati</em></h2>
+  <dl class="mot-rows fragment">
+    <dt>1. modalità</dt><dd>tipicamente un test a risposta multipla: una domanda, quattro possibilità, una sola corretta</dd>
+    <dt>2. voto</dt><dd>verrà inserito in <b>blu</b>: non farà media, ma servirà come riferimento del punto di partenza — con la speranza che la media finale sia più alta di quel voto</dd>
+    <dt>3. serietà</dt><dd>lo svolgimento va preso sul serio: non è una formalità, anche se non fa media</dd>
+  </dl>
+  <p class="mot-joke fragment">niente calcolatrice — per il semplice motivo che non vi serve, e non vi servirà per tutto l'anno</p>
+</section>
+
 <!--
 <section>
   <p class="mot-kicker">supporto</p>
@@ -264,9 +278,21 @@ slides:
 
 ---
 
+<section class="mot-divider" data-transition="zoom">
+  <h1 class="r-fit-text">LEZIONI PRIVATE</h1>
+</section>
+
 <section>
-  <h2>Lezioni <em>private</em></h2>
-  <p class="fragment">Non posso impartire lezioni private a nessuno studente dell'istituto in cui insegno: è un impegno che ho sottoscritto ancora prima della firma del contratto.</p>
+  <p class="mot-def">Non posso impartire lezioni private a nessuno studente dell'istituto in cui insegno: è un impegno che ho sottoscritto ancora prima della firma del contratto.</p>
+  <h2 class="fragment" style="margin-top:0.4em">I <em>privé</em> di matematica</h2>
+  <p class="mot-def fragment">Ci saranno delle ore che metterò a disposizione ogni mese per degli incontri.</p>
+  <dl class="mot-rows mot-rows-center fragment">
+    <dt>4 studenti</dt><dd>15 minuti a testa</dd>
+    <dt>3 studenti</dt><dd>20 minuti a testa</dd>
+    <dt>2 studenti</dt><dd>mezz'ora a testa</dd>
+    <dt>1 studente</dt><dd>un'ora</dd>
+  </dl>
+  <p class="mot-def fragment">Non farò ripetizioni, ma potrò dare supporto di diverso tipo: spiegare un passaggio che non si è compreso, ascoltare se avete problemi di qualsiasi tipo (principalmente, ma non solo, di matematica), o aiutarvi a organizzare il metodo di studio — non sarà un confessionale del Grande Fratello.</p>
 </section>
 
 <section class="mot-divider" data-transition="zoom" data-background-image="panic.jpg" data-background-opacity="0.2">
@@ -297,53 +323,6 @@ slides:
   <h1 class="r-fit-text">COMUNICAZIONI</h1>
 </section>
 
-<section>
-  <p class="mot-kicker">comunicazioni ufficiali</p>
-  <h2>Il test d'<em>ingresso</em></h2>
-  <p class="mot-def fragment">Si terrà nella mia ora, nelle prime settimane di lezione: verificheremo insieme il livello di partenza, senza ansie e senza voti che pesano.</p>
-  <dl class="mot-rows fragment">
-    <dt>argomenti</dt><dd>il programma dello scorso anno scolastico</dd>
-    <dt>calcolo</dt><dd>operazioni, espressioni, proprietà delle potenze</dd>
-    <dt>frazioni</dt><dd>operazioni con le frazioni</dd>
-    <dt>geometria</dt><dd>nozioni di base</dd>
-    <dt>proporzioni</dt><dd>proporzioni, percentuali</dd>
-    <dt>problemi</dt><dd>semplici problemi applicativi</dd>
-  </dl>
-</section>
-
-<section>
-  <p class="mot-kicker">perché ci tengo al test d'ingresso</p>
-  <h2>Statistiche sulle competenze <em>in ingresso</em></h2>
-  <div class="mot-barchart">
-    <div class="fragment mot-bar" style="--bar-color:#b3503f; --target:5%;">
-      <div class="mot-bar-value">5%</div>
-      <div class="mot-bar-col"><div class="mot-bar-fill"></div></div>
-      <div class="mot-bar-label">sotto le<br>minime</div>
-    </div>
-    <div class="fragment mot-bar" style="--bar-color:#d9a441; --target:20%;">
-      <div class="mot-bar-value">20%</div>
-      <div class="mot-bar-col"><div class="mot-bar-fill"></div></div>
-      <div class="mot-bar-label">competenze<br>minime</div>
-    </div>
-    <div class="fragment mot-bar" style="--bar-color:#ed6f5c; --target:50%;">
-      <div class="mot-bar-value">50%</div>
-      <div class="mot-bar-col"><div class="mot-bar-fill"></div></div>
-      <div class="mot-bar-label">sufficienti /<br>discrete</div>
-    </div>
-    <div class="fragment mot-bar" style="--bar-color:#6f9e74; --target:20%;">
-      <div class="mot-bar-value">20%</div>
-      <div class="mot-bar-col"><div class="mot-bar-fill"></div></div>
-      <div class="mot-bar-label">buone</div>
-    </div>
-    <div class="fragment mot-bar" style="--bar-color:#c9a227; --target:5%;">
-      <div class="mot-bar-value">5%</div>
-      <div class="mot-bar-col"><div class="mot-bar-fill"></div></div>
-      <div class="mot-bar-label">ottime /<br>eccellenti</div>
-    </div>
-  </div>
-  <p class="mot-joke fragment" style="margin-top: 1.5rem;">un quarto della classe parte già sotto soglia — è per questo che il test non è una formalità</p>
-</section>
-
 <!--
 <section>
   <p class="mot-kicker">supporto</p>
@@ -463,9 +442,21 @@ slides:
 
 ---
 
+<section class="mot-divider" data-transition="zoom">
+  <h1 class="r-fit-text">LEZIONI PRIVATE</h1>
+</section>
+
 <section>
-  <h2>Lezioni <em>private</em></h2>
-  <p class="fragment">Non posso impartire lezioni private a nessuno studente dell'istituto in cui insegno: è un impegno che ho sottoscritto ancora prima della firma del contratto.</p>
+  <p class="mot-def">Non posso impartire lezioni private a nessuno studente dell'istituto in cui insegno: è un impegno che ho sottoscritto ancora prima della firma del contratto.</p>
+  <h2 class="fragment" style="margin-top:0.4em">I <em>privé</em> di matematica</h2>
+  <p class="mot-def fragment">Ci saranno delle ore che metterò a disposizione ogni mese per degli incontri.</p>
+  <dl class="mot-rows mot-rows-center fragment">
+    <dt>4 studenti</dt><dd>15 minuti a testa</dd>
+    <dt>3 studenti</dt><dd>20 minuti a testa</dd>
+    <dt>2 studenti</dt><dd>mezz'ora a testa</dd>
+    <dt>1 studente</dt><dd>un'ora</dd>
+  </dl>
+  <p class="mot-def fragment">Non farò ripetizioni, ma potrò dare supporto di diverso tipo: spiegare un passaggio che non si è compreso, ascoltare se avete problemi di qualsiasi tipo (principalmente, ma non solo, di matematica), o aiutarvi a organizzare il metodo di studio — non sarà un confessionale del Grande Fratello.</p>
 </section>
 
 <section class="mot-divider" data-transition="zoom" data-background-image="panic.jpg" data-background-opacity="0.2">
@@ -496,53 +487,6 @@ slides:
   <h1 class="r-fit-text">COMUNICAZIONI</h1>
 </section>
 
-<section>
-  <p class="mot-kicker">comunicazioni ufficiali</p>
-  <h2>Il test d'<em>ingresso</em></h2>
-  <p class="mot-def fragment">Si terrà nella mia ora, nelle prime settimane di lezione: verificheremo insieme il livello di partenza, senza ansie e senza voti che pesano.</p>
-  <dl class="mot-rows fragment">
-    <dt>argomenti</dt><dd>il programma dello scorso anno scolastico</dd>
-    <dt>calcolo</dt><dd>operazioni, espressioni, proprietà delle potenze</dd>
-    <dt>frazioni</dt><dd>operazioni con le frazioni</dd>
-    <dt>geometria</dt><dd>nozioni di base</dd>
-    <dt>proporzioni</dt><dd>proporzioni, percentuali</dd>
-    <dt>problemi</dt><dd>semplici problemi applicativi</dd>
-  </dl>
-</section>
-
-<section>
-  <p class="mot-kicker">perché ci tengo al test d'ingresso</p>
-  <h2>Statistiche sulle competenze <em>in ingresso</em></h2>
-  <div class="mot-barchart">
-    <div class="fragment mot-bar" style="--bar-color:#b3503f; --target:5%;">
-      <div class="mot-bar-value">5%</div>
-      <div class="mot-bar-col"><div class="mot-bar-fill"></div></div>
-      <div class="mot-bar-label">sotto le<br>minime</div>
-    </div>
-    <div class="fragment mot-bar" style="--bar-color:#d9a441; --target:20%;">
-      <div class="mot-bar-value">20%</div>
-      <div class="mot-bar-col"><div class="mot-bar-fill"></div></div>
-      <div class="mot-bar-label">competenze<br>minime</div>
-    </div>
-    <div class="fragment mot-bar" style="--bar-color:#ed6f5c; --target:50%;">
-      <div class="mot-bar-value">50%</div>
-      <div class="mot-bar-col"><div class="mot-bar-fill"></div></div>
-      <div class="mot-bar-label">sufficienti /<br>discrete</div>
-    </div>
-    <div class="fragment mot-bar" style="--bar-color:#6f9e74; --target:20%;">
-      <div class="mot-bar-value">20%</div>
-      <div class="mot-bar-col"><div class="mot-bar-fill"></div></div>
-      <div class="mot-bar-label">buone</div>
-    </div>
-    <div class="fragment mot-bar" style="--bar-color:#c9a227; --target:5%;">
-      <div class="mot-bar-value">5%</div>
-      <div class="mot-bar-col"><div class="mot-bar-fill"></div></div>
-      <div class="mot-bar-label">ottime /<br>eccellenti</div>
-    </div>
-  </div>
-  <p class="mot-joke fragment" style="margin-top: 1.5rem;">un quarto della classe parte già sotto soglia — è per questo che il test non è una formalità</p>
-</section>
-
 <!--
 <section>
   <p class="mot-kicker">supporto</p>
@@ -662,9 +606,21 @@ slides:
 
 ---
 
+<section class="mot-divider" data-transition="zoom">
+  <h1 class="r-fit-text">LEZIONI PRIVATE</h1>
+</section>
+
 <section>
-  <h2>Lezioni <em>private</em></h2>
-  <p class="fragment">Non posso impartire lezioni private a nessuno studente dell'istituto in cui insegno: è un impegno che ho sottoscritto ancora prima della firma del contratto.</p>
+  <p class="mot-def">Non posso impartire lezioni private a nessuno studente dell'istituto in cui insegno: è un impegno che ho sottoscritto ancora prima della firma del contratto.</p>
+  <h2 class="fragment" style="margin-top:0.4em">I <em>privé</em> di matematica</h2>
+  <p class="mot-def fragment">Ci saranno delle ore che metterò a disposizione ogni mese per degli incontri.</p>
+  <dl class="mot-rows mot-rows-center fragment">
+    <dt>4 studenti</dt><dd>15 minuti a testa</dd>
+    <dt>3 studenti</dt><dd>20 minuti a testa</dd>
+    <dt>2 studenti</dt><dd>mezz'ora a testa</dd>
+    <dt>1 studente</dt><dd>un'ora</dd>
+  </dl>
+  <p class="mot-def fragment">Non farò ripetizioni, ma potrò dare supporto di diverso tipo: spiegare un passaggio che non si è compreso, ascoltare se avete problemi di qualsiasi tipo (principalmente, ma non solo, di matematica), o aiutarvi a organizzare il metodo di studio — non sarà un confessionale del Grande Fratello.</p>
 </section>
 
 <section class="mot-divider" data-transition="zoom" data-background-image="panic.jpg" data-background-opacity="0.2">
@@ -683,6 +639,16 @@ slides:
 </section>
 
 <style>
+body.slides-mot .reveal dl.mot-rows.mot-rows-center {
+  grid-template-columns: auto auto;
+  justify-content: center;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 0 1.2em;
+  line-height: 1;
+}
+
 .mot-menu-cards {
   display: flex;
   justify-content: center;
@@ -727,25 +693,24 @@ slides:
 }
 
 .mot-barchart {
-  display: flex;
-  align-items: flex-end;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  column-gap: 1.4em;
   justify-content: center;
-  gap: 2.2em;
   height: 260px;
   margin: 2rem auto 0;
-  max-width: 700px;
+  max-width: 900px;
 }
 
 .mot-bar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  height: 100%;
+  display: contents;
 }
 
 .mot-bar-value {
-  flex: 0 0 auto;
+  justify-self: center;
+  align-self: end;
   font-family: var(--mot-mono);
   font-size: 0.55em;
   font-weight: 700;
@@ -754,9 +719,10 @@ slides:
 }
 
 .mot-bar-col {
-  flex: 1 1 auto;
+  justify-self: center;
+  align-self: stretch;
   width: 100%;
-  max-width: 64px;
+  max-width: 130px;
   display: flex;
   align-items: flex-end;
   border-radius: 6px 6px 0 0;
@@ -777,7 +743,8 @@ slides:
 }
 
 .mot-bar-label {
-  flex: 0 0 auto;
+  justify-self: center;
+  align-self: start;
   font-family: var(--mot-mono);
   font-size: 0.4em;
   text-transform: uppercase;
@@ -785,7 +752,7 @@ slides:
   color: var(--mot-muted);
   text-align: center;
   margin-top: 0.6em;
-  max-width: 90px;
+  max-width: 140px;
   line-height: 1.3;
 }
 </style>
