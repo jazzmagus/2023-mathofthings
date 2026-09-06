@@ -69,7 +69,9 @@
   {{ end }}
 
   {{ if and $isMot ($.Param "slides.particles") }}
-    {{ partial "particles-bg.html" (dict "id" "particles-slides" "count" 60 "links" true) }}
+    {{ $particlesColorLight := $.Param "slides.particlesColorLight" }}
+    {{ $particlesColorDark := $.Param "slides.particlesColorDark" }}
+    {{ partial "particles-bg.html" (dict "id" "particles-slides" "count" 60 "links" true "colorLight" $particlesColorLight "colorDark" $particlesColorDark) }}
   {{ end }}
 
   {{ block "main" . }}{{ end }}
